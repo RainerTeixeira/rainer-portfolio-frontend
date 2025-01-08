@@ -1,7 +1,7 @@
 // app/about/page-about.tsx
 import Image from "next/image";
 
-export default function Home() {
+export default function About() {
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900 p-8 sm:p-16">
             <header className="text-center mb-12">
@@ -115,8 +115,6 @@ export default function Home() {
                     <li>Desenvolvimento Web Avançado: JavaScript e SQL.</li>
                 </ul>
             </section>
-
-
         </div>
     );
 }

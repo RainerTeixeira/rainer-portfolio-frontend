@@ -1,8 +1,6 @@
 // app/blog/page.tsx
-import Link from "next/link";
-import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+import Link from "next/link";
 
 export default function BlogPage() {
     // Exemplo de dados de posts, isso pode vir de um CMS ou banco de dados
@@ -60,7 +58,6 @@ export default function BlogPage() {
                     ))}
                 </div>
             </section>
-
         </div>
     );
 }
