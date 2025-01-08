@@ -4,18 +4,64 @@
 
 :root {
   --background: #ffffff;
+  /* Cor de fundo no tema claro */
   --foreground: #171717;
+  /* Cor do texto no tema claro */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
+    /* Cor de fundo no tema escuro */
     --foreground: #ededed;
+    /* Cor do texto no tema escuro */
   }
 }
 
+/* Estilo global do body */
 body {
   color: var(--foreground);
+  /* Usa a variável de cor do texto */
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Usa a variável de cor de fundo */
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  /* Fonte padrão ajustada para modernidade */
+  transition: background 0.3s ease, color 0.3s ease;
+  /* Transição suave ao mudar de tema */
+}
+
+/* Personalizações adicionais */
+a {
+  color: var(--foreground);
+  /* Links herdam a cor do texto */
+  text-decoration: none;
+  /* Remove sublinhado padrão */
+}
+
+a:hover {
+  text-decoration: underline;
+  /* Adiciona sublinhado no hover */
+}
+
+/* Botões */
+button {
+  cursor: pointer;
+  /* Mostra cursor de clique */
+  transition: transform 0.2s ease, background 0.3s ease;
+  /* Efeitos de transição */
+}
+
+button:hover {
+  transform: scale(1.05);
+  /* Leve ampliação ao passar o mouse */
+}
+
+/* Estilo de elementos responsivos */
+.container {
+  max-width: 1200px;
+  /* Limita largura máxima */
+  margin: 0 auto;
+  /* Centraliza container */
+  padding: 1rem;
+  /* Adiciona espaçamento interno */
 }
