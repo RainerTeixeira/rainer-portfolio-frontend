@@ -1,5 +1,4 @@
-// app/about/page-about.tsx
-import Image from "next/image";
+// src/app/about/page-about.tsx
 
 export default function About() {
     return (
