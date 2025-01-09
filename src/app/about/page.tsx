@@ -12,7 +12,7 @@ export default function About() {
             <header className="text-center mb-12">
                 <div className="w-40 h-40 mx-auto mb-6">
                     <Image
-                        src="/img/profile.jpg"
+                        src="/images/profile.jpg"
                         alt="Rainer Oliveira Teixeira"
                         width={160}
                         height={160}
