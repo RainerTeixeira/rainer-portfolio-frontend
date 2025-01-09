@@ -1,54 +1,27 @@
-/* Define o menu de navegação em telas maiores */
-nav ul {
-  display: flex;
-  gap: 1.5rem;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-nav ul li {
-  list-style: none;
-}
-
-/* Estilos para o botão de hambúrguer */
-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-button svg {
-  width: 2rem;
-  height: 2rem;
-}
-
-/* Responsividade: Oculta o menu em telas pequenas, exibe o botão de hambúrguer */
-@media (max-width: 1024px) {
-  nav ul {
-    display: none;
-    /* Oculta o menu em telas pequenas */
+@layer components {
+  .clip_path {
+    clip-path: polygon(50% 0%, 100% 0, 100% 83%, 50% 100%, 0 84%, 0 41%, 0 0);
   }
 
-  nav.active ul {
-    display: flex;
-    /* Exibe o menu quando o botão de hambúrguer for clicado */
-    flex-direction: column;
-    gap: 1rem;
+  .heading {
+    @apply text-[30px] md:text-[35px] lg:text-[45px] xl:text-[50px] uppercase font-bold text-gray-900 md:leading-[4rem] leading-[3rem] text-center;
   }
 
-  button {
-    display: block;
-    /* Exibe o botão de hambúrguer em telas pequenas */
+  .heading span {
+    @apply text-red-600;
   }
 }
 
-/* Quando o menu é aberto */
-nav.active {
-  position: absolute;
-  top: 60px;
-  /* Alinha o menu abaixo do cabeçalho */
-  right: 0;
-  background-color: rgba(37, 99, 235, 0.8);
-  /* Cor do fundo do menu */
-  width: 100%;
-  padding: 1rem;
-  text-align: center;
+/* Ajuste para os calendários */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator::after {
+  filter: invert(1);
 }
