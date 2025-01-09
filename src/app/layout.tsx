@@ -1,62 +1,52 @@
-"use client";
+import type { Metadata } from "next";
+import { Barlow_Condensed } from "next/font/google";
+import "./globals.css";
+import ResponsiveNav from "./components/Navigation/ResponsiveNav";
+import Footer from "./components/Footer/Footer";
 
-import { useState } from "react";
-import Link from "next/link";
-import "./globals.css"; // Importa os estilos globais
+// Configuração da fonte Barlow Condensed
+const barlowCondensed = Barlow_Condensed({
+  weight: ["300", "400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+});
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export const metadata: Metadata = {
+  title: "Rainer Portfolio | Tecnologia e Inovação",
+  description:
+    "Portfólio profissional de Rainer Oliveira Teixeira, especialista em TI, desenvolvimento de sistemas e automação de processos. Descubra mais sobre suas habilidades e projetos.",
+  keywords: "Rainer Oliveira Teixeira, TI, Portfólio, Desenvolvimento, Automação, Zabbix, Docker, Sistemas de Informação",
+  author: "Rainer Oliveira Teixeira",
+};
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="pt-BR">
       <head>
-        <title>Portfólio de Rainer Teixeira</title>
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={metadata.description} />
+        <meta name="keywords" content={metadata.keywords} />
+        <meta name="author" content={metadata.author} />
+        <meta property="og:title" content={metadata.title} />
+        <meta property="og:description" content={metadata.description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta property="og:image" content="/path-to-image.jpg" />
+        <meta property="og:url" content="https://rainersoft.com.br" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={metadata.title} />
+        <meta name="twitter:description" content={metadata.description} />
+        <meta name="twitter:image" content="/path-to-image.jpg" />
       </head>
-      <body className="flex flex-col min-h-screen bg-gray-100 text-gray-900 font-sans">
-        {/* Header */}
-        <header className="bg-indigo-700 text-white shadow-md">
-          <div className="max-w-screen-xl mx-auto flex justify-between items-center p-4">
-            <h1 className="text-2xl font-bold tracking-wide">Rainer Teixeira</h1>
-            <nav className={isMenuOpen ? "active" : ""}>
-              <button onClick={toggleMenu}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 6h18M3 12h18M3 18h18"></path>
-                </svg>
-              </button>
-              <ul>
-                <li><Link href="/">Home</Link></li>
-                <li><Link href="/about">Sobre</Link></li>
-                <li><Link href="/blog">Blog</Link></li>
-                <li><Link href="/contact">Contato</Link></li>
-              </ul>
-            </nav>
-          </div>
-        </header>
-
-        {/* Main content */}
-        <main className="flex-grow py-10">
-          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-            {children}
-          </div>
+      <body className={`${barlowCondensed.className} bg-gray-50 text-gray-900`}>
+        <ResponsiveNav />
+        <main className="min-h-screen" role="main">
+          {children}
         </main>
-
-        {/* Footer */}
-        <footer className="bg-gray-800 text-gray-400">
-          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex flex-col sm:flex-row justify-between items-center">
-              <p className="text-sm">&copy; {new Date().getFullYear()} Rainer Teixeira. Todos os direitos reservados.</p>
-              <div className="mt-4 sm:mt-0 flex gap-4">
-                <Link href="https://linkedin.com/in/rainerteixeira" target="_blank" className="hover:text-white transition-colors">LinkedIn</Link>
-                <Link href="mailto:raineroliveira94@hotmail.com" className="hover:text-white transition-colors">E-mail</Link>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <Footer />
       </body>
     </html>
   );
