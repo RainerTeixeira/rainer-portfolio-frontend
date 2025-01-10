@@ -11,7 +11,7 @@ const HEADING_FONT_SIZE = "text-sm"; // Menor tamanho de fonte
 const HEADING_MARGIN_TOP = "mt-3"; // Espaçamento maior acima do título
 const HEADING_TEXT_COLOR = "text-black text-opacity-90"; // Cor do título
 const HEADING_ICON_COLOR = "text-indigo-600"; // Cor do ícone
-const ICON_MARGIN_BOTTOM = "mb-2"; // Ajuste para a margem do ícone
+const ICON_MARGIN_BOTTOM = "mb-2"; // Ajuste para a margem do ícone.
 
 interface Props {
   title: string;
