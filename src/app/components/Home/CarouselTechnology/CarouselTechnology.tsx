@@ -22,17 +22,6 @@ import {
 
 // Constantes reutilizáveis
 const ICON_SIZE = 60;
-const CARD_PADDING = "p-6";
-const CARD_MARGIN = "m-2"; // Ajuste para margem menor
-const CARD_MAX_WIDTH = "max-w-[200px]"; // Reduzindo ainda mais a largura do card
-const CARD_MIN_HEIGHT = "min-h-[300px]";
-const CARD_TEXT_COLOR = "text-black text-opacity-80"; // Cor mais suave
-const DESCRIPTION_MARGIN_TOP = "mt-3";
-const HEADING_FONT_SIZE = "text-4xl";
-const HEADING_MARGIN_BOTTOM = "mb-6";
-const CONTAINER_WIDTH = "w-[80%]";
-const CONTAINER_MARGIN_TOP = "mt-[4rem]";
-const CONTAINER_PADDING = "px-6";
 
 // Configuração do carousel com itens visíveis em diferentes tamanhos de tela
 const responsive = {
@@ -56,10 +45,10 @@ const responsive = {
 const PopularTechnologies = () => {
   return (
     <div className="pt-[3rem] pb-[3rem] bg-gradient-to-r from-blue-400 via-indigo-500 to-pink-500">
-      <h1 className={`heading text-white text-center ${HEADING_FONT_SIZE} font-bold ${HEADING_MARGIN_BOTTOM}`}>
+      <h1 className="heading text-white text-center text-4xl font-bold mb-6">
         Tecnologias que Utilizo <span className="text-yellow-300">no Meu Currículo</span>
       </h1>
-      <div className={`${CONTAINER_WIDTH} ${CONTAINER_MARGIN_TOP} mx-auto ${CONTAINER_PADDING}`}>
+      <div className="w-[80%] mt-[4rem] mx-auto px-6">
         <Carousel
           additionalTransfrom={0}
           arrows={true}
