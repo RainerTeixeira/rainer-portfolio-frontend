@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa6";
-import { BiShoppingBag } from "react-icons/bi";
 
 // Atualizando a interface para incluir 'description'
 interface Props {
