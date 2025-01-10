@@ -31,7 +31,7 @@ const Hero = () => {
       additionalTransfrom={0} // Define o valor de transformação adicional
       arrows={false} // Desativa as setas de navegação
       autoPlay={true} // Ativa o autoplay
-      autoPlaySpeed={4000} // Velocidade do autoplay (4 segundos por slide)
+      autoPlaySpeed={3000} // Velocidade do autoplay (4 segundos por slide)
       infinite={true} // Permite navegação infinita
       responsive={responsive} // Aplica a responsividade definida acima
       centerMode={false} // Desativa o modo centralizado
