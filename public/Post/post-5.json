@@ -1,0 +1,17 @@
+{
+    "id": 5,
+    "title": "Componentes Funcionais vs Componentes de Classe",
+    "date": "2025-01-16",
+    "summary": "Aprenda as diferenças entre componentes funcionais e de classe no React e qual é a melhor abordagem para seu projeto.",
+    "content": "Componentes no React podem ser definidos de duas maneiras: como funções ou como classes. Cada abordagem tem suas vantagens e desvantagens.",
+    "sections": [
+        {
+            "heading": "Componentes Funcionais",
+            "text": "Componentes funcionais são funções simples que retornam JSX. Eles são mais concisos e mais fáceis de entender, especialmente quando se trabalha com hooks."
+        },
+        {
+            "heading": "Componentes de Classe",
+            "text": "Componentes de classe são definidos como classes ES6 e têm métodos como `render` e podem ter um estado interno. Eles são mais complexos, mas oferecem mais controle em algumas situações."
+        }
+    ]
+}

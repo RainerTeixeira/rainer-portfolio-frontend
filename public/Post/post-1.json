@@ -1,0 +1,17 @@
+{
+    "id": 1,
+    "title": "Introdução ao React",
+    "date": "2025-01-12",
+    "summary": "Aprenda o básico do React e comece a construir interfaces interativas.",
+    "content": "React é uma biblioteca JavaScript popular para criar interfaces de usuário. Aqui está um conteúdo básico para o post.",
+    "sections": [
+        {
+            "heading": "O que é React?",
+            "text": "React é uma biblioteca JavaScript de código aberto focada na criação de interfaces de usuário em páginas web. Foi desenvolvida pelo Facebook e é mantida por uma comunidade de desenvolvedores."
+        },
+        {
+            "heading": "Principais Conceitos",
+            "text": "React introduz vários conceitos importantes, como componentes, JSX, estado e propriedades. Componentes são blocos reutilizáveis de código que definem como uma parte da interface deve ser exibida."
+        }
+    ]
+}

@@ -1,14 +1,12 @@
-import React from 'react'
-import Home from './components/Home/Page'
+import React from 'react';
+import Home from './components/Home/Page';
 
-const page = () => {
+const App = () => {
   return (
-    <div className='bg-[#f4f1ea]'>
-    <Home/>
+    <div>
+      <Home />
     </div>
-  )
+  );
 }
 
-export default page
-
-
+export default App;
