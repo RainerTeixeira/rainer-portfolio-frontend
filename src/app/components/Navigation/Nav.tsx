@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { navLinks } from '@/src/app/constant/constant';
 import Link from 'next/link';
 import React from 'react';
@@ -10,6 +11,16 @@ interface Props {
 }
 
 const Nav = ({ openNavHandler }: Props) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // Garantir que só renderize no cliente
+  }, []);
+
+  if (!isClient) {
+    return null; // Retorna null ou um loader enquanto o cliente não estiver pronto
+  }
+
   return (
     <div className="h-[12vh] bg-white">
       <div className="sm:w-[90%] w-[95%] mx-auto flex h-[100%] items-center justify-between">

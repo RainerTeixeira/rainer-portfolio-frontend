@@ -1,0 +1,17 @@
+{
+    "id": 4,
+    "title": "Hooks em React",
+    "date": "2025-01-15",
+    "summary": "Explore o conceito de hooks no React e como eles podem ser usados para adicionar funcionalidades aos seus componentes.",
+    "content": "Hooks são funções que permitem adicionar recursos de estado e ciclo de vida aos componentes funcionais no React.",
+    "sections": [
+        {
+            "heading": "O que são Hooks?",
+            "text": "Hooks são uma nova adição ao React que permitem que você use estado e outros recursos do React sem precisar escrever componentes de classe."
+        },
+        {
+            "heading": "Principais Hooks",
+            "text": "Os hooks mais utilizados no React são `useState`, `useEffect`, e `useContext`. Cada um tem um propósito diferente, mas todos são usados para adicionar funcionalidades a componentes funcionais."
+        }
+    ]
+}

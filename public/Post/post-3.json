@@ -1,0 +1,17 @@
+{
+    "id": 3,
+    "title": "Entendendo o React Router",
+    "date": "2025-01-14",
+    "summary": "Neste post, vamos entender como utilizar o React Router para navegar entre diferentes páginas em uma aplicação React.",
+    "content": "O React Router é a solução mais popular para navegação em aplicações React, permitindo criar páginas de forma dinâmica.",
+    "sections": [
+        {
+            "heading": "O que é o React Router?",
+            "text": "O React Router é uma biblioteca de roteamento para React que permite criar e gerenciar rotas dentro de uma aplicação React, sem recarregar a página."
+        },
+        {
+            "heading": "Como usar o React Router?",
+            "text": "Para usar o React Router, basta instalar a biblioteca e definir as rotas usando o componente `Route` e o `BrowserRouter`."
+        }
+    ]
+}

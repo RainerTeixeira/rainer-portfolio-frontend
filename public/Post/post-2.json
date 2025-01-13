@@ -1,0 +1,17 @@
+{
+    "id": 2,
+    "title": "Aprendendo Next.js",
+    "date": "2025-01-13",
+    "summary": "Como criar um projeto com Next.js e tirar proveito de suas funcionalidades.",
+    "content": "Next.js é uma framework para React com foco em renderização do lado do servidor.",
+    "sections": [
+        {
+            "heading": "O que é Next.js?",
+            "text": "Next.js é uma framework React de código aberto focada em melhorar a experiência de desenvolvimento e otimizar o desempenho de páginas web. Ele fornece renderização do lado do servidor, suporte a rotas dinâmicas e uma série de outras funcionalidades úteis."
+        },
+        {
+            "heading": "Vantagens do Next.js",
+            "text": "Entre as principais vantagens do Next.js estão a renderização no lado do servidor (SSR), otimização de desempenho, e geração de sites estáticos (SSG)."
+        }
+    ]
+}
