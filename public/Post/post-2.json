@@ -1,17 +1,54 @@
 {
     "id": 2,
     "title": "Aprendendo Next.js",
-    "date": "2025-01-13",
     "summary": "Como criar um projeto com Next.js e tirar proveito de suas funcionalidades.",
     "content": "Next.js é uma framework para React com foco em renderização do lado do servidor.",
+    "date": "2025-01-13",
+    "imageUrl": "/images/f1.jpg",
+    "tags": [
+        "Next.js",
+        "React",
+        "Desenvolvimento Web"
+    ],
+    "author": {
+        "name": "João Silva",
+        "bio": "Desenvolvedor web com experiência em React e Next.js.",
+        "profileImage": "/images/author.jpg"
+    },
+    "category": "Tutorial",
+    "comments": [
+        {
+            "author": "Carlos Souza",
+            "content": "Excelente artigo! Aprendi muito sobre Next.js.",
+            "date": "2025-01-14"
+        }
+    ],
+    "references": [
+        {
+            "title": "Documentação do Next.js",
+            "url": "https://nextjs.org/docs"
+        }
+    ],
+    "seo": {
+        "keywords": [
+            "Next.js",
+            "React",
+            "Framework",
+            "Desenvolvimento Web"
+        ],
+        "description": "Aprenda a criar projetos com Next.js, uma poderosa framework para React."
+    },
+    "status": "Publicado",
+    "readingTime": "5 min",
+    "videoEmbed": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "sections": [
         {
             "heading": "O que é Next.js?",
             "text": "Next.js é uma framework React de código aberto focada em melhorar a experiência de desenvolvimento e otimizar o desempenho de páginas web. Ele fornece renderização do lado do servidor, suporte a rotas dinâmicas e uma série de outras funcionalidades úteis."
         },
         {
-            "heading": "Vantagens do Next.js",
-            "text": "Entre as principais vantagens do Next.js estão a renderização no lado do servidor (SSR), otimização de desempenho, e geração de sites estáticos (SSG)."
+            "heading": "Principais Conceitos",
+            "text": "Next.js introduz vários conceitos importantes, como renderização no lado do servidor (SSR), otimização de desempenho e geração de sites estáticos (SSG)."
         }
     ]
 }

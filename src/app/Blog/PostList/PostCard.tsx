@@ -12,7 +12,8 @@ type PostCardProps = {
 const PostCard: React.FC<PostCardProps> = ({ title, summary, imageUrl, postId }) => {
     const router = useRouter();
 
-    const defaultImageUrl = "/images/f1.jpg";
+    // Constantes definidas para uso do componente
+    const DEFAULT_IMAGE_URL = "/images/f1.jpg"; // Caminho padrão para a imagem
 
     const navigateToPost = () => {
         router.push(`/Blog/Post/${postId}`);
@@ -21,7 +22,7 @@ const PostCard: React.FC<PostCardProps> = ({ title, summary, imageUrl, postId })
     return (
         <div className="p-6 border rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
             <img
-                src={imageUrl || defaultImageUrl}
+                src={imageUrl || DEFAULT_IMAGE_URL}
                 alt={title}
                 className="w-full h-48 object-cover rounded-lg mb-4"
                 loading="lazy" // Para carregamento lento da imagem

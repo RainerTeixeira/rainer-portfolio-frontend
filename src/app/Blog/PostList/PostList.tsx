@@ -1,7 +1,11 @@
-"use client";
+"use client"; // Para habilitar funcionalidades do React no lado do cliente
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
+// Definindo as constantes de configuração
+const TOTAL_POSTS = 5; // Número total de posts a serem carregados
+const BASE_URL = "/Post/post-"; // URL base para carregar os posts
 
 interface Post {
     id: number;
@@ -18,11 +22,10 @@ const PostList = () => {
     useEffect(() => {
         const loadPosts = async () => {
             const loadedPosts: Post[] = [];
-            const totalPosts = 5; // Total de posts que você deseja carregar
 
             try {
-                for (let i = 1; i <= totalPosts; i++) {
-                    const response = await fetch(`/Post/post-${i}.json`); // Certifique-se de que o caminho esteja correto
+                for (let i = 1; i <= TOTAL_POSTS; i++) {
+                    const response = await fetch(`${BASE_URL}${i}.json`);
                     if (!response.ok) {
                         throw new Error(`Erro ao carregar o post ${i}`);
                     }
@@ -42,7 +45,7 @@ const PostList = () => {
     }, []);
 
     const handleClick = (postId: number) => {
-        router.push(`/posts/${postId}`); // Redireciona para o post com base no ID
+        router.push(`/posts/${postId}`);
     };
 
     if (loading) {

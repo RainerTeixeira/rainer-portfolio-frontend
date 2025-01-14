@@ -1,9 +1,47 @@
 {
     "id": 4,
     "title": "Hooks em React",
-    "date": "2025-01-15",
     "summary": "Explore o conceito de hooks no React e como eles podem ser usados para adicionar funcionalidades aos seus componentes.",
     "content": "Hooks são funções que permitem adicionar recursos de estado e ciclo de vida aos componentes funcionais no React.",
+    "date": "2025-01-15",
+    "imageUrl": "https://example.com/hooks-image.jpg",
+    "tags": [
+        "react",
+        "hooks",
+        "frontend"
+    ],
+    "author": {
+        "name": "Maria Oliveira",
+        "bio": "Desenvolvedora frontend apaixonada por React e JavaScript.",
+        "profileImage": "https://example.com/author-maria.jpg"
+    },
+    "category": "Desenvolvimento Frontend",
+    "comments": [
+        {
+            "author": "João Pereira",
+            "content": "Ótima explicação sobre hooks! Ficou bem claro.",
+            "date": "2025-01-16"
+        }
+    ],
+    "references": [
+        {
+            "title": "Documentação oficial do React",
+            "url": "https://reactjs.org/docs/hooks-intro.html"
+        }
+    ],
+    "seo": {
+        "keywords": [
+            "react",
+            "hooks",
+            "programação frontend",
+            "useState",
+            "useEffect"
+        ],
+        "description": "Aprenda sobre hooks no React, como usá-los para adicionar funcionalidades aos componentes e melhorar a estrutura do seu código."
+    },
+    "status": "Publicado",
+    "readingTime": "7 min",
+    "videoEmbed": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "sections": [
         {
             "heading": "O que são Hooks?",
