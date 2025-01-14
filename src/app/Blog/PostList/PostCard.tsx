@@ -1,5 +1,5 @@
-// src/app/Blog/Post/PostCard.tsx
 import React from "react";
+import Image from "next/image"; // Importação do componente de imagem otimizada
 import { useRouter } from "next/navigation";
 
 type PostCardProps = {
@@ -21,12 +21,16 @@ const PostCard: React.FC<PostCardProps> = ({ title, summary, imageUrl, postId })
 
     return (
         <div className="p-6 border rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
-            <img
-                src={imageUrl || DEFAULT_IMAGE_URL}
-                alt={title}
-                className="w-full h-48 object-cover rounded-lg mb-4"
-                loading="lazy" // Para carregamento lento da imagem
-            />
+            <div className="relative w-full h-48 mb-4">
+                <Image
+                    src={imageUrl || DEFAULT_IMAGE_URL}
+                    alt={title}
+                    fill // Para preencher o espaço definido pelo pai
+                    className="object-cover rounded-lg"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Tamanhos responsivos
+                    priority // Carregamento prioritário se necessário
+                />
+            </div>
             <h3 className="text-xl font-semibold mb-2">{title}</h3>
             <p className="text-gray-700 mb-4">{summary}</p>
             <button

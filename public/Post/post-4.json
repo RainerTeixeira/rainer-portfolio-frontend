@@ -4,7 +4,7 @@
     "summary": "Explore o conceito de hooks no React e como eles podem ser usados para adicionar funcionalidades aos seus componentes.",
     "content": "Hooks são funções que permitem adicionar recursos de estado e ciclo de vida aos componentes funcionais no React.",
     "date": "2025-01-15",
-    "imageUrl": "https://example.com/hooks-image.jpg",
+    "imageUrl": "https://rainersoft.com.br/hooks-image.jpg",
     "tags": [
         "react",
         "hooks",
@@ -13,7 +13,7 @@
     "author": {
         "name": "Maria Oliveira",
         "bio": "Desenvolvedora frontend apaixonada por React e JavaScript.",
-        "profileImage": "https://example.com/author-maria.jpg"
+        "profileImage": "https://rainersoft.com.br/author-maria.jpg"
     },
     "category": "Desenvolvimento Frontend",
     "comments": [

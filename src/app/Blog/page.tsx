@@ -1,4 +1,5 @@
 "use client"; // Para habilitar funcionalidades do React no lado do cliente
+
 import React, { useEffect, useState } from "react";
 import SEO from "./SEO/SEO";
 import Tags from "./Tags/Tags";
@@ -30,7 +31,7 @@ interface Category {
     subcategories: Subcategory[];
 }
 
-const BlogPage = () => {
+const BlogPage: React.FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -94,7 +95,7 @@ const BlogPage = () => {
         if (hasMorePosts) {
             loadPosts(currentPage);
         }
-    }, [currentPage]);
+    }, [currentPage, hasMorePosts]); // Adicionando 'hasMorePosts' como dependência
 
     // Carregar as categorias do JSON
     useEffect(() => {
