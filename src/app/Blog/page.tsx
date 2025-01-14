@@ -48,7 +48,7 @@ const BlogPage = () => {
             once: true,
             anchorPlacement: "top-center",
         });
-    }, []); // A animação será inicializada apenas uma vez, após o primeiro render
+    }, []);
 
     // Função para carregar os posts
     const loadPosts = async (page: number) => {
@@ -63,7 +63,6 @@ const BlogPage = () => {
                 const response = await fetch(`${POST_PATH}${i}.json`);
                 if (!response.ok) {
                     if (response.status === 404) {
-                        // Se um arquivo JSON não existir, encerra o carregamento
                         setHasMorePosts(false);
                         break;
                     }
@@ -74,7 +73,7 @@ const BlogPage = () => {
             }
 
             if (loadedPosts.length === 0) {
-                setHasMorePosts(false); // Se nenhum post foi carregado, encerra o carregamento
+                setHasMorePosts(false);
             } else {
                 setPosts((prevPosts) => [
                     ...prevPosts,
@@ -101,7 +100,10 @@ const BlogPage = () => {
     useEffect(() => {
         const loadCategories = async () => {
             try {
-                const response = await fetch(CATEGORY_PATH); // Usando a constante de caminho
+                const response = await fetch(CATEGORY_PATH);
+                if (!response.ok) {
+                    throw new Error("Erro ao carregar as categorias");
+                }
                 const data: Category[] = await response.json();
                 setCategories(data);
             } catch (err) {
@@ -117,7 +119,7 @@ const BlogPage = () => {
     }
 
     if (error && !hasMorePosts) {
-        return <div className="text-center text-red-500">Fim dos posts.</div>;
+        return <div className="text-center text-red-500">Erro: {error}</div>;
     }
 
     return (
@@ -141,7 +143,6 @@ const BlogPage = () => {
 
                     <section className="bg-gray-100 py-16 md:py-20" data-aos="fade-up" data-aos-delay="200">
                         <div className="container mx-auto px-6 text-center">
-
                             {!hasMorePosts && (
                                 <div className="mt-8 text-gray-500 text-lg">Fim dos posts.</div>
                             )}
@@ -162,10 +163,11 @@ const BlogPage = () => {
                 {/* Seção Aside à direita */}
                 <aside className="w-full md:w-1/4 bg-white p-6 rounded-lg shadow-lg">
                     <h3 className="text-xl font-semibold mb-4">Categorias</h3>
-                    <p className="text-gray-700 mb-6">Encontre os posts organizados por categoria para explorar mais sobre o que você gosta!</p>
+                    <p className="text-gray-700 mb-6">
+                        Encontre os posts organizados por categoria para explorar mais sobre o que você gosta!
+                    </p>
                     <Aside categories={categories} />
                 </aside>
-
             </div>
         </div>
     );

@@ -33,9 +33,14 @@ const PostList = () => {
                     loadedPosts.push(data);
                 }
                 setPosts(loadedPosts);
-            } catch (err: any) {
-                setError(`Falha ao carregar os posts: ${err.message}. Tente novamente mais tarde.`);
-                console.error(err);
+            } catch (err) {
+                if (err instanceof Error) {
+                    setError(`Falha ao carregar os posts: ${err.message}. Tente novamente mais tarde.`);
+                    console.error(err);
+                } else {
+                    setError("Um erro desconhecido ocorreu. Tente novamente mais tarde.");
+                    console.error("Erro desconhecido:", err);
+                }
             } finally {
                 setLoading(false);
             }
