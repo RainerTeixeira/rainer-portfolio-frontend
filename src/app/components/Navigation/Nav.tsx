@@ -13,44 +13,58 @@ interface Props {
 const Nav = ({ openNavHandler }: Props) => {
   const [isClient, setIsClient] = useState(false);
 
+  // Garantir que só renderize no cliente
   useEffect(() => {
-    setIsClient(true); // Garantir que só renderize no cliente
+    setIsClient(true);
   }, []);
 
   if (!isClient) {
     return null; // Retorna null ou um loader enquanto o cliente não estiver pronto
   }
 
+  // Definindo as classes do Tailwind como constantes
+  const containerClass = "h-[12vh] bg-white";
+  const wrapperClass = "sm:w-[90%] w-[95%] mx-auto flex h-[100%] items-center justify-between";
+  const logoClass = "flex items-center space-x-2";
+  const logoTextClass = "text-[20px] sm:text-[30px] font-semibold";
+  const navLinkClass = "text-[20px] font-medium hover:text-red-600";
+  const buttonGroupClass = "flex items-center space-x-4";
+  const contactButtonClass = "hidden sm:flex px-6 py-2 sm:px-8 sm:py-3 text-[14px] sm:text-[16px] bg-blue-950 transition-all duration-200 hover:bg-red-600 items-center rounded-md space-x-2 text-white";
+  const envelopeButtonClass = "px-4 py-2 sm:px-6 sm:py-3 hover:bg-green-700 transition-all duration-200 bg-orange-600 flex items-center rounded-md text-white";
+  const menuIconClass = "lg:hidden w-[2rem] h-[2rem] text-black";
+
   return (
-    <div className="h-[12vh] bg-white">
-      <div className="sm:w-[90%] w-[95%] mx-auto flex h-[100%] items-center justify-between">
-        {/* logo */}
-        <div className="flex items-center space-x-2">
+    <div className={containerClass}>
+      <div className={wrapperClass}>
+        {/* Logo */}
+        <div className={logoClass}>
           <FaUserTie className="w-[1.2rem] h-[1.2rem] sm:w-[1.4rem] sm:h-[1.4rem] text-orange-500" />
-          <h1 className="text-[20px] sm:text-[30px] font-semibold">
-            Rainer Soft
-          </h1>
+          <h1 className={logoTextClass}>Rainer Soft</h1>
         </div>
-        {/* nav links */}
+
+        {/* Nav Links */}
         <ul className="hidden lg:flex items-center space-x-10">
           {navLinks.map((navlink) => (
-            <li key={navlink.id} className="text-[20px] font-medium hover:text-red-600">
+            <li key={navlink.id} className={navLinkClass}>
               <Link href={navlink.url}>{navlink.label}</Link>
             </li>
           ))}
         </ul>
-        {/* buttons */}
-        <div className="flex items-center space-x-4">
-          <button className="hidden sm:flex px-6 py-2 sm:px-8 sm:py-3 text-[14px] sm:text-[16px] bg-blue-950 transition-all duration-200 hover:bg-red-600 items-center rounded-md space-x-2 text-white">
+
+        {/* Buttons */}
+        <div className={buttonGroupClass}>
+          <button className={contactButtonClass}>
             <span>
               <BiPhone className="w-[1.3rem] h-[1.3rem] sm:w-[1.7rem] sm:h-[1.7rem]" />
             </span>
             <span className="font-bold">Contato</span>
           </button>
-          <button className="px-4 py-2 sm:px-6 sm:py-3 hover:bg-green-700 transition-all duration-200 bg-orange-600 flex items-center rounded-md text-white">
+
+          <button className={envelopeButtonClass}>
             <BiEnvelope className="w-[1.3rem] h-[1.3rem] sm:w-[1.7rem] sm:h-[1.7rem]" />
           </button>
-          <HiBars3BottomRight onClick={openNavHandler} className="lg:hidden w-[2rem] h-[2rem] text-black" />
+
+          <HiBars3BottomRight onClick={openNavHandler} className={menuIconClass} />
         </div>
       </div>
     </div>
