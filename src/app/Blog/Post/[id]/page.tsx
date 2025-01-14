@@ -1,9 +1,10 @@
-"use client"; // Para habilitar funcionalidades do React no lado do cliente
+"use client"; // Habilitar funcionalidades do React no lado do cliente
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation"; // Usar useParams para pegar o ID da URL
 import SEO from "../../SEO/SEO"; // Importando o componente SEO
 
+// Interfaces para tipagem
 interface Section {
     heading: string;
     text: string;
@@ -14,7 +15,7 @@ interface Post {
     title: string;
     summary: string;
     content: string;
-    date: string; // A data vem como string (ISO)
+    date: string; // Data no formato ISO
     sections: Section[];
     imageUrl: string;
 }
@@ -25,29 +26,42 @@ const PostPage = () => {
     const [error, setError] = useState<string | null>(null);
     const { id } = useParams(); // Pegando o ID da URL
 
+    // Gerar URL do JSON dinamicamente
     const jsonUrl = id ? `/Post/post-${id}.json` : null;
 
-    useEffect(() => {
+    // Função memoizada para carregar o post
+    const loadPost = useCallback(async () => {
         if (jsonUrl) {
-            const loadPost = async () => {
-                try {
-                    setLoading(true);
-                    const response = await fetch(jsonUrl);
-                    if (!response.ok) {
-                        throw new Error("Erro ao carregar o post.");
-                    }
-                    const data: Post = await response.json();
-                    setPost(data);
-                } catch (err: any) {
-                    setError("Falha ao carregar o post: " + err.message);
-                } finally {
-                    setLoading(false);
+            try {
+                setLoading(true);
+                const response = await fetch(jsonUrl);
+                if (!response.ok) {
+                    throw new Error("Erro ao carregar o post.");
                 }
-            };
-
-            loadPost();
+                const data: Post = await response.json();
+                setPost(data);
+            } catch (err) {
+                setError("Falha ao carregar o post.");
+            } finally {
+                setLoading(false);
+            }
         }
     }, [jsonUrl]);
+
+    // useEffect para carregar os dados
+    useEffect(() => {
+        loadPost();
+    }, [loadPost]);
+
+    // Formatar a data no formato brasileiro (DD/MM/AAAA)
+    const formatDate = (date: string) => {
+        const options: Intl.DateTimeFormatOptions = {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        };
+        return new Date(date).toLocaleDateString("pt-BR", options);
+    };
 
     if (loading) {
         return <div>Carregando post...</div>;
@@ -61,17 +75,6 @@ const PostPage = () => {
         return <div>Post não encontrado</div>;
     }
 
-    // Função para formatar a data no formato brasileiro (DD/MM/AAAA)
-    const formatDate = (date: string) => {
-        const options: Intl.DateTimeFormatOptions = {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-        };
-        const formattedDate = new Date(date).toLocaleDateString("pt-BR", options);
-        return formattedDate;
-    };
-
     return (
         <>
             {/* SEO Dinâmico */}
@@ -82,7 +85,7 @@ const PostPage = () => {
                 ogDescription={post.summary}
                 ogImage={post.imageUrl}
                 publishedTime={post.date}
-                author="Nome do Autor" // Substitua com o nome real do autor
+                author="Nome do Autor" // Substitua pelo nome real do autor
             />
 
             <div className="max-w-3xl mx-auto p-6 space-y-8">
@@ -106,14 +109,12 @@ const PostPage = () => {
                 </div>
 
                 {/* Seções do Post */}
-                <div>
-                    {post.sections.map((section, index) => (
-                        <div key={index} className="mt-8">
-                            <h2 className="text-2xl font-semibold text-gray-800">{section.heading}</h2>
-                            <p className="text-gray-700 mt-2">{section.text}</p>
-                        </div>
-                    ))}
-                </div>
+                {post.sections.map((section, index) => (
+                    <div key={index} className="mt-8">
+                        <h2 className="text-2xl font-semibold text-gray-800">{section.heading}</h2>
+                        <p className="text-gray-700 mt-2">{section.text}</p>
+                    </div>
+                ))}
             </div>
         </>
     );
