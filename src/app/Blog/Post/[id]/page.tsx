@@ -1,8 +1,8 @@
 "use client"; // Necessário para habilitar funcionalidades do React no lado do cliente
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
-import SEO from "../../SEO/SEO";
+import SEO from "../../SEO/SEO"; // Componente SEO
 import Image from "next/image"; // Importando o componente Image
 
 interface Section {
@@ -56,27 +56,25 @@ const PostPage: React.FC = () => {
     const { id } = useParams();
     const jsonUrl = id ? `/Post/post-${id}.json` : null;
 
-    useEffect(() => {
+    const loadPost = useCallback(async () => {
         if (jsonUrl) {
-            const loadPost = async () => {
-                try {
-                    setLoading(true);
-                    const response = await fetch(jsonUrl);
-                    if (!response.ok) {
-                        throw new Error("Erro ao carregar o post.");
-                    }
-                    const data: Post = await response.json();
-                    setPost(data);
-                } catch (err: any) {
-                    setError("Falha ao carregar o post: " + err.message);
-                } finally {
-                    setLoading(false);
-                }
-            };
-
-            loadPost();
+            try {
+                setLoading(true);
+                const response = await fetch(jsonUrl);
+                if (!response.ok) throw new Error("Erro ao carregar o post.");
+                const data: Post = await response.json();
+                setPost(data);
+            } catch {
+                setError("Falha ao carregar o post.");
+            } finally {
+                setLoading(false);
+            }
         }
     }, [jsonUrl]);
+
+    useEffect(() => {
+        loadPost();
+    }, [loadPost]);
 
     if (loading) {
         return <div className="text-center">Carregando post...</div>;
