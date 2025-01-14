@@ -1,7 +1,7 @@
-import { navLinks } from '@/src/app/constant/constant'
-import Link from 'next/link'
-import React from 'react'
-import { ImCross } from 'react-icons/im'
+import { navLinks } from '@/src/app/constant/constant';
+import Link from 'next/link';
+import React from 'react';
+import { ImCross } from 'react-icons/im';
 
 interface Props {
   showNav: boolean;
@@ -10,6 +10,7 @@ interface Props {
 
 const MobileNav = ({ showNav, closeNavHandler }: Props) => {
   const navStyle = showNav ? "translate-x-0" : "translate-x-[-100%]";
+
   return (
     <div className={`fixed ${navStyle} top-0 left-0 bottom-0 right-0 h-screen bg-[#000000e0] z-[1002] transition-all duration-500`}>
       <ImCross onClick={closeNavHandler} className="absolute top-[2rem] right-[2rem] w-[2rem] h-[2rem] text-white" />

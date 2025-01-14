@@ -1,16 +1,22 @@
 import React from "react";
 import TechCard from "./SkillsCard";
 
+// Constantes reutilizáveis
+const SECTION_PADDING_Y = 'pt-[5rem] pb-[3rem]';
+const TITLE_CLASSES = 'heading';
+const DESCRIPTION_CLASSES = 'mt-[1rem] text-gray-600 text-center w-[80%] mx-auto leading-7';
+const CARDS_CONTAINER_CLASSES = 'mt-[5rem] w-[80%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[3rem] items-center';
+
 const Team = () => {
   return (
-    <div className="pt-[5rem] pb-[3rem]">
-      <h1 className="heading">
+    <div className={SECTION_PADDING_Y}>
+      <h1 className={TITLE_CLASSES}>
         Conheça Minhas <span className="text-red-600">Habilidades</span>
       </h1>
-      <p className="mt-[1rem] text-gray-600 text-center w-[80%] mx-auto leading-7">
+      <p className={DESCRIPTION_CLASSES}>
         Durante minha trajetória em Tecnologia da Informação, adquiri um conjunto sólido de competências técnicas e práticas que me permitem resolver desafios com eficácia e criar soluções inovadoras. Abaixo, apresento as principais áreas em que me especializei ao longo da minha carreira.
       </p>
-      <div className="mt-[5rem] w-[80%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[3rem] items-center">
+      <div className={CARDS_CONTAINER_CLASSES}>
         {/* Cartões de habilidades */}
         <div data-aos="fade-left" data-aos-anchor-placement="top-center">
           <TechCard

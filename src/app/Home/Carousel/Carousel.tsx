@@ -1,3 +1,5 @@
+"use client"; // Para habilitar funcionalidades do React no lado do cliente
+
 import React from "react";
 import Carousel from "react-multi-carousel"; // Importando o componente Carousel
 import "react-multi-carousel/lib/styles.css"; // Importando os estilos do Carousel
@@ -5,6 +7,17 @@ import BurgerImg1 from "@/public/images/b1.png"; // Imagem do primeiro slide
 import BurgerImg2 from "@/public/images/b2.png"; // Imagem do segundo slide
 import Image from "next/image"; // Importando o componente de imagem do Next.js
 import { BiDesktop, BiCode } from "react-icons/bi"; // Importando ícones de tecnologia
+
+// Definindo as constantes no início
+const SLIDE_ONE_TITLE = "Meu Portfólio";
+const SLIDE_ONE_SUBTITLE = "Trabalhos e Projetos";
+const SLIDE_ONE_DESCRIPTION =
+  "Aqui você pode explorar diversos projetos que desenvolvi ao longo da minha carreira. Cada um deles reflete minha paixão pela tecnologia e pelo desenvolvimento de soluções inovadoras.";
+
+const SLIDE_TWO_TITLE = "Sobre Mim";
+const SLIDE_TWO_SUBTITLE = "Conheça Minha Jornada";
+const SLIDE_TWO_DESCRIPTION =
+  "Sou um desenvolvedor apaixonado por tecnologia e inovação. Com experiência em diversas áreas, busco sempre novos desafios e oportunidades para crescer e compartilhar meu conhecimento.";
 
 // Definindo os breakpoints para tornar o Carousel responsivo
 const responsive = {
@@ -45,15 +58,11 @@ const Hero = () => {
           <Image src={BurgerImg1} alt="portfólio" className="hidden md:block" />
           {/* Informações do slide */}
           <div>
-            <h1 className="text-[40px] font-semibold text-yellow-400">
-              Meu Portfólio
-            </h1>
+            <h1 className="text-[40px] font-semibold text-yellow-400">{SLIDE_ONE_TITLE}</h1>
             <h1 className="text-[75px] sm:text-[90px] leading-[5rem] uppercase text-white font-bold">
-              Trabalhos e Projetos
+              {SLIDE_ONE_SUBTITLE}
             </h1>
-            <p className="mt-[1rem] text-white text-opacity-70 text-[18px]">
-              Aqui você pode explorar diversos projetos que desenvolvi ao longo da minha carreira. Cada um deles reflete minha paixão pela tecnologia e pelo desenvolvimento de soluções inovadoras.
-            </p>
+            <p className="mt-[1rem] text-white text-opacity-70 text-[18px]">{SLIDE_ONE_DESCRIPTION}</p>
             <button className="mt-[2rem] px-8 py-3 text-[16px] bg-green-500 transition-all duration-200 hover:bg-green-700 flex items-center rounded-md space-x-2 text-white">
               <span>
                 <BiDesktop className="w-[1.3rem] h-[1.3rem] sm:w-[1.7rem] sm:h-[1.7rem]" />
@@ -71,15 +80,11 @@ const Hero = () => {
           <Image src={BurgerImg2} alt="sobre mim" className="hidden md:block" />
           {/* Informações do slide */}
           <div>
-            <h1 className="text-[40px] font-semibold text-yellow-400">
-              Sobre Mim
-            </h1>
+            <h1 className="text-[40px] font-semibold text-yellow-400">{SLIDE_TWO_TITLE}</h1>
             <h1 className="text-[75px] sm:text-[90px] leading-[5rem] uppercase text-white font-bold">
-              Conheça Minha Jornada
+              {SLIDE_TWO_SUBTITLE}
             </h1>
-            <p className="mt-[1rem] text-white text-opacity-70 text-[18px]">
-              Sou um desenvolvedor apaixonado por tecnologia e inovação. Com experiência em diversas áreas, busco sempre novos desafios e oportunidades para crescer e compartilhar meu conhecimento.
-            </p>
+            <p className="mt-[1rem] text-white text-opacity-70 text-[18px]">{SLIDE_TWO_DESCRIPTION}</p>
             <button className="mt-[2rem] px-8 py-3 text-[16px] bg-blue-500 transition-all duration-200 hover:bg-green-700 flex items-center rounded-md space-x-2 text-white">
               <span>
                 <BiCode className="w-[1.3rem] h-[1.3rem] sm:w-[1.7rem] sm:h-[1.7rem]" />
