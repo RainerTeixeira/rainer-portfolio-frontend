@@ -24,6 +24,22 @@ export const metadata = {
       affiliation: "Especialista em TI, Desenvolvimento de Sistemas e Automação",
     },
   ],
+  openGraph: {
+    title: "Rainer Portfolio | Tecnologia e Inovação",
+    description:
+      "Portfólio profissional de Rainer Oliveira Teixeira, especialista em TI, desenvolvimento de sistemas e automação de processos.",
+    image: "/path-to-image.jpg",
+    url: "https://rainersoft.com.br",
+    type: "website",
+    locale: "pt_BR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rainer Portfolio | Tecnologia e Inovação",
+    description:
+      "Portfólio profissional de Rainer Oliveira Teixeira, especialista em TI, desenvolvimento de sistemas e automação de processos.",
+    image: "/path-to-image.jpg",
+  },
 };
 
 export default function RootLayout({
@@ -41,16 +57,19 @@ export default function RootLayout({
           name="author"
           content={metadata.authors.map((author) => author.name).join(", ")}
         />
-        <meta property="og:title" content={metadata.title} />
-        <meta property="og:description" content={metadata.description} />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="pt_BR" />
-        <meta property="og:image" content="/path-to-image.jpg" />
-        <meta property="og:url" content="https://rainersoft.com.br" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={metadata.title} />
-        <meta name="twitter:description" content={metadata.description} />
-        <meta name="twitter:image" content="/path-to-image.jpg" />
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content={metadata.openGraph.title} />
+        <meta property="og:description" content={metadata.openGraph.description} />
+        <meta property="og:type" content={metadata.openGraph.type} />
+        <meta property="og:locale" content={metadata.openGraph.locale} />
+        <meta property="og:image" content={metadata.openGraph.image} />
+        <meta property="og:url" content={metadata.openGraph.url} />
+
+        {/* Twitter Meta Tags */}
+        <meta name="twitter:card" content={metadata.twitter.card} />
+        <meta name="twitter:title" content={metadata.twitter.title} />
+        <meta name="twitter:description" content={metadata.twitter.description} />
+        <meta name="twitter:image" content={metadata.twitter.image} />
       </head>
       <body className={`${barlowCondensed.className} bg-gray-50 text-gray-900`}>
         <SpeedInsights /> {/* Adicionando o SpeedInsights aqui */}
