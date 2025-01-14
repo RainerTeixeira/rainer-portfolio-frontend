@@ -125,6 +125,9 @@ const BlogPage: React.FC = () => {
 
     return (
         <div className="container mx-auto px-6 py-16 md:py-20">
+            {/* Usando SEO para meta tags e título */}
+            <SEO title="Blog" description="Blog de Tecnologia com posts sobre diversas categorias" />
+
             <div className="flex flex-col md:flex-row gap-12">
                 {/* Seção Principal de Posts */}
                 <main className="flex-1">
@@ -168,6 +171,9 @@ const BlogPage: React.FC = () => {
                         Encontre os posts organizados por categoria para explorar mais sobre o que você gosta!
                     </p>
                     <Aside categories={categories} />
+
+                    {/* Usando Tags para exibir tags relevantes */}
+                    <Tags />
                 </aside>
             </div>
         </div>
