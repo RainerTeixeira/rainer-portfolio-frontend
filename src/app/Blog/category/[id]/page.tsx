@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import CategoryList from "../../components/CategoryList"; // Certifique-se de que o caminho está correto
+//import CategoryList from "../../components/CategoryList"; // Certifique-se de que o caminho está correto
 
 const inicio = "Inicio da categoria"; // Definindo a constante no início
 
