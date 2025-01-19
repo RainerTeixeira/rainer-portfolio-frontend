@@ -1,0 +1,54 @@
+{
+    "id": 5,
+    "title": "Componentes Funcionais vs Componentes de Classe",
+    "date": "2025-01-16",
+    "summary": "Aprenda as diferenças entre componentes funcionais e de classe no React e qual é a melhor abordagem para seu projeto.",
+    "content": "Componentes no React podem ser definidos de duas maneiras: como funções ou como classes. Cada abordagem tem suas vantagens e desvantagens.",
+    "imageUrl": "/images/f1.jpg",
+    "tags": [
+        "React",
+        "Componentes",
+        "Desenvolvimento Web"
+    ],
+    "author": {
+        "name": "João Silva",
+        "bio": "Desenvolvedor web com experiência em React.",
+        "profileImage": "/images/author.jpg"
+    },
+    "category": "Tutorial",
+    "comments": [
+        {
+            "author": "Carlos Souza",
+            "content": "Excelente artigo! Agora entendi as diferenças entre os dois tipos de componentes.",
+            "date": "2025-01-16"
+        }
+    ],
+    "references": [
+        {
+            "title": "Documentação do React",
+            "url": "https://reactjs.org/docs/components-and-props.html"
+        }
+    ],
+    "seo": {
+        "keywords": [
+            "Componentes Funcionais",
+            "Componentes de Classe",
+            "React",
+            "Desenvolvimento Web"
+        ],
+        "description": "Entenda as principais diferenças entre componentes funcionais e de classe no React e saiba qual utilizar em seu projeto."
+    },
+    "status": "Publicado",
+    "readingTime": "5 min",
+    "videoEmbed": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "sections": [
+        {
+            "heading": "Componentes Funcionais",
+            "text": "Componentes funcionais são funções simples que retornam JSX. Eles são mais concisos e mais fáceis de entender, especialmente quando se trabalha com hooks."
+        },
+        {
+            "heading": "Componentes de Classe",
+            "text": "Componentes de classe são definidos como classes ES6 e têm métodos como `render` e podem ter um estado interno. Eles são mais complexos, mas oferecem mais controle em algumas situações."
+        }
+    ]
+}
