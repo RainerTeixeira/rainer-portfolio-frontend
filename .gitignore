@@ -40,3 +40,15 @@ yarn-error.log*
 next-env.d.ts
 
 Zone.Identifier
+
+# Ignorar arquivos de node_modules em qualquer diretório
+node_modules/
+
+# Ignorar arquivos de cache do Next.js
+.next/
+
+# Ignorar arquivos temporários e logs
+*.log
+
+# Ignorar arquivos grandes
+*.pack
