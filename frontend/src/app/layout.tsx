@@ -16,7 +16,7 @@ export const metadata = {
   description:
     "Portfólio profissional de Rainer Oliveira Teixeira, especialista em TI, desenvolvimento de sistemas e automação de processos. Descubra mais sobre suas habilidades e projetos.",
   keywords:
-    "Rainer Oliveira Teixeira, TI, Portfólio, Desenvolvimento, Automação, Zabbix, Docker, Sistemas de Informação",
+    "Rainer Oliveira Teixeira, TI, Portfólio, Desenvolvimento, Automação, Zabbix, Docker, Sistemas de Informação.",
   authors: [
     {
       name: "Rainer Teixeira",
