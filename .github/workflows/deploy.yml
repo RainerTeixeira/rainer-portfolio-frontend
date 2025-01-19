@@ -1,0 +1,31 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - main  # Ou qualquer branch que você deseja monitorar
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Defina a versão do Node.js que está usando
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Deploy to Vercel
+      run: |
+        curl -s https://vercel.com/download -o vercel-cli.tar.gz
+        tar -xvzf vercel-cli.tar.gz
+        sudo mv vercel /usr/local/bin
+        vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}  # Armazene o token do Vercel como segredo no GitHub
