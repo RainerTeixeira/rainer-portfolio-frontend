@@ -16,16 +16,19 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Defina a versão do Node.js que está usando
+        node-version: '14'  # Defina a versão do Node.js que você está usando
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        cd frontend  # Se o frontend estiver em uma pasta chamada 'frontend'
+        npm install
 
     - name: Deploy to Vercel
       run: |
         curl -s https://vercel.com/download -o vercel-cli.tar.gz
         tar -xvzf vercel-cli.tar.gz
         sudo mv vercel /usr/local/bin
-        vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
+        cd frontend  # Navegar para o diretório do frontend
+        vercel --token ${{ secrets.VERCEL_TOKEN }} --prod  # Substitua o nome do projeto, se necessário
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}  # Armazene o token do Vercel como segredo no GitHub
