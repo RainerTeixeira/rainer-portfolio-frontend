@@ -3,7 +3,7 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - main  # Ou qualquer branch que você deseja monitorar.
+      - main  # Ou qualquer branch que você deseja monitorar
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Defina a versão do Node.js que você está usando
+        node-version: '22'  # Usando a versão 22 do Node.js
 
     - name: Install dependencies
       run: |
