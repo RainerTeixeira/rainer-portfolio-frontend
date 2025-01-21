@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
-import SEO from "../../../components/blog/seo"; // Componente SEO
+import SEO from "../../../components/blog/seo/Seo"; // Componente SEO
 import Image from "next/image"; // Importando o componente Imagem
 
 interface Section {

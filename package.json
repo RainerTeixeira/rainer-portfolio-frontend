@@ -1,14 +1,22 @@
 {
   "scripts": {
     "start:frontend": "npm run dev --prefix frontend",
-    "start:backend": "npm start --prefix backend"
+    "start:backend": "npm start --prefix backend",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
   },
   "dependencies": {
+    "@nestjs/config": "^4.0.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.7",
     "apollo-server-express": "^3.13.0",
+    "aws-sdk": "^2.1692.0",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "cross-env": "^7.0.3"
   }
 }
