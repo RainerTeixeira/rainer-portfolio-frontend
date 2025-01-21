@@ -23,11 +23,11 @@ jobs:
         cd frontend  # Se o frontend estiver em uma pasta chamada 'frontend'
         npm install
 
+    - name: Install Vercel CLI
+      run: npm install -g vercel  # Instalando o Vercel CLI via npm
+
     - name: Deploy to Vercel
       run: |
-        curl -s https://vercel.com/download -o vercel-cli.tar.gz
-        tar -xvzf vercel-cli.tar.gz
-        sudo mv vercel /usr/local/bin
         cd frontend  # Navegar para o diretório do frontend
         vercel --token ${{ secrets.VERCEL_TOKEN }} --prod  # Substitua o nome do projeto, se necessário
       env:
