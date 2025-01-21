@@ -14,7 +14,7 @@ export class PostsController {
         try {
             // Usando ScanCommand com o método send
             const result = await dynamo.send(new ScanCommand(params));
-            return result.Items; // Retorna os itens encontrados
+            return result.Items; // Retorna os itens encontradoss
         } catch (error) {
             console.error('Error fetching posts:', error);
             throw new Error('Unable to fetch posts from DynamoDB');
