@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
 // Constantes reutilizáveis
 const ICON_SIZE = 60;
@@ -15,19 +15,19 @@ const ICON_MARGIN_BOTTOM = "mb-2"; // Ajuste para a margem do ícone
 
 interface Props {
   title: string;
-  // Altere o tipo de icon para ReactElement para garantir que seja um ícone válido
-  icon: React.ReactElement;
+  // Defina o tipo de "icon" como React.ComponentType<IconProps> para garantir que o ícone tenha a propriedade 'size'
+  icon: React.ComponentType<{ size: number }>;
   description: string;
 }
 
-const CarouselTechnologyCard: React.FC<Props> = ({ title, icon, description }) => {
+const TechnologyCard: React.FC<Props> = ({ title, icon: Icon, description }) => {
   return (
     <div
       className={`bg-white ${CARD_PADDING} rounded-lg ${CARD_MARGIN} ${CARD_MAX_WIDTH} w-full shadow-md hover:shadow-lg hover:border-2 hover:border-indigo-300 transform transition-all duration-500 ease-in-out hover:scale-105 ${CARD_MIN_HEIGHT}`}
     >
       <div className="flex justify-center items-center flex-col">
         <span className={`flex justify-center items-center ${ICON_MARGIN_BOTTOM} ${HEADING_ICON_COLOR}`}>
-          {React.cloneElement(icon, { size: ICON_SIZE })}
+          <Icon size={ICON_SIZE} />
         </span>
         <h1 className={`${HEADING_MARGIN_TOP} ${HEADING_FONT_SIZE} font-semibold text-center ${HEADING_TEXT_COLOR}`}>
           {title}
@@ -38,4 +38,4 @@ const CarouselTechnologyCard: React.FC<Props> = ({ title, icon, description }) =
   );
 };
 
-export default CarouselTechnologyCard;
+export default TechnologyCard;

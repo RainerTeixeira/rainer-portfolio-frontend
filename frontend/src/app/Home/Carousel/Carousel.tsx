@@ -3,8 +3,8 @@
 import React from "react";
 import Carousel from "react-multi-carousel"; // Importando o componente Carousel
 import "react-multi-carousel/lib/styles.css"; // Importando os estilos do Carousel
-import BurgerImg1 from "@/public/images/b1.png"; // Imagem do primeiro slide
-import BurgerImg2 from "@/public/images/b2.png"; // Imagem do segundo slide
+const BurgerImg1 = "/images/b1.png"; // Caminho da imagem no diretório public
+const BurgerImg2 = "/images/b2.png"; // Caminho da imagem no diretório public
 import Image from "next/image"; // Importando o componente de imagem do Next.js
 import { BiDesktop, BiCode } from "react-icons/bi"; // Importando ícones de tecnologia
 
@@ -55,7 +55,15 @@ const Hero = () => {
       <div className="w-[100%] h-[88vh] flex items-center justify-center flex-col bg-blue-950 md:clip_path">
         <div className="w-[80%] grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-[2rem] mx-auto">
           {/* Imagem do Portfólio */}
-          <Image src={BurgerImg1} alt="portfólio" className="hidden md:block" />
+          <div className="hidden md:block">
+            <Image
+              src={BurgerImg1}
+              alt="portfólio"
+              width={800} // Defina a largura desejada
+              height={600} // Defina a altura desejada
+              className="w-full h-auto" // Para garantir a responsividade
+            />
+          </div>
           {/* Informações do slide */}
           <div>
             <h1 className="text-[40px] font-semibold text-yellow-400">{SLIDE_ONE_TITLE}</h1>
@@ -77,7 +85,15 @@ const Hero = () => {
       <div className="w-[100%] h-[88vh] flex items-center justify-center flex-col bg-red-950 md:clip_path">
         <div className="w-[80%] grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-[2rem] mx-auto">
           {/* Imagem do Sobre mim */}
-          <Image src={BurgerImg2} alt="sobre mim" className="hidden md:block" />
+          <div className="hidden md:block">
+            <Image
+              src={BurgerImg2}
+              alt="sobre mim"
+              width={800} // Defina a largura desejada
+              height={600} // Defina a altura desejada
+              className="w-full h-auto" // Para garantir a responsividade
+            />
+          </div>
           {/* Informações do slide */}
           <div>
             <h1 className="text-[40px] font-semibold text-yellow-400">{SLIDE_TWO_TITLE}</h1>

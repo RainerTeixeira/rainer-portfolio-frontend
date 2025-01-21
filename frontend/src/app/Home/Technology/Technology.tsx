@@ -1,35 +1,39 @@
 import React from "react";
-import img1 from "@/public/images/f1.jpg";
-import img2 from "@/public/images/f2.jpg";
-import img3 from "@/public/images/f3.jpg";
 import Image from "next/image";
 
 // Constantes para as informações das cartas
 const featuresData = [
   {
-    imgSrc: img1,
+    imgSrc: "/images/f1.jpg", // Caminho relativo à pasta public
     title: "Suporte de TI & Infraestrutura",
     description:
       "Apaixonado por otimizar infraestrutura de redes e resolver problemas técnicos complexos. Oferecendo suporte de TI para melhorar a produtividade e o sucesso dos negócios.",
     aosAnimation: "fade-left",
     aosDelay: "0",
+    width: 400, // Definido para a imagem
+    height: 300, // Definido para a imagem
   },
   {
-    imgSrc: img2,
+    imgSrc: "/images/f2.jpg", // Caminho relativo à pasta public
     title: "Desenvolvimento de Software",
     description:
       "Experiência na criação e manutenção de soluções de software, com foco no desenvolvimento backend em Java e criação de interfaces intuitivas.",
     aosAnimation: "zoom-in",
     aosDelay: "200",
+    width: 400, // Definido para a imagem
+    height: 300, // Definido para a imagem
   },
   {
-    imgSrc: img3,
+    imgSrc: "/images/f3.jpg", // Caminho relativo à pasta public
     title: "Cloud & DevOps",
     description:
       "Habilidades em infraestrutura de nuvem e práticas de DevOps, com experiência prática em AWS, Docker e configuração de servidores para garantir soluções escaláveis e eficientes.",
     aosAnimation: "fade-right",
     aosDelay: "400",
+    width: 400, // Definido para a imagem
+    height: 300, // Definido para a imagem
   },
+
 ];
 
 const Features = () => {
@@ -53,6 +57,8 @@ const Features = () => {
                 src={feature.imgSrc}
                 alt={feature.title}
                 className="rounded-3xl"
+                width={feature.width}
+                height={feature.height}
               />
               <h1 className="mt-[1.5rem] text-center text-[24px] text-black font-semibold">
                 {feature.title}

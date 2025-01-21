@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Carousel from "./Carousel/Carousel";
 import Technology from "./Technology/Technology";
-import CarouselTechnology from "./CarouselTechnology/CarouselTechnology";
+import CarouselTechnology from "./carouselTechnology/carouselTechnology";
 import Solutions from "./Solutions/Solutions";
 import Skills from "./Skills/Skills";
 import SupportRequest from "./SupportRequest/SupportRequest";

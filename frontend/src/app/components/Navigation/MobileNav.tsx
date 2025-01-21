@@ -1,4 +1,4 @@
-import { navLinks } from '@/src/app/constant/constant';
+import { navLinks } from '@/app/constant/constant';
 import Link from 'next/link';
 import React from 'react';
 import { ImCross } from 'react-icons/im';

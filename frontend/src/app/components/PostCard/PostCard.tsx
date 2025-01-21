@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image"; // Importação do componente de imagem otimizada
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 type PostCardProps = {
@@ -12,8 +12,7 @@ type PostCardProps = {
 const PostCard: React.FC<PostCardProps> = ({ title, summary, imageUrl, postId }) => {
     const router = useRouter();
 
-    // Constantes definidas para uso do componente
-    const DEFAULT_IMAGE_URL = "/images/f1.jpg"; // Caminho padrão para a imagem
+    const DEFAULT_IMAGE_URL = "/images/f1.jpg";
 
     const navigateToPost = () => {
         router.push(`/Blog/Post/${postId}`);
@@ -25,10 +24,10 @@ const PostCard: React.FC<PostCardProps> = ({ title, summary, imageUrl, postId })
                 <Image
                     src={imageUrl || DEFAULT_IMAGE_URL}
                     alt={title}
-                    fill // Para preencher o espaço definido pelo pai
+                    fill
                     className="object-cover rounded-lg"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Tamanhos responsivos
-                    priority // Carregamento prioritário se necessário
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority
                 />
             </div>
             <h3 className="text-xl font-semibold mb-2">{title}</h3>

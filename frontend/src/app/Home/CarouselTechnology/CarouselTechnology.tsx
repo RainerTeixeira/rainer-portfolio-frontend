@@ -1,24 +1,9 @@
 import React from "react";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import TechnologyCard from "./CarouselTechnologyCard";
-import {
-  FaDocker,
-  FaDatabase,
-  FaJsSquare,
-  FaGitAlt,
-  FaReact,
-  FaNodeJs,
-  FaHtml5,
-  FaWindows,
-} from "react-icons/fa";
-import {
-  SiPython,
-  SiKubernetes,
-  SiUbuntu,
-  SiJenkins,
-  SiTerraform,
-} from "react-icons/si";
+import Carousel from "react-multi-carousel"; // Adicionando a importação do Carousel
+import "react-multi-carousel/lib/styles.css"; // Importando os estilos do carousel
+import { FaDocker, FaDatabase, FaJsSquare, FaGitAlt, FaReact, FaNodeJs, FaHtml5, FaWindows } from "react-icons/fa";
+import { SiPython, SiKubernetes, SiUbuntu, SiJenkins, SiTerraform } from "react-icons/si";
+import TechnologyCard from "./carouselTechnologyCard"; // Importe o componente atualizado do card
 
 // Constantes reutilizáveis
 const ICON_SIZE = 60;
@@ -62,67 +47,67 @@ const PopularTechnologies = () => {
         >
           <TechnologyCard
             title="Docker"
-            icon={<FaDocker size={ICON_SIZE} />}
+            icon={FaDocker} // Passando o componente diretamente
             description="Tecnologia de contêinerização que facilita o desenvolvimento, o envio e a execução de aplicativos em ambientes isolados e escaláveis."
           />
           <TechnologyCard
             title="SQL Avançado"
-            icon={<FaDatabase size={ICON_SIZE} />}
+            icon={FaDatabase}
             description="Especialização no uso de SQL para a criação de consultas complexas e na manipulação de grandes volumes de dados em bancos de dados relacionais."
           />
           <TechnologyCard
             title="JavaScript"
-            icon={<FaJsSquare size={ICON_SIZE} />}
+            icon={FaJsSquare}
             description="Linguagem essencial para o desenvolvimento de aplicações web interativas, permitindo uma experiência dinâmica para os usuários."
           />
           <TechnologyCard
             title="Git"
-            icon={<FaGitAlt size={ICON_SIZE} />}
+            icon={FaGitAlt}
             description="Sistema de controle de versão distribuído, amplamente utilizado por equipes de desenvolvimento para rastrear mudanças no código-fonte e colaborar eficientemente."
           />
           <TechnologyCard
             title="React"
-            icon={<FaReact size={ICON_SIZE} />}
+            icon={FaReact}
             description="Biblioteca JavaScript para construir interfaces de usuário dinâmicas e reativas."
           />
           <TechnologyCard
             title="Node.js"
-            icon={<FaNodeJs size={ICON_SIZE} />}
+            icon={FaNodeJs}
             description="Ambiente de execução para JavaScript no lado do servidor, permitindo a criação de aplicações escaláveis."
           />
           <TechnologyCard
             title="HTML5"
-            icon={<FaHtml5 size={ICON_SIZE} />}
+            icon={FaHtml5}
             description="A versão mais recente do HTML, que oferece novos recursos para desenvolvimento web."
           />
           <TechnologyCard
             title="Kubernetes"
-            icon={<SiKubernetes size={ICON_SIZE} />}
+            icon={SiKubernetes}
             description="Sistema de orquestração de contêineres para automação de implantação e escalabilidade de aplicativos."
           />
           <TechnologyCard
             title="Python"
-            icon={<SiPython size={ICON_SIZE} />}
+            icon={SiPython}
             description="Linguagem versátil utilizada para automação de processos, scripts personalizados e desenvolvimento web."
           />
           <TechnologyCard
             title="Windows"
-            icon={<FaWindows size={ICON_SIZE} />}
+            icon={FaWindows}
             description="Sistema operacional desenvolvido pela Microsoft, amplamente utilizado em servidores e desktops."
           />
           <TechnologyCard
             title="Ubuntu"
-            icon={<SiUbuntu size={ICON_SIZE} />}
+            icon={SiUbuntu}
             description="Sistema operacional baseado em Linux, popular para servidores e ambientes de desenvolvimento."
           />
           <TechnologyCard
             title="Jenkins"
-            icon={<SiJenkins size={ICON_SIZE} />}
+            icon={SiJenkins}
             description="Plataforma de automação para integração contínua e entrega contínua de software."
           />
           <TechnologyCard
             title="Terraform"
-            icon={<SiTerraform size={ICON_SIZE} />}
+            icon={SiTerraform}
             description="Ferramenta de infraestrutura como código (IaC) para provisionamento e gerenciamento de recursos em diversas plataformas."
           />
         </Carousel>

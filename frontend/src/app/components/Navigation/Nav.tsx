@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { navLinks } from '@/src/app/constant/constant';
+import { navLinks } from '@/app/constant/constant';
 import Link from 'next/link';
 import React from 'react';
 import { BiPhone, BiEnvelope } from 'react-icons/bi';

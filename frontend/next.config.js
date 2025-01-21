@@ -1,20 +1,31 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {
-    domains: [
-      "rainersoft.com.br", // Seu domínio principal
-      "rainer-portfolio.vercel.app", // Outro domínio relacionado
-      "rainer-portfolio-i4pf4a37z-rainerteixeiras-projects.vercel.app", // Outro domínio associado
-      'example.com', // O domínio de onde vem a imagem (adicione o domínio que está sendo utilizado)
-
-    ],
-  },
-  async rewrites() {
-    return [
+    remotePatterns: [
       {
-        source: '/Blog',
-        destination: '/components/Blog', // Rota interna para a pasta components/Blog
+        protocol: 'https',
+        hostname: 'rainersoft.com.br', // Domínio principal
+        port: '',
+        pathname: '/hooks-image.jpg', // Caminho completo da imagem
       },
-    ];
+      {
+        protocol: 'https',
+        hostname: 'rainer-portfolio.vercel.app', // Outro domínio relacionado
+        port: '',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'rainer-portfolio-i4pf4a37z-rainerteixeiras-projects.vercel.app', // Outro domínio associado
+        port: '',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com', // Domínio adicional
+        port: '',
+        pathname: '/images/**',
+      },
+    ],
   },
 };
