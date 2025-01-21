@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import PostCard from "@/app/components/PostCard/PostCard";
+import PostCard from "@/app/components/postCard/PostCard";
 
 const TOTAL_POSTS = 5;
 const BASE_URL = "/Post/post-";
@@ -17,7 +17,6 @@ interface Post {
 const PostListPage: React.FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -35,13 +34,7 @@ const PostListPage: React.FC = () => {
                 }
                 setPosts(loadedPosts);
             } catch (err) {
-                if (err instanceof Error) {
-                    setError(`Falha ao carregar os posts: ${err.message}`);
-                    console.error(err);
-                } else {
-                    setError("Um erro desconhecido ocorreu.");
-                    console.error(err);
-                }
+                console.error(err);
             } finally {
                 setLoading(false);
             }
@@ -56,10 +49,6 @@ const PostListPage: React.FC = () => {
 
     if (loading) {
         return <div className="text-center text-gray-500">Carregando...</div>;
-    }
-
-    if (error) {
-        return <div className="text-center text-red-500">{error}</div>;
     }
 
     return (

@@ -3,7 +3,7 @@ import Carousel from "react-multi-carousel"; // Adicionando a importação do Ca
 import "react-multi-carousel/lib/styles.css"; // Importando os estilos do carousel
 import { FaDocker, FaDatabase, FaJsSquare, FaGitAlt, FaReact, FaNodeJs, FaHtml5, FaWindows } from "react-icons/fa";
 import { SiPython, SiKubernetes, SiUbuntu, SiJenkins, SiTerraform } from "react-icons/si";
-import TechnologyCard from "./carouselTechnologyCard"; // Importe o componente atualizado do card
+import TechnologyCard from "./CarouselTechnologyCard";
 
 // Constantes reutilizáveis
 const ICON_SIZE = 60;

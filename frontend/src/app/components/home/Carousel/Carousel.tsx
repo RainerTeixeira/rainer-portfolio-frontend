@@ -38,7 +38,7 @@ const responsive = {
   },
 };
 
-const Hero = () => {
+const home = () => {
   return (
     <Carousel
       additionalTransfrom={0} // Define o valor de transformação adicional
@@ -55,15 +55,13 @@ const Hero = () => {
       <div className="w-[100%] h-[88vh] flex items-center justify-center flex-col bg-blue-950 md:clip_path">
         <div className="w-[80%] grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-[2rem] mx-auto">
           {/* Imagem do Portfólio */}
-          <div className="hidden md:block">
-            <Image
-              src={BurgerImg1}
-              alt="portfólio"
-              width={800} // Defina a largura desejada
-              height={600} // Defina a altura desejada
-              className="w-full h-auto" // Para garantir a responsividade
-            />
-          </div>
+          <Image
+            src={BurgerImg1}
+            alt="portfólio"
+            className="hidden md:block"
+            width={800} // Adicionando a largura
+            height={600} // Adicionando a altura
+          />
           {/* Informações do slide */}
           <div>
             <h1 className="text-[40px] font-semibold text-yellow-400">{SLIDE_ONE_TITLE}</h1>
@@ -85,15 +83,13 @@ const Hero = () => {
       <div className="w-[100%] h-[88vh] flex items-center justify-center flex-col bg-red-950 md:clip_path">
         <div className="w-[80%] grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-[2rem] mx-auto">
           {/* Imagem do Sobre mim */}
-          <div className="hidden md:block">
-            <Image
-              src={BurgerImg2}
-              alt="sobre mim"
-              width={800} // Defina a largura desejada
-              height={600} // Defina a altura desejada
-              className="w-full h-auto" // Para garantir a responsividade
-            />
-          </div>
+          <Image
+            src={BurgerImg2}
+            alt="sobre mim"
+            className="hidden md:block"
+            width={800} // Adicionando a largura
+            height={600} // Adicionando a altura
+          />
           {/* Informações do slide */}
           <div>
             <h1 className="text-[40px] font-semibold text-yellow-400">{SLIDE_TWO_TITLE}</h1>
@@ -114,4 +110,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default home;

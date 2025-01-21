@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import PostCard from "@/app/components/PostCard/PostCard";
+import PostCard from "@/app/components/postCard/PostCard";
 
 const TOTAL_POSTS = 5;
 const BASE_URL = "/Post/post-";

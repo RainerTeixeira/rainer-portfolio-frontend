@@ -8,9 +8,10 @@ import { HiBars3BottomRight } from 'react-icons/hi2';
 
 interface Props {
   openNavHandler: () => void;
+  responsive: boolean; // Adicionando a propriedade responsive
 }
 
-const Nav = ({ openNavHandler }: Props) => {
+const Nav = ({ openNavHandler, responsive }: Props) => {
   const [isClient, setIsClient] = useState(false);
 
   // Garantir que só renderize no cliente
@@ -43,7 +44,7 @@ const Nav = ({ openNavHandler }: Props) => {
         </div>
 
         {/* Nav Links */}
-        <ul className="hidden lg:flex items-center space-x-10">
+        <ul className={`hidden lg:flex items-center space-x-10 ${responsive ? 'lg:flex' : ''}`}>
           {navLinks.map((navlink) => (
             <li key={navlink.id} className={navLinkClass}>
               <Link href={navlink.url}>{navlink.label}</Link>

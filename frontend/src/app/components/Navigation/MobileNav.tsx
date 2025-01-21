@@ -6,9 +6,10 @@ import { ImCross } from 'react-icons/im';
 interface Props {
   showNav: boolean;
   closeNavHandler: () => void;
+  responsive: boolean; // Adicionando a propriedade responsive
 }
 
-const MobileNav = ({ showNav, closeNavHandler }: Props) => {
+const MobileNav = ({ showNav, closeNavHandler, responsive }: Props) => {
   const navStyle = showNav ? "translate-x-0" : "translate-x-[-100%]";
 
   return (

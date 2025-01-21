@@ -1,10 +1,10 @@
 import React from 'react';
-import Home from './home/page';  
+import Home from './home/Page'; 
 
 const App: React.FC = () => {
   return (
     <div>
-      <Home />  // Usando o componente correto
+      <Home />
     </div>
   );
 };
