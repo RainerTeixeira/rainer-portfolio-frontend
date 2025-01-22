@@ -1,26 +1,32 @@
-"use client";
+"use client"; // Para habilitar funcionalidades do React no lado do cliente
 
-import React, { useEffect } from "react";
-import Carousel from "../components/home/Carousel/Carousel";
-import Technology from "../components/home/Technology/Technology";
-import CarouselTechnology from "../components/home/CarouselTechnology/CarouselTechnology";
-import Solutions from "../components/home/Solutions/Solutions";
-import Skills from "../components/home/Skills/Skills";
-import SupportRequest from "../components/home/SupportRequest/SupportRequest";
-import Newsletter from "../components/home/Newsletter/Newsletter";
+import React, { useEffect, useState } from "react";
+
+import Carousel from "@components/home/carousel/Carousel";
+import Technology from "@components/home/technology/Technology";
+import CarouselTechnology from "@components/home/carouselTechnology/CarouselTechnologyCard";
+import Skills from "@components/home/skills/SkillsCard";
+import Solutions from "@components/home/solutions/Solutions";
+import SupportRequest from "@components/home/supportRequest/SupportRequestForm";
+import Newsletter from "@components/home/newsletter/Newsletter";
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 const PortfolioHome = () => {
+  const [hasRendered, setHasRendered] = useState(false);
+
   useEffect(() => {
-    // Carregar e inicializar AOS somente uma vez
-    AOS.init({
-      duration: 1000,
-      easing: "ease",
-      once: true,
-      anchorPlacement: "top-center",
-    });
-  }, []); // O array vazio faz a inicialização acontecer apenas uma vez
+    if (!hasRendered) {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        anchorPlacement: "top-center",
+      });
+      setHasRendered(true);
+    }
+  }, [hasRendered]);
 
   return (
     <div>

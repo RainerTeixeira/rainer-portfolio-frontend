@@ -1,8 +1,6 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import PostCard from "@/app/components/postCard/PostCard";
+// import { useRouter } from "next/navigation"; // Comentando a importação de useRouter
+import PostCard from "@/app/components/blog/postCard/PostCard";
 
 const TOTAL_POSTS = 5;
 const BASE_URL = "/Post/post-";
@@ -18,7 +16,7 @@ const PostListPage: React.FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const router = useRouter();
+    // const router = useRouter(); // Comentando a inicialização do router
 
     useEffect(() => {
         const loadPosts = async () => {
@@ -50,9 +48,10 @@ const PostListPage: React.FC = () => {
         loadPosts();
     }, []);
 
-    const handlePostClick = (postId: number) => {
-        router.push(`/posts/${postId}`);
-    };
+    // Função handlePostClick comentada
+    // const handlePostClick = (postId: number) => {
+    //     router.push(`/posts/${postId}`);
+    // };
 
     if (loading) {
         return <div className="text-center text-gray-500">Carregando...</div>;
