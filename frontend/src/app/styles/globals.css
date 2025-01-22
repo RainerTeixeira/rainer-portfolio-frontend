@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .clip_path {
+    clip-path: polygon(50% 0%, 100% 0, 100% 83%, 50% 100%, 0 84%, 0 41%, 0 0);
+  }
+
+  .heading {
+    @apply text-[30px] md:text-[35px] lg:text-[45px] xl:text-[50px] uppercase font-bold text-gray-900 md:leading-[4rem] leading-[3rem] text-center;
+  }
+
+  .heading span {
+    @apply text-red-600;
+  }
+}
+
+/* Ajuste para os calendários */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator::after {
+  filter: invert(1);
+}
