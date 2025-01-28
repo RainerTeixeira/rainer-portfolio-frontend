@@ -1,0 +1,84 @@
+service: rainer-portfolio-backend
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1 # Região desejada
+  environment:
+    # Configuração de variáveis de ambiente do Lambda
+    DYNAMO_TABLE_NAME_POSTS: ${ssm:/rainer-portfolio/DYNAMO_TABLE_NAME_POSTS, 'default-posts-table'}
+    DYNAMO_TABLE_NAME_AUTHORS: ${ssm:/rainer-portfolio/DYNAMO_TABLE_NAME_AUTHORS, 'default-authors-table'}
+    DYNAMO_TABLE_NAME_CATEGORIES: ${ssm:/rainer-portfolio/DYNAMO_TABLE_NAME_CATEGORIES, 'default-categories-table'}
+    DYNAMO_TABLE_NAME_COMMENTS: ${ssm:/rainer-portfolio/DYNAMO_TABLE_NAME_COMMENTS, 'default-comments-table'}
+    DYNAMO_TABLE_NAME_EXTERNAL_INTEGRATIONS: ${ssm:/rainer-portfolio/DYNAMO_TABLE_NAME_EXTERNAL_INTEGRATIONS, 'default-external-integrations-table'}
+    DYNAMO_TABLE_NAME_REFERENCES: ${ssm:/rainer-portfolio/DYNAMO_TABLE_NAME_REFERENCES, 'default-references-table'}
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:Query
+          Resource: 
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMO_TABLE_NAME_POSTS}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMO_TABLE_NAME_AUTHORS}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMO_TABLE_NAME_CATEGORIES}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMO_TABLE_NAME_COMMENTS}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMO_TABLE_NAME_EXTERNAL_INTEGRATIONS}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMO_TABLE_NAME_REFERENCES}
+        - Effect: Allow
+          Action:
+            - ssm:GetParameter
+          Resource:
+            - arn:aws:ssm:${self:provider.region}:*:parameter/rainer-portfolio/DYNAMO_TABLE_NAME_POSTS
+            - arn:aws:ssm:${self:provider.region}:*:parameter/rainer-portfolio/DYNAMO_TABLE_NAME_AUTHORS
+            - arn:aws:ssm:${self:provider.region}:*:parameter/rainer-portfolio/DYNAMO_TABLE_NAME_CATEGORIES
+            - arn:aws:ssm:${self:provider.region}:*:parameter/rainer-portfolio/DYNAMO_TABLE_NAME_COMMENTS
+            - arn:aws:ssm:${self:provider.region}:*:parameter/rainer-portfolio/DYNAMO_TABLE_NAME_EXTERNAL_INTEGRATIONS
+            - arn:aws:ssm:${self:provider.region}:*:parameter/rainer-portfolio/DYNAMO_TABLE_NAME_REFERENCES
+        - Effect: Allow
+          Action:
+            - ssm:GetParameter
+          Resource: "arn:aws:ssm:${self:provider.region}:*:parameter/serverless-framework/deployment/s3-bucket" # Permissão para o bucket de deployment
+        - Effect: Allow
+          Action:
+            - s3:CreateBucket
+            - s3:PutObject
+            - s3:ListBucket
+            - s3:GetObject
+          Resource:
+            - arn:aws:s3:::rainer-portfolio-backend
+            - arn:aws:s3:::rainer-portfolio-backend/*
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+custom:
+  dotenv:
+    include:
+      - DYNAMO_TABLE_NAME_POSTS
+      - DYNAMO_TABLE_NAME_AUTHORS
+      - DYNAMO_TABLE_NAME_CATEGORIES
+      - DYNAMO_TABLE_NAME_COMMENTS
+      - DYNAMO_TABLE_NAME_EXTERNAL_INTEGRATIONS
+      - DYNAMO_TABLE_NAME_REFERENCES
+
+functions:
+  app:
+    handler: dist/main.handler # Caminho para o handler gerado pelo NestJS
+    events:
+      - httpApi:
+          path: / # Endpoint para o GET
+          method: GET
+      - httpApi:
+          path: /{proxy+} # Endpoint para outros métodos HTTP
+          method: ANY
+
+resources:
+  # Não definimos mais as tabelas aqui, pois elas já existem
+  # Se precisar apenas referenciar as tabelas existentes, não há necessidade de definir novas no Serverless
