@@ -1,0 +1,90 @@
+[33mdfd01bf[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m feat: reestruturar backend para usar DynamoDB e adicionar configuração inicial
+[33m028bf04[m feat: adicionar configuração do ESLint e arquivos de mapeamento para o backend
+[33m662e6c7[m chore: estruturar projeto e atualizar diretórios
+[33m27ab83f[m chore: estruturar projeto e atualizar diretórios
+[33ma7dd7aa[m Delete backend/package.json
+[33m155b080[m Delete backend/package-lock.json
+[33m7821463[m chore: estruturar projeto e atualizar diretórios
+[33m115ce9e[m chore: estruturar projeto e atualizar diretórios
+[33m735f5ad[m chore: estruturar projeto e atualizar diretórios
+[33mce35b83[m chore: estruturar projeto e atualizar diretórios
+[33mc85c4e1[m chore: estruturar projeto e atualizar diretórios
+[33m46f5392[m chore: estruturar projeto e atualizar diretórios
+[33meed5203[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m35fd6f0[m Delete frontend
+[33m769721d[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33mc991376[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m8bb2cb0[m chore: reorganizar e atualizar os diretórios
+[33m2866008[m Delete package.json
+[33md67ff45[m Delete package-lock.json
+[33m80d6b03[m Delete server.ts
+[33mb7969f1[m Delete .gitignore
+[33md323dd1[m Delete backend directory
+[33m8d9fc7b[m Delete frontend directory
+[33me2786ff[m Adicionar configuração inicial do backend com NestJS e integração com DynamoDB
+[33m0508e0d[m Adicionar PostsController para buscar posts do DynamoDB
+[33m6262147[m Update deploy-vercel.yml
+[33m83caa18[m Update deploy-vercel.yml
+[33m23e5189[m Update deploy-vercel.yml
+[33m18dea5a[m Update deploy-vercel.yml
+[33m5ff1938[m Rename deploy.yml to deploy-vercel.yml
+[33m820d68a[m chore: reorganizar a estrutura do projeto e atualizar os diretórios.
+[33mf4385b2[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33mb053885[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m9872c59[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m7983f80[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33md61fdae[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m50794b5[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m66da873[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33md666760[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33me1fb6a6[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m9496dab[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m8ed8f41[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33mbab242f[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m63c757d[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m586d5ff[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m7021ca1[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33m35ffc2c[m chore: reorganizar a estrutura do projeto e atualizar os diretórios
+[33mef252f2[m Adicionar workflow de deploy para Vercel
+[33m2b6d597[m Melhorias na navegação responsiva (#12)
+[33m5289afc[m Corrigir e otimizar componentes BlogPage e PostPage
+[33m90f6e01[m fix: corrigir tipos e dependência do useEffect
+[33m7c33d36[m fix: ajustes de tipagem, dependências e melhorias no PostPage
+[33mc9e8795[m feat: modelagem e implementação de páginas dinâmicas do blog
+[33me3edc1c[m Ajustes no componente Blog/page.tsx - POA (#10)
+[33m32100ab[m Ajustes no componente Blog/page.tsx - POA
+[33m0d8daf1[m Merge branch 'feature/telablog' of https://github.com/RainerTeixeira/rainer-portfolio into feature/telablog
+[33m3ed1bd7[m refactor: ajustar estrutura do componente Blog com animações e modularização
+[33m3f47b4a[m Mensagem de commit explicando suas mudanças
+[33m6f60220[m Removendo arquivos com paths inválidos
+[33m9522353[m Remove Zone.Identifier files f2 - Copia.jpg and f3 - Copia.jpg
+[33m26254f8[m Remove Zone.Identifier files f2 - Copia.jpg and f3 - Copia.jpg
+[33mb8d6e8a[m Remove invalid file with Zone.Identifier
+[33m26b7fc6[m Refatoração da interface: atualização de ícones, ajustes de cores e melhoria no estilo visual.
+[33m0debf52[m Refatoração da interface: atualização de ícones, ajustes de cores e melhoria no estilo visual.
+[33m2069159[m Merge remote-tracking branch 'origin/main' into development
+[33m04cb75b[m Refatoração da interface: atualização de ícones, ajustes de cores e melhoria no estilo visual.
+[33mead67be[m - Atualização dos ícones para uma representação mais clara das funcionalidades. - Ajustes no esquema de cores para melhorar a harmonização visual. - Refinamento no estilo e layout da interface para uma melhor experiência do usuário.
+[33m7fa9a8f[m Merge pull request #8 from RainerTeixeira/development
+[33mb20d9ca[m Refatoração da interface: atualização de ícones, ajustes de cores e melhoria no estilo visual
+[33m257b459[m Merge pull request #7 from RainerTeixeira/development
+[33mab81c8a[m Update CarouselTechnologyCard.tsx
+[33m177d485[m modificação favicon
+[33mbd38c4a[m modificação favicon
+[33m483b5b6[m fix: remover importação não utilizada do BiShoppingBag
+[33m91c4bb0[m[33m ([m[1;33mtag: [m[1;33mv1.0.0[m[33m)[m Merge branch 'development'
+[33md716577[m Adiciona integração com Vercel Speed Insights para monitoramento de desempenho e atualiza layout com fontes e metadados de SEO
+[33m907b61a[m Merge pull request #2 from RainerTeixeira/layout-update
+[33m99035ae[m Alterações visuais significativas: layout atualizado, design dos botões melhorado e nova paleta de cores aplicada.
+[33m9a6ab6f[m Melhoria: redesign completo do layout e dos estilos do site.
+[33mf7a45b5[m Ajustes visuais e layout da página Next
+[33m719c26b[m Merge pull request #1 from RainerTeixeira/css-test
+[33m7c2cd70[m removendo espacos
+[33m1183e2f[m Ajustes visuais e layout da página Next
+[33m4ce41f4[m Ajustes visuais e layout da página Next
+[33m7821cd0[m Refatorar página do blog para remover importação de fonte não utilizada e otimizar o código
+[33med80dcc[m Refatorar página do blog para remover importação de fonte não utilizada e otimizar o código
+[33m7291c21[m Corrige erro de Link no blog: Atualiza a estrutura de navegação sem usar o <a> dentro do <Link>
+[33m154c848[m Refatorar estrutura de pastas, mover favicon e adicionar páginas About e Contact
+[33m58d47f3[m Atualização do README com descrição completa do portfólio
+[33mdb8b097[m Initial commit from Create Next App
