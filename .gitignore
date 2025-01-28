@@ -1,44 +1,50 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Veja https://help.github.com/articles/ignoring-files/ para mais informações sobre como ignorar arquivos.
 
-# dependencies
+# dependências
 /node_modules
 node_modules/
 /.pnp
 .pnp.*
-.yarn/*
+/yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
 
-# testing
+# testes
 /coverage
 
 # next.js
 /.next/
 /out/
 
-# production
+# produção
 /build
 
-# misc
+# arquivos diversos
 .DS_Store
 *.pem
 
-# debug
+# logs de debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# env files (can opt-in for committing if needed)
+# arquivos de ambiente (pode optar por comitar se necessário)
 .env*
 
 # vercel
 .vercel
 
-# typescript
+# arquivos TypeScript
 *.tsbuildinfo
 next-env.d.ts
 
+# Streams alternativos de dados no Windows (opcional)
 Zone.Identifier
+
+# pasta dist (artefatos de build, não devem ser comitados)
 dist/
+
+# pasta serverless (arquivos temporários e de configuração do Serverless Framework)
+.serverless/
