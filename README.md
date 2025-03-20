@@ -13,7 +13,7 @@ Este projeto foi criado com a intenção de ser um **portfólio pessoal profissi
 - Aprender mais sobre **Next.js**, **Vercel**, **Tailwind CSS** e **TypeScript**.
 - Garantir que o site seja rápido, responsivo e facilmente escalável.
 
-## 🚀 Tecnologias Utilizadas
+## :rocket:  Tecnologias Utilizadas
 
 Este projeto foi desenvolvido com uma série de tecnologias modernas, que permitem alta performance, facilidade de manutenção e ótimo desempenho. Aqui estão as tecnologias que usei e o motivo de tê-las escolhido:
 
