@@ -6,8 +6,24 @@ import { useParams } from "next/navigation";
 import SEO from "../../../components/blog/seo/Seo";
 import Image from "next/image";
 
+interface PostData {
+    title: string;
+    description: string;
+    featuredImageURL: string;
+    canonical: string;
+    publishDate: string;
+    modifiedDate?: string;
+    readingTime: number;
+    views: number;
+    contentHTML: string;
+    categoryId: string;
+    subcategoryId: string;
+    status: string;
+    postId: string;
+}
+
 const PostPage = () => {
-    const [postData, setPostData] = useState<any>(null);
+    const [postData, setPostData] = useState<PostData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const params = useParams();
