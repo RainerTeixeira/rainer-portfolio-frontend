@@ -17,8 +17,8 @@ interface ApiResponse {
     data: {
         data: {
             data: Post[]; // Dados dos posts estão aqui
-            total: number;
-            hasMore: boolean;
+        total: number;
+        hasMore: boolean;
             nextKey: string | null;
         };
         timestamp: string;
@@ -62,7 +62,7 @@ const PostList: React.FC<{ limit: number }> = ({ limit }) => {
 
     useEffect(() => {
         loadPosts();
-    }, []);
+    }, []); // Carregar posts na montagem do componente
 
     return (
         <div>
@@ -72,7 +72,7 @@ const PostList: React.FC<{ limit: number }> = ({ limit }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.map((post, index) => (
                     <PostCard
-                        key={`${post.postId}-${index}`} // Garante que a chave seja única
+                        key={`${post.postId}-${index}`}
                         title={post.title}
                         summary={post.description}
                         imageUrl={post.featuredImageURL || ""} // Garante que imageUrl não seja undefined
