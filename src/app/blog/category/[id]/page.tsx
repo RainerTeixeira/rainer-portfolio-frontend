@@ -98,6 +98,10 @@ const PostPage: React.FC = () => {
         return new Date(date).toLocaleDateString("pt-BR", options);
     };
 
+    const isValidImageUrl = (url: string) => {
+        return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+    };
+
     return (
         <>
             <SEO
@@ -112,7 +116,7 @@ const PostPage: React.FC = () => {
 
             <div className="max-w-3xl mx-auto p-6 space-y-8">
                 <div className="relative h-72 bg-gray-100 rounded-lg overflow-hidden">
-                    {post.imageUrl ? (
+                    {post.imageUrl && isValidImageUrl(post.imageUrl) ? (
                         <Image
                             src={post.imageUrl}
                             alt={`Imagem de capa para ${post.title}`}

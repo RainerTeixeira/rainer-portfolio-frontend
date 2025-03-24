@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import PostList from "@/app/blog/PostList/PostList";
+import React from 'react';
+import PostList from '@/app/blog/PostList/PostList';
 
 /**
  * Componente PostListPage.

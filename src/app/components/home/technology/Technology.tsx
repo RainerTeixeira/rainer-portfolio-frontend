@@ -53,13 +53,15 @@ const Features = () => {
             data-aos-anchor-placement="top-center"
           >
             <div className="p-6 hover:bg-white rounded-lg transition-all duration-200">
-              <Image
-                src={feature.imgSrc}
-                alt={feature.title}
-                className="rounded-3xl"
-                width={feature.width}
-                height={feature.height}
-              />
+              {feature.imgSrc && (
+                <Image
+                  src={feature.imgSrc}
+                  alt={feature.title}
+                  className="rounded-3xl"
+                  width={feature.width}
+                  height={feature.height}
+                />
+              )}
               <h1 className="mt-[1.5rem] text-center text-[24px] text-black font-semibold">
                 {feature.title}
               </h1>
