@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   images: {
     remotePatterns: [
       {
@@ -28,4 +28,9 @@ module.exports = {
       },
     ],
   },
+  experimental: {
+    allowedDevOrigins: ["http://10.0.0.87:3001"], // Adicione o domínio permitido aqui
+  },
 };
+
+module.exports = nextConfig;

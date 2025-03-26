@@ -1,12 +1,13 @@
 // src/app/layout.tsx
 import "./styles/globals.css";
-import { Barlow_Condensed } from "next/font/google";
+import { Barlow_Condensed } from "@next/font/google";
 import Footer from "./components/footer/Footer";
 import ResponsiveNav from "./components/navigation/ResponsiveNav";
 
 const barlowCondensed = Barlow_Condensed({
-    weight: ["300", "400", "500", "600", "700", "800"],
+    weight: ["400", "700"],
     subsets: ["latin"],
+    display: "swap",
 });
 
 export const metadata = {
@@ -37,8 +38,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="pt-BR">
-            <body className={`${barlowCondensed.className} bg-gray-50 text-gray-900`}>
+        <html lang="pt-BR" className={barlowCondensed.className}>
+            <body className="bg-gray-50 text-gray-900">
                 <ResponsiveNav />
                 <main className="min-h-screen">{children}</main>
                 <Footer />
