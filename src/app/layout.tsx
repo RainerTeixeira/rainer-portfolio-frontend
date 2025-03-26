@@ -1,6 +1,6 @@
 // src/app/layout.tsx
 import "./styles/globals.css";
-import { Barlow_Condensed } from "@next/font/google";
+import { Barlow_Condensed } from "next/font/google";
 import Footer from "./components/footer/Footer";
 import ResponsiveNav from "./components/navigation/ResponsiveNav";
 
