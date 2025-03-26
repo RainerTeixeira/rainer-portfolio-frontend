@@ -62,7 +62,7 @@ const PostList: React.FC<{ limit: number }> = ({ limit }) => {
 
     useEffect(() => {
         loadPosts();
-    }, []); // Carregar posts na montagem do componente
+    }, [loadPosts]); // Adicionada a dependência 'loadPosts'
 
     return (
         <div>
