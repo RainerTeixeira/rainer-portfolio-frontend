@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PostCard from "@/app/components/blog/postCard/PostCard";
 
 interface Post {
@@ -35,7 +35,7 @@ const PostList: React.FC<{ limit: number }> = ({ limit }) => {
 
     const API_URL = `http://localhost:4000/blog/posts?limit=${limit}`;
 
-    const loadPosts = async () => {
+    const loadPosts = useCallback(async () => {
         if (loading) return;
 
         try {
@@ -47,7 +47,6 @@ const PostList: React.FC<{ limit: number }> = ({ limit }) => {
 
             const result: ApiResponse = await response.json();
 
-            // Acesse os posts corretamente: result.data.data.data
             const postsData = result.data?.data?.data || [];
             const newNextKey = result.data?.data?.nextKey;
 
@@ -58,11 +57,11 @@ const PostList: React.FC<{ limit: number }> = ({ limit }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [loading, nextKey, API_URL]);
 
     useEffect(() => {
         loadPosts();
-    }, [loadPosts]); // Adicionada a dependência 'loadPosts'
+    }, [loadPosts]);
 
     return (
         <div>
