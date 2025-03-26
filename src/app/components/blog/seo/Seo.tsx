@@ -14,6 +14,7 @@ interface SEOProps {
     twitterImage?: string;
     publishedTime?: string;
     author?: string;
+    canonical?: string; // Adicionando a propriedade canonical
 }
 
 const SEO: React.FC<SEOProps> = ({
@@ -27,6 +28,7 @@ const SEO: React.FC<SEOProps> = ({
     twitterImage,
     publishedTime,
     author = "Nome do Autor", // Substitua pelo autor real, se disponível
+    canonical,
 }) => {
     return (
         <Head>
@@ -45,6 +47,7 @@ const SEO: React.FC<SEOProps> = ({
             {/* Twitter Cards meta tags */}
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:image" content={twitterImage || ogImage || "/images/default-og-image.jpg"} />
+            {canonical && <link rel="canonical" href={canonical} />}
         </Head>
     );
 };
