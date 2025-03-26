@@ -5,8 +5,38 @@ import { useParams } from "next/navigation";
 import SEO from "@components/blog/seo/Seo";
 import CommentSection from "@/app/components/CommentSection/CommentSection";
 
+interface Post {
+    title: string;
+    description?: string;
+    featuredImageURL?: string;
+    publishDate: string;
+    views: number;
+    contentHTML: string;
+    postId: string;
+}
+
+interface Author {
+    name: string;
+    socialProof: {
+        linkdin?: string;
+        github?: string;
+        facebook?: string;
+    };
+}
+
+interface Category {
+    name: string;
+}
+
+interface PostData {
+    post: Post;
+    author: Author;
+    category: Category;
+    subcategory: Category;
+}
+
 const PostPage = () => {
-    const [postData, setPostData] = useState<Record<string, unknown> | null>(null);
+    const [postData, setPostData] = useState<PostData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const params = useParams();
