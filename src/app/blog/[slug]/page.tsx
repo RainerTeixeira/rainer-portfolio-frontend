@@ -83,9 +83,8 @@ const PostPage = () => {
         <>
             <SEO
                 title={post.title}
-                description={post.title}
-                ogImage=""
-                canonical={`/blog/posts/${post.postId}`}
+                description={post.description || post.title}
+                ogImage={post.featuredImageURL || ""}
             />
 
             <main className="container mx-auto px-4 py-8 max-w-4xl">
