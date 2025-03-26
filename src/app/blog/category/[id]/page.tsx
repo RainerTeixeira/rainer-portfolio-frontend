@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import SEO from "../../../components/blog/seo/Seo"; // Componente SEO
 import Image from "next/image"; // Importando o componente Imagem
+import CategoryAside from "../../../components/blog/aside/CategoryAside"; // Importando o componente CategoryAside
 
 const API_URL = "http://localhost:4000/blog/posts";
 
@@ -197,6 +198,8 @@ const PostPage: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            <CategoryAside /> {/* Adicionando o componente CategoryAside */}
         </>
     );
 };
