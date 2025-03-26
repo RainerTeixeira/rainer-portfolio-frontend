@@ -3,11 +3,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import SEO from "@components/blog/seo/Seo";
-import Image from "next/image";
 import CommentSection from "@/app/components/CommentSection/CommentSection";
 
 const PostPage = () => {
-    const [postData, setPostData] = useState<any | null>(null);
+    const [postData, setPostData] = useState<Record<string, any> | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const params = useParams();
@@ -78,7 +77,7 @@ const PostPage = () => {
         );
     }
 
-    const { post, author, category, subcategory, comments } = postData;
+    const { post, author, category, subcategory } = postData;
 
     return (
         <>
