@@ -1,82 +1,94 @@
-import React, { useEffect, useState } from "react";
-// import { useRouter } from "next/navigation"; // Comentando a importação de useRouter
+"use client";
+
+import React, { useEffect, useState, useCallback } from "react";
 import PostCard from "@/app/components/blog/postCard/PostCard";
 
-const TOTAL_POSTS = 5;
-const BASE_URL = "/Post/post-";
-
 interface Post {
-    id: number;
+    postId: string;
     title: string;
-    summary: string;
-    imageUrl?: string;
+    description: string;
+    publishDate: string;
+    slug: string;
+    featuredImageURL?: string;
 }
 
-const PostListPage: React.FC = () => {
+interface ApiResponse {
+    success: boolean;
+    data: {
+        data: {
+            data: Post[];
+            total: number;
+            hasMore: boolean;
+            nextKey: string | null;
+        };
+        timestamp: string;
+        path: string;
+        statusCode: number;
+    };
+}
+
+const PostList: React.FC<{ limit: number }> = ({ limit }) => {
     const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [nextKey, setNextKey] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    // const router = useRouter(); // Comentando a inicialização do router
+
+    const API_URL = `http://localhost:4000/blog/posts?limit=${limit}`;
+
+    const loadPosts = useCallback(async () => {
+        if (loading || !API_URL) return; // Evitar chamadas repetidas
+        try {
+            setLoading(true);
+            const url = nextKey ? `${API_URL}&nextKey=${encodeURIComponent(nextKey)}` : API_URL;
+            const response = await fetch(url);
+
+            if (!response.ok) throw new Error(`Erro HTTP! Status: ${response.status}`);
+
+            const result: ApiResponse = await response.json();
+            const postsData = result.data?.data?.data || [];
+            const newNextKey = result.data?.data?.nextKey;
+
+            setPosts((prev) => [...prev, ...postsData]);
+            setNextKey(newNextKey);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Erro desconhecido");
+        } finally {
+            setLoading(false);
+        }
+    }, [loading, nextKey, API_URL]);
 
     useEffect(() => {
-        const loadPosts = async () => {
-            const loadedPosts: Post[] = [];
-
-            try {
-                for (let i = 1; i <= TOTAL_POSTS; i++) {
-                    const response = await fetch(`${BASE_URL}${i}.json`);
-                    if (!response.ok) {
-                        throw new Error(`Erro ao carregar o post ${i}`);
-                    }
-                    const data: Post = await response.json();
-                    loadedPosts.push(data);
-                }
-                setPosts(loadedPosts);
-            } catch (err) {
-                if (err instanceof Error) {
-                    setError(`Falha ao carregar os posts: ${err.message}`);
-                    console.error(err);
-                } else {
-                    setError("Um erro desconhecido ocorreu.");
-                    console.error(err);
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadPosts();
-    }, []);
-
-    // Função handlePostClick comentada
-    // const handlePostClick = (postId: number) => {
-    //     router.push(`/posts/${postId}`);
-    // };
-
-    if (loading) {
-        return <div className="text-center text-gray-500">Carregando...</div>;
-    }
-
-    if (error) {
-        return <div className="text-center text-red-500">{error}</div>;
-    }
+        if (posts.length === 0 && !loading) {
+            loadPosts(); // Carregar posts apenas uma vez
+        }
+    }, [posts.length, loading, loadPosts]);
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <h2 className="text-2xl font-bold mb-6 text-center">Últimos Posts</h2>
+        <div>
+            {loading && posts.length === 0 && <div>Carregando...</div>}
+            {error && <div className="text-red-500">{error}</div>}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {posts.map((post) => (
+                {posts.map((post, index) => (
                     <PostCard
-                        key={post.id}
+                        key={`${post.postId}-${index}`}
                         title={post.title}
-                        summary={post.summary}
-                        imageUrl={post.imageUrl}
-                        postId={String(post.id)}
+                        summary={post.description}
+                        imageUrl={post.featuredImageURL || ""}
+                        slug={post.slug}
                     />
                 ))}
             </div>
+            {nextKey && !loading && (
+                <button
+                    onClick={loadPosts}
+                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                    Carregar mais
+                </button>
+            )}
+            {!nextKey && !loading && <div className="mt-4 text-gray-500">Fim dos posts</div>}
         </div>
     );
 };
 
-export default PostListPage;
+export default PostList;

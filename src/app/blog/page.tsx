@@ -1,72 +1,43 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-//import { useRouter } from "next/navigation"; // Comentei o useRouter
-import PostCard from "@/app/components/blog/postCard/PostCard";
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 
-const TOTAL_POSTS = 5;
-const BASE_URL = "/Post/post-";
-
-interface Post {
-    id: number;
-    title: string;
-    summary: string;
-    imageUrl?: string;
-}
-
-const PostListPage: React.FC = () => {
-    const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(true);
-    // const router = useRouter(); // Comentei o hook do router
+const BlogPage = () => {
+    const [posts, setPosts] = useState<any[]>([]);
 
     useEffect(() => {
-        const loadPosts = async () => {
-            const loadedPosts: Post[] = [];
-
+        const fetchPosts = async () => {
             try {
-                for (let i = 1; i <= TOTAL_POSTS; i++) {
-                    const response = await fetch(`${BASE_URL}${i}.json`);
-                    if (!response.ok) {
-                        throw new Error(`Erro ao carregar o post ${i}`);
-                    }
-                    const data: Post = await response.json();
-                    loadedPosts.push(data);
-                }
-                setPosts(loadedPosts);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
+                const res = await fetch('http://localhost:4000/blog/posts?limit=10');
+                const data = await res.json();
+                setPosts(data.data?.data?.data || []);
+            } catch (error) {
+                console.error('Erro ao buscar posts:', error);
             }
         };
 
-        loadPosts();
+        fetchPosts();
     }, []);
-
-    // const handlePostClick = (postId: number) => { // Comentei o handlePostClick
-    //     router.push(`/posts/${postId}`);
-    // };
-
-    if (loading) {
-        return <div className="text-center text-gray-500">Carregando...</div>;
-    }
 
     return (
         <div className="max-w-4xl mx-auto p-6">
-            <h2 className="text-2xl font-bold mb-6 text-center">Últimos Posts</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <h2 className="text-3xl font-extrabold mb-8 text-center text-gray-800">
+                Últimos Posts
+            </h2>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.map((post) => (
-                    <PostCard
-                        key={post.id}
-                        title={post.title}
-                        summary={post.summary}
-                        imageUrl={post.imageUrl}
-                        postId={String(post.id)}
-                    />
+                    <li key={post.postId} className="border rounded-lg p-4 shadow-md">
+                        <h3 className="text-xl font-bold mb-2">{post.title}</h3>
+                        <p className="text-gray-600 mb-4">{post.description}</p>
+                        <Link href={`/blog/${post.slug}`}>
+                            Leia mais
+                        </Link>
+                    </li>
                 ))}
-            </div>
+            </ul>
         </div>
     );
 };
 
-export default PostListPage;
+export default BlogPage;

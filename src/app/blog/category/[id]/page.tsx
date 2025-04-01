@@ -4,6 +4,9 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import SEO from "../../../components/blog/seo/Seo"; // Componente SEO
 import Image from "next/image"; // Importando o componente Imagem
+import CategoryAside from "../../../components/blog/aside/CategoryAside"; // Importando o componente CategoryAside
+
+const API_URL = "http://localhost:4000/blog/posts";
 
 interface Section {
     heading: string;
@@ -28,11 +31,11 @@ interface Author {
 }
 
 interface Post {
-    id: number;
+    postId: string;
     title: string;
-    summary: string;
+    description: string;
     content: string;
-    date: string;
+    publishDate: string;
     sections: Section[];
     imageUrl?: string;
     tags?: string[];
@@ -54,13 +57,12 @@ const PostPage: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const { id } = useParams();
-    const jsonUrl = id ? `/Post/post-${id}.json` : null;
 
     const loadPost = useCallback(async () => {
-        if (jsonUrl) {
+        if (id) {
             try {
                 setLoading(true);
-                const response = await fetch(jsonUrl);
+                const response = await fetch(`${API_URL}/${id}`);
                 if (!response.ok) throw new Error("Erro ao carregar o post.");
                 const data: Post = await response.json();
                 setPost(data);
@@ -70,7 +72,7 @@ const PostPage: React.FC = () => {
                 setLoading(false);
             }
         }
-    }, [jsonUrl]);
+    }, [id]);
 
     useEffect(() => {
         loadPost();
@@ -97,21 +99,25 @@ const PostPage: React.FC = () => {
         return new Date(date).toLocaleDateString("pt-BR", options);
     };
 
+    const isValidImageUrl = (url: string) => {
+        return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+    };
+
     return (
         <>
             <SEO
                 title={post.title}
-                description={post.summary}
+                description={post.description}
                 ogTitle={post.title}
-                ogDescription={post.summary}
+                ogDescription={post.description}
                 ogImage={post.imageUrl || ''}
-                publishedTime={post.date}
+                publishedTime={post.publishDate}
                 author={post.author.name || 'Autor desconhecido'}
             />
 
             <div className="max-w-3xl mx-auto p-6 space-y-8">
                 <div className="relative h-72 bg-gray-100 rounded-lg overflow-hidden">
-                    {post.imageUrl ? (
+                    {post.imageUrl && isValidImageUrl(post.imageUrl) ? (
                         <Image
                             src={post.imageUrl}
                             alt={`Imagem de capa para ${post.title}`}
@@ -127,12 +133,12 @@ const PostPage: React.FC = () => {
                 </div>
 
                 <h1 className="text-4xl font-extrabold text-gray-800 text-center">{post.title}</h1>
-                <p className="text-gray-600 text-center text-lg mt-2">{formatDate(post.date)}</p>
+                <p className="text-gray-600 text-center text-lg mt-2">{formatDate(post.publishDate)}</p>
                 {post.author.name && <p className="text-center text-lg mt-4">{post.author.name}</p>}
                 {post.author.bio && <p className="text-center text-gray-600 mt-2">{post.author.bio}</p>}
 
                 <div className="prose max-w-none">
-                    <p>{post.content}</p>
+                    <div dangerouslySetInnerHTML={{ __html: post.content }} /> {/* Corrigido */}
                 </div>
 
                 <div>
@@ -192,6 +198,8 @@ const PostPage: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            <CategoryAside /> {/* Adicionando o componente CategoryAside */}
         </>
     );
 };
