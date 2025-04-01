@@ -16,9 +16,9 @@ interface ApiResponse {
     success: boolean;
     data: {
         data: {
-            data: Post[]; // Dados dos posts estão aqui
-        total: number;
-        hasMore: boolean;
+            data: Post[];
+            total: number;
+            hasMore: boolean;
             nextKey: string | null;
         };
         timestamp: string;
@@ -36,8 +36,7 @@ const PostList: React.FC<{ limit: number }> = ({ limit }) => {
     const API_URL = `http://localhost:4000/blog/posts?limit=${limit}`;
 
     const loadPosts = useCallback(async () => {
-        if (loading) return;
-
+        if (loading || !API_URL) return; // Evitar chamadas repetidas
         try {
             setLoading(true);
             const url = nextKey ? `${API_URL}&nextKey=${encodeURIComponent(nextKey)}` : API_URL;
@@ -46,7 +45,6 @@ const PostList: React.FC<{ limit: number }> = ({ limit }) => {
             if (!response.ok) throw new Error(`Erro HTTP! Status: ${response.status}`);
 
             const result: ApiResponse = await response.json();
-
             const postsData = result.data?.data?.data || [];
             const newNextKey = result.data?.data?.nextKey;
 
@@ -60,36 +58,35 @@ const PostList: React.FC<{ limit: number }> = ({ limit }) => {
     }, [loading, nextKey, API_URL]);
 
     useEffect(() => {
-        loadPosts();
-    }, [loadPosts]);
+        if (posts.length === 0 && !loading) {
+            loadPosts(); // Carregar posts apenas uma vez
+        }
+    }, [posts.length, loading, loadPosts]);
 
     return (
         <div>
             {loading && posts.length === 0 && <div>Carregando...</div>}
             {error && <div className="text-red-500">{error}</div>}
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.map((post, index) => (
                     <PostCard
                         key={`${post.postId}-${index}`}
                         title={post.title}
                         summary={post.description}
-                        imageUrl={post.featuredImageURL || ""} // Garante que imageUrl não seja undefined
-                        slug={post.slug} // Passa o slug corretamente
+                        imageUrl={post.featuredImageURL || ""}
+                        slug={post.slug}
                     />
                 ))}
             </div>
-
-            {nextKey ? (
+            {nextKey && !loading && (
                 <button
                     onClick={loadPosts}
                     className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
                 >
                     Carregar mais
                 </button>
-            ) : (
-                !loading && <div className="mt-4 text-gray-500">Fim dos posts</div>
             )}
+            {!nextKey && !loading && <div className="mt-4 text-gray-500">Fim dos posts</div>}
         </div>
     );
 };
