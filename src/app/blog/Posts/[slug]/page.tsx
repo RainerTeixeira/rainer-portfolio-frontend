@@ -150,7 +150,7 @@ const PostPage = () => {
 
                     <section
                         className="prose lg:prose-lg max-w-none"
-                        dangerouslySetInnerHTML={{ __html: postData.contentHTML }}
+                        dangerouslySetInnerHTML={{ __html: postData.contentHTML }} // Corrigido para o formato correto
                     />
 
                     <footer className="mt-8 pt-6 border-t border-gray-200">

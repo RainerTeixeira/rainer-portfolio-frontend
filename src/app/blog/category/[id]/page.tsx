@@ -138,7 +138,7 @@ const PostPage: React.FC = () => {
                 {post.author.bio && <p className="text-center text-gray-600 mt-2">{post.author.bio}</p>}
 
                 <div className="prose max-w-none">
-                    <p>{post.content}</p>
+                    <div dangerouslySetInnerHTML={{ __html: post.content }} /> {/* Corrigido */}
                 </div>
 
                 <div>
