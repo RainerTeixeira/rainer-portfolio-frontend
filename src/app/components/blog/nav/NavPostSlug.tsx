@@ -7,7 +7,7 @@ interface TocItem {
     id: string;
 }
 
-const TableOfContents = ({ contentHTML }: { contentHTML: string }) => {
+const NavPostSlug = ({ contentHTML }: { contentHTML: string }) => {
     const [toc, setToc] = useState<TocItem[]>([]);
 
     useEffect(() => {
@@ -25,11 +25,12 @@ const TableOfContents = ({ contentHTML }: { contentHTML: string }) => {
 
     return (
         toc.length > 0 && (
-            <nav className="toc"> {/* Removidos todos os estilos */}
+            <nav className="bg-white rounded-lg shadow-md p-6 lg:sticky lg:top-8 h-fit mb-6">
+                <h2 className="text-lg font-semibold mb-4 border-b pb-2 text-gray-800">Conteúdo:</h2>
                 <ul className="list-none pl-0">
                     {toc.map((item) => (
                         <li key={item.id} className="mb-2">
-                            <a href={`#${item.id}`}> {/* Removido o estilo do link */}
+                            <a href={`#${item.id}`} className="text-blue-600 hover:underline">
                                 {item.text}
                             </a>
                         </li>
@@ -40,4 +41,4 @@ const TableOfContents = ({ contentHTML }: { contentHTML: string }) => {
     );
 };
 
-export default TableOfContents;
+export default NavPostSlug;
