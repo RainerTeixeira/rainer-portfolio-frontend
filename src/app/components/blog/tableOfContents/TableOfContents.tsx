@@ -13,11 +13,11 @@ const TableOfContents = ({ contentHTML }: { contentHTML: string }) => {
     useEffect(() => {
         const parser = new DOMParser();
         const doc = parser.parseFromString(contentHTML, 'text/html');
-        const headers = Array.from(doc.querySelectorAll('h2, h3, h4')); // Seleciona todos os cabeçalhos
+        const headers = Array.from(doc.querySelectorAll('h2, h3, h4'));
 
         const tocItems = headers.map((header) => ({
             text: header.textContent || '',
-            id: header.id || header.textContent?.toLowerCase().replace(/\s+/g, '-'), // Cria um ID único para cada cabeçalho
+            id: header.id || header.textContent?.toLowerCase().replace(/\s+/g, '-'),
         }));
 
         setToc(tocItems);
@@ -25,12 +25,11 @@ const TableOfContents = ({ contentHTML }: { contentHTML: string }) => {
 
     return (
         toc.length > 0 && (
-            <nav className="toc w-1/4 bg-gray-100 p-4 rounded-lg shadow-md">
-                <h2 className="text-lg font-bold mb-4">Conteúdo</h2>
-                <ul className="list-inside list-disc">
+            <nav className="toc"> {/* Removidos todos os estilos */}
+                <ul className="list-none pl-0">
                     {toc.map((item) => (
-                        <li key={item.id}>
-                            <a href={`#${item.id}`} className="text-blue-600 hover:underline">
+                        <li key={item.id} className="mb-2">
+                            <a href={`#${item.id}`}> {/* Removido o estilo do link */}
                                 {item.text}
                             </a>
                         </li>
