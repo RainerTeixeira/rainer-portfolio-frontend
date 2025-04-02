@@ -1,7 +1,6 @@
-// src\app\components\blog\aside\CategoryAside.tsx
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 interface Subcategory {
     subcategoryId: string;
@@ -14,39 +13,27 @@ interface Category {
     subcategories: Subcategory[];
 }
 
+const mockCategories: Category[] = [
+    {
+        categoryId: "1",
+        name: "Tecnologia",
+        subcategories: [
+            { subcategoryId: "1-1", name: "Desenvolvimento Web" },
+            { subcategoryId: "1-2", name: "Inteligência Artificial" }
+        ]
+    },
+    {
+        categoryId: "2",
+        name: "Saúde",
+        subcategories: [
+            { subcategoryId: "2-1", name: "Nutrição" },
+            { subcategoryId: "2-2", name: "Exercícios" }
+        ]
+    }
+];
+
 const CategoryAside: React.FC = () => {
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const response = await fetch('http://localhost:4000/blog/category');
-                if (!response.ok) throw new Error('Erro ao carregar categorias');
-                const data = await response.json();
-                setCategories(data);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Erro desconhecido');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCategories();
-    }, []);
-
-    if (loading) {
-        return <div>Carregando categorias...</div>;
-    }
-
-    if (error) {
-        return <div className="text-red-500">{error}</div>;
-    }
-
-    if (categories.length === 0) {
-        return <div>Nenhuma categoria encontrada.</div>;
-    }
+    const [categories] = useState<Category[]>(mockCategories);
 
     return (
         <aside className="p-4 bg-gray-100 rounded-lg">
