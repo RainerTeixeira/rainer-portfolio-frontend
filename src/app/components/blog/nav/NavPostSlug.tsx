@@ -17,7 +17,7 @@ const NavPostSlug = ({ contentHTML }: { contentHTML: string }) => {
 
         const tocItems = headers.map((header) => ({
             text: header.textContent || '',
-            id: header.id || header.textContent?.toLowerCase().replace(/\s+/g, '-'),
+            id: header.id || (header.textContent?.toLowerCase().replace(/\s+/g, '-') || 'unknown-id'),
         }));
 
         setToc(tocItems);
