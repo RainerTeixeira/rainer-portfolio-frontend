@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PostCard from "@/app/components/blog/postCard/PostCard";
 import NavPostList from "@/app/components/blog/nav/NavPostList";
 import AsidePostList from "@/app/components/blog/aside/AsidePostList";
-import { fetchPosts } from "@/app/lib/api/getPosts";
+import { fetchPosts, Post } from "@/app/lib/api/getPosts";
 
 const BlogPage: React.FC = () => {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState<Post[]>([]);
     const [nextKey, setNextKey] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const loadPosts = async () => {
+    const loadPosts = useCallback(async () => {
         if (loading) return;
         try {
             setLoading(true);
@@ -24,7 +24,7 @@ const BlogPage: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [nextKey, loading]);
 
     useEffect(() => {
         if (posts.length === 0 && !loading) {
