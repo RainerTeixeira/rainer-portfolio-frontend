@@ -5,6 +5,7 @@ export interface Post {
     publishDate: string;
     slug: string;
     featuredImageURL?: string;
+    summary: string; // Adicionando a propriedade summary
 }
 
 interface ApiResponse {

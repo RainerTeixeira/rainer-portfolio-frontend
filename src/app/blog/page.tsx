@@ -57,7 +57,13 @@ const BlogPage: React.FC = () => {
                     {/* Grid responsivo de posts */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {posts.map((post, index) => (
-                            <PostCard key={`${post.postId}-${index}`} {...post} />
+                            <PostCard
+                                key={`${post.postId}-${index}`}
+                                title={post.title}
+                                summary={post.summary} // Passando a propriedade summary
+                                imageUrl={post.featuredImageURL}
+                                slug={post.slug}
+                            />
                         ))}
                     </div>
 
