@@ -1,84 +1,44 @@
-// src\app\pages\blog\[...slug]\page.tsx
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import SEO from "../../components/blog/seo/Seo";
 import Image from "next/image";
 import AsidePostSlug from "../../components/blog/aside/AsidePostSlug";
 import NavPostSlug from "../../components/blog/nav/NavPostSlug";
 import { ClockIcon, EyeIcon, CalendarDaysIcon, PencilIcon } from '@heroicons/react/24/outline';
-
-interface PostData {
-    title: string;
-    description: string;
-    featuredImageURL: string;
-    canonical: string;
-    publishDate: string;
-    modifiedDate?: string;
-    readingTime: number;
-    views: number;
-    contentHTML: string;
-    categoryId: string;
-    subcategoryId: string;
-    status: string;
-    postId: string;
-}
+import { getPostBySlug, PostData } from "../../lib/api/getPostBySlug";
 
 const PostPage = () => {
     const [postData, setPostData] = useState<PostData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const params = useParams();
-    const slug = Array.isArray(params.slug) ? params.slug.join('/') : params.slug;
+    const { slug } = useParams();
 
-    const loadPost = useCallback(async () => {
-        if (!slug) {
-            setError("Slug do post não encontrado na URL.");
-            setLoading(false);
-            return;
-        }
-        try {
-            setLoading(true);
-            const response = await fetch(`http://localhost:4000/blog/posts/${slug}`);
-            const result = await response.json();
+    console.log("Slug recebido na página:", slug);
 
-            if (!response.ok || !result.success || !result.data?.data?.post) {
-                const errorMessage = result.data?.message || result.message || `Post não encontrado (Status: ${response.status})`;
-                throw new Error(errorMessage);
+    useEffect(() => {
+        const fetchPost = async () => {
+            try {
+                setLoading(true);
+                const post = await getPostBySlug(slug);
+                setPostData(post);
+            } catch (err) {
+                const errorMessage = err instanceof Error ? err.message : "Erro desconhecido.";
+                setError(`Erro ao carregar o post para o slug "${slug}": ${errorMessage}`);
+                console.error("Erro:", err);
+            } finally {
+                setLoading(false);
             }
+        };
 
-            const data = result.data.data;
-            const post = data.post;
-
-            const mappedPost: PostData = {
-                title: post.title || "Título Indisponível",
-                description: post.description || "Descrição indisponível",
-                featuredImageURL: post.featuredImageURL || "",
-                canonical: data.path || `/blog/${slug}`,
-                publishDate: post.publishDate,
-                modifiedDate: post.modifiedDate,
-                readingTime: post.readingTime || 0,
-                views: post.views || 0,
-                contentHTML: post.contentHTML || "<p>Conteúdo indisponível.</p>",
-                categoryId: data.category?.name || "Não categorizado",
-                subcategoryId: data.subcategory?.name || "",
-                status: post.status || "Desconhecido",
-                postId: post.postId || "ID Indisponível",
-            };
-
-            setPostData(mappedPost);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "Erro desconhecido.");
-            console.error("Erro:", err);
-        } finally {
+        if (slug) {
+            fetchPost();
+        } else {
+            setError("Slug não encontrado na URL.");
             setLoading(false);
         }
     }, [slug]);
-
-    useEffect(() => {
-        loadPost();
-    }, [loadPost]);
 
     const formatDate = (dateString: string | undefined) => {
         if (!dateString) return "Data indisponível";
