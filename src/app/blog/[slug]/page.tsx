@@ -102,7 +102,8 @@ const isValidImageUrl = (url: string): boolean =>
 
 const PostPage = () => {
     const { slug } = useParams();
-    const { postData, loading, error } = usePost(slug);
+    const currentSlug = Array.isArray(slug) ? slug[0] : slug;
+    const { postData, loading, error } = usePost(currentSlug);
 
     if (loading) return <LoadingIndicator />;
     if (error) return <ErrorDisplay error={error} />;
