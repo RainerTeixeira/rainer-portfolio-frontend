@@ -1,88 +1,111 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import SEO from "../../components/blog/seo/Seo";
 import Image from "next/image";
 import AsidePostSlug from "../../components/blog/aside/AsidePostSlug";
 import NavPostSlug from "../../components/blog/nav/NavPostSlug";
-import { ClockIcon, EyeIcon, CalendarDaysIcon, PencilIcon } from '@heroicons/react/24/outline';
+import { ClockIcon, EyeIcon, CalendarDaysIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { getPostBySlug, PostData } from "../../lib/api/getPostBySlug";
 
-const PostPage = () => {
+// Hook customizado para carregar os dados do post
+const usePost = (slug: string | undefined) => {
     const [postData, setPostData] = useState<PostData | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const { slug } = useParams();
 
-    console.log("Slug recebido na página:", slug);
-
-    useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                setLoading(true);
-                const post = await getPostBySlug(slug);
-                setPostData(post);
-            } catch (err) {
-                const errorMessage = err instanceof Error ? err.message : "Erro desconhecido.";
-                setError(`Erro ao carregar o post para o slug "${slug}": ${errorMessage}`);
-                console.error("Erro:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (slug) {
-            fetchPost();
-        } else {
+    const fetchPost = useCallback(async () => {
+        if (!slug) {
             setError("Slug não encontrado na URL.");
+            setLoading(false);
+            return;
+        }
+        try {
+            setLoading(true);
+            const post = await getPostBySlug(slug);
+            setPostData(post);
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : "Erro desconhecido.";
+            setError(`Erro ao carregar o post para o slug "${slug}": ${errorMessage}`);
+            console.error("Erro:", err);
+        } finally {
             setLoading(false);
         }
     }, [slug]);
 
-    const formatDate = (dateString: string | undefined) => {
-        if (!dateString) return "Data indisponível";
-        try {
-            const date = new Date(dateString);
-            return date.toLocaleDateString("pt-BR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-            });
-        } catch {
-            return "Data inválida";
-        }
-    };
+    useEffect(() => {
+        fetchPost();
+    }, [fetchPost]);
 
-    const isValidImageUrl = (url: string) => {
-        return url.match(/\.(jpeg|jpg|gif|png|webp)(\?.*)?$/i) !== null;
-    };
+    return { postData, loading, error };
+};
 
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="flex flex-col items-center">
-                    <svg className="animate-spin h-12 w-12 text-blue-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <div className="text-xl font-semibold text-gray-600">Carregando o post...</div>
-                </div>
-            </div>
-        );
+// Componente de carregamento
+const LoadingIndicator = () => (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="flex flex-col items-center">
+            <svg
+                className="animate-spin h-12 w-12 text-blue-500 mb-4"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                aria-label="Carregando..."
+            >
+                <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                ></circle>
+                <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+            </svg>
+            <div className="text-xl font-semibold text-gray-600">Carregando o post...</div>
+        </div>
+    </div>
+);
+
+// Componente de exibição de erro
+const ErrorDisplay = ({ error }: { error: string }) => (
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+        <div className="text-red-600 text-center p-8 rounded-lg bg-red-100 shadow-md max-w-lg">
+            <h2 className="text-xl font-semibold mb-4">Erro ao carregar o post</h2>
+            <p className="text-sm mt-3">{error}</p>
+        </div>
+    </div>
+);
+
+// Função de formatação de datas
+const formatDate = (dateString: string | undefined): string => {
+    if (!dateString) return "Data indisponível";
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("pt-BR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+    } catch {
+        return "Data inválida";
     }
+};
 
-    if (error) {
-        return (
-            <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-                <div className="text-red-600 text-center p-8 rounded-lg bg-red-100 shadow-md max-w-lg">
-                    <h2 className="text-xl font-semibold mb-4">Erro ao carregar o post</h2>
-                    <p className="text-sm mt-3">{error}</p>
-                </div>
-            </div>
-        );
-    }
+// Validação da URL da imagem
+const isValidImageUrl = (url: string): boolean =>
+    /\.(jpeg|jpg|gif|png|webp)(\?.*)?$/i.test(url);
 
+const PostPage = () => {
+    const { slug } = useParams();
+    const { postData, loading, error } = usePost(slug);
+
+    if (loading) return <LoadingIndicator />;
+    if (error) return <ErrorDisplay error={error} />;
     if (!postData) {
         return (
             <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
@@ -105,13 +128,13 @@ const PostPage = () => {
 
             <main className="w-full px-4 sm:px-6 py-12 bg-gray-50 min-h-screen">
                 <div className="mx-auto grid grid-cols-1 lg:grid-cols-[minmax(250px,300px)_1fr_minmax(250px,300px)] gap-10 max-w-[1800px]">
-                    {/* Coluna Esquerda - Conteúdo de Navegação */}
+                    {/* Coluna Esquerda - Navegação interna */}
                     <aside>
                         <NavPostSlug contentHTML={postData.contentHTML} />
                     </aside>
 
-                    {/* Conteúdo Principal do Artigo */}
-                    <article className="bg-white rounded-lg shadow-md p-8 sm:p-10 lg:p-12 min-w-0">
+                    {/* Conteúdo Principal */}
+                    <article className="bg-white rounded-lg shadow-md p-8 sm:p-10 lg:p-12">
                         <header className="mb-8 text-center">
                             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-gray-900">
                                 {postData.title}
@@ -154,25 +177,29 @@ const PostPage = () => {
 
                         <section
                             className="prose prose-lg lg:prose-xl max-w-none text-gray-700
-                                prose-headings:text-gray-900 prose-a:text-blue-600 hover:prose-a:text-blue-800
-                                prose-img:rounded-lg prose-img:shadow-md prose-blockquote:border-l-4
-                                prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:px-6"
+                prose-headings:text-gray-900 prose-a:text-blue-600 hover:prose-a:text-blue-800
+                prose-img:rounded-lg prose-img:shadow-md prose-blockquote:border-l-4
+                prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:px-6"
                             dangerouslySetInnerHTML={{ __html: postData.contentHTML }}
                         />
 
                         <footer className="mt-12 pt-8 border-t border-gray-200 text-sm sm:text-base text-gray-600">
                             <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
                                 {postData.categoryId && (
-                                    <div><strong>Categoria:</strong> {postData.categoryId}</div>
+                                    <div>
+                                        <strong>Categoria:</strong> {postData.categoryId}
+                                    </div>
                                 )}
                                 {postData.subcategoryId && (
-                                    <div><strong>Subcategoria:</strong> {postData.subcategoryId}</div>
+                                    <div>
+                                        <strong>Subcategoria:</strong> {postData.subcategoryId}
+                                    </div>
                                 )}
                             </div>
                         </footer>
                     </article>
 
-                    {/* Coluna Direita - Conteúdo Relacionado */}
+                    {/* Coluna Direita - Posts relacionados */}
                     <aside>
                         <AsidePostSlug />
                     </aside>
