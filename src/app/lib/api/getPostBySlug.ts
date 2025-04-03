@@ -21,26 +21,23 @@ export const getPostBySlug = async (slug: string): Promise<PostData> => {
 
     try {
         const response = await fetch(`http://localhost:4000/blog/posts/${slug}`);
-        console.log("API Response Status:", response.status);
 
         if (!response.ok) {
             const errorBody = await response.text();
-            console.error("Erro na resposta da API:", errorBody);
-            throw new Error(`Erro ao buscar o post. Status: ${response.status}. Detalhes: ${errorBody}`);
+            throw new Error(
+                `Erro ao buscar o post. Status: ${response.status}. Detalhes: ${errorBody}`
+            );
         }
 
         const result = await response.json();
-        console.log("API Response Body:", result);
 
         if (!result.success || !result.data?.data?.post) {
-            const errorMessage = result.data?.message || result.message || `Post não encontrado para o slug "${slug}".`;
+            const errorMessage =
+                result.data?.message || result.message || `Post não encontrado para o slug "${slug}".`;
             throw new Error(errorMessage);
         }
 
-        const post = result.data.data.post;
-        const category = result.data.data.category;
-        const subcategory = result.data.data.subcategory;
-
+        const { post, category, subcategory } = result.data.data;
         return {
             title: post.title || "Título Indisponível",
             description: post.description || "Descrição indisponível",
@@ -48,8 +45,8 @@ export const getPostBySlug = async (slug: string): Promise<PostData> => {
             canonical: result.data.path || `/blog/${slug}`,
             publishDate: post.publishDate,
             modifiedDate: post.modifiedDate,
-            readingTime: 0, // Ajuste conforme necessário
-            views: post.views || 0,
+            readingTime: post.readingTime ?? 0,
+            views: post.views ?? 0,
             contentHTML: post.contentHTML || "<p>Conteúdo indisponível.</p>",
             categoryId: category?.name || "Não categorizado",
             subcategoryId: subcategory?.name || "",
