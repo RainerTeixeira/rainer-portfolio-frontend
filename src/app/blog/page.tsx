@@ -30,7 +30,7 @@ const BlogPage: React.FC = () => {
         if (posts.length === 0 && !loading) {
             loadPosts();
         }
-    }, [posts.length, loading]);
+    }, [posts.length, loading, loadPosts]);
 
     return (
         <main className="w-full px-4 sm:px-6 py-8 bg-gray-50 min-h-screen">
