@@ -1,8 +1,13 @@
+"use client";
+
 import React from "react";
-import Carousel from "react-multi-carousel"; // Importação do Carousel
-import "react-multi-carousel/lib/styles.css"; // Estilos do carousel
-import { FaDocker, FaDatabase, FaJsSquare, FaGitAlt, FaReact, FaNodeJs, FaHtml5, FaWindows, FaAws } from "react-icons/fa";
-import { SiPython, SiKubernetes, SiUbuntu, SiMongodb, SiGrafana, SiZabbix, SiPowershell } from "react-icons/si";
+import dynamic from "next/dynamic"; // carregamento dinâmico para evitar SSR do carousel
+import "react-multi-carousel/lib/styles.css"; // Estilos do carousel (ok importar aqui)
+import { FaDocker, FaDatabase, FaJsSquare, FaGitAlt, FaReact, FaNodeJs, FaHtml5, FaWindows } from "react-icons/fa";
+import { SiPython, SiKubernetes, SiUbuntu, SiMongodb, SiGrafana, SiZabbix, SiPowershell, SiAmazonaws } from "react-icons/si";
+
+// Carrega o Carousel somente no cliente (evita erros no build/SSR)
+const Carousel = dynamic(() => import("react-multi-carousel"), { ssr: false });
 
 // Constantes em maiúsculas
 const ICON_SIZE = 60;
@@ -27,7 +32,7 @@ const responsive = {
 // Interface do tipo das props para o TechnologyCard
 interface TechnologyCardProps {
   title: string;
-  icon: React.ComponentType<{ size: number }>;
+  icon: React.ComponentType<{ size?: number }>;
   description: string;
 }
 
@@ -105,7 +110,7 @@ const PopularTechnologies: React.FC = () => {
           />
           <TechnologyCard
             title="AWS Lambda / Serverless"
-            icon={FaAws}
+            icon={SiAmazonaws}
             description="Desenvolvimento e deploy de funções serverless (AWS Lambda) e integração com pipelines para soluções escaláveis."
           />
           <TechnologyCard
