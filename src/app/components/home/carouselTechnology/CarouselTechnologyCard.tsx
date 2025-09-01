@@ -1,13 +1,8 @@
-"use client";
-
 import React from "react";
-import dynamic from "next/dynamic";
+import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { FaDocker, FaDatabase, FaJsSquare, FaGitAlt, FaReact, FaNodeJs, FaWindows } from "react-icons/fa";
-import { SiPython, SiKubernetes, SiUbuntu, SiMongodb, SiGrafana, SiPowershell } from "react-icons/si";
-
-// Carousel carregado só no cliente
-const Carousel = dynamic(() => import("react-multi-carousel"), { ssr: false });
+import { FaDocker, FaDatabase, FaJsSquare, FaGitAlt, FaReact, FaNodeJs, FaHtml5, FaWindows } from "react-icons/fa";
+import { SiPython, SiKubernetes, SiUbuntu, SiMongodb, SiGrafana } from "react-icons/si";
 
 const ICON_SIZE = 60;
 const CARD_PADDING = "p-6";
@@ -29,7 +24,7 @@ const responsive = {
 
 interface TechnologyCardProps {
   title: string;
-  icon: React.ComponentType<{ size?: number }>;
+  icon: React.ComponentType<{ size: number }>;
   description: string;
 }
 
@@ -51,7 +46,7 @@ const PopularTechnologies: React.FC = () => {
   return (
     <div className="pt-[3rem] pb-[3rem] bg-gradient-to-r from-blue-400 via-indigo-500 to-pink-500">
       <h1 className="heading text-white text-center text-4xl font-bold mb-6">
-        Tecnologias que Utilizo <span className="text-yellow-300">no meu trabalho</span>
+        Tecnologias que Utilizo <span className="text-yellow-300">no Meu Currículo</span>
       </h1>
       <div className="w-[80%] mt-[4rem] mx-auto px-6">
         <Carousel
@@ -65,19 +60,19 @@ const PopularTechnologies: React.FC = () => {
           itemClass="item mx-2"
           showDots={false}
         >
-          <TechnologyCard title="Docker" icon={FaDocker} description="Uso Docker e Docker Compose para padronizar ambientes, criar imagens reprodutíveis e facilitar deploys." />
-          <TechnologyCard title="SQL Avançado" icon={FaDatabase} description="Tuning e otimização de consultas em MySQL/Postgres, modelagem relacional e preparação de dados para relatórios." />
-          <TechnologyCard title="JavaScript" icon={FaJsSquare} description="Desenvolvimento front-end e scripts de automação com JavaScript/TypeScript para interfaces dinâmicas e integrações." />
-          <TechnologyCard title="Git" icon={FaGitAlt} description="Controle de versão e integração com pipelines CI/CD usando GitHub Actions." />
-          <TechnologyCard title="React / Next.js" icon={FaReact} description="Construção de interfaces modernas e performáticas com React e Next.js (SSR/SSG), focando usabilidade e SEO." />
-          <TechnologyCard title="Node.js" icon={FaNodeJs} description="APIs em Node.js para integração com ERPs, tratamento de dados e orquestração de processos backend." />
-          <TechnologyCard title="Python" icon={SiPython} description="Automação, scripts para ETL/backup e integração com APIs." />
-          <TechnologyCard title="PowerShell" icon={SiPowershell} description="Automação administrativa e scripts para administração de Active Directory e backups." />
-          <TechnologyCard title="Ubuntu" icon={SiUbuntu} description="Administração de servidores Linux (Ubuntu) e automação com scripts shell." />
-          <TechnologyCard title="Windows / Active Directory" icon={FaWindows} description="Administração de servidores Windows e gestão de usuários via Active Directory." />
-          <TechnologyCard title="Grafana" icon={SiGrafana} description="Dashboards e visualização de métricas para observabilidade de sistemas e serviços." />
-          <TechnologyCard title="Kubernetes (básico)" icon={SiKubernetes} description="Experiência prática para orquestração de contêineres e deploys escaláveis." />
-          <TechnologyCard title="MongoDB" icon={SiMongodb} description="Bancos NoSQL para armazenar e consumir dados semi-estruturados em integrações." />
+          <TechnologyCard title="Docker" icon={FaDocker} description="Contêinerização para desenvolvimento, deploy e execução de aplicações isoladas e escaláveis." />
+          <TechnologyCard title="SQL Avançado" icon={FaDatabase} description="Criação e otimização de consultas complexas em bancos de dados relacionais, gerando relatórios estratégicos." />
+          <TechnologyCard title="JavaScript" icon={FaJsSquare} description="Desenvolvimento de aplicações web interativas e modernas, com foco na experiência do usuário." />
+          <TechnologyCard title="Git" icon={FaGitAlt} description="Controle de versão distribuído, gerenciamento de código e colaboração eficiente em equipes de desenvolvimento." />
+          <TechnologyCard title="React" icon={FaReact} description="Construção de interfaces dinâmicas, reativas e escaláveis para aplicações web." />
+          <TechnologyCard title="Node.js" icon={FaNodeJs} description="Execução de JavaScript no servidor, desenvolvimento de APIs e aplicações escaláveis." />
+          <TechnologyCard title="HTML5" icon={FaHtml5} description="Estruturação de conteúdo web moderno, semântico e compatível com padrões atuais." />
+          <TechnologyCard title="Kubernetes" icon={SiKubernetes} description="Orquestração de contêineres para automação, escalabilidade e gerenciamento de aplicações." />
+          <TechnologyCard title="Python" icon={SiPython} description="Automação de processos, scripts personalizados e desenvolvimento de aplicações web." />
+          <TechnologyCard title="Windows / PowerShell" icon={FaWindows} description="Automação de tarefas administrativas e gerenciamento de sistemas Windows." />
+          <TechnologyCard title="Ubuntu" icon={SiUbuntu} description="Sistema operacional Linux utilizado em servidores e ambientes de desenvolvimento." />
+          <TechnologyCard title="MongoDB" icon={SiMongodb} description="Banco de dados NoSQL para armazenamento e manipulação de grandes volumes de dados." />
+          <TechnologyCard title="Grafana" icon={SiGrafana} description="Monitoramento e visualização de métricas de infraestrutura e aplicações em tempo real." />
         </Carousel>
       </div>
     </div>
