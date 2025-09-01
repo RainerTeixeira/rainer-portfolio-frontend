@@ -1,10 +1,12 @@
 import React from "react";
 import Image from "next/image";
 
-const SECTION_PADDING_Y = 'pt-[5rem] pb-[3rem]';
-const TITLE_CLASSES = 'heading';
-const DESCRIPTION_CLASSES = 'mt-[1rem] text-gray-600 text-center w-[80%] mx-auto leading-7';
-const CARDS_CONTAINER_CLASSES = 'mt-[5rem] w-[80%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[3rem] items-center';
+const SECTION_PADDING_Y = "pt-[5rem] pb-[3rem]";
+const TITLE_CLASSES = "heading";
+const DESCRIPTION_CLASSES =
+  "mt-[1rem] text-gray-600 text-center w-[80%] mx-auto leading-7";
+const CARDS_CONTAINER_CLASSES =
+  "mt-[5rem] w-[80%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[3rem] items-start";
 
 // Definição do tipo para as props do SkillsCard
 interface SkillsCardProps {
@@ -22,15 +24,15 @@ const SkillsCard = ({ image, name, position, Text }: SkillsCardProps) => {
         alt={name}
         height={400}
         width={400}
-        className="rounded-2xl mx-auto"
+        className="rounded-2xl mx-auto object-cover"
       />
-      <h1 className="text-[40px] text-gray-800 mt-[1.5rem] font-bold">
+      <h3 className="text-[26px] text-gray-800 mt-[1.25rem] font-semibold">
         {name}
-      </h1>
-      <p className="mt-[0.4rem] mb-[0.4rem] px-4 py-1 bg-green-600 text-white mx-auto w-fit font-medium">
+      </h3>
+      <p className="mt-[0.4rem] mb-[0.4rem] px-3 py-1 bg-green-600 text-white inline-block w-auto font-medium rounded">
         {position}
       </p>
-      <p className="text-center md:w-[70%] mx-auto text-gray-600 mt-[1rem]">
+      <p className="text-center md:w-[85%] mx-auto text-gray-600 mt-[1rem] text-sm">
         {Text}
       </p>
     </div>
@@ -39,40 +41,54 @@ const SkillsCard = ({ image, name, position, Text }: SkillsCardProps) => {
 
 const Team = () => {
   return (
-    <div className={SECTION_PADDING_Y}>
-      <h1 className={TITLE_CLASSES}>
+    <section className={SECTION_PADDING_Y} aria-labelledby="skills-title">
+      <h2 id="skills-title" className={TITLE_CLASSES}>
         Conheça Minhas <span className="text-red-600">Habilidades</span>
-      </h1>
+      </h2>
+
       <p className={DESCRIPTION_CLASSES}>
-        Durante minha trajetória em Tecnologia da Informação, adquiri um conjunto sólido de competências técnicas e práticas que me permitem resolver desafios com eficácia e criar soluções inovadoras. Abaixo, apresento as principais áreas em que me especializei ao longo da minha carreira.
+        Sou especialista em automação, integração de sistemas e infraestrutura
+        cloud. Abaixo, algumas áreas de atuação com exemplos práticos do meu
+        trabalho (scripts, integrações, monitoramento e aplicações full-stack).
       </p>
+
       <div className={CARDS_CONTAINER_CLASSES}>
         <div data-aos="fade-left" data-aos-anchor-placement="top-center">
           <SkillsCard
             image="/images/t1.jpg"
-            name="Infraestrutura e Monitoramento"
-            position="Zabbix, Grafana, Docker"
-            Text="Expertise em monitoramento de redes e sistemas com ferramentas avançadas, administração de servidores Linux e Windows, e automação com contêineres Docker para maior eficiência."
+            name="Automação & Integração"
+            position="Python · PowerShell · JavaScript · APIs"
+            Text="Desenvolvo scripts e integrações para ERPs, Active Directory e APIs REST/SOAP, automatizando rotinas operacionais e reduzindo tarefas manuais. Experiência em deploy serverless (AWS Lambda) e pipelines CI/CD para entrega contínua."
           />
         </div>
-        <div data-aos="zoom-in" data-aos-delay="300" data-aos-anchor-placement="top-center">
+
+        <div
+          data-aos="zoom-in"
+          data-aos-delay="300"
+          data-aos-anchor-placement="top-center"
+        >
           <SkillsCard
             image="/images/t2.jpg"
-            name="Desenvolvimento e SQL"
-            position="JavaScript, SQL Avançado"
-            Text="Sólida experiência em desenvolvimento web, criação de scripts personalizados e otimização de consultas SQL complexas para melhorar a eficiência de sistemas."
+            name="Infraestrutura & Monitoramento"
+            position="Docker · Zabbix · Grafana"
+            Text="Administro servidores Linux/Windows, configuro redes e implementei monitoramento com Zabbix e dashboards em Grafana para garantir disponibilidade. Uso Docker e Docker Compose para padronizar ambientes e facilitar deploys."
           />
         </div>
-        <div data-aos="fade-right" data-aos-delay="600" data-aos-anchor-placement="top-center">
+
+        <div
+          data-aos="fade-right"
+          data-aos-delay="600"
+          data-aos-anchor-placement="top-center"
+        >
           <SkillsCard
             image="/images/t3.jpg"
-            name="Servidores Web e Escalabilidade"
-            position="Apache, Nginx"
-            Text="Habilidade em configurar, gerenciar e otimizar servidores web, garantindo alta disponibilidade, desempenho e escalabilidade para aplicações corporativas."
+            name="Full-Stack & Bancos de Dados"
+            position="React · Next.js · Node.js · SQL"
+            Text="Crio aplicações full-stack escaláveis com React/Next.js e APIs em Node.js. Trabalho com modelagem e otimização de consultas SQL (MySQL/Postgres) e preparo dados para geração de relatórios e dashboards estratégicos."
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
