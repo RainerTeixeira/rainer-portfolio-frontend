@@ -1,8 +1,8 @@
 import React from "react";
 import Carousel from "react-multi-carousel"; // Importação do Carousel
 import "react-multi-carousel/lib/styles.css"; // Estilos do carousel
-import { FaDocker, FaDatabase, FaJsSquare, FaGitAlt, FaReact, FaNodeJs, FaHtml5, FaWindows } from "react-icons/fa";
-import { SiPython, SiKubernetes, SiUbuntu, SiJenkins, SiTerraform } from "react-icons/si";
+import { FaDocker, FaDatabase, FaJsSquare, FaGitAlt, FaReact, FaNodeJs, FaHtml5, FaWindows, FaAws } from "react-icons/fa";
+import { SiPython, SiKubernetes, SiUbuntu, SiMongodb, SiGrafana, SiZabbix, SiPowershell } from "react-icons/si";
 
 // Constantes em maiúsculas
 const ICON_SIZE = 60;
@@ -49,7 +49,7 @@ const PopularTechnologies: React.FC = () => {
   return (
     <div className="pt-[3rem] pb-[3rem] bg-gradient-to-r from-blue-400 via-indigo-500 to-pink-500">
       <h1 className="heading text-white text-center text-4xl font-bold mb-6">
-        Tecnologias que Utilizo <span className="text-yellow-300">no Meu Currículo</span>
+        Tecnologias que Utilizo <span className="text-yellow-300">no meu trabalho</span>
       </h1>
       <div className="w-[80%] mt-[4rem] mx-auto px-6">
         <Carousel
@@ -63,19 +63,81 @@ const PopularTechnologies: React.FC = () => {
           itemClass="item mx-2"
           showDots={false}
         >
-          <TechnologyCard title="Docker" icon={FaDocker} description="Tecnologia de contêinerização que facilita o desenvolvimento, o envio e a execução de aplicativos em ambientes isolados e escaláveis." />
-          <TechnologyCard title="SQL Avançado" icon={FaDatabase} description="Especialização no uso de SQL para a criação de consultas complexas e na manipulação de grandes volumes de dados em bancos de dados relacionais." />
-          <TechnologyCard title="JavaScript" icon={FaJsSquare} description="Linguagem essencial para o desenvolvimento de aplicações web interativas, permitindo uma experiência dinâmica para os usuários." />
-          <TechnologyCard title="Git" icon={FaGitAlt} description="Sistema de controle de versão distribuído, amplamente utilizado por equipes de desenvolvimento para rastrear mudanças no código-fonte e colaborar eficientemente." />
-          <TechnologyCard title="React" icon={FaReact} description="Biblioteca JavaScript para construir interfaces de usuário dinâmicas e reativas." />
-          <TechnologyCard title="Node.js" icon={FaNodeJs} description="Ambiente de execução para JavaScript no lado do servidor, permitindo a criação de aplicações escaláveis." />
-          <TechnologyCard title="HTML5" icon={FaHtml5} description="A versão mais recente do HTML, que oferece novos recursos para desenvolvimento web." />
-          <TechnologyCard title="Kubernetes" icon={SiKubernetes} description="Sistema de orquestração de contêineres para automação de implantação e escalabilidade de aplicativos." />
-          <TechnologyCard title="Python" icon={SiPython} description="Linguagem versátil utilizada para automação de processos, scripts personalizados e desenvolvimento web." />
-          <TechnologyCard title="Windows" icon={FaWindows} description="Sistema operacional desenvolvido pela Microsoft, amplamente utilizado em servidores e desktops." />
-          <TechnologyCard title="Ubuntu" icon={SiUbuntu} description="Sistema operacional baseado em Linux, popular para servidores e ambientes de desenvolvimento." />
-          <TechnologyCard title="Jenkins" icon={SiJenkins} description="Plataforma de automação para integração contínua e entrega contínua de software." />
-          <TechnologyCard title="Terraform" icon={SiTerraform} description="Ferramenta de infraestrutura como código (IaC) para provisionamento e gerenciamento de recursos em diversas plataformas." />
+          <TechnologyCard
+            title="Docker"
+            icon={FaDocker}
+            description="Uso Docker e Docker Compose para padronizar ambientes, criar imagens reprodutíveis e facilitar deploys em desenvolvimento e produção."
+          />
+          <TechnologyCard
+            title="SQL Avançado"
+            icon={FaDatabase}
+            description="Tuning e otimização de consultas em MySQL/Postgres, modelagem relacional e preparação de dados para relatórios e dashboards."
+          />
+          <TechnologyCard
+            title="JavaScript"
+            icon={FaJsSquare}
+            description="Desenvolvimento front-end e scripts de automação com JavaScript/TypeScript para interfaces dinâmicas e integrações entre sistemas."
+          />
+          <TechnologyCard
+            title="Git"
+            icon={FaGitAlt}
+            description="Controle de versão, workflows colaborativos e integração com pipelines (GitHub Actions) para CI/CD."
+          />
+          <TechnologyCard
+            title="React / Next.js"
+            icon={FaReact}
+            description="Construção de interfaces modernas e performáticas com React e Next.js (SSR/SSG), focando usabilidade e SEO."
+          />
+          <TechnologyCard
+            title="Node.js"
+            icon={FaNodeJs}
+            description="APIs em Node.js para integração com ERPs, tratamento de dados e orquestração de processos backend."
+          />
+          <TechnologyCard
+            title="Python"
+            icon={SiPython}
+            description="Automação, scripts para ETL/backup e integração com APIs; uso de Python para tasks operacionais e processamento de dados."
+          />
+          <TechnologyCard
+            title="PowerShell"
+            icon={SiPowershell}
+            description="Automação administrativa e scripts para administração de Active Directory, backups e tarefas em ambientes Windows."
+          />
+          <TechnologyCard
+            title="AWS Lambda / Serverless"
+            icon={FaAws}
+            description="Desenvolvimento e deploy de funções serverless (AWS Lambda) e integração com pipelines para soluções escaláveis."
+          />
+          <TechnologyCard
+            title="Zabbix"
+            icon={SiZabbix}
+            description="Implementação de monitoramento de infraestrutura e serviços críticos com Zabbix para alertas e SLA proativo."
+          />
+          <TechnologyCard
+            title="Grafana"
+            icon={SiGrafana}
+            description="Dashboards e visualização de métricas para observabilidade, correlacionando dados de desempenho e disponibilidade."
+          />
+          <TechnologyCard
+            title="MongoDB"
+            icon={SiMongodb}
+            description="Trabalhos com bancos NoSQL para armazenar e consumir conjuntos de dados semi-estruturados em integrações."
+          />
+          <TechnologyCard
+            title="Windows / Active Directory"
+            icon={FaWindows}
+            description="Administração de servidores Windows, gestão de usuários e políticas via Active Directory, e configuração de acessos remotos seguros."
+          />
+          <TechnologyCard
+            title="Ubuntu"
+            icon={SiUbuntu}
+            description="Administração de servidores Linux (Ubuntu), manutenção de serviços e automação com scripts shell."
+          />
+          <TechnologyCard
+            title="Kubernetes (básico)"
+            icon={SiKubernetes}
+            description="Experiência prática para orquestração de contêineres em clusters, deploys escaláveis e gestão de serviços."
+          />
         </Carousel>
       </div>
     </div>
