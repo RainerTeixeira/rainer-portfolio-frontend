@@ -1,0 +1,38 @@
+{
+  "jsdoc.author": "Rainer Teixeira",
+  "jsdoc.email": "suporte@rainersoft.com.br",
+  "jsdoc.version": "1.0.0",
+  "jsdoc.description": "Documentação do Portfólio Rainer Teixeira",
+  "jsdoc.tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "jsdoc.templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "files.associations": {
+    "*.js": "javascript",
+    "*.ts": "typescript",
+    "*.tsx": "typescriptreact",
+    "*.jsx": "javascriptreact"
+  },
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "javascript.format.enable": true,
+  "typescript.format.enable": true,
+  "javascript.suggest.autoImports": true,
+  "css.customData": [".vscode/css_custom_data.json"],
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore"
+}
