@@ -2,13 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Target, Lightbulb, Rocket, Award, ArrowRight } from "lucide-react"
+import { Target, Lightbulb, Rocket, Award, ArrowRight, LucideIcon } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 
 interface AboutSectionProps {
   stats?: Array<{
-    icon: any
+    icon: LucideIcon
     value: string
     label: string
   }>

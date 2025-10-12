@@ -2,11 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Mail, Phone, MapPin } from "lucide-react"
+import { Mail, Phone, MapPin, LucideIcon } from "lucide-react"
 import Link from "next/link"
 
 interface ContactInfo {
-  icon: any
+  icon: LucideIcon
   title: string
   content: string
 }

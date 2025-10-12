@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Code, Cpu, Zap, Shield, Cloud, Brain, Terminal, Network, Database, Binary } from "lucide-react"
+import { Code, Cpu, Zap, Shield, Cloud, Brain } from "lucide-react"
 import { useTheme } from "next-themes"
 
 /* ==========================================================
@@ -137,7 +137,6 @@ export default function Carousel({
     if (!containerRef.current) return
 
     const width = containerRef.current.clientWidth
-    const height = containerRef.current.clientHeight
     
     const mobileBreakpoint = 768
     const tabletBreakpoint = 1024

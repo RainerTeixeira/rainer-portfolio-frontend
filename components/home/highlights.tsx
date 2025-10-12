@@ -4,13 +4,13 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { 
-  Code, Cloud, Zap, Briefcase, Sparkles, Star
+  Code, Cloud, Zap, Briefcase, Sparkles, Star, LucideIcon
 } from "lucide-react"
 
 interface Service {
   title: string
   description: string
-  icon: any
+  icon: LucideIcon
   badge: string
   features: string[]
 }

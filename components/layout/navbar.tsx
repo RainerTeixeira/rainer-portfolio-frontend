@@ -39,7 +39,7 @@ function useOSDetection() {
 
     const isTouch = 'ontouchstart' in window || 
                     navigator.maxTouchPoints > 0 || 
-                    // @ts-ignore
+                    // @ts-expect-error - msMaxTouchPoints exists in older IE versions
                     navigator.msMaxTouchPoints > 0
 
     setOsInfo({ os, isMobile, isTouch })
