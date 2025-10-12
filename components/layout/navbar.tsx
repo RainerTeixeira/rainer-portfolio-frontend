@@ -95,13 +95,13 @@ export function Navbar() {
 
   // Configurações de estilo baseadas no SO
   const getNavbarStyles = () => {
-    const baseStyles = "sticky top-0 z-50 w-full border-b transition-all duration-300"
+    const baseStyles = "sticky top-0 z-50 w-full border-b border-border/40 dark:border-cyan-400/20 transition-all duration-300"
     
     switch (os) {
       case "ios":
         return {
-          className: `${baseStyles} bg-background/80 backdrop-blur-xl shadow-sm ${
-            isScrolled ? "bg-background/95 shadow-lg" : ""
+          className: `${baseStyles} bg-background/80 dark:bg-black/80 backdrop-blur-xl shadow-sm dark:shadow-cyan-500/10 ${
+            isScrolled ? "bg-background/95 dark:bg-black/95 shadow-lg dark:shadow-cyan-500/20" : ""
           }`,
           style: {
             backdropFilter: "blur(20px)",
@@ -110,14 +110,14 @@ export function Navbar() {
         }
       case "android":
         return {
-          className: `${baseStyles} bg-background/90 backdrop-blur-md ${
-            isScrolled ? "bg-background/95 shadow-md" : ""
+          className: `${baseStyles} bg-background/90 dark:bg-black/90 backdrop-blur-md dark:shadow-cyan-500/10 ${
+            isScrolled ? "bg-background/95 dark:bg-black/95 shadow-md dark:shadow-cyan-500/20" : ""
           }`
         }
       default:
         return {
-          className: `${baseStyles} bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ${
-            isScrolled ? "shadow-lg" : ""
+          className: `${baseStyles} bg-background/95 dark:bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-black/60 dark:shadow-cyan-500/10 ${
+            isScrolled ? "shadow-lg dark:shadow-cyan-500/20" : ""
           }`
         }
     }
@@ -170,7 +170,7 @@ export function Navbar() {
                   priority
                 />
                 <span className={`
-                  text-lg font-bold transition-colors hidden sm:block
+                  text-lg font-bold transition-colors hidden sm:block text-foreground dark:text-cyan-200 dark:font-mono dark:tracking-wider
                   ${os === "ios" ? "font-semibold tracking-tight" : ""}
                   ${os === "android" ? "font-medium" : ""}
                 `}>
@@ -191,11 +191,10 @@ export function Navbar() {
                   <Link
                     href={item.href}
                     className={`
-                      relative px-3 py-2 text-sm font-medium transition-all duration-200
-                      hover:text-primary focus:outline-none focus:ring-2 
-                      focus:ring-primary focus:ring-offset-2 rounded-md
-                      ${os === "ios" ? "hover:bg-accent/50 active:scale-95" : ""}
-                      ${os === "android" ? "hover:bg-accent rounded-lg" : ""}
+                      relative px-3 py-2 text-sm font-medium transition-all duration-200 text-muted-foreground dark:text-gray-300 hover:text-primary dark:hover:text-cyan-300
+                      focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-cyan-400 focus:ring-offset-2 rounded-md dark:font-mono
+                      ${os === "ios" ? "hover:bg-accent dark:hover:bg-cyan-400/10 active:scale-95" : ""}
+                      ${os === "android" ? "hover:bg-accent dark:hover:bg-cyan-400/10 rounded-lg" : ""}
                     `}
                   >
                     {item.name}
@@ -203,7 +202,7 @@ export function Navbar() {
                     {/* Efeito de hover específico do Android */}
                     {os === "android" && (
                       <motion.div
-                        className="absolute inset-0 bg-primary/10 rounded-lg"
+                        className="absolute inset-0 bg-primary/10 dark:bg-cyan-400/10 rounded-lg"
                         initial={{ scale: 0, opacity: 0 }}
                         whileHover={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 0.2 }}
@@ -288,11 +287,10 @@ export function Navbar() {
                 damping: 30,
                 mass: 0.8
               }}
-              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-background border-l border-border z-50 md:hidden shadow-2xl"
+              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-background/90 dark:bg-black/90 border-l border-border dark:border-cyan-400/20 z-50 md:hidden shadow-2xl dark:shadow-cyan-500/20"
               style={{
                 backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                backgroundColor: "rgba(255, 255, 255, 0.8)"
+                WebkitBackdropFilter: "blur(20px)"
               }}
               role="dialog"
               aria-modal="true"
@@ -300,8 +298,8 @@ export function Navbar() {
             >
               <div className="flex flex-col h-full">
                 {/* Header do menu */}
-                <header className="flex items-center justify-between p-4 border-b border-border">
-                  <h2 className="text-lg font-semibold">Menu</h2>
+                <header className="flex items-center justify-between p-4 border-b border-border dark:border-cyan-400/20">
+                  <h2 className="text-lg font-semibold text-foreground dark:text-cyan-200 dark:font-mono">Menu</h2>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -329,7 +327,7 @@ export function Navbar() {
                         <Link
                           href={item.href}
                           onClick={handleMobileLinkClick}
-                          className="flex items-center w-full px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active:scale-95"
+                          className="flex items-center w-full px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 hover:bg-accent dark:hover:bg-cyan-400/10 hover:text-accent-foreground dark:hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-cyan-400 focus:ring-offset-2 active:scale-95 text-foreground dark:text-gray-300 dark:font-mono"
                         >
                           <span className="text-left">{item.name}</span>
                         </Link>
@@ -339,9 +337,9 @@ export function Navbar() {
                 </nav>
 
                 {/* Footer do menu */}
-                <footer className="p-4 border-t border-border">
+                <footer className="p-4 border-t border-border dark:border-cyan-400/20">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-sm text-muted-foreground dark:text-cyan-400 dark:font-mono">
                       Sistema: {os.toUpperCase()}
                     </span>
                     <ThemeToggle />

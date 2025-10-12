@@ -4,7 +4,7 @@
 
 export const SITE_CONFIG = {
   // Informações básicas
-  name: "Rainer Teixeira",
+  name: "Rainer Soft",
   title: "Desenvolvedor Full-Stack", 
   description: "Especializado em soluções modernas e inovadoras para empresas que buscam transformação digital",
   url: "https://rainersoft.com.br",

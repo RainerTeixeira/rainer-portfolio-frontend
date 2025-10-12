@@ -11,7 +11,7 @@ import { useTheme } from "next-themes"
    CONSTANTES CYBERPUNK
    ========================================================== */
 
-const AUTOPLAY_INTERVAL_MS = 6000
+const AUTOPLAY_INTERVAL_MS = 5000
 
 const PRIMARY_TEXTS = [
   "SISTEMA FULL-STACK ONLINE",
@@ -51,7 +51,15 @@ const SUBTEXTS = [
 
 const TECH_ICONS = [Cpu, Zap, Shield, Cloud, Brain, Code]
 
-const MATRIX_CHARS = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*<>?/\\|=+"
+// MATRIX OTIMIZADO: Bits de processador + símbolos tech
+const MATRIX_CHARS = "01"
+const TECH_SYMBOLS = "◢◣◤◥◈◉◊◌◍◎◐◑◒◓◔◕◖◗◘◙◚◛◜◝◞◟◠◡◢◣◤◥◈◉◊◌◍◎◐◑◒◓◔◕◖◗◘◙◚◛◜◝◞◟◠◡◢◣◤◥"
+const BINARY_PATTERNS = [
+  "0101", "1010", "0110", "1001", "0011", "1100",
+  "1111", "0000", "1000", "0111", "1101", "0010",
+  "0100", "1110", "1011", "0110", "0001", "1010",
+  "1001", "0011", "0101", "0111", "0100", "1000"
+]
 
 /* ==========================================================
    TIPOS
@@ -65,6 +73,8 @@ interface MatrixColumn {
   animationDelay: number
   characters: string[]
   intensity: number
+  type: 'binary' | 'symbol' | 'mixed'
+  speed: number
 }
 
 interface Particle {
@@ -115,10 +125,11 @@ export default function Carousel({
   useEffect(() => {
     if (!mounted || prefersReducedMotion) return
 
+    // RITMO CYBERPUNK: Glitch mais frequente e rápido
     const glitchInterval = setInterval(() => {
       setGlitchEffect(true)
-      setTimeout(() => setGlitchEffect(false), 80 + Math.random() * 40)
-    }, 2500 + Math.random() * 3000)
+      setTimeout(() => setGlitchEffect(false), 50 + Math.random() * 30)
+    }, 1500 + Math.random() * 2000)
 
     return () => clearInterval(glitchInterval)
   }, [mounted, prefersReducedMotion])
@@ -144,39 +155,68 @@ export default function Carousel({
     setIsMobile(width < mobileBreakpoint)
     setIsTablet(width >= mobileBreakpoint && width < tabletBreakpoint)
 
-    // Sistema Matrix Rain Avançado com Densidade Dinâmica
+    // Sistema Matrix Rain OTIMIZADO - Performance e Beleza
     const columnCount = isMobile ? 
-      Math.min(25, Math.max(12, Math.floor(width / 20))) : 
+      Math.min(20, Math.max(12, Math.floor(width / 25))) : 
       isTablet ? 
-      Math.min(40, Math.max(20, Math.floor(width / 25))) :
-      Math.min(60, Math.max(25, Math.floor(width / 30)))
+      Math.min(30, Math.max(18, Math.floor(width / 30))) :
+      Math.min(45, Math.max(25, Math.floor(width / 35)))
 
     const newColumns: MatrixColumn[] = Array.from({ length: columnCount }).map((_, i) => {
       const randomId = Math.round(Math.random() * 10000)
-      const charactersCount = 15 + Math.floor(Math.random() * 25)
-      const intensity = 0.4 + Math.random() * 0.6
+      const charactersCount = isMobile ? 8 + Math.floor(Math.random() * 6) : 10 + Math.floor(Math.random() * 8)
+      const intensity = 0.6 + Math.random() * 0.3
+      
+      // Tipos de coluna para variar o efeito
+      const columnTypes: Array<'binary' | 'symbol' | 'mixed'> = ['binary', 'symbol', 'mixed']
+      const type: 'binary' | 'symbol' | 'mixed' = columnTypes[i % 3] || 'binary'
+      
+      // Gerar caracteres baseado no tipo
+      let characters: string[]
+      if (type === 'binary') {
+        // Padrões binários realistas
+        characters = Array.from({ length: charactersCount }).map((_, idx) => {
+          if (idx === 0) return '1' // Sempre 1 no topo
+          const pattern = BINARY_PATTERNS[Math.floor(Math.random() * BINARY_PATTERNS.length)] || "0101"
+          return pattern[idx % pattern.length] || "0"
+        })
+      } else if (type === 'symbol') {
+        // Símbolos tech
+        characters = Array.from({ length: charactersCount }).map(() => 
+          TECH_SYMBOLS[Math.floor(Math.random() * TECH_SYMBOLS.length)] || "◢"
+        )
+      } else {
+        // Mix de binário e símbolos
+        characters = Array.from({ length: charactersCount }).map((_, idx) => {
+          if (idx === 0) return '1'
+          return Math.random() > 0.3 ? 
+            MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)] || "0" :
+            TECH_SYMBOLS[Math.floor(Math.random() * TECH_SYMBOLS.length)] || "◢"
+        })
+      }
       
       return {
         id: `col-${i}-${randomId}`,
         leftPct: (i / columnCount) * 100,
-        fontSize: isMobile ? 10 + Math.random() * 10 : isTablet ? 12 + Math.random() * 12 : 14 + Math.random() * 14,
-        animationDuration: 6 + Math.random() * 15,
-        animationDelay: Math.random() * 20,
-        characters: Array.from({ length: charactersCount }).map(() => 
-          MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)] || "0"
-        ),
-        intensity
+        fontSize: isMobile ? 12 + Math.random() * 4 : isTablet ? 14 + Math.random() * 6 : 16 + Math.random() * 6,
+        // Velocidade variada como bits de processador
+        animationDuration: type === 'binary' ? 3 + Math.random() * 2 : 4 + Math.random() * 3,
+        animationDelay: (i / columnCount) * 8,
+        characters,
+        intensity,
+        type,
+        speed: type === 'binary' ? 1.2 : type === 'symbol' ? 0.8 : 1.0
       }
     })
 
     setMatrixColumns(newColumns)
 
-    // Sistema de Partículas Quânticas Avançado
+    // Sistema de Partículas OTIMIZADO - Menos é mais
     const particleCount = isMobile ? 
-      Math.min(20, Math.max(10, Math.floor(width / 100))) :
+      Math.min(12, Math.max(6, Math.floor(width / 120))) :
       isTablet ?
-      Math.min(35, Math.max(15, Math.floor(width / 80))) :
-      Math.min(50, Math.max(20, Math.floor(width / 60)))
+      Math.min(20, Math.max(10, Math.floor(width / 100))) :
+      Math.min(30, Math.max(15, Math.floor(width / 80)))
 
     const particleTypes: Particle["type"][] = ["energy", "data", "quantum", "neural"]
     
@@ -206,10 +246,11 @@ export default function Carousel({
         id: `p-${idx}-${Math.round(Math.random() * 10000)}`,
         left: Math.random() * 100,
         top: Math.random() * 100,
-        size: isMobile ? 1 + Math.random() * 6 : 2 + Math.random() * 10,
+        size: isMobile ? 3 + Math.random() * 4 : 4 + Math.random() * 6,
         color,
-        duration: 3 + Math.random() * 8,
-        delay: Math.random() * 8,
+        // OTIMIZADO: Duração estável para GPU acceleration
+        duration: 4 + Math.random() * 3,
+        delay: (idx / particleCount) * 4,
         type
       }
     })
@@ -313,7 +354,7 @@ export default function Carousel({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full flex items-center justify-center p-4 sm:p-6 lg:p-8"
+      className="relative w-full h-full flex items-center justify-center p-2 xs:p-3 sm:p-4 md:p-6 lg:p-8"
       role="region"
       aria-label="Advanced Cyberpunk Presentation System"
     >
@@ -324,17 +365,17 @@ export default function Carousel({
         <div className="absolute inset-0 bg-gradient-to-tr from-pink-900/20 via-transparent to-green-900/25 mix-blend-overlay" />
         <div className="absolute inset-0 bg-gradient-to-bl from-blue-900/15 via-transparent to-yellow-900/20 mix-blend-color" />
         
-        {/* GRADE TÁTICA HOLOGRÁFICA DINÂMICA */}
-        <div className="absolute inset-0 opacity-40">
-          <div className="grid grid-cols-20 grid-rows-12 h-full w-full">
-            {Array.from({ length: 240 }).map((_, i) => (
-              <div 
-                key={i} 
-                className={`border ${isDarkTheme ? 'border-cyan-500/15' : 'border-blue-500/20'}`} 
-              />
-            ))}
-          </div>
-        </div>
+        {/* GRADE TÁTICA OTIMIZADA - CSS Puro */}
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: `
+              linear-gradient(${isDarkTheme ? 'rgba(6, 182, 212, 0.12)' : 'rgba(59, 130, 246, 0.15)'} 1px, transparent 1px),
+              linear-gradient(90deg, ${isDarkTheme ? 'rgba(6, 182, 212, 0.12)' : 'rgba(59, 130, 246, 0.15)'} 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px'
+          }}
+        />
 
         {/* SISTEMA DE PARTÍCULAS QUÂNTICAS AVANÇADO */}
         {particles.map(particle => (
@@ -348,61 +389,139 @@ export default function Carousel({
               height: `${particle.size}px`,
               background: `radial-gradient(circle, ${particle.color} 0%, transparent 70%)`,
               animation: `quantumFloat ${particle.duration}s ease-in-out ${particle.delay}s infinite`,
-              filter: `blur(${isMobile ? '0.5px' : '1px'})`,
-              opacity: 0.9
+              // OTIMIZADO: Blur reduzido = Melhor performance
+              filter: 'blur(0.5px)',
+              opacity: 0.85
             }}
           />
         ))}
 
-        {/* MATRIX RAIN TÁTICO AVANÇADO */}
-        <div className="matrix-grid absolute inset-0 z-0">
+        {/* MATRIX BINARY PROCESSOR - OTIMIZADO COMO BITS */}
+        <div className="matrix-grid absolute inset-0 z-0 overflow-hidden">
           {matrixColumns.map(column => (
             <div
               key={column.id}
-              className="matrix-column absolute top-0 pointer-events-none flex flex-col gap-0 whitespace-pre text-center"
+              className="matrix-column-wrapper absolute pointer-events-none"
               style={{
                 left: `${column.leftPct}%`,
-                fontSize: `${column.fontSize}px`,
-                animation: `matrixRain ${column.animationDuration}s linear infinite`,
+                top: 0,
+                height: '200vh',
+                animation: `matrixBinaryFall ${column.animationDuration}s linear infinite`,
                 animationDelay: `${column.animationDelay}s`,
-                opacity: column.intensity
+                transform: `scaleY(${column.speed})`,
               }}
             >
-              {column.characters.map((character, index) => (
+              {/* Primeiro set - Bits de processador */}
+              <div className="flex flex-col gap-0 whitespace-pre text-center" style={{ opacity: column.intensity }}>
+                {column.characters.map((character, index) => {
+                  // Cores baseadas no tipo de coluna
+                  let charColor = ''
+                  let glowColor = ''
+                  
+                  if (column.type === 'binary') {
+                    charColor = isDarkTheme ? 'text-green-400' : 'text-green-600'
+                    glowColor = isDarkTheme ? '#00ff00' : '#10b981'
+                  } else if (column.type === 'symbol') {
+                    charColor = isDarkTheme ? 'text-cyan-400' : 'text-blue-500'
+                    glowColor = isDarkTheme ? '#00ffff' : '#3b82f6'
+                  } else {
+                    charColor = isDarkTheme ? 'text-purple-400' : 'text-purple-600'
+                    glowColor = isDarkTheme ? '#a855f7' : '#9333ea'
+                  }
+                  
+                  return (
+                    <span
+                      key={`${column.id}-ch-${index}-1`}
+                      className={`matrix-binary font-mono font-bold tracking-wider ${charColor} ${
+                        index === 0 ? 'glow-binary-head' : index < 2 ? 'glow-binary-trail' : 'glow-binary-fade'
+                      }`}
+                      style={{
+                        fontSize: `${column.fontSize}px`,
+                        opacity: index === 0 ? 1 : Math.max(0.2, 1 - index * 0.08),
+                        textShadow: index === 0 
+                          ? `0 0 15px ${glowColor}, 0 0 25px ${glowColor}`
+                          : index < 2
+                          ? `0 0 8px ${glowColor}, 0 0 15px ${glowColor}`
+                          : `0 0 5px ${glowColor}`,
+                        filter: index === 0 
+                          ? 'brightness(1.4) contrast(1.2)' 
+                          : index < 2
+                          ? 'brightness(1.2)'
+                          : 'brightness(1.1)',
+                        transform: index === 0 ? 'scale(1.1)' : 'scale(1)',
+                        fontWeight: index === 0 ? '900' : index < 2 ? '800' : '700',
+                        // Efeito de pulso para bits ativos
+                        animation: index === 0 ? 'binary-pulse 1.5s ease-in-out infinite' : 'none'
+                      }}
+                    >
+                      {character}
+                    </span>
+                  )
+                })}
+              </div>
+              
+              {/* Segundo set - Continuidade */}
+              <div className="flex flex-col gap-0 whitespace-pre text-center" style={{ opacity: column.intensity }}>
+                {column.characters.map((character, index) => {
+                  let charColor = ''
+                  let glowColor = ''
+                  
+                  if (column.type === 'binary') {
+                    charColor = isDarkTheme ? 'text-green-400' : 'text-green-600'
+                    glowColor = isDarkTheme ? '#00ff00' : '#10b981'
+                  } else if (column.type === 'symbol') {
+                    charColor = isDarkTheme ? 'text-cyan-400' : 'text-blue-500'
+                    glowColor = isDarkTheme ? '#00ffff' : '#3b82f6'
+                  } else {
+                    charColor = isDarkTheme ? 'text-purple-400' : 'text-purple-600'
+                    glowColor = isDarkTheme ? '#a855f7' : '#9333ea'
+                  }
+                  
+                  return (
                 <span
-                  key={`${column.id}-ch-${index}`}
-                  className={`matrix-character font-mono font-bold ${
-                    index === 0 
-                      ? `head ${isDarkTheme ? 'text-cyan-400' : 'text-blue-600'} glow-intense` 
-                      : `trail ${isDarkTheme ? 'text-green-500/80' : 'text-blue-500/70'}`
+                      key={`${column.id}-ch-${index}-2`}
+                      className={`matrix-binary font-mono font-bold tracking-wider ${charColor} ${
+                        index === 0 ? 'glow-binary-head' : index < 2 ? 'glow-binary-trail' : 'glow-binary-fade'
                   }`}
                   style={{
-                    opacity: index === 0 ? 1 : Math.max(0.15, 0.95 - index * 0.06),
+                        fontSize: `${column.fontSize}px`,
+                        opacity: index === 0 ? 1 : Math.max(0.2, 1 - index * 0.08),
                     textShadow: index === 0 
-                      ? `0 0 15px ${isDarkTheme ? '#00ffff' : '#3b82f6'}, 0 0 30px ${isDarkTheme ? '#00ffff' : '#3b82f6'}` 
-                      : `0 0 5px ${isDarkTheme ? '#00ff00' : '#10b981'}`,
-                    filter: index === 0 ? 'drop-shadow(0 0 10px currentColor)' : 'none'
+                          ? `0 0 15px ${glowColor}, 0 0 25px ${glowColor}`
+                          : index < 2
+                          ? `0 0 8px ${glowColor}, 0 0 15px ${glowColor}`
+                          : `0 0 5px ${glowColor}`,
+                        filter: index === 0 
+                          ? 'brightness(1.4) contrast(1.2)' 
+                          : index < 2
+                          ? 'brightness(1.2)'
+                          : 'brightness(1.1)',
+                        transform: index === 0 ? 'scale(1.1)' : 'scale(1)',
+                        fontWeight: index === 0 ? '900' : index < 2 ? '800' : '700',
+                        animation: index === 0 ? 'binary-pulse 1.5s ease-in-out infinite' : 'none'
                   }}
                 >
                   {character}
                 </span>
-              ))}
+                  )
+                })}
+              </div>
             </div>
           ))}
         </div>
 
-        {/* EFEITOS DE SCANLINE HOLOGRÁFICOS */}
+        {/* EFEITOS DE SCANLINE OTIMIZADOS */}
         <div className="absolute inset-0 pointer-events-none">
-          {Array.from({ length: 8 }).map((_, i) => (
+          {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="absolute w-full h-0.5 opacity-30"
+              className="absolute w-full h-0.5 opacity-35"
               style={{
-                top: `${(i / 8) * 100}%`,
+                top: `${(i / 6) * 100}%`,
                 background: `linear-gradient(90deg, transparent, ${
                   isDarkTheme ? 'rgba(0,255,255,0.6)' : 'rgba(59,130,246,0.6)'
                 }, transparent)`,
-                animation: `hologramScan ${8 + i * 2}s linear ${i * 0.5}s infinite`,
+                animation: `hologramScan ${4 + i * 1}s linear ${i * 0.3}s infinite`,
                 filter: 'blur(0.5px)'
               }}
             />
@@ -410,22 +529,22 @@ export default function Carousel({
         </div>
       </div>
 
-      {/* CARD CENTRAL PRINCIPAL - MAIOR E COM TEXTO AJUSTADO */}
-      <div className="relative z-10 w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
+      {/* CARD CENTRAL PRINCIPAL - RESPONSIVO TOTAL */}
+      <div className="relative z-10 w-full max-w-[95vw] xs:max-w-[90vw] sm:max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
         <Card
-          className={`relative overflow-hidden group transition-all duration-500 ease-out rounded-3xl lg:rounded-4xl backdrop-blur-2xl border-2 ${
+          className={`relative overflow-hidden group transition-all duration-500 ease-out rounded-2xl sm:rounded-3xl lg:rounded-4xl backdrop-blur-2xl border border-2 ${
             glitchEffect ? 'glitch-effect' : ''
           } ${
             isDarkTheme 
-              ? 'border-cyan-400/50 shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-500/40' 
-              : 'border-blue-500/50 shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/40'
+              ? 'border-cyan-400/50 shadow-xl sm:shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-500/40' 
+              : 'border-blue-500/50 shadow-xl sm:shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/40'
           }`}
           style={{
             background: isDarkTheme
               ? "linear-gradient(135deg, rgba(0,0,0,0.92) 0%, rgba(10,15,30,0.95) 50%, rgba(0,0,0,0.92) 100%)"
               : "linear-gradient(135deg, rgba(255,255,255,0.94) 0%, rgba(235,245,255,0.97) 50%, rgba(255,255,255,0.94) 100%)",
             transform: 'translateZ(0)',
-            minHeight: isMobile ? '480px' : isTablet ? '520px' : '580px'
+            minHeight: 'auto'
           }}
         >
           {/* EFEITO DE BORDA NEON ANIMADA */}
@@ -464,28 +583,28 @@ export default function Carousel({
             isDarkTheme ? 'bg-green-400/40' : 'bg-green-500/40'
           }`} />
 
-          <CardContent className="text-center relative z-20 flex flex-col justify-center items-center px-6 sm:px-10 lg:px-14 py-10 sm:py-14 lg:py-18 space-y-8 sm:space-y-10 lg:space-y-12">
+          <CardContent className="text-center relative z-20 flex flex-col justify-center items-center px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-14 py-6 xs:py-8 sm:py-10 md:py-12 lg:py-16 xl:py-18 space-y-4 xs:space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12">
             {/* BADGE DO SISTEMA AVANÇADO */}
             <Badge
-              className="mb-6 sm:mb-8 backdrop-blur-2xl font-mono text-sm sm:text-base relative z-20 border-2 transition-all duration-300 hover:scale-105 hover:glow-intense"
+              className="mb-3 xs:mb-4 sm:mb-6 md:mb-8 backdrop-blur-2xl font-mono text-[10px] xs:text-xs sm:text-sm md:text-base relative z-20 border border-2 transition-all duration-300 hover:scale-105 hover:glow-intense"
               style={{
                 background: isDarkTheme
-                  ? "linear-gradient(90deg, rgba(0,255,255,0.2) 0%, rgba(255,0,255,0.2) 50%, rgba(0,255,255,0.2) 100%)"
-                  : "linear-gradient(90deg, rgba(59,130,246,0.2) 0%, rgba(139,92,246,0.2) 50%, rgba(59,130,246,0.2) 100%)",
-                borderColor: isDarkTheme ? 'rgba(0,255,255,0.6)' : 'rgba(59,130,246,0.6)',
-                animation: 'pulse-glow 3s ease-in-out infinite'
+                  ? "linear-gradient(90deg, rgba(0,255,255,0.25) 0%, rgba(255,0,255,0.25) 50%, rgba(0,255,255,0.25) 100%)"
+                  : "linear-gradient(90deg, rgba(59,130,246,0.25) 0%, rgba(139,92,246,0.25) 50%, rgba(59,130,246,0.25) 100%)",
+                borderColor: isDarkTheme ? 'rgba(0,255,255,0.7)' : 'rgba(59,130,246,0.7)',
+                animation: 'pulse-glow 1.5s ease-in-out infinite'
               }}
             >
-              <div className="relative flex items-center space-x-3 sm:space-x-4 px-4 sm:px-5 py-2 sm:py-2.5">
-                <div className="relative">
+              <div className="relative flex items-center space-x-2 xs:space-x-2.5 sm:space-x-3 md:space-x-4 px-2 xs:px-3 sm:px-4 md:px-5 py-1.5 xs:py-1.5 sm:py-2 md:py-2.5">
+                <div className="relative hidden xs:block">
                   <RandomTechIcon 
-                    size={isMobile ? 18 : 22}
+                    size={isMobile ? 14 : isTablet ? 18 : 22}
                     className={isDarkTheme ? "text-cyan-400" : "text-blue-600"}
                   />
                   <div className={`absolute inset-0 animate-ping ${
                     isDarkTheme ? "text-cyan-400" : "text-blue-600"
                   }`}>
-                    <RandomTechIcon size={isMobile ? 18 : 22} />
+                    <RandomTechIcon size={isMobile ? 14 : isTablet ? 18 : 22} />
                   </div>
                 </div>
                 <span className={`font-bold tracking-wider ${
@@ -493,52 +612,56 @@ export default function Carousel({
                 }`}>
                   SYSTEM_ACTIVE v3.0.1
                 </span>
-                <div className={`w-2 h-2 rounded-full animate-pulse ${
+                <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse ${
                   isDarkTheme ? "bg-cyan-400" : "bg-blue-600"
                 }`} />
               </div>
             </Badge>
 
             {/* CONTEÚDO PRINCIPAL - TEXTO AJUSTADO PARA CABER */}
-            <div className="flex flex-col space-y-8 sm:space-y-10 lg:space-y-12 relative w-full max-w-3xl sm:max-w-4xl lg:max-w-5xl">
+            <div className="flex flex-col space-y-4 xs:space-y-5 sm:space-y-6 md:space-y-8 lg:space-y-10 xl:space-y-12 relative w-full">
               {/* TÍTULO PRINCIPAL - TAMANHO AJUSTADO E QUEBRA DE LINHA */}
-              <h1 className={`font-black font-mono tracking-tight leading-tight text-2xl sm:text-4xl lg:text-5xl xl:text-6xl ${
+              <h1 className={`font-black font-mono tracking-tight leading-tight text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl px-1 xs:px-2 ${
                 isDarkTheme 
                   ? "text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400" 
                   : "text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
               }`} style={{
-                animation: 'cyberpunk-glow 4s ease-in-out infinite, gradientShift 8s ease-in-out infinite',
+                animation: 'cyberpunk-glow 2.5s ease-in-out infinite, gradientShift 5s ease-in-out infinite',
+                // OTIMIZADO: Menos shadows, ainda impressionante
                 textShadow: isDarkTheme 
-                  ? '0 0 30px rgba(0,255,255,0.6), 0 0 60px rgba(255,0,255,0.4), 0 0 90px rgba(255,0,255,0.2)'
-                  : '0 0 30px rgba(59,130,246,0.5), 0 0 60px rgba(139,92,246,0.3), 0 0 90px rgba(139,92,246,0.1)',
-                lineHeight: 1.1,
+                  ? '0 0 20px rgba(0,255,255,0.5), 0 0 40px rgba(255,0,255,0.3)'
+                  : '0 0 20px rgba(59,130,246,0.4), 0 0 40px rgba(139,92,246,0.2)',
+                lineHeight: 1.15,
                 wordWrap: 'break-word',
-                overflowWrap: 'break-word'
+                overflowWrap: 'break-word',
+                hyphens: 'auto'
               }}>
                 {primaryText}
               </h1>
               
               {/* SUBTÍTULO TÁTICO - TAMANHO AJUSTADO */}
-              <h2 className={`font-semibold font-mono tracking-normal leading-relaxed text-base sm:text-xl lg:text-2xl px-4 sm:px-6 ${
+              <h2 className={`font-semibold font-mono tracking-normal leading-relaxed text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl px-2 xs:px-3 sm:px-4 md:px-6 ${
                 isDarkTheme ? "text-green-400" : "text-green-600"
               }`} style={{
-                animation: 'pulse-subtle 5s ease-in-out infinite, cyberpunk-glow 3s ease-in-out infinite 1s',
+                animation: 'pulse-subtle 3s ease-in-out infinite, cyberpunk-glow 2s ease-in-out infinite 0.5s',
+                // OTIMIZADO: Efeito mantido com menos layers
                 textShadow: isDarkTheme 
-                  ? '0 0 20px rgba(0,255,0,0.5), 0 0 40px rgba(0,255,0,0.3)' 
-                  : '0 0 20px rgba(34,197,94,0.4), 0 0 40px rgba(34,197,94,0.2)',
+                  ? '0 0 15px rgba(0,255,0,0.4), 0 0 30px rgba(0,255,0,0.2)' 
+                  : '0 0 15px rgba(34,197,94,0.3), 0 0 30px rgba(34,197,94,0.15)',
                 lineHeight: 1.4,
                 wordWrap: 'break-word',
-                overflowWrap: 'break-word'
+                overflowWrap: 'break-word',
+                hyphens: 'auto'
               }}>
                 {subText}
               </h2>
             </div>
 
-            {/* INTERFACE DE CONTROLE TÁTICO - MAIS ESPAÇO */}
-            <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 sm:gap-6 lg:gap-8 pt-8 sm:pt-10 lg:pt-12 w-full max-w-md sm:max-w-lg lg:max-w-xl">
+            {/* INTERFACE DE CONTROLE TÁTICO - RESPONSIVO */}
+            <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 xs:gap-3.5 sm:gap-4 md:gap-6 lg:gap-8 pt-4 xs:pt-6 sm:pt-8 md:pt-10 lg:pt-12 w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl">
               <Button
                 size={isMobile ? "default" : "lg"}
-                className="font-mono relative overflow-hidden transition-all duration-300 hover:scale-105 group/btn flex-1 min-h-14 sm:min-h-16 text-base sm:text-lg"
+                className="font-mono relative overflow-hidden transition-all duration-300 hover:scale-105 group/btn flex-1 min-h-11 xs:min-h-12 sm:min-h-14 md:min-h-16 text-xs xs:text-sm sm:text-base md:text-lg"
                 style={{
                   background: "linear-gradient(135deg, #ec4899 0%, #06b6d4 50%, #8b5cf6 100%)",
                   border: 'none',
@@ -547,15 +670,15 @@ export default function Carousel({
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 transform group-hover/btn:translate-x-full transition-transform duration-1000" />
                 <span className="font-bold text-white tracking-wider flex items-center justify-center relative z-10">
-                  <div className="bg-white rounded-full mr-3 animate-ping w-3 h-3" />
-                  [EXECUTE] PROJETOS
+                  <div className="bg-white rounded-full mr-2 sm:mr-3 animate-ping w-2 h-2 sm:w-3 sm:h-3" />
+                  <span className="hidden xs:inline">[EXECUTE] </span>PROJETOS
                 </span>
               </Button>
 
               <Button
                 variant="outline"
                 size={isMobile ? "default" : "lg"}
-                className={`backdrop-blur-2xl font-mono relative overflow-hidden transition-all duration-300 hover:scale-105 border-2 flex-1 min-h-14 sm:min-h-16 text-base sm:text-lg ${
+                className={`backdrop-blur-2xl font-mono relative overflow-hidden transition-all duration-300 hover:scale-105 border border-2 flex-1 min-h-11 xs:min-h-12 sm:min-h-14 md:min-h-16 text-xs xs:text-sm sm:text-base md:text-lg ${
                   isDarkTheme 
                     ? 'border-cyan-400/70 bg-black/50 hover:bg-cyan-400/15 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/25' 
                     : 'border-blue-500/70 bg-white/70 hover:bg-blue-500/10 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/25'
@@ -567,10 +690,10 @@ export default function Carousel({
                 <span className={`font-bold tracking-wider flex items-center justify-center ${
                   isDarkTheme ? "text-cyan-300" : "text-blue-700"
                 }`}>
-                  <div className={`rounded-full mr-3 animate-ping w-3 h-3 ${
+                  <div className={`rounded-full mr-2 sm:mr-3 animate-ping w-2 h-2 sm:w-3 sm:h-3 ${
                     isDarkTheme ? "bg-cyan-400" : "bg-blue-600"
                   }`} />
-                  [CONNECT] CONTATO
+                  <span className="hidden xs:inline">[CONNECT] </span>CONTATO
                 </span>
               </Button>
             </div>
@@ -580,44 +703,86 @@ export default function Carousel({
 
       {/* ESTILOS CYBERPUNK AVANÇADOS */}
       <style jsx>{`
-        @keyframes matrixRain {
-          0% { transform: translate3d(0, -100vh, 0) scaleY(0.95); opacity: 0; }
-          10% { opacity: 0.9; }
-          80% { opacity: 0.7; }
-          100% { transform: translate3d(0, 100vh, 0) scaleY(1); opacity: 0; }
+        /* MATRIX BINARY FALL - Movimento como bits de processador */
+        @keyframes matrixBinaryFall {
+          from { 
+            transform: translate3d(0, -100vh, 0) translateZ(0); 
+            opacity: 0;
+          }
+          2% {
+            opacity: 1;
+          }
+          98% {
+            opacity: 1;
+          }
+          to { 
+            transform: translate3d(0, 0, 0) translateZ(0); 
+            opacity: 0;
+          }
         }
 
-        @keyframes quantumFloat {
-          0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.7; }
-          25% { transform: translateY(-20px) translateX(8px) scale(1.15); opacity: 1; }
-          50% { transform: translateY(-35px) translateX(-8px) scale(1.08); opacity: 0.8; }
-          75% { transform: translateY(-20px) translateX(8px) scale(1.15); opacity: 1; }
-        }
-
-        @keyframes cyberpunk-glow {
-          0%, 100% { filter: brightness(1) contrast(1) saturate(1); }
-          50% { filter: brightness(1.3) contrast(1.2) saturate(1.5); }
-        }
-
-        @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 25px currentColor; }
-          50% { box-shadow: 0 0 50px currentColor, 0 0 75px currentColor; }
-        }
-
-        @keyframes electric-pulse {
+        /* PULSO BINÁRIO - Bits ativos pulsando */
+        @keyframes binary-pulse {
           0%, 100% { 
-            box-shadow: 0 0 20px #ec4899, 0 0 40px #06b6d4;
-            filter: brightness(1) saturate(1);
+            opacity: 1;
+            transform: scale(1.1);
           }
           50% { 
-            box-shadow: 0 0 30px #ec4899, 0 0 60px #06b6d4, 0 0 80px #8b5cf6;
-            filter: brightness(1.2) saturate(1.3);
+            opacity: 0.8;
+            transform: scale(1.15);
+          }
+        }
+
+        /* CLASSES PARA BITS */
+        .glow-binary-head {
+          animation: binary-pulse 1.5s ease-in-out infinite;
+        }
+
+        .glow-binary-trail {
+          animation: binary-pulse 2s ease-in-out infinite 0.3s;
+        }
+
+        .glow-binary-fade {
+          animation: none;
+        }
+
+        /* OTIMIZADO: Transform + Opacity = GPU Accelerated */
+        @keyframes quantumFloat {
+          0%, 100% { 
+            transform: translate3d(0, 0, 0) scale(1); 
+            opacity: 0.75; 
+          }
+          50% { 
+            transform: translate3d(15px, -30px, 0) scale(1.15); 
+            opacity: 0.95; 
+          }
+        }
+
+        /* OTIMIZADO: Filter simplificado */
+        @keyframes cyberpunk-glow {
+          0%, 100% { filter: brightness(1); }
+          50% { filter: brightness(1.3); }
+        }
+
+        /* OTIMIZADO: Menos shadows */
+        @keyframes pulse-glow {
+          0%, 100% { opacity: 0.9; }
+          50% { opacity: 1; }
+        }
+
+        /* OTIMIZADO: Box-shadow simplificado */
+        @keyframes electric-pulse {
+          0%, 100% { 
+            opacity: 0.95;
+          }
+          50% { 
+            opacity: 1;
           }
         }
 
         @keyframes pulse-subtle {
           0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.85; transform: scale(1.02); }
+          50% { opacity: 0.9; transform: scale(1.03); }
         }
 
         @keyframes gradientShift {
@@ -627,13 +792,13 @@ export default function Carousel({
 
         @keyframes scanMove {
           0% { background-position: 0 0; }
-          100% { background-position: 0 100vh; }
+          100% { background-position: 0 150vh; }
         }
 
         @keyframes hologramScan {
           0% { transform: translateY(-100%); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
+          5% { opacity: 1; }
+          95% { opacity: 1; }
           100% { transform: translateY(100vh); opacity: 0; }
         }
 
@@ -641,34 +806,108 @@ export default function Carousel({
           filter: drop-shadow(0 0 15px currentColor);
         }
 
+        /* OTIMIZADO: Animação mais leve */
+        .glow-cyberpunk {
+          animation: cyberpunk-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes cyberpunk-pulse {
+          0%, 100% { 
+            opacity: 0.95;
+            transform: scale(1.08);
+          }
+          50% { 
+            opacity: 1;
+            transform: scale(1.12);
+          }
+        }
+
+        /* OTIMIZADO: Animação simplificada */
+        .trail-bright {
+          animation: trail-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes trail-glow {
+          0%, 100% { 
+            opacity: 0.9;
+          }
+          50% { 
+            opacity: 1;
+          }
+        }
+
+        /* OTIMIZADO: Contenção de GPU sem excessos */
+        .matrix-column-wrapper {
+          backface-visibility: hidden;
+          transform: translateZ(0);
+        }
+        
+        .matrix-grid {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* OTIMIZADO: Hover simplificado */
+        .matrix-character {
+          transition: opacity 0.15s ease-out;
+        }
+
+        @media (hover: hover) {
+          .matrix-character:hover {
+            opacity: 1 !important;
+          }
+        }
+
         .glitch-effect {
           animation: glitch 0.3s linear;
         }
 
+        /* OTIMIZADO: Glitch mais leve sem hue-rotate */
         @keyframes glitch {
-          0% { transform: translate(0) skew(0deg); filter: hue-rotate(0deg); }
-          20% { transform: translate(-4px, 2px) skew(2deg); filter: hue-rotate(90deg); }
-          40% { transform: translate(4px, -2px) skew(-2deg); filter: hue-rotate(180deg); }
-          60% { transform: translate(-2px, 1px) skew(1deg); filter: hue-rotate(270deg); }
-          80% { transform: translate(2px, -1px) skew(-1deg); filter: hue-rotate(360deg); }
-          100% { transform: translate(0) skew(0deg); filter: hue-rotate(0deg); }
+          0% { transform: translate3d(0, 0, 0); }
+          20% { transform: translate3d(-3px, 2px, 0); }
+          40% { transform: translate3d(3px, -2px, 0); }
+          60% { transform: translate3d(-2px, 1px, 0); }
+          80% { transform: translate3d(2px, -1px, 0); }
+          100% { transform: translate3d(0, 0, 0); }
         }
 
-        /* Garantir que o texto quebre corretamente em mobile */
-        @media (max-width: 640px) {
-          .text-2xl {
-            font-size: 1.5rem;
+        /* Garantir que o texto quebre corretamente em todos os dispositivos */
+        @media (max-width: 360px) {
+          .text-lg {
+            font-size: 1rem;
             line-height: 1.2;
           }
-          .text-base {
-            font-size: 0.875rem;
-            line-height: 1.4;
+          .text-xs {
+            font-size: 0.7rem;
+            line-height: 1.3;
+          }
+        }
+
+        @media (min-width: 361px) and (max-width: 640px) {
+          .text-xl {
+            font-size: 1.125rem;
+            line-height: 1.2;
+          }
+          .text-sm {
+            font-size: 0.8rem;
+            line-height: 1.3;
           }
         }
 
         @media (max-width: 768px) and (orientation: landscape) {
-          .text-2xl {
+          h1, h2 {
+            font-size: clamp(0.875rem, 4vw, 1.5rem) !important;
+          }
+        }
+
+        /* Garantir responsividade em tablets */
+        @media (min-width: 768px) and (max-width: 1024px) {
+          .text-3xl {
             font-size: 1.75rem;
+          }
+          .text-lg {
+            font-size: 1rem;
           }
         }
       `}</style>
