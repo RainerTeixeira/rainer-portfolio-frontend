@@ -19,6 +19,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { CARD_CLASSES } from "@/lib/utils"
 
 /**
  * Props do componente TeamCard
@@ -59,7 +60,7 @@ interface TeamCardProps {
  */
 export function TeamCard({ name, role, description, skills }: TeamCardProps) {
   return (
-    <Card className="hover:shadow-lg transition-all duration-300">
+    <Card className={CARD_CLASSES.full}>
       {/** 
        * Header com nome e cargo
        * - Nome como CardTitle (h3)

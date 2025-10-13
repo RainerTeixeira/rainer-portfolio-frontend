@@ -1,11 +1,56 @@
-import Image from "next/image"
+/**
+ * Página Sobre
+ * 
+ * Página de apresentação profissional com informações sobre
+ * experiência, habilidades e trajetória do desenvolvedor.
+ * 
+ * Layout:
+ * - Header com avatar circular e introdução
+ * - Grid 2 colunas: Experiência (esquerda) e Tecnologias (direita)
+ * - Efeitos visuais cyberpunk no dark mode
+ * - Partículas animadas sutis no fundo
+ * 
+ * @fileoverview Página sobre o desenvolvedor
+ * @author Rainer Teixeira
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 
+import Image from "next/image"
+import { SECTION_CLASSES } from "@/lib/utils"
+
+/**
+ * Componente SobrePage
+ * 
+ * Renderiza página completa "Sobre" com perfil profissional.
+ * Inclui avatar, experiência profissional e stack de tecnologias.
+ * 
+ * @returns {JSX.Element} Página sobre
+ * 
+ * @example
+ * // Rota: /sobre
+ * // Renderizado automaticamente pelo Next.js App Router
+ */
 export default function SobrePage() {
+  /**
+   * Lista de habilidades técnicas
+   * Array de strings com nomes de tecnologias dominadas
+   * 
+   * @type {string[]}
+   */
   const skills = [
     "React", "Next.js", "TypeScript", "Node.js", "Python", "PostgreSQL", 
     "MongoDB", "Docker", "AWS", "Git", "Agile", "Scrum"
   ]
 
+  /**
+   * Histórico de experiência profissional
+   * 
+   * Array de objetos com período, cargo e descrição
+   * das experiências mais relevantes da carreira.
+   * 
+   * @type {Array<{period: string, role: string, description: string}>}
+   */
   const experience = [
     {
       period: "2020 - Atual",
@@ -26,15 +71,23 @@ export default function SobrePage() {
 
   return (
     <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black">
-      {/* Efeito de partículas sutis - apenas no dark */}
+      {/** 
+       * Efeito de partículas sutis - apenas no dark mode
+       * Três partículas coloridas animadas em posições diferentes
+       */}
       <div className="fixed inset-0 pointer-events-none opacity-0 dark:opacity-100">
         <div className="absolute top-24 left-1/5 w-1 h-1 bg-cyan-400 rounded-full animate-pulse opacity-45"></div>
         <div className="absolute top-80 right-1/5 w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse opacity-35" style={{ animationDelay: '2.5s' }}></div>
         <div className="absolute bottom-80 left-1/3 w-0.5 h-0.5 bg-pink-400 rounded-full animate-pulse opacity-40" style={{ animationDelay: '1.8s' }}></div>
       </div>
       
-      {/* Header da página */}
-      <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
+      {/** 
+       * Header da página com avatar e apresentação
+       * - Avatar circular com borda e badge de emoji
+       * - Título, linha decorativa e descrição
+       * - Efeitos de glow no dark mode
+       */}
+      <div className={`${SECTION_CLASSES.container} relative z-10`}>
         <div className="text-center mb-12">
           <div className="relative mb-8">
             <div className="relative w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-primary dark:border-cyan-400/50 shadow-lg dark:shadow-cyan-500/20">
@@ -59,10 +112,18 @@ export default function SobrePage() {
         </div>
       </div>
 
-      {/* Conteúdo da página com grid padrão */}
+      {/** 
+       * Conteúdo da página com grid 2 colunas
+       * Coluna 1: Experiência profissional
+       * Coluna 2: Stack de tecnologias
+       */}
       <div className="max-w-7xl mx-auto px-6 pb-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Experiência */}
+          {/** 
+           * Seção de Experiência
+           * Card com borda lateral colorida
+           * Lista cronológica de experiências
+           */}
           <div className="border-l-4 border-primary dark:border-cyan-400 pl-6 bg-card/40 dark:bg-black/20 rounded-r-xl p-6 backdrop-blur-sm border border-border/40 dark:border-cyan-400/20">
             <h2 className="text-2xl font-bold mb-4 text-foreground dark:text-cyan-200 dark:font-mono">Experiência</h2>
             {experience.map((exp, idx) => (
@@ -76,7 +137,11 @@ export default function SobrePage() {
             ))}
           </div>
 
-          {/* Skills */}
+          {/** 
+           * Seção de Tecnologias
+           * Card com grid de badges de skills
+           * Cada badge com hover effect
+           */}
           <div className="bg-card/40 dark:bg-black/20 rounded-xl p-6 backdrop-blur-sm border border-border/40 dark:border-purple-400/20">
             <h2 className="text-2xl font-bold mb-4 text-foreground dark:text-purple-200 dark:font-mono">Tecnologias</h2>
             <div className="flex flex-wrap gap-3">

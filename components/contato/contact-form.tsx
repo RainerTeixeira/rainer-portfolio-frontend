@@ -25,6 +25,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useState } from "react"
+import { CARD_CLASSES } from "@/lib/utils"
+import { SITE_CONFIG } from "@/constants"
 
 /**
  * Componente ContactForm
@@ -101,7 +103,7 @@ export function ContactForm() {
        * COLUNA 1: Formulário de envio de mensagem
        * Card com campos de input e botão de envio
        */}
-      <Card className="hover:shadow-lg transition-shadow duration-300">
+      <Card className={CARD_CLASSES.full}>
         <CardHeader>
           <CardTitle className="text-2xl">Envie uma Mensagem</CardTitle>
         </CardHeader>
@@ -194,7 +196,7 @@ export function ContactForm() {
        */}
       <div className="space-y-6">
         {/** Card 1: Informações de contato (email, LinkedIn, GitHub) */}
-        <Card className="hover:shadow-lg transition-shadow duration-300">
+        <Card className={CARD_CLASSES.full}>
           <CardHeader>
             <CardTitle className="text-xl">Informações de Contato</CardTitle>
           </CardHeader>
@@ -202,7 +204,7 @@ export function ContactForm() {
             {/** E-mail */}
             <div className="space-y-2">
               <Badge variant="secondary" className="text-xs">E-mail</Badge>
-              <p className="text-muted-foreground">contato@rainersoft.com.br</p>
+              <p className="text-muted-foreground">{SITE_CONFIG.email}</p>
             </div>
             <Separator />
             
@@ -210,12 +212,12 @@ export function ContactForm() {
             <div className="space-y-2">
               <Badge variant="secondary" className="text-xs">LinkedIn</Badge>
               <a 
-                href="https://linkedin.com/in/rainerteixeira" 
+                href={SITE_CONFIG.linkedin} 
                 className="text-primary hover:underline transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                linkedin.com/in/rainerteixeira
+                {SITE_CONFIG.linkedin.replace('https://', '')}
               </a>
             </div>
             <Separator />
@@ -224,19 +226,19 @@ export function ContactForm() {
             <div className="space-y-2">
               <Badge variant="secondary" className="text-xs">GitHub</Badge>
               <a 
-                href="https://github.com/rainerteixeira" 
+                href={SITE_CONFIG.github} 
                 className="text-primary hover:underline transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                github.com/rainerteixeira
+                {SITE_CONFIG.github.replace('https://', '')}
               </a>
             </div>
           </CardContent>
         </Card>
 
         {/** Card 2: Tempo de resposta */}
-        <Card className="hover:shadow-lg transition-shadow duration-300">
+        <Card className={CARD_CLASSES.full}>
           <CardHeader>
             <CardTitle className="text-xl">Tempo de Resposta</CardTitle>
           </CardHeader>

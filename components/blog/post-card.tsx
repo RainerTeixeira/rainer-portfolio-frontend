@@ -21,6 +21,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
+import { CARD_CLASSES } from "@/lib/utils"
 
 /**
  * Props do componente PostCard
@@ -68,7 +69,7 @@ interface PostCardProps {
  */
 export function PostCard({ title, description, date, category, link, image }: PostCardProps) {
   return (
-    <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+    <Card className={`${CARD_CLASSES.full} hover:-translate-y-1 overflow-hidden`}>
       {/** 
        * Imagem de destaque (opcional)
        * - Altura fixa de 192px (h-48)
