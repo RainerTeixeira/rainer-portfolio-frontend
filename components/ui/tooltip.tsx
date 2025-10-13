@@ -1,3 +1,28 @@
+/**
+ * Componentes de Tooltip (Dica/Hint)
+ * 
+ * Sistema composable para exibir dicas contextuais ao hover/focus.
+ * Baseado em Radix UI Tooltip com posicionamento inteligente.
+ * 
+ * Componentes disponíveis:
+ * - TooltipProvider: provedor global de tooltips (controla delay)
+ * - Tooltip: container root (integra provider automaticamente)
+ * - TooltipTrigger: elemento que dispara o tooltip
+ * - TooltipContent: conteúdo do tooltip com animação e seta
+ * 
+ * Características:
+ * - Posicionamento automático (top, right, bottom, left)
+ * - Delay configurável (padrão 0ms)
+ * - Seta apontando para o trigger
+ * - Animações de fade e zoom
+ * - Acessível (keyboard navigation)
+ * 
+ * @fileoverview Sistema de tooltips acessíveis
+ * @author Rainer Teixeira
+ * @version 1.0.0
+ * @since 1.0.0
+ */
+
 "use client"
 
 import * as React from "react"
@@ -5,6 +30,21 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Componente TooltipProvider (Provedor)
+ * 
+ * Provedor de contexto para tooltips. Deve envolver todos os tooltips
+ * para compartilhar configurações globais como delay.
+ * 
+ * @param {React.ComponentProps<typeof TooltipPrimitive.Provider>} props - Props do provider
+ * @param {number} [props.delayDuration=0] - Delay em ms antes de mostrar tooltip
+ * @returns {JSX.Element} Provider de tooltips
+ * 
+ * @example
+ * <TooltipProvider delayDuration={200}>
+ *   <App />
+ * </TooltipProvider>
+ */
 function TooltipProvider({
   delayDuration = 0,
   ...props
@@ -18,6 +58,15 @@ function TooltipProvider({
   )
 }
 
+/**
+ * Componente Tooltip (Root)
+ * 
+ * Container root do tooltip. Inclui TooltipProvider automaticamente,
+ * então não é necessário envolver manualmente.
+ * 
+ * @param {React.ComponentProps<typeof TooltipPrimitive.Root>} props - Props do root
+ * @returns {JSX.Element} Container do tooltip
+ */
 function Tooltip({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
@@ -28,12 +77,57 @@ function Tooltip({
   )
 }
 
+/**
+ * Componente TooltipTrigger (Gatilho)
+ * 
+ * Elemento que dispara o tooltip ao hover ou focus.
+ * Pode ser botão, link, ícone ou qualquer elemento interativo.
+ * 
+ * @param {React.ComponentProps<typeof TooltipPrimitive.Trigger>} props - Props do trigger
+ * @returns {JSX.Element} Trigger do tooltip
+ */
 function TooltipTrigger({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
 }
 
+/**
+ * Componente TooltipContent (Conteúdo)
+ * 
+ * Balão flutuante com conteúdo do tooltip.
+ * Posiciona-se automaticamente próximo ao trigger.
+ * 
+ * Inclui:
+ * - Animações de fade e zoom
+ * - Seta apontando para o trigger
+ * - Slide baseado no lado posicionado
+ * - Portal para renderizar fora do DOM tree
+ * 
+ * @param {React.ComponentProps<typeof TooltipPrimitive.Content>} props - Props do content
+ * @param {number} [props.sideOffset=0] - Distância em px do trigger
+ * @param {string} [props.className] - Classes CSS adicionais
+ * @param {React.ReactNode} props.children - Conteúdo do tooltip
+ * @returns {JSX.Element} Balão do tooltip
+ * 
+ * @example
+ * <Tooltip>
+ *   <TooltipTrigger asChild>
+ *     <Button size="icon">
+ *       <InfoIcon />
+ *     </Button>
+ *   </TooltipTrigger>
+ *   <TooltipContent>
+ *     <p>Informação útil aqui</p>
+ *   </TooltipContent>
+ * </Tooltip>
+ * 
+ * @example
+ * // Com sideOffset para afastar do trigger
+ * <TooltipContent sideOffset={8}>
+ *   Tooltip distante
+ * </TooltipContent>
+ */
 function TooltipContent({
   className,
   sideOffset = 0,
@@ -52,6 +146,7 @@ function TooltipContent({
         {...props}
       >
         {children}
+        {/** Seta apontando para o trigger, posicionada automaticamente */}
         <TooltipPrimitive.Arrow className="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" />
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>

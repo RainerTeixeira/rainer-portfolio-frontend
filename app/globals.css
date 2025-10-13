@@ -271,7 +271,43 @@ body {
 /* Otimização de scroll para dispositivos móveis */
 .smooth-scroll {
   -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+}
+
+/* Rolagem suave APENAS se o usuário NÃO preferir movimento reduzido (acessibilidade) */
+@media (prefers-reduced-motion: no-preference) {
+  .smooth-scroll {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Desabilita rolagem suave para usuários que preferem movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  .smooth-scroll {
+    scroll-behavior: auto;
+  }
+}
+
+/* Otimizações de performance para animações */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-optimized {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* Contenção de layout para evitar reflows */
+.contain-layout {
+  contain: layout style paint;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+/* Lazy load de imagens */
+img {
+  content-visibility: auto;
 }
 
 /* Prevenção de zoom em inputs em iOS */
@@ -302,6 +338,16 @@ body {
   body {
     background-color: hsl(var(--color-background));
     color: hsl(var(--color-foreground));
+    /* Otimizações de renderização */
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Otimizar elementos que animam frequentemente */
+  button, a {
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 }
 

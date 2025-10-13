@@ -1,3 +1,23 @@
+/**
+ * Componente ContactForm (Formulário de Contato)
+ * 
+ * Formulário completo de contato com validação HTML5.
+ * Layout em 2 colunas: formulário + informações de contato.
+ * 
+ * Características:
+ * - Formulário controlado com React state
+ * - Validação HTML5 (required, email type)
+ * - Reset após envio
+ * - Cards com hover shadows
+ * - Layout responsivo (1 coluna mobile, 2 desktop)
+ * - Informações de contato ao lado
+ * 
+ * @fileoverview Formulário de contato com layout 2 colunas
+ * @author Rainer Teixeira
+ * @version 1.0.0
+ * @since 1.0.0
+ */
+
 "use client"
 
 import { Button } from "@/components/ui/button"
@@ -6,7 +26,36 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useState } from "react"
 
+/**
+ * Componente ContactForm
+ * 
+ * Renderiza formulário de contato completo com 2 colunas.
+ * 
+ * Estado interno:
+ * - formData: objeto com campos name, email, subject, message
+ * 
+ * Funções:
+ * - handleSubmit: processa envio do formulário
+ * - handleChange: atualiza estado conforme usuário digita
+ * 
+ * Layout:
+ * - Coluna 1: formulário de envio
+ * - Coluna 2: informações de contato + tempo de resposta
+ * 
+ * @returns {JSX.Element} Grid com formulário e informações
+ * 
+ * @example
+ * // Em página de contato
+ * <section>
+ *   <h1>Entre em Contato</h1>
+ *   <ContactForm />
+ * </section>
+ */
 export function ContactForm() {
+  /**
+   * Estado do formulário
+   * Objeto com todos os campos do form
+   */
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,6 +63,16 @@ export function ContactForm() {
     message: ""
   })
 
+  /**
+   * Handler de envio do formulário
+   * 
+   * - Previne reload da página
+   * - Loga dados (em produção, faria POST à API)
+   * - Mostra alert de sucesso
+   * - Reseta campos do formulário
+   * 
+   * @param {React.FormEvent} e - Evento de submit
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Formulário enviado:", formData)
@@ -21,6 +80,14 @@ export function ContactForm() {
     setFormData({ name: "", email: "", subject: "", message: "" })
   }
 
+  /**
+   * Handler de mudança de inputs
+   * 
+   * Atualiza estado formData conforme usuário digita.
+   * Usa name do input como chave no objeto.
+   * 
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>} e - Evento de change
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -30,13 +97,23 @@ export function ContactForm() {
 
   return (
     <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-      {/* Formulário */}
+      {/** 
+       * COLUNA 1: Formulário de envio de mensagem
+       * Card com campos de input e botão de envio
+       */}
       <Card className="hover:shadow-lg transition-shadow duration-300">
         <CardHeader>
           <CardTitle className="text-2xl">Envie uma Mensagem</CardTitle>
         </CardHeader>
         <CardContent>
+          {/** 
+           * Form controlado com validação HTML5
+           * - onSubmit: handleSubmit
+           * - Campos: name, email, subject, message
+           * - Botão de envio full-width
+           */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/** Campo Nome (obrigatório) */}
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium">
                 Nome *
@@ -53,6 +130,7 @@ export function ContactForm() {
               />
             </div>
 
+            {/** Campo E-mail (obrigatório, validação HTML5) */}
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
                 E-mail *
@@ -69,6 +147,7 @@ export function ContactForm() {
               />
             </div>
 
+            {/** Campo Assunto (opcional) */}
             <div className="space-y-2">
               <label htmlFor="subject" className="text-sm font-medium">
                 Assunto
@@ -84,6 +163,7 @@ export function ContactForm() {
               />
             </div>
 
+            {/** Campo Mensagem (obrigatório, textarea) */}
             <div className="space-y-2">
               <label htmlFor="message" className="text-sm font-medium">
                 Mensagem *
@@ -100,6 +180,7 @@ export function ContactForm() {
               />
             </div>
 
+            {/** Botão de envio full-width */}
             <Button type="submit" className="w-full" size="lg">
               Enviar Mensagem
             </Button>
@@ -107,18 +188,25 @@ export function ContactForm() {
         </CardContent>
       </Card>
 
-      {/* Informações de contato */}
+      {/** 
+       * COLUNA 2: Informações de contato e tempo de resposta
+       * Dois cards empilhados verticalmente
+       */}
       <div className="space-y-6">
+        {/** Card 1: Informações de contato (email, LinkedIn, GitHub) */}
         <Card className="hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
             <CardTitle className="text-xl">Informações de Contato</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+            {/** E-mail */}
             <div className="space-y-2">
               <Badge variant="secondary" className="text-xs">E-mail</Badge>
               <p className="text-muted-foreground">contato@rainersoft.com.br</p>
             </div>
             <Separator />
+            
+            {/** LinkedIn */}
             <div className="space-y-2">
               <Badge variant="secondary" className="text-xs">LinkedIn</Badge>
               <a 
@@ -131,6 +219,8 @@ export function ContactForm() {
               </a>
             </div>
             <Separator />
+            
+            {/** GitHub */}
             <div className="space-y-2">
               <Badge variant="secondary" className="text-xs">GitHub</Badge>
               <a 
@@ -145,6 +235,7 @@ export function ContactForm() {
           </CardContent>
         </Card>
 
+        {/** Card 2: Tempo de resposta */}
         <Card className="hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
             <CardTitle className="text-xl">Tempo de Resposta</CardTitle>

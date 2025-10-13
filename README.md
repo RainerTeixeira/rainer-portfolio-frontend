@@ -1,854 +1,622 @@
-# 🚀 Rainer Teixeira - Portfólio Profissional
+# 🎨 Rainer Portfolio Frontend
 
-![Next.js](https://img.shields.io/badge/Next.js-15.3.4-black?style=for-the-badge&logo=next.js)
-![React](https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
-![TailwindCSS](https://img.shields.io/badge/Tailwind-4.1.14-38B2AC?style=for-the-badge&logo=tailwind-css)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.23-ff69b4?style=for-the-badge&logo=framer)
+Portfólio profissional de **Rainer Teixeira** - Desenvolvedor Full-Stack, construído com Next.js 15, React 19, TypeScript e Tailwind CSS.
 
-Portfólio profissional moderno com design cyberpunk, animações avançadas e temas dinâmicos
+[![Next.js](https://img.shields.io/badge/Next.js-15.3.4-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.0.0-blue?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
 
-[🌐 Demo ao Vivo](https://rainersoft.com.br) | [📧 Contato](mailto:suporte@rainersoft.com.br) | [💼 LinkedIn](https://linkedin.com/in/rainerteixeira)
+## 📋 Sobre o Projeto
 
----
+Este é um portfolio moderno e responsivo que apresenta:
 
-## 📋 Índice
+- ✨ Design moderno e profissional
+- 🌓 Tema escuro/claro com persistência
+- 📱 Totalmente responsivo
+- ⚡ Performance otimizada com Next.js 15
+- 🎯 SEO otimizado
+- 🎨 Animações fluidas com Framer Motion
+- 📊 Componentes de UI modernos
+- 🔍 Análise de qualidade de código com SonarQube
 
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Tecnologias Utilizadas](#%EF%B8%8F-tecnologias-utilizadas)
-- [Funcionalidades Principais](#-funcionalidades-principais)
-- [Arquitetura do Projeto](#%EF%B8%8F-arquitetura-do-projeto)
-- [Instalação e Configuração](#-instalação-e-configuração)
-- [Scripts Disponíveis](#-scripts-disponíveis)
-- [Estrutura de Pastas](#-estrutura-de-pastas)
-- [Design System](#-design-system)
-- [Performance e Otimizações](#-performance-e-otimizações)
-- [Acessibilidade](#-acessibilidade)
-- [Deploy](#-deploy)
-- [Contribuindo](#-contribuindo)
-- [Licença](#-licença)
-- [Autor](#-autor)
-
----
-
-## 🎯 Sobre o Projeto
-
-Este é um portfólio profissional de última geração, desenvolvido com as mais modernas tecnologias do ecossistema React/Next.js. O projeto apresenta um design cyberpunk único com animações avançadas, sistema de temas dinâmicos (claro/escuro), e uma experiência de usuário imersiva.
-
-### ✨ Destaques Técnicos
-
-- **Framework Moderno**: Next.js 15 com App Router e Server Components
-- **Performance**: Otimização automática de imagens, code splitting e lazy loading
-- **Design Responsivo**: Mobile-first, adaptável a todos os dispositivos
-- **Animações Avançadas**: Efeitos cyberpunk com Matrix Rain, partículas quânticas e glitch effects
-- **Sistema de Temas**: Suporte completo a tema claro e escuro com transições suaves
-- **SEO Otimizado**: Meta tags, Open Graph e configurações avançadas
-- **Segurança**: Headers de segurança implementados (X-Frame-Options, CSP, etc.)
-- **Acessibilidade**: WCAG 2.1 AA compliance, navegação por teclado, screen readers
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-### 🎨 Frontend Core
-
-| Tecnologia | Versão | Descrição |
-|-----------|--------|-----------|
-| [Next.js](https://nextjs.org/) | 15.3.4 | Framework React com SSR e SSG |
-| [React](https://react.dev/) | 19.0.0 | Biblioteca para interfaces de usuário |
-| [TypeScript](https://www.typescriptlang.org/) | 5.0+ | Superset JavaScript com tipagem estática |
-| [TailwindCSS](https://tailwindcss.com/) | 4.1.14 | Framework CSS utility-first |
-
-### 🎭 UI/UX e Animações
-
-| Biblioteca | Versão | Uso |
-|-----------|--------|-----|
-| [Framer Motion](https://www.framer.com/motion/) | 12.23.22 | Animações e transições avançadas |
-| [Radix UI](https://www.radix-ui.com/) | Múltiplas | Componentes acessíveis e não estilizados |
-| [Lucide React](https://lucide.dev/) | 0.525.0 | Ícones SVG otimizados |
-| [Tabler Icons](https://tabler-icons.io/) | 3.34.0 | Conjunto adicional de ícones |
-| [next-themes](https://github.com/pacocoursey/next-themes) | 0.4.6 | Gerenciamento de temas |
-
-### 🧩 Componentes Radix UI Integrados
-
-```typescript
-// Componentes UI implementados com Radix
-- Accordion     // Acordeões acessíveis
-- Avatar        // Avatares com fallback
-- Checkbox      // Checkboxes customizáveis
-- Dialog        // Modais e diálogos
-- Dropdown Menu // Menus contextuais
-- Label         // Labels acessíveis
-- Progress      // Barras de progresso
-- Select        // Selects customizados
-- Separator     // Divisores visuais
-- Slot          // Composição de componentes
-- Tabs          // Navegação em abas
-- Toggle        // Botões de alternância
-- Tooltip       // Dicas contextuais
-```
-
-### 🎯 Funcionalidades Avançadas
-
-| Biblioteca | Versão | Funcionalidade |
-|-----------|--------|----------------|
-| [@dnd-kit](https://dndkit.com/) | 6.3.1+ | Drag and Drop (core, sortable, modifiers) |
-| [@tanstack/react-table](https://tanstack.com/table) | 8.21.3 | Tabelas avançadas com sorting/filtering |
-| [recharts](https://recharts.org/) | 3.0.2 | Gráficos e visualizações de dados |
-| [date-fns](https://date-fns.org/) | 4.1.0 | Manipulação e formatação de datas |
-| [react-day-picker](https://react-day-picker.js.org/) | 9.7.0 | Seletor de datas |
-| [zod](https://zod.dev/) | 3.25.67 | Validação de schemas TypeScript-first |
-| [sonner](https://sonner.emilkowal.ski/) | 2.0.5 | Toast notifications elegantes |
-| [vaul](https://vaul.emilkowal.ski/) | 1.1.2 | Bottom sheets para mobile |
-
-### 🎨 Utilitários CSS
-
-| Biblioteca | Descrição |
-|-----------|-----------|
-| [class-variance-authority](https://cva.style/docs) | Variantes de componentes type-safe |
-| [clsx](https://github.com/lukeed/clsx) | Construção condicional de classes |
-| [tailwind-merge](https://github.com/dcastil/tailwind-merge) | Merge inteligente de classes Tailwind |
-| [tailwindcss-animate](https://github.com/jamiebuilds/tailwindcss-animate) | Animações pré-configuradas |
-
-### 🔧 Ferramentas de Desenvolvimento
-
-| Ferramenta | Versão | Uso |
-|-----------|--------|-----|
-| [ESLint](https://eslint.org/) | 9.0+ | Linting e análise de código |
-| [PostCSS](https://postcss.org/) | 8.5.6 | Processamento de CSS |
-| [Autoprefixer](https://github.com/postcss/autoprefixer) | 10.4.21 | Prefixos CSS automáticos |
-| [JSDoc](https://jsdoc.app/) | 4.0.5 | Documentação de código |
-
----
-
-## 🎨 Funcionalidades Principais
-
-### 🌌 Carousel Cyberpunk Avançado
-
-O componente principal do portfólio apresenta um carrossel imersivo com múltiplos efeitos visuais:
-
-#### Efeitos Visuais Implementados
-
-- 🌧️ **Matrix Rain**: Chuva de caracteres estilo Matrix com densidade dinâmica
-- ⚛️ **Partículas Quânticas**: Sistema de partículas com 4 tipos (energy, data, quantum, neural)
-- ⚡ **Glitch Effects**: Efeitos de glitch aleatórios autênticos
-- 🔲 **Grade Holográfica**: Grade tática com 240 células animadas
-- 📡 **Scanlines**: Linhas de varredura holográficas
-- 🎭 **Gradientes Multicamada**: Sobreposições de gradientes com blend modes
-- ✨ **Corner Glows**: Brilhos nos cantos com blur dinâmico
-
-#### Características Técnicas
-
-```typescript
-- Autoplay configurável com controles de navegação
-- Responsivo com detecção de mobile/tablet/desktop
-- Suporte a navegação por teclado (Arrow Keys, Space)
-- Detecção de prefers-reduced-motion para acessibilidade
-- Animações otimizadas com requestAnimationFrame
-- Transições suaves entre temas claro/escuro
-- Efeito typewriter nos textos principais
-```
-
-### 🎨 Sistema de Temas Dinâmico
-
-#### Implementação Profissional
-
-- Sistema baseado em CSS Variables (HSL)
-- Transições suaves entre temas
-- Persistência de preferência do usuário
-- Detecção automática de preferência do sistema
-- Suporte a `prefers-color-scheme`
-- Toggle animado com ícones (Sun/Moon)
-
-#### Paleta de Cores
-
-```css
-/* Light Mode */
---color-background: 0 0% 100%
---color-primary: 222.2 47.4% 11.2%
---color-accent: 210 40% 96.1%
-
-/* Dark Mode */
---color-background: 222.2 84% 4.9%
---color-primary: 210 40% 98%
---color-accent: 217.2 32.6% 17.5%
-```
-
-### 📱 Design Responsivo Avançado
-
-#### Breakpoints Implementados
-
-```typescript
-- Mobile:   < 768px   (otimizado para touch)
-- Tablet:   768-1024px (layout híbrido)
-- Desktop:  > 1024px  (experiência completa)
-- 4K/Ultra: > 2048px  (alta densidade)
-```
-
-#### Otimizações por Dispositivo
-
-- Densidade de partículas adaptativa (10-50 partículas)
-- Colunas Matrix dinâmicas (12-60 colunas)
-- Tamanhos de fonte responsivos
-- Touch gestures otimizados para mobile
-- Navegação adaptativa (menu hambúrguer/desktop)
-
-### 🔒 Segurança
-
-#### Headers Implementados
-
-```javascript
-X-Frame-Options: DENY              // Proteção contra clickjacking
-X-Content-Type-Options: nosniff    // Prevenção de MIME sniffing
-Referrer-Policy: origin-when-cross-origin
-```
-
-#### Boas Práticas
-
-- Validação de inputs com Zod
-- Sanitização de dados
-- HTTPS enforcement
-- Proteção CSRF em formulários
-
-### 🖼️ Otimização de Imagens
-
-#### Configuração Next.js Image
-
-```javascript
-formats: ['image/webp', 'image/avif']  // Formatos modernos
-deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
-imageSizes: [16, 32, 48, 64, 96, 128, 256, 384]
-```
-
-#### Domínios Permitidos
-
-- rainersoft.com.br
-- images.unsplash.com (para assets)
-- Domínios Vercel configurados
-
----
-
-## 🏗️ Arquitetura do Projeto
-
-### 📐 Padrões Arquiteturais
-
-#### App Router (Next.js 15)
-
-```text
-app/
-├── layout.tsx          # Layout raiz com providers
-├── page.tsx            # Página inicial
-├── blog/
-│   └── page.tsx        # Página de blog
-├── contato/
-│   └── page.tsx        # Formulário de contato
-└── sobre/
-    └── page.tsx        # Página sobre
-```
-
-#### Componentes
-
-```text
-components/
-├── ui/                 # Componentes base (Radix + Tailwind)
-├── layout/             # Componentes de layout (Navbar, Footer)
-├── home/               # Componentes específicos da home
-├── blog/               # Componentes do blog
-├── theme/              # Sistema de temas
-└── providers/          # Context Providers
-```
-
-### 🎯 Princípios de Design
-
-#### Component-Driven Development
-
-- Componentes reutilizáveis e compostos
-- Props bem tipadas com TypeScript
-- Documentação JSDoc completa
-
-#### Atomic Design
-
-- Atoms: Botões, inputs, badges
-- Molecules: Cards, forms
-- Organisms: Navbar, Footer, Carousel
-- Templates: Layouts de página
-
-#### Clean Code
-
-- Nomenclatura descritiva
-- Funções pequenas e focadas
-- Separação de responsabilidades
-- Comentários informativos
-
----
-
-## 🚀 Instalação e Configuração
+## 🚀 Começando
 
 ### Pré-requisitos
 
-```bash
-Node.js >= 20.0.0
-npm >= 10.0.0 ou yarn >= 1.22.0
-```
+- **Node.js** 18.x ou superior
+- **npm** ou **yarn**
 
 ### Instalação
 
+1. Clone o repositório:
 ```bash
-# Clone o repositório
-git clone https://github.com/rainerteixeira/rainer-portfolio-frontend.git
-
-# Entre no diretório
+git clone https://github.com/seu-usuario/rainer-portfolio-frontend.git
 cd rainer-portfolio-frontend
+```
 
-# Instale as dependências
+2. Instale as dependências:
+```bash
 npm install
 # ou
 yarn install
+```
 
-# Execute o ambiente de desenvolvimento
+3. Configure as variáveis de ambiente:
+```bash
+# Copie o arquivo de exemplo (se houver)
+cp .env.example .env.local
+
+# Edite .env.local com suas configurações
+```
+
+4. Execute o servidor de desenvolvimento:
+```bash
 npm run dev
 # ou
 yarn dev
 ```
 
-O projeto estará disponível em `http://localhost:3000`
+5. Abra [http://localhost:3000](http://localhost:3000) no navegador.
 
-### Variáveis de Ambiente
+## 📦 Scripts Disponíveis
 
-Crie um arquivo `.env.local` na raiz do projeto:
-
-```env
-# Configurações do Next.js
-NEXT_PUBLIC_SITE_URL=https://rainersoft.com.br
-NEXT_PUBLIC_API_URL=https://api.rainersoft.com.br
-
-# Configurações de Analytics (opcional)
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
-
-# Configurações de Email (opcional)
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_USER=user@example.com
-SMTP_PASS=your-password
+### Desenvolvimento
+```bash
+npm run dev          # Inicia servidor de desenvolvimento (com Turbopack)
+npm run build        # Build de produção
+npm run start        # Inicia servidor de produção
 ```
 
----
+### Qualidade de Código
+```bash
+npm run lint         # Executa ESLint
+npm run lint:fix     # Corrige problemas do ESLint automaticamente
+npm run type-check   # Verifica tipos TypeScript
+```
 
-## 📜 Scripts Disponíveis
+### SonarQube
+```bash
+npm run sonar        # Análise SonarQube (usa config do sonar-project.properties)
+npm run sonar:local  # Análise SonarQube local (localhost:9000)
+```
+
+### Documentação
+```bash
+npm run docs         # Gera documentação JSDoc
+npm run docs:serve   # Gera e serve a documentação
+npm run docs:clean   # Remove documentação gerada
+npm run docs:watch   # Gera documentação em modo watch
+```
+
+> 📚 **Nota:** Todo o código do projeto está documentado com JSDoc em português brasileiro, incluindo componentes, hooks, utilitários e configurações. A documentação segue padrões profissionais com exemplos de uso, tipos detalhados e comentários inline explicativos.
+
+### Utilitários
+```bash
+npm run clean        # Limpa arquivos de build (.next, out, dist)
+```
+
+## 🏗️ Estrutura do Projeto
+
+```
+rainer-portfolio-frontend/
+├── app/                          # App Router do Next.js
+│   ├── blog/                     # Página do Blog
+│   ├── contato/                  # Página de Contato
+│   ├── sobre/                    # Página Sobre
+│   ├── layout.tsx                # Layout raiz (documentado)
+│   ├── page.tsx                  # Página inicial (documentado)
+│   └── globals.css               # Estilos globais
+├── components/                   # Componentes React (todos documentados)
+│   ├── blog/                     # Componentes do blog
+│   ├── contato/                  # Componentes de contato
+│   ├── home/                     # Componentes da home
+│   ├── layout/                   # Componentes de layout (header, footer)
+│   ├── providers/                # Providers (tema, etc)
+│   ├── sobre/                    # Componentes da página sobre
+│   ├── theme/                    # Componentes de tema
+│   └── ui/                       # Componentes de UI reutilizáveis (12 componentes)
+├── constants/                    # Constantes e dados estáticos (documentado)
+├── hooks/                        # Custom React Hooks (documentados)
+├── lib/                          # Utilitários e helpers (documentados)
+├── public/                       # Arquivos estáticos
+│   └── images/                   # Imagens do projeto
+├── sonarqube/                    # 📊 SonarQube - Análise de Qualidade
+│   ├── docs/                     # Documentação completa
+│   │   ├── README.md             # Índice da documentação
+│   │   ├── SONARQUBE-QUICKSTART.md   # Guia rápido
+│   │   ├── SONARQUBE-SETUP.md        # Setup completo
+│   │   ├── SONARQUBE-FAQ.md          # Perguntas frequentes
+│   │   ├── SONARQUBE-CHEATSHEET.md   # Referência rápida
+│   │   └── SONARQUBE-INDEX.md        # Índice completo
+│   ├── docker-compose.sonarqube.yml  # Docker Compose
+│   ├── sonar-project.properties      # Configuração principal
+│   ├── .sonarqube-ignore             # Arquivos ignorados
+│   ├── env.sonarqube.example         # Variáveis de ambiente
+│   ├── sonarqube.ps1                 # Script Windows
+│   ├── sonarqube.sh                  # Script Linux/Mac
+│   └── sonarqube.yml.example         # GitHub Actions exemplo
+└── package.json                  # Dependências e scripts
+```
+
+> 💡 **Documentação:** Todos os arquivos TypeScript/React estão documentados com JSDoc profissional em português, incluindo descrições detalhadas, exemplos de uso, tipos e comentários explicativos.
+
+## 🔍 Análise de Qualidade com SonarQube
+
+Este projeto está configurado para análise de qualidade de código com SonarQube.
+
+### ⚡ Início Rápido (com Docker)
+
+#### 1. Iniciar o SonarQube
 
 ```bash
-# Desenvolvimento
-npm run dev              # Inicia servidor de desenvolvimento com Turbopack
-npm run build            # Cria build de produção
-npm run start            # Inicia servidor de produção
-npm run lint             # Executa ESLint
-npm run lint:fix         # Corrige problemas do ESLint automaticamente
-npm run type-check       # Verifica tipos TypeScript sem emitir arquivos
+# Iniciar o servidor SonarQube
+docker-compose -f sonarqube/docker-compose.sonarqube.yml up -d
 
-# Limpeza
-npm run clean            # Remove pastas de build (.next, out, dist)
-
-# Documentação
-npm run docs             # Gera documentação JSDoc
-npm run docs:serve       # Gera e serve documentação
-npm run docs:clean       # Remove documentação gerada
-npm run docs:watch       # Gera documentação em modo watch
+# Ver os logs (opcional)
+docker-compose -f sonarqube/docker-compose.sonarqube.yml logs -f sonarqube
 ```
+
+Aguarde cerca de 2-3 minutos para o servidor iniciar completamente.
+
+#### 2. Acessar a Interface
+
+Abra o navegador em: **http://localhost:9000**
+
+**Login padrão:**
+- Usuário: `admin`
+- Senha: `admin`
+
+⚠️ **Importante:** Você será solicitado a alterar a senha no primeiro acesso.
+
+#### 3. Criar o Projeto
+
+1. Clique em **"Create Project"** → **"Manually"**
+2. Preencha:
+   - **Project key:** `rainer-portfolio-frontend`
+   - **Display name:** `Rainer Portfolio Frontend`
+3. Clique em **"Set Up"** → **"Locally"**
+4. Gere um token de acesso:
+   - Nome do token: `portfolio-analysis`
+   - Clique em **"Generate"**
+   - **Copie e salve o token** (você não verá novamente!)
+
+#### 4. Instalar o SonarScanner
+
+**Windows (PowerShell como Admin)**
+```powershell
+# Opção 1: Chocolatey
+choco install sonarscanner
+
+# Opção 2: Scoop
+scoop install sonarscanner
+```
+
+**Linux**
+```bash
+sudo apt update
+sudo apt install unzip wget
+wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+unzip sonar-scanner-cli-*.zip
+sudo mv sonar-scanner-* /opt/sonar-scanner
+sudo ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
+```
+
+**macOS**
+```bash
+brew install sonar-scanner
+```
+
+**Verificar instalação:**
+```bash
+sonar-scanner --version
+```
+
+#### 5. Configurar o Token
+
+**Opção A: Variável de Ambiente (Recomendado)**
+
+```powershell
+# Windows (PowerShell)
+$env:SONAR_TOKEN="seu-token-aqui"
+
+# Linux/Mac (Bash/Zsh)
+export SONAR_TOKEN="seu-token-aqui"
+```
+
+**Opção B: Editar `sonarqube/sonar-project.properties`**
+
+Descomente e adicione:
+```properties
+sonar.login=seu-token-aqui
+```
+
+#### 6. Executar a Análise
+
+```bash
+# Navegar até a pasta do projeto
+cd c:\Desenvolvimento\rainer-portfolio-frontend
+
+# Executar análise
+npm run sonar:local
+
+# OU
+sonar-scanner -Dsonar.host.url=http://localhost:9000 -Dsonar.login=seu-token-aqui
+```
+
+#### 7. Ver Resultados
+
+1. Aguarde a análise concluir (1-3 minutos)
+2. Acesse: http://localhost:9000
+3. Clique no projeto para ver:
+   - 🐛 **Bugs**
+   - 🔒 **Vulnerabilidades**
+   - 💡 **Code Smells**
+   - 📊 **Métricas de qualidade**
+
+### 🛑 Parar o SonarQube
+
+```bash
+# Parar os containers
+docker-compose -f sonarqube/docker-compose.sonarqube.yml down
+
+# Parar e remover volumes (limpa todos os dados)
+docker-compose -f sonarqube/docker-compose.sonarqube.yml down -v
+```
+
+### 📋 Comandos Úteis do SonarQube
+
+#### Docker
+```bash
+# Ver status dos containers
+docker-compose -f sonarqube/docker-compose.sonarqube.yml ps
+
+# Ver logs em tempo real
+docker-compose -f sonarqube/docker-compose.sonarqube.yml logs -f
+
+# Reiniciar o SonarQube
+docker-compose -f sonarqube/docker-compose.sonarqube.yml restart
+
+# Entrar no container (debug)
+docker exec -it sonarqube-local bash
+```
+
+#### SonarScanner
+```bash
+# Análise básica
+sonar-scanner
+
+# Análise com parâmetros customizados
+sonar-scanner \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=seu-token-aqui \
+  -Dsonar.projectKey=rainer-portfolio-frontend
+
+# Análise com modo verbose (debug)
+sonar-scanner -X
+
+# Análise sem aguardar Quality Gate
+sonar-scanner -Dsonar.qualitygate.wait=false
+```
+
+### 🔍 Análise de Arquivos Específicos
+
+Para analisar apenas arquivos específicos, edite `sonarqube/sonar-project.properties`:
+
+```properties
+# Analisar apenas components
+sonar.sources=components
+
+# Analisar múltiplos diretórios
+sonar.sources=components,hooks,lib
+```
+
+### 🎯 Fluxo de Trabalho Recomendado
+
+#### Desenvolvimento Diário
+```bash
+# 1. Fazer suas alterações no código
+# 2. Verificar linter
+npm run lint:fix
+
+# 3. Verificar tipos
+npm run type-check
+
+# 4. Executar análise SonarQube
+npm run sonar:local
+
+# 5. Corrigir issues reportados
+# 6. Commit
+```
+
+#### Antes de Pull Request
+```bash
+# Análise completa
+npm run lint:fix && npm run type-check && npm run sonar:local
+
+# Verificar resultado no SonarQube
+# Garantir que não há novos bugs ou vulnerabilidades
+```
+
+### ⚙️ Configurações Importantes
+
+#### Quality Gate Padrão
+O SonarQube vem com quality gates que podem falhar a análise se:
+- **Cobertura < 80%** (se testes configurados)
+- **Bugs > 0** em código novo
+- **Vulnerabilidades > 0** em código novo
+- **Code Smells** com rating D ou E
+
+#### Customizar Quality Gates
+1. Acesse: http://localhost:9000/quality_gates
+2. Crie um novo quality gate ou edite o padrão
+3. Ajuste os limites conforme sua necessidade
+
+### 🆘 Problemas Comuns
+
+#### SonarQube não inicia
+```bash
+# Verificar logs
+docker-compose -f sonarqube/docker-compose.sonarqube.yml logs sonarqube
+
+# Verificar se a porta 9000 está disponível
+netstat -an | findstr 9000  # Windows
+lsof -i :9000               # Linux/Mac
+
+# Aumentar memória do Docker Desktop
+# Settings → Resources → Memory (mínimo 4GB)
+```
+
+#### Análise falha
+```bash
+# Verificar Java
+java -version  # Deve ser Java 17+
+
+# Verificar SonarScanner
+sonar-scanner --version
+
+# Limpar cache
+rm -rf .scannerwork
+```
+
+#### Token inválido
+```bash
+# Gerar novo token em:
+# http://localhost:9000/account/security
+
+# Atualizar variável de ambiente
+$env:SONAR_TOKEN="novo-token"
+```
+
+### 📚 Documentação Completa do SonarQube
+
+Para mais informações sobre o SonarQube, consulte a documentação completa na pasta `sonarqube/docs/`:
+
+- **[📖 Índice Geral](sonarqube/docs/SONARQUBE-INDEX.md)** - Índice completo de toda documentação
+- **[⚡ Guia Rápido](sonarqube/docs/SONARQUBE-QUICKSTART.md)** - Início rápido em 5-10 minutos
+- **[🔧 Setup Completo](sonarqube/docs/SONARQUBE-SETUP.md)** - Instalação e configuração detalhada
+- **[❓ FAQ](sonarqube/docs/SONARQUBE-FAQ.md)** - Perguntas frequentes e troubleshooting
+- **[📋 Cheat Sheet](sonarqube/docs/SONARQUBE-CHEATSHEET.md)** - Referência rápida de comandos
 
 ---
 
-## 📁 Estrutura de Pastas
+### 📚 Instalação Detalhada (Alternativas ao Docker)
 
-```text
-rainer-portfolio-frontend/
-│
-├── app/                          # App Router (Next.js 15)
-│   ├── layout.tsx               # Layout raiz com providers
-│   ├── page.tsx                 # Página inicial
-│   ├── globals.css              # Estilos globais + tema
-│   ├── blog/                    # Seção de blog
-│   ├── contato/                 # Página de contato
-│   └── sobre/                   # Página sobre
-│
-├── components/                   # Componentes React
-│   ├── ui/                      # Componentes base (shadcn/ui)
-│   │   ├── button.tsx
-│   │   ├── card.tsx
-│   │   ├── input.tsx
-│   │   └── ...
-│   ├── layout/                  # Layout components
-│   │   ├── navbar.tsx
-│   │   └── footer.tsx
-│   ├── home/                    # Componentes da home
-│   │   ├── carousel.tsx         # 686 linhas de magia cyberpunk
-│   │   ├── highlights.tsx
-│   │   ├── about-section.tsx
-│   │   └── contact-section.tsx
-│   ├── blog/                    # Componentes do blog
-│   ├── theme/                   # Sistema de temas
-│   │   └── theme-toggle.tsx
-│   └── providers/               # Context Providers
-│       └── theme-provider.tsx
-│
-├── constants/                    # Constantes e configurações
-│   └── index.ts                 # SITE_CONFIG, NAVIGATION, etc.
-│
-├── hooks/                        # Custom React Hooks
-│   └── use-mobile.ts            # Hook de detecção mobile
-│
-├── lib/                          # Utilitários e helpers
-│   ├── utils.ts                 # Funções auxiliares (cn, etc.)
-│   └── hooks/                   # Hooks compartilhados
-│
-├── public/                       # Assets estáticos
-│   ├── images/                  # Imagens do projeto
-│   │   ├── b1.png - b9.png     # Banners
-│   │   ├── f1.jpg - f3.jpg     # Features
-│   │   ├── t1.jpg - t3.jpg     # Team
-│   │   └── bg-*.jpg             # Backgrounds
-│   ├── logo.png
-│   └── Rainer_Teixeira_Curriculo.pdf
-│
-├── .vscode/                      # Configurações do VSCode
-│   ├── settings.json
-│   └── css_custom_data.json
-│
-├── components.json               # Configuração shadcn/ui
-├── next.config.js                # Configuração Next.js
-├── tailwind.config.js            # Configuração Tailwind
-├── tsconfig.json                 # Configuração TypeScript
-├── postcss.config.js             # Configuração PostCSS
-├── package.json                  # Dependências e scripts
-└── README.md                     # Este arquivo
+#### Pré-requisitos
+- **Java JDK 17 ou superior**
+- **SonarQube Community Edition**
+- **SonarScanner**
+
+#### Instalar Java
+
+**Windows**
+```powershell
+winget install Microsoft.OpenJDK.17
 ```
 
----
+**Linux/Mac**
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install openjdk-17-jdk
 
-## 🎨 Design System
-
-### Componentes UI Implementados
-
-#### Componentes Base (UI)
-
-```typescript
-✅ Avatar       - Avatares com fallback
-✅ Badge        - Emblemas e tags
-✅ Button       - Botões com variantes
-✅ Card         - Cards com header/content/footer
-✅ Input        - Inputs de formulário
-✅ Progress     - Barras de progresso
-✅ Separator    - Divisores visuais
-✅ Sheet        - Painéis laterais
-✅ Skeleton     - Loading states
-✅ Tooltip      - Tooltips acessíveis
+# Mac (usando Homebrew)
+brew install openjdk@17
 ```
 
-#### Variantes de Botões
-
-```typescript
-- default    // Botão primário
-- destructive // Ações destrutivas
-- outline    // Contorno apenas
-- secondary  // Secundário
-- ghost      // Sem background
-- link       // Estilo de link
+Verificar instalação:
+```bash
+java -version
 ```
 
-#### Tamanhos
+#### Download Manual do SonarQube
 
-```typescript
-- sm   // Small
-- md   // Medium (default)
-- lg   // Large
-- icon // Ícone apenas
+1. Baixe o SonarQube Community Edition:
+   - Acesse: https://www.sonarsource.com/products/sonarqube/downloads/
+   - Baixe a versão Community Edition
+
+2. Extraia o arquivo:
+   ```powershell
+   # Windows (PowerShell)
+   Expand-Archive -Path sonarqube-*.zip -DestinationPath C:\sonarqube
+   ```
+
+3. Inicie o servidor:
+   ```powershell
+   # Windows
+   C:\sonarqube\bin\windows-x86-64\StartSonar.bat
+   
+   # Linux/Mac
+   ./sonarqube/bin/linux-x86-64/sonar.sh start
+   ```
+
+### 🔄 Atualização do SonarQube
+
+#### Docker
+```bash
+# Parar container
+docker stop sonarqube
+
+# Atualizar imagem
+docker pull sonarqube:latest
+
+# Reiniciar
+docker start sonarqube
 ```
 
-### Sistema de Cores
+#### Manual
+1. Baixe a nova versão
+2. Pare o servidor atual
+3. Substitua os arquivos
+4. Mantenha as pastas `data`, `extensions`, `logs`
+5. Inicie o novo servidor
 
-#### Tokens de Cor (HSL)
+### 💡 Dicas e Boas Práticas
 
-```typescript
-background      // Fundo principal
-foreground      // Texto principal
-primary         // Cor primária
-secondary       // Cor secundária
-accent          // Cor de destaque
-muted           // Cores suaves
-destructive     // Cores de erro/perigo
-border          // Bordas
-input           // Inputs
-ring            // Focus rings
-```
+1. **Execute análises regularmente** - Pelo menos antes de cada release
+2. **Configure webhooks** - Para notificações de problemas
+3. **Use plugins** - Instale plugins adicionais conforme necessário
+4. **Revise as issues** - Não ignore os problemas reportados
+5. **Configure exceções** - Use `// NOSONAR` apenas quando necessário
+6. **Ignorar arquivos não relevantes** - Use `.sonarqube-ignore`
 
-### Tipografia
+### 🔗 Links Úteis
 
-#### Fontes do Sistema
+- **Interface Local:** http://localhost:9000
+- **Documentação Oficial:** https://docs.sonarqube.org/
 
-```css
-font-family: system-ui, -apple-system, BlinkMacSystemFont, 
-             'Segoe UI', Roboto, 'Helvetica Neue', Arial, 
-             sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+- **Regras TypeScript:** https://rules.sonarsource.com/typescript/
+- **Quality Gates:** https://docs.sonarqube.org/latest/user-guide/quality-gates/
+- **Community Forum:** https://community.sonarsource.com/
 
-/* Código/Mono */
-font-family: 'Courier New', Courier, monospace;
-```
+## 🛠️ Tecnologias Principais
 
-#### Escalas de Tamanho
+### Core
+- **[Next.js 15](https://nextjs.org/)** - Framework React com App Router
+- **[React 19](https://react.dev/)** - Biblioteca UI
+- **[TypeScript](https://www.typescriptlang.org/)** - Tipagem estática
+- **[Tailwind CSS 4](https://tailwindcss.com/)** - Framework CSS
 
-```css
-text-xs    // 0.75rem (12px)
-text-sm    // 0.875rem (14px)
-text-base  // 1rem (16px)
-text-lg    // 1.125rem (18px)
-text-xl    // 1.25rem (20px)
-text-2xl   // 1.5rem (24px)
-text-3xl   // 1.875rem (30px)
-text-4xl   // 2.25rem (36px)
-text-5xl   // 3rem (48px)
-text-6xl   // 3.75rem (60px)
-text-7xl   // 4.5rem (72px)
-```
+### UI & Animações
+- **[Framer Motion](https://www.framer.com/motion/)** - Animações
+- **[Radix UI](https://www.radix-ui.com/)** - Componentes acessíveis
+- **[Lucide Icons](https://lucide.dev/)** - Ícones
+- **[next-themes](https://github.com/pacocoursey/next-themes)** - Gerenciamento de tema
 
----
+### Ferramentas de Desenvolvimento
+- **[ESLint](https://eslint.org/)** - Linting
+- **[SonarQube](https://www.sonarsource.com/products/sonarqube/)** - Análise de código
+- **[JSDoc](https://jsdoc.app/)** - Documentação completa em português
 
-## ⚡ Performance e Otimizações
+## 📱 Recursos
 
-### Métricas de Performance
+### Páginas
+- ✅ **Home** - Apresentação e destaques
+- ✅ **Sobre** - Informações profissionais e equipe
+- ✅ **Blog** - Artigos e publicações
+- ✅ **Contato** - Formulário de contato
 
-#### Objetivos (Core Web Vitals)
+### Funcionalidades
+- 🌓 **Modo Escuro/Claro** - Tema persistente
+- 📱 **Design Responsivo** - Mobile-first
+- ⚡ **Performance Otimizada** - SSR e SSG
+- ♿ **Acessibilidade** - WCAG 2.1
+- 🎨 **Animações Suaves** - Transições elegantes
+- 📧 **Formulário de Contato** - Validação client-side
+- 🔼 **Scroll to Top** - Navegação facilitada
+- 📊 **Carrossel Interativo** - Showcase de projetos
+- 📖 **Código Documentado** - JSDoc completo em português
 
-```text
-✅ LCP (Largest Contentful Paint):  < 2.5s
-✅ FID (First Input Delay):         < 100ms
-✅ CLS (Cumulative Layout Shift):   < 0.1
-```
+## 🎨 Temas e Personalização
 
-### Otimizações Implementadas
+O projeto suporta temas claro e escuro com persistência usando `next-themes`. A alternância é feita através do componente `ThemeToggle`.
 
-#### 1. Code Splitting e Lazy Loading
+### Cores Principais
+- **Primária:** Azul (#0EA5E9)
+- **Secundária:** Indigo (#6366F1)
+- **Destaque:** Amarelo (#FBBF24)
 
-```typescript
-// Componentes dinâmicos
-const DynamicComponent = dynamic(() => import('./Component'), {
-  loading: () => <Skeleton />,
-  ssr: false // Desabilita SSR se necessário
-})
-```
+As cores podem ser customizadas em `tailwind.config.js` e `app/globals.css`.
 
-#### 2. Otimização de Imagens
+## 📈 Performance
 
-```typescript
-// Next.js Image com otimização automática
-import Image from 'next/image'
+- ⚡ **Lighthouse Score:** 95+ em todas as métricas
+- 🎯 **Core Web Vitals:** Otimizado
+- 📦 **Bundle Size:** Otimizado com code splitting
+- 🖼️ **Imagens:** Otimizadas com next/image
 
-<Image
-  src="/image.jpg"
-  alt="Description"
-  width={800}
-  height={600}
-  quality={85}
-  loading="lazy"
-  placeholder="blur"
-/>
-```
+## 🔒 Segurança
 
-#### 3. Preload de Recursos Críticos
-
-```html
-<link rel="preload" href="/fonts/font.woff2" as="font" crossorigin />
-```
-
-#### 4. Memoização e Callbacks
-
-```typescript
-const MemoizedComponent = React.memo(Component)
-const handleClick = useCallback(() => {}, [dependencies])
-const memoizedValue = useMemo(() => computeExpensiveValue(), [dep])
-```
-
-#### 5. Animações GPU-Accelerated
-
-```css
-.hardware-accelerated {
-  transform: translateZ(0);
-  will-change: transform;
-}
-```
-
-#### 6. Bundle Size Optimization
-
-```javascript
-// next.config.js
-experimental: {
-  optimizePackageImports: ['lucide-react', '@radix-ui/react-icons']
-}
-
-// Production build removes console.logs
-compiler: {
-  removeConsole: process.env.NODE_ENV === 'production'
-}
-```
-
----
-
-## ♿ Acessibilidade
-
-### Conformidade WCAG 2.1 AA
-
-#### Recursos Implementados
-
-##### Navegação por Teclado
-
-```typescript
-// Suporte completo a Tab, Enter, Escape, Arrow Keys
-- Tab: Navegação entre elementos
-- Enter/Space: Ativação de elementos
-- Escape: Fechamento de modais
-- Arrow Keys: Navegação no carousel
-```
-
-##### Screen Readers
-
-```jsx
-// ARIA labels, roles e descriptions
-<section role="banner" aria-label="Seção principal">
-<button aria-label="Abrir menu" aria-expanded={isOpen}>
-<div role="region" aria-labelledby="heading-id">
-```
-
-##### Contraste de Cores
-
-```css
-/* Todos os textos têm contraste mínimo de 4.5:1 */
-/* Elementos interativos têm contraste de 3:1 */
-```
-
-##### Focus Visível
-
-```css
-.focus-visible:focus {
-  outline: 2px solid hsl(var(--color-primary));
-  outline-offset: 2px;
-}
-```
-
-##### Reduced Motion
-
-```typescript
-// Detecção e respeito a prefers-reduced-motion
-const prefersReducedMotion = window.matchMedia(
-  '(prefers-reduced-motion: reduce)'
-).matches
-
-if (prefersReducedMotion) {
-  // Desabilita animações complexas
-}
-```
-
-##### Textos Alternativos
-
-```jsx
-// Todas as imagens têm alt text descritivo
-<Image src="/logo.png" alt="Logo Rainer Teixeira - Desenvolvedor Full-Stack" />
-```
-
-##### Landmarks Semânticos
-
-```jsx
-<header>  // Cabeçalho
-<nav>     // Navegação
-<main>    // Conteúdo principal
-<aside>   // Conteúdo complementar
-<footer>  // Rodapé
-```
-
----
-
-## 🌐 SEO e Meta Tags
-
-### Meta Tags Implementadas
-
-```tsx
-export const metadata = {
-  title: 'Rainer Teixeira - Desenvolvedor Full-Stack',
-  description: 'Especializado em soluções modernas e inovadoras...',
-  keywords: ['Next.js', 'React', 'TypeScript', 'Full-Stack'],
-  authors: [{ name: 'Rainer Teixeira' }],
-  creator: 'Rainer Teixeira',
-  publisher: 'Rainer Teixeira',
-  
-  openGraph: {
-    type: 'website',
-    locale: 'pt_BR',
-    url: 'https://rainersoft.com.br',
-    title: 'Rainer Teixeira - Portfólio',
-    description: '...',
-    siteName: 'Rainer Teixeira',
-    images: [{
-      url: 'https://rainersoft.com.br/og-image.jpg',
-      width: 1200,
-      height: 630,
-    }],
-  },
-  
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Rainer Teixeira - Portfólio',
-    description: '...',
-    images: ['https://rainersoft.com.br/twitter-image.jpg'],
-  },
-  
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
-  },
-}
-```
-
----
+- ✅ Validação de formulários
+- ✅ Sanitização de inputs
+- ✅ Headers de segurança configurados
+- ✅ Análise de vulnerabilidades com SonarQube
 
 ## 🚢 Deploy
 
 ### Vercel (Recomendado)
 
-```text
-# Deploy automático via GitHub
-1. Conecte seu repositório ao Vercel
-2. Configure variáveis de ambiente
-3. Deploy automático a cada push na main
+```bash
+# Instalar Vercel CLI
+npm i -g vercel
 
-# Deploy manual via CLI
-npm install -g vercel
+# Deploy
 vercel
 ```
 
 ### Outras Plataformas
-
-#### Netlify
-
-```bash
-npm run build
-# Deploy da pasta .next
-```
-
-#### Docker
-
-```dockerfile
-FROM node:20-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
----
+- **Netlify**
+- **AWS Amplify**
+- **Azure Static Web Apps**
+- **Docker**
 
 ## 🤝 Contribuindo
 
-Contribuições são bem-vindas! Siga estas diretrizes:
+Contribuições são bem-vindas! Por favor:
 
-1. **Fork** o projeto
-2. Crie uma **branch** para sua feature (`git checkout -b feature/AmazingFeature`)
-3. **Commit** suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um **Pull Request**
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
+4. Push para a branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request
 
 ### Padrões de Código
 
-- ✅ Use TypeScript com tipagem estrita
-- ✅ Siga o ESLint configurado
-- ✅ Adicione JSDoc aos componentes
-- ✅ Mantenha componentes pequenos e focados
-- ✅ Teste em diferentes dispositivos
-- ✅ Verifique acessibilidade
-
----
+- ✅ Execute `npm run lint:fix` antes de commitar
+- ✅ Execute `npm run type-check` para verificar tipos
+- ✅ Execute `npm run sonar:local` para análise de qualidade
+- ✅ Siga as convenções de commit (Conventional Commits)
+- ✅ Adicione testes quando aplicável
+- ✅ Documente novos componentes/funções com JSDoc em português
 
 ## 📄 Licença
 
-Este projeto é de propriedade privada de **Rainer Teixeira**. Todos os direitos reservados.
-
-Para uso comercial ou redistribuição, entre em contato: [suporte@rainersoft.com.br](mailto:suporte@rainersoft.com.br)
-
----
+Este projeto é propriedade de **Rainer Teixeira** e está protegido por direitos autorais.
 
 ## 👨‍💻 Autor
 
-### Rainer Teixeira
+**Rainer Teixeira**
+- Email: suporte@rainersoft.com.br
+- LinkedIn: [linkedin.com/in/rainer-teixeira](https://linkedin.com/in/rainer-teixeira)
+- GitHub: [@rainerteixeira](https://github.com/rainerteixeira)
 
-Desenvolvedor Full-Stack | 5+ anos de experiência
+## 📞 Suporte
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/rainerteixeira)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/rainerteixeira)
-[![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=google-chrome&logoColor=white)](https://rainersoft.com.br)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:suporte@rainersoft.com.br)
-
-📍 Volta Redonda, RJ - Brasil  
-📧 [suporte@rainersoft.com.br](mailto:suporte@rainersoft.com.br)  
-📱 +(55) 24 99913-7382
-
----
+Para questões e suporte:
+- 📧 Email: suporte@rainersoft.com.br
+- 🌐 Website: [rainersoft.com.br](https://rainersoft.com.br)
 
 ## 🙏 Agradecimentos
 
-- [Next.js Team](https://nextjs.org/) - Framework incrível
-- [Vercel](https://vercel.com/) - Hospedagem e deploy
-- [Radix UI](https://www.radix-ui.com/) - Componentes acessíveis
-- [shadcn/ui](https://ui.shadcn.com/) - Design system
-- [Framer Motion](https://www.framer.com/motion/) - Animações
-- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS
-- Comunidade Open Source - Ferramentas e inspiração
+- [Next.js Team](https://nextjs.org/)
+- [Vercel](https://vercel.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Radix UI](https://www.radix-ui.com/)
+- Comunidade Open Source
 
 ---
 
-## 📊 Estatísticas do Projeto
+**Desenvolvido com ❤️ por Rainer Teixeira**
 
-```typescript
-Linhas de Código:    ~10.000+
-Componentes:         50+
-Dependências:        40+
-Testes:              Em desenvolvimento
-Cobertura:           Target: 80%
-Performance Score:   95+ (Lighthouse)
-Acessibilidade:      100 (Lighthouse)
-SEO:                 100 (Lighthouse)
-Best Practices:      100 (Lighthouse)
-```
+*Última atualização: Outubro 2025*
 
----
-
-## 🗺️ Roadmap
-
-### 🚀 Em Desenvolvimento
-
-- [ ] Sistema de Blog completo com CMS
-- [ ] Integração com backend (API REST)
-- [ ] Painel administrativo
-- [ ] Sistema de comentários
-- [ ] Newsletter integrada
-- [ ] Analytics dashboard
-
-### 🔮 Futuro
-
-- [ ] PWA (Progressive Web App)
-- [ ] Suporte a múltiplos idiomas (i18n)
-- [ ] Dark mode automático por hora
-- [ ] Modo de alto contraste
-- [ ] Integração com redes sociais
-- [ ] Chat em tempo real
-- [ ] Sistema de notificações
-
----
-
-### Se você gostou deste projeto, não esqueça de dar uma estrela
-
-Desenvolvido com ❤️ e ☕ por [Rainer Teixeira](https://rainersoft.com.br)
-
-© 2025 Rainer Teixeira. Todos os direitos reservados.

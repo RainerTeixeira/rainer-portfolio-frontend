@@ -15,7 +15,9 @@
     "docs": "jsdoc -c jsdoc.config.json",
     "docs:serve": "jsdoc -c jsdoc.config.json --destination ./docs && npx serve ./docs",
     "docs:clean": "rm -rf ./docs",
-    "docs:watch": "jsdoc -c jsdoc.config.json --watch"
+    "docs:watch": "jsdoc -c jsdoc.config.json --watch",
+    "sonar": "sonar-scanner -Dsonar.projectBaseDir=. -Dsonar.projectKey=rainer-portfolio-frontend",
+    "sonar:local": "sonar-scanner -Dsonar.projectBaseDir=. -Dsonar.host.url=http://localhost:9000 -Dsonar.projectKey=rainer-portfolio-frontend"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
