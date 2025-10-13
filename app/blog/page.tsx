@@ -18,7 +18,7 @@
  */
 
 import { PostCard } from "@/components/blog/post-card"
-import { SECTION_CLASSES } from "@/lib/utils"
+import { ParticlesEffect, PageHeader } from "@/components/ui"
 
 /**
  * Componente BlogPage
@@ -78,32 +78,14 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black">
-      {/** 
-       * Efeito de partículas sutis - apenas no dark mode
-       * Três partículas coloridas animadas em posições diferentes
-       * - opacity-0 dark:opacity-100: visível apenas no dark
-       * - pointer-events-none: não interfere com cliques
-       */}
-      <div className="fixed inset-0 pointer-events-none opacity-0 dark:opacity-100">
-        <div className="absolute top-20 left-1/4 w-1 h-1 bg-cyan-400 rounded-full animate-pulse opacity-40"></div>
-        <div className="absolute top-40 right-1/3 w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse opacity-30" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-40 left-1/2 w-0.5 h-0.5 bg-pink-400 rounded-full animate-pulse opacity-35" style={{ animationDelay: '4s' }}></div>
-      </div>
+      {/** Efeito de partículas decorativas (dark mode) */}
+      <ParticlesEffect variant="default" />
       
-      {/** 
-       * Header da página
-       * Título, linha decorativa e descrição centralizados
-       * Utiliza SECTION_CLASSES.container para padding responsivo
-       */}
-      <div className={`${SECTION_CLASSES.container} relative z-10`}>
-        <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-foreground dark:text-cyan-200 dark:font-mono dark:tracking-wider">Blog</h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary dark:from-cyan-400 dark:to-purple-400 mx-auto mb-6"></div>
-          <p className="text-muted-foreground dark:text-gray-300 text-lg max-w-2xl mx-auto dark:font-mono">
-            Artigos sobre desenvolvimento, tecnologia e as últimas tendências do mercado
-          </p>
-        </div>
-      </div>
+      {/** Header da página */}
+      <PageHeader
+        title="Blog"
+        description="Artigos sobre desenvolvimento, tecnologia e as últimas tendências do mercado"
+      />
 
       {/** 
        * Conteúdo da página com grid de posts

@@ -17,7 +17,7 @@
  */
 
 import Image from "next/image"
-import { SECTION_CLASSES } from "@/lib/utils"
+import { ParticlesEffect, PageHeader } from "@/components/ui"
 
 /**
  * Componente SobrePage
@@ -71,46 +71,29 @@ export default function SobrePage() {
 
   return (
     <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black">
-      {/** 
-       * Efeito de partículas sutis - apenas no dark mode
-       * Três partículas coloridas animadas em posições diferentes
-       */}
-      <div className="fixed inset-0 pointer-events-none opacity-0 dark:opacity-100">
-        <div className="absolute top-24 left-1/5 w-1 h-1 bg-cyan-400 rounded-full animate-pulse opacity-45"></div>
-        <div className="absolute top-80 right-1/5 w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse opacity-35" style={{ animationDelay: '2.5s' }}></div>
-        <div className="absolute bottom-80 left-1/3 w-0.5 h-0.5 bg-pink-400 rounded-full animate-pulse opacity-40" style={{ animationDelay: '1.8s' }}></div>
-      </div>
+      {/** Efeito de partículas decorativas (dark mode) */}
+      <ParticlesEffect variant="alt1" />
       
-      {/** 
-       * Header da página com avatar e apresentação
-       * - Avatar circular com borda e badge de emoji
-       * - Título, linha decorativa e descrição
-       * - Efeitos de glow no dark mode
-       */}
-      <div className={`${SECTION_CLASSES.container} relative z-10`}>
-        <div className="text-center mb-12">
-          <div className="relative mb-8">
-            <div className="relative w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-primary dark:border-cyan-400/50 shadow-lg dark:shadow-cyan-500/20">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 dark:from-cyan-400/10 dark:to-purple-400/10 blur-sm opacity-0 dark:opacity-100"></div>
-              <Image
-                src="/images/t2.jpg"
-                alt="Rainer Teixeira - Desenvolvedor Full-Stack"
-                fill
-                className="object-cover relative z-10"
-                sizes="128px"
-              />
-            </div>
-            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-r from-primary to-primary dark:from-cyan-400 dark:to-purple-400 rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-primary-foreground dark:text-white text-sm font-bold">💻</span>
-            </div>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-foreground dark:text-cyan-200 dark:font-mono dark:tracking-wider">Sobre Mim</h1>
-          <div className="w-28 h-1 bg-gradient-to-r from-primary to-primary dark:from-cyan-400 dark:to-purple-400 mx-auto mb-6"></div>
-          <p className="text-muted-foreground dark:text-gray-300 text-lg max-w-2xl mx-auto dark:font-mono">
-            Sou um desenvolvedor Full-Stack apaixonado por tecnologia e inovação. Com mais de 8 anos de experiência no mercado, trabalho criando soluções digitais que fazem a diferença na vida das pessoas e empresas.
-          </p>
+      {/** Header da página com avatar */}
+      <PageHeader
+        title="Sobre Mim"
+        description="Sou um desenvolvedor Full-Stack apaixonado por tecnologia e inovação. Com mais de 8 anos de experiência no mercado, trabalho criando soluções digitais que fazem a diferença na vida das pessoas e empresas."
+      >
+        {/** Avatar com badge de emoji */}
+        <div className="relative w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-primary dark:border-cyan-400/50 shadow-lg dark:shadow-cyan-500/20">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 dark:from-cyan-400/10 dark:to-purple-400/10 blur-sm opacity-0 dark:opacity-100"></div>
+          <Image
+            src="/images/t2.jpg"
+            alt="Rainer Teixeira - Desenvolvedor Full-Stack"
+            fill
+            className="object-cover relative z-10"
+            sizes="128px"
+          />
         </div>
-      </div>
+        <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-r from-primary to-primary dark:from-cyan-400 dark:to-purple-400 rounded-full flex items-center justify-center shadow-lg">
+          <span className="text-primary-foreground dark:text-white text-sm font-bold">💻</span>
+        </div>
+      </PageHeader>
 
       {/** 
        * Conteúdo da página com grid 2 colunas

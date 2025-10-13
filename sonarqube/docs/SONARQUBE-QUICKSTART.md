@@ -34,7 +34,7 @@ Abra o navegador em: **http://localhost:9000**
    - **Display name:** `Rainer Portfolio Frontend`
 3. Clique em **"Set Up"** → **"Locally"**
 4. Gere um token de acesso:
-   - Nome do token: `portfolio-analysis`
+   - Nome do token: `SONAR_TOKEN`
    - Clique em **"Generate"**
    - **Copie e salve o token** (você não verá novamente!)
 

@@ -37,11 +37,24 @@ docker-compose -f sonarqube/docker-compose.sonarqube.yml up -d
 - URL: http://localhost:9000
 - Login: `admin` / `admin`
 
-### 3. Executar Análise
+### 3. Configurar Token (Primeira Vez)
+
+```powershell
+# Na pasta sonarqube
+cd sonarqube
+.\configure-token.ps1
+```
+
+**OU veja o guia:** [INSTRUCOES-IMEDIATAS.md](sonarqube/INSTRUCOES-IMEDIATAS.md)
+
+### 4. Executar Análise
 
 ```bash
 # Executar da raiz do projeto
 npm run sonar:local
+
+# OU usando o script helper (na pasta sonarqube)
+.\sonarqube.ps1 analyze
 ```
 
 ## 📚 Documentação

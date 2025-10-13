@@ -81,6 +81,47 @@ export const CARD_CLASSES = {
 } as const
 
 /**
+ * Delays de animação para partículas e efeitos
+ * 
+ * Conjunto de valores padronizados para delays de animação
+ * usados em partículas, transições e efeitos visuais.
+ * 
+ * @constant
+ * @type {Object}
+ * @readonly
+ * 
+ * @property {string} particle1 - Delay para primeira partícula
+ * @property {string} particle2 - Delay para segunda partícula
+ * @property {string} particle3 - Delay para terceira partícula
+ * 
+ * @example
+ * import { ANIMATION_DELAYS } from '@/lib/utils'
+ * 
+ * <div style={{ animationDelay: ANIMATION_DELAYS.particle2 }}>
+ *   // partícula animada
+ * </div>
+ */
+export const ANIMATION_DELAYS = {
+  /** Delay de 1s para primeira partícula */
+  particle1: "1s",
+  
+  /** Delay de 2s para segunda partícula */
+  particle2: "2s",
+  
+  /** Delay de 3s para terceira partícula */
+  particle3: "3s",
+  
+  /** Delay de 1.5s (variação) */
+  short: "1.5s",
+  
+  /** Delay de 2.5s (variação) */
+  medium: "2.5s",
+  
+  /** Delay de 4s (variação) */
+  long: "4s"
+} as const
+
+/**
  * Combina e mescla classes CSS de forma inteligente
  * 
  * Esta função é fundamental para trabalhar com Tailwind CSS e componentes

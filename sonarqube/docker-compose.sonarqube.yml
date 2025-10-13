@@ -13,8 +13,6 @@
 # Ver logs:
 #   docker-compose -f docker-compose.sonarqube.yml logs -f
 
-version: '3.8'
-
 services:
   sonarqube:
     image: sonarqube:latest

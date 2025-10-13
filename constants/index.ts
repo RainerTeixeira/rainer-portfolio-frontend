@@ -45,7 +45,7 @@
  * console.log(SITE_CONFIG.email) // "suporte@rainersoft.com.br"
  * console.log(SITE_CONFIG.technologies) // ["React", "Next.js", ...]
  */
-export const SITE_CONFIG = {
+export const SITE_CONFIG: object = {
   // Informações básicas
   /** Nome da marca/empresa exibido no site */
   name: "Rainer Soft",
@@ -118,7 +118,7 @@ export const SITE_CONFIG = {
  *   <Link href={item.href}>{item.name}</Link>
  * ))
  */
-export const NAVIGATION = [
+export const NAVIGATION: ReadonlyArray<NavigationItem> = [
   /** Link para a página inicial */
   { name: "Home", href: "/", description: "Página inicial com apresentação" },
   
@@ -188,7 +188,7 @@ export const NAVIGATION = [
  * 
  * console.log(FOOTER_CONFIG.services.items[0].name) // "Desenvolvimento Web"
  */
-export const FOOTER_CONFIG = {
+export const FOOTER_CONFIG: object = {
   // Seção: Informações da Empresa
   /**
    * Seção com informações gerais da empresa/profissional

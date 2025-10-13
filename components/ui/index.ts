@@ -11,6 +11,8 @@
  * - Separator: linhas divisórias
  * - Avatar: imagens de perfil com fallback
  * - Progress: barras de progresso
+ * - ParticlesEffect: partículas decorativas para dark mode
+ * - PageHeader: header padronizado para páginas internas
  * 
  * @fileoverview Barrel file de componentes UI
  * @author Rainer Teixeira
@@ -39,3 +41,9 @@ export { Avatar, AvatarFallback, AvatarImage } from './avatar'
 
 /** Componente Progress: barra de progresso animada */
 export { Progress } from './progress'
+
+/** Componente ParticlesEffect: partículas decorativas para dark mode */
+export { ParticlesEffect } from './particles-effect'
+
+/** Componente PageHeader: header padronizado para páginas internas */
+export { PageHeader } from './page-header'

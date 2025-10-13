@@ -121,6 +121,7 @@ export function PostCard({ title, description, date, category, link, image }: Po
           <a 
             href={link} 
             className="inline-flex items-center text-sm font-medium text-primary hover:underline transition-colors"
+            aria-label={`Ler mais sobre ${title}`}
           >
             Ler mais →
           </a>
