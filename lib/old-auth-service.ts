@@ -9,6 +9,8 @@
  * @version 1.0.0
  */
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 // TODO: Instalar AWS Amplify
 // npm install aws-amplify @aws-amplify/ui-react
 
@@ -25,7 +27,7 @@ export interface User {
   username: string
   email?: string
   name?: string
-  attributes?: Record<string, any>
+  attributes?: Record<string, unknown>
 }
 
 /**
@@ -77,23 +79,11 @@ class AuthService {
 
       // Fallback: Autenticação local (desenvolvimento)
       return this.localSignIn(username, password)
-    } catch (error: any) {
-      // TODO: Tratar erros específicos do Cognito
-      /*
-      if (error.code === 'UserNotFoundException') {
-        return { success: false, error: 'Usuário não encontrado' }
-      }
-      if (error.code === 'NotAuthorizedException') {
-        return { success: false, error: 'Senha incorreta' }
-      }
-      if (error.code === 'UserNotConfirmedException') {
-        return { success: false, error: 'Email não confirmado' }
-      }
-      */
-
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao fazer login'
       return {
         success: false,
-        error: error.message || 'Erro ao fazer login'
+        error: errorMessage
       }
     }
   }
@@ -162,20 +152,11 @@ class AuthService {
           name: data.name
         }
       }
-    } catch (error: any) {
-      // TODO: Tratar erros do Cognito
-      /*
-      if (error.code === 'UsernameExistsException') {
-        return { success: false, error: 'Usuário já existe' }
-      }
-      if (error.code === 'InvalidPasswordException') {
-        return { success: false, error: 'Senha não atende aos requisitos' }
-      }
-      */
-
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao criar conta'
       return {
         success: false,
-        error: error.message || 'Erro ao criar conta'
+        error: errorMessage
       }
     }
   }
