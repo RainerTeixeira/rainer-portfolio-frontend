@@ -283,3 +283,13 @@ export const FOOTER_CONFIG = {
     portfolio: { icon: "ExternalLink", description: "Site oficial" }
   }
 } as const
+
+// =============================================================================
+// RE-EXPORT de SKILLS e EXPERIENCE do arquivo index.tsx
+// =============================================================================
+
+/**
+ * Re-exporta SKILLS e EXPERIENCE do arquivo index.tsx
+ * para manter compatibilidade com imports existentes
+ */
+export { SKILLS, EXPERIENCE, type SkillItem } from "./index.tsx" 
