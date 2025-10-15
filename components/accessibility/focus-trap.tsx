@@ -51,10 +51,11 @@ export function FocusTrap({ children, active = true }: FocusTrapProps) {
     // Focar primeiro elemento ao montar
     firstElement?.focus()
 
-    container.addEventListener("keydown", handleTabKey as any)
+    const handleKeyDown = handleTabKey as EventListener
+    container.addEventListener("keydown", handleKeyDown)
 
     return () => {
-      container.removeEventListener("keydown", handleTabKey as any)
+      container.removeEventListener("keydown", handleKeyDown)
     }
   }, [active])
 

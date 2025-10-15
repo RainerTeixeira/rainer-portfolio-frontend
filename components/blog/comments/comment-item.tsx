@@ -86,7 +86,7 @@ export function CommentItem({
       })
 
       if (!response.ok) throw new Error("Erro ao curtir")
-    } catch (error) {
+    } catch {
       setIsLiked(wasLiked)
       setLikesCount(prev => wasLiked ? prev + 1 : prev - 1)
       toast.error("Erro ao curtir comentário")
@@ -105,7 +105,7 @@ export function CommentItem({
       if (onCommentDeleted) {
         onCommentDeleted(comment.id)
       }
-    } catch (error) {
+    } catch {
       toast.error("Erro ao deletar comentário")
     }
   }

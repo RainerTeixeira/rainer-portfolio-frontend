@@ -29,7 +29,6 @@ import {
   HeroSection
 } from "@/components/home"
 import { BackToTop } from "@/components/ui"
-import { Separator } from "@/components/ui/separator"
 
 /**
  * Componente principal da página Home

@@ -20,7 +20,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { ParticlesEffect, PageHeader, BackToTop } from "@/components/ui"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Download, Mail, Github, Linkedin, Globe } from "lucide-react"
 import { SKILLS, EXPERIENCE } from "@/constants"
 
