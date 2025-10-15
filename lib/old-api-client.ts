@@ -61,9 +61,9 @@ async function fetchAPI<T>(
 ): Promise<T> {
   const token = getAuthToken()
   
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...(options.headers as Record<string, string> || {}),
   }
   
   if (token) {
@@ -294,6 +294,7 @@ export async function getPresignedUpload(
  */
 export async function uploadFile(
   file: File,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _onProgress?: (progress: number) => void
 ): Promise<string> {
   // 1. Solicita presigned URL

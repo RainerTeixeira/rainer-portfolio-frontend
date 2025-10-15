@@ -77,6 +77,7 @@ class LocalAuth {
       localStorage.setItem(USERS_KEY, JSON.stringify(users))
 
       // Retornar usuário sem a senha
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userWithoutPassword } = newUser
 
       return {
@@ -84,10 +85,11 @@ class LocalAuth {
         message: 'Conta criada com sucesso!',
         user: userWithoutPassword as User
       }
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao criar conta'
       return {
         success: false,
-        message: error.message || 'Erro ao criar conta'
+        message: errorMessage
       }
     }
   }
@@ -125,6 +127,7 @@ class LocalAuth {
       }
 
       // Retornar usuário sem senha
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: _, ...userWithoutPassword } = user
 
       return {
@@ -132,10 +135,11 @@ class LocalAuth {
         message: 'Login realizado com sucesso!',
         user: userWithoutPassword
       }
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao fazer login'
       return {
         success: false,
-        message: error.message || 'Erro ao fazer login'
+        message: errorMessage
       }
     }
   }
@@ -182,10 +186,11 @@ class LocalAuth {
         message: 'Email de recuperação enviado! Verifique sua caixa de entrada.',
         token // Em produção, NÃO retornar o token
       }
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao enviar email'
       return {
         success: false,
-        message: error.message || 'Erro ao enviar email'
+        message: errorMessage
       }
     }
   }
@@ -229,8 +234,11 @@ class LocalAuth {
         }
       }
 
+      // Obter referência do usuário (já verificado que existe acima)
+      const user = users[userIndex]!
+
       // Atualizar senha
-      users[userIndex].password = newPassword // Em produção: bcrypt.hash(newPassword, 10)
+      user.password = newPassword // Em produção: bcrypt.hash(newPassword, 10)
       localStorage.setItem(USERS_KEY, JSON.stringify(users))
 
       // Invalidar token
@@ -241,10 +249,11 @@ class LocalAuth {
         success: true,
         message: 'Senha redefinida com sucesso!'
       }
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao redefinir senha'
       return {
         success: false,
-        message: error.message || 'Erro ao redefinir senha'
+        message: errorMessage
       }
     }
   }

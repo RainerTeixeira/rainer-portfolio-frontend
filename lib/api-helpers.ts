@@ -9,7 +9,7 @@
  * @version 1.0.0
  */
 
-import type {Post, TiptapJSON, CreatePostDTO, UpdatePostDTO, PostStatus } from '@/types/database'
+import type { TiptapJSON, TiptapNode, CreatePostDTO, UpdatePostDTO, PostStatus } from '@/types/database'
 
 /**
  * Converte string para slug URL-friendly
@@ -51,13 +51,13 @@ export function calculateReadingTime(text: string): number {
  * @returns Texto puro
  */
 export function extractTextFromTiptap(content: TiptapJSON): string {
-  function extractFromNode(node: any): string {
-    if (node.text) {
+  function extractFromNode(node: TiptapJSON | TiptapNode): string {
+    if ('text' in node && typeof node.text === 'string') {
       return node.text
     }
     
-    if (node.content && Array.isArray(node.content)) {
-      return node.content.map(extractFromNode).join(' ')
+    if ('content' in node && Array.isArray(node.content)) {
+      return node.content.map((child: TiptapNode) => extractFromNode(child)).join(' ')
     }
     
     return ''
