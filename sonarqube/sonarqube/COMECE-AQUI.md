@@ -7,7 +7,7 @@
 
 ## 📍 Você Está Aqui
 
-```
+```text
 ✅ Docker rodando
 ✅ SonarQube iniciado
 ✅ Projeto criado (rainer-portfolio-frontend)
@@ -23,34 +23,16 @@
 
 **O que fazer:**
 
-<table>
-<tr>
-<td width="200"><b>📝 Campo</b></td>
-<td><b>✍️ O que digitar</b></td>
-</tr>
-<tr>
-<td>Nome do token</td>
-<td><code>portfolio-analysis</code></td>
-</tr>
-<tr>
-<td>Expira em</td>
-<td><code>1 year</code> (deixar como está)</td>
-</tr>
-<tr>
-<td colspan="2" align="center">
-<br>
-🖱️ <b>CLIQUE NO BOTÃO "Gerar"</b>
-<br><br>
-</td>
-</tr>
-<tr>
-<td colspan="2" align="center">
-⚠️ <b>COPIE O TOKEN EXIBIDO!</b><br>
-<small>Exemplo: <code>squ_a1b2c3d4e5f6...</code></small><br>
-<small>(Você só verá uma vez!)</small>
-</td>
-</tr>
-</table>
+| 📝 Campo | ✍️ O que digitar |
+|----------|------------------|
+| Nome do token | `portfolio-analysis` |
+| Expira em | `1 year` (deixar como está) |
+
+**Ação:** 🖱️ **CLIQUE NO BOTÃO "Gerar"**
+
+⚠️ **COPIE O TOKEN EXIBIDO!**  
+Exemplo: `squ_a1b2c3d4e5f6...`  
+(Você só verá uma vez!)
 
 ---
 
@@ -83,7 +65,7 @@ cd c:\Desenvolvimento\rainer-portfolio-frontend\sonarqube
 
 **Após a análise concluir, acesse:**
 
-👉 **http://localhost:9000**
+👉 **<http://localhost:9000>**
 
 Você verá um dashboard com:
 
@@ -113,7 +95,7 @@ cd c:\Desenvolvimento\rainer-portfolio-frontend\sonarqube
 
 ## 🎬 O Que Acontece Durante a Análise?
 
-```
+```text
 🔍 Iniciando análise do código...
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -149,16 +131,19 @@ cd c:\Desenvolvimento\rainer-portfolio-frontend\sonarqube
 ### ❌ "SonarScanner não encontrado"
 
 **Instale com:**
+
 ```powershell
 choco install sonarscanner
 ```
 
 **Ou com Scoop:**
+
 ```powershell
 scoop install sonarscanner
 ```
 
 **Verifique:**
+
 ```powershell
 sonar-scanner --version
 ```
@@ -168,11 +153,13 @@ sonar-scanner --version
 ### ❌ "SonarQube não responde"
 
 **Verifique se está rodando:**
+
 ```powershell
 docker ps | Select-String sonarqube
 ```
 
 **Se não estiver, inicie:**
+
 ```powershell
 cd c:\Desenvolvimento\rainer-portfolio-frontend\sonarqube
 docker-compose -f docker-compose.sonarqube.yml up -d
@@ -184,7 +171,7 @@ docker-compose -f docker-compose.sonarqube.yml up -d
 
 ### ❌ "Token inválido"
 
-1. Gere um novo token em: http://localhost:9000/account/security
+1. Gere um novo token em: <http://localhost:9000/account/security>
 2. Copie corretamente (incluindo `squ_` no início)
 3. Execute o script novamente: `.\configure-token.ps1`
 
@@ -256,7 +243,7 @@ Após configurar com sucesso:
 
 Salve este arquivo nos favoritos do navegador ou fixe no VS Code para fácil acesso!
 
-```
+```text
 📌 Atalho: Ctrl+K Ctrl+O (VS Code)
 📌 Arquivo: c:\Desenvolvimento\rainer-portfolio-frontend\sonarqube\COMECE-AQUI.md
 ```
@@ -265,7 +252,7 @@ Salve este arquivo nos favoritos do navegador ou fixe no VS Code para fácil ace
 
 ## 🎯 RESUMO VISUAL
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │                                                     │
 │   1. Gerar Token (Browser)                          │
@@ -288,7 +275,7 @@ Salve este arquivo nos favoritos do navegador ou fixe no VS Code para fácil ace
 
 ---
 
-## 🚀 COMEÇAR AGORA!
+## 🚀 COMEÇAR AGORA
 
 **Execute este comando:**
 
@@ -303,16 +290,11 @@ cd c:\Desenvolvimento\rainer-portfolio-frontend\sonarqube
 
 **📅 Última atualização:** 13/10/2025  
 **👨‍💻 Autor:** Rainer Teixeira  
-**📧 Suporte:** suporte@rainersoft.com.br  
-**🌐 Website:** rainersoft.com.br
+**📧 Suporte:** <suporte@rainersoft.com.br>  
+**🌐 Website:** <http://rainersoft.com.br>
 
 ---
 
-<div align="center">
-
-### 💪 Você consegue! Vamos lá!
+### 💪 Você consegue! Vamos lá
 
 **[⬆️ Voltar ao topo](#-comece-aqui---configuração-simples-do-sonarqube)**
-
-</div>
-

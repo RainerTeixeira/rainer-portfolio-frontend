@@ -139,7 +139,7 @@ function SheetOverlay({
  *     <SheetHeader>
  *       <SheetTitle>Menu</SheetTitle>
  *     </SheetHeader>
- *     {/* conteúdo aqui */}
+ *     <div>Conteúdo do sheet aqui</div>
  *   </SheetContent>
  * </Sheet>
  */

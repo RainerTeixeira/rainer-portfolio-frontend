@@ -22,7 +22,7 @@ import { Separator } from "@/components/ui/separator"
 import { 
   Code, Cloud, Zap, Briefcase, Sparkles, Star, LucideIcon
 } from "lucide-react"
-import { SECTION_CLASSES, CARD_CLASSES } from "@/lib/utils"
+import { SECTION_CLASSES, CARD_CLASSES, cn } from "@/lib/utils"
 
 /**
  * Interface de serviço
@@ -76,36 +76,36 @@ export const Highlights = memo(function Highlights() {
    */
   const services: Service[] = [
     {
-      /** Desenvolvimento web e mobile com React/Next.js */
-      title: "Desenvolvimento Web & Mobile",
-      description: "Criação de sites, sistemas e aplicativos personalizados.",
+      /** Sistemas full-stack completos */
+      title: "Sistemas Web Full-Stack Completos",
+      description: "Desenvolvo aplicações web profissionais end-to-end: frontend com React 19 + Next.js 15 + TypeScript + Tailwind CSS, backend com Node.js + NestJS + Express, banco de dados PostgreSQL/MongoDB com Prisma ORM, autenticação JWT segura, editor WYSIWYG, upload de imagens, PWA instalável, temas dark/light e animações customizadas. Arquitetura escalável, código limpo e documentado. Projetos comprovados no portfolio.",
       icon: Code,
-      badge: "Popular",
-      features: ["React & Next.js", "React Native", "TypeScript", "PWA"]
+      badge: "Especialidade Core",
+      features: ["React 19 + Next.js 15", "TypeScript Avançado", "Backend Node.js", "PostgreSQL + Prisma"]
     },
     {
-      /** Serviços de cloud computing e infraestrutura */
-      title: "Cloud Computing",
-      description: "Otimização e migração para ambientes de nuvem.",
+      /** Dashboards e painéis administrativos */
+      title: "Dashboards Administrativos Profissionais",
+      description: "Painéis de gestão e controle com interface moderna e responsiva: gráficos interativos em tempo real (Recharts), tabelas com filtros e ordenação, CRUD completo de dados, sistema de autenticação com perfis de usuário, editor de conteúdo rico, upload de arquivos, estatísticas e métricas visuais, notificações toast e estado global otimizado. Performance garantida e experiência profissional.",
       icon: Cloud,
-      badge: "AWS Certified",
-      features: ["AWS Solutions", "Azure Services", "Docker", "Kubernetes"]
+      badge: "Portfolio Comprovado",
+      features: ["Gráficos Tempo Real", "CRUD Completo", "Auth JWT", "Editor WYSIWYG"]
     },
     {
-      /** Automação e scripting para otimização de processos */
-      title: "Automação de Processos",
-      description: "Desenvolvimento de scripts e ferramentas para automatizar tarefas.",
+      /** PWAs e aplicações offline */
+      title: "PWAs & Aplicações de Alta Performance",
+      description: "Progressive Web Apps instaláveis em qualquer dispositivo: service workers para cache inteligente e modo offline, manifest configurado, animações fluidas 60 FPS, lazy loading estratégico, code splitting otimizado, Core Web Vitals excelentes (Lighthouse 95+), SEO avançado com meta tags e structured data, acessibilidade WCAG AA e experiência nativa em Android, iOS e Desktop.",
       icon: Zap,
-      badge: "Eficiência",
-      features: ["Python Scripts", "Workflow Automation", "API Integration", "Bots"]
+      badge: "Lighthouse 95+",
+      features: ["PWA Instalável", "Modo Offline", "Performance 95+", "SEO Avançado"]
     },
     {
-      /** Consultoria estratégica em tecnologia */
-      title: "Consultoria em TI",
-      description: "Estratégias tecnológicas para impulsionar seu negócio.",
+      /** APIs e integração */
+      title: "APIs REST & Integração de Sistemas",
+      description: "Desenvolvimento de APIs RESTful robustas e bem documentadas com Node.js, NestJS e Express. Autenticação JWT com refresh tokens, validação de dados com Zod, tratamento de erros profissional, integração com bancos PostgreSQL e MongoDB via Prisma ORM, endpoints documentados, testes automatizados e deploy com Docker. Integração com APIs externas, webhooks e processamento assíncrono de tarefas.",
       icon: Briefcase,
-      badge: "Estratégico",
-      features: ["Tech Strategy", "Architecture Review", "Team Training", "Planning"]
+      badge: "Backend Sólido",
+      features: ["Node.js + NestJS", "APIs RESTful", "JWT Auth", "Prisma ORM"]
     }
   ]
 
@@ -125,29 +125,46 @@ export const Highlights = memo(function Highlights() {
      */
     <section className={SECTION_CLASSES.container} aria-labelledby="highlights-heading">
       {/**
-       * Header da seção
+       * Header da seção com efeitos visuais aprimorados
        * - text-center: alinhamento central
        * - mb responsivo: margem inferior que cresce com tela
+       * - relative: para posicionamento de elementos decorativos
        */}
-      <header className="text-center mb-8 xs:mb-10 sm:mb-12">
+      <header className="text-center mb-8 xs:mb-10 sm:mb-12 relative">
         {/**
-         * Badge "Serviços" com ícone de sparkles
+         * Badge "Serviços" com ícone de sparkles e gradiente
          * Elemento visual de categorização
          */}
-        <Badge variant="secondary" className="mb-3 xs:mb-4 text-xs sm:text-sm">
-          <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
-          Serviços
+        <Badge variant="secondary" className={cn(
+          "mb-3 xs:mb-4 text-xs sm:text-sm",
+          "bg-gradient-to-r from-secondary to-secondary/80",
+          "shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20",
+          "transition-all duration-300"
+        )}>
+          <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 animate-pulse" />
+          Capacidades Técnicas
         </Badge>
         
-        {/** Título principal da seção (h2 para hierarquia) */}
-        <h2 id="highlights-heading" className="text-2xl xs:text-3xl sm:text-4xl font-bold mb-3 xs:mb-4">
-          Soluções Tecnológicas
+        {/** Título principal da seção (h2 para hierarquia) com gradiente */}
+        <h2 id="highlights-heading" className={cn(
+          "text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-3 xs:mb-4",
+          "bg-gradient-to-r from-foreground via-foreground to-foreground/80 bg-clip-text",
+          "leading-tight"
+        )}>
+          O Que Sei Fazer na Prática
         </h2>
         
         {/** Descrição/subtítulo com largura máxima para legibilidade */}
-        <p className="text-base xs:text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
-          Soluções tecnológicas completas para impulsionar seu negócio
-        </p>
+        <div className="space-y-2 max-w-4xl mx-auto px-2">
+          <p className="text-base xs:text-lg sm:text-xl text-muted-foreground leading-relaxed">
+            Habilidades técnicas comprovadas através de projetos reais e complexos. 
+            Stack moderna, arquitetura profissional e código que entrega resultados mensuráveis.
+          </p>
+          <p className="text-sm xs:text-base text-muted-foreground/80 leading-relaxed">
+            Não são apenas tecnologias que conheço: são sistemas funcionando em produção, 
+            código versionado no GitHub e métricas de performance que provam qualidade.
+          </p>
+        </div>
       </header>
 
       {/**
@@ -216,18 +233,31 @@ const ServiceCard = memo(function ServiceCard({ service }: ServiceCardProps) {
   
   return (
     /**
-     * Card principal do serviço
+     * Card principal do serviço com efeitos visuais premium
      * 
      * Utiliza CARD_CLASSES.full para hover effects padronizados
+     * + gradiente sutil, bordas e sombras dinâmicas
      * - role="listitem": item de lista para acessibilidade
+     * - group: para hover effects coordenados
      */
-    <Card className={CARD_CLASSES.full} role="listitem">
+    <Card className={cn(
+      CARD_CLASSES.full,
+      "group/service",
+      "relative overflow-hidden",
+      "bg-gradient-to-br from-muted/20 via-background to-background",
+      "hover:from-muted/40 hover:via-muted/10",
+      "border-2 border-border/50 hover:border-primary/40",
+      "shadow-md hover:shadow-2xl hover:shadow-primary/10",
+      "transition-all duration-500",
+      "before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/5 before:via-transparent before:to-transparent before:pointer-events-none before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500"
+    )} role="listitem">
       {/**
        * Header do card
        * - space-y: espaçamento vertical entre elementos
        * - p responsivo: padding que cresce com breakpoints
+       * - relative: para ficar acima do gradiente
        */}
-      <CardHeader className="space-y-3 xs:space-y-4 p-4 xs:p-5 sm:p-6">
+      <CardHeader className="space-y-1 xs:space-y-2 p-1.5 xs:p-2 sm:p-3 md:p-4 relative">
         {/**
          * Container flex para ícone, título e badge
          * - flex-col em mobile (vertical)
@@ -243,15 +273,33 @@ const ServiceCard = memo(function ServiceCard({ service }: ServiceCardProps) {
            */}
           <div className="flex items-start gap-3 xs:gap-4 w-full">
             {/**
-             * Círculo com ícone
-             * - p responsivo: padding interno
-             * - rounded-full: círculo perfeito
-             * - bg-primary: cor de fundo primária
-             * - flex-shrink-0: não encolhe com flexbox
-             * - aria-hidden: decorativo, não anunciado
+             * Container do ícone com anel de gradiente animado
              */}
-            <div className="p-2 xs:p-2.5 sm:p-3 rounded-full bg-primary flex-shrink-0" aria-hidden="true">
-              <IconComponent className="h-5 w-5 xs:h-6 xs:w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-primary-foreground" />
+            <div className="relative flex-shrink-0">
+              {/* Anel de gradiente que aparece no hover */}
+              <div className={cn(
+                "absolute -inset-1 rounded-full blur-md opacity-0",
+                "bg-gradient-to-r from-primary via-primary/60 to-primary",
+                "group-hover/service:opacity-75 transition-opacity duration-500"
+              )} />
+              {/**
+               * Círculo com ícone e gradiente
+               * - p responsivo: padding interno
+               * - rounded-full: círculo perfeito
+               * - bg-primary com gradiente: cor de fundo primária
+               * - aria-hidden: decorativo, não anunciado
+               * - Efeito de rotação suave no hover
+               */}
+              <div className={cn(
+                "p-2 xs:p-2.5 sm:p-3 rounded-full relative",
+                "bg-gradient-to-br from-primary to-primary/80",
+                "shadow-lg shadow-primary/25",
+                "group-hover/service:shadow-xl group-hover/service:shadow-primary/40",
+                "group-hover/service:scale-110 group-hover/service:rotate-6",
+                "transition-all duration-500"
+              )} aria-hidden="true">
+                <IconComponent className="h-5 w-5 xs:h-6 xs:w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-primary-foreground" />
+              </div>
             </div>
             
             {/**
@@ -261,25 +309,38 @@ const ServiceCard = memo(function ServiceCard({ service }: ServiceCardProps) {
              * - min-w-0: permite text truncation se necessário
              */}
             <div className="space-y-1.5 xs:space-y-2 flex-1 min-w-0">
-              {/** Título do serviço com leading tight */}
-              <CardTitle className="text-base xs:text-lg sm:text-xl font-semibold leading-tight">
+              {/** Título do serviço com leading tight e hover effect */}
+              <CardTitle className={cn(
+                "text-base xs:text-lg sm:text-xl font-semibold leading-tight",
+                "group-hover/service:text-primary transition-colors duration-300"
+              )}>
                 {service.title}
               </CardTitle>
               
               {/** Descrição com leading relaxed para legibilidade */}
-              <CardDescription className="text-muted-foreground text-xs xs:text-sm leading-relaxed">
+              <CardDescription className={cn(
+                "text-muted-foreground text-xs xs:text-sm leading-relaxed",
+                "group-hover/service:text-foreground/80 transition-colors duration-300"
+              )}>
                 {service.description}
               </CardDescription>
             </div>
           </div>
           
           {/**
-           * Badge de destaque (Popular, Certified, etc)
+           * Badge de destaque com cores e efeitos customizados
            * - text minúsculo em mobile
            * - self-start em mobile, self-auto em xs+
            * - flex-shrink-0: não encolhe
            */}
-          <Badge variant="secondary" className="text-[10px] xs:text-xs self-start xs:self-auto flex-shrink-0">
+          <Badge variant="secondary" className={cn(
+            "text-[10px] xs:text-xs self-start xs:self-auto flex-shrink-0",
+            "bg-gradient-to-r from-secondary to-secondary/80",
+            "group-hover/service:from-primary/20 group-hover/service:to-primary/10",
+            "group-hover/service:text-primary group-hover/service:border-primary/30",
+            "shadow-sm group-hover/service:shadow-md",
+            "transition-all duration-300"
+          )}>
             {service.badge}
           </Badge>
         </div>
@@ -290,13 +351,16 @@ const ServiceCard = memo(function ServiceCard({ service }: ServiceCardProps) {
        * - space-y: espaçamento vertical
        * - p responsivo: padding que cresce
        * - pt-0: remove padding superior (já tem no header)
+       * - relative: para ficar acima do gradiente
        */}
-      <CardContent className="space-y-3 xs:space-y-4 p-4 xs:p-5 sm:p-6 pt-0">
-        {/** Separador visual entre header e features */}
-        <Separator />
+      <CardContent className="space-y-1 xs:space-y-2 p-1.5 xs:p-2 sm:p-3 md:p-4 pt-0 relative">
+        {/** Separador visual com gradiente entre header e features */}
+        <div className="relative">
+          <Separator className="bg-gradient-to-r from-transparent via-border to-transparent" />
+        </div>
         
         {/**
-         * Grid de features
+         * Grid de features com hover effects
          * - 1 coluna em mobile
          * - 2 colunas em xs+
          * - gap pequeno para compactar informações
@@ -304,21 +368,50 @@ const ServiceCard = memo(function ServiceCard({ service }: ServiceCardProps) {
         <div className="grid grid-cols-1 xs:grid-cols-2 gap-2 xs:gap-2.5">
           {/**
            * Mapeia features do serviço
-           * Cada feature é um item com ícone de estrela
+           * Cada feature é um item com ícone de estrela e hover effect
            */}
-          {service.features.map((feature) => (
+          {service.features.map((feature, index) => {
             /**
-             * Item de feature
+             * Item de feature com animação de entrada
              * - flex: ícone + texto horizontal
              * - gap: espaçamento entre ícone e texto
+             * - group/feature: para hover effects
+             * - Delay progressivo na animação
              */
-            <div key={feature} className="flex items-center gap-1.5 xs:gap-2 text-muted-foreground">
-              {/** Ícone de estrela (decorativo) */}
-              <Star className="h-2.5 w-2.5 xs:h-3 xs:w-3 text-primary flex-shrink-0" aria-hidden="true" />
-              {/** Nome da feature/tecnologia */}
-              <span className="text-xs xs:text-sm leading-tight">{feature}</span>
-            </div>
-          ))}
+            return (
+              <div 
+                key={feature} 
+                className={cn(
+                  "flex items-center gap-1.5 xs:gap-2",
+                  "group/feature",
+                  "p-1.5 xs:p-2 rounded-md",
+                  "hover:bg-primary/5 dark:hover:bg-primary/10",
+                  "transition-all duration-300"
+                )}
+                style={{
+                  transitionDelay: `${index * 50}ms`
+                }}
+              >
+                {/** Ícone de estrela com animação (decorativo) */}
+                <Star className={cn(
+                  "h-2.5 w-2.5 xs:h-3 xs:w-3",
+                  "text-primary/70 group-hover/feature:text-primary",
+                  "flex-shrink-0",
+                  "group-hover/feature:scale-125 group-hover/feature:rotate-180",
+                  "transition-all duration-500"
+                )} aria-hidden="true" />
+                {/** Nome da feature/tecnologia com hover effect */}
+                <span className={cn(
+                  "text-xs xs:text-sm leading-tight",
+                  "text-muted-foreground",
+                  "group-hover/feature:text-foreground group-hover/feature:font-medium",
+                  "transition-all duration-300"
+                )}>
+                  {feature}
+                </span>
+              </div>
+            )
+          })}
         </div>
       </CardContent>
     </Card>

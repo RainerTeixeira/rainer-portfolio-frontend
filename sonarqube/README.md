@@ -4,7 +4,7 @@ Pasta centralizada com todos os arquivos e documentação relacionados ao SonarQ
 
 ## 📁 Estrutura
 
-```
+```text
 sonarqube/
 ├── docs/                         # 📚 Documentação completa
 │   ├── README.md                 # Índice da documentação
@@ -34,7 +34,7 @@ docker-compose -f sonarqube/docker-compose.sonarqube.yml up -d
 
 ### 2. Acessar Interface
 
-- URL: http://localhost:9000
+- URL: <http://localhost:9000>
 - Login: `admin` / `admin`
 
 ### 3. Configurar Token (Primeira Vez)
@@ -96,21 +96,27 @@ cd sonarqube
 ## 📦 Arquivos de Configuração
 
 ### docker-compose.sonarqube.yml
+
 Docker Compose para executar SonarQube localmente. Configurado com volumes persistentes.
 
 ### sonar-project.properties
+
 Configuração principal do SonarScanner. Define:
+
 - Diretórios fonte
 - Exclusões
 - Configurações TypeScript/JavaScript
 
 ### .sonarqube-ignore
+
 Lista de arquivos/diretórios ignorados na análise.
 
 ### env.sonarqube.example
+
 Exemplo de variáveis de ambiente. Copie para `.env.sonarqube` e configure.
 
 ### sonarqube.yml.example
+
 Exemplo de workflow do GitHub Actions para integração CI/CD.
 
 ## 🔙 Voltar
@@ -121,4 +127,3 @@ Exemplo de workflow do GitHub Actions para integração CI/CD.
 ---
 
 **Desenvolvido com ❤️ para garantir código de qualidade!**
-

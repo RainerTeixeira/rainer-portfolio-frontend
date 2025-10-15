@@ -1,10 +1,10 @@
-# ⚡ INSTRUÇÕES IMEDIATAS - VOCÊ ESTÁ AQUI! 
+# ⚡ INSTRUÇÕES IMEDIATAS - VOCÊ ESTÁ AQUI
 
 ## 🎯 Situação Atual
 
 Você está na tela do SonarQube que mostra:
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │  Forneça um token                                        │
 │  ─────────────────                                       │
@@ -42,6 +42,7 @@ Abra o PowerShell na pasta `sonarqube` e execute:
 ```
 
 **O script irá:**
+
 - ✅ Solicitar que você cole o token
 - ✅ Configurar automaticamente
 - ✅ Perguntar se quer salvar permanentemente
@@ -54,9 +55,10 @@ Abra o PowerShell na pasta `sonarqube` e execute:
 
 Após a análise concluir, acesse:
 
-👉 http://localhost:9000/dashboard?id=rainer-portfolio-frontend
+👉 <http://localhost:9000/dashboard?id=rainer-portfolio-frontend>
 
 Você verá:
+
 - 🐛 **Bugs** encontrados
 - 🔒 **Vulnerabilidades** de segurança
 - 💡 **Code Smells** (problemas de manutenibilidade)
@@ -86,7 +88,7 @@ npm run sonar:local
 
 ## 📊 Exemplo de Saída Esperada
 
-```
+```text
 INFO: Scanner configuration file: C:\...\sonar-scanner\conf\sonar-scanner.properties
 INFO: Project root configuration file: .\sonar-project.properties
 INFO: SonarScanner 5.0.1.3006
@@ -153,7 +155,7 @@ curl http://localhost:9000/api/system/status
 
 ### "Token não funciona"
 
-1. Gere um novo token em: http://localhost:9000/account/security
+1. Gere um novo token em: <http://localhost:9000/account/security>
 2. Copie o token corretamente
 3. Configure novamente: `$env:SONAR_TOKEN="novo-token"`
 
@@ -226,6 +228,7 @@ graph TD
 **🚀 COMECE AGORA!**
 
 Execute na pasta `sonarqube`:
+
 ```powershell
 .\configure-token.ps1
 ```
@@ -235,4 +238,3 @@ Execute na pasta `sonarqube`:
 **Última atualização:** 13/10/2025  
 **Autor:** Rainer Teixeira  
 **Versão:** 1.0.0
-

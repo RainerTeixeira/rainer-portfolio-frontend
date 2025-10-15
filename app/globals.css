@@ -1,9 +1,34 @@
+/**
+ * Estilos Globais com Tailwind CSS v4
+ * 
+ * Este arquivo contém apenas:
+ * 1. Importação do Tailwind CSS
+ * 2. Variáveis CSS de tema (cores, bordas, etc)
+ * 3. Configurações base essenciais
+ * 
+ * Todas as classes customizadas foram convertidas para utilitários Tailwind
+ * ou movidas para o plugin no tailwind.config.js
+ * 
+ * @fileoverview Estilos globais otimizados apenas com Tailwind
+ * @author Rainer Teixeira
+ * @version 2.0.0
+ */
+
 @import "tailwindcss";
 
+/* Variant customizada para dark mode */
 @custom-variant dark (&:is(.dark *));
 
-/* ---------- Variáveis de tema (Light Mode) ---------- */
+/* =============================================================================
+   VARIÁVEIS DE TEMA - LIGHT MODE
+   ============================================================================= */
 :root {
+  /* Fontes */
+  --font-inter: var(--font-inter);
+  --font-orbitron: var(--font-orbitron);
+  --font-rajdhani: var(--font-rajdhani);
+  
+  /* Cores do sistema */
   --color-background: 0 0% 100%;
   --color-foreground: 222.2 84% 4.9%;
   --color-card: 0 0% 100%;
@@ -23,7 +48,11 @@
   --color-border: 214.3 31.8% 91.4%;
   --color-input: 214.3 31.8% 91.4%;
   --color-ring: 222.2 84% 4.9%;
+  
+  /* Radius de bordas */
   --radius: 0.5rem;
+  
+  /* Sidebar */
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);
   --sidebar-primary: hsl(240 5.9% 10%);
@@ -34,8 +63,11 @@
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
-/* ---------- Variáveis de tema (Dark Mode) ---------- */
+/* =============================================================================
+   VARIÁVEIS DE TEMA - DARK MODE
+   ============================================================================= */
 .dark {
+  /* Cores do sistema */
   --color-background: 222.2 84% 4.9%;
   --color-foreground: 210 40% 98%;
   --color-card: 222.2 84% 4.9%;
@@ -55,6 +87,8 @@
   --color-border: 217.2 32.6% 17.5%;
   --color-input: 217.2 32.6% 17.5%;
   --color-ring: 212.7 26.8% 83.9%;
+  
+  /* Sidebar */
   --sidebar: hsl(240 5.9% 10%);
   --sidebar-foreground: hsl(240 4.8% 95.9%);
   --sidebar-primary: hsl(224.3 76.3% 48%);
@@ -65,261 +99,9 @@
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
-* {
-  border-color: hsl(var(--color-border));
-}
-
-html, body, #__next {
-  min-height: 100%;
-}
-
-/* Ocultar barra de rolagem */
-html {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-}
-
-html::-webkit-scrollbar {
-  display: none; /* WebKit */
-}
-
-body {
-  background-color: hsl(var(--color-background));
-  color: hsl(var(--color-foreground));
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden; /* Evita rolagem horizontal */
-}
-
-/* Garantir que o conteúdo ainda seja rolável */
-body {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
-}
-
-/* Classe para elementos visualmente ocultos mas acessíveis */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Otimização para transformações GPU */
-.will-change-transform {
-  will-change: transform;
-}
-
 /* =============================================================================
-   ESTILOS ESPECÍFICOS POR SISTEMA OPERACIONAL
+   THEME INLINE - Compatibilidade sidebar
    ============================================================================= */
-
-/* iOS - Estilo nativo do iOS */
-@media (prefers-color-scheme: light) {
-  .ios-navbar {
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    background-color: rgba(255, 255, 255, 0.72);
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .ios-navbar {
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    background-color: rgba(0, 0, 0, 0.72);
-    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
-  }
-}
-
-/* Android - Estilo Material Design */
-.android-navbar {
-  backdrop-filter: blur(12px);
-  background-color: rgba(255, 255, 255, 0.85);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-}
-
-.dark .android-navbar {
-  background-color: rgba(0, 0, 0, 0.85);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-}
-
-/* Desktop - Estilo moderno */
-.desktop-navbar {
-  backdrop-filter: blur(16px);
-  background-color: rgba(255, 255, 255, 0.8);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.dark .desktop-navbar {
-  background-color: rgba(0, 0, 0, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-/* =============================================================================
-   ANIMAÇÕES E TRANSITIONS
-   ============================================================================= */
-
-/* Transições suaves para elementos interativos */
-.interactive-element {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Efeito de ripple para Android */
-.ripple-effect {
-  position: relative;
-  overflow: hidden;
-}
-
-.ripple-effect::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.1);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
-}
-
-.ripple-effect:active::before {
-  width: 300px;
-  height: 300px;
-}
-
-/* Efeito de pressão para iOS */
-.ios-press {
-  transition: transform 0.1s ease-out;
-}
-
-.ios-press:active {
-  transform: scale(0.95);
-}
-
-/* =============================================================================
-   RESPONSIVIDADE AVANÇADA
-   ============================================================================= */
-
-/* Breakpoints customizados para diferentes dispositivos */
-@media (max-width: 640px) {
-  .mobile-optimized {
-    padding: 0 1rem;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 768px) {
-  .tablet-optimized {
-    padding: 0 1.5rem;
-  }
-}
-
-@media (min-width: 769px) {
-  .desktop-optimized {
-    padding: 0 2rem;
-  }
-}
-
-/* =============================================================================
-   ACESSIBILIDADE
-   ============================================================================= */
-
-/* Foco visível para navegação por teclado */
-.focus-visible:focus {
-  outline: 2px solid hsl(var(--color-primary));
-  outline-offset: 2px;
-}
-
-/* Redução de movimento para usuários que preferem */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Alto contraste para melhor legibilidade */
-@media (prefers-contrast: high) {
-  .high-contrast {
-    border: 2px solid currentColor;
-  }
-}
-
-/* =============================================================================
-   PERFORMANCE E OTIMIZAÇÃO
-   ============================================================================= */
-
-/* Aceleração de hardware para animações */
-.hardware-accelerated {
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-/* Otimização de scroll para dispositivos móveis */
-.smooth-scroll {
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Rolagem suave APENAS se o usuário NÃO preferir movimento reduzido (acessibilidade) */
-@media (prefers-reduced-motion: no-preference) {
-  .smooth-scroll {
-    scroll-behavior: smooth;
-  }
-}
-
-/* Desabilita rolagem suave para usuários que preferem movimento reduzido */
-@media (prefers-reduced-motion: reduce) {
-  .smooth-scroll {
-    scroll-behavior: auto;
-  }
-}
-
-/* Otimizações de performance para animações */
-@media (prefers-reduced-motion: no-preference) {
-  .animate-optimized {
-    will-change: transform, opacity;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
-}
-
-/* Contenção de layout para evitar reflows */
-.contain-layout {
-  contain: layout style paint;
-}
-
-.contain-paint {
-  contain: paint;
-}
-
-/* Lazy load de imagens */
-img {
-  content-visibility: auto;
-}
-
-/* Prevenção de zoom em inputs em iOS */
-@media screen and (max-width: 767px) {
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  textarea {
-    font-size: 16px;
-  }
-}
-
 @theme inline {
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -331,17 +113,49 @@ img {
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* =============================================================================
+   LAYER BASE - Estilos fundamentais
+   ============================================================================= */
 @layer base {
+  /* Reset de bordas globais */
   * {
     border-color: hsl(var(--color-border));
   }
+  
+  /* Configurações HTML/Body */
+  html, body, #__next {
+    min-height: 100%;
+  }
+  
+  /* Ocultar scrollbar mantendo funcionalidade */
+  html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+  }
+  
+  html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+  
+  /* Body - Estilos base */
   body {
     background-color: hsl(var(--color-background));
     color: hsl(var(--color-foreground));
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    
     /* Otimizações de renderização */
     text-rendering: optimizeSpeed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch; /* Scroll suave iOS */
+  }
+  
+  /* Lazy loading de imagens */
+  img {
+    content-visibility: auto;
   }
   
   /* Otimizar elementos que animam frequentemente */
@@ -349,29 +163,57 @@ img {
     backface-visibility: hidden;
     transform: translateZ(0);
   }
+  
+  /* Prevenção de zoom em inputs em iOS */
+  @media screen and (max-width: 767px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea {
+      font-size: 16px; /* 16px previne zoom no iOS */
+    }
+  }
 }
 
 /* =============================================================================
-   EFEITOS CYBERPUNK - GLOW
+   ACESSIBILIDADE - Movimento reduzido
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =============================================================================
+   ANIMAÇÕES PWA
    ============================================================================= */
 
-/* Efeito de brilho cyan para o indicador de scroll */
-.glow-cyan {
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.8),
-              0 0 20px rgba(6, 182, 212, 0.6),
-              0 0 30px rgba(6, 182, 212, 0.4);
-  animation: glow-pulse-cyan 2s ease-in-out infinite;
+/* Animação de slide up para install prompt */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-@keyframes glow-pulse-cyan {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(6, 182, 212, 0.8),
-                0 0 20px rgba(6, 182, 212, 0.6),
-                0 0 30px rgba(6, 182, 212, 0.4);
+/* Animação de slide down para update notification */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
   }
-  50% {
-    box-shadow: 0 0 15px rgba(6, 182, 212, 1),
-                0 0 30px rgba(6, 182, 212, 0.8),
-                0 0 45px rgba(6, 182, 212, 0.6);
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
+

@@ -1,0 +1,12 @@
+/**
+ * Exportações de Hooks do Dashboard
+ * 
+ * Barrel file para centralizar exportações dos hooks
+ * 
+ * @fileoverview Dashboard hooks exports
+ * @author Rainer Teixeira
+ */
+
+export { useDashboardStats } from './use-dashboard-stats'
+export { useAnalyticsData } from './use-analytics-data'
+

@@ -74,7 +74,7 @@ Este projeto está totalmente configurado para análise de qualidade de código 
 
 ## 🎓 Fluxo de Aprendizado Recomendado
 
-```
+```text
 ┌─────────────────────────────────┐
 │ 1. [SONARQUBE-QUICKSTART.md](./SONARQUBE-QUICKSTART.md) │ ← Comece aqui!
 │    (5-10 minutos)                │
@@ -125,6 +125,7 @@ npm run sonar:local
 ### Com Scripts Helper
 
 **Windows:**
+
 ```powershell
 .\sonarqube.ps1 start    # Iniciar
 .\sonarqube.ps1 analyze  # Analisar
@@ -132,6 +133,7 @@ npm run sonar:local
 ```
 
 **Linux/Mac:**
+
 ```bash
 ./sonarqube.sh start    # Iniciar
 ./sonarqube.sh analyze  # Analisar
@@ -143,24 +145,31 @@ npm run sonar:local
 ## 📊 Recursos por Caso de Uso
 
 ### "Quero começar rapidamente"
+
 → [SONARQUBE-QUICKSTART.md](./SONARQUBE-QUICKSTART.md)
 
 ### "Preciso de referência rápida"
+
 → [SONARQUBE-CHEATSHEET.md](./SONARQUBE-CHEATSHEET.md)
 
 ### "Preciso instalar e configurar tudo"
+
 → [SONARQUBE-SETUP.md](./SONARQUBE-SETUP.md)
 
 ### "Estou com problemas"
+
 → [SONARQUBE-FAQ.md](./SONARQUBE-FAQ.md)
 
 ### "Quero integrar com CI/CD"
+
 → `.github/workflows/sonarqube.yml.example`
 
 ### "Como gerenciar o SonarQube facilmente?"
+
 → `sonarqube.ps1` (Windows) ou `sonarqube.sh` (Linux/Mac)
 
 ### "Preciso configurar variáveis de ambiente"
+
 → `env.sonarqube.example`
 
 ---
@@ -201,7 +210,7 @@ export SONAR_TOKEN="seu-token" # Linux/Mac
 npm run sonar:local
 ```
 
-### Integração CI/CD
+### Workflow CI/CD
 
 ```bash
 # 1. Copiar exemplo
@@ -221,7 +230,7 @@ git push origin main
 
 ## 📝 Estrutura dos Arquivos
 
-```
+```text
 rainer-portfolio-frontend/
 ├── 📄 sonar-project.properties          # Config principal
 ├── 🐳 docker-compose.sonarqube.yml      # Docker
@@ -249,20 +258,23 @@ rainer-portfolio-frontend/
 ## 🔗 Links Úteis
 
 ### Interface Local
-- **Dashboard:** http://localhost:9000
-- **Projetos:** http://localhost:9000/projects
-- **Quality Gates:** http://localhost:9000/quality_gates
-- **Regras:** http://localhost:9000/coding_rules
-- **Segurança:** http://localhost:9000/account/security
+
+- Dashboard: <http://localhost:9000>
+- Projetos: <http://localhost:9000/projects>
+- Quality Gates: <http://localhost:9000/quality_gates>
+- Regras: <http://localhost:9000/coding_rules>
+- Segurança: <http://localhost:9000/account/security>
 
 ### API
-- **Status:** http://localhost:9000/api/system/status
-- **Health:** http://localhost:9000/api/system/health
+
+- Status: <http://localhost:9000/api/system/status>
+- Health: <http://localhost:9000/api/system/health>
 
 ### Documentação Externa
-- **SonarQube Docs:** https://docs.sonarqube.org/
-- **Regras TypeScript:** https://rules.sonarsource.com/typescript/
-- **Community Forum:** https://community.sonarsource.com/
+
+- SonarQube Docs: <https://docs.sonarqube.org/>
+- Regras TypeScript: <https://rules.sonarsource.com/typescript/>
+- Community Forum: <https://community.sonarsource.com/>
 
 ---
 
@@ -273,13 +285,14 @@ rainer-portfolio-frontend/
 1. **Marque nos favoritos:**
    - [Este índice](./SONARQUBE-INDEX.md)
    - [Cheat sheet](./SONARQUBE-CHEATSHEET.md)
-   - [Interface local](http://localhost:9000)
+   - Interface local: <http://localhost:9000>
 
-2. **Use os scripts helper:**
+1. **Use os scripts helper:**
    - Windows: `.\sonarqube.ps1`
    - Linux/Mac: `./sonarqube.sh`
 
-3. **Configure atalhos:**
+1. **Configure atalhos:**
+
    ```bash
    # Adicione ao seu .bashrc ou PowerShell profile
    alias sq-start='docker-compose -f docker-compose.sonarqube.yml up -d'
@@ -287,7 +300,7 @@ rainer-portfolio-frontend/
    alias sq-stop='docker-compose -f docker-compose.sonarqube.yml down'
    ```
 
-4. **Integre no workflow:**
+1. **Integre no workflow:**
    - Pre-commit hook
    - CI/CD pipeline
    - IDE (SonarLint)
@@ -298,7 +311,7 @@ rainer-portfolio-frontend/
 
 ### Fluxo de Suporte
 
-```
+```text
 Problema?
     │
     ├─→ Consulte: [SONARQUBE-FAQ.md](./SONARQUBE-FAQ.md)
@@ -318,10 +331,11 @@ Problema?
 ```
 
 ### Canais de Suporte
-- **Documentação local:** Este diretório
-- **Community Forum:** https://community.sonarsource.com/
-- **Stack Overflow:** Tag `sonarqube`
-- **Docs oficiais:** https://docs.sonarqube.org/
+
+- Documentação local: Este diretório
+- Community Forum: <https://community.sonarsource.com/>
+- Stack Overflow: Tag `sonarqube`
+- Docs oficiais: <https://docs.sonarqube.org/>
 
 ---
 
@@ -357,15 +371,19 @@ Após concluir a configuração:
 ## 📞 Contato
 
 **Desenvolvedor do Projeto:**
+
 - Nome: Rainer Teixeira
-- Email: suporte@rainersoft.com.br
-- Website: rainersoft.com.br
+- Email: <suporte@rainersoft.com.br>
+- Website: <https://rainersoft.com.br>
 
 **Sobre o SonarQube:**
-- Website: https://www.sonarqube.org/
-- Docs: https://docs.sonarqube.org/
+
+- Website: <https://www.sonarqube.org/>
+- Docs: <https://docs.sonarqube.org/>
 
 ---
+
+## Informações da Documentação
 
 **Última atualização:** 13/10/2025  
 **Versão da documentação:** 1.0.0
@@ -377,4 +395,3 @@ Após concluir a configuração:
 ---
 
 **Desenvolvido com ❤️ para garantir código de qualidade!**
-

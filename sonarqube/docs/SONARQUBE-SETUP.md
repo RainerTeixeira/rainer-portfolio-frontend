@@ -10,9 +10,10 @@ Este guia explica como configurar e executar o SonarQube localmente para anális
 
 ## 🚀 Instalação
 
-### 1. Instalar Java (se não tiver)
+### Instalar Java (se não tiver)
 
 #### Windows
+
 ```powershell
 # Baixe e instale o Java JDK 17+ de:
 # https://www.oracle.com/java/technologies/downloads/
@@ -21,6 +22,7 @@ winget install Microsoft.OpenJDK.17
 ```
 
 #### Linux/Mac
+
 ```bash
 # Ubuntu/Debian
 sudo apt update
@@ -31,25 +33,28 @@ brew install openjdk@17
 ```
 
 Verifique a instalação:
+
 ```bash
 java -version
 ```
 
-### 2. Baixar e Configurar o SonarQube
+### Baixar e Configurar o SonarQube
 
 #### Opção A: Download Manual
 
 1. Baixe o SonarQube Community Edition:
-   - Acesse: https://www.sonarsource.com/products/sonarqube/downloads/
+   - Acesse: <https://www.sonarsource.com/products/sonarqube/downloads/>
    - Baixe a versão Community Edition
 
-2. Extraia o arquivo:
+1. Extraia o arquivo:
+
    ```powershell
    # Windows (PowerShell)
    Expand-Archive -Path sonarqube-*.zip -DestinationPath C:\sonarqube
    ```
 
-3. Inicie o servidor:
+1. Inicie o servidor:
+
    ```powershell
    # Windows
    C:\sonarqube\bin\windows-x86-64\StartSonar.bat
@@ -73,40 +78,42 @@ docker run -d --name sonarqube \
   sonarqube:latest
 ```
 
-### 3. Acessar o SonarQube
+### Acessar o SonarQube
 
 1. Aguarde alguns minutos para o servidor iniciar
-2. Acesse: http://localhost:9000
-3. Login padrão:
+1. Acesse: <http://localhost:9000>
+1. Login padrão:
    - **Usuário:** admin
    - **Senha:** admin
-4. Você será solicitado a alterar a senha no primeiro acesso
+1. Você será solicitado a alterar a senha no primeiro acesso
 
-### 4. Criar um Projeto
+### Criar um Projeto
 
 1. No SonarQube, clique em **"Create Project"**
-2. Escolha **"Manually"**
-3. Preencha:
+1. Escolha **"Manually"**
+1. Preencha:
    - **Project key:** `rainer-portfolio-frontend`
    - **Display name:** `Rainer Portfolio Frontend`
-4. Clique em **"Set Up"**
-5. Escolha **"Locally"**
-6. Gere um token:
+1. Clique em **"Set Up"**
+1. Escolha **"Locally"**
+1. Gere um token:
    - Nome: `portfolio-token`
    - Copie e salve o token gerado
 
-### 5. Instalar o SonarScanner
+### Instalar o SonarScanner
 
-#### Windows
+#### Windows (PowerShell)
+
 ```powershell
 # Usando Chocolatey
 choco install sonarscanner
 
 # Ou baixe manualmente de:
-# https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
+# <https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/>
 ```
 
-#### Linux
+#### Linux (Bash)
+
 ```bash
 # Baixe e instale
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
@@ -116,27 +123,30 @@ sudo ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
 ```
 
 #### Mac
+
 ```bash
 brew install sonar-scanner
 ```
 
 Verifique a instalação:
+
 ```bash
 sonar-scanner --version
 ```
 
 ## ⚙️ Configuração do Projeto
 
-### 1. Configurar o Token (Opcional)
+### Configurar o Token (Opcional)
 
 Edite o arquivo `sonar-project.properties` e adicione seu token:
 
-```properties
+```ini
 # Descomente e adicione seu token
 sonar.login=seu-token-aqui
 ```
 
 **Ou** use variável de ambiente (mais seguro):
+
 ```powershell
 # Windows (PowerShell)
 $env:SONAR_TOKEN="seu-token-aqui"
@@ -145,7 +155,7 @@ $env:SONAR_TOKEN="seu-token-aqui"
 export SONAR_TOKEN="seu-token-aqui"
 ```
 
-### 2. Arquivo de Configuração
+### Arquivo de Configuração
 
 O arquivo `sonar-project.properties` já está configurado com:
 
@@ -192,9 +202,9 @@ sonar-scanner `
 ## 📊 Visualizando os Resultados
 
 1. Aguarde a análise concluir (pode levar alguns minutos)
-2. Acesse: http://localhost:9000
-3. Clique no projeto **"Rainer Portfolio Frontend"**
-4. Visualize:
+1. Acesse: <http://localhost:9000>
+1. Clique no projeto **"Rainer Portfolio Frontend"**
+1. Visualize:
    - **Bugs:** Problemas que podem causar erros
    - **Vulnerabilidades:** Problemas de segurança
    - **Code Smells:** Problemas de manutenibilidade
@@ -204,27 +214,29 @@ sonar-scanner `
 ## 🎯 Boas Práticas
 
 ### 1. Executar Antes de Commits Importantes
+
 ```bash
 npm run lint:fix
 npm run type-check
 npm run sonar:local
 ```
 
-### 2. Ignorar Arquivos Não Relevantes
+### Ignorar Arquivos Não Relevantes
 
 O arquivo `.sonarqube-ignore` lista arquivos que devem ser ignorados.
 Edite conforme necessário.
 
-### 3. Configurar Quality Gates
+### Configurar Quality Gates
 
 No SonarQube:
+
 1. Vá em **"Quality Gates"**
-2. Configure limites para:
+1. Configure limites para:
    - Cobertura de código mínima
    - Número máximo de bugs
    - Dívida técnica aceitável
 
-### 4. Integração com CI/CD
+### Integração com CI/CD
 
 Para integrar com GitHub Actions, Azure DevOps, etc:
 
@@ -240,6 +252,7 @@ Para integrar com GitHub Actions, Azure DevOps, etc:
 ## 🔧 Troubleshooting
 
 ### Erro: "Java não encontrado"
+
 ```bash
 # Verifique se o Java está no PATH
 java -version
@@ -252,12 +265,14 @@ export PATH=$JAVA_HOME/bin:$PATH
 ```
 
 ### Erro: "sonar-scanner não encontrado"
+
 ```bash
 # Reinstale o sonar-scanner
 # ou adicione ao PATH manualmente
 ```
 
 ### Erro: "Não conecta ao servidor"
+
 ```bash
 # Verifique se o SonarQube está rodando
 # Acesse http://localhost:9000
@@ -268,6 +283,7 @@ docker logs sonarqube
 ```
 
 ### Erro: "Análise falha sem mensagem clara"
+
 ```bash
 # Execute com modo verbose
 sonar-scanner -X
@@ -283,6 +299,7 @@ sonar-scanner -X
 ## 🔄 Atualização do SonarQube
 
 ### Docker
+
 ```bash
 # Parar container
 docker stop sonarqube
@@ -295,11 +312,12 @@ docker start sonarqube
 ```
 
 ### Manual
+
 1. Baixe a nova versão
-2. Pare o servidor atual
-3. Substitua os arquivos
-4. Mantenha as pastas `data`, `extensions`, `logs`
-5. Inicie o novo servidor
+1. Pare o servidor atual
+1. Substitua os arquivos
+1. Mantenha as pastas `data`, `extensions`, `logs`
+1. Inicie o novo servidor
 
 ## 💡 Dicas
 
@@ -314,4 +332,3 @@ docker start sonarqube
 **Última atualização:** 13/10/2025
 **Versão do SonarQube recomendada:** 10.0+
 **Autor:** Rainer Teixeira
-

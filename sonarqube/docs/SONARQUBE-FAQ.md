@@ -42,7 +42,7 @@ java -version
 
 Sim! Você pode baixar o SonarQube manualmente:
 
-1. Baixe de: https://www.sonarsource.com/products/sonarqube/downloads/
+1. Baixe de: <https://www.sonarsource.com/products/sonarqube/downloads/>
 2. Extraia o arquivo
 3. Execute: `bin/[OS]/sonar.sh start` ou `bin/windows-x86-64/StartSonar.bat`
 
@@ -55,6 +55,7 @@ Mas Docker é mais fácil e recomendado para desenvolvimento local.
 ### ❓ Quanto tempo demora a primeira análise?
 
 Depende do tamanho do projeto:
+
 - **Pequeno** (< 1000 arquivos): 1-2 minutos
 - **Médio** (1000-5000 arquivos): 2-5 minutos
 - **Grande** (> 5000 arquivos): 5-15 minutos
@@ -85,8 +86,9 @@ sonar.test.exclusions=\
 ### ❓ Posso rodar análise offline?
 
 Não completamente. O SonarScanner precisa se conectar ao servidor SonarQube para enviar os resultados. Mas você pode:
+
 1. Rodar servidor local (não precisa de internet)
-2. Executar análises sem conectividade externa
+1. Executar análises sem conectividade externa
 
 ---
 
@@ -97,18 +99,20 @@ Não completamente. O SonarScanner precisa se conectar ao servidor SonarQube par
 **Causa:** Token inválido ou sem permissões.
 
 **Solução:**
-1. Gere novo token em: http://localhost:9000/account/security
-2. Configure: `$env:SONAR_TOKEN = "novo-token"`
-3. Ou edite `sonar-project.properties`
+
+1. Gere novo token em: <http://localhost:9000/account/security>
+1. Configure: `$env:SONAR_TOKEN = "novo-token"`
+1. Ou edite `sonar-project.properties`
 
 ### ❌ "You're not authorized to run analysis"
 
 **Causa:** Usuário sem permissão no projeto.
 
 **Solução:**
-1. Acesse: http://localhost:9000/admin/projects
-2. Vá em **Project Settings → Permissions**
-3. Adicione seu usuário com permissão "Execute Analysis"
+
+1. Acesse: <http://localhost:9000/admin/projects>
+1. Vá em **Project Settings → Permissions**
+1. Adicione seu usuário com permissão "Execute Analysis"
 
 ### ❌ "ERROR: Error during SonarScanner execution - java.lang.OutOfMemoryError"
 
@@ -129,6 +133,7 @@ $env:SONAR_SCANNER_OPTS="-Xmx2048m"
 **Causas e Soluções:**
 
 1. **Servidor não está rodando:**
+
    ```bash
    # Verificar
    docker ps
@@ -137,11 +142,13 @@ $env:SONAR_SCANNER_OPTS="-Xmx2048m"
    docker-compose -f docker-compose.sonarqube.yml up -d
    ```
 
-2. **Servidor ainda inicializando:**
+1. **Servidor ainda inicializando:**
+
    - Aguarde 2-3 minutos
    - Verifique logs: `docker-compose -f docker-compose.sonarqube.yml logs -f`
 
-3. **Firewall bloqueando:**
+1. **Firewall bloqueando:**
+
    - Verifique firewall do Windows
    - Permita conexões na porta 9000
 
@@ -150,6 +157,7 @@ $env:SONAR_SCANNER_OPTS="-Xmx2048m"
 **Causa:** SonarQube ainda inicializando ou problemas de conectividade.
 
 **Solução:**
+
 ```bash
 # Ver status
 curl http://localhost:9000/api/system/status
@@ -163,9 +171,10 @@ curl http://localhost:9000/api/system/status
 **Causa:** Plugins de linguagem não instalados.
 
 **Solução:**
-1. Acesse: http://localhost:9000/admin/marketplace
-2. Instale plugins: JavaScript/TypeScript
-3. Reinicie o SonarQube
+
+1. Acesse: <http://localhost:9000/admin/marketplace>
+1. Instale plugins: JavaScript/TypeScript
+1. Reinicie o SonarQube
 
 ---
 
@@ -174,22 +183,26 @@ curl http://localhost:9000/api/system/status
 ### ❓ Como melhorar a performance da análise?
 
 **1. Excluir arquivos desnecessários:**
+
 ```properties
 sonar.exclusions=**/node_modules/**,**/.next/**,**/dist/**
 ```
 
 **2. Limitar diretórios fonte:**
+
 ```properties
 # Ao invés de analisar tudo:
 sonar.sources=app,components,lib,hooks
 ```
 
 **3. Desabilitar análise de duplicação:**
+
 ```properties
 sonar.cpd.exclusions=**/*
 ```
 
 **4. Aumentar recursos do Docker:**
+
 ```yaml
 # docker-compose.sonarqube.yml
 deploy:
@@ -207,6 +220,7 @@ deploy:
    - Ajuste Memory para 4-6GB
 
 2. **Limpar dados antigos:**
+
    ```bash
    # No SonarQube UI:
    # Administration → Projects → Management
@@ -214,6 +228,7 @@ deploy:
    ```
 
 3. **Usar PostgreSQL ao invés de H2:**
+
    - Descomente seção PostgreSQL no `docker-compose.sonarqube.yml`
 
 ---
@@ -225,7 +240,8 @@ deploy:
 **SonarLint Extension:**
 
 1. Instale: [SonarLint](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarlint-vscode)
-2. Configure em `.vscode/settings.json`:
+1. Configure em `.vscode/settings.json`:
+
 ```json
 {
   "sonarlint.connectedMode.servers": [
@@ -246,6 +262,7 @@ deploy:
 Veja o arquivo `.github/workflows/sonarqube.yml.example` para um exemplo completo.
 
 **Resumo:**
+
 1. Adicione secrets no GitHub: `SONAR_TOKEN` e `SONAR_HOST_URL`
 2. Use action: `sonarsource/sonarqube-scan-action@master`
 
@@ -272,10 +289,10 @@ sonarqube:
 
 ### ✅ Configure Quality Gates
 
-Quality Gates definem critérios de qualidade. Configure em:
-http://localhost:9000/quality_gates
+Quality Gates definem critérios de qualidade. Configure em: <http://localhost:9000/quality_gates>
 
 **Recomendações:**
+
 - **Cobertura mínima:** 80%
 - **Bugs em código novo:** 0
 - **Vulnerabilidades em código novo:** 0
@@ -284,6 +301,7 @@ http://localhost:9000/quality_gates
 ### ✅ Use Análise Diferencial
 
 Foque em **código novo**. Configure para:
+
 - Não falhar em problemas legados
 - Falhar apenas em novos bugs/vulnerabilidades
 - Melhorar gradualmente a qualidade
@@ -307,7 +325,7 @@ const result = complexCalculation();
 
 Se excluir arquivos ou desabilitar regras, documente:
 
-```properties
+```ini
 # Excluir gerados automaticamente pelo Prisma
 sonar.exclusions=**/prisma/generated/**
 ```
@@ -326,7 +344,8 @@ git commit
 ### ✅ Configure Webhooks
 
 Para notificações:
-1. http://localhost:9000/admin/webhooks
+
+1. <http://localhost:9000/admin/webhooks>
 2. Configure para Slack, Discord, etc.
 
 ---
@@ -408,28 +427,33 @@ sonar-scanner -Dsonar.verbose=true
 
 ## 💡 Ainda com Problemas?
 
-### 1. Verifique os logs
+### Verifique os logs
+
 ```bash
 docker-compose -f docker-compose.sonarqube.yml logs sonarqube
 ```
 
-### 2. Verifique o status
+### Verifique o status
+
 ```bash
 curl http://localhost:9000/api/system/status
 ```
 
-### 3. Execute em modo debug
+### Execute em modo debug
+
 ```bash
 sonar-scanner -X
 ```
 
 ### 4. Consulte a documentação completa
+
 - [SONARQUBE-SETUP.md](./SONARQUBE-SETUP.md)
 - [SONARQUBE-QUICKSTART.md](./SONARQUBE-QUICKSTART.md)
 - [SONARQUBE-CHEATSHEET.md](./SONARQUBE-CHEATSHEET.md)
 - [SONARQUBE-INDEX.md](./SONARQUBE-INDEX.md)
 
 ### 5. Busque ajuda
+
 - [Community Forum](https://community.sonarsource.com/)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/sonarqube)
 
@@ -437,4 +461,3 @@ sonar-scanner -X
 
 **Última atualização:** 13/10/2025  
 **Contribuições:** Sugestões e melhorias são bem-vindas!
-

@@ -178,24 +178,27 @@ chmod +x sonarqube.sh
 
 ### Gerar Token
 
-1. http://localhost:9000/account/security
-2. Generate Token
-3. Copiar token
+1. <http://localhost:9000/account/security>
+1. Generate Token
+1. Copiar token
 
 ### Configurar Token
 
 **PowerShell:**
+
 ```powershell
 $env:SONAR_TOKEN="seu-token-aqui"
 ```
 
 **Bash:**
+
 ```bash
 export SONAR_TOKEN="seu-token-aqui"
 ```
 
 **Arquivo .properties:**
-```properties
+
+```ini
 sonar.login=seu-token-aqui
 ```
 
@@ -252,7 +255,7 @@ sonar.login=seu-token
 
 ## 🌐 URLs Importantes
 
-```
+```text
 Interface Web:        http://localhost:9000
 API Status:           http://localhost:9000/api/system/status
 Projetos:             http://localhost:9000/projects
@@ -375,7 +378,7 @@ export SONAR_MEMORY_LIMIT=4G
 
 ## 📦 Arquivos do Projeto
 
-```
+```text
 sonar-project.properties       # Configuração principal
 docker-compose.sonarqube.yml   # Docker Compose
 sonarqube.ps1                  # Script Windows
@@ -438,13 +441,12 @@ docker-compose -f docker-compose.sonarqube.yml stop
 
 ## 📞 Suporte
 
-- **Docs:** https://docs.sonarqube.org/
-- **Forum:** https://community.sonarsource.com/
+- **Docs:** <https://docs.sonarqube.org/>
+- **Forum:** <https://community.sonarsource.com/>
 - **Stack Overflow:** tag `sonarqube`
 
 ---
 
-**Imprima esta página ou salve nos favoritos para referência rápida! 🔖**
+### Imprima esta página ou salve nos favoritos para referência rápida! 🔖
 
-*Última atualização: 13/10/2025*
-
+### Última atualização: 13/10/2025

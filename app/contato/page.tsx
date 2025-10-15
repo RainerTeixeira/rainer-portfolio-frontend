@@ -18,7 +18,9 @@
 
 import { ContactForm } from "@/components/contato/contact-form"
 import Image from "next/image"
-import { ParticlesEffect, PageHeader } from "@/components/ui"
+import { ParticlesEffect, PageHeader, BackToTop } from "@/components/ui"
+import { Card, CardContent } from "@/components/ui/card"
+import { Clock, MapPin, Phone, Mail } from "lucide-react"
 
 /**
  * Componente ContatoPage
@@ -41,8 +43,8 @@ export default function ContatoPage() {
       
       {/** Header da página com ícone */}
       <PageHeader
-        title="Contato"
-        description="Vamos conversar sobre seu próximo projeto! Entre em contato e vamos transformar suas ideias em realidade digital."
+        title="Vamos Conversar Sobre Seu Projeto"
+        description="Estou disponível para projetos freelancer, desenvolvimento de aplicações web, sistemas full-stack e oportunidades de colaboração. Se você precisa de um desenvolvedor comprometido com qualidade, código limpo e resultado que funciona, vamos conversar! Respondo todos os contatos em até 24 horas com atenção e interesse real em entender como posso ajudar a concretizar sua ideia."
       >
         {/** Ícone de comunicação */}
         <div className="relative w-24 h-24 mx-auto mb-4">
@@ -62,9 +64,65 @@ export default function ContatoPage() {
        * Renderiza componente ContactForm que contém
        * o formulário e cards de informações de contato
        */}
-      <div className="max-w-7xl mx-auto px-6 pb-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 pb-8 relative z-10">
         <ContactForm />
       </div>
+
+      {/** Informações Adicionais */}
+      <div className="max-w-7xl mx-auto px-6 pb-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Horário */}
+          <Card className="dark:bg-black/30 dark:border-cyan-400/20">
+            <CardContent className="p-6 text-center">
+              <Clock className="h-8 w-8 mx-auto mb-3 text-cyan-400" />
+              <h3 className="font-semibold mb-2 dark:text-cyan-200">Horário</h3>
+              <p className="text-sm text-muted-foreground dark:text-gray-400">
+                Seg - Sex<br />
+                9:00 - 18:00
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Localização */}
+          <Card className="dark:bg-black/30 dark:border-purple-400/20">
+            <CardContent className="p-6 text-center">
+              <MapPin className="h-8 w-8 mx-auto mb-3 text-purple-400" />
+              <h3 className="font-semibold mb-2 dark:text-purple-200">Localização</h3>
+              <p className="text-sm text-muted-foreground dark:text-gray-400">
+                Volta Redonda, RJ<br />
+                Brasil
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Telefone */}
+          <Card className="dark:bg-black/30 dark:border-pink-400/20">
+            <CardContent className="p-6 text-center">
+              <Phone className="h-8 w-8 mx-auto mb-3 text-pink-400" />
+              <h3 className="font-semibold mb-2 dark:text-pink-200">Telefone</h3>
+              <p className="text-sm text-muted-foreground dark:text-gray-400">
+                +55 24 99913-7382<br />
+                WhatsApp disponível
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Email */}
+          <Card className="dark:bg-black/30 dark:border-orange-400/20">
+            <CardContent className="p-6 text-center">
+              <Mail className="h-8 w-8 mx-auto mb-3 text-orange-400" />
+              <h3 className="font-semibold mb-2 dark:text-orange-200">Email</h3>
+              <p className="text-sm text-muted-foreground dark:text-gray-400">
+                suporte@rainersoft.com.br<br />
+                Resposta em 24h
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Back to Top */}
+      <BackToTop />
     </div>
   )
 }

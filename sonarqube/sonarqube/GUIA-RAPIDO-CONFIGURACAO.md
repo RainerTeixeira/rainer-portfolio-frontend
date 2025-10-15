@@ -1,6 +1,6 @@
 # 🚀 Guia Rápido - Configuração Atual
 
-**Status:** Você está na fase de gerar token e executar a primeira análise! 
+**Status:** Você está na fase de gerar token e executar a primeira análise!
 
 ---
 
@@ -20,7 +20,7 @@
 
 Você está vendo esta tela agora:
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │ Forneça um token                             │
 │                                              │
@@ -32,6 +32,7 @@ Você está vendo esta tela agora:
 ```
 
 **Faça isto:**
+
 1. No campo "Nome do token", digite: `portfolio-analysis`
 2. Em "Expira em", deixe: `1 year`
 3. Clique em **"Gerar"**
@@ -53,6 +54,7 @@ Você tem **3 opções**:
 ```
 
 Este script irá:
+
 - ✅ Solicitar o token
 - ✅ Configurar automaticamente
 - ✅ Executar a primeira análise
@@ -73,6 +75,7 @@ echo $env:SONAR_TOKEN
 Edite: `sonarqube/sonar-project.properties`
 
 Descomente e adicione:
+
 ```properties
 sonar.login=SEU_TOKEN_AQUI
 ```
@@ -110,7 +113,7 @@ sonar-scanner -Dsonar.host.url=http://localhost:9000 -Dsonar.login=SEU_TOKEN_AQU
 
 Após a análise concluir (1-3 minutos):
 
-1. Acesse: http://localhost:9000
+1. Acesse: <http://localhost:9000>
 2. Clique em "Projects"
 3. Selecione "rainer-portfolio-frontend"
 4. Visualize:
@@ -141,6 +144,7 @@ cd sonarqube
 ### ❌ "SonarScanner não encontrado"
 
 **Solução:**
+
 ```powershell
 # Instalar com Chocolatey
 choco install sonarscanner
@@ -155,13 +159,15 @@ sonar-scanner --version
 ### ❌ "Token inválido"
 
 **Solução:**
+
 1. Verifique se copiou o token corretamente
-2. Gere um novo token em: http://localhost:9000/account/security
+2. Gere um novo token em: <http://localhost:9000/account/security>
 3. Configure novamente
 
 ### ❌ "SonarQube não responde"
 
 **Solução:**
+
 ```powershell
 # Verificar se está rodando
 docker ps | Select-String sonarqube
@@ -189,12 +195,14 @@ Para mais detalhes, consulte:
 ## 🎉 Após Concluir
 
 Você terá:
+
 - ✅ SonarQube configurado
 - ✅ Primeira análise executada
 - ✅ Dashboard com métricas de qualidade
 - ✅ Relatório de bugs, vulnerabilidades e code smells
 
 **Workflow futuro:**
+
 ```powershell
 # Desenvolver código...
 
@@ -211,5 +219,3 @@ Você terá:
 
 **Última atualização:** 13/10/2025  
 **Status:** Pronto para gerar token e executar primeira análise!
-
-

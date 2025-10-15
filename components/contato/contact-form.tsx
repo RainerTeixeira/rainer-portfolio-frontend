@@ -25,7 +25,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useState } from "react"
-import { CARD_CLASSES } from "@/lib/utils"
+import { CARD_CLASSES, cn } from "@/lib/utils"
 import { SITE_CONFIG } from "@/constants"
 
 /**
@@ -98,7 +98,7 @@ export function ContactForm() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className={cn("max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8")}>
       {/** 
        * COLUNA 1: Formulário de envio de mensagem
        * Card com campos de input e botão de envio
@@ -114,7 +114,7 @@ export function ContactForm() {
            * - Campos: name, email, subject, message
            * - Botão de envio full-width
            */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className={cn("space-y-6")}>
             {/** Campo Nome (obrigatório) */}
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium">

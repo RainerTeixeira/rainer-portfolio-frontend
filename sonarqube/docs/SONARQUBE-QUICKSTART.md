@@ -18,9 +18,10 @@ Aguarde cerca de 2-3 minutos para o servidor iniciar completamente.
 
 ### 2. Acessar a Interface
 
-Abra o navegador em: **http://localhost:9000**
+Abra o navegador em: **<http://localhost:9000>**
 
 **Login padrão:**
+
 - Usuário: `admin`
 - Senha: `admin`
 
@@ -41,6 +42,7 @@ Abra o navegador em: **http://localhost:9000**
 ### 4. Instalar o SonarScanner
 
 #### Windows (PowerShell como Admin)
+
 ```powershell
 # Opção 1: Chocolatey
 choco install sonarscanner
@@ -50,6 +52,7 @@ scoop install sonarscanner
 ```
 
 #### Linux
+
 ```bash
 sudo apt update
 sudo apt install unzip wget
@@ -60,18 +63,20 @@ sudo ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
 ```
 
 #### macOS
+
 ```bash
 brew install sonar-scanner
 ```
 
 **Verificar instalação:**
+
 ```bash
 sonar-scanner --version
 ```
 
 ### 5. Configurar o Token
 
-**Opção A: Variável de Ambiente (Recomendado)**
+#### Opção A: Variável de Ambiente (Recomendado)
 
 ```powershell
 # Windows (PowerShell)
@@ -81,9 +86,10 @@ $env:SONAR_TOKEN="seu-token-aqui"
 export SONAR_TOKEN="seu-token-aqui"
 ```
 
-**Opção B: Editar `sonar-project.properties`**
+#### Opção B: Editar `sonar-project.properties`
 
 Descomente e adicione:
+
 ```properties
 sonar.login=seu-token-aqui
 ```
@@ -104,7 +110,7 @@ sonar-scanner -Dsonar.host.url=http://localhost:9000 -Dsonar.login=seu-token-aqu
 ### 7. Ver Resultados
 
 1. Aguarde a análise concluir (1-3 minutos)
-2. Acesse: http://localhost:9000
+2. Acesse: <http://localhost:9000>
 3. Clique no projeto para ver:
    - 🐛 **Bugs**
    - 🔒 **Vulnerabilidades**
@@ -124,6 +130,7 @@ docker-compose -f docker-compose.sonarqube.yml down -v
 ## 📋 Comandos Úteis
 
 ### Docker
+
 ```bash
 # Ver status dos containers
 docker-compose -f docker-compose.sonarqube.yml ps
@@ -139,6 +146,7 @@ docker exec -it sonarqube-local bash
 ```
 
 ### NPM Scripts
+
 ```bash
 # Análise local
 npm run sonar:local
@@ -152,6 +160,7 @@ npm run type-check
 ```
 
 ### SonarScanner
+
 ```bash
 # Análise básica
 sonar-scanner
@@ -184,6 +193,7 @@ sonar.sources=components,hooks,lib
 ## 🎯 Fluxo de Trabalho Recomendado
 
 ### Desenvolvimento Diário
+
 ```bash
 # 1. Fazer suas alterações no código
 # 2. Verificar linter
@@ -200,6 +210,7 @@ npm run sonar:local
 ```
 
 ### Antes de Pull Request
+
 ```bash
 # Análise completa
 npm run lint:fix && npm run type-check && npm run sonar:local
@@ -211,20 +222,24 @@ npm run lint:fix && npm run type-check && npm run sonar:local
 ## ⚙️ Configurações Importantes
 
 ### Quality Gate Padrão
+
 O SonarQube vem com quality gates que podem falhar a análise se:
+
 - **Cobertura < 80%** (se testes configurados)
 - **Bugs > 0** em código novo
 - **Vulnerabilidades > 0** em código novo
 - **Code Smells** com rating D ou E
 
 ### Customizar Quality Gates
-1. Acesse: http://localhost:9000/quality_gates
+
+1. Acesse: <http://localhost:9000/quality_gates>
 2. Crie um novo quality gate ou edite o padrão
 3. Ajuste os limites conforme sua necessidade
 
 ## 🆘 Problemas Comuns
 
 ### SonarQube não inicia
+
 ```bash
 # Verificar logs
 docker-compose -f docker-compose.sonarqube.yml logs sonarqube
@@ -238,6 +253,7 @@ lsof -i :9000               # Linux/Mac
 ```
 
 ### Análise falha
+
 ```bash
 # Verificar Java
 java -version  # Deve ser Java 17+
@@ -250,6 +266,7 @@ rm -rf .scannerwork
 ```
 
 ### Token inválido
+
 ```bash
 # Gerar novo token em:
 # http://localhost:9000/account/security
@@ -270,12 +287,11 @@ Para instruções detalhadas, consulte:
 
 ## 🔗 Links Úteis
 
-- **Interface Local:** http://localhost:9000
-- **Documentação:** https://docs.sonarqube.org/
-- **Regras TypeScript:** https://rules.sonarsource.com/typescript/
-- **Community Forum:** https://community.sonarsource.com/
+- **Interface Local:** <http://localhost:9000>
+- **Documentação:** <https://docs.sonarqube.org/>
+- **Regras TypeScript:** <https://rules.sonarsource.com/typescript/>
+- **Community Forum:** <https://community.sonarsource.com/>
 
 ---
 
 **Dica:** Marque esta página nos favoritos para referência rápida! 🔖
-

@@ -14,10 +14,22 @@
  * @since 1.0.0
  */
 
-import Carousel from '@/components/home/carousel'
-import { Highlights } from "@/components/home/highlights"
-import { AboutSection } from "@/components/home/about-section"
-import { ContactSection } from "@/components/home/contact-section"
+'use client'
+
+import { 
+  Highlights, 
+  AboutSection, 
+  NewsletterSection, 
+  ContactSection,
+  StatsShowcase,
+  Testimonials,
+  CTASection,
+  TechStackShowcase,
+  PortfolioShowcase,
+  HeroSection
+} from "@/components/home"
+import { BackToTop } from "@/components/ui"
+import { Separator } from "@/components/ui/separator"
 
 /**
  * Componente principal da página Home
@@ -40,75 +52,105 @@ import { ContactSection } from "@/components/home/contact-section"
  */
 export default function Page() {
   return (
-    <main className="w-full min-h-screen bg-background" aria-label="Página inicial do portfólio">
-      {/* Hero Section - Carousel Principal */}
-      {/**
-       * Seção Hero em tela cheia
-       * - Usa 100svh (small viewport height) para dispositivos móveis
-       * - Fallback para 100vh em desktops
-       * - Altura mínima de 500px para evitar seções muito pequenas
-       * - Fundo preto para o carousel cyberpunk
-       * - role="banner" para acessibilidade (indica área principal)
-       */}
-      <section 
-        className="relative w-full h-[100svh] sm:h-[100vh] flex items-center justify-center overflow-hidden bg-black"
-        style={{
-          minHeight: 'max(100svh, 500px)', // Garante altura mínima utilizável
-          maxHeight: '100svh'               // Limita altura máxima à viewport
-        }}
-        role="banner"
-        aria-label="Seção principal de apresentação cyberpunk"
-      >
-        {/* Componente Carousel com animações e efeitos visuais */}
-        <Carousel />
-      </section>
+    <main className="w-full min-h-screen bg-background overflow-hidden" aria-label="Página inicial do portfólio">
+      {/* Hero Section com efeito WOW */}
+      <div className="relative">
+        {/* Brilho de fundo animado */}
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5 dark:from-cyan-400/10 dark:via-purple-400/10 dark:to-pink-400/10"></div>
+        <HeroSection />
+      </div>
       
-      {/* Conteúdo Principal */}
-      {/**
-       * Container do conteúdo principal
-       * - z-10 para ficar acima de backgrounds
-       * - Gradiente escuro aplicado apenas no dark mode
-       * - Espaçamento responsivo (mobile-first)
-       */}
+      {/* Divisor decorativo premium */}
+      <div className="relative h-24 bg-gradient-to-b from-background via-background/50 to-background dark:from-black dark:via-gray-900/50 dark:to-black overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent"></div>
+      </div>
+      
+      {/* Conteúdo Principal com efeitos modernos */}
       <div className="relative z-10 bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black">
-        {/**
-         * Wrapper com padding e espaçamento responsivo
-         * - px: padding horizontal responsivo (3px -> 8px conforme tela cresce)
-         * - py: padding vertical responsivo (12 -> 24 conforme tela cresce)
-         * - space-y: espaçamento vertical entre seções filho
-         */}
-        <div className="w-full mx-auto px-3 xs:px-4 sm:px-6 lg:px-8 py-12 xs:py-14 sm:py-16 md:py-20 lg:py-24 space-y-12 xs:space-y-14 sm:space-y-16 md:space-y-20 lg:space-y-24">
+        <div className="w-full mx-auto">
+          {/* Stats Showcase - Números Impressionantes */}
+          <section id="stats" className="relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent dark:from-cyan-400/10 dark:to-transparent"></div>
+            <StatsShowcase />
+          </section>
+
+          {/* Divisor com gradiente */}
+          <div className="relative h-px bg-gradient-to-r from-transparent via-border dark:via-cyan-400/20 to-transparent my-16"></div>
+          
           {/* Seção de Destaques */}
-          {/**
-           * Área de highlights/destaques
-           * id="destaques": Permite navegação direta via URL (/#destaques)
-           * aria-labelledby conecta com o heading interno do componente
-           */}
-          <section id="destaques" aria-labelledby="highlights-heading">
+          <section id="destaques" aria-labelledby="highlights-heading" className="relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent dark:via-purple-400/5"></div>
             <Highlights />
           </section>
+
+          {/* Divisor com gradiente */}
+          <div className="relative h-px bg-gradient-to-r from-transparent via-border dark:via-purple-400/20 to-transparent my-16"></div>
+
+          {/* Portfolio Showcase */}
+          <section id="portfolio" className="relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-pink-500/5 to-transparent dark:via-pink-400/5"></div>
+            <PortfolioShowcase />
+          </section>
+
+          {/* Divisor com gradiente */}
+          <div className="relative h-px bg-gradient-to-r from-transparent via-border dark:via-pink-400/20 to-transparent my-16"></div>
+
+          {/* Tech Stack */}
+          <section id="tech" className="relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent dark:via-cyan-400/5"></div>
+            <TechStackShowcase />
+          </section>
+
+          {/* Divisor com gradiente */}
+          <div className="relative h-px bg-gradient-to-r from-transparent via-border dark:via-cyan-400/20 to-transparent my-16"></div>
           
-          {/* Seção Sobre */}
-          {/**
-           * Seção de informações pessoais e profissionais
-           * id="sobre": Permite navegação direta via URL (/#sobre)
-           * Apresenta biografia, habilidades e experiência
-           */}
-          <section id="sobre" aria-labelledby="about-heading">
+          {/* Seção Sobre com destaque */}
+          <section id="sobre" aria-labelledby="about-heading" className="relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent dark:via-purple-400/5"></div>
             <AboutSection />
           </section>
+
+          {/* Divisor com gradiente */}
+          <div className="relative h-px bg-gradient-to-r from-transparent via-border dark:via-purple-400/20 to-transparent my-16"></div>
+
+          {/* Testimonials */}
+          <section id="testimonials" className="relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-pink-500/5 to-transparent dark:via-pink-400/5"></div>
+            <Testimonials />
+          </section>
+
+          {/* Divisor com gradiente */}
+          <div className="relative h-px bg-gradient-to-r from-transparent via-border dark:via-pink-400/20 to-transparent my-16"></div>
+          
+          {/* Seção de Newsletter */}
+          <section id="newsletter" aria-labelledby="newsletter-heading" className="relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent dark:via-cyan-400/5"></div>
+            <NewsletterSection />
+          </section>
+
+          {/* Divisor com gradiente */}
+          <div className="relative h-px bg-gradient-to-r from-transparent via-border dark:via-cyan-400/20 to-transparent my-16"></div>
+
+          {/* CTA Section - Call to Action */}
+          <section id="cta" className="relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent dark:via-purple-400/5"></div>
+            <CTASection />
+          </section>
+
+          {/* Divisor final */}
+          <div className="relative h-px bg-gradient-to-r from-transparent via-border dark:via-pink-400/20 to-transparent my-16"></div>
           
           {/* Seção de Contato */}
-          {/**
-           * Seção de contato e comunicação
-           * id="contato": Permite navegação direta via URL (/#contato)
-           * Inclui formulário e links de redes sociais
-           */}
-          <section id="contato" aria-labelledby="contact-heading">
+          <section id="contato" aria-labelledby="contact-heading" className="relative pb-20">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-pink-500/5 to-transparent dark:via-pink-400/5"></div>
             <ContactSection />
           </section>
         </div>
       </div>
+      
+      {/* Back to Top Button */}
+      <BackToTop />
     </main>
   )
 }

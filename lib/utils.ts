@@ -41,11 +41,11 @@ import { twMerge } from "tailwind-merge"
  * </section>
  */
 export const SECTION_CLASSES = {
-  /** Container padrão: largura máxima 7xl, centralizado, padding responsivo */
-  container: "w-full max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 py-12 xs:py-14 sm:py-16",
+  /** Container padrão: largura máxima 7xl, centralizado, padding responsivo otimizado */
+  container: "w-full max-w-7xl mx-auto px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8",
   
-  /** Espaçamento vertical entre elementos dentro de sections */
-  spacing: "space-y-12 xs:space-y-14 sm:space-y-16 md:space-y-20 lg:space-y-24"
+  /** Espaçamento vertical entre elementos dentro de sections otimizado */
+  spacing: "space-y-3 xs:space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8"
 } as const
 
 /**

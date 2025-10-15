@@ -1,265 +1,225 @@
 /**
  * Seção Sobre Mim (About Section)
  * 
- * Card de apresentação pessoal/profissional com:
- * - Avatar/foto
- * - Estatísticas (anos de experiência, projetos, clientes)
- * - Descrição resumida
- * - Call-to-action para página completa
- * 
- * Componente otimizado com React.memo para performance.
+ * Card de apresentação pessoal/profissional redesenhado com visual premium
  * 
  * @fileoverview Seção de apresentação profissional na home
  * @author Rainer Teixeira
- * @version 1.0.0
- * @since 1.0.0
  */
+
+"use client"
 
 import { memo } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Target, Lightbulb, Rocket, Award, ArrowRight, LucideIcon } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Target, Code, Rocket, ArrowRight, Sparkles, Award } from "lucide-react"
 import Link from "next/link"
-import { SECTION_CLASSES, CARD_CLASSES } from "@/lib/utils"
+import Image from "next/image"
+import { cn } from "@/lib/utils"
 
-/**
- * Item de estatística
- * 
- * @typedef {Object} StatItem
- * @property {LucideIcon} icon - Ícone representativo
- * @property {string} value - Valor numérico (ex: "5+ Anos")
- * @property {string} label - Label descritivo (ex: "Experiência")
- */
-
-/**
- * Props do componente AboutSection
- * 
- * @interface AboutSectionProps
- * @property {StatItem[]} [stats] - Array opcional de estatísticas customizadas
- */
-interface AboutSectionProps {
-  stats?: Array<{
-    icon: LucideIcon
-    value: string
-    label: string
-  }>
-}
-
-/**
- * Componente AboutSection
- * 
- * Renderiza card de apresentação profissional com avatar,
- * estatísticas e call-to-action.
- * 
- * Aceita estatísticas customizadas via props ou usa defaults.
- * 
- * Características:
- * - Avatar com imagem ou fallback
- * - Grid de 3 estatísticas
- * - Texto de bio resumida
- * - Botão CTA para página /sobre completa
- * - Responsivo e otimizado
- * 
- * @param {AboutSectionProps} props - Propriedades do componente
- * @param {StatItem[]} [props.stats] - Estatísticas customizadas (opcional)
- * @returns {JSX.Element} Card de apresentação profissional
- * 
- * @example
- * // Com estatísticas padrão
- * <AboutSection />
- * 
- * @example
- * // Com estatísticas customizadas
- * <AboutSection stats={[
- *   { icon: Target, value: "10+", label: "Anos" }
- * ]} />
- */
-export const AboutSection = memo(function AboutSection({ stats }: AboutSectionProps) {
-  /**
-   * Estatísticas padrão
-   * Usadas quando props.stats não é fornecido
-   */
-  const defaultStats = [
-    /** Anos de experiência profissional */
-    { icon: Target, value: "5+ Anos", label: "Experiência" },
-    
-    /** Número de projetos realizados */
-    { icon: Lightbulb, value: "100+", label: "Projetos" },
-    
-    /** Número de clientes atendidos */
-    { icon: Rocket, value: "50+", label: "Clientes" }
+export const AboutSection = memo(function AboutSection() {
+  const stats = [
+    {
+      icon: Target,
+      value: "10+",
+      label: "Projetos Full-Stack",
+      gradient: "from-cyan-500 to-blue-600",
+      iconBg: "from-cyan-400 to-blue-500"
+    },
+    {
+      icon: Code,
+      value: "50K+",
+      label: "Linhas de Código",
+      gradient: "from-purple-500 to-pink-600",
+      iconBg: "from-purple-400 to-pink-500"
+    },
+    {
+      icon: Rocket,
+      value: "20+",
+      label: "Tecnologias",
+      gradient: "from-orange-500 to-amber-600",
+      iconBg: "from-orange-400 to-amber-500"
+    }
   ]
 
-  /** Usa stats customizado ou fallback para default */
-  const finalStats = stats || defaultStats
-
-  /**
-   * Renderização da seção
-   * 
-   * Estrutura:
-   * 1. Header: Avatar + título + badge
-   * 2. Content: Grid de stats + bio + CTA button
-   */
   return (
-    /**
-     * Section principal de about
-     * 
-     * Utiliza SECTION_CLASSES.container para padding e layout responsivos
-     * - aria-labelledby: conecta com heading
-     */
-    <section className={SECTION_CLASSES.container} aria-labelledby="about-heading">
-      {/**
-       * Card principal
-       * 
-       * Utiliza CARD_CLASSES.full para hover effects padronizados
-       */}
-      <Card className={CARD_CLASSES.full}>
-        {/**
-         * Header centralizado com avatar e títulos
-         * - text-center: tudo centralizado
-         * - p responsivo: padding adaptável
-         */}
-        <CardHeader className="text-center p-4 xs:p-5 sm:p-6">
-          {/**
-           * Container de avatar e títulos
-           * - flex-col: layout vertical
-           * - items-center: centraliza horizontalmente
-           * - gap responsivo: espaçamento vertical
-           */}
-          <div className="flex flex-col items-center gap-3 xs:gap-4 mb-3 xs:mb-4">
-            {/**
-             * Avatar com imagem de perfil
-             * - Tamanho responsivo (64px -> 80px)
-             * - border-2: borda na cor primária
-             */}
-            <Avatar className="h-16 w-16 xs:h-18 xs:w-18 sm:h-20 sm:w-20 border-2 border-primary">
-              {/** Imagem do avatar (se disponível) */}
-              <AvatarImage src="/images/t1.jpg" alt="Rainer Teixeira" />
-              
-              {/**
-               * Fallback com iniciais se imagem falhar
-               * - bg-primary: fundo na cor primária
-               * - RS: iniciais de Rainer Soft
-               */}
-              <AvatarFallback className="bg-primary text-primary-foreground font-bold text-xl xs:text-2xl">
-                RS
-              </AvatarFallback>
-            </Avatar>
-            
-            {/**
-             * Container de título e badge
-             * - space-y: espaçamento vertical
-             */}
-            <div className="space-y-1.5 xs:space-y-2">
-              {/** Título da seção (h2 para hierarquia) */}
-              <CardTitle id="about-heading" className="text-2xl xs:text-3xl md:text-4xl font-bold">
-                Sobre Mim
-              </CardTitle>
-              
-              {/**
-               * Badge de cargo/função
-               * - variant="secondary": estilo secundário
-               * - Ícone de troféu para destaque
-               */}
-              <Badge variant="secondary" className="text-xs xs:text-sm">
-                <Award className="w-2.5 h-2.5 xs:w-3 xs:h-3 mr-1" />
-                Full-Stack Developer
-              </Badge>
-            </div>
-          </div>
-        </CardHeader>
+    <section className="py-20 sm:py-24 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Brilho de fundo */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5 blur-3xl"></div>
         
-        {/**
-         * Conteúdo do card
-         * - text-center: tudo centralizado
-         * - space-y: espaçamento vertical entre elementos
-         * - p responsivo: padding adaptável
-         */}
-        <CardContent className="text-center space-y-6 xs:space-y-8 p-4 xs:p-5 sm:p-6">
-          {/**
-           * Grid de estatísticas
-           * 
-           * Layout responsivo:
-           * - Mobile: 1 coluna (stack vertical)
-           * - xs+: 3 colunas
-           * - gap responsivo
-           */}
-          <div className="grid grid-cols-1 xs:grid-cols-3 gap-4 xs:gap-6">
-            {/**
-             * Mapeia estatísticas (experiência, projetos, clientes)
-             * Cada stat tem ícone, valor grande e label
-             */}
-            {finalStats.map((stat, index) => {
-              /** Extrai componente de ícone */
-              const IconComponent = stat.icon
+        {/* Header da seção */}
+        <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 text-white font-bold text-sm mb-8 shadow-xl"
+          >
+            <Sparkles className="w-5 h-5" />
+            Conheça Meu Trabalho
+          </motion.div>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
+          >
+            Sobre Mim
+          </motion.h2>
+        </div>
+
+        {/* Grid Principal */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 relative">
+          {/* Coluna 1: Avatar + Info (2 colunas) */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-2"
+          >
+            <div className="relative bg-card/80 dark:bg-black/60 backdrop-blur-xl rounded-3xl p-8 sm:p-10 border border-border/50 dark:border-cyan-400/30 shadow-2xl overflow-hidden">
+              {/* Brilho de fundo */}
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5 dark:from-cyan-400/10 dark:via-purple-400/10 dark:to-pink-400/10"></div>
               
-              return (
-                /**
-                 * Item de estatística
-                 * - flex-col: layout vertical
-                 * - items-center: centraliza tudo
-                 * - gap: espaçamento entre elementos
-                 */
-                <div key={index} className="flex flex-col items-center gap-2 xs:gap-3">
-                  {/**
-                   * Círculo com ícone
-                   * - rounded-full: círculo perfeito
-                   * - bg-primary: fundo na cor primária
-                   * - aria-hidden: decorativo
-                   */}
-                  <div className="p-2 xs:p-2.5 sm:p-3 rounded-full bg-primary" aria-hidden="true">
-                    <IconComponent className="h-4 w-4 xs:h-5 xs:w-5 sm:h-6 sm:w-6 text-primary-foreground" />
+              <div className="relative z-10 text-center">
+                {/* Avatar Premium */}
+                <div className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto mb-8">
+                  {/* Círculo externo animado */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin-slow opacity-60 blur-md"></div>
+                  
+                  {/* Avatar */}
+                  <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl group-hover:scale-105 transition-transform duration-500">
+                    <Image
+                      src="/images/t1.jpg"
+                      alt="Rainer Teixeira - Desenvolvedor Full-Stack"
+                      fill
+                      className="object-cover"
+                      sizes="160px"
+                    />
                   </div>
                   
-                  {/**
-                   * Valor e label da estatística
-                   * - space-y: pequeno espaçamento vertical
-                   */}
-                  <div className="space-y-0.5 xs:space-y-1">
-                    {/** Valor grande e em negrito */}
-                    <div className="text-xl xs:text-2xl font-bold text-foreground">{stat.value}</div>
-                    
-                    {/** Label descritivo menor */}
-                    <div className="text-xs xs:text-sm text-muted-foreground">{stat.label}</div>
+                  {/* Badge de status */}
+                  <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-xl shadow-green-500/50 border-4 border-background animate-pulse">
+                    <Award className="w-6 h-6 text-white" />
                   </div>
                 </div>
-              )
-            })}
-          </div>
-          
-          {/**
-           * Parágrafo de bio/descrição
-           * - max-w-4xl: largura máxima para legibilidade
-           * - mx-auto: centralizado
-           * - leading-relaxed: espaçamento entre linhas confortável
-           * - px-2: padding lateral pequeno
-           */}
-          <p className="text-sm xs:text-base sm:text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed px-2">
-            Com mais de 5 anos de experiência em desenvolvimento de software,
-            especializo-me em criar soluções digitais inovadoras que resolvem problemas reais.
-            Transformo ideias em aplicações funcionais e escaláveis.
-          </p>
-          
-          {/**
-           * Link para página /sobre completa
-           * - inline-block: permite padding no Link
-           */}
-          <Link href="/sobre" className="inline-block">
-            {/**
-             * Botão CTA com ícone de seta
-             * - size="lg": tamanho grande para destaque
-             * - px responsivo: padding horizontal adaptável
-             * - Ícone ArrowRight à direita do texto
-             */}
-            <Button size="lg" className="px-6 xs:px-8 text-sm xs:text-base">
-              Ver Perfil Completo
-              <ArrowRight className="w-3 h-3 xs:w-4 xs:h-4 ml-2" />
-            </Button>
-          </Link>
-        </CardContent>
-      </Card>
+
+                {/* Nome e título */}
+                <h3 className="text-2xl sm:text-3xl font-black mb-3 text-foreground dark:text-white">
+                  Rainer Teixeira
+                </h3>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 to-purple-500/10 dark:from-cyan-400/20 dark:to-purple-400/20 border border-cyan-400/30 mb-6">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
+                  <span className="text-sm font-bold text-foreground dark:text-cyan-300">
+                    Desenvolvedor Full-Stack
+                  </span>
+                </div>
+
+                {/* CTA Button */}
+                <Button 
+                  asChild 
+                  className="w-full group/btn bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white shadow-xl shadow-cyan-500/30 hover:shadow-2xl hover:shadow-cyan-500/40 transition-all duration-300"
+                >
+                  <Link href="/sobre">
+                    Ver Perfil Completo
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Coluna 2: Stats + Bio (3 colunas) */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="lg:col-span-3 space-y-6"
+          >
+            {/* Stats Grid */}
+            <div className="grid grid-cols-3 gap-4 sm:gap-6">
+              {stats.map((stat, index) => {
+                const Icon = stat.icon
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + index * 0.1 }}
+                    className="group/stat"
+                  >
+                    <div className="relative bg-card/80 dark:bg-black/60 backdrop-blur-xl rounded-2xl p-6 border border-border/50 dark:border-cyan-400/20 hover:border-primary dark:hover:border-cyan-400/60 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 overflow-hidden text-center">
+                      {/* Brilho de fundo */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover/stat:opacity-10 transition-opacity duration-500`}></div>
+                      
+                      <div className="relative z-10">
+                        {/* Ícone */}
+                        <div className="relative mb-4">
+                          <div className={`absolute inset-0 bg-gradient-to-br ${stat.iconBg} rounded-xl blur-md opacity-40`}></div>
+                          <div className={`relative inline-flex p-3 rounded-xl bg-gradient-to-br ${stat.iconBg} shadow-lg group-hover/stat:scale-110 group-hover/stat:rotate-6 transition-all duration-300`}>
+                            <Icon className="h-6 w-6 text-white" />
+                          </div>
+                        </div>
+                        
+                        {/* Valor */}
+                        <div className={`text-3xl sm:text-4xl font-black mb-2 bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent`}>
+                          {stat.value}
+                        </div>
+                        
+                        {/* Label */}
+                        <div className="text-xs sm:text-sm font-semibold text-muted-foreground dark:text-gray-300 group-hover/stat:text-foreground dark:group-hover/stat:text-white transition-colors">
+                          {stat.label}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            {/* Bio Text */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="relative bg-card/80 dark:bg-black/60 backdrop-blur-xl rounded-2xl p-8 border border-border/50 dark:border-purple-400/30 shadow-xl overflow-hidden"
+            >
+              {/* Brilho de fundo */}
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-cyan-500/5 dark:from-purple-400/10 dark:via-pink-400/5 dark:to-cyan-400/10"></div>
+              
+              <div className="relative z-10 space-y-4">
+                <p className="text-base sm:text-lg text-muted-foreground dark:text-gray-300 leading-relaxed">
+                  <span className="font-bold text-foreground dark:text-cyan-200">Desenvolvedor Full-Stack</span> com domínio técnico comprovado através de projetos reais. 
+                  Desenvolvi sistemas enterprise completos: <span className="font-semibold text-foreground/90 dark:text-purple-200">portfólio profissional com PWA + blog + autenticação + dashboard admin</span> (este site!), 
+                  dashboard de criptomoedas com backend NestJS + PostgreSQL, planejador financeiro full-stack e mais.
+                </p>
+                
+                <p className="text-sm sm:text-base text-muted-foreground dark:text-gray-300 leading-relaxed">
+                  Stack completa: <span className="font-semibold text-foreground/90 dark:text-pink-200">React 19, Next.js 15, TypeScript, Node.js, NestJS, PostgreSQL, Prisma ORM, Docker e CI/CD</span>. 
+                  Arquitetura modular, código limpo, documentação completa e <span className="font-bold text-foreground dark:text-cyan-200">resultado que impressiona</span>.
+                </p>
+
+                <div className="pt-4 flex items-center justify-center gap-2 text-sm font-medium">
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 to-cyan-500/5 dark:from-cyan-400/20 dark:to-cyan-400/10 border border-cyan-400/30">
+                    <Sparkles className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                    <span className="text-foreground dark:text-cyan-300">Lighthouse 95+</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/10 to-purple-500/5 dark:from-purple-400/20 dark:to-purple-400/10 border border-purple-400/30">
+                    <Award className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                    <span className="text-foreground dark:text-purple-300">WCAG AA</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
     </section>
   )
 })

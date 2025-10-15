@@ -19,7 +19,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CARD_CLASSES } from "@/lib/utils"
+import { CARD_CLASSES, cn } from "@/lib/utils"
 
 /**
  * Props do componente TeamCard

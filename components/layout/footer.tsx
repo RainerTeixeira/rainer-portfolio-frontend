@@ -20,12 +20,12 @@
 
 import { SITE_CONFIG, FOOTER_CONFIG } from "@/constants"
 import { 
-  Mail, Phone, MapPin, Github, Linkedin, ExternalLink, 
+  Mail, Phone, MapPin, Github as GitHubIcon, Linkedin, ExternalLink, 
   Globe, Zap, Users, Cloud, Layers, Code, Database, 
   Server, Cpu, Network, Shield, Settings, Monitor, 
   Smartphone, Wifi, Lock, FileText, Terminal, GitBranch, Package
 } from "lucide-react"
-import { getIcon } from "@/lib/utils"
+import { getIcon, cn } from "@/lib/utils"
 
 /**
  * Estilos constantes do footer
@@ -45,23 +45,51 @@ import { getIcon } from "@/lib/utils"
  * @property {string} link - Classes para links externos
  */
 const FOOTER_STYLES = {
-  /** Estilo de card para cada seção do footer (modo claro limpo, escuro cyberpunk) */
-  card: "text-left bg-card/40 dark:bg-black/40 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-border/40 dark:border-cyan-400/20 hover:border-border/70 dark:hover:border-cyan-400/50 hover:bg-card/60 dark:hover:bg-black/60 hover:shadow-lg hover:shadow-primary/5 dark:hover:shadow-cyan-500/10 transition-all duration-500 h-full flex flex-col group backdrop-blur-sm",
+  /** Estilo de card para cada seção do footer - Premium */
+  card: cn(
+    "text-left bg-card/60 dark:bg-black/50 backdrop-blur-xl rounded-2xl p-3 xs:p-4 sm:p-5 md:p-6 lg:p-8",
+    "border border-border/50 dark:border-cyan-400/20 hover:border-primary/40 dark:hover:border-cyan-400/50",
+    "hover:bg-card/80 dark:hover:bg-black/70 hover:shadow-2xl hover:shadow-primary/10 dark:hover:shadow-cyan-500/20",
+    "transition-all duration-500 h-full flex flex-col group",
+    "relative overflow-hidden",
+    "before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/0 before:via-primary/0 before:to-primary/0",
+    "hover:before:from-primary/5 hover:before:via-transparent hover:before:to-primary/5",
+    "dark:hover:before:from-cyan-400/5 dark:hover:before:via-transparent dark:hover:before:to-purple-400/5",
+    "before:transition-all before:duration-500 before:pointer-events-none"
+  ),
   
   /** Estilo dos títulos de seção com hover effect */
-  title: "text-base sm:text-lg font-semibold text-foreground dark:text-cyan-300 mb-4 sm:mb-6 md:mb-8 group-hover:text-primary dark:group-hover:text-cyan-200 transition-colors duration-300",
+  title: cn(
+    "text-base sm:text-lg font-semibold text-foreground dark:text-cyan-300",
+    "mb-4 sm:mb-6 md:mb-8 group-hover:text-primary dark:group-hover:text-cyan-200",
+    "transition-colors duration-300"
+  ),
   
   /** Estilo de item de informação com ícone */
-  item: "flex items-start justify-start gap-1 p-2 sm:p-3 rounded-lg hover:bg-muted/30 dark:hover:bg-cyan-400/10 transition-colors border border-transparent dark:hover:border-cyan-400/20",
+  item: cn(
+    "flex items-start justify-start gap-1 p-1.5 xs:p-2 sm:p-3 rounded-lg",
+    "hover:bg-muted/30 dark:hover:bg-cyan-400/10 transition-colors",
+    "border border-transparent dark:hover:border-cyan-400/20"
+  ),
   
   /** Estilo dos ícones (tamanho responsivo, cor primária) */
-  icon: "h-3.5 sm:h-4 w-3.5 sm:w-4 text-primary dark:text-cyan-400 mt-0.5 flex-shrink-0",
+  icon: cn(
+    "h-3.5 sm:h-4 w-3.5 sm:w-4 text-primary dark:text-cyan-400",
+    "mt-0.5 flex-shrink-0"
+  ),
   
   /** Estilo de texto padrão (responsivo, cor muted) */
-  text: "text-xs sm:text-sm text-muted-foreground dark:text-gray-300",
+  text: cn(
+    "text-xs sm:text-sm text-muted-foreground dark:text-gray-300"
+  ),
   
   /** Estilo de link externo com hover effect */
-  link: "flex items-center justify-start gap-1 text-xs sm:text-sm text-muted-foreground dark:text-gray-400 hover:text-primary dark:hover:text-cyan-300 transition-colors group p-2 sm:p-3 rounded-lg hover:bg-muted/30 dark:hover:bg-cyan-400/10 border border-transparent dark:hover:border-cyan-400/20"
+  link: cn(
+    "flex items-center justify-start gap-1 text-xs sm:text-sm",
+    "text-muted-foreground dark:text-gray-400 hover:text-primary dark:hover:text-cyan-300",
+    "transition-colors group p-1.5 xs:p-2 sm:p-3 rounded-lg",
+    "hover:bg-muted/30 dark:hover:bg-cyan-400/10 border border-transparent dark:hover:border-cyan-400/20"
+  )
 } as const
 
 /**
@@ -94,7 +122,8 @@ const ICON_COMPONENTS = {
   FileText,
   Terminal,
   GitBranch,
-  Package
+  Package,
+  Github: GitHubIcon
 } as const
 
 /**
@@ -145,13 +174,16 @@ function ContactItem({ icon: Icon, label, value, href, type = "text" }: {
   const content = href ? (
     <a 
       href={href} 
-      className={`${FOOTER_STYLES.text} text-muted-foreground hover:text-primary transition-colors break-words`}
+      className={cn(
+        FOOTER_STYLES.text,
+        "text-muted-foreground hover:text-primary transition-colors break-words"
+      )}
       aria-label={`${type === "link" ? "Visitar" : type === "text" ? "Enviar email para" : "Ligar para"} ${value}`}
     >
       {value}
     </a>
   ) : (
-    <p className={`${FOOTER_STYLES.text} text-muted-foreground`}>{value}</p>
+    <p className={cn(FOOTER_STYLES.text, "text-muted-foreground")}>{value}</p>
   )
 
   return (
@@ -161,7 +193,7 @@ function ContactItem({ icon: Icon, label, value, href, type = "text" }: {
       {/** Container de texto com flexbox */}
       <div className="min-w-0 flex-1">
         {/** Label em negrito */}
-        <p className={`${FOOTER_STYLES.text} font-medium text-foreground`}>{label}</p>
+        <p className={cn(FOOTER_STYLES.text, "font-medium text-foreground")}>{label}</p>
         {/** Valor (link ou texto) */}
         {content}
       </div>
@@ -255,38 +287,19 @@ function ExternalLinkItem({ icon: Icon, label, href, ariaLabel }: {
  */
 export function Footer() {
   return (
-    /**
-     * Footer principal
-     * 
-     * Características:
-     * - relative: contexto de posicionamento para partículas
-     * - border-t: linha superior separadora
-     * - Gradiente escuro no dark mode (preto -> cinza -> preto)
-     * - backdrop-blur: desfoque do background
-     * - role="contentinfo": identifica como informações do site
-     */
-    <footer className="relative border-t border-border/40 dark:border-cyan-400/20 bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-black/60" role="contentinfo">
-      {/* Efeito de partículas sutis - apenas no dark */}
-      {/**
-       * Container de partículas animadas
-       * 
-       * - absolute inset-0: cobre todo o footer
-       * - pointer-events-none: não interfere em interações
-       * - opacity-0 dark:opacity-100: visível apenas no dark mode
-       * 
-       * Contém 3 partículas com cores e delays diferentes
-       * para efeito cyberpunk sutil
-       */}
+    <footer className="relative border-t border-border/40 dark:border-cyan-400/30 bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-black/60 overflow-hidden" role="contentinfo">
+      {/* Brilho de fundo premium */}
+      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5 blur-3xl pointer-events-none"></div>
+      
+      {/* Partículas decorativas animadas */}
       <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100">
-        {/** Partícula cyan no topo esquerdo, pulsa continuamente */}
-        <div className="absolute top-0 left-1/4 w-1 h-1 bg-cyan-400 rounded-full animate-pulse opacity-60"></div>
-        
-        {/** Partícula roxa no topo direito, pulsa com delay de 1s */}
-        <div className="absolute top-10 right-1/3 w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse opacity-40" style={{ animationDelay: '1s' }}></div>
-        
-        {/** Partícula rosa na parte inferior, pulsa com delay de 2s */}
-        <div className="absolute bottom-20 left-1/2 w-0.5 h-0.5 bg-pink-400 rounded-full animate-pulse opacity-50" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-20 left-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-pulse opacity-60 shadow-lg shadow-cyan-400/50"></div>
+        <div className="absolute top-40 right-1/3 w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse opacity-40 shadow-lg shadow-purple-400/50" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-40 left-1/2 w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse opacity-50 shadow-lg shadow-pink-400/50" style={{ animationDelay: '2s' }}></div>
       </div>
+      
+      {/* Divisor premium no topo */}
+      <div className="relative h-1 bg-gradient-to-r from-transparent via-cyan-400/50 dark:via-cyan-400/30 to-transparent"></div>
       
       {/**
        * Container principal do conteúdo
@@ -295,7 +308,7 @@ export function Footer() {
        * - px/py responsivos: padding que cresce com breakpoints
        * - z-10: acima das partículas de fundo
        */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-12 sm:py-16 md:py-20 relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8 py-6 xs:py-8 sm:py-10 md:py-12 lg:py-16 relative z-10">
       
         {/**
          * Grid principal de seções
@@ -306,7 +319,7 @@ export function Footer() {
          * - Desktop: 4 colunas
          * - gap responsivo: aumenta com tamanho da tela
          */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12 w-full">
+        <section className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-2 xs:gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10 w-full">
           
           {/* Informações da empresa */}
           {/**
@@ -318,16 +331,20 @@ export function Footer() {
            * - flex flex-col: layout vertical
            */}
           <address className={`${FOOTER_STYLES.card} not-italic`}>
-            <div className="space-y-3 sm:space-y-4 flex-1 flex flex-col">
+            <div className="space-y-2 xs:space-y-3 sm:space-y-4 flex-1 flex flex-col">
               <header>
-                {/** Nome da empresa em fonte mono cyberpunk no dark mode */}
-                <h3 className="text-lg sm:text-xl font-bold text-foreground dark:text-cyan-200 mb-2 dark:font-mono dark:tracking-wider">{SITE_CONFIG.name}</h3>
+                {/** Nome da empresa em fonte mono cyberpunk no dark mode com hover effect */}
+                <h3 className="text-lg sm:text-xl font-bold text-foreground dark:text-cyan-200 mb-2 dark:font-mono dark:tracking-wider group-hover:text-primary dark:group-hover:text-cyan-100 transition-colors duration-300">
+                  {SITE_CONFIG.name}
+                </h3>
                 
-                {/** Título profissional em cor primária */}
-                <p className={`${FOOTER_STYLES.text} font-medium text-primary dark:text-cyan-400 mb-2 sm:mb-3 dark:font-mono`}>{SITE_CONFIG.title}</p>
+                {/** Título profissional em cor primária com gradiente */}
+                <p className={`${FOOTER_STYLES.text} font-semibold text-primary dark:text-cyan-400 mb-2 sm:mb-3 dark:font-mono text-sm sm:text-base`}>
+                  {SITE_CONFIG.title}
+                </p>
                 
                 {/** Descrição com leading relaxado para legibilidade */}
-                <p className={`${FOOTER_STYLES.text} text-muted-foreground dark:text-gray-300 leading-relaxed`}>
+                <p className={`${FOOTER_STYLES.text} text-muted-foreground dark:text-gray-300 leading-relaxed text-xs sm:text-sm`}>
                   {SITE_CONFIG.description}
                 </p>
               </header>
@@ -336,10 +353,13 @@ export function Footer() {
                * - mt-auto: empurra para o final do flex container
                * - Gradiente sutil de background
                * - Bordas arredondadas (pill)
-               * - Hover effects com sombra
+               * - Hover effects com sombra e escala
                */}
               <div className="flex justify-start mt-auto pt-3 sm:pt-4">
-                <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-primary/10 to-primary/5 dark:from-cyan-400/10 dark:to-purple-400/5 text-primary dark:text-cyan-300 rounded-full text-xs font-medium border border-primary/20 dark:border-cyan-400/20 hover:border-primary/40 dark:hover:border-cyan-400/40 hover:shadow-md hover:shadow-primary/10 dark:hover:shadow-cyan-500/10 transition-all duration-300 dark:font-mono">
+                <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 dark:from-cyan-400/10 dark:via-purple-400/5 dark:to-purple-400/10 text-primary dark:text-cyan-300 rounded-full text-xs sm:text-sm font-semibold border border-primary/20 dark:border-cyan-400/20 hover:border-primary/40 dark:hover:border-cyan-400/40 hover:shadow-lg hover:shadow-primary/20 dark:hover:shadow-cyan-500/20 transition-all duration-300 dark:font-mono hover:scale-105 cursor-default inline-flex items-center gap-1.5">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  </svg>
                   {SITE_CONFIG.experience}
                 </span>
               </div>
@@ -361,7 +381,7 @@ export function Footer() {
              * - space-y: espaçamento vertical entre itens
              * - flex-1: ocupa espaço disponível no card
              */}
-            <address className="space-y-3 sm:space-y-4 not-italic flex-1">
+            <address className="space-y-2 xs:space-y-3 sm:space-y-4 not-italic flex-1">
               {/**
                * Email com link mailto
                * Ícone dinâmico baseado em FOOTER_CONFIG, fallback para Mail
@@ -413,7 +433,7 @@ export function Footer() {
              * - flex-1: ocupa espaço disponível
              * - role="list": semântica explícita
              */}
-            <ul className="space-y-2 sm:space-y-3 flex-1" role="list">
+            <ul className="space-y-1 xs:space-y-2 sm:space-y-3 flex-1" role="list">
               {/**
                * Mapeia serviços de FOOTER_CONFIG
                * Cada serviço tem ícone dinâmico e hover effects
@@ -454,10 +474,10 @@ export function Footer() {
              * - flex-1: ocupa espaço disponível
              * - role="list": semântica explícita
              */}
-            <ul className="space-y-2 sm:space-y-3 flex-1" role="list">
+            <ul className="space-y-1 xs:space-y-2 sm:space-y-3 flex-1" role="list">
               {/** Link para GitHub com ícone dinâmico */}
               <ExternalLinkItem 
-                icon={getIcon(ICON_COMPONENTS, FOOTER_CONFIG.links.github.icon as IconName, Github)} 
+                icon={getIcon(ICON_COMPONENTS, FOOTER_CONFIG.links.github.icon as IconName, GitHubIcon)} 
                 label="GitHub" 
                 href={SITE_CONFIG.github}
                 ariaLabel="Visitar perfil no GitHub (abre em nova aba)"
@@ -471,12 +491,12 @@ export function Footer() {
                 ariaLabel="Visitar perfil no LinkedIn (abre em nova aba)"
               />
               
-              {/** Link para portfólio com ícone dinâmico */}
+              {/** Link para website oficial com ícone dinâmico */}
               <ExternalLinkItem 
                 icon={getIcon(ICON_COMPONENTS, FOOTER_CONFIG.links.portfolio.icon as IconName, ExternalLink)} 
-                label="Portfólio" 
-                href={SITE_CONFIG.portfolio}
-                ariaLabel="Visitar portfólio (abre em nova aba)"
+                label="Website" 
+                href={SITE_CONFIG.url}
+                ariaLabel="Visitar website oficial (abre em nova aba)"
               />
             </ul>
           </nav>
@@ -493,35 +513,35 @@ export function Footer() {
         <section className="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 border-t border-border/50 dark:border-cyan-400/20">
           {/**
            * Container flex responsivo
-           * - flex-col em mobile (stack vertical)
-           * - flex-row em sm+ (horizontal)
-           * - justify-between: espaça copyright e "made with love"
+           * - flex-col: vertical em mobile (empilhado)
+           * - sm:flex-row: horizontal em desktop (lado a lado)
+           * - justify-between: espaça copyright e "made with love" em desktop
+           * - items-start: alinhado à esquerda
+           * - gap responsivo: menor em mobile, maior em desktop
            */}
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
-            {/**
-             * Bloco de copyright
-             * - text-center em mobile
-             * - text-left em sm+
-             */}
+          <div className="flex flex-col sm:flex-row sm:justify-between items-center gap-4 sm:gap-6">
+            {/* Bloco de copyright */}
             <div className="text-center sm:text-left">
-              {/** Copyright com ano dinâmico via new Date() */}
-              <p className={`${FOOTER_STYLES.text} text-muted-foreground dark:text-gray-400`}>
-                &copy; {new Date().getFullYear()} {SITE_CONFIG.name}. Todos os direitos reservados.
+              <p className="text-sm font-semibold text-foreground dark:text-cyan-300 mb-2 flex items-center gap-2 justify-center sm:justify-start">
+                <span className="inline-block w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full animate-pulse"></span>
+                &copy; {new Date().getFullYear()} {SITE_CONFIG.name}
               </p>
               
-              {/** Créditos de tecnologia em fonte mono */}
-              <p className="text-xs text-muted-foreground mt-1 dark:font-mono">
-                Desenvolvido com Next.js e Tailwind CSS
+              <p className="text-xs text-muted-foreground dark:text-gray-400">
+                Desenvolvido com <span className="font-semibold text-foreground dark:text-cyan-400">Next.js 15</span>, <span className="font-semibold text-foreground dark:text-purple-400">React 19</span> e <span className="font-semibold text-foreground dark:text-pink-400">TypeScript</span>
               </p>
             </div>
             
-            {/**
-             * "Made with love"
-             * Mensagem personalizada com emoji de coração
-             * Fonte mono no dark mode
-             */}
-            <div className="flex items-center gap-2 sm:gap-4 text-xs text-muted-foreground dark:font-mono">
-              <span>Made with <span className="text-primary dark:text-cyan-400">❤️</span> in Brasil</span>
+            {/* Badges de qualidade */}
+            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-green-500/10 to-emerald-500/10 dark:from-green-400/20 dark:to-emerald-400/20 border border-green-400/30">
+                <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-xs font-bold text-green-700 dark:text-green-300">Online</span>
+              </div>
+              
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 dark:from-cyan-400/20 dark:to-blue-400/20 border border-cyan-400/30">
+                <span className="text-xs font-bold text-cyan-700 dark:text-cyan-300">Made with ❤️ in Brasil</span>
+              </div>
             </div>
           </div>
         </section>

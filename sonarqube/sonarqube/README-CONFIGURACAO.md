@@ -6,7 +6,7 @@ Você está com o SonarQube rodando e precisa **gerar um token** para executar a
 
 ## ⚡ SOLUÇÃO RÁPIDA
 
-### Execute APENAS este comando:
+### Execute APENAS este comando
 
 ```powershell
 cd c:\Desenvolvimento\rainer-portfolio-frontend\sonarqube
@@ -27,7 +27,7 @@ cd c:\Desenvolvimento\rainer-portfolio-frontend\sonarqube
 
 ## 🔑 Como Gerar o Token
 
-**Na interface do SonarQube (http://localhost:9000):**
+**Na interface do SonarQube (<http://localhost:9000>):**
 
 1. No campo **"Nome do token"**: digite `portfolio-analysis`
 2. No campo **"Expira em"**: deixe `1 year`
@@ -110,7 +110,7 @@ docker-compose -f docker-compose.sonarqube.yml up -d
 Start-Sleep -Seconds 180
 
 # 3. Acessar interface
-# http://localhost:9000 (admin/admin)
+# <http://localhost:9000> (admin/admin)
 
 # 4. Gerar token na interface
 # (seguir instruções visuais)
@@ -129,7 +129,7 @@ Start-Sleep -Seconds 180
 .\sonarqube.ps1 analyze
 
 # 3. Ver resultados
-# http://localhost:9000
+# <http://localhost:9000>
 
 # 4. Corrigir issues reportados
 # 5. Commit
@@ -161,12 +161,12 @@ docker-compose -f docker-compose.sonarqube.yml up -d
 
 # Aguardar e verificar
 Start-Sleep -Seconds 120
-curl http://localhost:9000/api/system/status
+curl <http://localhost:9000>/api/system/status
 ```
 
 ### Problema: Token não funciona
 
-1. Gere um novo token em: http://localhost:9000/account/security
+1. Gere um novo token em: <http://localhost:9000>/account/security
 2. Copie corretamente (incluindo prefixo `squ_`)
 3. Execute novamente: `.\configure-token.ps1`
 
@@ -194,7 +194,7 @@ curl http://localhost:9000/api/system/status
 
 1. Leia: [COMECE-AQUI.md](./COMECE-AQUI.md)
 2. Execute: `.\configure-token.ps1`
-3. Explore: http://localhost:9000
+3. Explore: <http://localhost:9000>
 4. Consulte: [SONARQUBE-CHEATSHEET.md](./docs/SONARQUBE-CHEATSHEET.md)
 
 ### Para Avançados
@@ -207,16 +207,16 @@ curl http://localhost:9000/api/system/status
 
 ## 🔗 Links Úteis
 
-- **Interface Local:** http://localhost:9000
-- **API Status:** http://localhost:9000/api/system/status
-- **Documentação Oficial:** https://docs.sonarqube.org/
-- **Regras TypeScript:** https://rules.sonarsource.com/typescript/
-- **Community Forum:** https://community.sonarsource.com/
+- **Interface Local:** <http://localhost:9000>
+- **API Status:** <http://localhost:9000>/api/system/status
+- **Documentação Oficial:** <https://docs.sonarqube.org/>
+- **Regras TypeScript:** <https://rules.sonarsource.com/typescript/>
+- **Community Forum:** <https://community.sonarsource.com/>
 
 ## ✅ Checklist de Sucesso
 
 - [ ] SonarQube rodando no Docker
-- [ ] Interface acessível em http://localhost:9000
+- [ ] Interface acessível em <http://localhost:9000>
 - [ ] Projeto criado (`rainer-portfolio-frontend`)
 - [ ] Token gerado e copiado
 - [ ] Script `configure-token.ps1` executado
@@ -242,14 +242,9 @@ Após concluir a configuração, você terá:
 
 **📅 Última atualização:** 13/10/2025  
 **👨‍💻 Autor:** Rainer Teixeira  
-**📧 Contato:** suporte@rainersoft.com.br  
-**🌐 Website:** rainersoft.com.br
+**📧 Contato:** <suporte@rainersoft.com.br>  
+**🌐 Website:** <http://rainersoft.com.br>
 
 ---
 
-<div align="center">
-
 **[⬆️ Voltar ao topo](#-readme---configuração-do-token-sonarqube)**
-
-</div>
-
