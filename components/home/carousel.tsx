@@ -103,6 +103,83 @@ interface Particle {
 }
 
 /* ==========================================================
+   COMPONENTE AUXILIAR - RENDERIZADOR DE CARACTERES MATRIX
+   ========================================================== */
+
+/**
+ * Componente interno para renderizar caracteres da matriz
+ * Extração de código duplicado para melhor manutenibilidade
+ */
+interface MatrixCharacterSetProps {
+  characters: string[]
+  columnId: string
+  fontSize: number
+  intensity: number
+  isDarkTheme: boolean
+  setIndex: number
+}
+
+const MatrixCharacterSet = memo(function MatrixCharacterSet({ 
+  characters, 
+  columnId, 
+  fontSize, 
+  intensity, 
+  isDarkTheme,
+  setIndex 
+}: MatrixCharacterSetProps) {
+  const charColor = isDarkTheme ? 'text-green-400' : 'text-green-600'
+  const glowColor = isDarkTheme ? '#00ff00' : '#10b981'
+  
+  return (
+    <div className="flex flex-col gap-0 whitespace-pre text-center" style={{ opacity: intensity }}>
+      {characters.map((character, index) => {
+        // Variação hipnótica na opacidade baseada em caractere
+        const baseOpacity = index === 0 ? 1 : Math.max(0.2, 1 - index * 0.08)
+        const charVariation = character === '1' ? 1.15 : 0.9
+        const finalOpacity = Math.min(1, baseOpacity * charVariation)
+        
+        return (
+          <span
+            key={`${columnId}-ch-${index}-${setIndex}`}
+            className={`matrix-binary font-mono font-bold tracking-wider ${charColor} ${
+              index === 0 ? 'glow-binary-head' : index < 2 ? 'glow-binary-trail' : 'glow-binary-fade'
+            }`}
+            style={{
+              fontSize: `${fontSize}px`,
+              opacity: finalOpacity,
+              textShadow: index === 0 
+                ? `0 0 20px ${glowColor}, 0 0 35px ${glowColor}, 0 0 50px ${glowColor}`
+                : index < 2
+                ? `0 0 12px ${glowColor}, 0 0 20px ${glowColor}`
+                : `0 0 8px ${glowColor}`,
+              filter: index === 0 
+                ? 'brightness(1.6) contrast(1.3) saturate(1.4)' 
+                : index < 2
+                ? 'brightness(1.3) saturate(1.2)'
+                : 'brightness(1.1)',
+              transform: index === 0 ? 'scale(1.15)' : 'scale(1)',
+              fontWeight: index === 0 ? '900' : index < 2 ? '800' : '700',
+              // Efeito de pulso hipnótico para bits ativos
+              animationName: index === 0 
+                ? 'binary-pulse' 
+                : character === '1' && index < 4
+                ? 'binary-shimmer'
+                : 'none',
+              animationDuration: index === 0 ? '1.5s' : '2s',
+              animationTimingFunction: 'ease-in-out',
+              animationIterationCount: 'infinite',
+              animationDelay: `${index * 0.1}s`
+            }}
+          >
+            {character}
+          </span>
+        )
+      })}
+    </div>
+  )
+})
+
+/* ==========================================================
    COMPONENTE PRINCIPAL - CYBERPUNK CARRUSEL AVANÇADO
    ========================================================== */
 
@@ -258,7 +335,7 @@ const Carousel = memo(function Carousel() {
     })
 
     setParticles(newParticles)
-  }, [mounted, isMobile, isTablet, resolvedTheme, livePatterns])
+  }, [mounted, isMobile, isTablet, resolvedTheme])
 
   useEffect(() => {
     if (!mounted) return
@@ -280,23 +357,23 @@ const Carousel = memo(function Carousel() {
   }, [mounted, updateResponsiveDimensions])
 
   /* ==========================================================
-     RENDERIZAÇÃO DO SISTEMA CYBERPUNK
+     TEMA E RENDERIZAÇÃO DO SISTEMA CYBERPUNK
      ========================================================== */
+  const isDarkTheme = mounted && resolvedTheme === 'dark'
+
   if (!isReady) {
     return (
-      <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black">
+      <div className={`absolute inset-0 w-full h-full flex items-center justify-center ${isDarkTheme ? 'bg-black' : 'bg-white'}`}>
         <div className="text-center space-y-6">
           <div className="relative">
-            <div className="w-20 h-20 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <div className="absolute inset-0 w-20 h-20 border-4 border-pink-400 border-b-transparent rounded-full animate-spin mx-auto" style={{ animationDirection: 'reverse' }}></div>
+            <div className={`w-20 h-20 border-4 ${isDarkTheme ? 'border-cyan-400' : 'border-blue-500'} border-t-transparent rounded-full animate-spin mx-auto`}></div>
+            <div className={`absolute inset-0 w-20 h-20 border-4 ${isDarkTheme ? 'border-pink-400' : 'border-purple-600'} border-b-transparent rounded-full animate-spin mx-auto`} style={{ animationDirection: 'reverse' }}></div>
           </div>
-          <p className="font-mono text-cyan-400 text-lg animate-pulse tracking-wider">SYSTEM BOOT-UP...</p>
+          <p className={`font-mono ${isDarkTheme ? 'text-cyan-400' : 'text-blue-600'} text-lg animate-pulse tracking-wider`}>SYSTEM BOOT-UP...</p>
         </div>
       </div>
     )
   }
-
-  const isDarkTheme = mounted && resolvedTheme === 'dark'
 
   return (
     <div
@@ -312,9 +389,9 @@ const Carousel = memo(function Carousel() {
       {/* SISTEMA DE FUNDO HOLOGRÁFICO AVANÇADO */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* CAMADAS DE GRADIENTE DINÂMICO MULTICAMADA */}
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/25 via-black/70 to-purple-900/35" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-pink-900/20 via-transparent to-green-900/25 mix-blend-overlay" />
-        <div className="absolute inset-0 bg-gradient-to-bl from-blue-900/15 via-transparent to-yellow-900/20 mix-blend-color" />
+        <div className={`absolute inset-0 ${isDarkTheme ? 'bg-gradient-to-br from-cyan-900/25 via-black/70 to-purple-900/35' : 'bg-gradient-to-br from-blue-100/40 via-white/70 to-purple-100/45'}`} />
+        <div className={`absolute inset-0 ${isDarkTheme ? 'bg-gradient-to-tr from-pink-900/20 via-transparent to-green-900/25' : 'bg-gradient-to-tr from-pink-100/30 via-transparent to-green-100/35'} mix-blend-overlay`} />
+        <div className={`absolute inset-0 ${isDarkTheme ? 'bg-gradient-to-bl from-blue-900/15 via-transparent to-yellow-900/20' : 'bg-gradient-to-bl from-blue-50/25 via-transparent to-yellow-50/30'} mix-blend-color`} />
         
         {/* GRADE TÁTICA OTIMIZADA - CSS Puro */}
         <div 
@@ -366,106 +443,24 @@ const Carousel = memo(function Carousel() {
               }}
             >
               {/* Primeiro set - Bits de processador com efeito Matrix Rain hipnótico */}
-              <div className="flex flex-col gap-0 whitespace-pre text-center" style={{ opacity: column.intensity }}>
-                {column.characters.map((character, index) => {
-                  // Cores estilo Matrix - Verde neon vibrante para bits de processador
-                  const charColor = isDarkTheme ? 'text-green-400' : 'text-green-600'
-                  const glowColor = isDarkTheme ? '#00ff00' : '#10b981'
-                  
-                  // Variação hipnótica na opacidade baseada em caractere
-                  const baseOpacity = index === 0 ? 1 : Math.max(0.2, 1 - index * 0.08)
-                  const charVariation = character === '1' ? 1.15 : 0.9
-                  const finalOpacity = Math.min(1, baseOpacity * charVariation)
-                  
-                  return (
-                    <span
-                      key={`${column.id}-ch-${index}-1`}
-                      className={`matrix-binary font-mono font-bold tracking-wider ${charColor} ${
-                        index === 0 ? 'glow-binary-head' : index < 2 ? 'glow-binary-trail' : 'glow-binary-fade'
-                      }`}
-                      style={{
-                        fontSize: `${column.fontSize}px`,
-                        opacity: finalOpacity,
-                        textShadow: index === 0 
-                          ? `0 0 20px ${glowColor}, 0 0 35px ${glowColor}, 0 0 50px ${glowColor}`
-                          : index < 2
-                          ? `0 0 12px ${glowColor}, 0 0 20px ${glowColor}`
-                          : `0 0 8px ${glowColor}`,
-                        filter: index === 0 
-                          ? 'brightness(1.6) contrast(1.3) saturate(1.4)' 
-                          : index < 2
-                          ? 'brightness(1.3) saturate(1.2)'
-                          : 'brightness(1.1)',
-                        transform: index === 0 ? 'scale(1.15)' : 'scale(1)',
-                        fontWeight: index === 0 ? '900' : index < 2 ? '800' : '700',
-                        // Efeito de pulso hipnótico para bits ativos
-                        animationName: index === 0 
-                          ? 'binary-pulse' 
-                          : character === '1' && index < 4
-                          ? 'binary-shimmer'
-                          : 'none',
-                        animationDuration: index === 0 ? '1.5s' : '2s',
-                        animationTimingFunction: 'ease-in-out',
-                        animationIterationCount: 'infinite',
-                        animationDelay: `${index * 0.1}s`
-                      }}
-                    >
-                      {character}
-                    </span>
-                  )
-                })}
-              </div>
+              <MatrixCharacterSet 
+                characters={column.characters}
+                columnId={column.id}
+                fontSize={column.fontSize}
+                intensity={column.intensity}
+                isDarkTheme={isDarkTheme}
+                setIndex={1}
+              />
               
               {/* Segundo set - Continuidade com efeito Matrix Rain hipnótico */}
-              <div className="flex flex-col gap-0 whitespace-pre text-center" style={{ opacity: column.intensity }}>
-                {column.characters.map((character, index) => {
-                  // Cores estilo Matrix - Verde neon vibrante para bits de processador
-                  const charColor = isDarkTheme ? 'text-green-400' : 'text-green-600'
-                  const glowColor = isDarkTheme ? '#00ff00' : '#10b981'
-                  
-                  // Variação hipnótica na opacidade baseada em caractere
-                  const baseOpacity = index === 0 ? 1 : Math.max(0.2, 1 - index * 0.08)
-                  const charVariation = character === '1' ? 1.15 : 0.9
-                  const finalOpacity = Math.min(1, baseOpacity * charVariation)
-                  
-                  return (
-                    <span
-                      key={`${column.id}-ch-${index}-2`}
-                      className={`matrix-binary font-mono font-bold tracking-wider ${charColor} ${
-                        index === 0 ? 'glow-binary-head' : index < 2 ? 'glow-binary-trail' : 'glow-binary-fade'
-                      }`}
-                      style={{
-                        fontSize: `${column.fontSize}px`,
-                        opacity: finalOpacity,
-                        textShadow: index === 0 
-                          ? `0 0 20px ${glowColor}, 0 0 35px ${glowColor}, 0 0 50px ${glowColor}`
-                          : index < 2
-                          ? `0 0 12px ${glowColor}, 0 0 20px ${glowColor}`
-                          : `0 0 8px ${glowColor}`,
-                        filter: index === 0 
-                          ? 'brightness(1.6) contrast(1.3) saturate(1.4)' 
-                          : index < 2
-                          ? 'brightness(1.3) saturate(1.2)'
-                          : 'brightness(1.1)',
-                        transform: index === 0 ? 'scale(1.15)' : 'scale(1)',
-                        fontWeight: index === 0 ? '900' : index < 2 ? '800' : '700',
-                        // Efeito de pulso hipnótico para bits ativos
-                        animationName: index === 0 
-                          ? 'binary-pulse' 
-                          : character === '1' && index < 4
-                          ? 'binary-shimmer'
-                          : 'none',
-                        animationDuration: index === 0 ? '1.5s' : '2s',
-                        animationTimingFunction: 'ease-in-out',
-                        animationIterationCount: 'infinite',
-                        animationDelay: `${index * 0.1}s`
-                      }}
-                    >
-                      {character}
-                    </span>
-                  )
-                })}
-              </div>
+              <MatrixCharacterSet 
+                characters={column.characters}
+                columnId={column.id}
+                fontSize={column.fontSize}
+                intensity={column.intensity}
+                isDarkTheme={isDarkTheme}
+                setIndex={2}
+              />
             </div>
           ))}
         </div>
@@ -494,8 +489,8 @@ const Carousel = memo(function Carousel() {
       </div>
 
       {/* EFEITOS DE BORDA DA TELA */}
-      <div className="absolute top-0 left-0 w-full h-0.5 sm:h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-60 z-40"></div>
-      <div className="absolute bottom-0 left-0 w-full h-0.5 sm:h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-60 z-40"></div>
+      <div className={`absolute top-0 left-0 w-full h-0.5 sm:h-1 bg-gradient-to-r from-transparent ${isDarkTheme ? 'via-cyan-400' : 'via-blue-500'} to-transparent opacity-60 z-40`}></div>
+      <div className={`absolute bottom-0 left-0 w-full h-0.5 sm:h-1 bg-gradient-to-r from-transparent ${isDarkTheme ? 'via-purple-400' : 'via-purple-600'} to-transparent opacity-60 z-40`}></div>
 
       {/* INDICADOR DE SCROLL CYBERPUNK - UNIVERSAL */}
       <div className="absolute bottom-2 xs:bottom-3 sm:bottom-5 md:bottom-7 lg:bottom-10 left-1/2 transform -translate-x-1/2 z-[5] flex flex-col items-center gap-1.5 sm:gap-2 md:gap-2.5">
@@ -503,7 +498,7 @@ const Carousel = memo(function Carousel() {
         <div className="relative group cursor-pointer">
           {/* Corpo do mouse */}
           <div 
-            className="border-2 sm:border-[2.5px] border-cyan-400 rounded-full sm:rounded-2xl flex justify-center relative overflow-hidden transition-all duration-300 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-400/50"
+            className={`border-2 sm:border-[2.5px] ${isDarkTheme ? 'border-cyan-400 hover:border-pink-400 hover:shadow-pink-400/50' : 'border-blue-500 hover:border-purple-600 hover:shadow-purple-600/50'} rounded-full sm:rounded-2xl flex justify-center relative overflow-hidden transition-all duration-300 hover:shadow-lg`}
             style={{
               width: 'clamp(1.75rem, 4vw, 2.25rem)',
               height: 'clamp(2.5rem, 6vw, 3.5rem)'
@@ -511,7 +506,7 @@ const Carousel = memo(function Carousel() {
           >
             {/* Rodinha do mouse animada */}
             <div 
-              className="bg-cyan-400 rounded-full group-hover:bg-pink-400 transition-colors duration-300"
+              className={`${isDarkTheme ? 'bg-cyan-400 group-hover:bg-pink-400' : 'bg-blue-500 group-hover:bg-purple-600'} rounded-full transition-colors duration-300`}
               style={{
                 width: 'clamp(0.25rem, 1vw, 0.375rem)',
                 height: 'clamp(0.5rem, 1.5vw, 0.75rem)',
@@ -524,15 +519,15 @@ const Carousel = memo(function Carousel() {
             />
             
             {/* Efeito de brilho interno */}
-            <div className="absolute inset-0 bg-gradient-to-b from-cyan-400/20 via-transparent to-transparent" />
+            <div className={`absolute inset-0 bg-gradient-to-b ${isDarkTheme ? 'from-cyan-400/20' : 'from-blue-500/20'} via-transparent to-transparent`} />
           </div>
           
           {/* Anel de pulso externo */}
-          <div className="absolute inset-0 rounded-full sm:rounded-2xl border-2 border-cyan-400/40 animate-ping" />
+          <div className={`absolute inset-0 rounded-full sm:rounded-2xl border-2 ${isDarkTheme ? 'border-cyan-400/40' : 'border-blue-500/40'} animate-ping`} />
           
           {/* Anel de pulso secundário */}
           <div 
-            className="absolute inset-0 rounded-full sm:rounded-2xl border border-purple-400/60"
+            className={`absolute inset-0 rounded-full sm:rounded-2xl border ${isDarkTheme ? 'border-purple-400/60' : 'border-purple-600/60'}`}
             style={{
               animationName: 'ping',
               animationDuration: '2s',
@@ -543,13 +538,13 @@ const Carousel = memo(function Carousel() {
           />
           
           {/* Glow effect de fundo */}
-          <div className="absolute inset-0 rounded-full sm:rounded-2xl blur-lg bg-cyan-400/30 group-hover:bg-pink-400/40 transition-colors duration-300 -z-10" />
+          <div className={`absolute inset-0 rounded-full sm:rounded-2xl blur-lg ${isDarkTheme ? 'bg-cyan-400/30 group-hover:bg-pink-400/40' : 'bg-blue-500/30 group-hover:bg-purple-600/40'} transition-colors duration-300 -z-10`} />
         </div>
         
         {/* Setas para baixo */}
         <div className="flex flex-col gap-0.5 sm:gap-1" style={{ animationName: 'bounce-arrows', animationDuration: '2s', animationTimingFunction: 'ease-in-out', animationIterationCount: 'infinite' }}>
           <div 
-            className="w-0 h-0 border-l-transparent border-r-transparent border-t-cyan-400 opacity-80"
+            className={`w-0 h-0 border-l-transparent border-r-transparent ${isDarkTheme ? 'border-t-cyan-400' : 'border-t-blue-500'} opacity-80`}
             style={{
               borderLeftWidth: 'clamp(0.3rem, 1vw, 0.4rem)',
               borderRightWidth: 'clamp(0.3rem, 1vw, 0.4rem)',
@@ -557,7 +552,7 @@ const Carousel = memo(function Carousel() {
             }}
           />
           <div 
-            className="w-0 h-0 border-l-transparent border-r-transparent border-t-cyan-400 opacity-60"
+            className={`w-0 h-0 border-l-transparent border-r-transparent ${isDarkTheme ? 'border-t-cyan-400' : 'border-t-blue-500'} opacity-60`}
             style={{
               borderLeftWidth: 'clamp(0.3rem, 1vw, 0.4rem)',
               borderRightWidth: 'clamp(0.3rem, 1vw, 0.4rem)',
@@ -565,7 +560,7 @@ const Carousel = memo(function Carousel() {
             }}
           />
           <div 
-            className="w-0 h-0 border-l-transparent border-r-transparent border-t-cyan-400 opacity-40"
+            className={`w-0 h-0 border-l-transparent border-r-transparent ${isDarkTheme ? 'border-t-cyan-400' : 'border-t-blue-500'} opacity-40`}
             style={{
               borderLeftWidth: 'clamp(0.3rem, 1vw, 0.4rem)',
               borderRightWidth: 'clamp(0.3rem, 1vw, 0.4rem)',
@@ -574,8 +569,6 @@ const Carousel = memo(function Carousel() {
           />
         </div>
       </div>
-
-      {/* CONTEÚDO REMOVIDO - Renderizado pelo HeroContent modularizado */}
 
       {/* ESTILOS CYBERPUNK AVANÇADOS */}
       <style jsx>{`
@@ -673,82 +666,11 @@ const Carousel = memo(function Carousel() {
           }
         }
 
-        /* OTIMIZADO: Filter simplificado */
-        @keyframes cyberpunk-glow {
-          0%, 100% { filter: brightness(1); }
-          50% { filter: brightness(1.3); }
-        }
-
-        /* OTIMIZADO: Menos shadows */
-        @keyframes pulse-glow {
-          0%, 100% { opacity: 0.9; }
-          50% { opacity: 1; }
-        }
-
-        /* OTIMIZADO: Box-shadow simplificado */
-        @keyframes electric-pulse {
-          0%, 100% { 
-            opacity: 0.95;
-          }
-          50% { 
-            opacity: 1;
-          }
-        }
-
-        @keyframes pulse-subtle {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.9; transform: scale(1.03); }
-        }
-
-        @keyframes gradientShift {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-
-        @keyframes scanMove {
-          0% { background-position: 0 0; }
-          100% { background-position: 0 150vh; }
-        }
-
         @keyframes hologramScan {
           0% { transform: translateY(-100%); opacity: 0; }
           5% { opacity: 1; }
           95% { opacity: 1; }
           100% { transform: translateY(100vh); opacity: 0; }
-        }
-
-        .glow-intense {
-          filter: drop-shadow(0 0 15px currentColor);
-        }
-
-        /* OTIMIZADO: Animação mais leve */
-        .glow-cyberpunk {
-          animation: cyberpunk-pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes cyberpunk-pulse {
-          0%, 100% { 
-            opacity: 0.95;
-            transform: scale(1.08);
-          }
-          50% { 
-            opacity: 1;
-            transform: scale(1.12);
-          }
-        }
-
-        /* OTIMIZADO: Animação simplificada */
-        .trail-bright {
-          animation: trail-glow 2s ease-in-out infinite;
-        }
-
-        @keyframes trail-glow {
-          0%, 100% { 
-            opacity: 0.9;
-          }
-          50% { 
-            opacity: 1;
-          }
         }
 
         /* OTIMIZADO: Contenção de GPU sem excessos */
@@ -761,34 +683,6 @@ const Carousel = memo(function Carousel() {
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
-
-        /* OTIMIZADO: Hover simplificado */
-        .matrix-character {
-          transition: opacity 0.15s ease-out;
-        }
-
-        @media (hover: hover) {
-          .matrix-character:hover {
-            opacity: 1 !important;
-          }
-        }
-
-        .glitch-effect {
-          animation: glitch 0.3s linear;
-        }
-
-        /* OTIMIZADO: Glitch mais leve sem hue-rotate */
-        @keyframes glitch {
-          0% { transform: translate3d(0, 0, 0); }
-          20% { transform: translate3d(-3px, 2px, 0); }
-          40% { transform: translate3d(3px, -2px, 0); }
-          60% { transform: translate3d(-2px, 1px, 0); }
-          80% { transform: translate3d(2px, -1px, 0); }
-          100% { transform: translate3d(0, 0, 0); }
-        }
-
-        /* RESPONSIVIDADE OTIMIZADA PARA TODOS OS DISPOSITIVOS */
-        /* Estilos removidos - card de fundo foi removido */
       `}</style>
     </div>
   )

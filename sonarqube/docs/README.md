@@ -1,67 +1,122 @@
-# 📚 Documentação do SonarQube
+# 📚 Documentação SonarQube
 
-Bem-vindo à documentação completa do SonarQube para o projeto Rainer Portfolio Frontend.
+Bem-vindo à documentação completa do SonarQube para análise de qualidade de código do projeto **Rainer Portfolio Frontend**.
 
-## 📖 Guias Disponíveis
+---
 
-### 🚀 Início Rápido
+## 🚀 Início Rápido
 
-- **[SONARQUBE-QUICKSTART.md](./SONARQUBE-QUICKSTART.md)**  
-  Guia rápido para começar em 5-10 minutos. Ideal para iniciantes.
+**Primeira vez usando SonarQube?**
 
-### 🔧 Instalação e Configuração
+👉 **[Comece aqui: QUICKSTART.md](./QUICKSTART.md)**
 
-- **[SONARQUBE-SETUP.md](./SONARQUBE-SETUP.md)**  
-  Guia completo de instalação e configuração detalhada.
+Configure e execute sua primeira análise em 5-10 minutos!
 
-### ❓ Perguntas Frequentes
+---
 
-- **[SONARQUBE-FAQ.md](./SONARQUBE-FAQ.md)**  
-  Respostas para dúvidas comuns e soluções de problemas.
+## 📖 Documentação Completa
 
-### 📋 Referência Rápida
+### 📑 Índice Principal
 
-- **[SONARQUBE-CHEATSHEET.md](./SONARQUBE-CHEATSHEET.md)**  
-  Cheat sheet com comandos e configurações úteis.
+**[INDEX.md](./INDEX.md)** - Índice completo com toda a documentação organizada
 
-### 📍 Índice Completo
+### 📝 Guias Principais
 
-- **[SONARQUBE-INDEX.md](./SONARQUBE-INDEX.md)**  
-  Índice completo de toda a documentação e recursos.
+| Documento | Descrição | Público |
+|-----------|-----------|---------|
+| **[QUICKSTART.md](./QUICKSTART.md)** | Guia de início rápido (5-10 min) | ⭐ Iniciantes |
+| **[SETUP.md](./SETUP.md)** | Instalação e configuração completa | ⭐⭐ Avançado |
+| **[FAQ.md](./FAQ.md)** | Perguntas frequentes e troubleshooting | ⭐⭐ Todos |
+| **[CHEATSHEET.md](./CHEATSHEET.md)** | Referência rápida de comandos | ⭐⭐⭐ Consulta |
 
 ---
 
 ## 🎯 Por Onde Começar?
 
-### Sou Iniciante
+### 🆕 Sou Iniciante
 
-1. Leia o **[Guia Rápido](./SONARQUBE-QUICKSTART.md)**
-1. Siga os passos para configuração inicial
-1. Execute sua primeira análise
-1. Consulte o **[Cheat Sheet](./SONARQUBE-CHEATSHEET.md)** para referência
+```powershell
+# 1. Leia o guia rápido
+docs/QUICKSTART.md
 
-### Preciso de Configuração Avançada
+# 2. Execute a configuração
+docker-compose -f docker-compose.sonarqube.yml up -d
+cd docs
+.\configure-token.ps1
 
-1. Leia o **[Setup Completo](./SONARQUBE-SETUP.md)**
-1. Configure opções avançadas
-1. Integre com CI/CD
-1. Consulte o **[Índice](./SONARQUBE-INDEX.md)** para recursos adicionais
+# 3. Consulte quando precisar
+docs/CHEATSHEET.md
+```
 
-### Estou com Problemas
+### 🔧 Preciso Configurar Algo Avançado
 
-1. Consulte o **[FAQ](./SONARQUBE-FAQ.md)**
-1. Busque sua dúvida específica
-1. Siga as instruções de troubleshooting
-1. Se necessário, consulte os links de suporte
+```powershell
+# Consulte o guia completo
+docs/SETUP.md
+```
+
+### ❌ Estou com um Problema
+
+```powershell
+# Veja a FAQ
+docs/FAQ.md
+```
 
 ---
 
-## 🔙 Voltar
+## 📂 Estrutura da Documentação
 
-- **[← README Principal](../../README.md)** - Documentação principal do projeto
-- **[← Pasta SonarQube](../)** - Voltar para pasta sonarqube
-- **[← Raiz do Projeto](../../)** - Voltar para a raiz
+```
+docs/
+├── README.md (você está aqui)
+├── INDEX.md (índice completo)
+├── QUICKSTART.md (início rápido)
+├── SETUP.md (configuração completa)
+├── FAQ.md (perguntas frequentes)
+├── CHEATSHEET.md (referência rápida)
+└── configure-token.ps1 (script de configuração)
+```
 
 ---
 
-**Desenvolvido com ❤️ para garantir código de qualidade!**
+## ⚡ Comandos Essenciais
+
+```powershell
+# Iniciar SonarQube
+docker-compose -f docker-compose.sonarqube.yml up -d
+
+# Configurar token (primeira vez)
+cd docs
+.\configure-token.ps1
+
+# Executar análise
+npm run sonar:local
+
+# Ver resultados
+# http://localhost:9000
+```
+
+---
+
+## 🔗 Links Rápidos
+
+- **Interface Local:** http://localhost:9000
+- **Índice Completo:** [INDEX.md](./INDEX.md)
+- **Documentação Oficial:** https://docs.sonarqube.org/
+- **Community:** https://community.sonarsource.com/
+
+---
+
+## 💡 Dica
+
+**Salve nos favoritos:** [INDEX.md](./INDEX.md) - É o ponto central de toda a documentação!
+
+---
+
+**Última atualização:** 15/10/2025  
+**Versão:** 2.0.0
+
+---
+
+**Desenvolvido com ❤️ para garantir código de qualidade excepcional!**
+

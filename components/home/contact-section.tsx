@@ -9,14 +9,24 @@
 
 "use client"
 
-import { memo } from "react"
+import { memo, useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { Mail, Phone, MapPin, Send, MessageSquare, Zap } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
 export const ContactSection = memo(function ContactSection() {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted && resolvedTheme === 'dark'
+
   const contactInfo = [
     {
       icon: Mail,
@@ -57,7 +67,7 @@ export const ContactSection = memo(function ContactSection() {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 text-white font-bold text-sm mb-8 shadow-xl"
+              className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full ${isDark ? 'bg-gradient-to-r from-green-400 via-emerald-400 to-green-500' : 'bg-gradient-to-r from-green-500 via-emerald-500 to-green-600'} text-white font-bold text-sm mb-8 shadow-xl`}
             >
               <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
               Disponível para Contato
@@ -190,7 +200,7 @@ export const ContactSection = memo(function ContactSection() {
                   <Button 
                     asChild 
                     size="lg"
-                    className="group/btn gap-3 text-lg px-10 py-6 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white shadow-2xl shadow-cyan-500/30 hover:shadow-3xl hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105"
+                    className={`group/btn gap-3 text-lg px-10 py-6 ${isDark ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 shadow-cyan-500/30 hover:shadow-cyan-500/50' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 shadow-blue-500/30 hover:shadow-blue-500/50'} text-white shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105`}
                   >
                     <Link href="/contato">
                       <MessageSquare className="h-6 w-6" />

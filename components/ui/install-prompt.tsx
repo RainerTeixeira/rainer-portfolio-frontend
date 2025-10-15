@@ -20,6 +20,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTheme } from 'next-themes'
 import { X, Download } from 'lucide-react'
 import { Button } from './button'
 import { Card } from './card'
@@ -41,8 +42,14 @@ import { usePWA } from '@/hooks/use-pwa'
  * <InstallPrompt />
  */
 export function InstallPrompt() {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
   const { isInstallable, isStandalone, promptInstall } = usePWA()
   const [showPrompt, setShowPrompt] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   /**
    * Effect: Controlar visibilidade do prompt
@@ -90,6 +97,8 @@ export function InstallPrompt() {
     setShowPrompt(false)
   }
 
+  const isDark = mounted && resolvedTheme === 'dark'
+
   // Não renderiza se não deve mostrar
   if (!showPrompt) return null
 
@@ -116,7 +125,7 @@ export function InstallPrompt() {
        * - backdrop-blur: efeito de desfoque
        * - border cyberpunk
        */}
-      <Card className="max-w-2xl mx-auto pointer-events-auto backdrop-blur-xl bg-black/90 dark:bg-black/95 border-2 border-cyan-400/50 shadow-2xl shadow-cyan-500/30">
+      <Card className={`max-w-2xl mx-auto pointer-events-auto backdrop-blur-xl ${isDark ? 'bg-black/90 border-cyan-400/50 shadow-cyan-500/30' : 'bg-white/90 border-blue-500/50 shadow-blue-500/30'} border-2 shadow-2xl`}>
         <div className="p-4 sm:p-6">
           {/**
            * Layout flex: conteúdo + botão fechar
@@ -136,14 +145,14 @@ export function InstallPrompt() {
             <div className="flex-1 space-y-3">
               {/** Título */}
               <div className="flex items-start justify-between gap-2">
-                <h3 className="text-lg font-bold text-cyan-200 font-mono">
+                <h3 className={`text-lg font-bold ${isDark ? 'text-cyan-200' : 'text-blue-700'} font-mono`}>
                   📱 Instalar no seu Dispositivo
                 </h3>
                 
                 {/** Botão fechar */}
                 <button
                   onClick={handleDismiss}
-                  className="text-gray-400 hover:text-white transition-colors p-1 rounded hover:bg-white/10"
+                  className={`${isDark ? 'text-gray-400 hover:text-white hover:bg-white/10' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200/50'} transition-colors p-1 rounded`}
                   aria-label="Fechar"
                 >
                   <X className="h-5 w-5" />
@@ -151,7 +160,7 @@ export function InstallPrompt() {
               </div>
               
               {/** Descrição */}
-              <p className="text-sm text-gray-300">
+              <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                 Instale como app nativo para acesso rápido sem navegador e funcionalidade offline completa.
               </p>
               
@@ -161,7 +170,7 @@ export function InstallPrompt() {
                 <Button
                   onClick={handleInstall}
                   size="sm"
-                  className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-mono font-bold"
+                  className={`${isDark ? 'bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600' : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'} text-white font-mono font-bold`}
                 >
                   <Download className="h-4 w-4 mr-2" />
                   Instalar Agora
@@ -172,7 +181,7 @@ export function InstallPrompt() {
                   onClick={handleDismiss}
                   variant="ghost"
                   size="sm"
-                  className="text-gray-400 hover:text-white hover:bg-white/5"
+                  className={`${isDark ? 'text-gray-400 hover:text-white hover:bg-white/5' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200/50'}`}
                 >
                   Talvez Depois
                 </Button>

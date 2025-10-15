@@ -9,12 +9,23 @@
 
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, MessageSquare, Download, Sparkles, Rocket, Zap } from "lucide-react"
 import Link from "next/link"
 
 export function CTASection() {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted && resolvedTheme === 'dark'
+
   return (
     <section className="py-20 sm:py-32 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
@@ -34,9 +45,9 @@ export function CTASection() {
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5 dark:from-cyan-400/10 dark:via-purple-400/10 dark:to-pink-400/10 animate-pulse"></div>
             
             {/* Partículas decorativas */}
-            <div className="absolute top-10 left-10 w-20 h-20 bg-cyan-400/20 rounded-full blur-2xl animate-pulse"></div>
-            <div className="absolute bottom-10 right-10 w-32 h-32 bg-purple-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-            <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-pink-400/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+            <div className={`absolute top-10 left-10 w-20 h-20 ${isDark ? 'bg-cyan-400/20' : 'bg-blue-500/20'} rounded-full blur-2xl animate-pulse`}></div>
+            <div className={`absolute bottom-10 right-10 w-32 h-32 ${isDark ? 'bg-purple-400/20' : 'bg-purple-500/20'} rounded-full blur-3xl animate-pulse`} style={{ animationDelay: '1s' }}></div>
+            <div className={`absolute top-1/2 left-1/4 w-24 h-24 ${isDark ? 'bg-pink-400/20' : 'bg-pink-500/20'} rounded-full blur-2xl animate-pulse`} style={{ animationDelay: '2s' }}></div>
             
             <div className="relative z-10 text-center">
               {/* Badge de destaque */}
@@ -45,7 +56,7 @@ export function CTASection() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 text-white font-bold text-sm mb-8 shadow-xl"
+                className={`inline-flex items-center gap-2 px-6 py-3 rounded-full ${isDark ? 'bg-gradient-to-r from-green-400 via-emerald-400 to-green-500' : 'bg-gradient-to-r from-green-500 via-emerald-500 to-green-600'} text-white font-bold text-sm mb-8 shadow-xl`}
               >
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                 Aberto para Oportunidades
@@ -92,7 +103,7 @@ export function CTASection() {
                 <Button 
                   asChild 
                   size="lg" 
-                  className="group/btn gap-3 text-lg px-10 py-7 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white shadow-2xl shadow-cyan-500/30 hover:shadow-3xl hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105"
+                  className={`group/btn gap-3 text-lg px-10 py-7 ${isDark ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 shadow-cyan-500/30 hover:shadow-cyan-500/50' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 shadow-blue-500/30 hover:shadow-blue-500/50'} text-white shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105`}
                 >
                   <Link href="/contato">
                     <MessageSquare className="h-6 w-6" />

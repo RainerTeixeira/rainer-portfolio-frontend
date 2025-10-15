@@ -447,10 +447,10 @@ sonar-scanner -X
 
 ### 4. Consulte a documentação completa
 
-- [SONARQUBE-SETUP.md](./SONARQUBE-SETUP.md)
-- [SONARQUBE-QUICKSTART.md](./SONARQUBE-QUICKSTART.md)
-- [SONARQUBE-CHEATSHEET.md](./SONARQUBE-CHEATSHEET.md)
-- [SONARQUBE-INDEX.md](./SONARQUBE-INDEX.md)
+- **[SETUP.md](./SETUP.md)** - Configuração detalhada
+- **[QUICKSTART.md](./QUICKSTART.md)** - Guia de início rápido
+- **[CHEATSHEET.md](./CHEATSHEET.md)** - Referência rápida
+- **[INDEX.md](./INDEX.md)** - Índice completo
 
 ### 5. Busque ajuda
 

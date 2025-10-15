@@ -9,12 +9,23 @@
 
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useTheme } from "next-themes"
 import { Card, CardContent } from "@/components/ui/card"
 import { Code, Zap, Shield, BookOpen, Layers, GitBranch, Target, Award } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function Testimonials() {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted && resolvedTheme === 'dark'
+
   const differentials = [
     {
       icon: Code,
@@ -78,7 +89,7 @@ export function Testimonials() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 text-white font-bold text-sm mb-8 shadow-xl"
+            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full ${isDark ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'} text-white font-bold text-sm mb-8 shadow-xl`}
           >
             <Award className="w-5 h-5" />
             Meus Diferenciais

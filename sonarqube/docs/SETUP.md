@@ -291,6 +291,13 @@ sonar-scanner -X
 
 ## 📚 Recursos Adicionais
 
+### Documentação Relacionada
+- **[QUICKSTART.md](./QUICKSTART.md)** - Guia de início rápido
+- **[FAQ.md](./FAQ.md)** - Perguntas frequentes
+- **[CHEATSHEET.md](./CHEATSHEET.md)** - Referência rápida
+- **[INDEX.md](./INDEX.md)** - Índice completo
+
+### Links Externos
 - [Documentação Oficial SonarQube](https://docs.sonarqube.org/latest/)
 - [SonarScanner CLI](https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/)
 - [Regras TypeScript/JavaScript](https://rules.sonarsource.com/typescript/)

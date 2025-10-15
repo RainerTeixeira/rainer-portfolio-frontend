@@ -391,10 +391,10 @@ env.sonarqube.example          # Exemplo variáveis
 
 ## 📚 Documentação Completa
 
-- **Setup Completo:** [SONARQUBE-SETUP.md](./SONARQUBE-SETUP.md)
-- **Guia Rápido:** [SONARQUBE-QUICKSTART.md](./SONARQUBE-QUICKSTART.md)
-- **FAQ:** [SONARQUBE-FAQ.md](./SONARQUBE-FAQ.md)
-- **Índice:** [SONARQUBE-INDEX.md](./SONARQUBE-INDEX.md)
+- **Setup Completo:** [SETUP.md](./SETUP.md)
+- **Guia Rápido:** [QUICKSTART.md](./QUICKSTART.md)
+- **FAQ:** [FAQ.md](./FAQ.md)
+- **Índice:** [INDEX.md](./INDEX.md)
 - **README Projeto:** [README.md](../../README.md)
 
 ---

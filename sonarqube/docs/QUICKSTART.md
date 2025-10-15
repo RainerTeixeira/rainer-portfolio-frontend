@@ -279,10 +279,10 @@ $env:SONAR_TOKEN="novo-token"
 
 Para instruções detalhadas, consulte:
 
-- **[SONARQUBE-SETUP.md](./SONARQUBE-SETUP.md)** - Guia completo de instalação
-- **[SONARQUBE-FAQ.md](./SONARQUBE-FAQ.md)** - Perguntas frequentes e troubleshooting
-- **[SONARQUBE-CHEATSHEET.md](./SONARQUBE-CHEATSHEET.md)** - Referência rápida de comandos
-- **[SONARQUBE-INDEX.md](./SONARQUBE-INDEX.md)** - Índice completo da documentação
+- **[SETUP.md](./SETUP.md)** - Guia completo de instalação e configuração avançada
+- **[FAQ.md](./FAQ.md)** - Perguntas frequentes e troubleshooting
+- **[CHEATSHEET.md](./CHEATSHEET.md)** - Referência rápida de comandos
+- **[INDEX.md](./INDEX.md)** - Índice completo da documentação
 - **[README.md](../../README.md)** - Documentação principal do projeto
 
 ## 🔗 Links Úteis

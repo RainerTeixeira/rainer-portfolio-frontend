@@ -9,13 +9,24 @@
 
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useTheme } from "next-themes"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Sparkles } from "lucide-react"
 import { SITE_CONFIG, SKILLS } from "@/constants"
 
 export function TechStackShowcase() {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted && resolvedTheme === 'dark'
+
   // Usa SKILLS da constante (com ícones)
   const technologies = SKILLS
 
@@ -33,7 +44,7 @@ export function TechStackShowcase() {
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 mb-4"
           >
-            <Badge className="bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-400/50 text-cyan-200">
+            <Badge className={`${isDark ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-400/50 text-cyan-200' : 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-blue-500/50 text-blue-700'}`}>
               <Sparkles className="h-3 w-3 mr-1" />
               Stack Tecnológico
             </Badge>

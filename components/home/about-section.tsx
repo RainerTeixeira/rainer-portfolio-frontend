@@ -9,14 +9,24 @@
 
 "use client"
 
-import { memo } from "react"
+import { memo, useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { Target, Code, Rocket, ArrowRight, Sparkles, Award } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
 export const AboutSection = memo(function AboutSection() {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted && resolvedTheme === 'dark'
+
   const stats = [
     {
       icon: Target,
@@ -53,7 +63,7 @@ export const AboutSection = memo(function AboutSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 text-white font-bold text-sm mb-8 shadow-xl"
+            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full ${isDark ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'} text-white font-bold text-sm mb-8 shadow-xl`}
           >
             <Sparkles className="w-5 h-5" />
             Conheça Meu Trabalho
@@ -86,7 +96,7 @@ export const AboutSection = memo(function AboutSection() {
                 {/* Avatar Premium */}
                 <div className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto mb-8">
                   {/* Círculo externo animado */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-spin-slow opacity-60 blur-md"></div>
+                  <div className={`absolute inset-0 rounded-full ${isDark ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'} animate-spin-slow opacity-60 blur-md`}></div>
                   
                   {/* Avatar */}
                   <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl group-hover:scale-105 transition-transform duration-500">
@@ -100,7 +110,7 @@ export const AboutSection = memo(function AboutSection() {
                   </div>
                   
                   {/* Badge de status */}
-                  <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-xl shadow-green-500/50 border-4 border-background animate-pulse">
+                  <div className={`absolute -bottom-2 -right-2 w-12 h-12 ${isDark ? 'bg-gradient-to-br from-green-400 to-emerald-500 shadow-green-500/50' : 'bg-gradient-to-br from-green-500 to-emerald-600 shadow-green-600/50'} rounded-full flex items-center justify-center shadow-xl border-4 border-background animate-pulse`}>
                     <Award className="w-6 h-6 text-white" />
                   </div>
                 </div>
@@ -109,9 +119,9 @@ export const AboutSection = memo(function AboutSection() {
                 <h3 className="text-2xl sm:text-3xl font-black mb-3 text-foreground dark:text-white">
                   Rainer Teixeira
                 </h3>
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 to-purple-500/10 dark:from-cyan-400/20 dark:to-purple-400/20 border border-cyan-400/30 mb-6">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
-                  <span className="text-sm font-bold text-foreground dark:text-cyan-300">
+                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-400/30' : 'bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30'} border mb-6`}>
+                  <div className={`w-2 h-2 ${isDark ? 'bg-green-400 shadow-green-400/50' : 'bg-green-500 shadow-green-500/50'} rounded-full animate-pulse shadow-lg`}></div>
+                  <span className={`text-sm font-bold ${isDark ? 'text-cyan-300' : 'text-blue-700'}`}>
                     Desenvolvedor Full-Stack
                   </span>
                 </div>
@@ -119,7 +129,7 @@ export const AboutSection = memo(function AboutSection() {
                 {/* CTA Button */}
                 <Button 
                   asChild 
-                  className="w-full group/btn bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white shadow-xl shadow-cyan-500/30 hover:shadow-2xl hover:shadow-cyan-500/40 transition-all duration-300"
+                  className={`w-full group/btn ${isDark ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 shadow-cyan-500/30 hover:shadow-cyan-500/40' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 shadow-blue-500/30 hover:shadow-blue-500/40'} text-white shadow-xl hover:shadow-2xl transition-all duration-300`}
                 >
                   <Link href="/sobre">
                     Ver Perfil Completo

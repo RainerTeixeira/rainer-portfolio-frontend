@@ -160,13 +160,6 @@ export const metadata = {
     email: false,
     address: false,
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-    viewportFit: 'cover',
-  },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -184,6 +177,22 @@ export const metadata = {
     'msapplication-TileColor': '#000000',
     'theme-color': '#000000',
   },
+}
+
+/**
+ * Configuração de Viewport
+ * 
+ * Movido do metadata export conforme recomendação Next.js 15+
+ * Define como a página deve ser renderizada em diferentes dispositivos
+ * 
+ * @type {import('next').Viewport}
+ */
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
 }
 
 /**

@@ -13,11 +13,12 @@
 
 "use client"
 
-import { memo, useState } from "react"
+import { memo, useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { motion } from "framer-motion"
+import { useTheme } from "next-themes"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -345,6 +346,15 @@ function NewsletterForm({
  * <NewsletterSection />
  */
 export const NewsletterSection = memo(function NewsletterSection() {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted && resolvedTheme === 'dark'
+
   return (
     <section className="py-20 sm:py-24 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
@@ -355,8 +365,8 @@ export const NewsletterSection = memo(function NewsletterSection() {
           {/* Card principal premium */}
           <div className="relative bg-card/90 dark:bg-black/70 backdrop-blur-2xl rounded-[32px] p-10 sm:p-14 lg:p-16 border-2 border-border/50 dark:border-cyan-400/30 shadow-2xl overflow-hidden">
             {/* Partículas decorativas */}
-            <div className="absolute top-10 right-10 w-32 h-32 bg-cyan-400/20 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-10 left-10 w-40 h-40 bg-purple-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className={`absolute top-10 right-10 w-32 h-32 ${isDark ? 'bg-cyan-400/20' : 'bg-blue-500/20'} rounded-full blur-3xl animate-pulse`}></div>
+            <div className={`absolute bottom-10 left-10 w-40 h-40 ${isDark ? 'bg-purple-400/20' : 'bg-purple-500/20'} rounded-full blur-3xl animate-pulse`} style={{ animationDelay: '1s' }}></div>
             
             <div className="relative z-10">
               {/* Badge */}
@@ -366,7 +376,7 @@ export const NewsletterSection = memo(function NewsletterSection() {
                 viewport={{ once: true }}
                 className="text-center mb-8"
               >
-                <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 text-white font-bold text-sm shadow-xl">
+                <div className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full ${isDark ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'} text-white font-bold text-sm shadow-xl`}>
                   <Mail className="w-5 h-5" />
                   Newsletter Exclusiva
                 </div>

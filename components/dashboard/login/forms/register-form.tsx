@@ -26,9 +26,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, Eye, EyeOff, CheckCircle2, XCircle } from "lucide-react"
+import { Loader2, CheckCircle2, XCircle } from "lucide-react"
 import Link from "next/link"
 import { TermsDialog } from "../terms-dialog"
+import { PasswordInput } from "../password-input"
 
 // Schema de validação
 const registerSchema = z.object({
@@ -63,8 +64,6 @@ export function RegisterForm({ }: RegisterFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -77,36 +76,6 @@ export function RegisterForm({ }: RegisterFormProps) {
       acceptTerms: false,
     },
   })
-
-  // Verificação de força da senha
-  const password = form.watch("password")
-  const getPasswordStrength = () => {
-    if (!password) return { strength: 0, label: "", color: "" }
-    
-    let strength = 0
-    if (password.length >= 8) strength++
-    if (/[A-Z]/.test(password)) strength++
-    if (/[a-z]/.test(password)) strength++
-    if (/[0-9]/.test(password)) strength++
-    if (/[^A-Za-z0-9]/.test(password)) strength++
-
-    const labels = ["Muito fraca", "Fraca", "Média", "Forte", "Muito forte"]
-    const colors = [
-      "bg-red-500",
-      "bg-orange-500",
-      "bg-yellow-500",
-      "bg-lime-500",
-      "bg-green-500"
-    ]
-
-    return {
-      strength,
-      label: labels[strength - 1] || "",
-      color: colors[strength - 1] || ""
-    }
-  }
-
-  const passwordStrength = getPasswordStrength()
 
   async function onSubmit(data: RegisterFormValues) {
     setIsLoading(true)
@@ -230,48 +199,14 @@ export function RegisterForm({ }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input 
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••" 
-                    {...field} 
-                    disabled={isLoading}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
+                <PasswordInput 
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={isLoading}
+                  showStrengthIndicator
+                  name={field.name}
+                />
               </FormControl>
-              
-              {/* Indicador de força da senha */}
-              {password && (
-                <div className="space-y-2">
-                  <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <div
-                        key={i}
-                        className={`h-1 flex-1 rounded-full transition-colors ${
-                          i < passwordStrength.strength
-                            ? passwordStrength.color
-                            : "bg-muted"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Força: <span className="font-medium">{passwordStrength.label}</span>
-                  </p>
-                </div>
-              )}
-              
               <FormMessage />
             </FormItem>
           )}
@@ -285,25 +220,12 @@ export function RegisterForm({ }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Confirmar Senha</FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input 
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="••••••••" 
-                    {...field} 
-                    disabled={isLoading}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
+                <PasswordInput 
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={isLoading}
+                  name={field.name}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -9,7 +9,9 @@
 
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useTheme } from "next-themes"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -17,6 +19,15 @@ import Image from "next/image"
 import { ExternalLink, GithubIcon, Award, ArrowRight } from "lucide-react"
 
 export function PortfolioShowcase() {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted && resolvedTheme === 'dark'
+
   const projects = [
     {
       title: "Portfólio Enterprise",
@@ -50,7 +61,7 @@ export function PortfolioShowcase() {
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-12">
-          <Badge className="mb-4 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-400/50 text-cyan-200">
+          <Badge className={`mb-4 ${isDark ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-400/50 text-cyan-200' : 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-blue-500/50 text-blue-700'}`}>
             <Award className="h-3 w-3 mr-1" />
             Portfolio Real
           </Badge>
@@ -86,9 +97,9 @@ export function PortfolioShowcase() {
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-black/60 to-transparent' : 'bg-gradient-to-t from-gray-900/50 to-transparent'}`} />
                   {project.featured && (
-                    <Badge className="absolute top-4 right-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white border-0 shadow-lg">
+                    <Badge className={`absolute top-4 right-4 ${isDark ? 'bg-gradient-to-r from-cyan-500 to-purple-500' : 'bg-gradient-to-r from-blue-500 to-purple-500'} text-white border-0 shadow-lg`}>
                       ⭐ Projeto Real
                     </Badge>
                   )}
