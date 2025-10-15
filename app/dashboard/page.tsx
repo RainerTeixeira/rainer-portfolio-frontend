@@ -29,6 +29,7 @@ import {
 } from "lucide-react"
 import { useAuth } from "@/components/providers/auth-provider"
 import { blogStore, type BlogPost } from "@/lib/blog-store"
+import type { TiptapJSON } from "@/types/database"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -470,7 +471,7 @@ export default function DashboardPage() {
                       <Label htmlFor="content">Conteúdo *</Label>
                       <Editor
                         content={currentPost.content || { type: "doc", content: [] }}
-                        onChange={(data) => setCurrentPost({ ...currentPost, content: data.json })}
+                        onChange={(data) => setCurrentPost({ ...currentPost, content: data.json as unknown as TiptapJSON })}
                         placeholder="Escreva o conteúdo do post..."
                       />
                     </div>

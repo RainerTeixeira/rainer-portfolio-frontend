@@ -31,9 +31,11 @@ Este é um portfolio moderno e responsivo que apresenta:
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/rainer-portfolio-frontend.git
+git clone <URL_DO_REPOSITORIO>
 cd rainer-portfolio-frontend
 ```
+
+> 💡 **Nota:** Substitua `<URL_DO_REPOSITORIO>` pela URL do seu repositório Git ou use o caminho do projeto existente.
 
 2. Instale as dependências:
 ```bash
@@ -95,6 +97,8 @@ npm run docs:watch   # Gera documentação em modo watch
 ```bash
 npm run clean        # Limpa arquivos de build (.next, out, dist)
 ```
+
+> ⚠️ **Atenção Windows:** O comando `clean` usa `rm -rf` que não funciona nativamente no PowerShell. Use `Remove-Item -Recurse -Force .next,out,dist -ErrorAction SilentlyContinue` ou instale o Git Bash.
 
 ## 🏗️ Estrutura do Projeto
 
@@ -375,8 +379,11 @@ java -version  # Deve ser Java 17+
 # Verificar SonarScanner
 sonar-scanner --version
 
-# Limpar cache
+# Limpar cache (Linux/Mac)
 rm -rf .scannerwork
+
+# Limpar cache (Windows PowerShell)
+# Remove-Item -Recurse -Force .scannerwork -ErrorAction SilentlyContinue
 ```
 
 #### Token inválido
@@ -596,9 +603,9 @@ Este projeto é propriedade de **Rainer Teixeira** e está protegido por direito
 ## 👨‍💻 Autor
 
 **Rainer Teixeira**
-- Email: suporte@rainersoft.com.br
-- LinkedIn: [linkedin.com/in/rainer-teixeira](https://linkedin.com/in/rainer-teixeira)
-- GitHub: [@rainerteixeira](https://github.com/rainerteixeira)
+- 📧 Email: suporte@rainersoft.com.br
+- 💼 LinkedIn: [linkedin.com/in/rainer-teixeira](https://linkedin.com/in/rainer-teixeira)
+- 🐙 GitHub: [@rainerteixeira](https://github.com/rainerteixeira)
 
 ## 📞 Suporte
 

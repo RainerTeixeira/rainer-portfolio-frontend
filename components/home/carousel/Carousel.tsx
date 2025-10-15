@@ -114,9 +114,9 @@ const Carousel = memo(function Carousel({
     setMatrixColumns(newColumns)
 
     // Sistema de Partículas
-    const particleCount = isMobileNow ? 
+    const particleCount = isMobile ? 
       Math.min(6, Math.max(3, Math.floor(width / 150))) :
-      isTabletNow ?
+      isTablet ?
       Math.min(10, Math.max(5, Math.floor(width / 120))) :
       Math.min(15, Math.max(8, Math.floor(width / 100)))
 
@@ -129,7 +129,7 @@ const Carousel = memo(function Carousel({
         id: `p-${idx}-${Math.round(Math.random() * 10000)}`,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: isMobileNow ? 3 + Math.random() * 4 : 4 + Math.random() * 6,
+        size: isMobile ? 3 + Math.random() * 4 : 4 + Math.random() * 6,
         duration: 4 + Math.random() * 3,
         delay: (idx / particleCount) * 4,
         type,
