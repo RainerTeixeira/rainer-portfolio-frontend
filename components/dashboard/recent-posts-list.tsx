@@ -10,6 +10,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { Edit2, Trash2, Eye, Calendar, Tag } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -76,11 +77,12 @@ export function RecentPostsList({
               <div className="flex items-start gap-4">
                 {/* Imagem do Post */}
                 {post.image && (
-                  <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                    <img 
+                  <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 relative">
+                    <Image 
                       src={post.image} 
                       alt={post.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 )}

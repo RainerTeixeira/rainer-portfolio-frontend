@@ -33,14 +33,6 @@ import { useTheme } from "next-themes"
    ========================================================== */
 
 /**
- * Intervalo de auto-play do carousel em milissegundos
- * @constant {number}
- * @default 5000
- */
-const AUTOPLAY_INTERVAL_MS = 5000
-
-
-/**
  * Padrões de código binário pré-definidos
  * Usados para gerar sequências interessantes na chuva de matriz
  * 
@@ -108,18 +100,6 @@ interface Particle {
   duration: number
   delay: number
   type: "energy" | "data" | "quantum" | "neural"
-}
-
-/**
- * Props do componente Carousel
- * 
- * @interface CarouselProps
- * @property {number} [autoPlayInterval] - Intervalo de auto-play em ms (padrão: 5000)
- * @property {boolean} [enableAutoPlay] - Se auto-play está habilitado (padrão: true)
- */
-interface CarouselProps {
-  autoPlayInterval?: number
-  enableAutoPlay?: boolean
 }
 
 /* ==========================================================
@@ -377,7 +357,10 @@ const Carousel = memo(function Carousel() {
                 left: `${column.leftPct}%`,
                 top: 0,
                 height: '200vh',
-                animation: `matrixBinaryFall ${column.animationDuration}s linear infinite`,
+                animationName: 'matrixBinaryFall',
+                animationDuration: `${column.animationDuration}s`,
+                animationTimingFunction: 'linear',
+                animationIterationCount: 'infinite',
                 animationDelay: `${column.animationDelay}s`,
                 transform: `scaleY(${column.speed})`,
               }}
@@ -416,11 +399,14 @@ const Carousel = memo(function Carousel() {
                         transform: index === 0 ? 'scale(1.15)' : 'scale(1)',
                         fontWeight: index === 0 ? '900' : index < 2 ? '800' : '700',
                         // Efeito de pulso hipnótico para bits ativos
-                        animation: index === 0 
-                          ? 'binary-pulse 1.5s ease-in-out infinite' 
+                        animationName: index === 0 
+                          ? 'binary-pulse' 
                           : character === '1' && index < 4
-                          ? 'binary-shimmer 2s ease-in-out infinite'
+                          ? 'binary-shimmer'
                           : 'none',
+                        animationDuration: index === 0 ? '1.5s' : '2s',
+                        animationTimingFunction: 'ease-in-out',
+                        animationIterationCount: 'infinite',
                         animationDelay: `${index * 0.1}s`
                       }}
                     >
@@ -464,11 +450,14 @@ const Carousel = memo(function Carousel() {
                         transform: index === 0 ? 'scale(1.15)' : 'scale(1)',
                         fontWeight: index === 0 ? '900' : index < 2 ? '800' : '700',
                         // Efeito de pulso hipnótico para bits ativos
-                        animation: index === 0 
-                          ? 'binary-pulse 1.5s ease-in-out infinite' 
+                        animationName: index === 0 
+                          ? 'binary-pulse' 
                           : character === '1' && index < 4
-                          ? 'binary-shimmer 2s ease-in-out infinite'
+                          ? 'binary-shimmer'
                           : 'none',
+                        animationDuration: index === 0 ? '1.5s' : '2s',
+                        animationTimingFunction: 'ease-in-out',
+                        animationIterationCount: 'infinite',
                         animationDelay: `${index * 0.1}s`
                       }}
                     >
@@ -492,7 +481,11 @@ const Carousel = memo(function Carousel() {
                 background: `linear-gradient(90deg, transparent, ${
                   isDarkTheme ? 'rgba(0,255,255,0.6)' : 'rgba(59,130,246,0.6)'
                 }, transparent)`,
-                animation: `hologramScan ${4 + i * 1}s linear ${i * 0.3}s infinite`,
+                animationName: 'hologramScan',
+                animationDuration: `${4 + i * 1}s`,
+                animationTimingFunction: 'linear',
+                animationDelay: `${i * 0.3}s`,
+                animationIterationCount: 'infinite',
                 filter: 'blur(0.5px)'
               }}
             />
@@ -523,7 +516,10 @@ const Carousel = memo(function Carousel() {
                 width: 'clamp(0.25rem, 1vw, 0.375rem)',
                 height: 'clamp(0.5rem, 1.5vw, 0.75rem)',
                 marginTop: 'clamp(0.5rem, 1.5vw, 0.75rem)',
-                animation: 'scroll-wheel 2s ease-in-out infinite'
+                animationName: 'scroll-wheel',
+                animationDuration: '2s',
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite'
               }}
             />
             
@@ -538,7 +534,11 @@ const Carousel = memo(function Carousel() {
           <div 
             className="absolute inset-0 rounded-full sm:rounded-2xl border border-purple-400/60"
             style={{
-              animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) 0.5s infinite'
+              animationName: 'ping',
+              animationDuration: '2s',
+              animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+              animationDelay: '0.5s',
+              animationIterationCount: 'infinite'
             }}
           />
           
@@ -547,7 +547,7 @@ const Carousel = memo(function Carousel() {
         </div>
         
         {/* Setas para baixo */}
-        <div className="flex flex-col gap-0.5 sm:gap-1" style={{ animation: 'bounce-arrows 2s ease-in-out infinite' }}>
+        <div className="flex flex-col gap-0.5 sm:gap-1" style={{ animationName: 'bounce-arrows', animationDuration: '2s', animationTimingFunction: 'ease-in-out', animationIterationCount: 'infinite' }}>
           <div 
             className="w-0 h-0 border-l-transparent border-r-transparent border-t-cyan-400 opacity-80"
             style={{

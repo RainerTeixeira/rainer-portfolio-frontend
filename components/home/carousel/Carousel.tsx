@@ -35,8 +35,6 @@ const Carousel = memo(function Carousel({
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
   const [matrixColumns, setMatrixColumns] = useState<MatrixColumn[]>([])
   const [particles, setParticles] = useState<Particle[]>([])
-  const [isMobile, setIsMobile] = useState(false)
-  const [isTablet, setIsTablet] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const prefersReducedMotion = typeof window !== 'undefined' 
@@ -77,9 +75,6 @@ const Carousel = memo(function Carousel({
     
     const isMobileNow = width < mobileBreakpoint
     const isTabletNow = width >= mobileBreakpoint && width < tabletBreakpoint
-    
-    setIsMobile(isMobileNow)
-    setIsTablet(isTabletNow)
 
     // Sistema Matrix Rain
     const columnCount = isMobileNow ? 

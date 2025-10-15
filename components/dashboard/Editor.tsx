@@ -166,7 +166,7 @@ const LanguageSelector = ({ editor }: { editor: ReturnType<typeof useEditor> }) 
       const attrs = editor.getAttributes('codeBlock')
       setSelectedLanguage(attrs.language || 'plaintext')
     }
-  }, [editor, editor?.state.selection])
+  }, [editor])
 
   if (!editor || !editor.isActive('codeBlock')) return null
 
@@ -239,7 +239,9 @@ const MenuBar = ({
       return
     }
 
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+    if (editor) {
+      editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+    }
   }, [editor])
 
   /**
@@ -249,7 +251,7 @@ const MenuBar = ({
     if (!editor) return
     const url = window.prompt('URL da imagem:')
 
-    if (url) {
+    if (url && editor) {
       editor.chain().focus().setImage({ src: url }).run()
     }
   }, [editor])
@@ -269,11 +271,13 @@ const MenuBar = ({
     const numCols = parseInt(cols, 10)
 
     if (numRows > 0 && numCols > 0 && numRows <= 20 && numCols <= 10) {
-      editor.chain().focus().insertTable({ 
-        rows: numRows, 
-        cols: numCols, 
-        withHeaderRow: true 
-      }).run()
+      if (editor) {
+        editor.chain().focus().insertTable({ 
+          rows: numRows, 
+          cols: numCols, 
+          withHeaderRow: true 
+        }).run()
+      }
     } else {
       alert('Por favor, insira valores válidos (Linhas: 1-20, Colunas: 1-10)')
     }
