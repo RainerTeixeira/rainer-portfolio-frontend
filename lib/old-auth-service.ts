@@ -194,10 +194,11 @@ class AuthService {
       }
 
       return { success: true }
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao confirmar email'
       return {
         success: false,
-        error: error.message || 'Erro ao confirmar email'
+        error: errorMessage
       }
     }
   }
@@ -205,9 +206,9 @@ class AuthService {
   /**
    * Recuperar Senha
    * 
-   * @param username - Nome de usuário ou email
+   * @param _username - Nome de usuário ou email (não implementado ainda)
    */
-  async forgotPassword(username: string): Promise<LoginResponse> {
+  async forgotPassword(_username: string): Promise<LoginResponse> {
     try {
       if (this.useCognito) {
         // TODO: Implementar recuperação com Cognito
@@ -215,10 +216,11 @@ class AuthService {
       }
 
       return { success: true }
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao enviar código de recuperação'
       return {
         success: false,
-        error: error.message || 'Erro ao enviar código de recuperação'
+        error: errorMessage
       }
     }
   }
@@ -226,14 +228,14 @@ class AuthService {
   /**
    * Confirmar Nova Senha
    * 
-   * @param username - Nome de usuário
-   * @param code - Código de recuperação
-   * @param newPassword - Nova senha
+   * @param _username - Nome de usuário (não implementado ainda)
+   * @param _code - Código de recuperação (não implementado ainda)
+   * @param _newPassword - Nova senha (não implementado ainda)
    */
   async forgotPasswordSubmit(
-    username: string,
-    code: string,
-    newPassword: string
+    _username: string,
+    _code: string,
+    _newPassword: string
   ): Promise<LoginResponse> {
     try {
       if (this.useCognito) {
@@ -242,10 +244,11 @@ class AuthService {
       }
 
       return { success: true }
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao redefinir senha'
       return {
         success: false,
-        error: error.message || 'Erro ao redefinir senha'
+        error: errorMessage
       }
     }
   }
@@ -272,7 +275,7 @@ class AuthService {
       // Fallback local
       const userStr = localStorage.getItem('auth-user')
       return userStr ? JSON.parse(userStr) : null
-    } catch (error) {
+    } catch {
       return null
     }
   }
@@ -292,7 +295,7 @@ class AuthService {
 
       // Fallback local
       return localStorage.getItem('auth-token')
-    } catch (error) {
+    } catch {
       return null
     }
   }
@@ -300,12 +303,12 @@ class AuthService {
   /**
    * Trocar Senha (usuário autenticado)
    * 
-   * @param oldPassword - Senha atual
-   * @param newPassword - Nova senha
+   * @param _oldPassword - Senha atual (não implementado ainda)
+   * @param _newPassword - Nova senha (não implementado ainda)
    */
   async changePassword(
-    oldPassword: string,
-    newPassword: string
+    _oldPassword: string,
+    _newPassword: string
   ): Promise<LoginResponse> {
     try {
       if (this.useCognito) {
@@ -317,10 +320,11 @@ class AuthService {
       }
 
       return { success: true }
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao trocar senha'
       return {
         success: false,
-        error: error.message || 'Erro ao trocar senha'
+        error: errorMessage
       }
     }
   }
@@ -328,9 +332,9 @@ class AuthService {
   /**
    * Login Social (Google, Facebook, etc)
    * 
-   * @param provider - Provedor de autenticação
+   * @param _provider - Provedor de autenticação (não implementado ainda)
    */
-  async federatedSignIn(provider: 'Google' | 'Facebook' | 'Amazon'): Promise<void> {
+  async federatedSignIn(_provider: 'Google' | 'Facebook' | 'Amazon'): Promise<void> {
     if (this.useCognito) {
       // TODO: Implementar com Cognito
       // await Auth.federatedSignIn({ provider })
