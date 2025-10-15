@@ -153,7 +153,7 @@ export async function uploadToCloudinary(
           try {
             const response = JSON.parse(xhr.responseText)
             resolve(response)
-          } catch (error) {
+          } catch {
             reject(new Error('Erro ao processar resposta do Cloudinary'))
           }
         } else {
@@ -184,7 +184,7 @@ export async function uploadToCloudinary(
 
     // Retorna URL segura
     return response.secure_url
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Erro ao fazer upload para Cloudinary:', error)
     throw error
   }

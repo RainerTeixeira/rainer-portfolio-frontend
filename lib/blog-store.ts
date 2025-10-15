@@ -10,7 +10,7 @@
  * @version 2.0.0
  */
 
-import type { Post, PostStatus, TiptapJSON, CreatePostDTO, UpdatePostDTO } from '@/types/database'
+import type { PostStatus, TiptapJSON } from '@/types/database'
 
 /**
  * Interface BlogPost (baseada no schema Prisma simplificado)
