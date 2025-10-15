@@ -45,7 +45,7 @@
  * console.log(SITE_CONFIG.email) // "suporte@rainersoft.com.br"
  * console.log(SITE_CONFIG.technologies) // ["React", "Next.js", ...]
  */
-export const SITE_CONFIG: object = {
+export const SITE_CONFIG = {
   // Informações básicas
   /** Nome da marca/empresa exibido no site */
   name: "Rainer Soft",
@@ -81,6 +81,9 @@ export const SITE_CONFIG: object = {
   /** URL do portfólio/site oficial */
   portfolio: "https://rainersoft.com.br",
   
+  /** Keywords para SEO */
+  keywords: ["Desenvolvedor Full-Stack", "React", "Next.js", "TypeScript", "Node.js", "Python", "AWS", "Docker", "Volta Redonda", "Rainer Teixeira"],
+  
   // Tecnologias
   /** 
    * Lista das principais tecnologias e ferramentas dominadas
@@ -94,12 +97,12 @@ export const SITE_CONFIG: object = {
 
 /**
  * Item de navegação
- * 
- * @typedef {Object} NavigationItem
- * @property {string} name - Nome do item exibido no menu
- * @property {string} href - Rota/caminho de destino
- * @property {string} description - Descrição breve para tooltips e acessibilidade
  */
+export interface NavigationItem {
+  name: string
+  href: string
+  description: string
+}
 
 /**
  * Configuração de navegação principal
@@ -188,7 +191,7 @@ export const NAVIGATION: ReadonlyArray<NavigationItem> = [
  * 
  * console.log(FOOTER_CONFIG.services.items[0].name) // "Desenvolvimento Web"
  */
-export const FOOTER_CONFIG: object = {
+export const FOOTER_CONFIG = {
   // Seção: Informações da Empresa
   /**
    * Seção com informações gerais da empresa/profissional

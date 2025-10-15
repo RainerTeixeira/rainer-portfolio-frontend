@@ -22,6 +22,7 @@ import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { InstallPrompt, UpdateNotification } from "@/components/ui"
 import { SITE_CONFIG } from "@/constants"
+import { Analytics } from "@vercel/analytics/next"
 
 /**
  * Configuração de fontes otimizadas
@@ -302,6 +303,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <UpdateNotification />
           </AuthProvider>
         </ThemeProvider>
+        
+        {/**
+         * Vercel Analytics
+         * 
+         * Rastreia métricas de performance e analytics do site.
+         * Não afeta performance e respeita privacidade.
+         */}
+        <Analytics />
       </body>
     </html>
   )
