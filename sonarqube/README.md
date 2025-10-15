@@ -49,6 +49,22 @@ cd sonarqube
 
 ### 4. Executar Análise
 
+#### Opção A: Via Docker (Recomendado - Não requer instalação do SonarScanner)
+
+```bash
+# Na pasta sonarqube
+cd sonarqube
+
+# Com token como parâmetro
+.\scan-with-token.bat seu-token-aqui
+
+# OU com variável de ambiente
+$env:SONAR_TOKEN = "seu-token-aqui"
+.\scan-with-token.bat
+```
+
+#### Opção B: Com SonarScanner instalado
+
 ```bash
 # Executar da raiz do projeto
 npm run sonar:local

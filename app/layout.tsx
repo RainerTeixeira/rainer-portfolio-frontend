@@ -23,6 +23,7 @@ import { Footer } from "@/components/layout/footer"
 import { InstallPrompt, UpdateNotification } from "@/components/ui"
 import { SITE_CONFIG } from "@/constants"
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 /**
  * Configuração de fontes otimizadas
@@ -305,12 +306,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </ThemeProvider>
         
         {/**
-         * Vercel Analytics
+         * Vercel Analytics & Speed Insights
          * 
-         * Rastreia métricas de performance e analytics do site.
+         * - Analytics: Rastreia métricas de performance e analytics do site
+         * - SpeedInsights: Monitora Core Web Vitals em tempo real
          * Não afeta performance e respeita privacidade.
          */}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
