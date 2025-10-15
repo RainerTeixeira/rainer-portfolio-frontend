@@ -73,13 +73,13 @@ const Carousel = memo(function Carousel({
     const mobileBreakpoint = 640
     const tabletBreakpoint = 1024
     
-    const isMobileNow = width < mobileBreakpoint
-    const isTabletNow = width >= mobileBreakpoint && width < tabletBreakpoint
+    const isMobile = width < mobileBreakpoint
+    const isTablet = width >= mobileBreakpoint && width < tabletBreakpoint
 
     // Sistema Matrix Rain
-    const columnCount = isMobileNow ? 
+    const columnCount = isMobile ? 
       Math.min(15, Math.max(8, Math.floor(width / 35))) : 
-      isTabletNow ? 
+      isTablet ? 
       Math.min(22, Math.max(12, Math.floor(width / 40))) :
       Math.min(30, Math.max(18, Math.floor(width / 45)))
 
@@ -87,7 +87,7 @@ const Carousel = memo(function Carousel({
 
     const newColumns: MatrixColumn[] = Array.from({ length: columnCount }).map((_, i) => {
       const randomId = Math.round(Math.random() * 10000)
-      const charactersCount = isMobileNow ? 10 + Math.floor(Math.random() * 8) : 12 + Math.floor(Math.random() * 10)
+      const charactersCount = isMobile ? 10 + Math.floor(Math.random() * 8) : 12 + Math.floor(Math.random() * 10)
       const intensity = 0.5 + Math.random() * 0.35
       
       const type = 'binary' as const
@@ -101,7 +101,7 @@ const Carousel = memo(function Carousel({
       return {
         id: `col-${i}-${randomId}`,
         leftPct: (i / columnCount) * 100,
-        fontSize: isMobileNow ? 13 + Math.random() * 4 : isTabletNow ? 15 + Math.random() * 5 : 17 + Math.random() * 6,
+        fontSize: isMobile ? 13 + Math.random() * 4 : isTablet ? 15 + Math.random() * 5 : 17 + Math.random() * 6,
         animationDuration: 4 + Math.random() * 3,
         animationDelay: (i / columnCount) * 2,
         characters,
