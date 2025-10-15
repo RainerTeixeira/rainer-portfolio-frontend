@@ -1,34 +1,45 @@
 /**
- * Barra de Navegação Principal
+ * Navigation Bar Component
  * 
- * Componente de navbar responsivo profissional usando shadcn/ui.
+ * Barra de navegação principal responsiva e profissional.
+ * Suporta autenticação, tema claro/escuro e navegação mobile.
  * 
  * Características:
- * - Menu desktop com dropdown de usuário
- * - Menu mobile usando Sheet component
- * - Avatar de perfil quando autenticado
- * - Efeito de scroll (glassmorphism)
+ * - Menu desktop com dropdown de usuário autenticado
+ * - Menu mobile responsivo usando Sheet component
+ * - Avatar dinâmico de perfil quando autenticado
+ * - Efeito glassmorphism ao fazer scroll
  * - Acessibilidade completa (ARIA, keyboard navigation)
- * - Animações suaves e profissionais
+ * - Animações suaves com Framer Motion
  * 
- * @fileoverview Componente de navegação principal responsivo
+ * @fileoverview Componente de navegação global da aplicação
  * @author Rainer Teixeira
  * @version 2.0.0
- * @since 1.0.0
  */
 
 "use client"
 
+// ============================================================================
+// React & Next.js Imports
+// ============================================================================
+
 import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
+
+// ============================================================================
+// Third-party Libraries
+// ============================================================================
+
+import { motion } from "framer-motion"
 import { Menu, LogIn, LogOut, Settings, LayoutDashboard } from "lucide-react"
+
+// ============================================================================
+// Internal Components
+// ============================================================================
+
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme/theme-toggle"
-import { useAuth } from "@/components/providers/auth-provider"
-import { SITE_CONFIG, NAVIGATION } from "@/constants"
-import { cn } from "@/lib/utils"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,13 +57,99 @@ import {
 } from "@/components/ui/sheet"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
+// ============================================================================
+// Providers & Utils
+// ============================================================================
+
+import { useAuth } from "@/components/providers/auth-provider"
+import { SITE_CONFIG, NAVIGATION } from "@/constants"
+import { cn } from "@/lib/utils"
+
+// ============================================================================
+// Constants
+// ============================================================================
+
 /**
- * Componente UserMenu
- * 
- * Menu dropdown com foto de perfil e opções de usuário.
- * Usado no desktop.
+ * Limite de scroll para ativar efeito glassmorphism
  */
-function UserMenu({ user, logout }: { user: { username: string; role: string } | null; logout: () => void }) {
+const SCROLL_THRESHOLD_PX = 10
+
+/**
+ * Configuração de animação de entrada da navbar
+ */
+const NAVBAR_ANIMATION_CONFIG = {
+  type: "spring" as const,
+  stiffness: 300,
+  damping: 30,
+  delay: 0.1
+} as const
+
+/**
+ * Máximo de caracteres para iniciais do avatar
+ */
+const MAX_AVATAR_INITIALS = 2
+
+// ============================================================================
+// Types
+// ============================================================================
+
+interface UserData {
+  readonly username: string
+  readonly role: string
+}
+
+interface UserMenuProps {
+  readonly user: UserData | null
+  readonly logout: () => void
+}
+
+// ============================================================================
+// Utility Functions
+// ============================================================================
+
+/**
+ * Extrai iniciais do nome de usuário
+ * 
+ * @param name - Nome completo do usuário
+ * @returns Iniciais em uppercase (máximo 2 caracteres)
+ * 
+ * @example
+ * getUserInitials("Rainer Teixeira") // returns "RT"
+ */
+function getUserInitials(name: string): string {
+  return name
+    .split(' ')
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, MAX_AVATAR_INITIALS)
+}
+
+/**
+ * Retorna label de role traduzido
+ * 
+ * @param role - Role do usuário (manager | user)
+ * @returns Label em português
+ */
+function getUserRoleLabel(role: string): string {
+  return role === 'manager' ? 'Administrador' : 'Usuário'
+}
+
+// ============================================================================
+// Sub-components
+// ============================================================================
+
+/**
+ * Menu de usuário para desktop
+ * 
+ * Exibe botão de login ou dropdown com avatar e opções do usuário autenticado.
+ * Inclui navegação para dashboard, configurações e logout.
+ * 
+ * @param user - Dados do usuário autenticado (null se não autenticado)
+ * @param logout - Função para fazer logout
+ */
+function UserMenu({ user, logout }: UserMenuProps) {
+  // Exibir botão de login se usuário não autenticado
   if (!user) {
     return (
       <Button
@@ -60,24 +157,18 @@ function UserMenu({ user, logout }: { user: { username: string; role: string } |
         variant="ghost"
         size="sm"
         className="gap-2 dark:text-cyan-400 dark:hover:bg-cyan-400/10"
+        aria-label="Fazer login"
       >
         <Link href="/dashboard/login">
-          <LogIn className="w-4 h-4" />
+          <LogIn className="w-4 h-4" aria-hidden="true" />
           <span className="hidden sm:inline">Login</span>
         </Link>
       </Button>
     )
   }
 
-  // Obter iniciais do nome de usuário
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2)
-  }
+  const userInitials = getUserInitials(user.username)
+  const userRoleLabel = getUserRoleLabel(user.role)
 
   return (
     <DropdownMenu>
@@ -90,6 +181,7 @@ function UserMenu({ user, logout }: { user: { username: string; role: string } |
             "dark:ring-offset-black dark:focus-visible:ring-cyan-400",
             "transition-all duration-200 hover:scale-105 active:scale-95"
           )}
+          aria-label={`Menu do usuário ${user.username}`}
         >
           <Avatar className={cn(
             "h-9 w-9 border-2 transition-colors",
@@ -98,7 +190,7 @@ function UserMenu({ user, logout }: { user: { username: string; role: string } |
           )}>
             <AvatarImage 
               src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`} 
-              alt={user.username}
+              alt={`Avatar de ${user.username}`}
               className="object-cover"
             />
             <AvatarFallback className={cn(
@@ -107,11 +199,12 @@ function UserMenu({ user, logout }: { user: { username: string; role: string } |
               "text-primary dark:text-cyan-400",
               "font-semibold text-sm"
             )}>
-              {getInitials(user.username)}
+              {userInitials}
             </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
+      
       <DropdownMenuContent 
         align="end" 
         sideOffset={8}
@@ -122,6 +215,7 @@ function UserMenu({ user, logout }: { user: { username: string; role: string } |
           "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2"
         )}
       >
+        {/* Informações do usuário */}
         <DropdownMenuLabel className={cn(
           "font-normal px-2 py-1.5",
           "text-foreground dark:text-cyan-200"
@@ -134,11 +228,14 @@ function UserMenu({ user, logout }: { user: { username: string; role: string } |
               "text-xs leading-none font-medium",
               "text-muted-foreground/80 dark:text-cyan-400/70"
             )}>
-              {user.role === 'manager' ? 'Administrador' : 'Usuário'}
+              {userRoleLabel}
             </p>
           </div>
         </DropdownMenuLabel>
+        
         <DropdownMenuSeparator className="my-1 dark:bg-cyan-400/20" />
+        
+        {/* Link para Dashboard */}
         <DropdownMenuItem asChild>
           <Link 
             href="/dashboard" 
@@ -151,10 +248,12 @@ function UserMenu({ user, logout }: { user: { username: string; role: string } |
               "transition-colors duration-150"
             )}
           >
-            <LayoutDashboard className="h-4 w-4 shrink-0" />
+            <LayoutDashboard className="h-4 w-4 shrink-0" aria-hidden="true" />
             <span className="font-medium">Dashboard</span>
           </Link>
         </DropdownMenuItem>
+        
+        {/* Configurações (desabilitado) */}
         <DropdownMenuItem 
           disabled
           className={cn(
@@ -162,10 +261,13 @@ function UserMenu({ user, logout }: { user: { username: string; role: string } |
             "dark:text-gray-500"
           )}
         >
-          <Settings className="h-4 w-4 shrink-0" />
+          <Settings className="h-4 w-4 shrink-0" aria-hidden="true" />
           <span className="font-medium">Configurações</span>
         </DropdownMenuItem>
+        
         <DropdownMenuSeparator className="my-1 dark:bg-cyan-400/20" />
+        
+        {/* Botão de Logout */}
         <DropdownMenuItem 
           onClick={logout}
           className={cn(
@@ -177,7 +279,7 @@ function UserMenu({ user, logout }: { user: { username: string; role: string } |
             "transition-colors duration-150"
           )}
         >
-          <LogOut className="h-4 w-4 shrink-0" />
+          <LogOut className="h-4 w-4 shrink-0" aria-hidden="true" />
           <span className="font-medium">Sair</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -185,55 +287,57 @@ function UserMenu({ user, logout }: { user: { username: string; role: string } |
   )
 }
 
+// ============================================================================
+// Main Component
+// ============================================================================
+
 /**
- * Componente Navbar
+ * Componente principal da barra de navegação
  * 
- * Barra de navegação principal profissional com shadcn/ui.
- * 
- * Características:
+ * Renderiza header fixo responsivo com:
+ * - Animação de entrada suave
  * - Glassmorphism effect ao fazer scroll
  * - Menu desktop com links e dropdown de usuário
  * - Menu mobile usando Sheet component
- * - Avatar de perfil quando autenticado
- * - Totalmente responsivo e acessível
+ * - Suporte a autenticação e tema
+ * - Acessibilidade completa
  * 
- * @returns {JSX.Element} Barra de navegação completa
+ * @returns Barra de navegação global da aplicação
  */
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
+  // ============================================================================
+  // State & Hooks
+  // ============================================================================
+  
+  const [hasScrolled, setHasScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { user, isAuthenticated, logout } = useAuth()
 
-  // Detectar scroll para efeito glassmorphism
+  // ============================================================================
+  // Effects
+  // ============================================================================
+  
+  /**
+   * Detecta scroll para ativar efeito glassmorphism
+   */
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
+    const handleScrollEvent = () => {
+      setHasScrolled(window.scrollY > SCROLL_THRESHOLD_PX)
     }
 
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScrollEvent, { passive: true })
+    return () => window.removeEventListener("scroll", handleScrollEvent)
   }, [])
 
-  // Obter iniciais para o fallback do avatar
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2)
-  }
+  // ============================================================================
+  // Render
+  // ============================================================================
 
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 300, 
-        damping: 30,
-        delay: 0.1
-      }}
+      transition={NAVBAR_ANIMATION_CONFIG}
       className={cn(
         // Posicionamento e layout
         "sticky top-0 inset-x-0 z-50 w-full",
@@ -245,13 +349,13 @@ export function Navbar() {
         "dark:supports-[backdrop-filter]:bg-black/60",
         // Bordas com gradiente
         "border-b",
-        isScrolled 
+        hasScrolled 
           ? "border-border/60 dark:border-cyan-400/30 shadow-lg dark:shadow-cyan-500/10" 
           : "border-border/40 dark:border-cyan-400/20",
         // Transições suaves
         "transition-all duration-300 ease-in-out",
         // Estados scrolled
-        isScrolled && cn(
+        hasScrolled && cn(
           "shadow-xl shadow-black/5 dark:shadow-cyan-500/10",
           "bg-background/98 dark:bg-black/85",
           "border-border/60 dark:border-cyan-400/30"
@@ -263,7 +367,7 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
+          {/* Logo e nome do site */}
           <Link 
             href="/" 
             className={cn(
@@ -340,10 +444,10 @@ export function Navbar() {
             </div>
           </nav>
 
-          {/* Mobile Menu */}
+          {/* Menu mobile */}
           <div className="flex items-center gap-2 md:hidden">
             <ThemeToggle />
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
@@ -385,7 +489,7 @@ export function Navbar() {
                   </SheetTitle>
                 </SheetHeader>
 
-                {/* Mobile User Info */}
+                {/* Informações do usuário mobile */}
                 {isAuthenticated && user && (
                   <div className={cn(
                     "mx-4 mt-4 mb-2 p-4 rounded-xl",
@@ -403,7 +507,7 @@ export function Navbar() {
                     )}>
                       <AvatarImage 
                         src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`} 
-                        alt={user.username}
+                        alt={`Avatar de ${user.username}`}
                         className="object-cover"
                       />
                       <AvatarFallback className={cn(
@@ -412,7 +516,7 @@ export function Navbar() {
                         "text-primary dark:text-cyan-400",
                         "font-semibold text-sm"
                       )}>
-                        {getInitials(user.username)}
+                        {getUserInitials(user.username)}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
@@ -426,18 +530,18 @@ export function Navbar() {
                         "text-xs font-medium",
                         "text-muted-foreground/80 dark:text-cyan-400/70"
                       )}>
-                        {user.role === 'manager' ? 'Administrador' : 'Usuário'}
+                        {getUserRoleLabel(user.role)}
                       </p>
                     </div>
                   </div>
                 )}
 
-                <nav className="flex flex-col gap-1 px-4 py-2">
+                <nav className="flex flex-col gap-1 px-4 py-2" aria-label="Menu principal mobile">
                   {NAVIGATION.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => setIsMobileMenuOpen(false)}
                       className={cn(
                         // Layout
                         "group flex items-center gap-3 px-4 py-3 rounded-lg",
@@ -465,12 +569,14 @@ export function Navbar() {
                   ))}
                 </nav>
 
+                {/* Ações do usuário mobile */}
                 <div className={cn(
                   "mt-auto px-4 py-4 space-y-2",
                   "border-t border-border/60 dark:border-cyan-400/20"
                 )}>
                   {isAuthenticated ? (
                     <>
+                      {/* Botão Dashboard */}
                       <Button
                         asChild
                         variant="outline"
@@ -480,17 +586,19 @@ export function Navbar() {
                           "dark:border-cyan-400/30 dark:hover:bg-cyan-400/10 dark:text-cyan-400 dark:hover:text-cyan-300",
                           "transition-all duration-200 active:scale-[0.98]"
                         )}
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => setIsMobileMenuOpen(false)}
                       >
                         <Link href="/dashboard" className="flex items-center gap-2">
-                          <LayoutDashboard className="w-4 h-4 shrink-0" />
+                          <LayoutDashboard className="w-4 h-4 shrink-0" aria-hidden="true" />
                           <span>Dashboard</span>
                         </Link>
                       </Button>
+                      
+                      {/* Botão Sair */}
                       <Button
                         onClick={() => {
                           logout()
-                          setIsOpen(false)
+                          setIsMobileMenuOpen(false)
                         }}
                         variant="outline"
                         className={cn(
@@ -500,11 +608,12 @@ export function Navbar() {
                           "transition-all duration-200 active:scale-[0.98]"
                         )}
                       >
-                        <LogOut className="w-4 h-4 shrink-0" />
+                        <LogOut className="w-4 h-4 shrink-0" aria-hidden="true" />
                         <span>Sair</span>
                       </Button>
                     </>
                   ) : (
+                    /* Botão Login */
                     <Button
                       asChild
                       variant="outline"
@@ -514,10 +623,10 @@ export function Navbar() {
                         "dark:border-cyan-400/30 dark:hover:bg-cyan-400/10 dark:text-cyan-400 dark:hover:text-cyan-300",
                         "transition-all duration-200 active:scale-[0.98]"
                       )}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <Link href="/dashboard/login" className="flex items-center gap-2">
-                        <LogIn className="w-4 h-4 shrink-0" />
+                        <LogIn className="w-4 h-4 shrink-0" aria-hidden="true" />
                         <span>Fazer Login</span>
                       </Link>
                     </Button>

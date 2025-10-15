@@ -1,31 +1,48 @@
 /**
- * Rodapé (Footer) da Aplicação
+ * Footer Component
  * 
- * Componente de footer responsivo com múltiplas seções organizadas em grid.
- * Apresenta informações da empresa, contato, serviços e links externos.
+ * Rodapé responsivo profissional com design premium e tema dual.
+ * Organiza informações em grid de 4 colunas com cards interativos.
  * 
  * Características:
- * - Grid responsivo (1 coluna mobile -> 4 colunas desktop)
- * - Tema dual: limpo no light mode, cyberpunk no dark mode
- * - Cards com hover effects
- * - Partículas animadas no dark mode
- * - Ícones dinâmicos via Lucide React
- * - Acessibilidade completa
+ * - Grid responsivo (1 coluna mobile → 4 colunas desktop)
+ * - Tema dual: minimalista no light mode, cyberpunk no dark mode
+ * - Cards com hover effects e glassmorphism
+ * - Partículas animadas decorativas no dark mode
+ * - Ícones dinâmicos configuráveis via Lucide React
+ * - Acessibilidade completa (ARIA labels, semântica HTML5)
  * 
- * @fileoverview Componente de rodapé principal
+ * @fileoverview Componente de rodapé global da aplicação
  * @author Rainer Teixeira
  * @version 1.0.0
- * @since 1.0.0
  */
 
+// ============================================================================
+// Constants & Configuration
+// ============================================================================
+
 import { SITE_CONFIG, FOOTER_CONFIG } from "@/constants"
+
+// ============================================================================
+// Icons
+// ============================================================================
+
 import { 
   Mail, Phone, MapPin, Github as GitHubIcon, Linkedin, ExternalLink, 
   Globe, Zap, Users, Cloud, Layers, Code, Database, 
   Server, Cpu, Network, Shield, Settings, Monitor, 
   Smartphone, Wifi, Lock, FileText, Terminal, GitBranch, Package
 } from "lucide-react"
+
+// ============================================================================
+// Utils
+// ============================================================================
+
 import { getIcon, cn } from "@/lib/utils"
+
+// ============================================================================
+// Constants
+// ============================================================================
 
 /**
  * Estilos constantes do footer
@@ -93,14 +110,10 @@ const FOOTER_STYLES = {
 } as const
 
 /**
- * Mapeamento de nomes de ícones para componentes Lucide
+ * Mapeamento de ícones disponíveis
  * 
- * Permite buscar componentes de ícone por string name,
- * útil para renderização dinâmica baseada em configuração.
- * 
- * @constant
- * @type {Object}
- * @readonly
+ * Permite renderização dinâmica de ícones baseada em string.
+ * Usado em conjunto com getIcon() para buscar componentes.
  */
 const ICON_COMPONENTS = {
   Globe,
@@ -126,128 +139,149 @@ const ICON_COMPONENTS = {
   Github: GitHubIcon
 } as const
 
+// ============================================================================
+// Types
+// ============================================================================
+
 /**
- * Tipo para nomes de ícones válidos
- * Garante type safety ao buscar ícones
+ * Nomes de ícones válidos
  */
 type IconName = keyof typeof ICON_COMPONENTS
 
 /**
- * Props do componente ContactItem
- * 
- * @typedef {Object} ContactItemProps
- * @property {React.ComponentType} icon - Componente de ícone Lucide
- * @property {string} label - Label descritivo (ex: "Email")
- * @property {string} value - Valor a exibir (ex: "email@example.com")
- * @property {string} [href] - URL opcional para transformar em link
- * @property {"text" | "link"} [type="text"] - Tipo de conteúdo para ARIA label
+ * Tipo base para componentes de ícone
  */
+type IconComponent = React.ComponentType<{ 
+  className?: string
+  "aria-hidden"?: boolean 
+}>
 
 /**
- * Componente ContactItem
+ * Tipo de conteúdo de contato
+ */
+type ContactItemType = "text" | "link" | "tel"
+
+/**
+ * Props do item de contato
+ */
+interface ContactItemProps {
+  readonly icon: IconComponent
+  readonly label: string
+  readonly value: string
+  readonly href?: string
+  readonly type?: ContactItemType
+}
+
+/**
+ * Props do link externo
+ */
+interface ExternalLinkItemProps {
+  readonly icon: IconComponent
+  readonly label: string
+  readonly href: string
+  readonly ariaLabel: string
+}
+
+// ============================================================================
+// Sub-components
+// ============================================================================
+
+/**
+ * Item de informação de contato
  * 
- * Renderiza um item de informação de contato com ícone, label e valor.
- * Se href for fornecido, o valor vira um link clicável.
+ * Renderiza ícone, label e valor de contato.
+ * Se href fornecido, valor se torna link clicável.
  * 
- * @param {ContactItemProps} props - Propriedades do componente
- * @returns {JSX.Element} Item de contato formatado
+ * @param icon - Componente de ícone Lucide
+ * @param label - Label descritivo (ex: "Email")
+ * @param value - Valor a exibir (ex: "contato@example.com")
+ * @param href - URL opcional para link (mailto:, tel:, etc)
+ * @param type - Tipo de conteúdo para ARIA label
  * 
  * @example
+ * ```tsx
  * <ContactItem 
  *   icon={Mail} 
  *   label="Email" 
  *   value="contato@example.com"
  *   href="mailto:contato@example.com"
+ *   type="text"
  * />
+ * ```
  */
-function ContactItem({ icon: Icon, label, value, href, type = "text" }: {
-  icon: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>
-  label: string
-  value: string
-  href?: string
-  type?: "text" | "link"
-}) {
-  /**
-   * Determina o conteúdo: link ou texto simples
-   * Se href existe, renderiza como <a>, senão como <p>
-   */
-  const content = href ? (
+function ContactItem({ icon: Icon, label, value, href, type = "text" }: ContactItemProps) {
+  // Determinar label de acessibilidade baseado no tipo
+  const getAriaLabel = () => {
+    switch (type) {
+      case "link":
+        return `Visitar ${value}`
+      case "tel":
+        return `Ligar para ${value}`
+      default:
+        return `Enviar email para ${value}`
+    }
+  }
+
+  // Renderizar como link ou texto
+  const contentElement = href ? (
     <a 
       href={href} 
       className={cn(
         FOOTER_STYLES.text,
         "text-muted-foreground hover:text-primary transition-colors break-words"
       )}
-      aria-label={`${type === "link" ? "Visitar" : type === "text" ? "Enviar email para" : "Ligar para"} ${value}`}
+      aria-label={getAriaLabel()}
     >
       {value}
     </a>
   ) : (
-    <p className={cn(FOOTER_STYLES.text, "text-muted-foreground")}>{value}</p>
+    <p className={cn(FOOTER_STYLES.text, "text-muted-foreground")}>
+      {value}
+    </p>
   )
 
   return (
     <div className={FOOTER_STYLES.item}>
-      {/** Ícone com aria-hidden (decorativo) */}
       <Icon className={FOOTER_STYLES.icon} aria-hidden={true} />
-      {/** Container de texto com flexbox */}
       <div className="min-w-0 flex-1">
-        {/** Label em negrito */}
-        <p className={cn(FOOTER_STYLES.text, "font-medium text-foreground")}>{label}</p>
-        {/** Valor (link ou texto) */}
-        {content}
+        <p className={cn(FOOTER_STYLES.text, "font-medium text-foreground")}>
+          {label}
+        </p>
+        {contentElement}
       </div>
     </div>
   )
 }
 
 /**
- * Props do componente ExternalLinkItem
+ * Item de link externo
  * 
- * @typedef {Object} ExternalLinkItemProps
- * @property {React.ComponentType} icon - Componente de ícone Lucide
- * @property {string} label - Texto do link
- * @property {string} href - URL de destino
- * @property {string} ariaLabel - Label descritivo para acessibilidade
- */
-
-/**
- * Componente ExternalLinkItem
- * 
- * Renderiza um link externo com ícone, label e ícone de external link
- * que aparece no hover.
+ * Renderiza link que abre em nova aba com ícone e indicador visual.
  * 
  * Características:
  * - Abre em nova aba (target="_blank")
  * - Segurança (rel="noopener noreferrer")
- * - Ícone de external link no hover
+ * - Ícone de external link aparece no hover
  * - ARIA label descritivo
  * 
- * @param {ExternalLinkItemProps} props - Propriedades do componente
- * @returns {JSX.Element} Link externo formatado
+ * @param icon - Componente de ícone Lucide
+ * @param label - Texto do link
+ * @param href - URL de destino
+ * @param ariaLabel - Label descritivo para acessibilidade
  * 
  * @example
+ * ```tsx
  * <ExternalLinkItem 
  *   icon={Github} 
  *   label="GitHub" 
  *   href="https://github.com/user"
  *   ariaLabel="Visitar perfil no GitHub (abre em nova aba)"
  * />
+ * ```
  */
-function ExternalLinkItem({ icon: Icon, label, href, ariaLabel }: {
-  icon: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>
-  label: string
-  href: string
-  ariaLabel: string
-}) {
+function ExternalLinkItem({ icon: Icon, label, href, ariaLabel }: ExternalLinkItemProps) {
   return (
     <li>
-      {/**
-       * Link externo com ícone e hover effects
-       * - target="_blank": abre em nova aba
-       * - rel="noopener noreferrer": segurança contra tabnabbing
-       * - group: permite estilização de filhos baseada em hover
-       */}
       <a 
         href={href} 
         className={FOOTER_STYLES.link}
@@ -255,51 +289,72 @@ function ExternalLinkItem({ icon: Icon, label, href, ariaLabel }: {
         rel="noopener noreferrer"
         aria-label={ariaLabel}
       >
-        {/** Ícone principal (ex: Github, Linkedin) */}
         <Icon className="h-3.5 sm:h-4 w-3.5 sm:w-4" aria-hidden={true} />
-        {/** Label do link */}
         <span>{label}</span>
-        {/** Ícone de external link que aparece no hover */}
-        <ExternalLink className="h-2.5 sm:h-3 w-2.5 sm:w-3 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden={true} />
+        <ExternalLink 
+          className="h-2.5 sm:h-3 w-2.5 sm:w-3 opacity-0 group-hover:opacity-100 transition-opacity" 
+          aria-hidden={true} 
+        />
       </a>
     </li>
   )
 }
 
+// ============================================================================
+// Main Component
+// ============================================================================
+
 /**
- * Componente Footer
+ * Componente principal do rodapé
  * 
- * Renderiza o rodapé completo da aplicação com 4 seções principais:
- * 1. Informações da empresa/profissional
- * 2. Dados de contato
- * 3. Lista de serviços
- * 4. Links para redes sociais
+ * Renderiza footer completo com 4 seções em grid responsivo:
+ * 1. **Sobre** - Informações da empresa/profissional
+ * 2. **Contato** - Email, telefone e localização
+ * 3. **Serviços** - Lista de serviços oferecidos
+ * 4. **Links** - Redes sociais e links externos
  * 
- * O footer tem tema dual:
- * - Light mode: design limpo e minimalista
- * - Dark mode: estética cyberpunk com partículas e neon
+ * Design Dual:
+ * - Light mode: minimalista e limpo
+ * - Dark mode: cyberpunk com partículas e neon
  * 
- * @returns {JSX.Element} Footer completo com todas as seções
+ * @returns Rodapé global da aplicação
  * 
  * @example
- * // Usado automaticamente no layout.tsx
+ * ```tsx
+ * // Usado automaticamente no layout raiz
  * <Footer />
+ * ```
  */
 export function Footer() {
   return (
-    <footer className="relative border-t border-border/40 dark:border-cyan-400/30 bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-black/60 overflow-hidden" role="contentinfo">
-      {/* Brilho de fundo premium */}
-      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5 blur-3xl pointer-events-none"></div>
+    <footer 
+      className="relative border-t border-border/40 dark:border-cyan-400/30 bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-black/60 overflow-hidden" 
+      role="contentinfo"
+    >
+      {/* Camada de brilho de fundo premium */}
+      <div 
+        className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5 blur-3xl pointer-events-none" 
+        aria-hidden="true"
+      />
       
-      {/* Partículas decorativas animadas */}
-      <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100">
-        <div className="absolute top-20 left-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-pulse opacity-60 shadow-lg shadow-cyan-400/50"></div>
-        <div className="absolute top-40 right-1/3 w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse opacity-40 shadow-lg shadow-purple-400/50" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-40 left-1/2 w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse opacity-50 shadow-lg shadow-pink-400/50" style={{ animationDelay: '2s' }}></div>
+      {/* Partículas decorativas animadas (apenas dark mode) */}
+      <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100" aria-hidden="true">
+        <div className="absolute top-20 left-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-pulse opacity-60 shadow-lg shadow-cyan-400/50" />
+        <div 
+          className="absolute top-40 right-1/3 w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse opacity-40 shadow-lg shadow-purple-400/50" 
+          style={{ animationDelay: '1s' }} 
+        />
+        <div 
+          className="absolute bottom-40 left-1/2 w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse opacity-50 shadow-lg shadow-pink-400/50" 
+          style={{ animationDelay: '2s' }} 
+        />
       </div>
       
       {/* Divisor premium no topo */}
-      <div className="relative h-1 bg-gradient-to-r from-transparent via-cyan-400/50 dark:via-cyan-400/30 to-transparent"></div>
+      <div 
+        className="relative h-1 bg-gradient-to-r from-transparent via-cyan-400/50 dark:via-cyan-400/30 to-transparent" 
+        aria-hidden="true"
+      />
       
       {/**
        * Container principal do conteúdo
@@ -403,7 +458,7 @@ export function Footer() {
                 label="Telefone" 
                 value={SITE_CONFIG.phone} 
                 href={`tel:${SITE_CONFIG.phone}`}
-                type="text"
+                type="tel"
               />
               
               {/**
