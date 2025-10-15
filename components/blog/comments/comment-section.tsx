@@ -9,7 +9,7 @@
 
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { AlertCircle } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -41,11 +41,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
 
   const currentUserId = user?.username // Usar username como ID temporário
 
-  useEffect(() => {
-    loadComments()
-  }, [postId])
-
-  const loadComments = async () => {
+  const loadComments = useCallback(async () => {
     try {
       setIsLoading(true)
       setError(null)
@@ -59,7 +55,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
       
       const data = await response.json()
       setComments(data)
-    } catch (err: any) {
+    } catch {
       // Fallback: usar dados mockados para demonstração
       const mockComments: Comment[] = [
         {
@@ -143,7 +139,11 @@ export function CommentSection({ postId }: CommentSectionProps) {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [postId])
+
+  useEffect(() => {
+    loadComments()
+  }, [loadComments])
 
   const handleCommentAdded = (newComment: Comment) => {
     setComments([newComment, ...comments])

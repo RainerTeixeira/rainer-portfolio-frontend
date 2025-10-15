@@ -10,7 +10,7 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
-import { Search, X, Loader2, TrendingUp } from "lucide-react"
+import { Search, Loader2, TrendingUp } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {

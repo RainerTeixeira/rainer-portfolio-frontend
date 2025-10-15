@@ -49,7 +49,7 @@ export function NewsletterBox({
       toast.success("Inscrição realizada com sucesso!")
       setIsSubscribed(true)
       setEmail("")
-    } catch (error) {
+    } catch {
       toast.error("Erro ao se inscrever. Tente novamente.")
     } finally {
       setIsLoading(false)

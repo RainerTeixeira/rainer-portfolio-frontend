@@ -103,9 +103,10 @@ export function CommentForm({
       if (onCommentAdded) {
         onCommentAdded(newComment)
       }
-    } catch (err: any) {
-      setError(err.message || "Erro ao enviar comentário. Tente novamente.")
-      toast.error(err.message)
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro ao enviar comentário. Tente novamente."
+      setError(errorMessage)
+      toast.error(errorMessage)
     } finally {
       setIsSubmitting(false)
     }

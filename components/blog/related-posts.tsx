@@ -113,9 +113,24 @@ export function RelatedPosts({
   )
 }
 
+// Types para o conteúdo Tiptap
+interface TiptapTextNode {
+  text?: string
+  type?: string
+}
+
+interface TiptapNode {
+  type?: string
+  content?: TiptapTextNode[]
+}
+
+interface TiptapContent {
+  content?: TiptapNode[]
+}
+
 // Helper para extrair preview do JSON do Tiptap
-function extractPreview(content: any): string {
-  if (!content || !content.content) return ""
+function extractPreview(content: TiptapContent | Record<string, unknown>): string {
+  if (!content || !('content' in content) || !Array.isArray(content.content)) return ""
 
   let text = ""
   for (const node of content.content) {
