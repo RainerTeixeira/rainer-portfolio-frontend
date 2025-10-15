@@ -51,7 +51,7 @@ export function TableOfContents({
       headingList.push({
         id,
         text: element.textContent || "",
-        level: parseInt(element.tagName[1]),
+        level: parseInt(element.tagName[1] || "2"),
       })
     })
 

@@ -27,7 +27,7 @@ interface AutosaveOptions {
  * @param options - Configurações de autosave
  */
 export function useAutosave({ interval = 30000, enabled = true, onSave }: AutosaveOptions) {
-  const timerRef = useRef<NodeJS.Timeout>()
+  const timerRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const lastSaveRef = useRef<Date | null>(null)
 
   /**

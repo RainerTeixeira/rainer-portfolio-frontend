@@ -35,7 +35,7 @@ export interface CloudinaryUploadOptions {
     quality?: 'auto' | number
     fetch_format?: 'auto' | 'webp' | 'jpg' | 'png'
   }
-  tags?: string[]
+  tags?: readonly string[] | string[]
   context?: Record<string, string>
 }
 
@@ -279,7 +279,7 @@ export async function deleteFromCloudinary(publicId: string): Promise<void> {
  */
 export function extractPublicId(url: string): string | null {
   const match = url.match(/\/v\d+\/(.+)\.\w+$/)
-  return match ? match[1] : null
+  return match ? (match[1] ?? null) : null
 }
 
 /**

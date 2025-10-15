@@ -15,6 +15,10 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 
 interface User {
   username: string
+  name?: string
+  email?: string
+  bio?: string
+  avatar?: string
   role: "manager" | "user"
 }
 
