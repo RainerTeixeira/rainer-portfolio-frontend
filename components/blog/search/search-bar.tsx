@@ -9,7 +9,6 @@
 
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from "react"
 import { Search, Loader2, TrendingUp } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -25,15 +24,7 @@ import {
 import { useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
-
-interface SearchResult {
-  id: string
-  title: string
-  slug: string
-  type: "post" | "category" | "author"
-  category?: string
-  excerpt?: string
-}
+import { useSearch, type SearchResult } from "../hooks"
 
 interface SearchBarProps {
   variant?: "default" | "compact"
@@ -47,84 +38,23 @@ export function SearchBar({
   className 
 }: SearchBarProps) {
   const router = useRouter()
-  const [open, setOpen] = useState(false)
-  const [query, setQuery] = useState("")
-  const [results, setResults] = useState<SearchResult[]>([])
-  const [recentSearches, setRecentSearches] = useState<string[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const debounceTimer = useRef<NodeJS.Timeout | undefined>(undefined)
-
-  // Carregar buscas recentes do localStorage
-  useEffect(() => {
-    const recent = localStorage.getItem("recent_searches")
-    if (recent) {
-      setRecentSearches(JSON.parse(recent))
-    }
-  }, [])
-
-  // Atalho de teclado (Ctrl/Cmd + K)
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((open) => !open)
-      }
-    }
-
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [])
-
-  // Buscar com debounce
-  const search = useCallback(async (searchQuery: string) => {
-    if (searchQuery.length < 2) {
-      setResults([])
-      return
-    }
-
-    setIsLoading(true)
-
-    try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`)
-      
-      if (!response.ok) {
-        throw new Error("Erro na busca")
-      }
-
-      const data = await response.json()
-      setResults(data.results || [])
-    } catch (error) {
-      console.error("Erro ao buscar:", error)
-      setResults([])
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
-
-  // Debounce da busca
-  useEffect(() => {
-    if (debounceTimer.current) {
-      clearTimeout(debounceTimer.current)
-    }
-
-    debounceTimer.current = setTimeout(() => {
-      search(query)
-    }, 300)
-
-    return () => {
-      if (debounceTimer.current) {
-        clearTimeout(debounceTimer.current)
-      }
-    }
-  }, [query, search])
+  const {
+    open,
+    setOpen,
+    query,
+    setQuery,
+    results,
+    recentSearches,
+    isLoading,
+    handleSelect: handleSearchSelect,
+    clearRecentSearches,
+  } = useSearch()
 
   function handleSelect(result: SearchResult) {
-    // Salvar busca recente
-    const newRecent = [result.title, ...recentSearches.filter(r => r !== result.title)].slice(0, 5)
-    setRecentSearches(newRecent)
-    localStorage.setItem("recent_searches", JSON.stringify(newRecent))
+    // Usar o hook para salvar no histórico
+    handleSearchSelect(result)
 
-    // Navegar
+    // Navegar para o resultado
     if (result.type === "post") {
       router.push(`/blog/${result.slug}`)
     } else if (result.type === "category") {
@@ -132,14 +62,6 @@ export function SearchBar({
     } else if (result.type === "author") {
       router.push(`/blog?author=${result.slug}`)
     }
-
-    setOpen(false)
-    setQuery("")
-  }
-
-  function clearRecentSearches() {
-    setRecentSearches([])
-    localStorage.removeItem("recent_searches")
   }
 
   if (variant === "compact") {

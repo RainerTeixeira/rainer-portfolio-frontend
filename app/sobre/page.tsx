@@ -1,41 +1,111 @@
 /**
- * Página Sobre
+ * About Page Component
  * 
- * Página de apresentação profissional com informações sobre
- * experiência, habilidades e trajetória do desenvolvedor.
+ * Página de apresentação profissional com experiência e skills.
+ * Exibe trajetória profissional, tecnologias e call-to-actions.
  * 
- * Layout:
- * - Header com avatar circular e introdução
- * - Grid 2 colunas: Experiência (esquerda) e Tecnologias (direita)
- * - Efeitos visuais cyberpunk no dark mode
- * - Partículas animadas sutis no fundo
+ * Características:
+ * - Header com avatar profissional
+ * - Cards de métricas impressionantes
+ * - Timeline de experiência profissional
+ * - Grid de tecnologias (tech stack)
+ * - Seção de competências por camada (frontend, backend, database, devops)
+ * - CTAs (Download CV, Contato, Redes Sociais)
+ * - Efeitos visuais premium
  * 
  * @fileoverview Página sobre o desenvolvedor
  * @author Rainer Teixeira
  * @version 1.0.0
- * @since 1.0.0
  */
+
+// ============================================================================
+// Next.js Imports
+// ============================================================================
 
 import Image from "next/image"
 import Link from "next/link"
+
+// ============================================================================
+// Icons
+// ============================================================================
+
+import { Download, Mail, GithubIcon, Linkedin, Globe } from "lucide-react"
+
+// ============================================================================
+// UI Components
+// ============================================================================
+
 import { ParticlesEffect, PageHeader, BackToTop } from "@/components/ui"
 import { Button } from "@/components/ui/button"
-import { Download, Mail, GithubIcon, Linkedin, Globe } from "lucide-react"
+
+// ============================================================================
+// Constants & Config
+// ============================================================================
+
 import { SKILLS, EXPERIENCE } from "@/constants"
 
+// ============================================================================
+// Constants
+// ============================================================================
+
 /**
- * Componente SobrePage
- * 
- * Renderiza página completa "Sobre" com perfil profissional.
- * Inclui avatar, experiência profissional e stack de tecnologias.
- * 
- * @returns {JSX.Element} Página sobre
- * 
- * @example
- * // Rota: /sobre
- * // Renderizado automaticamente pelo Next.js App Router
+ * Dados das métricas profissionais
  */
-export default function SobrePage() {
+const PROFESSIONAL_METRICS = {
+  projects: {
+    value: '10+',
+    label: 'Projetos Completos',
+    gradient: 'from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400',
+    iconColor: 'from-cyan-500 to-blue-600 dark:from-cyan-400 dark:to-blue-500'
+  },
+  linesOfCode: {
+    value: '50K+',
+    label: 'Linhas de Código',
+    gradient: 'from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400',
+    iconColor: 'from-green-500 to-emerald-600 dark:from-green-400 dark:to-emerald-500'
+  },
+  technologies: {
+    value: '20+',
+    label: 'Tecnologias',
+    gradient: 'from-orange-600 to-amber-600 dark:from-orange-400 dark:to-amber-400',
+    iconColor: 'from-orange-500 to-amber-600 dark:from-orange-400 dark:to-amber-500'
+  },
+  lighthouseScore: {
+    value: '95+',
+    label: 'Lighthouse Score',
+    gradient: 'from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400',
+    iconColor: 'from-purple-500 to-pink-600 dark:from-purple-400 dark:to-pink-500'
+  }
+} as const
+
+/**
+ * Tecnologias por camada
+ */
+const TECH_BY_LAYER = {
+  frontend: ["React", "Next.js", "TypeScript", "React Native", "Tailwind CSS", "Framer Motion"],
+  backend: ["Node.js", "Python", "Express", "REST APIs", "GraphQL", "WebSockets"],
+  database: ["PostgreSQL", "MongoDB", "Redis", "Prisma ORM", "SQL", "NoSQL"],
+  devops: ["AWS", "Azure", "Docker", "Kubernetes", "CI/CD", "GitHub Actions"]
+} as const
+
+// ============================================================================
+// Main Component
+// ============================================================================
+
+/**
+ * Componente principal da About Page
+ * 
+ * Renderiza apresentação profissional completa com:
+ * - Avatar com animações
+ * - Métricas profissionais
+ * - Timeline de experiência
+ * - Tech stack organizado
+ * - Competências por camada
+ * - CTAs de ação
+ * 
+ * @returns Página sobre completa
+ */
+export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black">
       {/** Efeito de partículas decorativas (dark mode) */}
@@ -292,7 +362,7 @@ export default function SobrePage() {
                 </p>
                 
                 <div className="flex flex-wrap gap-2">
-                  {["React", "Next.js", "TypeScript", "React Native", "Tailwind CSS", "Framer Motion"].map((tech) => (
+                  {TECH_BY_LAYER.frontend.map((tech) => (
                     <span key={tech} className="px-3 py-1.5 text-xs font-bold bg-cyan-500/10 dark:bg-cyan-400/15 text-cyan-700 dark:text-cyan-300 rounded-lg border border-cyan-500/30 dark:border-cyan-400/30 hover:bg-cyan-500/20 dark:hover:bg-cyan-400/25 transition-colors">
                       {tech}
                     </span>
@@ -330,7 +400,7 @@ export default function SobrePage() {
                 </p>
                 
                 <div className="flex flex-wrap gap-2">
-                  {["Node.js", "Python", "Express", "REST APIs", "GraphQL", "WebSockets"].map((tech) => (
+                  {TECH_BY_LAYER.backend.map((tech) => (
                     <span key={tech} className="px-3 py-1.5 text-xs font-bold bg-green-500/10 dark:bg-green-400/15 text-green-700 dark:text-green-300 rounded-lg border border-green-500/30 dark:border-green-400/30 hover:bg-green-500/20 dark:hover:bg-green-400/25 transition-colors">
                       {tech}
                     </span>
@@ -368,7 +438,7 @@ export default function SobrePage() {
                 </p>
                 
                 <div className="flex flex-wrap gap-2">
-                  {["PostgreSQL", "MongoDB", "Redis", "Prisma ORM", "SQL", "NoSQL"].map((tech) => (
+                  {TECH_BY_LAYER.database.map((tech) => (
                     <span key={tech} className="px-3 py-1.5 text-xs font-bold bg-orange-500/10 dark:bg-orange-400/15 text-orange-700 dark:text-orange-300 rounded-lg border border-orange-500/30 dark:border-orange-400/30 hover:bg-orange-500/20 dark:hover:bg-orange-400/25 transition-colors">
                       {tech}
                     </span>
@@ -406,7 +476,7 @@ export default function SobrePage() {
                 </p>
                 
                 <div className="flex flex-wrap gap-2">
-                  {["AWS", "Azure", "Docker", "Kubernetes", "CI/CD", "GitHub Actions"].map((tech) => (
+                  {TECH_BY_LAYER.devops.map((tech) => (
                     <span key={tech} className="px-3 py-1.5 text-xs font-bold bg-purple-500/10 dark:bg-purple-400/15 text-purple-700 dark:text-purple-300 rounded-lg border border-purple-500/30 dark:border-purple-400/30 hover:bg-purple-500/20 dark:hover:bg-purple-400/25 transition-colors">
                       {tech}
                     </span>

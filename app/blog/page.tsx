@@ -1,107 +1,197 @@
 /**
- * Página Blog
+ * Blog Page Component
  * 
- * Página de listagem de artigos e posts do blog.
- * Exibe grid responsivo de cards de posts com informações
- * como título, descrição, data, categoria e imagem de destaque.
+ * Página de listagem de artigos com filtros, ordenação e busca.
+ * Grid responsivo de posts com stats, categorias e destaques.
  * 
- * Layout:
- * - Header centralizado com título e descrição
- * - Grid 2 colunas em desktop, 1 coluna em mobile
- * - Efeitos visuais cyberpunk no dark mode
- * - Partículas animadas sutis no fundo (dark mode)
- * - Integração com blog store (localStorage)
- * - Animações de entrada staggered
+ * Características:
+ * - Cards de estatísticas do blog
+ * - Filtros por categoria
+ * - Ordenação (recentes, populares, trending)
+ * - Posts em destaque
+ * - Grid responsivo 2 colunas
+ * - Busca de artigos
+ * - Newsletter signup
+ * - Animações staggered
  * 
- * @fileoverview Página de blog com grid de posts e visual cyberpunk
+ * @fileoverview Página principal de listagem do blog
  * @author Rainer Teixeira
  * @version 2.0.0
- * @since 1.0.0
  */
 
 "use client"
 
+// ============================================================================
+// React & Hooks
+// ============================================================================
+
 import { useEffect, useState } from "react"
+
+// ============================================================================
+// Third-party Libraries
+// ============================================================================
+
 import { motion } from "framer-motion"
+import { TrendingUp, Clock, Eye, Heart, BookOpen, Filter, SortDesc, Star } from "lucide-react"
+
+// ============================================================================
+// Blog Components
+// ============================================================================
+
 import { PostCard } from "@/components/blog/post-card"
 import { SearchBar, NewsletterBox } from "@/components/blog"
+
+// ============================================================================
+// UI Components
+// ============================================================================
+
 import { ParticlesEffect, PageHeader, BackToTop } from "@/components/ui"
-import { blogStore, type BlogPost } from "@/lib/blog-store"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { TrendingUp, Clock, Eye, Heart, BookOpen, Filter, SortDesc, Star } from "lucide-react"
+
+// ============================================================================
+// Store & Types
+// ============================================================================
+
+import { blogStore, type BlogPost } from "@/lib/blog-store"
+
+// ============================================================================
+// Constants
+// ============================================================================
 
 /**
- * Componente BlogPage
+ * Tipos de ordenação disponíveis
+ */
+type SortOption = 'recent' | 'popular' | 'trending'
+
+/**
+ * Número de posts em destaque a exibir
+ */
+const MAX_FEATURED_POSTS = 3
+
+/**
+ * Número de skeleton loaders a exibir
+ */
+const SKELETON_COUNT = 4
+
+/**
+ * Delay entre animações de entrada de posts
+ */
+const STAGGER_DELAY_SECONDS = 0.1
+
+/**
+ * Delay inicial antes de animar posts
+ */
+const ANIMATION_INITIAL_DELAY = 0.2
+
+// ============================================================================
+// Animation Variants
+// ============================================================================
+
+/**
+ * Variantes de animação para container de posts
+ */
+const POSTS_CONTAINER_VARIANTS = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: STAGGER_DELAY_SECONDS,
+      delayChildren: ANIMATION_INITIAL_DELAY
+    }
+  }
+} as const
+
+// ============================================================================
+// Main Component
+// ============================================================================
+
+/**
+ * Componente principal da Blog Page
  * 
- * Renderiza página completa do blog com lista de posts.
- * Posts vêm do blogStore (localStorage) com suporte a SSR.
+ * Renderiza listagem completa de posts publicados com:
+ * - Stats cards do blog
+ * - Filtros de categoria
+ * - Ordenação múltipla
+ * - Busca de artigos
+ * - Grid responsivo
+ * - Newsletter signup
  * 
- * @returns {JSX.Element} Página de blog
- * 
- * @example
- * // Rota: /blog
- * // Renderizado automaticamente pelo Next.js App Router
+ * @returns Página de blog completa
  */
 export default function BlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  // ============================================================================
+  // State
+  // ============================================================================
+  
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([])
+  const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>([])
+  const [isLoadingPosts, setIsLoadingPosts] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'trending'>('recent')
+  const [currentSortOption, setCurrentSortOption] = useState<SortOption>('recent')
 
+  // ============================================================================
+  // Effects
+  // ============================================================================
+  
   /**
-   * Effect: Carregar posts do store ao montar
-   * Apenas posts publicados são exibidos
+   * Carrega posts publicados ao montar componente
    */
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoadingPosts(true)
     const publishedPosts = blogStore.getPublishedPosts()
-    setPosts(publishedPosts)
-    setFilteredPosts(publishedPosts)
-    setIsLoading(false)
+    setAllPosts(publishedPosts)
+    setDisplayedPosts(publishedPosts)
+    setIsLoadingPosts(false)
   }, [])
 
   /**
-   * Effect: Filtrar e ordenar posts
+   * Filtra e ordena posts quando filtros mudam
    */
   useEffect(() => {
-    let result = [...posts]
+    let processedPosts = [...allPosts]
 
-    // Filtrar por categoria
+    // Aplicar filtro de categoria
     if (selectedCategory) {
-      result = result.filter(p => p.category === selectedCategory)
+      processedPosts = processedPosts.filter(
+        post => post.category === selectedCategory
+      )
     }
 
-    // Ordenar
-    if (sortBy === 'popular') {
-      result.sort((a, b) => (b.views || 0) - (a.views || 0))
-    } else if (sortBy === 'trending') {
-      result.sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0))
-    } else {
-      // recent - já está ordenado
+    // Aplicar ordenação
+    switch (currentSortOption) {
+      case 'popular':
+        processedPosts.sort((a, b) => (b.views || 0) - (a.views || 0))
+        break
+      case 'trending':
+        processedPosts.sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0))
+        break
+      case 'recent':
+      default:
+        // Já ordenado por padrão
+        break
     }
 
-    setFilteredPosts(result)
-  }, [selectedCategory, sortBy, posts])
+    setDisplayedPosts(processedPosts)
+  }, [selectedCategory, currentSortOption, allPosts])
 
-  /**
-   * Variantes de animação para container de posts
-   * Stagger effect: cada filho aparece sequencialmente
-   */
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  }
+  // ============================================================================
+  // Computed Values
+  // ============================================================================
+  
+  const totalViews = allPosts.reduce((sum, post) => sum + (post.views || 0), 0)
+  const totalLikes = allPosts.reduce((sum, post) => sum + (post.likesCount || 0), 0)
+  const featuredPosts = allPosts.filter(post => post.featured)
+  const uniqueCategories = Array.from(
+    new Set(allPosts.map(post => post.category).filter(Boolean))
+  )
+
+  // ============================================================================
+  // Render
+  // ============================================================================
 
   return (
     <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black relative overflow-hidden">
@@ -117,46 +207,63 @@ export default function BlogPage() {
         description="Artigos técnicos sobre React, Next.js, TypeScript e desenvolvimento web moderno. Compartilho aprendizados práticos, tutoriais detalhados, soluções para problemas reais e insights sobre as tecnologias que uso nos meus projetos. Conteúdo direto ao ponto, sem enrolação."
       />
 
-      {/** Stats Cards */}
-      {!isLoading && posts.length > 0 && (
+      {/* Cards de estatísticas do blog */}
+      {!isLoadingPosts && allPosts.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-7xl mx-auto px-6 pb-8 relative z-10"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {/* Total de artigos */}
             <Card className="dark:bg-black/30 dark:border-cyan-400/20">
               <CardContent className="p-4 text-center">
-                <BookOpen className="h-6 w-6 mx-auto mb-2 text-cyan-400" />
-                <div className="text-2xl font-bold dark:text-gray-100">{posts.length}</div>
-                <div className="text-xs text-muted-foreground dark:text-gray-400">Artigos</div>
+                <BookOpen className="h-6 w-6 mx-auto mb-2 text-cyan-400" aria-hidden="true" />
+                <div className="text-2xl font-bold dark:text-gray-100">
+                  {allPosts.length}
+                </div>
+                <div className="text-xs text-muted-foreground dark:text-gray-400">
+                  Artigos
+                </div>
               </CardContent>
             </Card>
+            
+            {/* Total de visualizações */}
             <Card className="dark:bg-black/30 dark:border-purple-400/20">
               <CardContent className="p-4 text-center">
-                <Eye className="h-6 w-6 mx-auto mb-2 text-purple-400" />
+                <Eye className="h-6 w-6 mx-auto mb-2 text-purple-400" aria-hidden="true" />
                 <div className="text-2xl font-bold dark:text-gray-100">
-                  {posts.reduce((acc, p) => acc + (p.views || 0), 0).toLocaleString()}
+                  {totalViews.toLocaleString()}
                 </div>
-                <div className="text-xs text-muted-foreground dark:text-gray-400">Visualizações</div>
+                <div className="text-xs text-muted-foreground dark:text-gray-400">
+                  Visualizações
+                </div>
               </CardContent>
             </Card>
+            
+            {/* Total de curtidas */}
             <Card className="dark:bg-black/30 dark:border-pink-400/20">
               <CardContent className="p-4 text-center">
-                <Heart className="h-6 w-6 mx-auto mb-2 text-pink-400" />
+                <Heart className="h-6 w-6 mx-auto mb-2 text-pink-400" aria-hidden="true" />
                 <div className="text-2xl font-bold dark:text-gray-100">
-                  {posts.reduce((acc, p) => acc + (p.likesCount || 0), 0).toLocaleString()}
+                  {totalLikes.toLocaleString()}
                 </div>
-                <div className="text-xs text-muted-foreground dark:text-gray-400">Curtidas</div>
+                <div className="text-xs text-muted-foreground dark:text-gray-400">
+                  Curtidas
+                </div>
               </CardContent>
             </Card>
+            
+            {/* Posts em destaque */}
             <Card className="dark:bg-black/30 dark:border-orange-400/20">
               <CardContent className="p-4 text-center">
-                <TrendingUp className="h-6 w-6 mx-auto mb-2 text-orange-400" />
+                <TrendingUp className="h-6 w-6 mx-auto mb-2 text-orange-400" aria-hidden="true" />
                 <div className="text-2xl font-bold dark:text-gray-100">
-                  {posts.filter(p => p.featured).length}
+                  {featuredPosts.length}
                 </div>
-                <div className="text-xs text-muted-foreground dark:text-gray-400">Em Destaque</div>
+                <div className="text-xs text-muted-foreground dark:text-gray-400">
+                  Em Destaque
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -168,17 +275,17 @@ export default function BlogPage() {
         <SearchBar variant="default" placeholder="Buscar artigos..." />
       </div>
 
-      {/** Filtros e Ordenação */}
-      {!isLoading && posts.length > 0 && (
+      {/* Filtros e ordenação */}
+      {!isLoadingPosts && allPosts.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-7xl mx-auto px-6 pb-8 relative z-10"
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            {/* Filtros de Categoria */}
+            {/* Filtros de categoria */}
             <div className="flex items-center gap-2 flex-wrap">
-              <Filter className="h-4 w-4 text-muted-foreground" />
+              <Filter className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
               <span className="text-sm text-muted-foreground dark:text-gray-400">
                 Categoria:
               </span>
@@ -187,69 +294,72 @@ export default function BlogPage() {
                 className="cursor-pointer hover:bg-cyan-400/10"
                 onClick={() => setSelectedCategory(null)}
               >
-                Todos ({posts.length})
+                Todos ({allPosts.length})
               </Badge>
-              {Array.from(new Set(posts.map(p => p.category).filter(Boolean))).map(cat => (
+              {uniqueCategories.map(category => (
                 <Badge 
-                  key={cat} 
-                  variant={selectedCategory === cat ? "default" : "outline"}
+                  key={category} 
+                  variant={selectedCategory === category ? "default" : "outline"}
                   className="cursor-pointer hover:bg-cyan-400/10 dark:border-cyan-400/30"
-                  onClick={() => setSelectedCategory(cat as string)}
+                  onClick={() => setSelectedCategory(category as string)}
                 >
-                  {cat} ({posts.filter(p => p.category === cat).length})
+                  {category} ({allPosts.filter(p => p.category === category).length})
                 </Badge>
               ))}
             </div>
 
-            {/* Ordenação */}
+            {/* Controles de ordenação */}
             <div className="flex items-center gap-2">
-              <SortDesc className="h-4 w-4 text-muted-foreground" />
+              <SortDesc className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
               <span className="text-sm text-muted-foreground dark:text-gray-400">
                 Ordenar:
               </span>
               <div className="flex gap-1">
                 <Button
-                  variant={sortBy === 'recent' ? 'default' : 'outline'}
+                  variant={currentSortOption === 'recent' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setSortBy('recent')}
+                  onClick={() => setCurrentSortOption('recent')}
                   className="text-xs dark:border-cyan-400/30"
+                  aria-label="Ordenar por mais recentes"
                 >
-                  <Clock className="h-3 w-3 mr-1" />
+                  <Clock className="h-3 w-3 mr-1" aria-hidden="true" />
                   Recentes
                 </Button>
                 <Button
-                  variant={sortBy === 'popular' ? 'default' : 'outline'}
+                  variant={currentSortOption === 'popular' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setSortBy('popular')}
+                  onClick={() => setCurrentSortOption('popular')}
                   className="text-xs dark:border-cyan-400/30"
+                  aria-label="Ordenar por mais populares"
                 >
-                  <Eye className="h-3 w-3 mr-1" />
+                  <Eye className="h-3 w-3 mr-1" aria-hidden="true" />
                   Populares
                 </Button>
                 <Button
-                  variant={sortBy === 'trending' ? 'default' : 'outline'}
+                  variant={currentSortOption === 'trending' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setSortBy('trending')}
+                  onClick={() => setCurrentSortOption('trending')}
                   className="text-xs dark:border-cyan-400/30"
+                  aria-label="Ordenar por trending"
                 >
-                  <TrendingUp className="h-3 w-3 mr-1" />
+                  <TrendingUp className="h-3 w-3 mr-1" aria-hidden="true" />
                   Trending
                 </Button>
               </div>
             </div>
           </div>
 
-          {/* Posts em Destaque */}
-          {posts.filter(p => p.featured).length > 0 && !selectedCategory && (
+          {/* Seção de posts em destaque */}
+          {featuredPosts.length > 0 && !selectedCategory && (
             <div className="mt-6">
               <div className="flex items-center gap-2 mb-4">
-                <Star className="h-5 w-5 text-yellow-500" />
+                <Star className="h-5 w-5 text-yellow-500" aria-hidden="true" />
                 <h3 className="font-bold text-lg dark:text-yellow-200">
                   Posts em Destaque
                 </h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {posts.filter(p => p.featured).slice(0, 3).map((post) => (
+                {featuredPosts.slice(0, MAX_FEATURED_POSTS).map((post) => (
                   <PostCard
                     key={post.id}
                     title={post.title}
@@ -267,28 +377,28 @@ export default function BlogPage() {
         </motion.div>
       )}
 
-      {/** Conteúdo da página com grid de posts */}
+      {/* Grid de posts */}
       <div className="max-w-7xl mx-auto px-6 pb-16 relative z-10">
-        {/* Título da Seção */}
-        {!isLoading && filteredPosts.length > 0 && (
+        {/* Cabeçalho da seção */}
+        {!isLoadingPosts && displayedPosts.length > 0 && (
           <div className="mb-8">
             <h2 className="text-2xl font-bold dark:text-cyan-200 dark:font-mono mb-2">
               {selectedCategory ? `Categoria: ${selectedCategory}` : 'Todos os Artigos'}
             </h2>
             <p className="text-sm text-muted-foreground dark:text-gray-400">
-              {filteredPosts.length} {filteredPosts.length === 1 ? "artigo encontrado" : "artigos encontrados"}
-              {sortBy === 'popular' && ' • Ordenados por visualizações'}
-              {sortBy === 'trending' && ' • Ordenados por curtidas'}
-              {sortBy === 'recent' && ' • Mais recentes primeiro'}
+              {displayedPosts.length} {displayedPosts.length === 1 ? "artigo encontrado" : "artigos encontrados"}
+              {currentSortOption === 'popular' && ' • Ordenados por visualizações'}
+              {currentSortOption === 'trending' && ' • Ordenados por curtidas'}
+              {currentSortOption === 'recent' && ' • Mais recentes primeiro'}
             </p>
           </div>
         )}
 
-        {/* Loading skeleton */}
-        {isLoading ? (
+        {/* Estado de carregamento */}
+        {isLoadingPosts ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="space-y-4">
+            {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
+              <div key={index} className="space-y-4">
                 <Skeleton className="h-48 w-full rounded-lg" />
                 <Skeleton className="h-6 w-3/4" />
                 <Skeleton className="h-4 w-full" />
@@ -296,8 +406,8 @@ export default function BlogPage() {
               </div>
             ))}
           </div>
-        ) : filteredPosts.length === 0 ? (
-          /* Mensagem de lista vazia */
+        ) : displayedPosts.length === 0 ? (
+          /* Estado vazio - nenhum post encontrado */
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -337,12 +447,12 @@ export default function BlogPage() {
         ) : (
           /* Grid de posts com animação staggered */
           <motion.div
-            variants={containerVariants}
+            variants={POSTS_CONTAINER_VARIANTS}
             initial="hidden"
             animate="visible"
             className="grid grid-cols-1 md:grid-cols-2 gap-8"
           >
-            {filteredPosts.map((post) => (
+            {displayedPosts.map((post) => (
               <PostCard
                 key={post.id}
                 title={post.title}
@@ -357,8 +467,8 @@ export default function BlogPage() {
         )}
       </div>
 
-      {/** Newsletter Signup */}
-      {!isLoading && posts.length > 0 && (
+      {/* Newsletter signup */}
+      {!isLoadingPosts && allPosts.length > 0 && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

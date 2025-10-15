@@ -1,54 +1,103 @@
 /**
- * Página Contato
+ * Contact Page Component
  * 
- * Página de contato com formulário completo e informações
- * de contato (email, LinkedIn, GitHub, etc).
+ * Página de contato profissional com formulário e informações.
+ * Exibe formulário de contato e cards informativos sobre disponibilidade.
  * 
- * Layout:
- * - Header com ícone decorativo e chamada para ação
- * - Componente ContactForm (formulário + info cards)
+ * Características:
+ * - Header com ícone decorativo
+ * - Formulário de contato completo
+ * - Cards informativos (horário, localização, telefone, email)
  * - Efeitos visuais cyberpunk no dark mode
- * - Partículas animadas sutis no fundo
+ * - Partículas animadas decorativas
  * 
- * @fileoverview Página de contato
+ * @fileoverview Página de contato da aplicação
  * @author Rainer Teixeira
  * @version 1.0.0
- * @since 1.0.0
  */
 
-import { ContactForm } from "@/components/contato/contact-form"
+// ============================================================================
+// Next.js Imports
+// ============================================================================
+
 import Image from "next/image"
-import { ParticlesEffect, PageHeader, BackToTop } from "@/components/ui"
-import { Card, CardContent } from "@/components/ui/card"
+
+// ============================================================================
+// Icons
+// ============================================================================
+
 import { Clock, MapPin, Phone, Mail } from "lucide-react"
 
+// ============================================================================
+// Contact Components
+// ============================================================================
+
+import { ContactForm } from "@/components/contato/contact-form"
+
+// ============================================================================
+// UI Components
+// ============================================================================
+
+import { ParticlesEffect, PageHeader, BackToTop } from "@/components/ui"
+import { Card, CardContent } from "@/components/ui/card"
+
+// ============================================================================
+// Constants
+// ============================================================================
+
 /**
- * Componente ContatoPage
- * 
- * Renderiza página completa de contato.
- * Utiliza componente ContactForm para exibir formulário
- * e informações de contato em layout 2 colunas.
- * 
- * @returns {JSX.Element} Página de contato
- * 
- * @example
- * // Rota: /contato
- * // Renderizado automaticamente pelo Next.js App Router
+ * Informações de contato da empresa
  */
-export default function ContatoPage() {
+const CONTACT_INFO = {
+  workingHours: {
+    days: 'Seg - Sex',
+    hours: '9:00 - 18:00'
+  },
+  location: {
+    city: 'Volta Redonda, RJ',
+    country: 'Brasil'
+  },
+  phone: {
+    number: '+55 24 99913-7382',
+    whatsapp: true
+  },
+  email: {
+    address: 'suporte@rainersoft.com.br',
+    responseTime: 'Resposta em 24h'
+  }
+} as const
+
+// ============================================================================
+// Main Component
+// ============================================================================
+
+/**
+ * Componente principal da Contact Page
+ * 
+ * Renderiza página de contato com:
+ * - Header com ícone decorativo
+ * - Formulário de contato
+ * - Cards de informações adicionais
+ * 
+ * @returns Página de contato completa
+ */
+export default function ContactPage() {
   return (
     <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black">
-      {/** Efeito de partículas decorativas (dark mode) */}
+      {/* Efeito de partículas decorativas */}
       <ParticlesEffect variant="alt2" />
       
-      {/** Header da página com ícone */}
+      {/* Header da página */}
       <PageHeader
         title="Vamos Conversar Sobre Seu Projeto"
         description="Estou disponível para projetos freelancer, desenvolvimento de aplicações web, sistemas full-stack e oportunidades de colaboração. Se você precisa de um desenvolvedor comprometido com qualidade, código limpo e resultado que funciona, vamos conversar! Respondo todos os contatos em até 24 horas com atenção e interesse real em entender como posso ajudar a concretizar sua ideia."
       >
-        {/** Ícone de comunicação */}
+        {/* Ícone decorativo */}
         <div className="relative w-24 h-24 mx-auto mb-4">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 dark:from-cyan-400/20 dark:to-purple-400/20 rounded-full blur-xl opacity-0 dark:opacity-100"></div>
+          <div 
+            className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 dark:from-cyan-400/20 dark:to-purple-400/20 rounded-full blur-xl opacity-0 dark:opacity-100" 
+            aria-hidden="true"
+          />
           <Image
             src="/images/delivery.svg"
             alt="Ícone de comunicação"
@@ -59,26 +108,25 @@ export default function ContatoPage() {
         </div>
       </PageHeader>
 
-      {/** 
-       * Conteúdo da página
-       * Renderiza componente ContactForm que contém
-       * o formulário e cards de informações de contato
-       */}
+      {/* Formulário de contato */}
       <div className="max-w-7xl mx-auto px-6 pb-8 relative z-10">
         <ContactForm />
       </div>
 
-      {/** Informações Adicionais */}
+      {/* Cards de informações adicionais */}
       <div className="max-w-7xl mx-auto px-6 pb-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Horário */}
+          
+          {/* Horário de atendimento */}
           <Card className="dark:bg-black/30 dark:border-cyan-400/20">
             <CardContent className="p-6 text-center">
-              <Clock className="h-8 w-8 mx-auto mb-3 text-cyan-400" />
-              <h3 className="font-semibold mb-2 dark:text-cyan-200">Horário</h3>
+              <Clock className="h-8 w-8 mx-auto mb-3 text-cyan-400" aria-hidden="true" />
+              <h3 className="font-semibold mb-2 dark:text-cyan-200">
+                Horário
+              </h3>
               <p className="text-sm text-muted-foreground dark:text-gray-400">
-                Seg - Sex<br />
-                9:00 - 18:00
+                {CONTACT_INFO.workingHours.days}<br />
+                {CONTACT_INFO.workingHours.hours}
               </p>
             </CardContent>
           </Card>
@@ -86,11 +134,13 @@ export default function ContatoPage() {
           {/* Localização */}
           <Card className="dark:bg-black/30 dark:border-purple-400/20">
             <CardContent className="p-6 text-center">
-              <MapPin className="h-8 w-8 mx-auto mb-3 text-purple-400" />
-              <h3 className="font-semibold mb-2 dark:text-purple-200">Localização</h3>
+              <MapPin className="h-8 w-8 mx-auto mb-3 text-purple-400" aria-hidden="true" />
+              <h3 className="font-semibold mb-2 dark:text-purple-200">
+                Localização
+              </h3>
               <p className="text-sm text-muted-foreground dark:text-gray-400">
-                Volta Redonda, RJ<br />
-                Brasil
+                {CONTACT_INFO.location.city}<br />
+                {CONTACT_INFO.location.country}
               </p>
             </CardContent>
           </Card>
@@ -98,11 +148,13 @@ export default function ContatoPage() {
           {/* Telefone */}
           <Card className="dark:bg-black/30 dark:border-pink-400/20">
             <CardContent className="p-6 text-center">
-              <Phone className="h-8 w-8 mx-auto mb-3 text-pink-400" />
-              <h3 className="font-semibold mb-2 dark:text-pink-200">Telefone</h3>
+              <Phone className="h-8 w-8 mx-auto mb-3 text-pink-400" aria-hidden="true" />
+              <h3 className="font-semibold mb-2 dark:text-pink-200">
+                Telefone
+              </h3>
               <p className="text-sm text-muted-foreground dark:text-gray-400">
-                +55 24 99913-7382<br />
-                WhatsApp disponível
+                {CONTACT_INFO.phone.number}<br />
+                {CONTACT_INFO.phone.whatsapp && 'WhatsApp disponível'}
               </p>
             </CardContent>
           </Card>
@@ -110,18 +162,20 @@ export default function ContatoPage() {
           {/* Email */}
           <Card className="dark:bg-black/30 dark:border-orange-400/20">
             <CardContent className="p-6 text-center">
-              <Mail className="h-8 w-8 mx-auto mb-3 text-orange-400" />
-              <h3 className="font-semibold mb-2 dark:text-orange-200">Email</h3>
+              <Mail className="h-8 w-8 mx-auto mb-3 text-orange-400" aria-hidden="true" />
+              <h3 className="font-semibold mb-2 dark:text-orange-200">
+                Email
+              </h3>
               <p className="text-sm text-muted-foreground dark:text-gray-400">
-                suporte@rainersoft.com.br<br />
-                Resposta em 24h
+                {CONTACT_INFO.email.address}<br />
+                {CONTACT_INFO.email.responseTime}
               </p>
             </CardContent>
           </Card>
         </div>
       </div>
 
-      {/* Back to Top */}
+      {/* Botão Back to Top */}
       <BackToTop />
     </div>
   )

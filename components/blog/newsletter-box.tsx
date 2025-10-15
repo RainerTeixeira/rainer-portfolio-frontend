@@ -9,13 +9,12 @@
 
 "use client"
 
-import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Mail, Send, Check } from "lucide-react"
-import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import { useNewsletter } from "./hooks"
 
 interface NewsletterBoxProps {
   title?: string
@@ -28,33 +27,7 @@ export function NewsletterBox({
   description = "Cadastre-se para receber novos artigos, tutoriais e dicas de desenvolvimento. 100% conteúdo de qualidade, zero spam!",
   className
 }: NewsletterBoxProps) {
-  const [email, setEmail] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [isSubscribed, setIsSubscribed] = useState(false)
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    
-    if (!email || !email.includes("@")) {
-      toast.error("Por favor, insira um email válido")
-      return
-    }
-
-    setIsLoading(true)
-
-    try {
-      // TODO: Implementar API de newsletter
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Simular API
-
-      toast.success("Inscrição realizada com sucesso!")
-      setIsSubscribed(true)
-      setEmail("")
-    } catch {
-      toast.error("Erro ao se inscrever. Tente novamente.")
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const { email, setEmail, isLoading, isSubscribed, handleSubmit } = useNewsletter()
 
   if (isSubscribed) {
     return (

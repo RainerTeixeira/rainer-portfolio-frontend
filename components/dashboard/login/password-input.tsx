@@ -16,7 +16,7 @@
 import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { usePasswordStrength } from "@/hooks/use-password-strength"
+import { usePasswordStrength } from "@/components/dashboard/hooks"
 
 export interface PasswordInputProps {
   value: string

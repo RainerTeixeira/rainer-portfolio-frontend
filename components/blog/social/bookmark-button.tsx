@@ -9,12 +9,11 @@
 
 "use client"
 
-import { useState } from "react"
 import { Bookmark } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
-import { toast } from "sonner"
+import { useBookmark } from "../hooks"
 
 interface BookmarkButtonProps {
   postId: string
@@ -35,46 +34,12 @@ export function BookmarkButton({
   onBookmark,
   onUnbookmark,
 }: BookmarkButtonProps) {
-  const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked)
-  const [isAnimating, setIsAnimating] = useState(false)
-
-  async function handleBookmark() {
-    const wasBookmarked = isBookmarked
-    
-    // Optimistic update
-    setIsBookmarked(!wasBookmarked)
-    setIsAnimating(!wasBookmarked)
-
-    try {
-      const endpoint = wasBookmarked 
-        ? `/api/posts/${postId}/bookmark`
-        : `/api/posts/${postId}/bookmark`
-
-      const response = await fetch(endpoint, {
-        method: wasBookmarked ? "DELETE" : "POST",
-      })
-
-      if (!response.ok) {
-        throw new Error("Erro ao atualizar bookmark")
-      }
-
-      // Feedback
-      if (!wasBookmarked) {
-        toast.success("Post salvo com sucesso!")
-        if (onBookmark) onBookmark()
-      } else {
-        toast.success("Post removido dos salvos")
-        if (onUnbookmark) onUnbookmark()
-      }
-    } catch (error) {
-      // Reverter em caso de erro
-      setIsBookmarked(wasBookmarked)
-      toast.error("Erro ao salvar post")
-      console.error("Erro ao bookmark:", error)
-    } finally {
-      setTimeout(() => setIsAnimating(false), 600)
-    }
-  }
+  const { isBookmarked, isAnimating, handleBookmark } = useBookmark(
+    postId,
+    initialIsBookmarked,
+    onBookmark,
+    onUnbookmark
+  )
 
   return (
     <Button

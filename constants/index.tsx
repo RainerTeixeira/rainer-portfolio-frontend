@@ -27,15 +27,15 @@ import React from "react"
  */
 export const SITE_CONFIG = {
   // Informações básicas
-  name: "Rainer Soft",
-  title: "Desenvolvedor Full-Stack | Especialista em React, Next.js & Node.js", 
+  name: "RainerSoft",
+  title: "Empresa de Desenvolvimento Full-Stack | Especialista em React, Next.js & Node.js", 
   description: 
-    "Desenvolvedor Full-Stack com domínio técnico avançado em React 19, Next.js 15, TypeScript, " +
-    "Node.js e bancos de dados. Construo aplicações web completas e profissionais: dashboards " +
-    "interativos, sistemas de autenticação, PWAs, integrações com APIs e arquiteturas escaláveis. " +
-    "Portfolio comprovado com projetos reais de alta complexidade. Código limpo, documentação " +
-    "completa e resultado que impressiona. Transformo ideias em software funcional que resolve " +
-    "problemas reais.",
+    "RainerSoft é uma empresa especializada em desenvolvimento Full-Stack com domínio técnico avançado " +
+    "em React 19, Next.js 15, TypeScript, Node.js e bancos de dados. Desenvolvemos aplicações web " +
+    "completas e profissionais: dashboards interativos, sistemas de autenticação, PWAs, integrações " +
+    "com APIs e arquiteturas escaláveis. Portfólio comprovado com projetos reais de alta complexidade. " +
+    "Código limpo, documentação completa e resultados que impressionam. Transformamos ideias em " +
+    "software funcional que resolve problemas reais.",
   url: "https://rainersoft.com.br",
   experience: "5+",
   projects: "10+",
@@ -48,6 +48,7 @@ export const SITE_CONFIG = {
   // Redes sociais
   github: "https://github.com/rainerteixeira",
   linkedin: "https://linkedin.com/in/rainerteixeira",
+  instagram: "https://instagram.com/rainerteixeira",
   
   // Stack principal
   technologies: [

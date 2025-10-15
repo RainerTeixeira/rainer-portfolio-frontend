@@ -9,16 +9,10 @@
 
 "use client"
 
-import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { ChevronRight } from "lucide-react"
-
-interface Heading {
-  id: string
-  text: string
-  level: number
-}
+import { useTableOfContents } from "./hooks"
 
 interface TableOfContentsProps {
   containerRef?: React.RefObject<HTMLElement>
@@ -29,68 +23,7 @@ export function TableOfContents({
   containerRef,
   className 
 }: TableOfContentsProps) {
-  const [headings, setHeadings] = useState<Heading[]>([])
-  const [activeId, setActiveId] = useState<string>("")
-
-  useEffect(() => {
-    const container = containerRef?.current || document
-
-    // Extrair headings (h2, h3)
-    const elements = container.querySelectorAll("h2, h3")
-    const headingList: Heading[] = []
-
-    elements.forEach((element, index) => {
-      let id = element.id
-      
-      // Criar ID se não existir
-      if (!id) {
-        id = `heading-${index}`
-        element.id = id
-      }
-
-      headingList.push({
-        id,
-        text: element.textContent || "",
-        level: parseInt(element.tagName[1] || "2"),
-      })
-    })
-
-    setHeadings(headingList)
-  }, [containerRef])
-
-  useEffect(() => {
-    // Intersection Observer para detectar seção ativa
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id)
-          }
-        })
-      },
-      {
-        rootMargin: "-20% 0px -35% 0px",
-        threshold: 0,
-      }
-    )
-
-    headings.forEach(({ id }) => {
-      const element = document.getElementById(id)
-      if (element) {
-        observer.observe(element)
-      }
-    })
-
-    return () => observer.disconnect()
-  }, [headings])
-
-  function scrollToHeading(id: string) {
-    const element = document.getElementById(id)
-    if (element) {
-      const top = element.offsetTop - 100
-      window.scrollTo({ top, behavior: "smooth" })
-    }
-  }
+  const { headings, activeId, scrollToHeading } = useTableOfContents(containerRef)
 
   if (headings.length === 0) {
     return null

@@ -1,65 +1,118 @@
 /**
- * Layout Raiz da Aplicação
+ * Root Layout Component
  * 
- * Este é o layout principal que envolve todas as páginas da aplicação.
- * Define a estrutura HTML base, metadados, providers globais e componentes
- * compartilhados como Navbar e Footer.
+ * Layout raiz que envolve todas as páginas da aplicação Next.js.
+ * Define estrutura HTML base, metadados, providers globais e layout fixo.
  * 
- * No Next.js 13+ App Router, este arquivo é obrigatório e serve como
- * o wrapper mais externo de toda a aplicação.
+ * Características:
+ * - Metadados completos para SEO e redes sociais
+ * - Providers de tema e autenticação
+ * - Navbar sticky e Footer fixo
+ * - Fontes otimizadas com next/font
+ * - PWA completo com manifesto
+ * - Analytics e Speed Insights da Vercel
  * 
- * @fileoverview Root Layout component - Estrutura base da aplicação
+ * @fileoverview Root layout component - Base estrutural da aplicação
  * @author Rainer Teixeira
  * @version 1.0.0
- * @since 1.0.0
  */
 
+// ============================================================================
+// Styles
+// ============================================================================
+
 import "./globals.css"
+
+// ============================================================================
+// Next.js Fonts
+// ============================================================================
+
 import { Inter, Orbitron, Rajdhani } from "next/font/google"
+
+// ============================================================================
+// Providers
+// ============================================================================
+
 import { ThemeProvider } from "@/components/providers/theme-provider"
 import { AuthProvider } from "@/components/providers/auth-provider"
+
+// ============================================================================
+// Layout Components
+// ============================================================================
+
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
+
+// ============================================================================
+// UI Components
+// ============================================================================
+
 import { InstallPrompt, UpdateNotification } from "@/components/ui"
+
+// ============================================================================
+// Constants & Config
+// ============================================================================
+
 import { SITE_CONFIG } from "@/constants"
+
+// ============================================================================
+// Analytics
+// ============================================================================
+
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
+// ============================================================================
+// Font Configuration
+// ============================================================================
+
 /**
- * Configuração de fontes otimizadas
+ * Configuração de fontes otimizadas com next/font
  * 
- * Usa next/font/google para otimização automática:
- * - Self-hosting das fontes (sem request externo)
- * - Subset latino para reduzir tamanho
- * - Display swap para evitar FOIT (Flash of Invisible Text)
+ * Fontes auto-hospedadas para performance máxima:
+ * - Zero requisições externas
+ * - Subset latino reduzido
+ * - Display swap (evita FOIT)
  * - Preload automático
- * 
- * Benefícios:
  * - Zero layout shift
- * - Melhor Core Web Vitals
- * - Performance otimizada
+ * - Core Web Vitals otimizados
  */
-const inter = Inter({
+
+/**
+ * Inter - Fonte principal (corpo de texto)
+ * Sans-serif moderna e altamente legível
+ */
+const fontInter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
 })
 
-// Fonte futurista para títulos holográficos
-const orbitron = Orbitron({
+/**
+ * Orbitron - Fonte futurista (títulos holográficos)
+ * Design cyberpunk e sci-fi
+ */
+const fontOrbitron = Orbitron({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-orbitron',
   weight: ['400', '500', '600', '700', '800', '900'],
 })
 
-// Fonte complementar para subtítulos
-const rajdhani = Rajdhani({
+/**
+ * Rajdhani - Fonte complementar (subtítulos)
+ * Estilo tech com boa legibilidade
+ */
+const fontRajdhani = Rajdhani({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-rajdhani',
   weight: ['300', '400', '500', '600', '700'],
 })
+
+// ============================================================================
+// Metadata Configuration
+// ============================================================================
 
 /**
  * Metadados da aplicação
@@ -78,7 +131,7 @@ const rajdhani = Rajdhani({
  */
 export const metadata = {
   title: {
-    default: `${SITE_CONFIG.name} - ${SITE_CONFIG.title} | Portfólio Profissional`,
+    default: `${SITE_CONFIG.name} - ${SITE_CONFIG.title} | Empresa de Desenvolvimento`,
     template: `%s | ${SITE_CONFIG.name}`
   },
   description: SITE_CONFIG.description,
@@ -88,7 +141,7 @@ export const metadata = {
   publisher: SITE_CONFIG.name,
   applicationName: SITE_CONFIG.name,
   category: 'technology',
-  classification: 'Portfolio, Software Development, Web Development',
+  classification: 'Software Development Company, Web Development, Enterprise Solutions',
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
@@ -102,17 +155,14 @@ export const metadata = {
         url: `${SITE_CONFIG.url}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: `${SITE_CONFIG.name} - Portfolio Profissional`,
+        alt: `${SITE_CONFIG.name} - Empresa de Desenvolvimento Full-Stack`,
       }
     ],
   },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@rainerteixeira',
-    creator: '@rainerteixeira',
+  instagram: {
+    url: SITE_CONFIG.instagram,
     title: `${SITE_CONFIG.name} - ${SITE_CONFIG.title}`,
     description: SITE_CONFIG.description,
-    images: [`${SITE_CONFIG.url}/twitter-image.png`],
   },
   robots: {
     index: true,
@@ -143,7 +193,7 @@ export const metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Rainer Soft - Desenvolvedor Full-Stack',
+    title: `${SITE_CONFIG.name} - Empresa de Desenvolvimento`,
     startupImage: [
       {
         url: '/splash-screen-640x1136.png',
@@ -195,58 +245,47 @@ export const viewport = {
   viewportFit: 'cover',
 }
 
-/**
- * Props do componente RootLayout
- * 
- * @typedef {Object} RootLayoutProps
- * @property {React.ReactNode} children - Conteúdo filho que será renderizado dentro do layout
- */
+// ============================================================================
+// Types
+// ============================================================================
 
 /**
- * Componente RootLayout
- * 
- * Define a estrutura HTML base de todas as páginas da aplicação.
- * Inclui configurações de tema, providers globais e layout fixo com
- * header sticky e footer.
- * 
- * Características:
- * - HTML com lang="pt-BR" para acessibilidade e SEO
- * - suppressHydrationWarning para evitar avisos de hidratação do tema
- * - ThemeProvider para gerenciamento de tema claro/escuro
- * - Navbar sticky no topo (z-50)
- * - Footer fixo na parte inferior
- * - Layout flexbox para garantir footer sempre no final
- * 
- * @param {RootLayoutProps} props - Propriedades do componente
- * @param {React.ReactNode} props.children - Páginas e conteúdo a serem renderizados
- * @returns {JSX.Element} Estrutura HTML completa da aplicação
- * 
- * @example
- * // Este componente é utilizado automaticamente pelo Next.js
- * // Todas as páginas serão automaticamente envolvidas por este layout
+ * Props do Root Layout
  */
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+interface RootLayoutProps {
+  readonly children: React.ReactNode
+}
+
+// ============================================================================
+// Main Component
+// ============================================================================
+
+/**
+ * Root Layout Component
+ * 
+ * Define estrutura HTML base de todas as páginas.
+ * 
+ * Estrutura:
+ * - HTML com lang="pt-BR"
+ * - ThemeProvider para tema claro/escuro
+ * - AuthProvider para autenticação
+ * - Navbar sticky (z-50)
+ * - Main content area (flex-1)
+ * - Footer fixo no fim
+ * - PWA prompts e notificações
+ * - Analytics da Vercel
+ * 
+ * @param children - Conteúdo das páginas filhas
+ * @returns Estrutura HTML completa da aplicação
+ */
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    /**
-     * Elemento HTML raiz
-     * - lang="pt-BR": Define idioma como português brasileiro
-     * - suppressHydrationWarning: Suprime avisos de hidratação causados por
-     *   alterações de classe (theme) entre servidor e cliente
-     */
     <html 
       lang="pt-BR" 
       suppressHydrationWarning 
-      className={`${inter.variable} ${orbitron.variable} ${rajdhani.variable}`}
+      className={`${fontInter.variable} ${fontOrbitron.variable} ${fontRajdhani.variable}`}
     >
-      {/**
-       * Body da aplicação
-       * - bg-background: Cor de fundo dinâmica baseada no tema
-       * - text-foreground: Cor de texto dinâmica baseada no tema
-       * - antialiased: Suavização de fonte para melhor legibilidade
-       * - min-h-screen: Altura mínima de 100vh
-       * - smooth-scroll: Rolagem suave entre seções
-       */}
-      <body className={`${inter.variable} bg-background text-foreground antialiased min-h-screen smooth-scroll font-sans`}>
+      <body className={`${fontInter.variable} bg-background text-foreground antialiased min-h-screen smooth-scroll font-sans`}>
         {/**
          * ThemeProvider
          * Contexto para gerenciamento de tema (claro/escuro/sistema)

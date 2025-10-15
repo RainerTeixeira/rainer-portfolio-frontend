@@ -9,11 +9,11 @@
 
 "use client"
 
-import { useState } from "react"
 import { Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
+import { useLike } from "../hooks"
 
 interface LikeButtonProps {
   postId: string
@@ -32,46 +32,13 @@ export function LikeButton({
   onLike,
   onUnlike,
 }: LikeButtonProps) {
-  const [isLiked, setIsLiked] = useState(initialIsLiked)
-  const [likes, setLikes] = useState(initialLikes)
-  const [isAnimating, setIsAnimating] = useState(false)
-
-  async function handleLike() {
-    const wasLiked = isLiked
-    
-    // Optimistic update
-    setIsLiked(!wasLiked)
-    setLikes(prev => wasLiked ? prev - 1 : prev + 1)
-    setIsAnimating(!wasLiked)
-
-    try {
-      const endpoint = wasLiked 
-        ? `/api/posts/${postId}/unlike`
-        : `/api/posts/${postId}/like`
-
-      const response = await fetch(endpoint, {
-        method: wasLiked ? "DELETE" : "POST",
-      })
-
-      if (!response.ok) {
-        throw new Error("Erro ao atualizar curtida")
-      }
-
-      // Chamar callbacks
-      if (wasLiked && onUnlike) {
-        onUnlike()
-      } else if (!wasLiked && onLike) {
-        onLike()
-      }
-    } catch (error) {
-      // Reverter em caso de erro
-      setIsLiked(wasLiked)
-      setLikes(prev => wasLiked ? prev + 1 : prev - 1)
-      console.error("Erro ao curtir:", error)
-    } finally {
-      setTimeout(() => setIsAnimating(false), 600)
-    }
-  }
+  const { isLiked, likes, isAnimating, handleLike } = useLike(
+    postId,
+    initialLikes,
+    initialIsLiked,
+    onLike,
+    onUnlike
+  )
 
   if (variant === "compact") {
     return (

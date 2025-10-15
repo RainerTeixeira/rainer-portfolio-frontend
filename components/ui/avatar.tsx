@@ -46,7 +46,7 @@ import { cn } from "../../lib/utils"
  * </Avatar>
  */
 const Avatar = React.forwardRef<
-    React.ElementRef<typeof AvatarPrimitive.Root>,
+    React.ComponentRef<typeof AvatarPrimitive.Root>,
     React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
 >(({ className, ...props }, ref) => (
     <AvatarPrimitive.Root
@@ -80,7 +80,7 @@ Avatar.displayName = AvatarPrimitive.Root.displayName
  * />
  */
 const AvatarImage = React.forwardRef<
-    React.ElementRef<typeof AvatarPrimitive.Image>,
+    React.ComponentRef<typeof AvatarPrimitive.Image>,
     React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
 >(({ className, ...props }, ref) => (
     <AvatarPrimitive.Image
@@ -114,7 +114,7 @@ AvatarImage.displayName = AvatarPrimitive.Image.displayName
  * </AvatarFallback>
  */
 const AvatarFallback = React.forwardRef<
-    React.ElementRef<typeof AvatarPrimitive.Fallback>,
+    React.ComponentRef<typeof AvatarPrimitive.Fallback>,
     React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
 >(({ className, ...props }, ref) => (
     <AvatarPrimitive.Fallback

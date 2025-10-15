@@ -1,20 +1,39 @@
 /**
- * Página Dashboard - Home e Editor
+ * Dashboard Page Component
  * 
- * Página principal do dashboard que mostra:
- * - Home (perfil, estatísticas, posts) por padrão
- * - Editor quando mode=new ou edit=[id]
- * - Lista completa quando view=all
+ * Página principal do dashboard administrativo.
+ * Interface completa para gerenciar posts do blog.
  * 
- * @fileoverview Dashboard Main Page
+ * Modos de exibição:
+ * - **Home**: Perfil, stats, analytics, actions, posts recentes (padrão)
+ * - **Editor**: Criar/editar posts com preview (mode=new ou edit=id)
+ * - **Lista**: Todos os posts com ações (view=all)
+ * 
+ * Características:
+ * - Proteção por autenticação
+ * - Editor rico Tiptap com preview em tempo real
+ * - Gerenciamento completo de posts (CRUD)
+ * - Analytics e métricas
+ * - Interface profissional com animações
+ * 
+ * @fileoverview Dashboard administrativo do blog
  * @author Rainer Teixeira
  * @version 3.0.0
  */
 
 "use client"
 
+// ============================================================================
+// React & Next.js
+// ============================================================================
+
 import { useEffect, useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+
+// ============================================================================
+// Third-party Libraries
+// ============================================================================
+
 import { motion, AnimatePresence } from "framer-motion"
 import { 
   Plus, 
@@ -27,9 +46,25 @@ import {
   CheckCircle2,
   Loader2
 } from "lucide-react"
+import { toast } from "sonner"
+
+// ============================================================================
+// Providers & Auth
+// ============================================================================
+
 import { useAuth } from "@/components/providers/auth-provider"
+
+// ============================================================================
+// Store & Types
+// ============================================================================
+
 import { blogStore, type BlogPost } from "@/lib/blog-store"
 import type { TiptapJSON } from "@/types/database"
+
+// ============================================================================
+// UI Components
+// ============================================================================
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -37,8 +72,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BackToTop } from "@/components/ui"
-import { PostCard } from "@/components/blog/post-card"
-import { Editor } from "@/components/dashboard/Editor"
+
+// ============================================================================
+// Dashboard Components
+// ============================================================================
+
 import { 
   ProfileHeader,
   QuickStats,
@@ -47,99 +85,150 @@ import {
   AnalyticsOverview,
   HelpCenter
 } from "@/components/dashboard"
+
+// ============================================================================
+// Blog Components
+// ============================================================================
+
+import { PostCard } from "@/components/blog/post-card"
+import { Editor } from "@/components/dashboard/Editor"
+
+// ============================================================================
+// Utils
+// ============================================================================
+
 import { tiptapJSONtoHTML } from "@/lib/tiptap-utils"
 import { textToSlug } from "@/lib/api-helpers"
 import { cn } from "@/lib/utils"
-import { toast } from "sonner"
+
+// ============================================================================
+// Constants
+// ============================================================================
 
 /**
- * Componente DashboardPage
+ * Delay de simulação de salvamento em ms
+ */
+const SAVE_DELAY_MS = 500
+
+/**
+ * Duração de exibição do sucesso de salvamento em ms
+ */
+const SAVE_SUCCESS_DISPLAY_MS = 2000
+
+/**
+ * Máximo de posts recentes a exibir na home
+ */
+const MAX_RECENT_POSTS = 5
+
+/**
+ * Post padrão vazio para novo post
+ */
+const EMPTY_POST_TEMPLATE: Partial<BlogPost> = {
+  title: "",
+  description: "",
+  content: { type: "doc", content: [] },
+  category: "",
+  image: "/images/b1.png",
+  author: "Rainer Teixeira",
+  published: false,
+  date: new Date().toLocaleDateString("pt-BR", { 
+    day: "numeric", 
+    month: "long", 
+    year: "numeric" 
+  })
+} as const
+
+// ============================================================================
+// Sub-component (Dashboard Content)
+// ============================================================================
+
+/**
+ * Conteúdo interno do Dashboard
  * 
- * Página principal do dashboard:
- * - Mostra home por padrão (perfil, stats, posts)
- * - Mostra editor quando necessário
- * 
- * @returns {JSX.Element} Página de dashboard
+ * Gerencia estado e lógica do dashboard.
+ * Separado para uso com Suspense.
  */
 function DashboardPageContent() {
+  // ============================================================================
+  // Hooks
+  // ============================================================================
+  
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { isAuthenticated, isLoading: authLoading } = useAuth()
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth()
   
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [isEditing, setIsEditing] = useState(false)
-  const [showPreview, setShowPreview] = useState(true)
-  const [isSaving, setIsSaving] = useState(false)
-  const [saveSuccess, setSaveSuccess] = useState(false)
+  // ============================================================================
+  // State
+  // ============================================================================
   
-  // Verifica modo de exibição
-  const mode = searchParams.get('mode')
-  const editId = searchParams.get('edit')
-  const viewAll = searchParams.get('view')
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([])
+  const [isEditMode, setIsEditMode] = useState(false)
+  const [isPreviewVisible, setIsPreviewVisible] = useState(true)
+  const [isSavingPost, setIsSavingPost] = useState(false)
+  const [hasSaveSucceeded, setHasSaveSucceeded] = useState(false)
+  const [currentEditingPost, setCurrentEditingPost] = useState<Partial<BlogPost>>(EMPTY_POST_TEMPLATE)
   
-  // Determina se mostra home ou editor
-  const showHome = !mode && !editId && !viewAll
+  // ============================================================================
+  // URL Parameters
+  // ============================================================================
+  
+  const urlMode = searchParams.get('mode')
+  const urlEditId = searchParams.get('edit')
+  const urlViewAll = searchParams.get('view')
+  
+  const shouldShowHome = !urlMode && !urlEditId && !urlViewAll
 
-  // Estado do formulário de edição
-  const [currentPost, setCurrentPost] = useState<Partial<BlogPost>>({
-    title: "",
-    description: "",
-    content: { type: "doc", content: [] }, // JSON vazio do Tiptap
-    category: "",
-    image: "/images/b1.png",
-    author: "Rainer Teixeira",
-    published: false,
-    date: new Date().toLocaleDateString("pt-BR", { 
-      day: "numeric", 
-      month: "long", 
-      year: "numeric" 
-    })
-  })
-
+  // ============================================================================
+  // Effects
+  // ============================================================================
+  
   /**
-   * Effect: Redirecionar se não autenticado
+   * Redireciona para login se não autenticado
    */
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
+    if (!isAuthLoading && !isAuthenticated) {
       router.push("/dashboard/login")
     }
-  }, [isAuthenticated, authLoading, router])
+  }, [isAuthenticated, isAuthLoading, router])
 
   /**
-   * Effect: Carregar posts ao montar
+   * Carrega posts e verifica parâmetros de URL
    */
   useEffect(() => {
     if (isAuthenticated) {
-      loadPosts()
+      loadAllPosts()
       
-      // Se tem parâmetro de edição, abre o post
-      if (editId) {
-        const post = blogStore.getPosts().find(p => p.id === editId)
-        if (post) {
-          handleEditPost(post)
+      if (urlEditId) {
+        const postToEdit = blogStore.getPosts().find(p => p.id === urlEditId)
+        if (postToEdit) {
+          startEditingPost(postToEdit)
         }
-      } else if (mode === 'new') {
-        handleNewPost()
+      } else if (urlMode === 'new') {
+        startCreatingNewPost()
       }
     }
-  }, [isAuthenticated, editId, mode])
+  }, [isAuthenticated, urlEditId, urlMode])
 
+  // ============================================================================
+  // Handler Functions
+  // ============================================================================
+  
   /**
-   * Carrega posts do store
+   * Carrega todos os posts do store
    */
-  const loadPosts = () => {
-    const allPosts = blogStore.getPosts()
-    setPosts(allPosts)
+  const loadAllPosts = () => {
+    const posts = blogStore.getPosts()
+    setAllPosts(posts)
   }
 
   /**
-   * Reseta dados para posts iniciais
+   * Reseta dados para posts iniciais mock
    */
-  const handleResetData = () => {
+  const handleDataReset = () => {
     if (confirm("Isso irá resetar todos os posts para os dados iniciais. Deseja continuar?")) {
       blogStore.reset()
-      loadPosts()
-      setIsEditing(false)
+      loadAllPosts()
+      setIsEditMode(false)
       toast.success("Dados resetados com sucesso! Agora você pode criar novos posts.")
     }
   }
@@ -147,104 +236,92 @@ function DashboardPageContent() {
   /**
    * Inicia criação de novo post
    */
-  const handleNewPost = () => {
-    setCurrentPost({
-      title: "",
-      description: "",
-      content: { type: "doc", content: [] }, // JSON vazio do Tiptap
-      category: "",
-      image: "/images/b1.png",
-      author: "Rainer Teixeira",
-      published: false,
-      date: new Date().toLocaleDateString("pt-BR", { 
-        day: "numeric", 
-        month: "long", 
-        year: "numeric" 
-      })
-    })
-    setIsEditing(true)
+  const startCreatingNewPost = () => {
+    setCurrentEditingPost(EMPTY_POST_TEMPLATE)
+    setIsEditMode(true)
   }
 
   /**
-   * Edita post existente
+   * Inicia edição de post existente
    */
-  const handleEditPost = (post: BlogPost) => {
-    setCurrentPost(post)
-    setIsEditing(true)
+  const startEditingPost = (post: BlogPost) => {
+    setCurrentEditingPost(post)
+    setIsEditMode(true)
   }
 
   /**
    * Salva post (criar ou atualizar)
    */
-  const handleSavePost = async () => {
-    if (!currentPost.title || !currentPost.description || !currentPost.content) {
+  const saveCurrentPost = async () => {
+    if (!currentEditingPost.title || !currentEditingPost.description || !currentEditingPost.content) {
       toast.error("Preencha todos os campos obrigatórios")
       return
     }
 
-    setIsSaving(true)
+    setIsSavingPost(true)
     
     // Simula delay de salvamento
-    await new Promise(resolve => setTimeout(resolve, 500))
+    await new Promise(resolve => setTimeout(resolve, SAVE_DELAY_MS))
 
     try {
-      // Gera slug automaticamente do título se não existir
-      const postToSave = {
-        ...currentPost,
-        slug: currentPost.slug || textToSlug(currentPost.title)
+      const postData = {
+        ...currentEditingPost,
+        slug: currentEditingPost.slug || textToSlug(currentEditingPost.title)
       }
 
-      if (currentPost.id) {
-        // Atualizar post existente
-        blogStore.updatePost(currentPost.id, postToSave as BlogPost)
+      if (currentEditingPost.id) {
+        blogStore.updatePost(currentEditingPost.id, postData as BlogPost)
         toast.success("Post atualizado com sucesso!")
       } else {
-        // Criar novo post
-        blogStore.createPost(postToSave as Omit<BlogPost, "id" | "createdAt" | "updatedAt">)
+        blogStore.createPost(postData as Omit<BlogPost, "id" | "createdAt" | "updatedAt">)
         toast.success("Post criado com sucesso!")
       }
 
-      setSaveSuccess(true)
-      setTimeout(() => setSaveSuccess(false), 2000)
+      setHasSaveSucceeded(true)
+      setTimeout(() => setHasSaveSucceeded(false), SAVE_SUCCESS_DISPLAY_MS)
       
-      loadPosts()
-      setIsEditing(false)
+      loadAllPosts()
+      setIsEditMode(false)
     } catch (error) {
       console.error("Erro ao salvar post:", error)
       toast.error("Erro ao salvar post. Tente novamente.")
     } finally {
-      setIsSaving(false)
+      setIsSavingPost(false)
     }
   }
 
   /**
-   * Deleta post
+   * Deleta post específico
    */
-  const handleDeletePost = (postId: string) => {
+  const deletePost = (postId: string) => {
     if (confirm("Tem certeza que deseja deletar este post?")) {
       blogStore.deletePost(postId)
       toast.success("Post deletado com sucesso!")
-      loadPosts()
-      if (currentPost.id === postId) {
-        setIsEditing(false)
+      loadAllPosts()
+      if (currentEditingPost.id === postId) {
+        setIsEditMode(false)
       }
     }
   }
 
   /**
-   * Cancela edição
+   * Cancela edição atual
    */
-  const handleCancelEdit = () => {
+  const cancelEditing = () => {
     if (confirm("Descartar alterações?")) {
-      setIsEditing(false)
+      setIsEditMode(false)
     }
   }
 
-  // Loading state
-  if (authLoading) {
+  // ============================================================================
+  // Render Guards
+  // ============================================================================
+  
+  // Estado de carregamento
+  if (isAuthLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background dark:bg-black">
-        <Loader2 className="w-8 h-8 animate-spin text-cyan-400" />
+        <Loader2 className="w-8 h-8 animate-spin text-cyan-400" aria-label="Carregando..." />
       </div>
     )
   }
@@ -254,13 +331,17 @@ function DashboardPageContent() {
     return null
   }
 
+  // ============================================================================
+  // Render
+  // ============================================================================
+
   return (
     <main className="w-full min-h-screen bg-background" aria-label="Dashboard Principal">
       <div className="relative z-10 bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black">
         <div className="w-full mx-auto px-3 xs:px-4 sm:px-6 lg:px-8 py-12 xs:py-14 sm:py-16 md:py-20 lg:py-24 space-y-12 xs:space-y-14 sm:space-y-16 md:space-y-20 lg:space-y-24">
           
           <AnimatePresence mode="wait">
-          {showHome ? (
+          {shouldShowHome ? (
             /* Home do Dashboard */
             <motion.div
               key="home"
@@ -316,7 +397,7 @@ function DashboardPageContent() {
                     <HelpCenter />
                   </motion.div>
 
-                  {/* Posts Recentes */}
+                  {/* Posts recentes */}
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -324,15 +405,9 @@ function DashboardPageContent() {
                     className="lg:col-span-2"
                   >
                     <RecentPostsList
-                      maxPosts={5}
+                      maxPosts={MAX_RECENT_POSTS}
                       onEditPost={(post) => router.push(`/dashboard?edit=${post.id}`)}
-                      onDeletePost={(postId) => {
-                        if (confirm('Tem certeza que deseja deletar este post?')) {
-                          blogStore.deletePost(postId)
-                          toast.success('Post deletado com sucesso!')
-                          router.refresh()
-                        }
-                      }}
+                      onDeletePost={deletePost}
                     />
                   </motion.div>
                 </div>
@@ -347,7 +422,7 @@ function DashboardPageContent() {
               exit={{ opacity: 0, y: -20 }}
               className="space-y-6"
             >
-              {/* Header da Página */}
+              {/* Header da página */}
               <header className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <Button
@@ -357,41 +432,43 @@ function DashboardPageContent() {
                     className="dark:text-cyan-400 dark:hover:bg-cyan-400/10"
                     aria-label="Voltar para home do dashboard"
                   >
-                    <ArrowLeft className="w-5 h-5" />
+                    <ArrowLeft className="w-5 h-5" aria-hidden="true" />
                   </Button>
                   <div>
                     <h1 className="text-3xl font-bold dark:text-cyan-200 dark:font-mono">
-                      {isEditing ? (currentPost.id ? "Editar Post" : "Novo Post") : "Todos os Posts"}
+                      {isEditMode ? (currentEditingPost.id ? "Editar Post" : "Novo Post") : "Todos os Posts"}
                     </h1>
                     <p className="text-sm text-muted-foreground dark:text-gray-400 mt-1">
-                      {isEditing ? "Preencha os campos e visualize em tempo real" : `${posts.length} ${posts.length === 1 ? "post" : "posts"} no total`}
+                      {isEditMode ? "Preencha os campos e visualize em tempo real" : `${allPosts.length} ${allPosts.length === 1 ? "post" : "posts"} no total`}
                     </p>
                   </div>
                 </div>
 
-                {!isEditing && (
+                {!isEditMode && (
                   <div className="flex items-center gap-2">
                     <Button
-                      onClick={handleResetData}
+                      onClick={handleDataReset}
                       variant="outline"
                       size="sm"
                       className="gap-2 dark:border-yellow-400/30 dark:hover:bg-yellow-400/10 dark:text-yellow-400"
+                      aria-label="Resetar dados para posts iniciais"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-4 h-4" aria-hidden="true" />
                       Resetar Dados
                     </Button>
                     <Button
-                      onClick={handleNewPost}
+                      onClick={startCreatingNewPost}
                       className="gap-2 dark:bg-cyan-600 dark:hover:bg-cyan-700"
+                      aria-label="Criar novo post"
                     >
-                      <Plus className="w-4 h-4" />
+                      <Plus className="w-4 h-4" aria-hidden="true" />
                       Novo Post
                     </Button>
                   </div>
                 )}
               </header>
 
-          {isEditing ? (
+          {isEditMode ? (
             /* Editor de Post */
             <motion.div
               key="editor"
@@ -405,7 +482,7 @@ function DashboardPageContent() {
                 <Card className="dark:bg-black/50 dark:border-cyan-400/20">
                   <CardHeader>
                     <CardTitle className="dark:text-cyan-200 dark:font-mono">
-                      {currentPost.id ? "Editar Post" : "Novo Post"}
+                      {currentEditingPost.id ? "Editar Post" : "Novo Post"}
                     </CardTitle>
                     <CardDescription>
                       Preencha os campos abaixo para criar ou editar um post
@@ -418,15 +495,15 @@ function DashboardPageContent() {
                       <Input
                         id="title"
                         placeholder="Digite o título do post"
-                        value={currentPost.title}
-                        onChange={(e) => setCurrentPost({ ...currentPost, title: e.target.value })}
+                        value={currentEditingPost.title}
+                        onChange={(e) => setCurrentEditingPost({ ...currentEditingPost, title: e.target.value })}
                       />
                       {/* Preview da URL com slug */}
-                      {currentPost.title && (
+                      {currentEditingPost.title && (
                         <div className="flex items-center gap-2 p-2 bg-cyan-500/5 dark:bg-cyan-500/5 border border-cyan-400/20 rounded-md">
                           <span className="text-xs text-muted-foreground dark:text-gray-500">URL:</span>
                           <code className="text-xs font-mono text-cyan-600 dark:text-cyan-400">
-                            /blog/{currentPost.slug || textToSlug(currentPost.title)}
+                            /blog/{currentEditingPost.slug || textToSlug(currentEditingPost.title)}
                           </code>
                         </div>
                       )}
@@ -438,8 +515,8 @@ function DashboardPageContent() {
                       <Textarea
                         id="description"
                         placeholder="Breve descrição do post"
-                        value={currentPost.description}
-                        onChange={(e) => setCurrentPost({ ...currentPost, description: e.target.value })}
+                        value={currentEditingPost.description}
+                        onChange={(e) => setCurrentEditingPost({ ...currentEditingPost, description: e.target.value })}
                         rows={3}
                       />
                     </div>
@@ -451,8 +528,8 @@ function DashboardPageContent() {
                         <Input
                           id="category"
                           placeholder="Ex: React & TypeScript"
-                          value={currentPost.category}
-                          onChange={(e) => setCurrentPost({ ...currentPost, category: e.target.value })}
+                          value={currentEditingPost.category}
+                          onChange={(e) => setCurrentEditingPost({ ...currentEditingPost, category: e.target.value })}
                         />
                       </div>
                       <div className="space-y-2">
@@ -460,8 +537,8 @@ function DashboardPageContent() {
                         <Input
                           id="image"
                           placeholder="/images/b1.png"
-                          value={currentPost.image}
-                          onChange={(e) => setCurrentPost({ ...currentPost, image: e.target.value })}
+                          value={currentEditingPost.image}
+                          onChange={(e) => setCurrentEditingPost({ ...currentEditingPost, image: e.target.value })}
                         />
                       </div>
                     </div>
@@ -470,8 +547,8 @@ function DashboardPageContent() {
                     <div className="space-y-2">
                       <Label htmlFor="content">Conteúdo *</Label>
                       <Editor
-                        content={currentPost.content || { type: "doc", content: [] }}
-                        onChange={(data) => setCurrentPost({ ...currentPost, content: data.json as unknown as TiptapJSON })}
+                        content={currentEditingPost.content || { type: "doc", content: [] }}
+                        onChange={(data) => setCurrentEditingPost({ ...currentEditingPost, content: data.json as unknown as TiptapJSON })}
                         placeholder="Escreva o conteúdo do post..."
                       />
                     </div>
@@ -481,8 +558,8 @@ function DashboardPageContent() {
                       <input
                         type="checkbox"
                         id="published"
-                        checked={currentPost.published}
-                        onChange={(e) => setCurrentPost({ ...currentPost, published: e.target.checked })}
+                        checked={currentEditingPost.published}
+                        onChange={(e) => setCurrentEditingPost({ ...currentEditingPost, published: e.target.checked })}
                         className="w-4 h-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500"
                       />
                       <Label htmlFor="published" className="cursor-pointer">
@@ -493,42 +570,43 @@ function DashboardPageContent() {
                     {/* Ações */}
                     <div className="flex items-center gap-2 pt-4">
                       <Button
-                        onClick={handleSavePost}
-                        disabled={isSaving}
+                        onClick={saveCurrentPost}
+                        disabled={isSavingPost}
                         className="flex-1 gap-2 dark:bg-cyan-600 dark:hover:bg-cyan-700"
                       >
-                        {isSaving ? (
+                        {isSavingPost ? (
                           <>
-                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
                             Salvando...
                           </>
-                        ) : saveSuccess ? (
+                        ) : hasSaveSucceeded ? (
                           <>
-                            <CheckCircle2 className="w-4 h-4" />
+                            <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
                             Salvo!
                           </>
                         ) : (
                           <>
-                            <Save className="w-4 h-4" />
+                            <Save className="w-4 h-4" aria-hidden="true" />
                             Salvar
                           </>
                         )}
                       </Button>
                       <Button
-                        onClick={handleCancelEdit}
+                        onClick={cancelEditing}
                         variant="outline"
-                        disabled={isSaving}
+                        disabled={isSavingPost}
                         className="dark:border-cyan-400/30 dark:hover:bg-cyan-400/10"
                       >
                         Cancelar
                       </Button>
                       <Button
-                        onClick={() => setShowPreview(!showPreview)}
+                        onClick={() => setIsPreviewVisible(!isPreviewVisible)}
                         variant="outline"
                         size="icon"
                         className="lg:hidden dark:border-cyan-400/30"
+                        aria-label={isPreviewVisible ? "Ocultar preview" : "Mostrar preview"}
                       >
-                        {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {isPreviewVisible ? <EyeOff className="w-4 h-4" aria-hidden="true" /> : <Eye className="w-4 h-4" aria-hidden="true" />}
                       </Button>
                     </div>
                   </CardContent>
@@ -538,12 +616,12 @@ function DashboardPageContent() {
               {/* Coluna Direita: Preview */}
               <div className={cn(
                 "space-y-6",
-                !showPreview && "hidden lg:block"
+                !isPreviewVisible && "hidden lg:block"
               )}>
                 <Card className="dark:bg-black/50 dark:border-cyan-400/20">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 dark:text-cyan-200 dark:font-mono">
-                      <Eye className="w-5 h-5" />
+                      <Eye className="w-5 h-5" aria-hidden="true" />
                       Preview em Tempo Real
                     </CardTitle>
                     <CardDescription>
@@ -552,16 +630,16 @@ function DashboardPageContent() {
                   </CardHeader>
                   <CardContent>
                     <PostCard
-                      title={currentPost.title || "Título do post"}
-                      description={currentPost.description || "Descrição do post aparecerá aqui"}
-                      date={currentPost.date}
-                      category={currentPost.category}
-                      image={currentPost.image}
+                      title={currentEditingPost.title || "Título do post"}
+                      description={currentEditingPost.description || "Descrição do post aparecerá aqui"}
+                      date={currentEditingPost.date}
+                      category={currentEditingPost.category}
+                      image={currentEditingPost.image}
                       link="#preview"
                     />
 
                     {/* Preview do conteúdo */}
-                    {currentPost.content && (
+                    {currentEditingPost.content && (
                       <div className="mt-6 p-6 rounded-lg border border-border dark:border-cyan-400/20 bg-background dark:bg-black/30">
                         <h3 className="text-sm font-semibold mb-4 text-muted-foreground dark:text-cyan-400 font-mono">
                           CONTEÚDO
@@ -578,7 +656,7 @@ function DashboardPageContent() {
                             "prose-li:dark:text-gray-300",
                             "prose-a:text-cyan-500 prose-a:hover:text-cyan-400"
                           )}
-                          dangerouslySetInnerHTML={{ __html: tiptapJSONtoHTML(currentPost.content) }}
+                          dangerouslySetInnerHTML={{ __html: tiptapJSONtoHTML(currentEditingPost.content) }}
                         />
                       </div>
                     )}
@@ -587,7 +665,7 @@ function DashboardPageContent() {
               </div>
             </motion.div>
           ) : (
-            /* Lista de Posts */
+            /* Lista de todos os posts */
             <motion.div
               key="list"
               initial={{ opacity: 0 }}
@@ -601,18 +679,18 @@ function DashboardPageContent() {
                     Todos os Posts
                   </CardTitle>
                   <CardDescription>
-                    {posts.length} {posts.length === 1 ? "post" : "posts"} no total
+                    {allPosts.length} {allPosts.length === 1 ? "post" : "posts"} no total
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {posts.length === 0 ? (
+                  {allPosts.length === 0 ? (
                     <div className="text-center py-12">
-                      <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                      <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" aria-hidden="true" />
                       <p className="text-muted-foreground">Nenhum post criado ainda</p>
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {posts.map((post) => (
+                      {allPosts.map((post) => (
                         <motion.div
                           key={post.id}
                           initial={{ opacity: 0, x: -20 }}
@@ -641,7 +719,7 @@ function DashboardPageContent() {
                           </div>
                           <div className="flex items-center gap-2 ml-4">
                             <Button
-                              onClick={() => handleEditPost(post)}
+                              onClick={() => startEditingPost(post)}
                               variant="outline"
                               size="sm"
                               className="dark:border-cyan-400/30 dark:hover:bg-cyan-400/10"
@@ -649,12 +727,13 @@ function DashboardPageContent() {
                               Editar
                             </Button>
                             <Button
-                              onClick={() => handleDeletePost(post.id)}
+                              onClick={() => deletePost(post.id)}
                               variant="outline"
                               size="icon"
                               className="dark:border-red-400/30 dark:hover:bg-red-400/10 dark:hover:text-red-400"
+                              aria-label="Deletar post"
                             >
-                              <Trash2 className="w-4 h-4" />
+                              <Trash2 className="w-4 h-4" aria-hidden="true" />
                             </Button>
                           </div>
                         </motion.div>
@@ -671,19 +750,33 @@ function DashboardPageContent() {
         </div>
       </div>
 
-      {/* Back to Top */}
+      {/* Botão Back to Top */}
       <BackToTop />
     </main>
   )
 }
 
+// ============================================================================
+// Wrapper Component (with Suspense)
+// ============================================================================
+
+/**
+ * Wrapper do Dashboard com Suspense
+ * 
+ * Envolve DashboardPageContent com Suspense para loading state.
+ * Necessário por causa do uso de useSearchParams().
+ * 
+ * @returns Dashboard page com Suspense boundary
+ */
 export default function DashboardPage() {
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    }>
+    <Suspense 
+      fallback={
+        <div className="flex items-center justify-center min-h-screen bg-background dark:bg-black">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" aria-label="Carregando dashboard..." />
+        </div>
+      }
+    >
       <DashboardPageContent />
     </Suspense>
   )

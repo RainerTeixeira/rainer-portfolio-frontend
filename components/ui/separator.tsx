@@ -53,7 +53,7 @@ import { cn } from "../../lib/utils"
  * <Separator decorative={false} />
  */
 const Separator = React.forwardRef<
-    React.ElementRef<typeof SeparatorPrimitive.Root>,
+    React.ComponentRef<typeof SeparatorPrimitive.Root>,
     React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
 >(
     (

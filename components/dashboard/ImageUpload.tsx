@@ -13,7 +13,7 @@
 
 import { useCallback, useState } from 'react'
 import { X, Loader2, ImageIcon } from 'lucide-react'
-import { useUpload, useImageCompression } from '@/hooks/use-upload'
+import { useUpload, useImageCompression } from '@/components/dashboard/hooks'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
