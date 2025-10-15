@@ -117,13 +117,9 @@ export default function LoginPage() {
         setError("Usuário ou senha incorretos")
         toast.error("Credenciais inválidas")
       }
-    } catch (err: any) {
-      // TODO: Tratar erros específicos do Cognito
-      // - UserNotFoundException
-      // - NotAuthorizedException
-      // - UserNotConfirmedException
-      
-      setError(err.message || "Erro ao fazer login. Tente novamente.")
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro ao fazer login. Tente novamente."
+      setError(errorMessage)
       console.error("Erro no login:", err)
     } finally {
       setIsLoading(false)

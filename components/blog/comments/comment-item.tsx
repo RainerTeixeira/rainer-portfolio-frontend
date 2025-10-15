@@ -36,8 +36,17 @@ import { ptBR } from "date-fns/locale"
 import type { Comment } from "@/types/database"
 import { toast } from "sonner"
 
+// Tipo estendido com dados do autor
+type CommentWithAuthor = Comment & {
+  author?: {
+    name: string
+    avatar?: string
+  }
+  replies?: CommentWithAuthor[]
+}
+
 interface CommentItemProps {
-  comment: Comment & { replies?: Comment[] }
+  comment: CommentWithAuthor
   postId: string
   currentUserId?: string
   depth?: number
@@ -122,6 +131,7 @@ export function CommentItem({
 
       toast.success("Comentário reportado. Obrigado!")
     } catch (error) {
+      console.error("Erro ao reportar:", error)
       toast.error("Erro ao reportar comentário")
     }
   }
@@ -203,7 +213,7 @@ export function CommentItem({
           {isEditing ? (
             <CommentForm
               postId={postId}
-              parentId={comment.parentId}
+              parentId={comment.parentId ?? undefined}
               editingComment={comment}
               onCommentAdded={(updated) => {
                 setIsEditing(false)

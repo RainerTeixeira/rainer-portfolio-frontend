@@ -14,8 +14,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import Link from "next/link"
-import { ExternalLink, Github, Award, ArrowRight } from "lucide-react"
+import { ExternalLink, GithubIcon, Award, ArrowRight } from "lucide-react"
 
 export function PortfolioShowcase() {
   const projects = [
@@ -120,7 +119,7 @@ export function PortfolioShowcase() {
                       Ver Projeto
                     </Button>
                     <Button size="sm" variant="ghost">
-                      <Github className="h-4 w-4" />
+                      <GithubIcon className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardContent>
@@ -133,7 +132,7 @@ export function PortfolioShowcase() {
         <div className="text-center mt-12">
           <Button asChild variant="outline" size="lg" className="dark:border-cyan-400/30 gap-2">
             <a href="https://github.com/rainerteixeira" target="_blank" rel="noopener noreferrer">
-              <Github className="h-4 w-4" />
+              <GithubIcon className="h-4 w-4" />
               Ver Mais no GitHub
               <ArrowRight className="h-4 w-4" />
             </a>

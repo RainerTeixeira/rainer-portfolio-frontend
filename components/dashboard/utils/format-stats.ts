@@ -63,9 +63,9 @@ export function generateMockChartData(days: number) {
  * Agrupa dados por período
  */
 export function groupDataByPeriod(
-  data: any[],
-  period: "day" | "week" | "month"
-): any[] {
+  data: Array<Record<string, unknown>>
+  // period: "day" | "week" | "month" // Pode ser usado futuramente para agrupamento
+): Array<Record<string, unknown>> {
   // Implementação simplificada - pode ser expandida
   return data
 }

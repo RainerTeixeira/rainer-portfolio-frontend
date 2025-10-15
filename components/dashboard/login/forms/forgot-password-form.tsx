@@ -65,8 +65,9 @@ export function ForgotPasswordForm() {
       }
 
       setSuccess(true)
-    } catch (err: any) {
-      setError(err.message || "Erro ao enviar email. Tente novamente.")
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro ao enviar email. Tente novamente."
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }

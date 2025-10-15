@@ -44,8 +44,9 @@ export function useDashboardStats() {
 
       const data = await response.json()
       setStats(data)
-    } catch (err: any) {
-      setError(err.message || "Erro ao carregar estatísticas")
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro ao carregar estatísticas"
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }

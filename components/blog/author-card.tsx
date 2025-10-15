@@ -12,7 +12,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Github, Linkedin, Twitter, Globe } from "lucide-react"
+import { GithubIcon, Linkedin, Twitter, Globe } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface AuthorCardProps {
@@ -64,7 +64,7 @@ export function AuthorCard({
               {social.github && (
                 <Button variant="ghost" size="sm" asChild>
                   <a href={social.github} target="_blank" rel="noopener noreferrer">
-                    <Github className="h-4 w-4" />
+                    <GithubIcon className="h-4 w-4" />
                   </a>
                 </Button>
               )}

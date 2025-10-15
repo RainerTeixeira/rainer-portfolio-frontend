@@ -17,8 +17,7 @@ import { Progress } from '@/components/ui/progress'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { 
   Home, Play, Pause, RotateCcw, Trophy, Heart, Gamepad2, 
-  Sparkles, Skull, Zap, Ghost, Flame, Gem, Star, Crown,
-  User, Bot, Rocket, Cat, Bird, Bug, Target, Angry, Smile, Frown
+  Sparkles, Skull, Zap, Ghost, Flame, Gem, Star, Crown
 } from 'lucide-react'
 
 // Tipos
@@ -400,7 +399,7 @@ export default function NotFound() {
     
     const platformColor = world.colors.platform
     const enemyColor = world.colors.enemy
-    const difficulty = worldId // Dificuldade baseada no ID do mundo
+    // const difficulty = worldId // Dificuldade baseada no ID do mundo (pode ser usado futuramente)
     
     // Layouts únicos por mundo com dificuldade progressiva
     let platforms: Platform[] = []

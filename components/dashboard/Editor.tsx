@@ -22,7 +22,7 @@
 
 "use client"
 
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, type Editor as TiptapEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
@@ -56,7 +56,6 @@ import {
   Columns,
   Trash2,
   Copy,
-  Check,
   ChevronDown,
   FileJson,
   Eye
@@ -97,7 +96,7 @@ const LANGUAGES = [
 
 interface EditorProps {
   content: string | object // Aceita JSON ou HTML
-  onChange: (content: { json: any; html: string; text: string }) => void // Retorna múltiplos formatos
+  onChange: (content: { json: Record<string, unknown>; html: string; text: string }) => void // Retorna múltiplos formatos
   placeholder?: string
   className?: string
   mode?: 'json' | 'html' // Modo de operação (padrão: json)
@@ -151,7 +150,7 @@ const ToolbarDivider = () => (
 /**
  * LanguageSelector - Seletor de linguagem para blocos de código
  */
-const LanguageSelector = ({ editor }: { editor: any }) => {
+const LanguageSelector = ({ editor }: { editor: ReturnType<typeof useEditor> }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedLanguage, setSelectedLanguage] = useState('plaintext')
 
@@ -167,7 +166,7 @@ const LanguageSelector = ({ editor }: { editor: any }) => {
       const attrs = editor.getAttributes('codeBlock')
       setSelectedLanguage(attrs.language || 'plaintext')
     }
-  }, [editor?.state.selection])
+  }, [editor, editor?.state.selection])
 
   if (!editor || !editor.isActive('codeBlock')) return null
 
@@ -217,20 +216,19 @@ const LanguageSelector = ({ editor }: { editor: any }) => {
  * MenuBar - Toolbar de formatação do editor
  */
 const MenuBar = ({ 
-  editor, 
-  viewMode, 
+  editor,
+  viewMode,
   onViewModeChange 
 }: { 
-  editor: any
+  editor: TiptapEditor | null
   viewMode: 'visual' | 'json'
   onViewModeChange: (mode: 'visual' | 'json') => void
 }) => {
-  if (!editor) return null
-
   /**
    * Adiciona link ao texto selecionado
    */
   const setLink = useCallback(() => {
+    if (!editor) return
     const previousUrl = editor.getAttributes('link').href
     const url = window.prompt('URL do link:', previousUrl)
 
@@ -248,6 +246,7 @@ const MenuBar = ({
    * Adiciona imagem via URL
    */
   const addImage = useCallback(() => {
+    if (!editor) return
     const url = window.prompt('URL da imagem:')
 
     if (url) {
@@ -259,6 +258,7 @@ const MenuBar = ({
    * Adiciona tabela com tamanho personalizado
    */
   const insertTable = useCallback(() => {
+    if (!editor) return
     const rows = window.prompt('Número de linhas:', '3')
     if (rows === null) return
 
@@ -278,6 +278,8 @@ const MenuBar = ({
       alert('Por favor, insira valores válidos (Linhas: 1-20, Colunas: 1-10)')
     }
   }, [editor])
+
+  if (!editor) return null
 
   return (
     <div className="border-b border-gray-200 dark:border-cyan-400/20 px-3 py-2.5 flex flex-wrap items-center gap-1 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-10 shadow-sm">
@@ -512,8 +514,8 @@ export function Editor({
   content, 
   onChange, 
   placeholder = "Comece a escrever seu conteúdo...", 
-  className,
-  mode = 'json' // Padrão: JSON para otimização MongoDB
+  className
+  // mode = 'json' // Padrão: JSON para otimização MongoDB (não usado atualmente)
 }: EditorProps) {
   const [wordCount, setWordCount] = useState(0)
   const [charCount, setCharCount] = useState(0)
@@ -674,7 +676,7 @@ export function Editor({
         }
         setJsonError('')
         setViewMode('visual')
-      } catch (error) {
+      } catch {
         setJsonError('JSON inválido! Por favor, corrija os erros antes de voltar ao modo visual.')
       }
     } else {
@@ -692,7 +694,7 @@ export function Editor({
     try {
       JSON.parse(value)
       setJsonError('')
-    } catch (error) {
+    } catch {
       setJsonError('JSON inválido')
     }
   }, [])

@@ -235,7 +235,7 @@ class LocalAuth {
       }
 
       // Obter referência do usuário (já verificado que existe acima)
-      const user = users[userIndex]!
+      const user = users[userIndex]! 
 
       // Atualizar senha
       user.password = newPassword // Em produção: bcrypt.hash(newPassword, 10)

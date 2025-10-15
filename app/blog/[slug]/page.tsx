@@ -32,13 +32,10 @@ import Link from "next/link"
 import {
   ArrowLeft,
   Calendar,
-  Clock,
   Tag,
   User,
   Eye,
   Heart,
-  Share2,
-  Bookmark,
   ChevronLeft,
   ChevronRight
 } from "lucide-react"

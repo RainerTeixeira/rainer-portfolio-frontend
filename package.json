@@ -66,7 +66,7 @@
     "highlight.js": "^11.11.1",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.525.0",
-    "next": "15.3.4",
+    "next": "^15.5.5",
     "next-cloudinary": "^6.16.0",
     "next-themes": "^0.4.6",
     "qrcode.react": "^4.2.0",

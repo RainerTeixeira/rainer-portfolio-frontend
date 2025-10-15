@@ -32,7 +32,6 @@ const Carousel = memo(function Carousel({
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [isReady, setIsReady] = useState(false)
-  const [isAutoPlay, setIsAutoPlay] = useState(enableAutoPlay)
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
   const [matrixColumns, setMatrixColumns] = useState<MatrixColumn[]>([])
   const [particles, setParticles] = useState<Particle[]>([])
@@ -45,6 +44,7 @@ const Carousel = memo(function Carousel({
     : false
 
   const actualAutoPlayInterval = prefersReducedMotion ? 0 : autoPlayInterval
+  const isAutoPlay = enableAutoPlay && !prefersReducedMotion
 
   /* ==========================================================
      EFEITO MATRIX DIGITAL RAIN HIPNÓTICO 💫
@@ -170,17 +170,17 @@ const Carousel = memo(function Carousel({
   }, [mounted, updateResponsiveDimensions])
 
   /* ==========================================================
-     SISTEMA AUTOPLAY TÁTICO
+     SISTEMA AUTOPLAY
      ========================================================== */
   useEffect(() => {
-    if (prefersReducedMotion || !isReady || !isAutoPlay) return
+    if (!isReady || !isAutoPlay) return
     
     const intervalId = window.setInterval(() => {
-      setCurrentTextIndex(prev => (prev + 1) % 15) // 15 slides
+      setCurrentTextIndex((prev: number) => (prev + 1) % 15)
     }, actualAutoPlayInterval)
     
     return () => window.clearInterval(intervalId)
-  }, [prefersReducedMotion, isReady, isAutoPlay, actualAutoPlayInterval])
+  }, [isReady, isAutoPlay, actualAutoPlayInterval])
 
   if (!isReady) {
     return (

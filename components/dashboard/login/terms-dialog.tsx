@@ -71,7 +71,7 @@ function TermsContent() {
         <div className="space-y-3 text-muted-foreground">
           <p>
             Bem-vindo à <strong className="text-foreground">Rainer Soft</strong>. Estes Termos de Uso 
-            ("Termos") regem o seu acesso e uso de nossos serviços, website e plataforma de blog.
+            (&quot;Termos&quot;) regem o seu acesso e uso de nossos serviços, website e plataforma de blog.
           </p>
           <p>
             Ao acessar ou usar nossos serviços, você concorda em ficar vinculado a estes Termos. 
@@ -86,10 +86,10 @@ function TermsContent() {
       <section>
         <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">2. Definições</h3>
         <div className="space-y-2 text-muted-foreground">
-          <p><strong className="text-foreground">"Serviço"</strong>: website, plataforma de blog e dashboard administrativo da Rainer Soft.</p>
-          <p><strong className="text-foreground">"Usuário"</strong>: qualquer pessoa que acesse ou utilize nossos Serviços.</p>
-          <p><strong className="text-foreground">"Conteúdo"</strong>: textos, imagens, vídeos, códigos e outros materiais publicados no Serviço.</p>
-          <p><strong className="text-foreground">"Conta"</strong>: registro de usuário necessário para acessar funcionalidades restritas.</p>
+          <p><strong className="text-foreground">&quot;Serviço&quot;</strong>: website, plataforma de blog e dashboard administrativo da Rainer Soft.</p>
+          <p><strong className="text-foreground">&quot;Usuário&quot;</strong>: qualquer pessoa que acesse ou utilize nossos Serviços.</p>
+          <p><strong className="text-foreground">&quot;Conteúdo&quot;</strong>: textos, imagens, vídeos, códigos e outros materiais publicados no Serviço.</p>
+          <p><strong className="text-foreground">&quot;Conta&quot;</strong>: registro de usuário necessário para acessar funcionalidades restritas.</p>
         </div>
       </section>
 

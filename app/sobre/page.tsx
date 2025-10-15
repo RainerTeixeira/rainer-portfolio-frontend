@@ -20,7 +20,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ParticlesEffect, PageHeader, BackToTop } from "@/components/ui"
 import { Button } from "@/components/ui/button"
-import { Download, Mail, Github, Linkedin, Globe } from "lucide-react"
+import { Download, Mail, GithubIcon, Linkedin, Globe } from "lucide-react"
 import { SKILLS, EXPERIENCE } from "@/constants"
 
 /**
@@ -526,7 +526,7 @@ export default function SobrePage() {
               <div className="flex gap-3">
                 <Button asChild size="icon" className="flex-1 h-12 bg-gradient-to-br from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 border border-gray-700/50 shadow-lg">
                   <a href="https://github.com/rainerteixeira" target="_blank" rel="noopener noreferrer" title="GitHub">
-                    <Github className="h-5 w-5 text-white" />
+                    <GithubIcon className="h-5 w-5 text-white" />
                   </a>
                 </Button>
                 <Button asChild size="icon" className="flex-1 h-12 bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 border border-blue-500/50 shadow-lg">

@@ -12,8 +12,8 @@
 "use client"
 
 import { useCallback, useState } from 'react'
-import { Upload, X, Check, Loader2, ImageIcon } from 'lucide-react'
-import { useUpload, useBlogCoverUpload, useImageCompression } from '@/hooks/use-upload'
+import { X, Loader2, ImageIcon } from 'lucide-react'
+import { useUpload, useImageCompression } from '@/hooks/use-upload'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
@@ -39,7 +39,7 @@ export function ImageUpload({
   maxSize = 10,
   type = 'general' 
 }: ImageUploadProps) {
-  const { upload, isUploading, progress, uploadedUrl } = useUpload(type)
+  const { upload, isUploading, progress } = useUpload(type)
   const { compress } = useImageCompression()
   
   const [isDragging, setIsDragging] = useState(false)

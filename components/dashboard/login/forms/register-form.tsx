@@ -59,7 +59,7 @@ interface RegisterFormProps {
   onSuccess?: () => void
 }
 
-export function RegisterForm({ onSuccess }: RegisterFormProps) {
+export function RegisterForm({ }: RegisterFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
@@ -132,8 +132,9 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
       setTimeout(() => {
         window.location.href = '/dashboard/login'
       }, 2000)
-    } catch (err: any) {
-      setError(err.message || "Erro ao criar conta. Tente novamente.")
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro ao criar conta. Tente novamente."
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }

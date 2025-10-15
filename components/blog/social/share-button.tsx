@@ -72,6 +72,7 @@ export function ShareButton({
       
       setTimeout(() => setCopied(false), 2000)
     } catch (error) {
+      console.error("Erro ao copiar:", error)
       toast.error("Erro ao copiar link")
     }
   }
@@ -85,8 +86,8 @@ export function ShareButton({
           url: shareUrl,
         })
         toast.success("Compartilhado com sucesso!")
-      } catch (error: any) {
-        if (error.name !== "AbortError") {
+      } catch (error) {
+        if (error instanceof Error && error.name !== "AbortError") {
           console.error("Erro ao compartilhar:", error)
         }
       }
@@ -96,7 +97,7 @@ export function ShareButton({
   function shareOnPlatform(platform: string) {
     const encodedUrl = encodeURIComponent(shareUrl)
     const encodedTitle = encodeURIComponent(title)
-    const encodedDescription = encodeURIComponent(description)
+    // const encodedDescription = encodeURIComponent(description) // Pode ser usado futuramente
 
     const urls = {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,

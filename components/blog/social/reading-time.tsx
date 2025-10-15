@@ -10,6 +10,17 @@
 import { Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 
+// Tipo recursivo para nodes do Tiptap
+interface TiptapNode {
+  text?: string
+  content?: TiptapNode[]
+  [key: string]: unknown
+}
+
+interface TiptapContent {
+  content?: TiptapNode[]
+}
+
 interface ReadingTimeProps {
   content: string | object // Aceita texto ou JSON do Tiptap
   wordsPerMinute?: number
@@ -28,7 +39,7 @@ export function ReadingTime({
 
     // Se for JSON do Tiptap
     if (typeof content === "object") {
-      text = extractTextFromTiptap(content)
+      text = extractTextFromTiptap(content as TiptapContent)
     } else {
       // Se for HTML ou texto simples
       text = content.replace(/<[^>]*>/g, "")
@@ -40,7 +51,7 @@ export function ReadingTime({
     return minutes
   }
 
-  function extractTextFromTiptap(json: any): string {
+  function extractTextFromTiptap(json: TiptapContent): string {
     if (!json || !json.content) return ""
 
     let text = ""

@@ -10,7 +10,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Plus, FileText, Settings, Users, BarChart } from "lucide-react"
+import { Plus, FileText, Settings, BarChart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 

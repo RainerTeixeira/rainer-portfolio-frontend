@@ -12,11 +12,9 @@
 import { memo } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Target, Code, Rocket, ArrowRight, Sparkles, Award } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { cn } from "@/lib/utils"
 
 export const AboutSection = memo(function AboutSection() {
   const stats = [

@@ -19,13 +19,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Mail, Sparkles, Newspaper, CheckCircle2, Loader2, AlertCircle } from "lucide-react"
-import { SECTION_CLASSES, CARD_CLASSES, cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 /**
  * Schema de validação do formulário de newsletter
@@ -107,8 +106,9 @@ function NewsletterForm({
 
       setSuccess(true)
       reset()
-    } catch (err: any) {
-      setError(err.message || "Erro ao inscrever. Tente novamente.")
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro ao inscrever. Tente novamente."
+      setError(errorMessage)
     } finally {
       setIsSubmitting(false)
     }

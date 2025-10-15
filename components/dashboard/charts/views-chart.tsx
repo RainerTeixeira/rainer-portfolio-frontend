@@ -10,7 +10,7 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   LineChart, 
   Line, 
@@ -69,7 +69,7 @@ export function ViewsChart({ data, isLoading }: ViewsChartProps) {
             </CardDescription>
           </div>
 
-          <Tabs value={period} onValueChange={(v) => setPeriod(v as any)}>
+          <Tabs value={period} onValueChange={(v) => setPeriod(v as "7d" | "30d" | "90d")}>
             <TabsList>
               <TabsTrigger value="7d">7 dias</TabsTrigger>
               <TabsTrigger value="30d">30 dias</TabsTrigger>

@@ -111,8 +111,9 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       setTimeout(() => {
         router.push("/dashboard/login")
       }, 2000)
-    } catch (err: any) {
-      setError(err.message || "Erro ao redefinir senha. Tente novamente.")
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro ao redefinir senha. Tente novamente."
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }

@@ -39,13 +39,6 @@ import { useTheme } from "next-themes"
  */
 const AUTOPLAY_INTERVAL_MS = 5000
 
-/**
- * Caracteres usados na chuva de matriz
- * Apenas 0 e 1 (código binário) para estética de computação
- * 
- * @constant {string}
- */
-const MATRIX_CHARS = "01"
 
 /**
  * Padrões de código binário pré-definidos
@@ -134,10 +127,7 @@ interface CarouselProps {
    ========================================================== */
 
 // Componente memoizado para melhor performance
-const Carousel = memo(function Carousel({ 
-  autoPlayInterval = AUTOPLAY_INTERVAL_MS, 
-  enableAutoPlay = true 
-}: CarouselProps) {
+const Carousel = memo(function Carousel() {
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [isReady, setIsReady] = useState(false)
@@ -218,7 +208,7 @@ const Carousel = memo(function Carousel({
       const intensity = 0.6 + Math.random() * 0.3
       
       // Apenas tipo binário - Simulação de processador
-      const type: 'binary' = 'binary'
+      const type = 'binary' as const
       
       // Gerar padrões binários realistas de processador usando padrões VIVOS
       const characters: string[] = Array.from({ length: charactersCount }).map((_, idx) => {

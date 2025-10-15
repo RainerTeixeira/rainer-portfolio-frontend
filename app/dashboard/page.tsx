@@ -24,7 +24,6 @@ import {
   Trash2, 
   ArrowLeft,
   FileText,
-  Image as ImageIcon,
   CheckCircle2,
   Loader2
 } from "lucide-react"

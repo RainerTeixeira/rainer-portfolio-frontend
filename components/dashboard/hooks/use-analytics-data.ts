@@ -9,7 +9,7 @@
 
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 
 interface ViewsData {
   date: string
@@ -31,11 +31,7 @@ export function useAnalyticsData(period: Period = "30d") {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    loadData()
-  }, [period])
-
-  async function loadData() {
+  const loadData = useCallback(async () => {
     setIsLoading(true)
     setError(null)
 
@@ -49,12 +45,17 @@ export function useAnalyticsData(period: Period = "30d") {
       const data = await response.json()
       setViewsData(data.views || [])
       setEngagementData(data.engagement || [])
-    } catch (err: any) {
-      setError(err.message || "Erro ao carregar dados de analytics")
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro ao carregar dados de analytics"
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [period])
+
+  useEffect(() => {
+    loadData()
+  }, [loadData])
 
   function refreshData() {
     loadData()
