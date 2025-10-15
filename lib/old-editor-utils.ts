@@ -9,8 +9,10 @@
  * @version 1.0.0
  */
 
+import type { TiptapJSON } from "@/types/database"
+
 export interface EditorContent {
-  json: any                 // Formato estruturado (salvar no MongoDB)
+  json: Record<string, unknown>  // Formato estruturado (salvar no MongoDB)
   html: string             // Formato renderizado (cache/preview)
   text: string             // Texto puro (busca/indexação)
   metadata?: ContentMetadata
@@ -34,7 +36,7 @@ export interface MongoDBPost {
   _id?: string
   title: string
   slug: string
-  content: any              // JSON do Tiptap (LEVE!)
+  content: Record<string, unknown>  // JSON do Tiptap (LEVE!)
   excerpt: string          // Primeiros 160 caracteres para SEO
   plainText: string        // Para busca full-text
   metadata: ContentMetadata
@@ -177,7 +179,7 @@ export function validateContent(post: Partial<MongoDBPost>): {
 /**
  * Calcula tamanho estimado em KB para MongoDB
  */
-export function estimateSize(content: any): {
+export function estimateSize(content: EditorContent): {
   jsonSize: number
   htmlSize: number
   savings: number
@@ -216,7 +218,7 @@ export function sanitizeHTML(html: string): string {
  * Converte JSON do Tiptap para HTML
  * (para renderizar posts salvos)
  */
-export function jsonToHTML(json: any): string {
+export function jsonToHTML(json: TiptapJSON): string {
   // Esta é uma implementação básica
   // O Tiptap tem seu próprio método generateHTML que é mais completo
   // Aqui está um exemplo simplificado

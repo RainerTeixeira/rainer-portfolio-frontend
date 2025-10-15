@@ -8,7 +8,7 @@
  */
 
 import type { Metadata } from "next"
-import type { Post, Category } from "@/types/database"
+import type { Post, Category, TiptapJSON } from "@/types/database"
 
 interface GenerateMetadataProps {
   title: string
@@ -112,7 +112,7 @@ export function generatePostMetadata(post: Post): Metadata {
     type: "article",
     publishedTime: post.publishedAt?.toISOString(),
     modifiedTime: post.updatedAt.toISOString(),
-    authors: [post.author?.name || "Rainer Teixeira"],
+    authors: ["Rainer Teixeira"], // TODO: Carregar autor com relação
     canonicalUrl: postUrl,
   })
 }
@@ -131,21 +131,32 @@ export function generateCategoryMetadata(category: Category): Metadata {
 /**
  * Extrai texto do JSON do Tiptap
  */
-function extractTextFromTiptap(content: any): string {
+function extractTextFromTiptap(content: TiptapJSON): string {
   if (!content || !content.content) return ""
 
   let text = ""
   
-  function traverse(node: any) {
-    if (node.text) {
+  function traverse(node: Record<string, unknown>) {
+    if ('text' in node && typeof node.text === 'string') {
       text += node.text + " "
     }
-    if (node.content) {
-      node.content.forEach(traverse)
+    if ('content' in node && Array.isArray(node.content)) {
+      node.content.forEach((child) => {
+        if (typeof child === 'object' && child !== null) {
+          traverse(child as Record<string, unknown>)
+        }
+      })
     }
   }
 
-  content.content.forEach(traverse)
+  if (content.content) {
+    content.content.forEach((child) => {
+      if (typeof child === 'object' && child !== null) {
+        traverse(child as unknown as Record<string, unknown>)
+      }
+    })
+  }
+  
   return text.trim()
 }
 
@@ -165,8 +176,8 @@ export function generateArticleStructuredData(post: Post) {
     dateModified: post.updatedAt.toISOString(),
     author: {
       "@type": "Person",
-      name: post.author?.name || "Rainer Teixeira",
-      url: `${siteUrl}/author/${post.author?.username}`,
+      name: "Rainer Teixeira", // TODO: Carregar autor com relação
+      url: `${siteUrl}/author/rainer`,
     },
     publisher: {
       "@type": "Organization",
@@ -236,7 +247,7 @@ export function generateSitemap(posts: Post[], categories: Category[]): string {
       (url) => `
   <url>
     <loc>${siteUrl}${url.loc}</loc>
-    ${url.lastmod ? `<lastmod>${url.lastmod}</lastmod>` : `<lastmod>${now}</lastmod>`}
+    ${'lastmod' in url ? `<lastmod>${url.lastmod}</lastmod>` : `<lastmod>${now}</lastmod>`}
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
   </url>`

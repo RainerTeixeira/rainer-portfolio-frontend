@@ -108,7 +108,7 @@ function renderNode(node: TiptapNode): string {
       return `<blockquote class="border-l-4 border-cyan-400 pl-4 py-2 my-4 italic text-gray-600 dark:text-gray-400">${content}</blockquote>`
 
     case 'codeBlock':
-      const language = node.attrs?.language || 'plaintext'
+      // const language = node.attrs?.language || 'plaintext' // Pode ser usado futuramente para syntax highlighting
       return `<pre class="bg-gray-900 dark:bg-gray-950 rounded-lg p-4 my-4 overflow-x-auto border border-cyan-400/20"><code class="text-sm font-mono text-gray-200">${content}</code></pre>`
 
     case 'horizontalRule':
