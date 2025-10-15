@@ -283,7 +283,7 @@ sonar-scanner -Dsonar.host.url=http://localhost:9000 -Dsonar.login=seu-token-aqu
 #### 7. Ver Resultados
 
 1. Aguarde a análise concluir (1-3 minutos)
-2. Acesse: http://localhost:9000
+2. Acesse: <http://localhost:9000>
 3. Clique no projeto para ver:
    - 🐛 **Bugs**
    - 🔒 **Vulnerabilidades**
@@ -303,6 +303,7 @@ docker-compose -f sonarqube/docker-compose.sonarqube.yml down -v
 ### 📋 Comandos Úteis do SonarQube
 
 #### Docker
+
 ```bash
 # Ver status dos containers
 docker-compose -f sonarqube/docker-compose.sonarqube.yml ps
@@ -318,6 +319,7 @@ docker exec -it sonarqube-local bash
 ```
 
 #### SonarScanner
+
 ```bash
 # Análise básica
 sonar-scanner
@@ -350,6 +352,7 @@ sonar.sources=components,hooks,lib
 ### 🎯 Fluxo de Trabalho Recomendado
 
 #### Desenvolvimento Diário
+
 ```bash
 # 1. Fazer suas alterações no código
 # 2. Verificar linter
@@ -366,6 +369,7 @@ npm run sonar:local
 ```
 
 #### Antes de Pull Request
+
 ```bash
 # Análise completa
 npm run lint:fix && npm run type-check && npm run sonar:local
@@ -377,20 +381,24 @@ npm run lint:fix && npm run type-check && npm run sonar:local
 ### ⚙️ Configurações Importantes
 
 #### Quality Gate Padrão
+
 O SonarQube vem com quality gates que podem falhar a análise se:
+
 - **Cobertura < 80%** (se testes configurados)
 - **Bugs > 0** em código novo
 - **Vulnerabilidades > 0** em código novo
 - **Code Smells** com rating D ou E
 
 #### Customizar Quality Gates
-1. Acesse: http://localhost:9000/quality_gates
+
+1. Acesse: <http://localhost:9000/quality_gates>
 2. Crie um novo quality gate ou edite o padrão
 3. Ajuste os limites conforme sua necessidade
 
 ### 🆘 Problemas Comuns
 
 #### SonarQube não inicia
+
 ```bash
 # Verificar logs
 docker-compose -f sonarqube/docker-compose.sonarqube.yml logs sonarqube
@@ -404,6 +412,7 @@ lsof -i :9000               # Linux/Mac
 ```
 
 #### Análise falha
+
 ```bash
 # Verificar Java
 java -version  # Deve ser Java 17+
@@ -419,6 +428,7 @@ rm -rf .scannerwork
 ```
 
 #### Token inválido
+
 ```bash
 # Gerar novo token em:
 # http://localhost:9000/account/security
@@ -441,19 +451,22 @@ Para mais informações sobre o SonarQube, consulte a documentação completa na
 
 ### 📚 Instalação Detalhada (Alternativas ao Docker)
 
-#### Pré-requisitos
+#### Requisitos do Sistema
+
 - **Java JDK 17 ou superior**
 - **SonarQube Community Edition**
 - **SonarScanner**
 
-#### Instalar Java
+#### Instalação do Java
 
-**Windows**
+##### Windows
+
 ```powershell
 winget install Microsoft.OpenJDK.17
 ```
 
-**Linux/Mac**
+##### Linux/Mac
+
 ```bash
 # Ubuntu/Debian
 sudo apt update
@@ -464,6 +477,7 @@ brew install openjdk@17
 ```
 
 Verificar instalação:
+
 ```bash
 java -version
 ```
@@ -471,16 +485,18 @@ java -version
 #### Download Manual do SonarQube
 
 1. Baixe o SonarQube Community Edition:
-   - Acesse: https://www.sonarsource.com/products/sonarqube/downloads/
+   - Acesse: <https://www.sonarsource.com/products/sonarqube/downloads/>
    - Baixe a versão Community Edition
 
 2. Extraia o arquivo:
+
    ```powershell
    # Windows (PowerShell)
    Expand-Archive -Path sonarqube-*.zip -DestinationPath C:\sonarqube
    ```
 
 3. Inicie o servidor:
+
    ```powershell
    # Windows
    C:\sonarqube\bin\windows-x86-64\StartSonar.bat
@@ -491,7 +507,8 @@ java -version
 
 ### 🔄 Atualização do SonarQube
 
-#### Docker
+#### Atualização via Docker
+
 ```bash
 # Parar container
 docker stop sonarqube
@@ -503,7 +520,8 @@ docker pull sonarqube:latest
 docker start sonarqube
 ```
 
-#### Manual
+#### Atualização Manual
+
 1. Baixe a nova versão
 2. Pare o servidor atual
 3. Substitua os arquivos
@@ -521,28 +539,30 @@ docker start sonarqube
 
 ### 🔗 Links Úteis
 
-- **Interface Local:** http://localhost:9000
-- **Documentação Oficial:** https://docs.sonarqube.org/
-
-- **Regras TypeScript:** https://rules.sonarsource.com/typescript/
-- **Quality Gates:** https://docs.sonarqube.org/latest/user-guide/quality-gates/
-- **Community Forum:** https://community.sonarsource.com/
+- **Interface Local:** <http://localhost:9000>
+- **Documentação Oficial:** <https://docs.sonarqube.org/>
+- **Regras TypeScript:** <https://rules.sonarsource.com/typescript/>
+- **Quality Gates:** <https://docs.sonarqube.org/latest/user-guide/quality-gates/>
+- **Community Forum:** <https://community.sonarsource.com/>
 
 ## 🛠️ Tecnologias Principais
 
 ### Core
+
 - **[Next.js 15](https://nextjs.org/)** - Framework React com App Router
 - **[React 19](https://react.dev/)** - Biblioteca UI
 - **[TypeScript](https://www.typescriptlang.org/)** - Tipagem estática
 - **[Tailwind CSS 4](https://tailwindcss.com/)** - Framework CSS
 
 ### UI & Animações
+
 - **[Framer Motion](https://www.framer.com/motion/)** - Animações
 - **[Radix UI](https://www.radix-ui.com/)** - Componentes acessíveis
 - **[Lucide Icons](https://lucide.dev/)** - Ícones
 - **[next-themes](https://github.com/pacocoursey/next-themes)** - Gerenciamento de tema
 
 ### Ferramentas de Desenvolvimento
+
 - **[ESLint](https://eslint.org/)** - Linting
 - **[SonarQube](https://www.sonarsource.com/products/sonarqube/)** - Análise de código
 - **[JSDoc](https://jsdoc.app/)** - Documentação completa em português
@@ -550,6 +570,7 @@ docker start sonarqube
 ## 📱 Recursos
 
 ### 📄 Páginas
+
 - ✅ **Home** - Hero section, portfolio showcase, depoimentos e estatísticas
 - ✅ **Sobre** - Informações profissionais, stack tecnológico e equipe
 - ✅ **Blog** - Sistema completo de blog com posts dinâmicos
@@ -557,6 +578,7 @@ docker start sonarqube
 - ✅ **Dashboard** - Painel administrativo para gerenciar conteúdo
 
 ### 🎯 Funcionalidades Principais
+
 - 🌓 **Modo Escuro/Claro** - Alternância de tema com persistência
 - 📱 **Design Responsivo** - Mobile-first, tablet e desktop
 - ⚡ **Performance Otimizada** - SSR, SSG e otimização de imagens
@@ -575,6 +597,7 @@ docker start sonarqube
 O projeto suporta temas claro e escuro com persistência usando `next-themes`. A alternância é feita através do componente `ThemeToggle`.
 
 ### Cores Principais
+
 - **Primária:** Azul (#0EA5E9)
 - **Secundária:** Indigo (#6366F1)
 - **Destaque:** Amarelo (#FBBF24)
@@ -608,6 +631,7 @@ vercel
 ```
 
 ### Outras Plataformas
+
 - **Netlify**
 - **AWS Amplify**
 - **Azure Static Web Apps**
@@ -638,15 +662,16 @@ Este projeto é propriedade de **Rainer Teixeira** e está protegido por direito
 
 ## 👨‍💻 Autor
 
-**Rainer Teixeira**
-- 📧 Email: suporte@rainersoft.com.br
+- 👤 **Nome:** Rainer Teixeira
+- 📧 **Email:** <suporte@rainersoft.com.br>
 - 💼 LinkedIn: [linkedin.com/in/rainer-teixeira](https://linkedin.com/in/rainer-teixeira)
 - 🐙 GitHub: [@rainerteixeira](https://github.com/rainerteixeira)
 
 ## 📞 Suporte
 
 Para questões e suporte:
-- 📧 Email: suporte@rainersoft.com.br
+
+- 📧 Email: <suporte@rainersoft.com.br>
 - 🌐 Website: [rainersoft.com.br](https://rainersoft.com.br)
 
 ## 🙏 Agradecimentos
@@ -662,6 +687,7 @@ Para questões e suporte:
 ## 📝 Changelog
 
 ### Versão 1.0.0 (Outubro 2025)
+
 - ✅ Portfolio completo com múltiplas páginas
 - ✅ Dashboard administrativo implementado
 - ✅ Sistema de blog com posts dinâmicos
@@ -675,7 +701,6 @@ Para questões e suporte:
 
 ---
 
-**Desenvolvido com ❤️ por Rainer Teixeira**
+#### Desenvolvido com ❤️ por Rainer Teixeira
 
-*Última atualização: 15 de Outubro de 2025*
-
+#### Última atualização: 15 de Outubro de 2025
