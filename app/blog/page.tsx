@@ -56,7 +56,7 @@ import { Separator } from "@/components/ui/separator"
 // Store & Types
 // ============================================================================
 
-import { blogStore, type BlogPost } from "@/lib/blog-store"
+import { blogStore, type BlogPost } from "@/components/blog/lib/blog-store"
 
 // ============================================================================
 // Constants

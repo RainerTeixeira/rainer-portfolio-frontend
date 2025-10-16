@@ -9,10 +9,7 @@
 
 "use client"
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -22,9 +19,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, CheckCircle2, XCircle } from "lucide-react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { CheckCircle2, Loader2, XCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 import { PasswordInput } from "../password-input"
 
 const resetPasswordSchema = z.object({
@@ -65,7 +65,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     setError(null)
 
     try {
-      const { localAuth } = await import('@/lib/auth-local')
+      const { localAuth } = await import('@/components/dashboard/lib/auth-local')
       
       const result = await localAuth.resetPassword(token, data.password)
 

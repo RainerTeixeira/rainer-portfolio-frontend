@@ -1,47 +1,101 @@
 /**
- * Contexto de Autenticação
+ * Authentication Provider Component
  * 
- * Context API para gerenciar estado de autenticação global.
- * Usa dados mockados (admin/admin) e localStorage para persistência.
+ * Provider global de autenticação para toda a aplicação.
+ * Gerencia estado de login, persistência e sessão do usuário.
  * 
- * @fileoverview Contexto de autenticação com login fake
+ * Características:
+ * - Autenticação mock local (admin/admin)
+ * - Persistência em localStorage
+ * - Restauração de sessão
+ * - Hook useAuth() para componentes filhos
+ * - Suporte a roles (manager/user)
+ * - Estado de loading
+ * 
+ * @fileoverview Authentication context provider
  * @author Rainer Teixeira
  * @version 1.0.0
  */
 
 "use client"
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react"
+// ============================================================================
+// React
+// ============================================================================
 
+import { createContext, ReactNode, useContext, useEffect, useState } from "react"
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+/**
+ * Chave do localStorage para dados do usuário
+ */
+const STORAGE_KEY_USER = "auth_user" as const
+
+// ============================================================================
+// Types
+// ============================================================================
+
+/**
+ * Dados do usuário autenticado
+ */
 interface User {
-  username: string
-  name?: string
-  email?: string
-  bio?: string
-  avatar?: string
-  role: "manager" | "user"
+  readonly username: string
+  readonly name?: string
+  readonly email?: string
+  readonly bio?: string
+  readonly avatar?: string
+  readonly role: "manager" | "user"
 }
 
+/**
+ * Tipo do contexto de autenticação
+ */
 interface AuthContextType {
-  user: User | null
-  login: (username: string, password: string) => Promise<boolean>
-  logout: () => void
-  isAuthenticated: boolean
-  isLoading: boolean
+  readonly user: User | null
+  readonly login: (username: string, password: string) => Promise<boolean>
+  readonly logout: () => void
+  readonly isAuthenticated: boolean
+  readonly isLoading: boolean
 }
+
+/**
+ * Props do AuthProvider
+ */
+interface AuthProviderProps {
+  readonly children: ReactNode
+}
+
+// ============================================================================
+// Context
+// ============================================================================
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+// ============================================================================
+// Custom Hook
+// ============================================================================
+
 /**
- * Hook useAuth
+ * Custom hook para acesso ao contexto de autenticação
  * 
- * Hook personalizado para acessar contexto de autenticação.
- * Deve ser usado dentro de AuthProvider.
+ * Fornece acesso aos dados de autenticação e funções de login/logout.
+ * Deve ser usado dentro de um AuthProvider.
  * 
- * @returns {AuthContextType} Contexto de autenticação
- * @throws {Error} Se usado fora do AuthProvider
+ * @returns Contexto de autenticação completo
+ * @throws Error se usado fora do AuthProvider
+ * 
+ * @example
+ * ```tsx
+ * function MyComponent() {
+ *   const { user, isAuthenticated, logout } = useAuth()
+ *   return <div>{user?.username}</div>
+ * }
+ * ```
  */
-export function useAuth() {
+export function useAuth(): AuthContextType {
   const context = useContext(AuthContext)
   if (context === undefined) {
     throw new Error("useAuth deve ser usado dentro de AuthProvider")
@@ -49,95 +103,135 @@ export function useAuth() {
   return context
 }
 
-interface AuthProviderProps {
-  children: ReactNode
-}
+// ============================================================================
+// Main Component
+// ============================================================================
 
 /**
- * AuthProvider
+ * Authentication Provider
  * 
- * Provedor de contexto de autenticação.
- * Gerencia estado de login e persistência em localStorage.
+ * Provedor de contexto de autenticação global.
  * 
- * Credenciais mockadas:
+ * Funcionalidades:
+ * - Login/logout de usuários
+ * - Persistência de sessão em localStorage
+ * - Restauração automática de sessão
+ * - Estado de autenticação reativo
+ * 
+ * Credenciais mock:
  * - Username: admin
  * - Password: admin
  * 
- * @param {AuthProviderProps} props - Props do provider
- * @returns {JSX.Element} Provider com children
+ * @param children - Componentes filhos que terão acesso ao contexto
+ * @returns Provider configurado
+ * 
+ * @example
+ * ```tsx
+ * // No layout raiz
+ * <AuthProvider>
+ *   <App />
+ * </AuthProvider>
+ * ```
  */
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  // ============================================================================
+  // State
+  // ============================================================================
+  
+  const [currentUser, setCurrentUser] = useState<User | null>(null)
+  const [isLoadingAuth, setIsLoadingAuth] = useState(true)
 
+  // ============================================================================
+  // Effects
+  // ============================================================================
+  
   /**
-   * Effect: Carregar usuário do localStorage ao montar
-   * Restaura sessão se houver usuário salvo
+   * Restaura sessão do localStorage ao montar
    */
   useEffect(() => {
-    const savedUser = localStorage.getItem("auth_user")
-    if (savedUser) {
+    const savedUserData = localStorage.getItem(STORAGE_KEY_USER)
+    
+    if (savedUserData) {
       try {
-        setUser(JSON.parse(savedUser))
+        const parsedUser = JSON.parse(savedUserData)
+        setCurrentUser(parsedUser)
       } catch (error) {
-        console.error("Erro ao carregar usuário:", error)
-        localStorage.removeItem("auth_user")
+        console.error("Erro ao restaurar sessão:", error)
+        localStorage.removeItem(STORAGE_KEY_USER)
       }
     }
-    setIsLoading(false)
+    
+    setIsLoadingAuth(false)
   }, [])
 
+  // ============================================================================
+  // Handler Functions
+  // ============================================================================
+  
   /**
-   * Função de login
+   * Realiza login do usuário
    * 
-   * Valida credenciais usando sistema local.
+   * Valida credenciais via auth-local e salva sessão.
    * Suporta login com username ou email.
    * 
-   * @param {string} username - Nome de usuário ou email
-   * @param {string} password - Senha
-   * @returns {Promise<boolean>} True se login bem-sucedido
+   * @param username - Nome de usuário ou email
+   * @param password - Senha do usuário
+   * @returns Promise com sucesso/falha do login
    */
-  const login = async (username: string, password: string): Promise<boolean> => {
+  const handleLogin = async (username: string, password: string): Promise<boolean> => {
     try {
-      const { localAuth } = await import('@/lib/auth-local')
+      const { localAuth } = await import('@/components/dashboard/lib/auth-local')
       
-      const result = await localAuth.login(username, password)
+      const authResult = await localAuth.login(username, password)
 
-      if (result.success && result.user) {
-        const newUser: User = {
-          username: result.user.username,
+      if (authResult.success && authResult.user) {
+        const authenticatedUser: User = {
+          username: authResult.user.username,
           role: "manager"
         }
-        setUser(newUser)
-        localStorage.setItem("auth_user", JSON.stringify(newUser))
+        
+        setCurrentUser(authenticatedUser)
+        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(authenticatedUser))
         return true
       }
 
       return false
     } catch (error) {
-      console.error("Erro no login:", error)
+      console.error("Erro ao realizar login:", error)
       return false
     }
   }
 
   /**
-   * Função de logout
+   * Realiza logout do usuário
    * 
-   * Remove usuário do estado e localStorage.
+   * Remove dados de sessão do estado e localStorage.
    */
-  const logout = () => {
-    setUser(null)
-    localStorage.removeItem("auth_user")
+  const handleLogout = () => {
+    setCurrentUser(null)
+    localStorage.removeItem(STORAGE_KEY_USER)
   }
 
-  const value: AuthContextType = {
-    user,
-    login,
-    logout,
-    isAuthenticated: !!user,
-    isLoading
+  // ============================================================================
+  // Context Value
+  // ============================================================================
+  
+  const authContextValue: AuthContextType = {
+    user: currentUser,
+    login: handleLogin,
+    logout: handleLogout,
+    isAuthenticated: !!currentUser,
+    isLoading: isLoadingAuth
   }
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  // ============================================================================
+  // Render
+  // ============================================================================
+  
+  return (
+    <AuthContext.Provider value={authContextValue}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
 

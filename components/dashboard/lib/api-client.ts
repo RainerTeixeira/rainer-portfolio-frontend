@@ -9,13 +9,13 @@
  * @version 1.0.0
  */
 
-import type { 
-  Post, 
-  CreatePostDTO, 
-  UpdatePostDTO, 
-  PaginatedPosts,
-  Category,
-  User 
+import type {
+    Category,
+    CreatePostDTO,
+    PaginatedPosts,
+    Post,
+    UpdatePostDTO,
+    User
 } from '@/types/database'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api'

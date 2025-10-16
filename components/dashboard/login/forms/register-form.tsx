@@ -9,11 +9,9 @@
 
 "use client"
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Form,
   FormControl,
@@ -24,12 +22,14 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, CheckCircle2, XCircle } from "lucide-react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { CheckCircle2, Loader2, XCircle } from "lucide-react"
 import Link from "next/link"
-import { TermsDialog } from "../terms-dialog"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 import { PasswordInput } from "../password-input"
+import { TermsDialog } from "../terms-dialog"
 
 // Schema de validação
 const registerSchema = z.object({
@@ -82,7 +82,7 @@ export function RegisterForm({ }: RegisterFormProps) {
     setError(null)
 
     try {
-      const { localAuth } = await import('@/lib/auth-local')
+      const { localAuth } = await import('@/components/dashboard/lib/auth-local')
       
       const result = await localAuth.register({
         name: data.name,

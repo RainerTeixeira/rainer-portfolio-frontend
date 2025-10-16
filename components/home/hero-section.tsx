@@ -11,10 +11,11 @@
 
 "use client"
 
-import { useState, useEffect } from "react"
 import { motion, useAnimation } from "framer-motion"
 import { useTheme } from "next-themes"
 import dynamic from 'next/dynamic'
+import { useEffect, useState } from "react"
+import { useCarouselKeyboard } from './hooks'
 
 // ============================================================================
 // Dynamic Imports
@@ -232,21 +233,30 @@ function HeroContentOverlay({ currentSlideIndex, isDarkTheme }: HeroContentOverl
 export function HeroSection() {
   const { resolvedTheme } = useTheme()
   const [isMounted, setIsMounted] = useState(false)
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
 
   // Previne erro de hidratação SSR
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
-  // Gerencia rotação automática dos slides
-  useEffect(() => {
-    const slideInterval = setInterval(() => {
-      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % HERO_TITLES.length)
-    }, SLIDE_DURATION_MS)
-
-    return () => clearInterval(slideInterval)
-  }, [])
+  /* ==========================================================
+     HOOK DE NAVEGAÇÃO POR TECLADO COM AUTOPLAY 🎹
+     ========================================================== */
+  const {
+    currentSlide: currentSlideIndex,
+    pauseAutoplay,
+    resumeAutoplay,
+  } = useCarouselKeyboard({
+    slideCount: HERO_TITLES.length,
+    autoplay: true,
+    autoplayInterval: SLIDE_DURATION_MS,
+    loop: true,
+    pauseOnInteraction: false, // Não pausar ao navegar (manter fluidez)
+    respectReducedMotion: true,
+    onSlideChange: (index) => {
+      console.log(`[Hero] Slide ${index + 1}/${HERO_TITLES.length}: ${HERO_TITLES[index]}`)
+    }
+  })
 
   const isDarkTheme = isMounted && resolvedTheme === 'dark'
 
@@ -258,6 +268,8 @@ export function HeroSection() {
         maxHeight: '100svh'
       }}
       aria-label="Seção principal de apresentação"
+      onMouseEnter={pauseAutoplay}
+      onMouseLeave={resumeAutoplay}
     >
       {/* Layer 1: Carousel de fundo (z-0) */}
       <div className="absolute inset-0 z-0" aria-hidden="true">

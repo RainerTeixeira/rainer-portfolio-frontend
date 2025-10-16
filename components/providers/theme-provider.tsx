@@ -1,23 +1,39 @@
 /**
- * Provider de Tema para Aplicação
+ * Theme Provider Component
  * 
- * Componente wrapper que fornece funcionalidade de tema (claro/escuro/sistema)
- * para toda a aplicação utilizando a biblioteca next-themes.
+ * Provider global de tema (claro/escuro/sistema) para toda a aplicação.
+ * Wrapper do next-themes que gerencia alternância de tema e persistência.
  * 
- * Este provider deve envolver toda a aplicação no layout raiz e permite
- * que componentes filhos acessem e modifiquem o tema via useTheme hook.
+ * Características:
+ * - Alternância entre light/dark/system
+ * - Detecção automática de preferência do SO
+ * - Persistência em localStorage
+ * - Sincronização entre abas
+ * - Prevenção de flash (FOIT)
+ * - Hook useTheme() disponível para filhos
  * 
- * @fileoverview Provider de tema global usando next-themes
+ * @fileoverview Theme provider wrapper usando next-themes
  * @author Rainer Teixeira
  * @version 1.0.0
- * @since 1.0.0
  */
 
 "use client"
 
+// ============================================================================
+// React
+// ============================================================================
+
 import * as React from "react"
-import { ThemeProvider as NextThemesProvider } from "next-themes"
-import { type ThemeProviderProps } from "next-themes"
+
+// ============================================================================
+// Next Themes
+// ============================================================================
+
+import { ThemeProvider as NextThemesProvider, type ThemeProviderProps } from "next-themes"
+
+// ============================================================================
+// Main Component
+// ============================================================================
 
 /**
  * Componente ThemeProvider

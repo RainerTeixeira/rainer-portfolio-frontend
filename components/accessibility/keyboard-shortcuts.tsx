@@ -9,7 +9,6 @@
 
 "use client"
 
-import { useState, useEffect } from "react"
 import {
   Dialog,
   DialogContent,
@@ -19,6 +18,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Keyboard } from "lucide-react"
+import { useKeyboardShortcuts } from "./hooks"
 
 interface Shortcut {
   keys: string[]
@@ -38,20 +38,7 @@ const shortcuts: Shortcut[] = [
 ]
 
 export function KeyboardShortcuts() {
-  const [open, setOpen] = useState(false)
-
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      // Ctrl + / ou ? para mostrar atalhos
-      if ((e.ctrlKey || e.metaKey) && e.key === "/") {
-        e.preventDefault()
-        setOpen(true)
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [])
+  const { open, setOpen } = useKeyboardShortcuts()
 
   const groupedShortcuts = shortcuts.reduce((acc, shortcut) => {
     if (!acc[shortcut.category]) {

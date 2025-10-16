@@ -33,15 +33,15 @@ import { Inter, Orbitron, Rajdhani } from "next/font/google"
 // Providers
 // ============================================================================
 
-import { ThemeProvider } from "@/components/providers/theme-provider"
 import { AuthProvider } from "@/components/providers/auth-provider"
+import { ThemeProvider } from "@/components/providers/theme-provider"
 
 // ============================================================================
 // Layout Components
 // ============================================================================
 
-import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
+import { Navbar } from "@/components/layout/navbar"
 
 // ============================================================================
 // UI Components
@@ -129,13 +129,13 @@ const fontRajdhani = Rajdhani({
  * 
  * @type {import('next').Metadata}
  */
-export const metadata = {
+export const metadata: import('next').Metadata = {
   title: {
     default: `${SITE_CONFIG.name} - ${SITE_CONFIG.title} | Empresa de Desenvolvimento`,
     template: `%s | ${SITE_CONFIG.name}`
   },
   description: SITE_CONFIG.description,
-  keywords: SITE_CONFIG.keywords,
+  keywords: [...SITE_CONFIG.keywords],
   authors: [{ name: SITE_CONFIG.name, url: SITE_CONFIG.url }],
   creator: SITE_CONFIG.name,
   publisher: SITE_CONFIG.name,
@@ -158,11 +158,6 @@ export const metadata = {
         alt: `${SITE_CONFIG.name} - Empresa de Desenvolvimento Full-Stack`,
       }
     ],
-  },
-  instagram: {
-    url: SITE_CONFIG.instagram,
-    title: `${SITE_CONFIG.name} - ${SITE_CONFIG.title}`,
-    description: SITE_CONFIG.description,
   },
   robots: {
     index: true,
@@ -193,15 +188,77 @@ export const metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: `${SITE_CONFIG.name} - Empresa de Desenvolvimento`,
+    title: `${SITE_CONFIG.name}`,
     startupImage: [
+      // iPhone SE (1st gen), 5s, 5c, 5
       {
-        url: '/splash-screen-640x1136.png',
-        media: '(device-width: 320px) and (device-height: 568px)',
+        url: '/splash-screens/iphone5.png',
+        media: '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
       },
+      // iPhone 6, 6s, 7, 8, SE (2nd/3rd gen)
       {
-        url: '/splash-screen-750x1334.png',
-        media: '(device-width: 375px) and (device-height: 667px)',
+        url: '/splash-screens/iphone6.png',
+        media: '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)',
+      },
+      // iPhone 6 Plus, 6s Plus, 7 Plus, 8 Plus
+      {
+        url: '/splash-screens/iphone6plus.png',
+        media: '(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)',
+      },
+      // iPhone X, XS, 11 Pro, 12 Mini, 13 Mini
+      {
+        url: '/splash-screens/iphonex.png',
+        media: '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)',
+      },
+      // iPhone XR, 11
+      {
+        url: '/splash-screens/iphonexr.png',
+        media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)',
+      },
+      // iPhone XS Max, 11 Pro Max
+      {
+        url: '/splash-screens/iphonexsmax.png',
+        media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)',
+      },
+      // iPhone 12, 12 Pro, 13, 13 Pro, 14
+      {
+        url: '/splash-screens/iphone12.png',
+        media: '(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)',
+      },
+      // iPhone 12 Pro Max, 13 Pro Max, 14 Plus
+      {
+        url: '/splash-screens/iphone12promax.png',
+        media: '(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)',
+      },
+      // iPhone 14 Pro
+      {
+        url: '/splash-screens/iphone14pro.png',
+        media: '(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)',
+      },
+      // iPhone 14 Pro Max
+      {
+        url: '/splash-screens/iphone14promax.png',
+        media: '(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)',
+      },
+      // iPad Mini, Air
+      {
+        url: '/splash-screens/ipad.png',
+        media: '(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)',
+      },
+      // iPad Pro 10.5"
+      {
+        url: '/splash-screens/ipadpro10.png',
+        media: '(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)',
+      },
+      // iPad Pro 11"
+      {
+        url: '/splash-screens/ipadpro11.png',
+        media: '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)',
+      },
+      // iPad Pro 12.9"
+      {
+        url: '/splash-screens/ipadpro12.png',
+        media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)',
       },
     ],
   },
@@ -221,28 +278,66 @@ export const metadata = {
     ],
   },
   other: {
+    // ========== PWA Universal ==========
     'mobile-web-app-capable': 'yes',
-    'apple-mobile-web-app-capable': 'yes',
     'application-name': SITE_CONFIG.name,
-    'msapplication-TileColor': '#000000',
+    
+    // ========== iOS (Apple) ==========
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'black-translucent',
+    'apple-mobile-web-app-title': SITE_CONFIG.name,
+    'format-detection': 'telephone=no, date=no, email=no, address=no',
+    
+    // ========== Android (Chrome/Samsung) ==========
+    // Theme color para barra de status Android
     'theme-color': '#000000',
+    'mobile-web-app-status-bar-style': 'black-translucent',
+    
+    // ========== Microsoft (Windows/Edge) ==========
+    'msapplication-TileColor': '#000000',
+    'msapplication-navbutton-color': '#000000',
+    'msapplication-starturl': '/',
+    'msapplication-tap-highlight': 'no',
+    
+    // ========== Performance & SEO ==========
+    'HandheldFriendly': 'true',
+    'MobileOptimized': '375',
+    
+    // ========== Security ==========
+    'referrer': 'origin-when-cross-origin',
   },
 }
 
 /**
- * Configuração de Viewport
+ * Configuração de Viewport Universal
  * 
  * Movido do metadata export conforme recomendação Next.js 15+
- * Define como a página deve ser renderizada em diferentes dispositivos
+ * Define como a página deve ser renderizada em TODOS os dispositivos
+ * 
+ * Configurações otimizadas para:
+ * - iOS: viewportFit 'cover' para notch/Dynamic Island
+ * - Android: theme-color adaptativo para barra de status
+ * - Desktop: zoom controlado para melhor UX
+ * - PWA: experiência fullscreen em todos os dispositivos
  * 
  * @type {import('next').Viewport}
  */
-export const viewport = {
+export const viewport: import('next').Viewport = {
+  // Dimensões responsivas
   width: 'device-width',
   initialScale: 1,
+  minimumScale: 1,
   maximumScale: 5,
   userScalable: true,
+  
+  // iOS - Estende até as bordas (notch, Dynamic Island)
   viewportFit: 'cover',
+  
+  // Theme Color adaptativo (Android + iOS 15+)
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
+  ],
 }
 
 // ============================================================================

@@ -24,40 +24,40 @@
 
 "use client"
 
-import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
+import {
+  AuthorCard,
+  BookmarkButton,
+  CommentSection,
+  LikeButton,
+  NewsletterBox,
+  ReadingProgress,
+  ReadingTime,
+  ShareButton,
+  TableOfContents
+} from "@/components/blog"
+import { blogStore, type BlogPost } from "@/components/blog/lib/blog-store"
+import { tiptapJSONtoHTML } from "@/components/dashboard/lib/tiptap-utils"
+import { BackToTop, ParticlesEffect } from "@/components/ui"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
-import Image from "next/image"
-import Link from "next/link"
 import {
   ArrowLeft,
   Calendar,
-  Tag,
-  User,
+  ChevronLeft,
+  ChevronRight,
   Eye,
   Heart,
-  ChevronLeft,
-  ChevronRight
+  Tag,
+  User
 } from "lucide-react"
-import { blogStore, type BlogPost } from "@/lib/blog-store"
-import { tiptapJSONtoHTML } from "@/lib/tiptap-utils"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Card, CardContent } from "@/components/ui/card"
-import { ParticlesEffect, BackToTop } from "@/components/ui"
-import { 
-  CommentSection, 
-  LikeButton, 
-  ShareButton, 
-  BookmarkButton, 
-  ReadingTime,
-  ReadingProgress,
-  TableOfContents,
-  AuthorCard,
-  NewsletterBox
-} from "@/components/blog"
-import { cn } from "@/lib/utils"
+import Image from "next/image"
+import Link from "next/link"
+import { useParams, useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 /**
  * Componente PostPage

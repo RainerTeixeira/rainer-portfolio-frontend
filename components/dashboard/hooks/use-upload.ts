@@ -35,8 +35,8 @@
 
 "use client"
 
-import { useState, useCallback } from 'react'
-import { uploadToCloudinary, uploadBlogCover, uploadBlogContentImage } from '@/lib/cloudinary'
+import { uploadBlogContentImage, uploadBlogCover, uploadToCloudinary } from '@/components/dashboard/lib/cloudinary'
+import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
 
 /**

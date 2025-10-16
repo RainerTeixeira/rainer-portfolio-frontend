@@ -9,8 +9,8 @@
  * @version 1.0.0
  */
 
-import type { BlogPost } from './blog-store'
-import type { PostStatus } from '@/types/database'
+import type { PostStatus } from '@/types/database';
+import type { BlogPost } from './blog-store';
 
 /**
  * Helper para criar conteúdo Tiptap de forma mais concisa

@@ -27,24 +27,24 @@
 // React & Next.js
 // ============================================================================
 
-import { useEffect, useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { Suspense, useEffect, useState } from "react"
 
 // ============================================================================
 // Third-party Libraries
 // ============================================================================
 
-import { motion, AnimatePresence } from "framer-motion"
-import { 
-  Plus, 
-  Save, 
-  Eye, 
-  EyeOff, 
-  Trash2, 
+import { AnimatePresence, motion } from "framer-motion"
+import {
   ArrowLeft,
-  FileText,
   CheckCircle2,
-  Loader2
+  Eye,
+  EyeOff,
+  FileText,
+  Loader2,
+  Plus,
+  Save,
+  Trash2
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -58,32 +58,32 @@ import { useAuth } from "@/components/providers/auth-provider"
 // Store & Types
 // ============================================================================
 
-import { blogStore, type BlogPost } from "@/lib/blog-store"
+import { blogStore, type BlogPost } from "@/components/blog/lib/blog-store"
 import type { TiptapJSON } from "@/types/database"
 
 // ============================================================================
 // UI Components
 // ============================================================================
 
+import { BackToTop } from "@/components/ui"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BackToTop } from "@/components/ui"
 
 // ============================================================================
 // Dashboard Components
 // ============================================================================
 
-import { 
-  ProfileHeader,
-  QuickStats,
-  QuickActions,
-  RecentPostsList,
+import {
   AnalyticsOverview,
-  HelpCenter
+  HelpCenter,
+  ProfileHeader,
+  QuickActions,
+  QuickStats,
+  RecentPostsList
 } from "@/components/dashboard"
 
 // ============================================================================
@@ -97,7 +97,7 @@ import { Editor } from "@/components/dashboard/Editor"
 // Utils
 // ============================================================================
 
-import { tiptapJSONtoHTML } from "@/lib/tiptap-utils"
+import { tiptapJSONtoHTML } from "@/components/dashboard/lib/tiptap-utils"
 import { textToSlug } from "@/lib/api-helpers"
 import { cn } from "@/lib/utils"
 

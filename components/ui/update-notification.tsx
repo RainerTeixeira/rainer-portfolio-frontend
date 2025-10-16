@@ -19,10 +19,12 @@
 
 'use client'
 
+import { usePWA } from '@/hooks/use-pwa'
 import { RefreshCw } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { Button } from './button'
 import { Card } from './card'
-import { usePWA } from '@/hooks/use-pwa'
 
 /**
  * Componente UpdateNotification
@@ -36,7 +38,15 @@ import { usePWA } from '@/hooks/use-pwa'
  * <UpdateNotification />
  */
 export function UpdateNotification() {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
   const { updateAvailable, updateServiceWorker } = usePWA()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted && resolvedTheme === 'dark'
 
   // Não renderiza se não há atualização
   if (!updateAvailable) return null
@@ -63,7 +73,7 @@ export function UpdateNotification() {
        * - border cyberpunk
        * - shadow com glow
        */}
-      <Card className="backdrop-blur-xl bg-black/90 dark:bg-black/95 border-2 border-purple-400/50 shadow-2xl shadow-purple-500/30">
+      <Card className={`backdrop-blur-xl ${isDark ? 'bg-black/90 border-purple-400/50 shadow-purple-500/30' : 'bg-white/90 border-purple-500/50 shadow-purple-600/30'} border-2 shadow-2xl`}>
         <div className="p-4">
           {/**
            * Layout flex: conteúdo + botão
@@ -73,8 +83,8 @@ export function UpdateNotification() {
              * Ícone de atualização
              * Círculo com gradiente e animação de spin
              */}
-            <div className="flex-shrink-0 p-2 rounded-full bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-cyan-500/20 border border-purple-400/30">
-              <RefreshCw className="h-5 w-5 text-purple-400 animate-spin" style={{ animationDuration: '3s' }} />
+            <div className={`flex-shrink-0 p-2 rounded-full bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-cyan-500/20 ${isDark ? 'border-purple-400/30' : 'border-purple-500/30'} border`}>
+              <RefreshCw className={`h-5 w-5 ${isDark ? 'text-purple-400' : 'text-purple-600'} animate-spin`} style={{ animationDuration: '3s' }} />
             </div>
             
             {/**
@@ -82,12 +92,12 @@ export function UpdateNotification() {
              */}
             <div className="flex-1 space-y-2">
               {/** Título */}
-              <h4 className="text-sm font-bold text-purple-200 font-mono">
+              <h4 className={`text-sm font-bold ${isDark ? 'text-purple-200' : 'text-purple-800'} font-mono`}>
                 Nova Versão Disponível
               </h4>
               
               {/** Descrição */}
-              <p className="text-xs text-gray-300">
+              <p className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                 Atualize para obter as últimas melhorias e correções.
               </p>
               
@@ -95,7 +105,7 @@ export function UpdateNotification() {
               <Button
                 onClick={updateServiceWorker}
                 size="sm"
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-mono font-bold"
+                className={`w-full ${isDark ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600' : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'} text-white font-mono font-bold`}
               >
                 <RefreshCw className="h-3 w-3 mr-2" />
                 Atualizar Agora

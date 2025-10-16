@@ -20,25 +20,18 @@
 
 "use client"
 
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { useState } from "react"
-import { CARD_CLASSES, cn } from "@/lib/utils"
 import { SITE_CONFIG } from "@/constants"
+import { CARD_CLASSES, cn } from "@/lib/utils"
+import { useContactForm } from "./hooks"
 
 /**
  * Componente ContactForm
  * 
  * Renderiza formulário de contato completo com 2 colunas.
- * 
- * Estado interno:
- * - formData: objeto com campos name, email, subject, message
- * 
- * Funções:
- * - handleSubmit: processa envio do formulário
- * - handleChange: atualiza estado conforme usuário digita
  * 
  * Layout:
  * - Coluna 1: formulário de envio
@@ -54,48 +47,7 @@ import { SITE_CONFIG } from "@/constants"
  * </section>
  */
 export function ContactForm() {
-  /**
-   * Estado do formulário
-   * Objeto com todos os campos do form
-   */
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: ""
-  })
-
-  /**
-   * Handler de envio do formulário
-   * 
-   * - Previne reload da página
-   * - Loga dados (em produção, faria POST à API)
-   * - Mostra alert de sucesso
-   * - Reseta campos do formulário
-   * 
-   * @param {React.FormEvent} e - Evento de submit
-   */
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Formulário enviado:", formData)
-    alert("Mensagem enviada com sucesso! Entraremos em contato em breve.")
-    setFormData({ name: "", email: "", subject: "", message: "" })
-  }
-
-  /**
-   * Handler de mudança de inputs
-   * 
-   * Atualiza estado formData conforme usuário digita.
-   * Usa name do input como chave no objeto.
-   * 
-   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>} e - Evento de change
-   */
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+  const { formData, handleChange, handleSubmit } = useContactForm()
 
   return (
     <div className={cn("max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8")}>

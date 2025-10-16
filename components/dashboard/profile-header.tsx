@@ -10,33 +10,42 @@
 
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Camera, Edit2, Mail, Calendar, Shield } from "lucide-react"
+import { useAuth } from "@/components/providers/auth-provider"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { useAuth } from "@/components/providers/auth-provider"
 import { cn } from "@/lib/utils"
+import { motion } from "framer-motion"
+import { Calendar, Camera, Edit2, Mail, Shield } from "lucide-react"
+import { useTheme } from "next-themes"
+import { useEffect, useState } from "react"
 
 interface ProfileHeaderProps {
   onAvatarChange?: (file: File) => void
 }
 
 export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
   const { user } = useAuth()
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted && resolvedTheme === 'dark'
   const [editData, setEditData] = useState({
     name: user?.name || "",
     email: user?.email || "",
@@ -77,7 +86,7 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-700 rounded-lg p-8 text-white relative overflow-hidden shadow-xl dark:shadow-cyan-500/20"
+        className={`${isDark ? 'bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-700' : 'bg-gradient-to-r from-blue-500 via-purple-600 to-pink-600'} rounded-lg p-8 text-white relative overflow-hidden shadow-xl ${isDark ? 'shadow-cyan-500/20' : 'shadow-blue-500/20'}`}
       >
         {/* Pattern de fundo */}
         <div className="absolute inset-0 opacity-10">

@@ -23,23 +23,24 @@
 // React & Next.js Imports
 // ============================================================================
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
 import Image from "next/image"
+import Link from "next/link"
+import { useEffect, useState } from "react"
 
 // ============================================================================
 // Third-party Libraries
 // ============================================================================
 
 import { motion } from "framer-motion"
-import { Menu, LogIn, LogOut, Settings, LayoutDashboard } from "lucide-react"
+import { LayoutDashboard, LogIn, LogOut, Menu, Settings } from "lucide-react"
 
 // ============================================================================
 // Internal Components
 // ============================================================================
 
-import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme/theme-toggle"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,14 +56,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 // ============================================================================
 // Providers & Utils
 // ============================================================================
 
 import { useAuth } from "@/components/providers/auth-provider"
-import { SITE_CONFIG, NAVIGATION } from "@/constants"
+import { NAVIGATION, SITE_CONFIG } from "@/constants"
 import { cn } from "@/lib/utils"
 
 // ============================================================================
@@ -311,11 +311,20 @@ export function Navbar() {
   
   const [hasScrolled, setHasScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   const { user, isAuthenticated, logout } = useAuth()
 
   // ============================================================================
   // Effects
   // ============================================================================
+  
+  /**
+   * Detecta quando componente está montado no cliente
+   * Previne erros de hidratação com Radix UI gerando IDs diferentes
+   */
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
   
   /**
    * Detecta scroll para ativar efeito glassmorphism
@@ -447,26 +456,27 @@ export function Navbar() {
           {/* Menu mobile */}
           <div className="flex items-center gap-2 md:hidden">
             <ThemeToggle />
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className={cn(
-                    "md:hidden h-10 w-10",
-                    "text-foreground dark:text-cyan-300",
-                    "hover:bg-accent/50 dark:hover:bg-cyan-400/10",
-                    "hover:text-accent-foreground dark:hover:text-cyan-200",
-                    "ring-offset-background focus-visible:outline-none",
-                    "focus-visible:ring-2 focus-visible:ring-ring",
-                    "dark:ring-offset-black dark:focus-visible:ring-cyan-400",
-                    "transition-all duration-200 active:scale-95"
-                  )}
-                  aria-label="Abrir menu"
-                >
-                  <Menu className="h-5 w-5 transition-transform duration-200" />
-                </Button>
-              </SheetTrigger>
+            {isMounted && (
+              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      "md:hidden h-10 w-10",
+                      "text-foreground dark:text-cyan-300",
+                      "hover:bg-accent/50 dark:hover:bg-cyan-400/10",
+                      "hover:text-accent-foreground dark:hover:text-cyan-200",
+                      "ring-offset-background focus-visible:outline-none",
+                      "focus-visible:ring-2 focus-visible:ring-ring",
+                      "dark:ring-offset-black dark:focus-visible:ring-cyan-400",
+                      "transition-all duration-200 active:scale-95"
+                    )}
+                    aria-label="Abrir menu"
+                  >
+                    <Menu className="h-5 w-5 transition-transform duration-200" />
+                  </Button>
+                </SheetTrigger>
               <SheetContent 
                 side="right" 
                 className={cn(
@@ -634,6 +644,7 @@ export function Navbar() {
                 </div>
               </SheetContent>
             </Sheet>
+            )}
           </div>
         </div>
       </div>

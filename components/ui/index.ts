@@ -60,15 +60,10 @@ export { Label } from './label'
 export { Textarea } from './textarea'
 
 /** Sistema de Dialog/Modal */
-export { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogFooter,
-  DialogTrigger,
-  DialogClose 
+export {
+  Dialog, DialogClose, DialogContent,
+  DialogDescription, DialogFooter, DialogHeader,
+  DialogTitle, DialogTrigger
 } from './dialog'
 
 /** 
@@ -77,62 +72,41 @@ export {
  */
 
 /** Componente BackToTop: botão voltar ao topo */
-export { BackToTopButton } from './back-to-top'
-export { BackToTopButton as BackToTop } from './back-to-top'
+export { BackToTopButton as BackToTop, BackToTopButton } from './back-to-top'
 
 /** Componente Skeleton: loading placeholders */
 export { Skeleton } from './skeleton'
 
 /** Componente Tooltip: tooltips informativos */
-export { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from './tooltip'
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip'
 
 /** Componente Sheet: drawer lateral */
-export { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from './sheet'
+export { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from './sheet'
 
 // ══════════════════════════════════════════════════════════════
 // NOVOS COMPONENTES ADICIONADOS
 // ══════════════════════════════════════════════════════════════
 
 /** Componente Select: dropdown select */
-export { 
-  Select, 
-  SelectGroup, 
-  SelectValue, 
-  SelectTrigger, 
-  SelectContent, 
-  SelectLabel, 
-  SelectItem, 
-  SelectSeparator,
-  SelectScrollUpButton,
-  SelectScrollDownButton
+export {
+  Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue
 } from './select'
 
 /** Componente Tabs: navegação em abas */
-export { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs'
+export { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs'
 
 /** Componente Switch: toggle switch */
 export { Switch } from './switch'
 
 /** Componente Popover: popover contextual */
-export { Popover, PopoverTrigger, PopoverContent } from './popover'
+export { Popover, PopoverContent, PopoverTrigger } from './popover'
 
 /** Componente DropdownMenu: menu dropdown */
-export { 
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuCheckboxItem,
-  DropdownMenuRadioItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuGroup,
-  DropdownMenuPortal,
-  DropdownMenuSub,
+export {
+  DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator,
+  DropdownMenuShortcut, DropdownMenuSub,
   DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuRadioGroup,
+  DropdownMenuSubTrigger, DropdownMenuTrigger
 } from './dropdown-menu'
 
 /** Componente Checkbox: checkbox para seleção */
@@ -140,46 +114,36 @@ export { Checkbox } from './checkbox'
 
 /** Componente Form: formulários com validação */
 export {
-  useFormField,
-  Form,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
-  FormField,
+  Form, FormControl,
+  FormDescription, FormField, FormItem,
+  FormLabel, FormMessage, useFormField
 } from './form'
 
 /** Componente Alert: alertas e mensagens */
-export { Alert, AlertTitle, AlertDescription } from './alert'
+export { Alert, AlertDescription, AlertTitle } from './alert'
 
 /** Componente AlertDialog: dialogs de confirmação */
 export {
-  AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
+  AlertDialog, AlertDialogAction,
+  AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger
 } from './alert-dialog'
 
 /** Componente Command: command palette (Ctrl+K) */
 export {
   Command,
-  CommandDialog,
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandShortcut,
-  CommandSeparator,
+  CommandDialog, CommandEmpty,
+  CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut
 } from './command'
 
 /** Componente ScrollArea: área de scroll customizada */
 export { ScrollArea, ScrollBar } from './scroll-area'
+
+// ============================================================================
+// ENTERPRISE COMPONENTS - Adicionados Outubro 2025
+// ============================================================================
+
+/** Loading States: componentes padronizados de carregamento */
+export {
+  EmptyState, FullPageLoader,
+  InlineLoader, LoadingSpinner, SkeletonGrid
+} from './loading-states'

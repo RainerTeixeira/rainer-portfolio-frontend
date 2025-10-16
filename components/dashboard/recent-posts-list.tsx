@@ -15,7 +15,7 @@ import { Edit2, Trash2, Eye, Calendar, Tag } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { blogStore, type BlogPost } from "@/lib/blog-store"
+import { blogStore, type BlogPost } from "@/components/blog/lib/blog-store"
 import { cn } from "@/lib/utils"
 
 interface RecentPostsListProps {

@@ -1,55 +1,135 @@
 /**
- * Seção Sobre Mim (About Section)
+ * About Section Component
  * 
- * Card de apresentação pessoal/profissional redesenhado com visual premium
+ * Seção de apresentação profissional para home page.
+ * Card premium com avatar, métricas e call-to-action.
  * 
- * @fileoverview Seção de apresentação profissional na home
+ * Características:
+ * - Avatar com animação circular
+ * - Cards de métricas profissionais
+ * - Badge de disponibilidade
+ * - Call-to-action para página sobre
+ * - Tema dual (light/dark)
+ * - Animações de entrada
+ * 
+ * @fileoverview Seção sobre na home page
  * @author Rainer Teixeira
+ * @version 1.0.0
  */
 
 "use client"
 
-import { memo, useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { useTheme } from "next-themes"
-import { Button } from "@/components/ui/button"
-import { Target, Code, Rocket, ArrowRight, Sparkles, Award } from "lucide-react"
-import Link from "next/link"
+// ============================================================================
+// React & Hooks
+// ============================================================================
+
 import Image from "next/image"
+import Link from "next/link"
+import { memo, useEffect, useState } from "react"
 
+// ============================================================================
+// Third-party Libraries
+// ============================================================================
+
+import { motion } from "framer-motion"
+import { ArrowRight, Award, Code, Rocket, Sparkles, Target } from "lucide-react"
+import { useTheme } from "next-themes"
+
+// ============================================================================
+// UI Components
+// ============================================================================
+
+import { Button } from "@/components/ui/button"
+
+// ============================================================================
+// Types
+// ============================================================================
+
+/**
+ * Tipo de uma métrica profissional
+ */
+interface ProfessionalMetric {
+  readonly icon: React.ComponentType<{ className?: string }>
+  readonly value: string
+  readonly label: string
+  readonly gradient: string
+  readonly iconBg: string
+}
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+/**
+ * Métricas profissionais exibidas na seção
+ */
+const PROFESSIONAL_STATS: readonly ProfessionalMetric[] = [
+  {
+    icon: Target,
+    value: "10+",
+    label: "Projetos Full-Stack",
+    gradient: "from-cyan-500 to-blue-600",
+    iconBg: "from-cyan-400 to-blue-500"
+  },
+  {
+    icon: Code,
+    value: "50K+",
+    label: "Linhas de Código",
+    gradient: "from-purple-500 to-pink-600",
+    iconBg: "from-purple-400 to-pink-500"
+  },
+  {
+    icon: Rocket,
+    value: "20+",
+    label: "Tecnologias",
+    gradient: "from-orange-500 to-amber-600",
+    iconBg: "from-orange-400 to-amber-500"
+  }
+] as const
+
+// ============================================================================
+// Main Component
+// ============================================================================
+
+/**
+ * Componente principal da About Section
+ * 
+ * Seção de apresentação com avatar, métricas e CTA.
+ * Memoizado para otimização de performance.
+ */
 export const AboutSection = memo(function AboutSection() {
+  // ============================================================================
+  // Hooks
+  // ============================================================================
+  
   const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  
+  // ============================================================================
+  // State
+  // ============================================================================
+  
+  const [isMounted, setIsMounted] = useState(false)
 
+  // ============================================================================
+  // Effects
+  // ============================================================================
+  
+  /**
+   * Previne erro de hidratação
+   */
   useEffect(() => {
-    setMounted(true)
+    setIsMounted(true)
   }, [])
 
-  const isDark = mounted && resolvedTheme === 'dark'
+  // ============================================================================
+  // Computed Values
+  // ============================================================================
+  
+  const isDarkTheme = isMounted && resolvedTheme === 'dark'
 
-  const stats = [
-    {
-      icon: Target,
-      value: "10+",
-      label: "Projetos Full-Stack",
-      gradient: "from-cyan-500 to-blue-600",
-      iconBg: "from-cyan-400 to-blue-500"
-    },
-    {
-      icon: Code,
-      value: "50K+",
-      label: "Linhas de Código",
-      gradient: "from-purple-500 to-pink-600",
-      iconBg: "from-purple-400 to-pink-500"
-    },
-    {
-      icon: Rocket,
-      value: "20+",
-      label: "Tecnologias",
-      gradient: "from-orange-500 to-amber-600",
-      iconBg: "from-orange-400 to-amber-500"
-    }
-  ]
+  // ============================================================================
+  // Render
+  // ============================================================================
 
   return (
     <section className="py-20 sm:py-24 relative overflow-hidden">
@@ -63,7 +143,7 @@ export const AboutSection = memo(function AboutSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full ${isDark ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'} text-white font-bold text-sm mb-8 shadow-xl`}
+            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full ${isDarkTheme ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'} text-white font-bold text-sm mb-8 shadow-xl`}
           >
             <Sparkles className="w-5 h-5" />
             Conheça Meu Trabalho
@@ -96,7 +176,7 @@ export const AboutSection = memo(function AboutSection() {
                 {/* Avatar Premium */}
                 <div className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto mb-8">
                   {/* Círculo externo animado */}
-                  <div className={`absolute inset-0 rounded-full ${isDark ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'} animate-spin-slow opacity-60 blur-md`}></div>
+                  <div className={`absolute inset-0 rounded-full ${isDarkTheme ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'} animate-spin-slow opacity-60 blur-md`} aria-hidden="true" />
                   
                   {/* Avatar */}
                   <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl group-hover:scale-105 transition-transform duration-500">
@@ -110,7 +190,7 @@ export const AboutSection = memo(function AboutSection() {
                   </div>
                   
                   {/* Badge de status */}
-                  <div className={`absolute -bottom-2 -right-2 w-12 h-12 ${isDark ? 'bg-gradient-to-br from-green-400 to-emerald-500 shadow-green-500/50' : 'bg-gradient-to-br from-green-500 to-emerald-600 shadow-green-600/50'} rounded-full flex items-center justify-center shadow-xl border-4 border-background animate-pulse`}>
+                  <div className={`absolute -bottom-2 -right-2 w-12 h-12 ${isDarkTheme ? 'bg-gradient-to-br from-green-400 to-emerald-500 shadow-green-500/50' : 'bg-gradient-to-br from-green-500 to-emerald-600 shadow-green-600/50'} rounded-full flex items-center justify-center shadow-xl border-4 border-background animate-pulse`}>
                     <Award className="w-6 h-6 text-white" />
                   </div>
                 </div>
@@ -119,9 +199,9 @@ export const AboutSection = memo(function AboutSection() {
                 <h3 className="text-2xl sm:text-3xl font-black mb-3 text-foreground dark:text-white">
                   Rainer Teixeira
                 </h3>
-                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-400/30' : 'bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30'} border mb-6`}>
-                  <div className={`w-2 h-2 ${isDark ? 'bg-green-400 shadow-green-400/50' : 'bg-green-500 shadow-green-500/50'} rounded-full animate-pulse shadow-lg`}></div>
-                  <span className={`text-sm font-bold ${isDark ? 'text-cyan-300' : 'text-blue-700'}`}>
+                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDarkTheme ? 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-400/30' : 'bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30'} border mb-6`}>
+                  <div className={`w-2 h-2 ${isDarkTheme ? 'bg-green-400 shadow-green-400/50' : 'bg-green-500 shadow-green-500/50'} rounded-full animate-pulse shadow-lg`}></div>
+                  <span className={`text-sm font-bold ${isDarkTheme ? 'text-cyan-300' : 'text-blue-700'}`}>
                     Desenvolvedor Full-Stack
                   </span>
                 </div>
@@ -129,7 +209,7 @@ export const AboutSection = memo(function AboutSection() {
                 {/* CTA Button */}
                 <Button 
                   asChild 
-                  className={`w-full group/btn ${isDark ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 shadow-cyan-500/30 hover:shadow-cyan-500/40' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 shadow-blue-500/30 hover:shadow-blue-500/40'} text-white shadow-xl hover:shadow-2xl transition-all duration-300`}
+                  className={`w-full group/btn ${isDarkTheme ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 shadow-cyan-500/30 hover:shadow-cyan-500/40' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 shadow-blue-500/30 hover:shadow-blue-500/40'} text-white shadow-xl hover:shadow-2xl transition-all duration-300`}
                 >
                   <Link href="/sobre">
                     Ver Perfil Completo
@@ -150,8 +230,8 @@ export const AboutSection = memo(function AboutSection() {
           >
             {/* Stats Grid */}
             <div className="grid grid-cols-3 gap-4 sm:gap-6">
-              {stats.map((stat, index) => {
-                const Icon = stat.icon
+              {PROFESSIONAL_STATS.map((metric, index) => {
+                const MetricIcon = metric.icon
                 return (
                   <motion.div
                     key={index}
@@ -163,25 +243,25 @@ export const AboutSection = memo(function AboutSection() {
                   >
                     <div className="relative bg-card/80 dark:bg-black/60 backdrop-blur-xl rounded-2xl p-6 border border-border/50 dark:border-cyan-400/20 hover:border-primary dark:hover:border-cyan-400/60 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 overflow-hidden text-center">
                       {/* Brilho de fundo */}
-                      <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover/stat:opacity-10 transition-opacity duration-500`}></div>
+                      <div className={`absolute inset-0 bg-gradient-to-br ${metric.gradient} opacity-0 group-hover/stat:opacity-10 transition-opacity duration-500`} aria-hidden="true" />
                       
                       <div className="relative z-10">
                         {/* Ícone */}
                         <div className="relative mb-4">
-                          <div className={`absolute inset-0 bg-gradient-to-br ${stat.iconBg} rounded-xl blur-md opacity-40`}></div>
-                          <div className={`relative inline-flex p-3 rounded-xl bg-gradient-to-br ${stat.iconBg} shadow-lg group-hover/stat:scale-110 group-hover/stat:rotate-6 transition-all duration-300`}>
-                            <Icon className="h-6 w-6 text-white" />
+                          <div className={`absolute inset-0 bg-gradient-to-br ${metric.iconBg} rounded-xl blur-md opacity-40`} aria-hidden="true" />
+                          <div className={`relative inline-flex p-3 rounded-xl bg-gradient-to-br ${metric.iconBg} shadow-lg group-hover/stat:scale-110 group-hover/stat:rotate-6 transition-all duration-300`}>
+                            <MetricIcon className="h-6 w-6 text-white" aria-hidden="true" />
                           </div>
                         </div>
                         
                         {/* Valor */}
-                        <div className={`text-3xl sm:text-4xl font-black mb-2 bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent`}>
-                          {stat.value}
+                        <div className={`text-3xl sm:text-4xl font-black mb-2 bg-gradient-to-r ${metric.gradient} bg-clip-text text-transparent`}>
+                          {metric.value}
                         </div>
                         
                         {/* Label */}
                         <div className="text-xs sm:text-sm font-semibold text-muted-foreground dark:text-gray-300 group-hover/stat:text-foreground dark:group-hover/stat:text-white transition-colors">
-                          {stat.label}
+                          {metric.label}
                         </div>
                       </div>
                     </div>

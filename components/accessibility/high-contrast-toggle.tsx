@@ -9,35 +9,13 @@
 
 "use client"
 
-import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Contrast } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useHighContrast } from "./hooks"
 
 export function HighContrastToggle() {
-  const [isHighContrast, setIsHighContrast] = useState(false)
-
-  useEffect(() => {
-    // Carregar preferência salva
-    const saved = localStorage.getItem("high-contrast")
-    if (saved === "true") {
-      setIsHighContrast(true)
-      document.documentElement.classList.add("high-contrast")
-    }
-  }, [])
-
-  function toggleHighContrast() {
-    const newValue = !isHighContrast
-    setIsHighContrast(newValue)
-    
-    if (newValue) {
-      document.documentElement.classList.add("high-contrast")
-      localStorage.setItem("high-contrast", "true")
-    } else {
-      document.documentElement.classList.remove("high-contrast")
-      localStorage.setItem("high-contrast", "false")
-    }
-  }
+  const { isHighContrast, toggleHighContrast } = useHighContrast()
 
   return (
     <Button

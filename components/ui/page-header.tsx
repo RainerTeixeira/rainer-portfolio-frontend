@@ -1,42 +1,48 @@
 /**
- * Componente PageHeader
+ * Page Header Component
  * 
- * Header padronizado para páginas internas do site.
- * Exibe título centralizado com linha decorativa e descrição opcional.
+ * Header padronizado e reutilizável para páginas internas.
+ * Título centralizado, linha decorativa e descrição opcional.
  * 
  * Características:
  * - Layout centralizado e responsivo
- * - Linha decorativa com gradiente (primary no light, cyan/purple no dark)
- * - Tipografia cyberpunk no dark mode (font-mono, tracking-wider)
- * - Suporta children para conteúdo adicional (avatares, ícones, etc)
- * - Utiliza SECTION_CLASSES para padding consistente
+ * - Linha decorativa com gradiente
+ * - Tipografia cyberpunk no dark mode
+ * - Slot children para conteúdo adicional
+ * - Padding consistente via SECTION_CLASSES
  * 
- * @fileoverview Componente de header padronizado para páginas
+ * @fileoverview Header padronizado para páginas
  * @author Rainer Teixeira
  * @version 1.0.0
- * @since 1.0.0
  */
+
+// ============================================================================
+// Utils
+// ============================================================================
 
 import { SECTION_CLASSES } from "@/lib/utils"
 
+// ============================================================================
+// Types
+// ============================================================================
+
 /**
- * Props do componente PageHeader
- * 
- * @interface PageHeaderProps
- * @property {string} title - Título principal da página
- * @property {string} [description] - Descrição/subtítulo opcional
- * @property {React.ReactNode} [children] - Conteúdo adicional (avatar, ícone, etc)
+ * Props do PageHeader
  */
 interface PageHeaderProps {
-  /** Título principal exibido em grande destaque */
-  title: string
+  /** Título principal da página */
+  readonly title: string
   
-  /** Descrição/subtítulo abaixo do título (opcional) */
-  description?: string
+  /** Descrição/subtítulo opcional */
+  readonly description?: string
   
-  /** Conteúdo adicional renderizado antes do título (opcional) */
-  children?: React.ReactNode
+  /** Conteúdo adicional (avatar, ícone, etc) */
+  readonly children?: React.ReactNode
 }
+
+// ============================================================================
+// Main Component
+// ============================================================================
 
 /**
  * Componente PageHeader

@@ -1,98 +1,120 @@
 /**
- * Componente BackToTopButton (Botão Voltar ao Topo)
+ * Back To Top Button Component
  * 
- * Botão flutuante fixo que permite ao usuário retornar ao topo da página
- * de forma rápida e acessível. Aparece apenas após scroll suficiente.
+ * Botão flutuante fixo para retornar ao topo da página.
+ * Aparece após scroll e respeita preferências de movimento do usuário.
  * 
  * Características:
- * - Aparece após scroll de 300px verticalmente
- * - Posição fixa no canto inferior direito
- * - Scroll suave com respeito a prefers-reduced-motion
- * - Acessível via teclado e leitores de tela
- * - aria-label dinâmico baseado em preferências de movimento
+ * - Visível apenas após scroll > 300px
+ * - Posição fixa (bottom-right)
+ * - Scroll suave ou instantâneo (prefers-reduced-motion)
+ * - Totalmente acessível (keyboard + screen readers)
+ * - ARIA label dinâmico
  * 
  * @fileoverview Botão de retorno ao topo acessível
  * @author Rainer Teixeira
  * @version 1.0.0
- * @since 1.0.0
  */
 
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
+// ============================================================================
+// React
+// ============================================================================
+
+import { useEffect, useState } from 'react'
+
+// ============================================================================
+// Icons
+// ============================================================================
+
 import { ArrowUp } from 'lucide-react'
 
+// ============================================================================
+// UI Components
+// ============================================================================
+
+import { Button } from '@/components/ui/button'
+
+// ============================================================================
+// Hooks
+// ============================================================================
+
+import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
+
+// ============================================================================
+// Constants
+// ============================================================================
+
 /**
- * Componente BackToTopButton
+ * Scroll mínimo (em pixels) para exibir o botão
+ */
+const SCROLL_THRESHOLD_PX = 300
+
+// ============================================================================
+// Main Component
+// ============================================================================
+
+/**
+ * Componente principal do Back To Top Button
  * 
- * Renderiza botão circular flutuante para voltar ao topo.
- * Visibilidade controlada por posição de scroll da página.
+ * Botão flutuante que permite retorno rápido ao topo.
+ * Visibilidade controlada por scroll position.
  * 
- * Estado interno:
- * - isVisible: se deve mostrar o botão (scrollY > 300)
- * 
- * Efeitos:
- * - Listener de scroll para atualizar visibilidade
- * - Cleanup automático do listener ao desmontar
- * 
- * @returns {JSX.Element | null} Botão flutuante ou null se não visível
+ * @returns Botão flutuante ou null se não visível
  * 
  * @example
- * // Em layout ou página
+ * ```tsx
+ * // Em qualquer página
  * <BackToTopButton />
+ * ```
  */
 export function BackToTopButton() {
-  /**
-   * Estado de visibilidade do botão
-   * true se scrollY > 300px, false caso contrário
-   */
-  const [isVisible, setIsVisible] = useState(false)
+  // ============================================================================
+  // State
+  // ============================================================================
   
-  /**
-   * Hook personalizado para scroll acessível
-   * Fornece função scrollToTop e flag reducedMotion
-   */
+  const [isButtonVisible, setIsButtonVisible] = useState(false)
+  
+  // ============================================================================
+  // Hooks
+  // ============================================================================
+  
   const { scrollToTop, reducedMotion } = useSmoothScroll()
 
+  // ============================================================================
+  // Effects
+  // ============================================================================
+  
   /**
-   * Efeito para monitorar scroll e controlar visibilidade
-   * 
-   * Adiciona listener de scroll que mostra botão após 300px.
-   * Remove listener na limpeza para evitar memory leaks.
+   * Monitora scroll para controlar visibilidade do botão
    */
   useEffect(() => {
-    /**
-     * Função que atualiza visibilidade baseado em scrollY
-     */
-    const toggleVisibility = () => {
-      setIsVisible(window.scrollY > 300)
+    const handleScrollEvent = () => {
+      setIsButtonVisible(window.scrollY > SCROLL_THRESHOLD_PX)
     }
 
-    window.addEventListener('scroll', toggleVisibility)
+    window.addEventListener('scroll', handleScrollEvent, { passive: true })
     
-    /**
-     * Cleanup: remove listener ao desmontar componente
-     */
-    return () => window.removeEventListener('scroll', toggleVisibility)
+    return () => window.removeEventListener('scroll', handleScrollEvent)
   }, [])
 
-  /**
-   * Não renderiza nada se botão não deve estar visível
-   * Evita renderização desnecessária no DOM
-   */
-  if (!isVisible) return null
+  // ============================================================================
+  // Render Guard
+  // ============================================================================
+  
+  if (!isButtonVisible) {
+    return null
+  }
+
+  // ============================================================================
+  // Render
+  // ============================================================================
 
   return (
     <Button
       onClick={scrollToTop}
       className="fixed bottom-8 right-8 z-50 rounded-full w-12 h-12 p-0 shadow-lg"
-      /**
-       * aria-label dinâmico baseado em preferências do usuário
-       * - Se reducedMotion: indica scroll instantâneo
-       * - Se não: indica scroll suave/animado
-       */
       aria-label={
         reducedMotion 
           ? 'Ir para o topo da página' 
@@ -100,7 +122,7 @@ export function BackToTopButton() {
       }
       title="Voltar ao topo"
     >
-      <ArrowUp className="h-5 w-5" />
+      <ArrowUp className="h-5 w-5" aria-hidden="true" />
     </Button>
   )
 }

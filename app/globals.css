@@ -137,7 +137,7 @@
     display: none; /* Chrome, Safari, Edge */
   }
   
-  /* Body - Estilos base */
+  /* Body - Estilos base universais */
   body {
     background-color: hsl(var(--color-background));
     color: hsl(var(--color-foreground));
@@ -150,7 +150,23 @@
     text-rendering: optimizeSpeed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    -webkit-overflow-scrolling: touch; /* Scroll suave iOS */
+    
+    /* Scroll suave - iOS e Android */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain; /* Previne scroll bounce no Android */
+    
+    /* Safe Area Insets - iOS (notch/Dynamic Island) e Android (bordas) */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    
+    /* Previne seleção de texto em toque longo (melhor UX mobile) */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    
+    /* Android - Previne zoom ao tocar em inputs */
+    touch-action: manipulation;
   }
   
   /* Lazy loading de imagens */
@@ -164,13 +180,38 @@
     transform: translateZ(0);
   }
   
-  /* Prevenção de zoom em inputs em iOS */
+  /* Prevenção de zoom automático em inputs (iOS e Android) */
   @media screen and (max-width: 767px) {
     input[type="text"],
     input[type="email"],
     input[type="password"],
-    textarea {
-      font-size: 16px; /* 16px previne zoom no iOS */
+    input[type="tel"],
+    input[type="number"],
+    input[type="search"],
+    input[type="url"],
+    textarea,
+    select {
+      font-size: 16px; /* 16px previne zoom automático no iOS e Android */
+    }
+  }
+  
+  /* Otimizações PWA - Comportamento nativo */
+  @media (display-mode: standalone) {
+    body {
+      /* Remove o bounce do scroll em PWAs */
+      overscroll-behavior: none;
+    }
+    
+    /* Remove seleção de texto em modo PWA */
+    * {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    
+    /* Permite seleção em inputs e conteúdo */
+    input, textarea, [contenteditable], p, span, div {
+      -webkit-user-select: text;
+      user-select: text;
     }
   }
 }
