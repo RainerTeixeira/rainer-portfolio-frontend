@@ -34,6 +34,7 @@ yarn-error.log*
 .env*
 .env.local*
 .env.local
+.env.sonarqube
 
 # vercel
 .vercel
@@ -41,5 +42,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# SonarQube
+.scannerwork/
+.sonar/
+sonar-report.json
 
 Zone.Identifier
