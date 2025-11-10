@@ -1,207 +1,422 @@
 /**
- * Componente ContactForm (Formulário de Contato)
- * 
- * Formulário completo de contato com validação HTML5.
- * Layout em 2 colunas: formulário + informações de contato.
- * 
- * Características:
- * - Formulário controlado com React state
- * - Validação HTML5 (required, email type)
- * - Reset após envio
- * - Cards com hover shadows
- * - Layout responsivo (1 coluna mobile, 2 desktop)
- * - Informações de contato ao lado
- * 
- * @fileoverview Formulário de contato com layout 2 colunas
+ * Contact Form Component
+ *
+ * Formulário de contato com validação HTML5, layout responsivo em 2 colunas
+ * (mobile: 1 coluna) e informações de contato complementares. Integração com
+ * hook useContactForm e SITE_CONFIG para dados de contato.
+ *
+ * @module components/contato/contact-form
+ * @fileoverview Formulário de contato completo com layout 2 colunas
  * @author Rainer Teixeira
- * @version 1.0.0
+ * @version 2.0.0
  * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * import { ContactForm } from '@/components/contato/contact-form';
+ *
+ * export default function ContactPage() {
+ *   return (
+ *     <div>
+ *       <ContactForm />
+ *     </div>
+ *   );
+ * }
+ * ```
  */
 
-"use client"
+'use client';
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { SITE_CONFIG } from "@/constants"
-import { CARD_CLASSES, cn } from "@/lib/utils"
-import { useContactForm } from "./hooks"
+// ============================================================================
+// IMPORTS
+// ============================================================================
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
+import { SITE_CONFIG } from '@/constants';
+import { CARD_CLASSES, cn } from '@/lib/utils';
+import {
+  Github,
+  Linkedin,
+  Mail,
+  MessageSquare,
+  Send,
+  User,
+} from 'lucide-react';
+import React from 'react';
+import { useContactForm } from './hooks';
+
+// ============================================================================
+// TYPES & INTERFACES
+// ============================================================================
 
 /**
- * Componente ContactForm
- * 
- * Renderiza formulário de contato completo com 2 colunas.
- * 
- * Layout:
- * - Coluna 1: formulário de envio
- * - Coluna 2: informações de contato + tempo de resposta
- * 
- * @returns {JSX.Element} Grid com formulário e informações
- * 
- * @example
- * // Em página de contato
- * <section>
- *   <h1>Entre em Contato</h1>
- *   <ContactForm />
- * </section>
+ * Item de informação de contato
+ *
+ * @interface ContactInfoItem
+ * @property {string} label - Label/badge do item
+ * @property {string} value - Valor/informação do item
+ * @property {string} [href] - URL opcional (para links)
+ * @property {boolean} [isExternal] - Indica se é link externo
+ */
+interface ContactInfoItem {
+  label: string;
+  value: string;
+  href?: string;
+  isExternal?: boolean;
+}
+
+// ============================================================================
+// DATA CONFIGURATION
+// ============================================================================
+
+/**
+ * Lista de informações de contato para exibição
+ *
+ * Array contendo informações de contato (email, LinkedIn, GitHub)
+ * que serão exibidas no card lateral do formulário.
+ *
+ * @type {ContactInfoItem[]}
+ * @constant
+ */
+const CONTACT_INFO_ITEMS: ReadonlyArray<ContactInfoItem> = [
+  {
+    label: 'E-mail',
+    value: SITE_CONFIG.contact.email.address,
+  },
+  {
+    label: 'LinkedIn',
+    value: SITE_CONFIG.linkedin.replace('https://', ''),
+    href: SITE_CONFIG.linkedin,
+    isExternal: true,
+  },
+  {
+    label: 'GitHub',
+    value: SITE_CONFIG.github.replace('https://', ''),
+    href: SITE_CONFIG.github,
+    isExternal: true,
+  },
+] as const;
+
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
+/**
+ * ContactForm Component
+ *
+ * Componente de formulário de contato com:
+ * - Layout responsivo em 2 colunas (mobile: 1 coluna)
+ * - Validação HTML5 nativa
+ * - Formulário controlado com React hooks
+ * - Cards informativos complementares
+ * - Acessibilidade WCAG AA compliant
+ *
+ * @component
+ * @returns {JSX.Element} Grid com formulário e informações de contato
+ *
+ * @remarks
+ * Este componente utiliza:
+ * - useContactForm hook para gerenciamento de estado
+ * - Validação HTML5 (required, email type)
+ * - Layout responsivo com Tailwind CSS
+ * - Constantes centralizadas do SITE_CONFIG
+ * - Design system com shadcn/ui
+ *
+ * @see {@link useContactForm} Hook customizado para gerenciamento do formulário
+ * @see {@link SITE_CONFIG} Constantes centralizadas de configuração
  */
 export function ContactForm() {
-  const { formData, handleChange, handleSubmit } = useContactForm()
+  // ========================================================================
+  // HOOKS
+  // ========================================================================
+
+  /**
+   * Hook customizado para gerenciamento do formulário
+   * Retorna: formData, handleChange, handleSubmit
+   *
+   * @type {Object}
+   * @property {Object} formData - Estado do formulário (name, email, subject, message)
+   * @property {Function} handleChange - Handler para mudanças nos campos
+   * @property {Function} handleSubmit - Handler para submissão do formulário
+   */
+  const { formData, handleChange, handleSubmit } = useContactForm();
+
+  // ========================================================================
+  // MAIN RENDER
+  // ========================================================================
 
   return (
-    <div className={cn("max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8")}>
-      {/** 
-       * COLUNA 1: Formulário de envio de mensagem
-       * Card com campos de input e botão de envio
-       */}
-      <Card className={CARD_CLASSES.full}>
-        <CardHeader>
-          <CardTitle className="text-2xl">Envie uma Mensagem</CardTitle>
+    <div
+      className={cn('max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8')}
+      role="region"
+      aria-labelledby="contact-form-title"
+    >
+      {/* ================================================================
+          COLUMN 1: CONTACT FORM
+          ================================================================ */}
+
+      <Card
+        className={cn(CARD_CLASSES.full, 'shadow-lg dark:shadow-cyan-400/10')}
+      >
+        <CardHeader className="space-y-2">
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-primary/10 p-2 dark:bg-cyan-400/10">
+              <MessageSquare className="h-5 w-5 text-primary dark:text-cyan-400" />
+            </div>
+            <div>
+              <CardTitle id="contact-form-title" className="text-2xl">
+                Envie uma Mensagem
+              </CardTitle>
+              <CardDescription className="mt-1">
+                Preencha o formulário e entrarei em contato em breve
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
-          {/** 
-           * Form controlado com validação HTML5
-           * - onSubmit: handleSubmit
-           * - Campos: name, email, subject, message
-           * - Botão de envio full-width
-           */}
-          <form onSubmit={handleSubmit} className={cn("space-y-6")}>
-            {/** Campo Nome (obrigatório) */}
+          <form
+            onSubmit={handleSubmit}
+            className={cn('space-y-5')}
+            noValidate
+            aria-label="Formulário de contato"
+          >
+            {/* Name Field */}
             <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-medium">
-                Nome *
-              </label>
-              <input
+              <Label htmlFor="contact-name" className="flex items-center gap-2">
+                <User className="h-4 w-4" />
+                Nome completo *
+              </Label>
+              <Input
                 type="text"
-                id="name"
+                id="contact-name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border border-input rounded-md bg-background text-foreground focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                autoComplete="name"
                 placeholder="Seu nome completo"
+                aria-required="true"
+                aria-describedby="name-description"
+                className="h-11"
               />
+              <span id="name-description" className="sr-only">
+                Campo obrigatório para identificação
+              </span>
             </div>
 
-            {/** Campo E-mail (obrigatório, validação HTML5) */}
+            {/* Email Field */}
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
+              <Label
+                htmlFor="contact-email"
+                className="flex items-center gap-2"
+              >
+                <Mail className="h-4 w-4" />
                 E-mail *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="email"
-                id="email"
+                id="contact-email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border border-input rounded-md bg-background text-foreground focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                autoComplete="email"
                 placeholder="seu@email.com"
+                aria-required="true"
+                aria-describedby="email-description"
+                className="h-11"
               />
+              <span id="email-description" className="sr-only">
+                Campo obrigatório. Será usado para resposta ao seu contato
+              </span>
             </div>
 
-            {/** Campo Assunto (opcional) */}
+            {/* Subject Field */}
             <div className="space-y-2">
-              <label htmlFor="subject" className="text-sm font-medium">
-                Assunto
-              </label>
-              <input
+              <Label htmlFor="contact-subject">
+                Assunto{' '}
+                <span className="text-muted-foreground text-xs">
+                  (opcional)
+                </span>
+              </Label>
+              <Input
                 type="text"
-                id="subject"
+                id="contact-subject"
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                className="w-full p-3 border border-input rounded-md bg-background text-foreground focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                autoComplete="off"
                 placeholder="Sobre o que você gostaria de conversar?"
+                aria-describedby="subject-description"
+                className="h-11"
               />
+              <span id="subject-description" className="sr-only">
+                Campo opcional para especificar o assunto do contato
+              </span>
             </div>
 
-            {/** Campo Mensagem (obrigatório, textarea) */}
+            {/* Message Field */}
             <div className="space-y-2">
-              <label htmlFor="message" className="text-sm font-medium">
+              <Label
+                htmlFor="contact-message"
+                className="flex items-center gap-2"
+              >
+                <MessageSquare className="h-4 w-4" />
                 Mensagem *
-              </label>
-              <textarea
-                id="message"
+              </Label>
+              <Textarea
+                id="contact-message"
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
                 required
-                rows={5}
-                className="w-full p-3 border border-input rounded-md bg-background text-foreground focus:ring-2 focus:ring-ring focus:border-transparent resize-none transition-colors"
-                placeholder="Descreva seu projeto ou dúvida..."
+                rows={6}
+                autoComplete="off"
+                placeholder="Descreva seu projeto, dúvida ou proposta..."
+                aria-required="true"
+                aria-describedby="message-description"
+                className="min-h-[140px] resize-none"
               />
+              <span id="message-description" className="sr-only">
+                Campo obrigatório. Descreva seu projeto, dúvida ou proposta
+              </span>
             </div>
 
-            {/** Botão de envio full-width */}
-            <Button type="submit" className="w-full" size="lg">
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              className="w-full h-11 text-base font-semibold"
+              size="lg"
+              aria-label="Enviar mensagem de contato"
+            >
+              <Send className="mr-2 h-4 w-4" />
               Enviar Mensagem
             </Button>
           </form>
         </CardContent>
       </Card>
 
-      {/** 
-       * COLUNA 2: Informações de contato e tempo de resposta
-       * Dois cards empilhados verticalmente
-       */}
+      {/* ================================================================
+          COLUMN 2: CONTACT INFORMATION
+          ================================================================ */}
+
       <div className="space-y-6">
-        {/** Card 1: Informações de contato (email, LinkedIn, GitHub) */}
-        <Card className={CARD_CLASSES.full}>
-          <CardHeader>
-            <CardTitle className="text-xl">Informações de Contato</CardTitle>
+        {/* Contact Info Card */}
+        <Card
+          className={cn(CARD_CLASSES.full, 'shadow-lg dark:shadow-cyan-400/10')}
+        >
+          <CardHeader className="space-y-2">
+            <CardTitle className="text-xl flex items-center gap-2">
+              <Mail className="h-5 w-5 text-primary dark:text-cyan-400" />
+              Informações de Contato
+            </CardTitle>
+            <CardDescription>
+              Entre em contato através dos canais abaixo
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/** E-mail */}
-            <div className="space-y-2">
-              <Badge variant="secondary" className="text-xs">E-mail</Badge>
-              <p className="text-muted-foreground">{SITE_CONFIG.email}</p>
-            </div>
-            <Separator />
-            
-            {/** LinkedIn */}
-            <div className="space-y-2">
-              <Badge variant="secondary" className="text-xs">LinkedIn</Badge>
-              <a 
-                href={SITE_CONFIG.linkedin} 
-                className="text-primary hover:underline transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
+            {CONTACT_INFO_ITEMS.map((item, index) => (
+              <React.Fragment
+                key={`contact-info-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
               >
-                {SITE_CONFIG.linkedin.replace('https://', '')}
-              </a>
-            </div>
-            <Separator />
-            
-            {/** GitHub */}
-            <div className="space-y-2">
-              <Badge variant="secondary" className="text-xs">GitHub</Badge>
-              <a 
-                href={SITE_CONFIG.github} 
-                className="text-primary hover:underline transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {SITE_CONFIG.github.replace('https://', '')}
-              </a>
-            </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <Badge variant="secondary" className="text-xs font-medium">
+                      {item.label === 'E-mail' && (
+                        <Mail className="mr-1 h-3 w-3" />
+                      )}
+                      {item.label === 'LinkedIn' && (
+                        <Linkedin className="mr-1 h-3 w-3" />
+                      )}
+                      {item.label === 'GitHub' && (
+                        <Github className="mr-1 h-3 w-3" />
+                      )}
+                      {item.label}
+                    </Badge>
+                  </div>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      className="block text-sm font-medium text-primary hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+                      target={item.isExternal ? '_blank' : undefined}
+                      rel={item.isExternal ? 'noopener noreferrer' : undefined}
+                      aria-label={`${item.label}: ${item.value}`}
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <p className="text-sm text-muted-foreground dark:text-gray-300">
+                      {item.value}
+                    </p>
+                  )}
+                </div>
+                {index < CONTACT_INFO_ITEMS.length - 1 && <Separator />}
+              </React.Fragment>
+            ))}
           </CardContent>
         </Card>
 
-        {/** Card 2: Tempo de resposta */}
-        <Card className={CARD_CLASSES.full}>
-          <CardHeader>
-            <CardTitle className="text-xl">Tempo de Resposta</CardTitle>
+        {/* Response Time Card */}
+        <Card
+          className={cn(CARD_CLASSES.full, 'shadow-lg dark:shadow-cyan-400/10')}
+        >
+          <CardHeader className="space-y-2">
+            <CardTitle className="text-xl flex items-center gap-2">
+              <MessageSquare className="h-5 w-5 text-primary dark:text-cyan-400" />
+              Tempo de Resposta
+            </CardTitle>
+            <CardDescription>
+              Quando você pode esperar uma resposta
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground leading-relaxed">
-              Normalmente respondo em até 24 horas durante dias úteis. 
-              Para projetos urgentes, entre em contato via WhatsApp.
-            </p>
+            <div className="text-muted-foreground leading-relaxed text-sm space-y-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span>Normalmente respondo em até</span>
+                <Badge variant="secondary" className="font-semibold">
+                  {SITE_CONFIG.contact.email.responseTime.toLowerCase()}
+                </Badge>
+                <span>durante dias úteis.</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span>Para projetos urgentes, entre em contato via</span>
+                {SITE_CONFIG.contact.phone.whatsapp ? (
+                  <a
+                    href={`https://wa.me/${SITE_CONFIG.contact.phone.number.replace(/\D/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline font-semibold transition-colors"
+                    aria-label="Abrir WhatsApp para contato urgente"
+                  >
+                    WhatsApp
+                  </a>
+                ) : (
+                  <span className="font-semibold">telefone</span>
+                )}
+                <span>.</span>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
     </div>
-  )
+  );
 }
+
+/**
+ * Display name para debugging e React DevTools
+ * @type {string}
+ */
+ContactForm.displayName = 'ContactForm';

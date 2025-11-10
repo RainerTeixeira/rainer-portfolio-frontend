@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capturador de Erros - Console</title>
+    <style>
+      body {
+        font-family: 'Courier New', monospace;
+        background: #1e1e1e;
+        color: #d4d4d4;
+        padding: 20px;
+        margin: 0;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      h1 {
+        color: #4ec9b0;
+        border-bottom: 2px solid #4ec9b0;
+        padding-bottom: 10px;
+      }
+      .error {
+        background: #3f1f1f;
+        border-left: 4px solid #f48771;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .warning {
+        background: #3f3f1f;
+        border-left: 4px solid #dcdcaa;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .info {
+        background: #1f3f3f;
+        border-left: 4px solid #4ec9b0;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .log {
+        background: #2d2d2d;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 4px;
+        border-left: 4px solid #569cd6;
+      }
+      button {
+        background: #007acc;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #005a9e;
+      }
+      #logs {
+        max-height: 600px;
+        overflow-y: auto;
+        margin-top: 20px;
+      }
+      .timestamp {
+        color: #808080;
+        font-size: 0.8em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔍 Capturador de Erros do Console</h1>
+
+      <div class="info">
+        <strong>📋 Instruções:</strong>
+        <ol>
+          <li>Abra esta página em uma nova aba</li>
+          <li>
+            Abra o dashboard em outra aba:
+            <a
+              href="http://localhost:3000/dashboard"
+              target="_blank"
+              style="color: #4ec9b0"
+              >http://localhost:3000/dashboard</a
+            >
+          </li>
+          <li>Clique em "Iniciar Captura"</li>
+          <li>Navegue pelo dashboard e faça suas ações</li>
+          <li>Os erros serão capturados aqui automaticamente</li>
+        </ol>
+      </div>
+
+      <div>
+        <button onclick="iniciarCaptura()">▶️ Iniciar Captura</button>
+        <button onclick="limparLogs()">🗑️ Limpar</button>
+        <button onclick="copiarLogs()">📋 Copiar Todos os Logs</button>
+        <button onclick="salvarLogs()">💾 Salvar em Arquivo</button>
+      </div>
+
+      <div id="logs"></div>
+    </div>
+
+    <script>
+      let logs = [];
+      let capturando = false;
+
+      function adicionarLog(tipo, mensagem, origem, stack) {
+        const timestamp = new Date().toLocaleTimeString();
+        const log = {
+          tipo,
+          mensagem,
+          origem,
+          stack,
+          timestamp,
+        };
+
+        logs.push(log);
+        exibirLog(log);
+      }
+
+      function exibirLog(log) {
+        const logsDiv = document.getElementById('logs');
+        const logDiv = document.createElement('div');
+        logDiv.className = log.tipo;
+
+        let html = `<div class="timestamp">[${log.timestamp}]</div>`;
+        html += `<strong>${log.tipo.toUpperCase()}:</strong> ${log.mensagem}<br>`;
+        html += `<small>Origem: ${log.origem}</small>`;
+
+        if (log.stack) {
+          html += `<details><summary>Stack Trace</summary><pre style="background: #1e1e1e; padding: 10px; margin: 5px 0; overflow-x: auto;">${log.stack}</pre></details>`;
+        }
+
+        logDiv.innerHTML = html;
+        logsDiv.appendChild(logDiv);
+        logsDiv.scrollTop = logsDiv.scrollHeight;
+      }
+
+      function iniciarCaptura() {
+        if (capturando) {
+          alert('Captura já está em andamento!');
+          return;
+        }
+
+        capturando = true;
+        adicionarLog('info', 'Captura iniciada', 'Sistema', null);
+
+        // Interceptar console.error
+        const originalError = console.error;
+        console.error = function (...args) {
+          originalError.apply(console, args);
+          const mensagem = args
+            .map(arg =>
+              typeof arg === 'object'
+                ? JSON.stringify(arg, null, 2)
+                : String(arg)
+            )
+            .join(' ');
+          adicionarLog('error', mensagem, 'console.error', new Error().stack);
+        };
+
+        // Interceptar console.warn
+        const originalWarn = console.warn;
+        console.warn = function (...args) {
+          originalWarn.apply(console, args);
+          const mensagem = args
+            .map(arg =>
+              typeof arg === 'object'
+                ? JSON.stringify(arg, null, 2)
+                : String(arg)
+            )
+            .join(' ');
+          adicionarLog('warning', mensagem, 'console.warn', null);
+        };
+
+        // Capturar window.onerror
+        window.onerror = function (message, source, lineno, colno, error) {
+          adicionarLog(
+            'error',
+            `${message} (${source}:${lineno}:${colno})`,
+            'window.onerror',
+            error?.stack
+          );
+        };
+
+        // Capturar unhandled promise rejections
+        window.addEventListener('unhandledrejection', function (event) {
+          adicionarLog(
+            'error',
+            `Unhandled Promise Rejection: ${event.reason}`,
+            'unhandledrejection',
+            event.reason?.stack
+          );
+        });
+
+        alert(
+          '✅ Captura iniciada! Navegue pelo dashboard e os erros aparecerão aqui.'
+        );
+      }
+
+      function limparLogs() {
+        logs = [];
+        document.getElementById('logs').innerHTML = '';
+      }
+
+      function copiarLogs() {
+        const texto = logs
+          .map(
+            log =>
+              `[${log.timestamp}] ${log.tipo.toUpperCase()}: ${log.mensagem}\nOrigem: ${log.origem}${log.stack ? '\nStack: ' + log.stack : ''}`
+          )
+          .join('\n\n');
+
+        navigator.clipboard.writeText(texto).then(() => {
+          alert('✅ Logs copiados para a área de transferência!');
+        });
+      }
+
+      function salvarLogs() {
+        const texto = logs
+          .map(
+            log =>
+              `[${log.timestamp}] ${log.tipo.toUpperCase()}: ${log.mensagem}\nOrigem: ${log.origem}${log.stack ? '\nStack: ' + log.stack : ''}`
+          )
+          .join('\n\n');
+
+        const blob = new Blob([texto], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `erros-console-${new Date().toISOString().replace(/:/g, '-')}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    </script>
+  </body>
+</html>

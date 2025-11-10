@@ -81,7 +81,7 @@ start_sonarqube() {
     check_docker_running
     
     # Verificar se já está rodando
-    if [ "$(docker ps -q -f name=sonarqube-local)" ]; then
+    if [ "$(docker ps -q -f fullName=sonarqube-local)" ]; then
         print_success "SonarQube já está rodando!"
         print_info "Acesse: $SONAR_HOST"
         return 0
@@ -129,10 +129,10 @@ get_status() {
     # Status do container
     echo ""
     print_info "Container:"
-    docker ps -a --filter "name=sonarqube-local" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+    docker ps -a --filter "fullName=sonarqube-local" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
     
     # Verificar se está rodando
-    if [ "$(docker ps -q -f name=sonarqube-local)" ]; then
+    if [ "$(docker ps -q -f fullName=sonarqube-local)" ]; then
         echo ""
         print_success "Status: RODANDO"
         print_info "🌐 Interface: $SONAR_HOST"
@@ -145,7 +145,7 @@ get_status() {
             print_warning "API ainda não está respondendo (pode estar inicializando)"
         fi
     else
-        if [ "$(docker ps -a -q -f name=sonarqube-local)" ]; then
+        if [ "$(docker ps -a -q -f fullName=sonarqube-local)" ]; then
             echo ""
             print_warning "Status: PARADO"
         else
@@ -158,7 +158,7 @@ get_status() {
     # Volumes
     echo ""
     print_info "Volumes Docker:"
-    docker volume ls --filter "name=rainer-portfolio-frontend" --format "table {{.Name}}\t{{.Driver}}"
+    docker volume ls --filter "fullName=rainer-portfolio-frontend" --format "table {{.Name}}\t{{.Driver}}"
 }
 
 # Função: Logs
@@ -190,7 +190,7 @@ run_analysis() {
     fi
     
     # Verificar se SonarQube está rodando
-    if [ ! "$(docker ps -q -f name=sonarqube-local)" ]; then
+    if [ ! "$(docker ps -q -f fullName=sonarqube-local)" ]; then
         print_warning "SonarQube não está rodando!"
         read -p "Deseja iniciar o SonarQube? (s/N): " -n 1 -r
         echo

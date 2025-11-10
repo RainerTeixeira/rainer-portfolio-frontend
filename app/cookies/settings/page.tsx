@@ -1,0 +1,51 @@
+/**
+ * Cookie Settings Page
+ *
+ * Página completa para gerenciar configurações de cookies.
+ * Similar ao que sites grandes como Google, Microsoft, etc. utilizam.
+ *
+ * @module app/cookies/settings/page
+ * @fileoverview Página de configurações de cookies
+ * @author Rainer Teixeira
+ * @version 1.0.0
+ * @since 1.0.0
+ */
+
+'use client';
+
+// ============================================================================
+// DESIGN TOKENS
+// ============================================================================
+
+import { cn } from '@/lib/utils';
+import { BACKGROUND } from '@rainer/design-tokens';
+
+// ============================================================================
+// UI Components
+// ============================================================================
+
+import { CookieSettings } from '@/components/cookies/cookie-settings';
+import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
+
+// ============================================================================
+// Main Component
+// ============================================================================
+
+export default function CookieSettingsPage() {
+  return (
+    <div className={cn('min-h-screen', BACKGROUND.FULL)}>
+      <ParticlesEffect variant="alt1" />
+
+      <PageHeader
+        title="Configurações de Cookies"
+        description="Gerencie suas preferências de cookies e controle como seus dados são utilizados. Você pode alterar essas configurações a qualquer momento."
+      />
+
+      <div className="max-w-4xl mx-auto px-6 py-12 relative z-10">
+        <CookieSettings />
+      </div>
+
+      <BackToTop />
+    </div>
+  );
+}

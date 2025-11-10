@@ -1,11 +1,15 @@
+/**
+ * Types - Likes
+ */
+
 export interface Like {
-  id: string;
-  userId: string;
-  postId: string;
-  createdAt: string;
+  readonly id: string;
+  readonly userId: string;
+  readonly postId: string;
+  readonly createdAt: string;
 }
 
 export interface CreateLikeData {
-  userId: string;
-  postId: string;
+  readonly userId: string;
+  readonly postId: string;
 }

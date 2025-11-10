@@ -1,17 +1,40 @@
 /**
- * Barra de Busca
- * 
- * Componente de busca com autocomplete e atalho de teclado
- * 
- * @fileoverview Search bar component
+ * Search Bar Component
+ *
+ * Barra de busca com autocomplete e atalho de teclado. Busca em tempo real
+ * com resultados instantâneos, histórico de buscas recentes e integração
+ * com hook useSearch.
+ *
+ * @module components/blog/search/search-bar
+ * @fileoverview Barra de busca com autocomplete e atalhos
  * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * // Variante padrão
+ * <SearchBar />
+ *
+ * // Variante compacta
+ * <SearchBar variant="compact" placeholder="Buscar..." />
+ * ```
+ *
+ * Características:
+ * - Busca em tempo real
+ * - Autocomplete com resultados instantâneos
+ * - Atalho de teclado (Ctrl+K / Cmd+K)
+ * - Histórico de buscas recentes
+ * - Trending searches
+ * - Integração com hook useSearch
+ * - Design responsivo
+ * - Acessibilidade completa
  */
 
-"use client"
+'use client';
 
-import { Search, Loader2, TrendingUp } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   CommandDialog,
   CommandEmpty,
@@ -20,24 +43,25 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command"
-import { useRouter } from "next/navigation"
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
-import { useSearch, type SearchResult } from "../hooks"
+} from '@/components/ui/command';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { Loader2, Search, TrendingUp } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useSearch, type SearchResult } from '../hooks';
 
 interface SearchBarProps {
-  variant?: "default" | "compact"
-  placeholder?: string
-  className?: string
+  variant?: 'default' | 'compact';
+  placeholder?: string;
+  className?: string;
 }
 
-export function SearchBar({ 
-  variant = "default",
-  placeholder = "Buscar artigos...",
-  className 
+export function SearchBar({
+  variant = 'default',
+  placeholder = 'Buscar artigos...',
+  className,
 }: SearchBarProps) {
-  const router = useRouter()
+  const router = useRouter();
   const {
     open,
     setOpen,
@@ -48,29 +72,29 @@ export function SearchBar({
     isLoading,
     handleSelect: handleSearchSelect,
     clearRecentSearches,
-  } = useSearch()
+  } = useSearch();
 
   function handleSelect(result: SearchResult) {
     // Usar o hook para salvar no histórico
-    handleSearchSelect(result)
+    handleSearchSelect(result);
 
     // Navegar para o resultado
-    if (result.type === "post") {
-      router.push(`/blog/${result.slug}`)
-    } else if (result.type === "category") {
-      router.push(`/blog?category=${result.slug}`)
-    } else if (result.type === "author") {
-      router.push(`/blog?author=${result.slug}`)
+    if (result.type === 'post') {
+      router.push(`/blog/${result.slug}`);
+    } else if (result.type === 'category') {
+      router.push(`/blog?category=${result.slug}`);
+    } else if (result.type === 'author') {
+      router.push(`/blog?author=${result.slug}`);
     }
   }
 
-  if (variant === "compact") {
+  if (variant === 'compact') {
     return (
       <>
         <Button
           variant="outline"
           className={cn(
-            "relative h-9 w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64",
+            'relative h-9 w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64',
             className
           )}
           onClick={() => setOpen(true)}
@@ -94,12 +118,12 @@ export function SearchBar({
           onClearRecent={clearRecentSearches}
         />
       </>
-    )
+    );
   }
 
   return (
     <>
-      <div className={cn("relative w-full max-w-xl", className)}>
+      <div className={cn('relative w-full max-w-xl', className)}>
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder={placeholder}
@@ -124,20 +148,20 @@ export function SearchBar({
         onClearRecent={clearRecentSearches}
       />
     </>
-  )
+  );
 }
 
 // Componente interno do dialog
 interface SearchDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  query: string
-  onQueryChange: (query: string) => void
-  results: SearchResult[]
-  recentSearches: string[]
-  isLoading: boolean
-  onSelect: (result: SearchResult) => void
-  onClearRecent: () => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  query: string;
+  onQueryChange: (query: string) => void;
+  results: SearchResult[];
+  recentSearches: string[];
+  isLoading: boolean;
+  onSelect: (result: SearchResult) => void;
+  onClearRecent: () => void;
 }
 
 function SearchDialog({
@@ -153,8 +177,8 @@ function SearchDialog({
 }: SearchDialogProps) {
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
-      <CommandInput 
-        placeholder="Digite para buscar..." 
+      <CommandInput
+        placeholder="Digite para buscar..."
         value={query}
         onValueChange={onQueryChange}
       />
@@ -169,7 +193,10 @@ function SearchDialog({
             <>
               <CommandGroup heading="Buscas Recentes">
                 {recentSearches.map((search, index) => (
-                  <CommandItem key={index} onSelect={() => onQueryChange(search)}>
+                  <CommandItem
+                    key={index}
+                    onSelect={() => onQueryChange(search)}
+                  >
                     <TrendingUp className="mr-2 h-4 w-4 text-muted-foreground" />
                     {search}
                   </CommandItem>
@@ -177,9 +204,9 @@ function SearchDialog({
               </CommandGroup>
               <CommandSeparator />
               <div className="p-2">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   className="w-full"
                   onClick={onClearRecent}
                 >
@@ -193,11 +220,11 @@ function SearchDialog({
         ) : (
           <>
             {/* Posts */}
-            {results.filter(r => r.type === "post").length > 0 && (
+            {results.filter(r => r.type === 'post').length > 0 && (
               <CommandGroup heading="Artigos">
                 {results
-                  .filter(r => r.type === "post")
-                  .map((result) => (
+                  .filter(r => r.type === 'post')
+                  .map(result => (
                     <CommandItem
                       key={result.id}
                       onSelect={() => onSelect(result)}
@@ -222,11 +249,11 @@ function SearchDialog({
             )}
 
             {/* Categorias */}
-            {results.filter(r => r.type === "category").length > 0 && (
+            {results.filter(r => r.type === 'category').length > 0 && (
               <CommandGroup heading="Categorias">
                 {results
-                  .filter(r => r.type === "category")
-                  .map((result) => (
+                  .filter(r => r.type === 'category')
+                  .map(result => (
                     <CommandItem
                       key={result.id}
                       onSelect={() => onSelect(result)}
@@ -241,11 +268,11 @@ function SearchDialog({
             )}
 
             {/* Autores */}
-            {results.filter(r => r.type === "author").length > 0 && (
+            {results.filter(r => r.type === 'author').length > 0 && (
               <CommandGroup heading="Autores">
                 {results
-                  .filter(r => r.type === "author")
-                  .map((result) => (
+                  .filter(r => r.type === 'author')
+                  .map(result => (
                     <CommandItem
                       key={result.id}
                       onSelect={() => onSelect(result)}
@@ -262,6 +289,5 @@ function SearchDialog({
         )}
       </CommandList>
     </CommandDialog>
-  )
+  );
 }
-

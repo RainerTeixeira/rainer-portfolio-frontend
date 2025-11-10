@@ -14,13 +14,28 @@ describe('commentsService', () => {
   });
 
   test('getCommentsByPost retorna lista por postId', async () => {
-    mockFetchOnce({ success: true, data: [{ id: 'c1', postId: 'p1', authorId: 'u1', content: 'Nice!', createdAt: '', updatedAt: '' }] });
+    mockFetchOnce({
+      success: true,
+      data: [
+        {
+          id: 'c1',
+          postId: 'p1',
+          authorId: 'u1',
+          content: 'Nice!',
+          createdAt: '',
+          updatedAt: '',
+        },
+      ],
+    });
     const res = await commentsService.getCommentsByPost('p1');
     expect(res[0].postId).toBe('p1');
   });
 
   test('approveComment faz PATCH', async () => {
-    const mock = mockFetchOnce({ success: true, data: { id: 'c1', approved: true } });
+    const mock = mockFetchOnce({
+      success: true,
+      data: { id: 'c1', approved: true },
+    });
     await commentsService.approveComment('c1');
     const init = (mock as any).mock.calls[0][1];
     expect(init.method).toBe('PATCH');

@@ -11,6 +11,7 @@ Esta pasta contém **referências técnicas completas** de APIs, componentes e f
 **Referência completa de APIs**
 
 **Conteúdo**:
+
 - Design Tokens API (200+ tokens)
 - Logger API (4 níveis + métodos)
 - Analytics API (15+ eventos)
@@ -34,6 +35,7 @@ Esta pasta contém **referências técnicas completas** de APIs, componentes e f
 **Catálogo de todos os componentes**
 
 **Conteúdo**:
+
 - **Layout** (2): Navbar, Footer
 - **Home** (9): HeroSection, AboutSection, etc
 - **Blog** (15): PostCard, Search, Comments, Social
@@ -42,9 +44,9 @@ Esta pasta contém **referências técnicas completas** de APIs, componentes e f
 - **Providers** (4): Theme, Auth, Query, Toast
 - **Accessibility** (4): Skip, Keyboard, HighContrast
 - **Theme** (1): ThemeToggle
-- **Error** (1): ErrorBoundary
 
 **Cada componente inclui**:
+
 - Props e interfaces
 - Features principais
 - Exemplos de uso
@@ -61,6 +63,7 @@ Esta pasta contém **referências técnicas completas** de APIs, componentes e f
 **Features enterprise implementadas**
 
 **Conteúdo**:
+
 - 10 features enterprise (detalhadas)
 - Design Tokens System
 - Error Boundary Global
@@ -80,6 +83,23 @@ Esta pasta contém **referências técnicas completas** de APIs, componentes e f
 **Quando ler**: Impressionar recrutadores, entender diferencias
 
 **Tempo estimado**: 20-30 minutos
+
+---
+
+### 4. 📊 [API_ROUTES_COVERAGE.md](API_ROUTES_COVERAGE.md)
+
+**Cobertura de rotas da API**
+
+**Conteúdo**:
+
+- Rotas implementadas
+- Rotas documentadas
+- Cobertura de endpoints
+- Status de implementação
+
+**Quando usar**: Verificar cobertura de API
+
+**Tempo estimado**: 5-10 minutos
 
 ---
 
@@ -169,6 +189,7 @@ Destacar comparativo com mercado
 Você vai consultar frequentemente durante o desenvolvimento.
 
 **Atalho útil**:
+
 - `Ctrl+P` → Digite "ref" → Acesso rápido a reference/
 
 ---
@@ -187,4 +208,3 @@ Você vai consultar frequentemente durante o desenvolvimento.
 **Propósito**: Referência técnica de consulta rápida
 **Status**: ✅ Completa
 **Uso**: Consulta frequente durante desenvolvimento
-

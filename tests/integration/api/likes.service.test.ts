@@ -5,7 +5,10 @@ describe('likesService', () => {
   afterEach(() => resetFetchMock());
 
   test('likePost faz POST e normaliza resposta', async () => {
-    const mock = mockFetchOnce({ success: true, data: { id: 'l1', userId: 'u1', postId: 'p1', createdAt: '' } });
+    const mock = mockFetchOnce({
+      success: true,
+      data: { id: 'l1', userId: 'u1', postId: 'p1', createdAt: '' },
+    });
     const like = await likesService.likePost({ userId: 'u1', postId: 'p1' });
     const init = (mock as any).mock.calls[0][1];
     expect(init.method).toBe('POST');

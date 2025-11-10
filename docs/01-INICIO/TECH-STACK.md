@@ -20,6 +20,7 @@
 ### Next.js 15.5.5
 
 **Por que Next.js?**
+
 - ✅ SSR (Server-Side Rendering) para SEO
 - ✅ SSG (Static Site Generation) para performance
 - ✅ App Router (nova arquitetura)
@@ -41,13 +42,14 @@ images: {
 }
 ```
 
-**Documentação**: https://nextjs.org/docs
+**Documentação**: <https://nextjs.org/docs>
 
 ---
 
 ### React 19.0.0
 
 **Novidades do React 19:**
+
 - ✅ Server Components estáveis
 - ✅ Server Actions
 - ✅ Async Components
@@ -56,11 +58,12 @@ images: {
 - ✅ Performance improvements
 
 **Uso no projeto**:
+
 - `'use client'` em componentes interativos
 - Server Components para SEO
 - Hooks modernos (useOptimistic, useTransition)
 
-**Documentação**: https://react.dev/
+**Documentação**: <https://react.dev/>
 
 ---
 
@@ -81,6 +84,7 @@ images: {
 ```
 
 **Padrões implementados:**
+
 - ✅ Interfaces com `readonly`
 - ✅ Type guards
 - ✅ Utility types
@@ -88,7 +92,7 @@ images: {
 - ✅ `as const` para literais
 - ✅ 100% coverage
 
-**Documentação**: https://www.typescriptlang.org/docs/
+**Documentação**: <https://www.typescriptlang.org/docs/>
 
 ---
 
@@ -97,6 +101,7 @@ images: {
 ### Tailwind CSS 4.1.14
 
 **Por que Tailwind?**
+
 - ✅ Utility-first approach
 - ✅ Purge CSS automático
 - ✅ Dark mode integrado
@@ -122,17 +127,19 @@ theme: {
 ```
 
 **Plugins**:
+
 - `@tailwindcss/typography` - Estilos para blog
 - `tailwindcss-animate` - Animações predefinidas
 - `tw-animate-css` - Mais animações
 
-**Documentação**: https://tailwindcss.com/docs
+**Documentação**: <https://tailwindcss.com/docs>
 
 ---
 
 ### Framer Motion 12.23.22
 
 **Animações implementadas:**
+
 - ✅ Page transitions
 - ✅ Scroll animations
 - ✅ Hover effects
@@ -153,13 +160,14 @@ theme: {
 ```
 
 **Onde é usado**:
+
 - Hero section animations
 - Card hover effects
 - Page transitions
 - Scroll reveal
 - Button interactions
 
-**Documentação**: https://www.framer.com/motion/
+**Documentação**: <https://www.framer.com/motion/>
 
 ---
 
@@ -188,19 +196,21 @@ theme: {
 | Tooltip | `@radix-ui/react-tooltip` | 1.2.8 |
 
 **Por que Radix UI?**
+
 - ✅ Acessibilidade built-in (ARIA)
 - ✅ Headless (customização total)
 - ✅ Unstyled (usa Tailwind)
 - ✅ Keyboard navigation
 - ✅ Focus management
 
-**Documentação**: https://www.radix-ui.com/
+**Documentação**: <https://www.radix-ui.com/>
 
 ---
 
 ### Lucide React 0.525.0
 
 **Sistema de ícones moderno:**
+
 - ✅ 1.400+ ícones
 - ✅ Tree-shakeable
 - ✅ Customizáveis
@@ -215,13 +225,14 @@ import { Home, User, Settings } from 'lucide-react'
 <Home className="h-5 w-5" />
 ```
 
-**Documentação**: https://lucide.dev/
+**Documentação**: <https://lucide.dev/>
 
 ---
 
 ### next-themes 0.4.6
 
 **Gerenciamento de temas:**
+
 - ✅ Light/Dark/System
 - ✅ Persistência localStorage
 - ✅ Zero flash
@@ -240,7 +251,7 @@ import { Home, User, Settings } from 'lucide-react'
 const { theme, setTheme } = useTheme()
 ```
 
-**Documentação**: https://github.com/pacocoursey/next-themes
+**Documentação**: <https://github.com/pacocoursey/next-themes>
 
 ---
 
@@ -249,6 +260,7 @@ const { theme, setTheme } = useTheme()
 ### React Hook Form 7.65.0
 
 **Gerenciamento de formulários:**
+
 - ✅ Performance otimizada
 - ✅ Validação integrada
 - ✅ Error handling
@@ -264,18 +276,20 @@ const { register, handleSubmit, formState: { errors } } = useForm()
 ```
 
 **Onde é usado**:
+
 - Formulário de contato
 - Formulários de login/registro
 - Editor de posts
 - Newsletter
 
-**Documentação**: https://react-hook-form.com/
+**Documentação**: <https://react-hook-form.com/>
 
 ---
 
 ### Zod 3.25.76
 
 **Schema validation:**
+
 - ✅ Type-safe schemas
 - ✅ Runtime validation
 - ✅ Error messages customizados
@@ -293,7 +307,7 @@ const schema = z.object({
 
 **Integração**: React Hook Form + Zod via `@hookform/resolvers`
 
-**Documentação**: https://zod.dev/
+**Documentação**: <https://zod.dev/>
 
 ---
 
@@ -302,6 +316,7 @@ const schema = z.object({
 ### TanStack Query 5.90.3
 
 **React Query para data fetching:**
+
 - ✅ Cache automático
 - ✅ Background refetch
 - ✅ Optimistic updates
@@ -319,18 +334,20 @@ const { data, isLoading, error } = useQuery({
 ```
 
 **Onde é usado**:
+
 - Listagem de posts
 - Dashboard analytics
 - Fetch de dados
 - Mutations (CRUD)
 
-**Documentação**: https://tanstack.com/query/
+**Documentação**: <https://tanstack.com/query/>
 
 ---
 
 ### TanStack Table 8.21.3
 
 **Tabelas avançadas:**
+
 - ✅ Sorting
 - ✅ Filtering
 - ✅ Pagination
@@ -339,10 +356,11 @@ const { data, isLoading, error } = useQuery({
 - ✅ Responsive
 
 **Onde é usado**:
+
 - Dashboard (lista de posts)
 - Analytics tables
 
-**Documentação**: https://tanstack.com/table/
+**Documentação**: <https://tanstack.com/table/>
 
 ---
 
@@ -366,6 +384,7 @@ const { data, isLoading, error } = useQuery({
 | `table-header` | Cabeçalhos |
 
 **Features**:
+
 - ✅ Markdown shortcuts
 - ✅ Slash commands
 - ✅ Bubble menu
@@ -383,13 +402,14 @@ const editor = useEditor({
 })
 ```
 
-**Documentação**: https://tiptap.dev/
+**Documentação**: <https://tiptap.dev/>
 
 ---
 
 ### Lowlight 3.3.0 + Highlight.js 11.11.1
 
 **Syntax highlighting:**
+
 - ✅ 190+ linguagens
 - ✅ Themes customizáveis
 - ✅ Auto-detection
@@ -397,9 +417,10 @@ const editor = useEditor({
 
 **Integração**: TipTap CodeBlock
 
-**Documentação**: 
-- https://highlightjs.org/
-- https://github.com/wooorm/lowlight
+**Documentação**:
+
+- <https://highlightjs.org/>
+- <https://github.com/wooorm/lowlight>
 
 ---
 
@@ -410,6 +431,7 @@ const editor = useEditor({
 **Upload e otimização de imagens:**
 
 **Features usadas:**
+
 - ✅ Upload direto do browser
 - ✅ Transformações on-the-fly
 - ✅ Responsive images
@@ -429,13 +451,14 @@ await cloudinary.uploader.upload(file, {
 })
 ```
 
-**Documentação**: https://cloudinary.com/documentation
+**Documentação**: <https://cloudinary.com/documentation>
 
 ---
 
 ### Vercel Analytics 1.5.0
 
 **Web analytics privacy-first:**
+
 - ✅ Zero cookies
 - ✅ GDPR compliant
 - ✅ Real-time
@@ -451,13 +474,14 @@ import { Analytics } from '@vercel/analytics/react'
 <Analytics />
 ```
 
-**Documentação**: https://vercel.com/docs/analytics
+**Documentação**: <https://vercel.com/docs/analytics>
 
 ---
 
 ### Vercel Speed Insights 1.2.0
 
 **Performance monitoring:**
+
 - ✅ Real User Monitoring
 - ✅ Core Web Vitals
 - ✅ Time to Interactive
@@ -472,7 +496,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 <SpeedInsights />
 ```
 
-**Documentação**: https://vercel.com/docs/speed-insights
+**Documentação**: <https://vercel.com/docs/speed-insights>
 
 ---
 
@@ -493,6 +517,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 ```
 
 **Rules ativas:**
+
 - ✅ `@typescript-eslint/no-unused-vars`
 - ✅ `@typescript-eslint/no-explicit-any`
 - ✅ `react-hooks/rules-of-hooks`
@@ -500,6 +525,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 - ✅ `@next/next/no-img-element`
 
 **Plugins**:
+
 - `eslint-config-next` - Rules Next.js
 - `eslint-config-prettier` - Integração Prettier
 - `eslint-plugin-prettier` - Prettier como rule
@@ -522,6 +548,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 ```
 
 **Scripts**:
+
 - `npm run format` - Formata todos arquivos
 - `npm run format:check` - Verifica formatação
 
@@ -530,6 +557,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 ### JSDoc 4.0.5
 
 **Documentação automática:**
+
 - ✅ TypeScript support
 - ✅ Markdown output
 - ✅ Customizable templates
@@ -538,6 +566,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 **Configuração**: `jsdoc.config.json`
 
 **Scripts**:
+
 - `npm run docs` - Gera documentação
 - `npm run docs:serve` - Serve docs local
 - `npm run docs:watch` - Watch mode
@@ -547,6 +576,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 ### SonarQube
 
 **Análise de qualidade:**
+
 - ✅ Code smells
 - ✅ Bugs
 - ✅ Vulnerabilities
@@ -557,6 +587,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 **Docker**: `sonarqube/docker-compose.sonarqube.yml`
 
 **Scripts**:
+
 - `npm run sonar` - Análise cloud
 - `npm run sonar:local` - Análise local
 
@@ -571,12 +602,14 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 **Arquivo**: `public/sw.js`
 
 **Estratégias de cache:**
+
 - ✅ Cache-first para assets
 - ✅ Network-first para APIs
 - ✅ Stale-while-revalidate para páginas
 - ✅ Offline fallback
 
 **Features**:
+
 - ✅ Precache de rotas críticas
 - ✅ Runtime caching
 - ✅ Background sync (futuro)
@@ -592,7 +625,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 
 ```json
 {
-  "name": "Rainer Soft - Empresa de Desenvolvimento",
+  "fullName": "Rainer Soft - Empresa de Desenvolvimento",
   "short_name": "RainerSoft",
   "description": "Empresa de Desenvolvimento Full-Stack",
   "display": "standalone",
@@ -605,9 +638,9 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
     { "src": "/icon-192-maskable.png", "sizes": "192x192", "purpose": "maskable" }
   ],
   "shortcuts": [
-    { "name": "Blog", "url": "/blog?source=shortcut" },
-    { "name": "Contato", "url": "/contato?source=shortcut" },
-    { "name": "Dashboard", "url": "/dashboard?source=shortcut" }
+    { "fullName": "Blog", "url": "/blog?source=shortcut" },
+    { "fullName": "Contato", "url": "/contato?source=shortcut" },
+    { "fullName": "Dashboard", "url": "/dashboard?source=shortcut" }
   ],
   "share_target": {
     "action": "/contato",
@@ -625,6 +658,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 **Arquivo**: `lib/analytics.ts`
 
 **Features**:
+
 - ✅ Type-safe events
 - ✅ 15+ eventos predefinidos
 - ✅ Custom event tracking
@@ -632,6 +666,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 - ✅ Privacy-first
 
 **Eventos rastreados**:
+
 - Page views
 - Blog interactions (likes, views)
 - Form submissions
@@ -646,6 +681,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 **Arquivo**: `lib/performance-monitor.ts`
 
 **Core Web Vitals:**
+
 - ✅ LCP tracking
 - ✅ FID tracking
 - ✅ CLS tracking
@@ -653,6 +689,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 - ✅ TTFB tracking
 
 **Custom metrics:**
+
 - API response time
 - Component render time
 - Data fetch time
@@ -666,12 +703,14 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 **Arquivo**: `lib/logger.ts`
 
 **4 níveis**:
+
 - `logger.debug()` - Desenvolvimento
 - `logger.info()` - Informações
 - `logger.warn()` - Avisos
 - `logger.error()` - Erros
 
 **Features**:
+
 - ✅ Timestamps
 - ✅ Contexto estruturado
 - ✅ Colorização
@@ -721,6 +760,7 @@ cn("px-2 py-1", "px-3") // Resultado: "py-1 px-3"
 ### date-fns 4.1.0
 
 **Manipulação de datas:**
+
 - ✅ Format
 - ✅ Parse
 - ✅ Diff
@@ -744,6 +784,7 @@ format(new Date(), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })
 ### Charts - Recharts 3.0.2
 
 **Gráficos interativos:**
+
 - ✅ Line charts
 - ✅ Bar charts
 - ✅ Area charts
@@ -752,17 +793,19 @@ format(new Date(), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })
 - ✅ Animated
 
 **Onde é usado**:
+
 - Dashboard analytics
 - Views chart
 - Engagement chart
 
-**Documentação**: https://recharts.org/
+**Documentação**: <https://recharts.org/>
 
 ---
 
 ### Notifications - Sonner 2.0.5
 
 **Toast notifications:**
+
 - ✅ Promise toasts
 - ✅ Loading states
 - ✅ Success/Error
@@ -783,13 +826,14 @@ toast.promise(savePost(), {
 })
 ```
 
-**Documentação**: https://sonner.emilkowal.ski/
+**Documentação**: <https://sonner.emilkowal.ski/>
 
 ---
 
 ### Drag & Drop - DnD Kit 6.3.1
 
 **Sistema de drag and drop:**
+
 - ✅ Acessível
 - ✅ Touch support
 - ✅ Sortable lists
@@ -797,28 +841,31 @@ toast.promise(savePost(), {
 - ✅ Custom sensors
 
 **Pacotes**:
+
 - `@dnd-kit/core` - Core functionality
 - `@dnd-kit/sortable` - Sortable lists
 - `@dnd-kit/modifiers` - Snap to grid, etc
 - `@dnd-kit/utilities` - Helpers
 
-**Documentação**: https://dndkit.com/
+**Documentação**: <https://dndkit.com/>
 
 ---
 
 ### Command Palette - cmdk 1.1.1
 
 **Command menu (Cmd+K):**
+
 - ✅ Fuzzy search
 - ✅ Keyboard shortcuts
 - ✅ Nested commands
 - ✅ Customizable
 
 **Onde é usado**:
+
 - Dashboard command menu
 - Quick navigation
 
-**Documentação**: https://cmdk.paco.me/
+**Documentação**: <https://cmdk.paco.me/>
 
 ---
 
@@ -855,6 +902,7 @@ headers: [
 **Versão recomendada**: 20.x LTS
 
 **Verificar versão**:
+
 ```bash
 node --version  # v20.x.x
 npm --version   # 10.x.x
@@ -878,6 +926,7 @@ npm --version   # 10.x.x
 ### Production (50+ pacotes)
 
 **Categorias**:
+
 - 17 pacotes Radix UI (componentes)
 - 8 pacotes TipTap (editor)
 - 6 pacotes DnD Kit (drag and drop)
@@ -890,6 +939,7 @@ npm --version   # 10.x.x
 ### Development (15 pacotes)
 
 **Dev-only**:
+
 - Type definitions (@types/*)
 - Linters (ESLint plugins)
 - Formatters (Prettier)
@@ -938,22 +988,22 @@ npm run lint
 
 | Tecnologia | Link |
 |------------|------|
-| Next.js | https://nextjs.org/docs |
-| React | https://react.dev/ |
-| TypeScript | https://www.typescriptlang.org/docs/ |
-| Tailwind | https://tailwindcss.com/docs |
-| Framer Motion | https://www.framer.com/motion/ |
-| TanStack Query | https://tanstack.com/query/ |
-| Radix UI | https://www.radix-ui.com/ |
-| TipTap | https://tiptap.dev/ |
+| Next.js | <https://nextjs.org/docs> |
+| React | <https://react.dev/> |
+| TypeScript | <https://www.typescriptlang.org/docs/> |
+| Tailwind | <https://tailwindcss.com/docs> |
+| Framer Motion | <https://www.framer.com/motion/> |
+| TanStack Query | <https://tanstack.com/query/> |
+| Radix UI | <https://www.radix-ui.com/> |
+| TipTap | <https://tiptap.dev/> |
 
 ### Tutoriais Recomendados
 
-- **Next.js 15**: https://nextjs.org/learn
-- **React 19**: https://react.dev/learn
-- **TypeScript Handbook**: https://www.typescriptlang.org/docs/handbook/
-- **Tailwind Play**: https://play.tailwindcss.com/
-- **Framer Motion Examples**: https://www.framer.com/motion/examples/
+- **Next.js 15**: <https://nextjs.org/learn>
+- **React 19**: <https://react.dev/learn>
+- **TypeScript Handbook**: <https://www.typescriptlang.org/docs/handbook/>
+- **Tailwind Play**: <https://play.tailwindcss.com/>
+- **Framer Motion Examples**: <https://www.framer.com/motion/examples/>
 
 ---
 
@@ -976,6 +1026,7 @@ npm run lint
 ## 🎯 Conclusão
 
 Stack escolhido para:
+
 - ✅ **Performance**: Server components, code splitting
 - ✅ **Developer Experience**: TypeScript, hot reload, autocomplete
 - ✅ **Maintainability**: Modular, documented, tested
@@ -988,4 +1039,3 @@ Stack escolhido para:
 
 **Última atualização**: Outubro 2025
 **Versão do documento**: 1.0.0
-

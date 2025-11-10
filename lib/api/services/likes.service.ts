@@ -4,7 +4,7 @@
 
 /**
  * Serviço para gerenciar curtidas em posts
- * 
+ *
  * @fileoverview Serviço de likes com métodos para curtir/descurtir e consultas
  * @author Rainer Teixeira
  * @version 1.0.0
@@ -17,70 +17,111 @@ import type { ApiResponse, CreateLikeData, Like } from '../types';
 // Classe do Serviço
 // ============================================================================
 
+/**
+ * Serviço responsável por operações de likes em posts.
+ */
 export class LikesService {
   private readonly basePath = '/likes';
 
   /**
    * Curtir um post
    */
-  async likePost(data: CreateLikeData): Promise<ApiResponse<Like>> {
+  /**
+   * Cria like para um post.
+   */
+  async likePost(data: CreateLikeData): Promise<Like> {
     const response = await api.post<ApiResponse<Like>>(this.basePath, data);
-    return response;
+    if (response.success && response.data) {
+      return response.data;
+    }
+    throw new Error(response.message || 'Erro ao curtir post');
   }
 
   /**
    * Descurtir um post
    */
+  /**
+   * Remove like (unlike) de um post.
+   */
   async unlikePost(userId: string, postId: string): Promise<ApiResponse<void>> {
-    return api.delete<ApiResponse<void>>(`${this.basePath}/${userId}/${postId}`);
+    return api.delete<ApiResponse<void>>(
+      `${this.basePath}/${userId}/${postId}`
+    );
   }
 
   /**
    * Lista likes de um post específico
    */
+  /**
+   * Lista likes de um post.
+   */
   async getLikesByPost(postId: string): Promise<ApiResponse<Like[]>> {
-    const response = await api.get<ApiResponse<Like[]>>(`${this.basePath}/post/${postId}`);
+    const response = await api.get<ApiResponse<Like[]>>(
+      `${this.basePath}/post/${postId}`
+    );
     return response;
   }
 
   /**
    * Lista likes de um usuário específico
    */
+  /**
+   * Lista likes de um usuário.
+   */
   async getLikesByUser(userId: string): Promise<ApiResponse<Like[]>> {
-    const response = await api.get<ApiResponse<Like[]>>(`${this.basePath}/user/${userId}`);
+    const response = await api.get<ApiResponse<Like[]>>(
+      `${this.basePath}/user/${userId}`
+    );
     return response;
   }
 
   /**
    * Conta o número de likes de um post
    */
+  /**
+   * Conta likes de um post.
+   */
   async getLikeCount(postId: string): Promise<ApiResponse<number>> {
-    const response = await api.get<ApiResponse<number>>(`${this.basePath}/post/${postId}/count`);
+    const response = await api.get<ApiResponse<number>>(
+      `${this.basePath}/post/${postId}/count`
+    );
     return response;
   }
 
   /**
    * Verifica se um usuário curtiu um post específico
    */
-  async hasUserLikedPost(userId: string, postId: string): Promise<ApiResponse<boolean>> {
-    const response = await api.get<ApiResponse<boolean>>(`${this.basePath}/${userId}/${postId}/check`);
+  /**
+   * Verifica se o usuário curtiu o post.
+   */
+  async hasUserLikedPost(
+    userId: string,
+    postId: string
+  ): Promise<ApiResponse<boolean>> {
+    const response = await api.get<ApiResponse<boolean>>(
+      `${this.basePath}/${userId}/${postId}/check`
+    );
     return response;
   }
 
   /**
    * Toggle like/unlike de um post
    */
-  async toggleLike(userId: string, postId: string): Promise<{ liked: boolean; like?: Like }> {
+  /**
+   * Alterna like/unlike para um par usuário/post.
+   * @returns `{ liked: boolean, like?: Like }`
+   */
+  async toggleLike(
+    userId: string,
+    postId: string
+  ): Promise<{ liked: boolean; like?: Like }> {
     const hasLikedResponse = await this.hasUserLikedPost(userId, postId);
     if (hasLikedResponse.success && hasLikedResponse.data === true) {
       await this.unlikePost(userId, postId);
       return { liked: false };
     }
-    const likeResponse = await this.likePost({ userId, postId });
-    if (likeResponse.success) {
-      return { liked: true, like: likeResponse.data };
-    }
-    throw new Error(likeResponse.message);
+    const like = await this.likePost({ userId, postId });
+    return { liked: true, like };
   }
 }
 

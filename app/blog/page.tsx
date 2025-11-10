@@ -1,98 +1,145 @@
-/**
+﻿/**
  * Blog Page Component
- * 
- * Página de listagem de artigos com filtros, ordenação e busca.
- * Grid responsivo de posts com stats, categorias e destaques.
- * 
- * Características:
- * - Cards de estatísticas do blog
- * - Filtros por categoria
- * - Ordenação (recentes, populares, trending)
- * - Posts em destaque
- * - Grid responsivo 2 colunas
- * - Busca de artigos
- * - Newsletter signup
- * - Animações staggered
- * 
+ *
+ * Página de listagem de artigos com filtros por categoria, ordenação, busca
+ * e grid responsivo. Inclui SearchBar, PostCard, NewsletterBox e animações
+ * suaves com Framer Motion.
+ *
+ * @module app/blog/page
  * @fileoverview Página principal de listagem do blog
  * @author Rainer Teixeira
  * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * // Rota: /blog
+ * // Renderizada automaticamente pelo Next.js App Router
+ * ```
  */
 
-"use client"
+'use client';
 
 // ============================================================================
-// React & Hooks
+// REACT & HOOKS
 // ============================================================================
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react';
 
 // ============================================================================
-// Third-party Libraries
+// THIRD-PARTY LIBRARIES
 // ============================================================================
 
-import { motion } from "framer-motion"
-import { TrendingUp, Clock, Eye, Heart, BookOpen, Filter, SortDesc, Star } from "lucide-react"
+import { motion } from 'framer-motion';
+import { BookOpen, Eye, Heart, TrendingUp } from 'lucide-react';
 
 // ============================================================================
-// Blog Components
+// BLOG COMPONENTS
 // ============================================================================
 
-import { PostCard } from "@/components/blog/post-card"
-import { SearchBar, NewsletterBox } from "@/components/blog"
+import {
+  BlogStatCard,
+  CategoryFilter,
+  EmptyState,
+  FeaturedPostsSection,
+  NewsletterBox,
+  PostCard,
+  SearchBar,
+  SortControls,
+  type SortOption,
+} from '@/components/blog';
 
 // ============================================================================
-// UI Components
+// UI COMPONENTS
 // ============================================================================
 
-import { ParticlesEffect, PageHeader, BackToTop } from "@/components/ui"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
+import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
+import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // ============================================================================
-// Store & Types
+// API SERVICES & TYPES
 // ============================================================================
 
-import { blogStore, type BlogPost } from "@/components/blog/lib/blog-store"
+import { postsService } from '@/lib/api/services';
+import type { Post } from '@/lib/api/types';
+import { PostStatus } from '@/lib/api/types';
 
 // ============================================================================
-// Constants
+// DESIGN TOKENS
+// ============================================================================
+
+import { cn } from '@/lib/utils';
+import { BACKGROUND } from '@rainer/design-tokens';
+
+// ============================================================================
+// TYPES & INTERFACES
+// ============================================================================
+
+// SortOption type is now exported from SortControls component
+
+/**
+ * Configuração de estatística do blog
+ *
+ * @interface BlogStat
+ * @property {React.ComponentType} icon - Componente de ícone do Lucide React
+ * @property {string | number} value - Valor da estatística
+ * @property {string} label - Label descritivo
+ * @property {string} borderColor - Classe CSS para cor da borda
+ * @property {string} iconColor - Classe CSS para cor do ícone
+ */
+interface BlogStat {
+  icon: React.ComponentType<{ className?: string }>;
+  value: string | number;
+  label: string;
+  borderColor: string;
+  iconColor: string;
+}
+
+// ============================================================================
+// CONSTANTS
 // ============================================================================
 
 /**
- * Tipos de ordenação disponíveis
+ * Número máximo de posts em destaque a exibir
+ * @type {number}
+ * @constant
  */
-type SortOption = 'recent' | 'popular' | 'trending'
+const MAX_FEATURED_POSTS = 3;
 
 /**
- * Número de posts em destaque a exibir
+ * Número de skeleton loaders a exibir durante carregamento
+ * @type {number}
+ * @constant
  */
-const MAX_FEATURED_POSTS = 3
+const SKELETON_COUNT = 4;
 
 /**
- * Número de skeleton loaders a exibir
+ * Delay entre animações de entrada de posts (em segundos)
+ * @type {number}
+ * @constant
  */
-const SKELETON_COUNT = 4
+const STAGGER_DELAY_SECONDS = 0.1;
 
 /**
- * Delay entre animações de entrada de posts
+ * Delay inicial antes de animar posts (em segundos)
+ * @type {number}
+ * @constant
  */
-const STAGGER_DELAY_SECONDS = 0.1
-
-/**
- * Delay inicial antes de animar posts
- */
-const ANIMATION_INITIAL_DELAY = 0.2
+const ANIMATION_INITIAL_DELAY = 0.2;
 
 // ============================================================================
-// Animation Variants
+// ANIMATION VARIANTS
 // ============================================================================
 
 /**
  * Variantes de animação para container de posts
+ *
+ * Configuração do Framer Motion para animação staggered dos posts.
+ * Posts aparecem sequencialmente com delay entre cada um.
+ *
+ * @type {Object}
+ * @constant
  */
 const POSTS_CONTAINER_VARIANTS = {
   hidden: { opacity: 0 },
@@ -100,303 +147,385 @@ const POSTS_CONTAINER_VARIANTS = {
     opacity: 1,
     transition: {
       staggerChildren: STAGGER_DELAY_SECONDS,
-      delayChildren: ANIMATION_INITIAL_DELAY
-    }
-  }
-} as const
+      delayChildren: ANIMATION_INITIAL_DELAY,
+    },
+  },
+} as const;
 
 // ============================================================================
-// Main Component
+// MAIN COMPONENT
 // ============================================================================
 
 /**
- * Componente principal da Blog Page
- * 
- * Renderiza listagem completa de posts publicados com:
- * - Stats cards do blog
- * - Filtros de categoria
- * - Ordenação múltipla
+ * BlogPage Component
+ *
+ * Componente principal da página de blog com:
+ * - Cards de estatísticas do blog
+ * - Filtros por categoria
+ * - Ordenação múltipla (recentes, populares, trending)
  * - Busca de artigos
- * - Grid responsivo
+ * - Grid responsivo de posts
+ * - Posts em destaque
  * - Newsletter signup
- * 
- * @returns Página de blog completa
+ * - Animações staggered suaves
+ *
+ * @component
+ * @returns {JSX.Element} Página de blog completa
+ *
+ * @remarks
+ * Este componente utiliza:
+ * - blogStore para gerenciamento de posts
+ * - Framer Motion para animações
+ * - Filtros e ordenação client-side
+ * - Design system com Tailwind CSS
+ * - Acessibilidade WCAG AA compliant
+ *
+ * @see {@link blogStore} Store de gerenciamento de posts
+ * @see {@link PostCard} Componente de card de post
  */
 export default function BlogPage() {
-  // ============================================================================
-  // State
-  // ============================================================================
-  
-  const [allPosts, setAllPosts] = useState<BlogPost[]>([])
-  const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>([])
-  const [isLoadingPosts, setIsLoadingPosts] = useState(true)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [currentSortOption, setCurrentSortOption] = useState<SortOption>('recent')
+  // ========================================================================
+  // STATE
+  // ========================================================================
 
-  // ============================================================================
-  // Effects
-  // ============================================================================
-  
+  /**
+   * Todos os posts publicados
+   * @type {Post[]}
+   */
+  const [allPosts, setAllPosts] = useState<Post[]>([]);
+
+  /**
+   * Posts filtrados e ordenados para exibição
+   * @type {Post[]}
+   */
+  const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
+
+  /**
+   * Estado de carregamento dos posts
+   * @type {boolean}
+   */
+  const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+
+  /**
+   * Categoria selecionada para filtro (null = todas)
+   * @type {string | null}
+   */
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  /**
+   * Opção de ordenação atual
+   * @type {SortOption}
+   */
+  const [currentSortOption, setCurrentSortOption] =
+    useState<SortOption>('recent');
+
+  /**
+   * Conta posts por categoria
+   * @param {string} category - Categoria para contar
+   * @returns {number} Número de posts na categoria
+   */
+  const getCategoryCount = (category: string): number => {
+    return allPosts.filter(p => p.subcategory?.name === category).length;
+  };
+
+  // ========================================================================
+  // EFFECTS
+  // ========================================================================
+
   /**
    * Carrega posts publicados ao montar componente
+   *
+   * Busca todos os posts publicados da API e inicializa
+   * os estados de posts.
    */
   useEffect(() => {
-    setIsLoadingPosts(true)
-    const publishedPosts = blogStore.getPublishedPosts()
-    setAllPosts(publishedPosts)
-    setDisplayedPosts(publishedPosts)
-    setIsLoadingPosts(false)
-  }, [])
+    const loadPosts = async () => {
+      setIsLoadingPosts(true);
+      try {
+        const response = await postsService.listPosts({
+          status: PostStatus.PUBLISHED,
+          limit: 100, // Carregar muitos posts inicialmente
+        });
+        if (response.success && response.posts) {
+          setAllPosts(response.posts);
+          setDisplayedPosts(response.posts);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar posts:', error);
+        setAllPosts([]);
+        setDisplayedPosts([]);
+      } finally {
+        setIsLoadingPosts(false);
+      }
+    };
+    loadPosts();
+  }, []);
 
   /**
    * Filtra e ordena posts quando filtros mudam
+   *
+   * Aplica filtro de categoria e ordenação conforme seleção do usuário.
+   * Executa sempre que selectedCategory, currentSortOption ou allPosts mudam.
    */
   useEffect(() => {
-    let processedPosts = [...allPosts]
+    let processedPosts = [...allPosts];
 
     // Aplicar filtro de categoria
     if (selectedCategory) {
       processedPosts = processedPosts.filter(
-        post => post.category === selectedCategory
-      )
+        post => post.subcategory?.name === selectedCategory
+      );
     }
 
     // Aplicar ordenação
     switch (currentSortOption) {
       case 'popular':
-        processedPosts.sort((a, b) => (b.views || 0) - (a.views || 0))
-        break
+        processedPosts.sort((a, b) => (b.views || 0) - (a.views || 0));
+        break;
       case 'trending':
-        processedPosts.sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0))
-        break
+        processedPosts.sort(
+          (a, b) => (b.likesCount || 0) - (a.likesCount || 0)
+        );
+        break;
       case 'recent':
       default:
-        // Já ordenado por padrão
-        break
+        // Já ordenado por padrão (mais recentes primeiro)
+        break;
     }
 
-    setDisplayedPosts(processedPosts)
-  }, [selectedCategory, currentSortOption, allPosts])
+    setDisplayedPosts(processedPosts);
+  }, [selectedCategory, currentSortOption, allPosts]);
 
-  // ============================================================================
-  // Computed Values
-  // ============================================================================
-  
-  const totalViews = allPosts.reduce((sum, post) => sum + (post.views || 0), 0)
-  const totalLikes = allPosts.reduce((sum, post) => sum + (post.likesCount || 0), 0)
-  const featuredPosts = allPosts.filter(post => post.featured)
+  // ========================================================================
+  // COMPUTED VALUES
+  // ========================================================================
+
+  /**
+   * Total de visualizações de todos os posts
+   * @type {number}
+   */
+  const totalViews = allPosts.reduce((sum, post) => sum + (post.views || 0), 0);
+
+  /**
+   * Total de curtidas de todos os posts
+   * @type {number}
+   */
+  const totalLikes = allPosts.reduce(
+    (sum, post) => sum + (post.likesCount || 0),
+    0
+  );
+
+  /**
+   * Posts marcados como em destaque
+   * @type {Post[]}
+   */
+  const featuredPosts = allPosts.filter(post => post.featured);
+
+  /**
+   * Categorias únicas de todos os posts
+   * @type {string[]}
+   */
   const uniqueCategories = Array.from(
-    new Set(allPosts.map(post => post.category).filter(Boolean))
-  )
+    new Set(
+      allPosts
+        .map(post => post.subcategory?.name)
+        .filter((name): name is string => Boolean(name))
+    )
+  );
 
-  // ============================================================================
-  // Render
-  // ============================================================================
+  /**
+   * Configuração dos cards de estatísticas
+   * @type {BlogStat[]}
+   */
+  const blogStats: BlogStat[] = [
+    {
+      icon: BookOpen,
+      value: allPosts.length,
+      label: 'Artigos',
+      borderColor: 'dark:border-cyan-400/20',
+      iconColor: 'text-cyan-400',
+    },
+    {
+      icon: Eye,
+      value: totalViews.toLocaleString(),
+      label: 'Visualizações',
+      borderColor: 'dark:border-purple-400/20',
+      iconColor: 'text-purple-400',
+    },
+    {
+      icon: Heart,
+      value: totalLikes.toLocaleString(),
+      label: 'Curtidas',
+      borderColor: 'dark:border-pink-400/20',
+      iconColor: 'text-pink-400',
+    },
+    {
+      icon: TrendingUp,
+      value: featuredPosts.length,
+      label: 'Em Destaque',
+      borderColor: 'dark:border-orange-400/20',
+      iconColor: 'text-orange-400',
+    },
+  ];
+
+  // ========================================================================
+  // MAIN RENDER
+  // ========================================================================
 
   return (
-    <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black relative overflow-hidden">
-      {/** Efeito de partículas decorativas (dark mode) */}
+    <div
+      className={cn('min-h-screen relative overflow-hidden', BACKGROUND.FULL)}
+    >
+      {/* ================================================================
+          PARTICLES EFFECT
+          ================================================================ */}
+
       <ParticlesEffect variant="default" />
-      
+
       {/* Grid pattern background */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000,transparent)] pointer-events-none" />
-      
-      {/** Header da página */}
+      <div
+        className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000,transparent)] pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* ================================================================
+          PAGE HEADER
+          ================================================================ */}
+
       <PageHeader
         title="Blog de Desenvolvimento"
         description="Artigos técnicos sobre React, Next.js, TypeScript e desenvolvimento web moderno. Compartilho aprendizados práticos, tutoriais detalhados, soluções para problemas reais e insights sobre as tecnologias que uso nos meus projetos. Conteúdo direto ao ponto, sem enrolação."
       />
 
-      {/* Cards de estatísticas do blog */}
+      {/* ================================================================
+          BLOG STATISTICS CARDS
+          ================================================================ */}
+
       {!isLoadingPosts && allPosts.length > 0 && (
-        <motion.div
+        <motion.section
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-7xl mx-auto px-6 pb-8 relative z-10"
+          aria-labelledby="blog-stats-heading"
+          className="max-w-7xl mx-auto px-6 py-8 relative z-10"
         >
+          <h2 id="blog-stats-heading" className="sr-only">
+            Estatísticas do Blog
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {/* Total de artigos */}
-            <Card className="dark:bg-black/30 dark:border-cyan-400/20">
-              <CardContent className="p-4 text-center">
-                <BookOpen className="h-6 w-6 mx-auto mb-2 text-cyan-400" aria-hidden="true" />
-                <div className="text-2xl font-bold dark:text-gray-100">
-                  {allPosts.length}
-                </div>
-                <div className="text-xs text-muted-foreground dark:text-gray-400">
-                  Artigos
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Total de visualizações */}
-            <Card className="dark:bg-black/30 dark:border-purple-400/20">
-              <CardContent className="p-4 text-center">
-                <Eye className="h-6 w-6 mx-auto mb-2 text-purple-400" aria-hidden="true" />
-                <div className="text-2xl font-bold dark:text-gray-100">
-                  {totalViews.toLocaleString()}
-                </div>
-                <div className="text-xs text-muted-foreground dark:text-gray-400">
-                  Visualizações
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Total de curtidas */}
-            <Card className="dark:bg-black/30 dark:border-pink-400/20">
-              <CardContent className="p-4 text-center">
-                <Heart className="h-6 w-6 mx-auto mb-2 text-pink-400" aria-hidden="true" />
-                <div className="text-2xl font-bold dark:text-gray-100">
-                  {totalLikes.toLocaleString()}
-                </div>
-                <div className="text-xs text-muted-foreground dark:text-gray-400">
-                  Curtidas
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Posts em destaque */}
-            <Card className="dark:bg-black/30 dark:border-orange-400/20">
-              <CardContent className="p-4 text-center">
-                <TrendingUp className="h-6 w-6 mx-auto mb-2 text-orange-400" aria-hidden="true" />
-                <div className="text-2xl font-bold dark:text-gray-100">
-                  {featuredPosts.length}
-                </div>
-                <div className="text-xs text-muted-foreground dark:text-gray-400">
-                  Em Destaque
-                </div>
-              </CardContent>
-            </Card>
+            {blogStats.map(stat => (
+              <BlogStatCard
+                key={stat.label}
+                icon={stat.icon}
+                value={stat.value}
+                label={stat.label}
+                borderColor={stat.borderColor}
+                iconColor={stat.iconColor}
+              />
+            ))}
           </div>
-        </motion.div>
+        </motion.section>
       )}
 
-      {/** Barra de Busca */}
-      <div className="max-w-4xl mx-auto px-6 pb-8 relative z-10">
-        <SearchBar variant="default" placeholder="Buscar artigos..." />
-      </div>
+      {/* ================================================================
+          SEARCH BAR
+          ================================================================ */}
 
-      {/* Filtros e ordenação */}
+      <section
+        aria-label="Buscar artigos"
+        className="max-w-4xl mx-auto px-6 py-8 relative z-10"
+      >
+        <SearchBar variant="default" placeholder="Buscar artigos..." />
+      </section>
+
+      {/* ================================================================
+          FILTERS & SORTING
+          ================================================================ */}
+
       {!isLoadingPosts && allPosts.length > 0 && (
-        <motion.div
+        <motion.section
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-7xl mx-auto px-6 pb-8 relative z-10"
+          aria-labelledby="filters-heading"
+          className="max-w-7xl mx-auto px-6 py-8 relative z-10"
         >
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            {/* Filtros de categoria */}
-            <div className="flex items-center gap-2 flex-wrap">
-              <Filter className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-              <span className="text-sm text-muted-foreground dark:text-gray-400">
-                Categoria:
-              </span>
-              <Badge 
-                variant={!selectedCategory ? "default" : "outline"}
-                className="cursor-pointer hover:bg-cyan-400/10"
-                onClick={() => setSelectedCategory(null)}
-              >
-                Todos ({allPosts.length})
-              </Badge>
-              {uniqueCategories.map(category => (
-                <Badge 
-                  key={category} 
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  className="cursor-pointer hover:bg-cyan-400/10 dark:border-cyan-400/30"
-                  onClick={() => setSelectedCategory(category as string)}
-                >
-                  {category} ({allPosts.filter(p => p.category === category).length})
-                </Badge>
-              ))}
-            </div>
-
-            {/* Controles de ordenação */}
-            <div className="flex items-center gap-2">
-              <SortDesc className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-              <span className="text-sm text-muted-foreground dark:text-gray-400">
-                Ordenar:
-              </span>
-              <div className="flex gap-1">
-                <Button
-                  variant={currentSortOption === 'recent' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setCurrentSortOption('recent')}
-                  className="text-xs dark:border-cyan-400/30"
-                  aria-label="Ordenar por mais recentes"
-                >
-                  <Clock className="h-3 w-3 mr-1" aria-hidden="true" />
-                  Recentes
-                </Button>
-                <Button
-                  variant={currentSortOption === 'popular' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setCurrentSortOption('popular')}
-                  className="text-xs dark:border-cyan-400/30"
-                  aria-label="Ordenar por mais populares"
-                >
-                  <Eye className="h-3 w-3 mr-1" aria-hidden="true" />
-                  Populares
-                </Button>
-                <Button
-                  variant={currentSortOption === 'trending' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setCurrentSortOption('trending')}
-                  className="text-xs dark:border-cyan-400/30"
-                  aria-label="Ordenar por trending"
-                >
-                  <TrendingUp className="h-3 w-3 mr-1" aria-hidden="true" />
-                  Trending
-                </Button>
+          <h2 id="filters-heading" className="sr-only">
+            Filtros e Ordenação
+          </h2>
+          <Card className="dark:bg-black/30 dark:border-cyan-400/20 mb-6">
+            <CardContent className="p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <CategoryFilter
+                  categories={uniqueCategories}
+                  selectedCategory={selectedCategory}
+                  onCategoryChange={setSelectedCategory}
+                  totalPosts={allPosts.length}
+                  getCategoryCount={getCategoryCount}
+                />
+                <SortControls
+                  currentSort={currentSortOption}
+                  onSortChange={setCurrentSortOption}
+                />
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
-          {/* Seção de posts em destaque */}
+          {/* Featured Posts Section */}
           {featuredPosts.length > 0 && !selectedCategory && (
-            <div className="mt-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Star className="h-5 w-5 text-yellow-500" aria-hidden="true" />
-                <h3 className="font-bold text-lg dark:text-yellow-200">
-                  Posts em Destaque
-                </h3>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {featuredPosts.slice(0, MAX_FEATURED_POSTS).map((post) => (
-                  <PostCard
-                    key={post.id}
-                    title={post.title}
-                    description={post.excerpt || post.description || ""}
-                    date={post.date}
-                    category={post.category}
-                    link={`/blog/${post.slug}`}
-                    image={post.coverImage || post.image}
-                  />
-                ))}
-              </div>
-              <Separator className="my-8 dark:bg-cyan-400/20" />
-            </div>
+            <FeaturedPostsSection
+              posts={featuredPosts}
+              maxPosts={MAX_FEATURED_POSTS}
+            />
           )}
-        </motion.div>
+        </motion.section>
       )}
 
-      {/* Grid de posts */}
-      <div className="max-w-7xl mx-auto px-6 pb-16 relative z-10">
-        {/* Cabeçalho da seção */}
+      {/* ================================================================
+          POSTS GRID
+          ================================================================ */}
+
+      <section
+        aria-labelledby="posts-heading"
+        className="max-w-7xl mx-auto px-6 pb-16 relative z-10"
+      >
+        {/* Section Header */}
         {!isLoadingPosts && displayedPosts.length > 0 && (
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold dark:text-cyan-200 dark:font-mono mb-2">
-              {selectedCategory ? `Categoria: ${selectedCategory}` : 'Todos os Artigos'}
-            </h2>
-            <p className="text-sm text-muted-foreground dark:text-gray-400">
-              {displayedPosts.length} {displayedPosts.length === 1 ? "artigo encontrado" : "artigos encontrados"}
-              {currentSortOption === 'popular' && ' • Ordenados por visualizações'}
-              {currentSortOption === 'trending' && ' • Ordenados por curtidas'}
-              {currentSortOption === 'recent' && ' • Mais recentes primeiro'}
-            </p>
-          </div>
+          <Card className="dark:bg-black/30 dark:border-cyan-400/20 mb-8">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h2
+                    id="posts-heading"
+                    className="text-2xl font-bold dark:text-cyan-200 dark:font-mono mb-2"
+                  >
+                    {selectedCategory
+                      ? `Categoria: ${selectedCategory}`
+                      : 'Todos os Artigos'}
+                  </h2>
+                  <p className="text-sm text-muted-foreground dark:text-gray-400">
+                    {displayedPosts.length}{' '}
+                    {displayedPosts.length === 1
+                      ? 'artigo encontrado'
+                      : 'artigos encontrados'}
+                    {currentSortOption === 'popular' &&
+                      ' • Ordenados por visualizações'}
+                    {currentSortOption === 'trending' &&
+                      ' • Ordenados por curtidas'}
+                    {currentSortOption === 'recent' &&
+                      ' • Mais recentes primeiro'}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         )}
 
-        {/* Estado de carregamento */}
+        {/* Loading State */}
         {isLoadingPosts ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            role="status"
+            aria-label="Carregando posts..."
+          >
             {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
               <div key={index} className="space-y-4">
                 <Skeleton className="h-48 w-full rounded-lg" />
@@ -407,80 +536,92 @@ export default function BlogPage() {
             ))}
           </div>
         ) : displayedPosts.length === 0 ? (
-          /* Estado vazio - nenhum post encontrado */
+          /* Empty State */
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-20"
+            role="status"
+            aria-live="polite"
           >
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-400/30 mb-6">
-              <svg
-                className="w-10 h-10 text-cyan-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-                />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-bold mb-2 dark:text-cyan-200 dark:font-mono">
-              {selectedCategory ? 'Nenhum post nesta categoria' : 'Nenhum post publicado'}
-            </h2>
-            <p className="text-muted-foreground dark:text-gray-400 mb-6">
-              {selectedCategory ? 'Tente selecionar outra categoria ou ver todos os posts.' : 'Ainda não há posts disponíveis. Volte em breve!'}
-            </p>
-            {selectedCategory && (
-              <Button 
-                onClick={() => setSelectedCategory(null)}
-                variant="outline"
-                className="dark:border-cyan-400/30"
-              >
-                Ver Todos os Posts
-              </Button>
-            )}
+            <EmptyState
+              title={
+                selectedCategory
+                  ? 'Nenhum post nesta categoria'
+                  : 'Nenhum post publicado'
+              }
+              description={
+                selectedCategory
+                  ? 'Tente selecionar outra categoria ou ver todos os posts.'
+                  : 'Ainda não há posts disponíveis. Volte em breve!'
+              }
+              actionLabel={selectedCategory ? 'Ver Todos os Posts' : undefined}
+              onAction={
+                selectedCategory ? () => setSelectedCategory(null) : undefined
+              }
+            />
           </motion.div>
         ) : (
-          /* Grid de posts com animação staggered */
+          /* Posts Grid with Staggered Animation */
           <motion.div
             variants={POSTS_CONTAINER_VARIANTS}
             initial="hidden"
             animate="visible"
             className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            role="list"
+            aria-label="Lista de posts do blog"
           >
-            {displayedPosts.map((post) => (
-              <PostCard
-                key={post.id}
-                title={post.title}
-                description={post.excerpt || post.description || ""}
-                date={post.date}
-                category={post.category}
-                link={`/blog/${post.slug}`}
-                image={post.coverImage || post.image}
-              />
+            {displayedPosts.map(post => (
+              <article key={post.id} role="listitem">
+                <PostCard
+                  title={post.title}
+                  description={post.excerpt || ''}
+                  date={
+                    post.publishedAt
+                      ? new Date(post.publishedAt).toLocaleDateString('pt-BR', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })
+                      : new Date(post.createdAt).toLocaleDateString('pt-BR', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })
+                  }
+                  category={post.subcategory?.name}
+                  link={`/blog/${post.slug}`}
+                  image={post.coverImage}
+                />
+              </article>
             ))}
           </motion.div>
         )}
-      </div>
+      </section>
 
-      {/* Newsletter signup */}
+      {/* ================================================================
+          NEWSLETTER SIGNUP
+          ================================================================ */}
+
       {!isLoadingPosts && allPosts.length > 0 && (
-        <motion.div
+        <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
+          aria-labelledby="newsletter-heading"
           className="max-w-4xl mx-auto px-6 pb-16 relative z-10"
         >
+          <h2 id="newsletter-heading" className="sr-only">
+            Newsletter
+          </h2>
           <NewsletterBox />
-        </motion.div>
+        </motion.section>
       )}
 
-      {/* Back to Top */}
+      {/* ================================================================
+          BACK TO TOP BUTTON
+          ================================================================ */}
+
       <BackToTop />
     </div>
-  )
+  );
 }

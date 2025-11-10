@@ -45,17 +45,20 @@ A versão **2.0.0 Enterprise Edition** representa a maior atualização do proje
 **Arquivo**: `constants/design-tokens.ts` (587 linhas)
 
 **O que mudou**:
+
 - ✅ 200+ tokens centralizados
 - ✅ 25 categorias diferentes
 - ✅ Type-safe com autocomplete
 - ✅ Single source of truth
 
 **Antes**:
+
 ```typescript
 const scrollThreshold = 300 // ❌ Hardcoded
 ```
 
 **Depois**:
+
 ```typescript
 import { SCROLL_THRESHOLDS } from '@/constants/design-tokens'
 const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP // ✅ Token
@@ -63,26 +66,12 @@ const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP // ✅ Token
 
 ---
 
-### 2. 🚨 Error Boundary Global
-
-**Arquivo**: `components/error-boundary.tsx` (245 linhas)
-
-**O que faz**:
-- Captura todos os erros de React
-- Mostra UI profissional de erro
-- Logging automático
-- Botões de retry e voltar
-
-**Antes**: Tela branca quando erro
-**Depois**: UI elegante com opções de recovery
-
----
-
-### 3. ⏳ Loading States Padronizados
+### 2. ⏳ Loading States Padronizados
 
 **Arquivo**: `components/ui/loading-states.tsx` (200 linhas)
 
 **4 componentes novos**:
+
 - `FullPageLoader` - Loading tela inteira
 - `InlineLoader` - Loading em seção
 - `SkeletonGrid` - Grid de placeholders
@@ -98,6 +87,7 @@ const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP // ✅ Token
 **Arquivo**: `lib/logger.ts` (271 linhas)
 
 **4 níveis**:
+
 - `debug` - Desenvolvimento only
 - `info` - Informações gerais
 - `warn` - Avisos
@@ -113,6 +103,7 @@ const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP // ✅ Token
 **Arquivo**: `lib/analytics.ts` (279 linhas)
 
 **Features**:
+
 - 15+ eventos predefinidos
 - Type-safe tracking
 - Integration-ready (GA4, Plausible)
@@ -128,6 +119,7 @@ const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP // ✅ Token
 **Arquivo**: `lib/performance-monitor.ts` (394 linhas)
 
 **Features**:
+
 - Core Web Vitals automáticos
 - Custom metrics
 - Rating system (good/needs-improvement/poor)
@@ -143,6 +135,7 @@ const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP // ✅ Token
 **Arquivo**: `lib/validation-schemas.ts` (336 linhas)
 
 **Features**:
+
 - 7 validators centralizados
 - 4 schemas de formulários
 - Mensagens padronizadas
@@ -158,6 +151,7 @@ const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP // ✅ Token
 **Arquivo**: `lib/env.ts` (168 linhas)
 
 **Features**:
+
 - Type-safe access
 - Validação runtime
 - Valores default
@@ -173,6 +167,7 @@ const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP // ✅ Token
 **Arquivo**: `hooks/use-analytics.ts` (211 linhas)
 
 **Features**:
+
 - Auto-track page views
 - Helper functions type-safe
 - HOC withAnalytics
@@ -188,11 +183,13 @@ const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP // ✅ Token
 **Arquivos**: `lib/index.ts`, `hooks/index.ts`, `components/ui/index.ts`
 
 **O que mudou**:
+
 - Imports de um único ponto
 - Tree-shaking friendly
 - 50% menos linhas de import
 
 **Antes**:
+
 ```typescript
 import { logger } from '@/lib/logger'
 import { analytics } from '@/lib/analytics'
@@ -200,6 +197,7 @@ import { env } from '@/lib/env'
 ```
 
 **Depois**:
+
 ```typescript
 import { logger, analytics, env } from '@/lib'
 ```
@@ -211,6 +209,7 @@ import { logger, analytics, env } from '@/lib'
 ### 1. PROJECT-OVERVIEW.md (~400 linhas)
 
 **Conteúdo**:
+
 - Sobre o projeto completo
 - Propósito e visão
 - Características principais
@@ -224,6 +223,7 @@ import { logger, analytics, env } from '@/lib'
 ### 2. ARCHITECTURE.md (~550 linhas)
 
 **Conteúdo**:
+
 - Estrutura de pastas detalhada
 - Padrões de código
 - Design tokens
@@ -238,6 +238,7 @@ import { logger, analytics, env } from '@/lib'
 ### 3. DEVELOPER-GUIDE.md (~740 linhas)
 
 **Conteúdo**:
+
 - Como usar design tokens
 - Logging system
 - Analytics
@@ -253,6 +254,7 @@ import { logger, analytics, env } from '@/lib'
 ### 4. ENTERPRISE-FEATURES.md (~760 linhas)
 
 **Conteúdo**:
+
 - 10 features enterprise
 - Comparativo com mercado
 - Antes vs depois
@@ -264,6 +266,7 @@ import { logger, analytics, env } from '@/lib'
 ### 5. TECH-STACK.md (~800 linhas)
 
 **Conteúdo**:
+
 - Todas as 50+ dependências
 - Por que cada escolha
 - Versões e compatibilidade
@@ -275,6 +278,7 @@ import { logger, analytics, env } from '@/lib'
 ### 6. API-REFERENCE.md (~650 linhas)
 
 **Conteúdo**:
+
 - API completa de utilitários
 - Design tokens reference
 - Logger, Analytics, Performance
@@ -287,6 +291,7 @@ import { logger, analytics, env } from '@/lib'
 ### 7. COMPONENTS-REFERENCE.md (~750 linhas)
 
 **Conteúdo**:
+
 - Todos os 60+ componentes
 - Props e interfaces
 - Features de cada um
@@ -298,6 +303,7 @@ import { logger, analytics, env } from '@/lib'
 ### 8. TROUBLESHOOTING.md (~700 linhas)
 
 **Conteúdo**:
+
 - Problemas comuns
 - Soluções passo a passo
 - Erros de build/runtime
@@ -310,6 +316,7 @@ import { logger, analytics, env } from '@/lib'
 ### 9. CONTRIBUTING.md (~550 linhas)
 
 **Conteúdo**:
+
 - Código de conduta
 - Processo de desenvolvimento
 - Padrões de código
@@ -322,6 +329,7 @@ import { logger, analytics, env } from '@/lib'
 ### 10. ROADMAP.md (~450 linhas)
 
 **Conteúdo**:
+
 - 9 fases do projeto
 - 3 concluídas, 6 planejadas
 - Timeline visual
@@ -333,6 +341,7 @@ import { logger, analytics, env } from '@/lib'
 ### 11. docs/README.md (~450 linhas)
 
 **Conteúdo**:
+
 - Índice geral da documentação
 - Navegação rápida
 - Guia por objetivo
@@ -400,6 +409,7 @@ import { logger, analytics, env } from '@/lib'
 ### Padrões Estabelecidos
 
 **Estrutura de arquivo**:
+
 ```
 1. Header comment (JSDoc)
 2. 'use client' (se necessário)
@@ -410,6 +420,7 @@ import { logger, analytics, env } from '@/lib'
 ```
 
 **Nomenclatura**:
+
 - `isLoading`, `hasError` - Booleans
 - `currentUser`, `selectedItem` - Objetos
 - `allPosts`, `filteredData` - Arrays
@@ -546,6 +557,7 @@ import { logger, analytics, env } from '@/lib'
 ### Para Recrutadores
 
 **Demonstra**:
+
 - ✅ Capacidade de refatoração em larga escala
 - ✅ Conhecimento de padrões enterprise
 - ✅ Visão de qualidade de código
@@ -555,6 +567,7 @@ import { logger, analytics, env } from '@/lib'
 ### Para Clientes
 
 **Garante**:
+
 - ✅ Código manutenível (fácil de dar suporte)
 - ✅ Escalabilidade (cresce com o negócio)
 - ✅ Performance (experiência rápida)
@@ -564,6 +577,7 @@ import { logger, analytics, env } from '@/lib'
 ### Para Desenvolvedores
 
 **Facilita**:
+
 - ✅ Onboarding rápido (3 dias vs 2 semanas)
 - ✅ Desenvolvimento ágil (autocomplete, tokens)
 - ✅ Debug eficiente (logger, performance)
@@ -643,4 +657,3 @@ A versão **2.0.0 Enterprise Edition** transforma este projeto de um portfolio c
 **Status**: 🟢 Lançado
 
 **Qualidade**: ⭐⭐⭐⭐⭐ (5/5 estrelas)
-

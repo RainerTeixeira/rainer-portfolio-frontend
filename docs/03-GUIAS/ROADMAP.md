@@ -9,6 +9,7 @@ Evoluir de um portfolio pessoal para uma **plataforma completa de presença digi
 ## ✅ Fase 1: Foundation (Concluída - Agosto 2025)
 
 ### Objetivo
+
 Estabelecer base sólida do projeto com estrutura escalável.
 
 ### Entregas
@@ -23,6 +24,7 @@ Estabelecer base sólida do projeto com estrutura escalável.
 | **PWA Básico** | ✅ | manifest.json + service worker |
 
 ### Duração
+
 ~2 semanas
 
 ---
@@ -30,6 +32,7 @@ Estabelecer base sólida do projeto com estrutura escalável.
 ## ✅ Fase 2: Features Core (Concluída - Setembro 2025)
 
 ### Objetivo
+
 Implementar funcionalidades principais da aplicação.
 
 ### Entregas
@@ -46,6 +49,7 @@ Implementar funcionalidades principais da aplicação.
 | **Comentários** | ✅ | Sistema de comments |
 
 ### Duração
+
 ~4 semanas
 
 ---
@@ -53,6 +57,7 @@ Implementar funcionalidades principais da aplicação.
 ## ✅ Fase 3: Enterprise (Concluída - Outubro 2025) 🌟
 
 ### Objetivo
+
 Elevar qualidade de código ao nível enterprise global.
 
 ### Entregas
@@ -83,6 +88,7 @@ Elevar qualidade de código ao nível enterprise global.
 - ✅ Code Quality: Rating A
 
 ### Duração
+
 ~3 semanas
 
 ---
@@ -90,6 +96,7 @@ Elevar qualidade de código ao nível enterprise global.
 ## 🔄 Fase 4: Testing & Quality (Em Andamento - Nov 2025)
 
 ### Objetivo
+
 Adicionar cobertura de testes e melhorar ainda mais a qualidade.
 
 ### Planejamento
@@ -130,8 +137,8 @@ describe('validateEmail', () => {
 // Exemplo de E2E
 test('should login successfully', async ({ page }) => {
   await page.goto('/dashboard/login')
-  await page.fill('[name="username"]', 'admin')
-  await page.fill('[name="password"]', 'password')
+  await page.fill('[fullName="username"]', 'admin')
+  await page.fill('[fullName="password"]', 'password')
   await page.click('button[type="submit"]')
   await expect(page).toHaveURL('/dashboard')
 })
@@ -154,6 +161,7 @@ export const Default: Story = {
 **Target**: Todos componentes UI documentados
 
 ### Duração Estimada
+
 ~8 semanas
 
 ---
@@ -161,6 +169,7 @@ export const Default: Story = {
 ## 🚀 Fase 5: Backend Integration (Q1 2026)
 
 ### Objetivo
+
 Conectar com backend real e database.
 
 ### Planejamento
@@ -215,7 +224,7 @@ POST   /api/newsletter    - Inscrever email
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  name      String
+  fullName      String
   role      Role     @default(VIEWER)
   posts     Post[]
   createdAt DateTime @default(now())
@@ -238,6 +247,7 @@ model Post {
 ```
 
 ### Duração Estimada
+
 ~10 semanas
 
 ---
@@ -245,6 +255,7 @@ model Post {
 ## 🌐 Fase 6: Internationalization (Q2 2026)
 
 ### Objetivo
+
 Suporte a múltiplos idiomas (Português e Inglês inicialmente).
 
 ### Planejamento
@@ -280,6 +291,7 @@ locales/
 ```
 
 ### Duração Estimada
+
 ~6 semanas
 
 ---
@@ -287,6 +299,7 @@ locales/
 ## 🔮 Fase 7: Advanced Features (Q3-Q4 2026)
 
 ### Objetivo
+
 Features avançadas para diferenciar a plataforma.
 
 ### Features Planejadas
@@ -316,6 +329,7 @@ Features avançadas para diferenciar a plataforma.
 | **2FA** | Authenticator apps (TOTP) |
 
 ### Duração Estimada
+
 ~20 semanas
 
 ---
@@ -323,6 +337,7 @@ Features avançadas para diferenciar a plataforma.
 ## 🚀 Fase 8: Scale & Optimization (2027)
 
 ### Objetivo
+
 Preparar para alta escala e otimização extrema.
 
 ### Iniciativas
@@ -357,6 +372,7 @@ Preparar para alta escala e otimização extrema.
 ```
 
 ### Duração Estimada
+
 Ongoing (2027+)
 
 ---
@@ -364,6 +380,7 @@ Ongoing (2027+)
 ## 📱 Fase 9: Mobile App (2027)
 
 ### Objetivo
+
 App mobile nativo compartilhando código com web.
 
 ### Opções
@@ -386,6 +403,7 @@ App mobile nativo compartilhando código com web.
 - 🔄 Background sync
 
 ### Duração Estimada
+
 ~16 semanas
 
 ---
@@ -501,6 +519,7 @@ App mobile nativo compartilhando código com web.
 ```
 
 **Legenda**:
+
 - ✅ Concluído
 - 🔄 Em andamento
 - 💭 Planejado
@@ -578,7 +597,7 @@ App mobile nativo compartilhando código com web.
 
 Sugestões para o roadmap?
 
-- 📧 **Email**: suporte@rainersoft.com.br
+- 📧 **Email**: <suporte@rainersoft.com.br>
 - 💬 **GitHub**: Abrir Discussion
 - 🐛 **Issues**: GitHub Issues
 
@@ -605,4 +624,3 @@ TOTAL PROGRESS: ▓▓▓▓▓▓▓░░░ 35%
 **Última atualização**: Outubro 2025
 **Próxima revisão**: Janeiro 2026
 **Status**: 🟢 On Track
-

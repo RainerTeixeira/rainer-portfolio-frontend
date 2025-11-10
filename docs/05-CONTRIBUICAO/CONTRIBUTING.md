@@ -1,6 +1,6 @@
 # 🤝 Guia de Contribuição
 
-## 👋 Bem-vindo!
+## 👋 Bem-vindo
 
 Obrigado pelo interesse em contribuir com o projeto! Este guia fornece todas as informações necessárias para contribuir de forma efetiva.
 
@@ -111,6 +111,7 @@ git checkout -b refactor/extract-constants
 ```
 
 **Convenção de nomes**:
+
 - `feature/` - Nova funcionalidade
 - `fix/` - Correção de bug
 - `docs/` - Documentação
@@ -446,7 +447,8 @@ npm run format
 npm run sonar:local
 ```
 
-**Target**: 
+**Target**:
+
 - Rating A ou B
 - Zero vulnerabilidades críticas
 - Zero bugs críticos
@@ -645,11 +647,11 @@ Screenshots, mockups, referências.
 
 | Recurso | Link |
 |---------|------|
-| Next.js Docs | https://nextjs.org/docs |
-| React Docs | https://react.dev/learn |
-| TypeScript Handbook | https://www.typescriptlang.org/docs/handbook/ |
-| Tailwind Docs | https://tailwindcss.com/docs |
-| Conventional Commits | https://www.conventionalcommits.org/ |
+| Next.js Docs | <https://nextjs.org/docs> |
+| React Docs | <https://react.dev/learn> |
+| TypeScript Handbook | <https://www.typescriptlang.org/docs/handbook/> |
+| Tailwind Docs | <https://tailwindcss.com/docs> |
+| Conventional Commits | <https://www.conventionalcommits.org/> |
 
 ---
 
@@ -659,7 +661,7 @@ Screenshots, mockups, referências.
 
 1. **GitHub Issues** - Para bugs e features
 2. **GitHub Discussions** - Para perguntas gerais
-3. **Email** - suporte@rainersoft.com.br
+3. **Email** - <suporte@rainersoft.com.br>
 
 ### FAQ
 
@@ -683,6 +685,7 @@ R: Altamente recomendado, especialmente para features novas.
 ## 🏆 Reconhecimento
 
 Contribuidores serão:
+
 - ✅ Listados no README
 - ✅ Mencionados no CHANGELOG
 - ✅ Creditados nos commits
@@ -691,7 +694,7 @@ Contribuidores serão:
 
 ## 📞 Contato
 
-- **Email**: suporte@rainersoft.com.br
+- **Email**: <suporte@rainersoft.com.br>
 - **GitHub**: [@rainerteixeira](https://github.com/rainerteixeira)
 
 ---
@@ -699,4 +702,3 @@ Contribuidores serão:
 **Obrigado por contribuir! 🎉**
 
 _Última atualização: Outubro 2025_
-

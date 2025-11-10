@@ -1,44 +1,64 @@
 /**
- * Componente de Input de Senha com Indicador de Força
- * 
- * Componente reutilizável que combina:
- * - Input de senha com toggle de visibilidade
- * - Indicador visual de força da senha
- * - Integração com react-hook-form
- * 
- * @fileoverview Password input component with strength indicator
+ * Password Input Component
+ *
+ * Componente de input de senha com toggle de visibilidade e indicador de força
+ * da senha. Integração com react-hook-form e validação em tempo real via hook
+ * usePasswordStrength.
+ *
+ * @module components/dashboard/login/password-input
+ * @fileoverview Input de senha com indicador de força
  * @author Rainer Teixeira
- * @version 1.0.0
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * <PasswordInput
+ *   value={password}
+ *   onChange={setPassword}
+ *   showStrengthIndicator
+ *   placeholder="Digite sua senha"
+ * />
+ * ```
+ *
+ * Características:
+ * - Toggle de visibilidade (mostrar/ocultar senha)
+ * - Indicador visual de força da senha (opcional)
+ * - Integração com react-hook-form
+ * - Validação em tempo real
+ * - Integração com hook usePasswordStrength
+ * - Acessibilidade completa
+ * - Suporte a desabilitado
  */
 
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Eye, EyeOff } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { usePasswordStrength } from "@/components/dashboard/hooks"
+import { usePasswordStrength } from '@/components/dashboard/hooks';
+import { Input } from '@/components/ui/input';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
 export interface PasswordInputProps {
-  value: string
-  onChange: (value: string) => void
-  placeholder?: string
-  disabled?: boolean
-  showStrengthIndicator?: boolean
-  name?: string
-  id?: string
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  showStrengthIndicator?: boolean;
+  name?: string;
+  id?: string;
 }
 
 /**
  * PasswordInput Component
- * 
+ *
  * Input de senha com funcionalidades avançadas:
  * - Toggle de visibilidade (mostrar/ocultar senha)
  * - Indicador de força da senha (opcional)
  * - Compatível com react-hook-form
- * 
+ *
  * @param {PasswordInputProps} props - Propriedades do componente
  * @returns {JSX.Element} Componente renderizado
- * 
+ *
  * @example
  * <PasswordInput
  *   value={password}
@@ -50,23 +70,23 @@ export interface PasswordInputProps {
 export function PasswordInput({
   value,
   onChange,
-  placeholder = "••••••••",
+  placeholder = '••••••••',
   disabled = false,
   showStrengthIndicator = false,
   name,
-  id
+  id,
 }: PasswordInputProps) {
-  const [showPassword, setShowPassword] = useState(false)
-  const passwordStrength = usePasswordStrength(value)
+  const [showPassword, setShowPassword] = useState(false);
+  const passwordStrength = usePasswordStrength(value);
 
   return (
     <div className="space-y-2">
       <div className="relative">
-        <Input 
-          type={showPassword ? "text" : "password"}
+        <Input
+          type={showPassword ? 'text' : 'password'}
           placeholder={placeholder}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={e => onChange(e.target.value)}
           disabled={disabled}
           name={name}
           id={id}
@@ -85,7 +105,7 @@ export function PasswordInput({
           )}
         </button>
       </div>
-      
+
       {/* Indicador de força da senha */}
       {showStrengthIndicator && value && (
         <div className="space-y-2">
@@ -96,7 +116,7 @@ export function PasswordInput({
                 className={`h-1 flex-1 rounded-full transition-colors ${
                   i < passwordStrength.strength
                     ? passwordStrength.color
-                    : "bg-muted"
+                    : 'bg-muted'
                 }`}
               />
             ))}
@@ -107,6 +127,5 @@ export function PasswordInput({
         </div>
       )}
     </div>
-  )
+  );
 }
-

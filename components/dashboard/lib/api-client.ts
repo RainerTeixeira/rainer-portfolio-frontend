@@ -1,24 +1,24 @@
 /**
  * API Client
- * 
+ *
  * Cliente HTTP centralizado para comunicação com backend.
  * Gerencia autenticação, erros e transformações de dados.
- * 
+ *
  * @fileoverview Cliente de API com tratamento de erros
  * @author Rainer Teixeira
  * @version 1.0.0
  */
 
 import type {
-    Category,
-    CreatePostDTO,
-    PaginatedPosts,
-    Post,
-    UpdatePostDTO,
-    User
-} from '@/types/database'
+  Category,
+  CreatePostDTO,
+  Post,
+  PostsListResponse,
+  UpdatePostDTO,
+  User,
+} from '@/lib/api/types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
 
 /**
  * Classe de erro customizada para API
@@ -29,8 +29,8 @@ export class APIError extends Error {
     public status: number,
     public data?: unknown
   ) {
-    super(message)
-    this.name = 'APIError'
+    super(message);
+    this.name = 'APIError';
   }
 }
 
@@ -38,17 +38,17 @@ export class APIError extends Error {
  * Obtém token de autenticação do localStorage
  */
 function getAuthToken(): string | null {
-  if (typeof window === 'undefined') return null
-  
-  const authUser = localStorage.getItem('auth_user')
-  if (!authUser) return null
-  
+  if (typeof window === 'undefined') return null;
+
+  const authUser = localStorage.getItem('auth_user');
+  if (!authUser) return null;
+
   try {
-    const user = JSON.parse(authUser)
+    const user = JSON.parse(authUser);
     // TODO: Quando implementar JWT real, retornar o token
-    return user.token || null
+    return user.token || null;
   } catch {
-    return null
+    return null;
   }
 }
 
@@ -59,53 +59,49 @@ async function fetchAPI<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const token = getAuthToken()
-  
+  const token = getAuthToken();
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...(options.headers as Record<string, string> || {}),
-  }
-  
+    ...((options.headers as Record<string, string>) || {}),
+  };
+
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`
+    headers['Authorization'] = `Bearer ${token}`;
   }
-  
+
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
       ...options,
       headers,
-    })
-    
+    });
+
     // Trata erros HTTP
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-      
+      const errorData = await response.json().catch(() => ({}));
+
       // Redireciona para login se não autorizado
       if (response.status === 401 && typeof window !== 'undefined') {
-        localStorage.removeItem('auth_user')
-        window.location.href = '/'
+        localStorage.removeItem('auth_user');
+        window.location.href = '/';
       }
-      
+
       throw new APIError(
         errorData.message || 'Erro na requisição',
         response.status,
         errorData
-      )
+      );
     }
-    
+
     // Retorna JSON
-    return await response.json()
+    return await response.json();
   } catch (error) {
     if (error instanceof APIError) {
-      throw error
+      throw error;
     }
-    
+
     // Erro de rede ou parse
-    throw new APIError(
-      'Erro de conexão com o servidor',
-      0,
-      error
-    )
+    throw new APIError('Erro de conexão com o servidor', 0, error);
   }
 }
 
@@ -117,31 +113,34 @@ async function fetchAPI<T>(
  * Lista posts com paginação e filtros
  */
 export async function getPosts(params?: {
-  page?: number
-  pageSize?: number
-  status?: string
-  categoryId?: string
-  search?: string
-  featured?: boolean
-}): Promise<PaginatedPosts> {
-  const query = new URLSearchParams()
-  
-  if (params?.page) query.set('page', params.page.toString())
-  if (params?.pageSize) query.set('pageSize', params.pageSize.toString())
-  if (params?.status) query.set('status', params.status)
-  if (params?.categoryId) query.set('categoryId', params.categoryId)
-  if (params?.search) query.set('search', params.search)
-  if (params?.featured !== undefined) query.set('featured', params.featured.toString())
-  
-  const queryString = query.toString()
-  return fetchAPI<PaginatedPosts>(`/posts${queryString ? `?${queryString}` : ''}`)
+  page?: number;
+  pageSize?: number;
+  status?: string;
+  categoryId?: string;
+  search?: string;
+  featured?: boolean;
+}): Promise<PostsListResponse> {
+  const query = new URLSearchParams();
+
+  if (params?.page) query.set('page', params.page.toString());
+  if (params?.pageSize) query.set('pageSize', params.pageSize.toString());
+  if (params?.status) query.set('status', params.status);
+  if (params?.categoryId) query.set('categoryId', params.categoryId);
+  if (params?.search) query.set('search', params.search);
+  if (params?.featured !== undefined)
+    query.set('featured', params.featured.toString());
+
+  const queryString = query.toString();
+  return fetchAPI<PostsListResponse>(
+    `/posts${queryString ? `?${queryString}` : ''}`
+  );
 }
 
 /**
  * Busca post por slug
  */
 export async function getPostBySlug(slug: string): Promise<Post> {
-  return fetchAPI<Post>(`/posts/${slug}`)
+  return fetchAPI<Post>(`/posts/${slug}`);
 }
 
 /**
@@ -151,17 +150,20 @@ export async function createPost(data: CreatePostDTO): Promise<Post> {
   return fetchAPI<Post>('/posts', {
     method: 'POST',
     body: JSON.stringify(data),
-  })
+  });
 }
 
 /**
  * Atualiza post existente
  */
-export async function updatePost(slug: string, data: UpdatePostDTO): Promise<Post> {
+export async function updatePost(
+  slug: string,
+  data: UpdatePostDTO
+): Promise<Post> {
   return fetchAPI<Post>(`/posts/${slug}`, {
     method: 'PATCH',
     body: JSON.stringify(data),
-  })
+  });
 }
 
 /**
@@ -170,7 +172,7 @@ export async function updatePost(slug: string, data: UpdatePostDTO): Promise<Pos
 export async function deletePost(slug: string): Promise<void> {
   return fetchAPI<void>(`/posts/${slug}`, {
     method: 'DELETE',
-  })
+  });
 }
 
 /**
@@ -179,7 +181,7 @@ export async function deletePost(slug: string): Promise<void> {
 export async function publishPost(slug: string): Promise<Post> {
   return fetchAPI<Post>(`/posts/${slug}/publish`, {
     method: 'POST',
-  })
+  });
 }
 
 /**
@@ -188,7 +190,7 @@ export async function publishPost(slug: string): Promise<Post> {
 export async function unpublishPost(slug: string): Promise<Post> {
   return fetchAPI<Post>(`/posts/${slug}/unpublish`, {
     method: 'POST',
-  })
+  });
 }
 
 /**
@@ -197,7 +199,7 @@ export async function unpublishPost(slug: string): Promise<Post> {
 export async function incrementViews(slug: string): Promise<void> {
   return fetchAPI<void>(`/posts/${slug}/view`, {
     method: 'POST',
-  })
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -210,7 +212,7 @@ export async function incrementViews(slug: string): Promise<void> {
 export async function likePost(postId: string): Promise<void> {
   return fetchAPI<void>(`/posts/${postId}/like`, {
     method: 'POST',
-  })
+  });
 }
 
 /**
@@ -219,7 +221,7 @@ export async function likePost(postId: string): Promise<void> {
 export async function unlikePost(postId: string): Promise<void> {
   return fetchAPI<void>(`/posts/${postId}/like`, {
     method: 'DELETE',
-  })
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -229,11 +231,14 @@ export async function unlikePost(postId: string): Promise<void> {
 /**
  * Salvar post (bookmark)
  */
-export async function bookmarkPost(postId: string, collection?: string): Promise<void> {
+export async function bookmarkPost(
+  postId: string,
+  collection?: string
+): Promise<void> {
   return fetchAPI<void>(`/posts/${postId}/bookmark`, {
     method: 'POST',
     body: JSON.stringify({ collection }),
-  })
+  });
 }
 
 /**
@@ -242,7 +247,7 @@ export async function bookmarkPost(postId: string, collection?: string): Promise
 export async function unbookmarkPost(postId: string): Promise<void> {
   return fetchAPI<void>(`/posts/${postId}/bookmark`, {
     method: 'DELETE',
-  })
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -253,17 +258,19 @@ export async function unbookmarkPost(postId: string): Promise<void> {
  * Lista todas as categorias
  */
 export async function getCategories(): Promise<Category[]> {
-  return fetchAPI<Category[]>('/categories')
+  return fetchAPI<Category[]>('/categories');
 }
 
 /**
  * Cria nova categoria
  */
-export async function createCategory(data: Partial<Category>): Promise<Category> {
+export async function createCategory(
+  data: Partial<Category>
+): Promise<Category> {
   return fetchAPI<Category>('/categories', {
     method: 'POST',
     body: JSON.stringify(data),
-  })
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -271,9 +278,9 @@ export async function createCategory(data: Partial<Category>): Promise<Category>
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface PresignedUpload {
-  url: string
-  fields: Record<string, string>
-  fileUrl: string
+  url: string;
+  fields: Record<string, string>;
+  fileUrl: string;
 }
 
 /**
@@ -286,7 +293,7 @@ export async function getPresignedUpload(
   return fetchAPI<PresignedUpload>('/uploads/presign', {
     method: 'POST',
     body: JSON.stringify({ filename, contentType }),
-  })
+  });
 }
 
 /**
@@ -301,27 +308,27 @@ export async function uploadFile(
   const { url, fields, fileUrl } = await getPresignedUpload(
     file.name,
     file.type
-  )
-  
+  );
+
   // 2. Prepara form data
-  const formData = new FormData()
+  const formData = new FormData();
   Object.entries(fields).forEach(([key, value]) => {
-    formData.append(key, value)
-  })
-  formData.append('file', file)
-  
+    formData.append(key, value);
+  });
+  formData.append('file', file);
+
   // 3. Upload para S3
   const response = await fetch(url, {
     method: 'POST',
     body: formData,
-  })
-  
+  });
+
   if (!response.ok) {
-    throw new Error('Falha no upload')
+    throw new Error('Falha no upload');
   }
-  
+
   // 4. Retorna URL da imagem
-  return fileUrl
+  return fileUrl;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -329,30 +336,32 @@ export async function uploadFile(
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface LoginCredentials {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface AuthResponse {
-  user: User
-  token: string
+  user: User;
+  token: string;
 }
 
 /**
  * Faz login
  */
-export async function login(credentials: LoginCredentials): Promise<AuthResponse> {
+export async function login(
+  credentials: LoginCredentials
+): Promise<AuthResponse> {
   return fetchAPI<AuthResponse>('/auth/login', {
     method: 'POST',
     body: JSON.stringify(credentials),
-  })
+  });
 }
 
 /**
  * Busca dados do usuário logado
  */
 export async function getCurrentUser(): Promise<User> {
-  return fetchAPI<User>('/auth/me')
+  return fetchAPI<User>('/auth/me');
 }
 
 /**
@@ -361,6 +370,5 @@ export async function getCurrentUser(): Promise<User> {
 export async function logout(): Promise<void> {
   return fetchAPI<void>('/auth/logout', {
     method: 'POST',
-  })
+  });
 }
-

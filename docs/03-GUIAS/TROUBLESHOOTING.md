@@ -138,10 +138,10 @@ import { Button } from '@/components/ui/button'
 
 ```typescript
 // ❌ ERRO
-const name = user.name
+const fullName = user.fullName
 
 // ✅ SOLUÇÃO: Optional chaining + nullish coalescing
-const name = user?.name ?? 'Default'
+const fullName = user?.fullName ?? 'Default'
 ```
 
 ---
@@ -151,6 +151,7 @@ const name = user?.name ?? 'Default'
 #### Warning: autoprefixer gradient
 
 **Erro no console**:
+
 ```
 autoprefixer: Gradient has outdated direction syntax
 ```
@@ -186,6 +187,7 @@ radial-gradient(closest-side at 0 0, ...)
 ### ❌ Hydration Error
 
 **Erro no console**:
+
 ```
 Hydration failed because the initial UI does not match
 ```
@@ -193,6 +195,7 @@ Hydration failed because the initial UI does not match
 **Causas comuns**:
 
 1. **HTML inválido**:
+
 ```tsx
 // ❌ ERRO: <p> dentro de <p>
 <p><p>Text</p></p>
@@ -202,6 +205,7 @@ Hydration failed because the initial UI does not match
 ```
 
 2. **useEffect sem check**:
+
 ```tsx
 // ❌ ERRO
 const value = localStorage.getItem('key')
@@ -216,6 +220,7 @@ return <div>{value || 'Loading...'}</div>
 ```
 
 3. **Date/Time sem formatação**:
+
 ```tsx
 // ❌ ERRO (server e client diferem)
 <div>{new Date().toString()}</div>
@@ -291,6 +296,7 @@ npm run build
 ```
 
 **Verificar**:
+
 - First Load JS < 200KB
 - Rotas dinâmicas otimizadas
 
@@ -342,6 +348,7 @@ export const ExpensiveComponent = memo(function ExpensiveComponent({ data }) {
 #### Diagnóstico
 
 Use React DevTools Profiler:
+
 1. Abra DevTools → Profiler
 2. Clique em Record
 3. Interaja com a página
@@ -380,6 +387,7 @@ const filteredPosts = useMemo(
 ### ❌ Type 'X' is not assignable to type 'Y'
 
 **Exemplo**:
+
 ```typescript
 interface Props {
   id: number
@@ -411,6 +419,7 @@ function Component({ id }: Props) {
 ### ❌ Property 'X' does not exist on type 'Y'
 
 **Exemplo**:
+
 ```typescript
 const user: User = getUser()
 console.log(user.email) // ERRO se email não está em User
@@ -421,7 +430,7 @@ console.log(user.email) // ERRO se email não está em User
 ```typescript
 // Opção 1: Adicionar ao type
 interface User {
-  name: string
+  fullName: string
   email: string // Adicionar
 }
 
@@ -464,7 +473,7 @@ mv file.ts file.tsx
 **Verificar em**: `app/layout.tsx`
 
 ```tsx
-<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta fullName="apple-mobile-web-app-capable" content="yes" />
 <link rel="apple-touch-icon" href="/icon-180.png" />
 ```
 
@@ -505,6 +514,7 @@ const CACHE_VERSION = 'v2' // Era v1
 ```
 
 **Confirmar arquivo**:
+
 ```bash
 # Deve existir
 ls public/manifest.json
@@ -527,6 +537,7 @@ docker-compose -f sonarqube/docker-compose.sonarqube.yml logs sonarqube
 **Soluções comuns**:
 
 **1. Memória insuficiente**:
+
 ```yaml
 # docker-compose.sonarqube.yml
 environment:
@@ -534,6 +545,7 @@ environment:
 ```
 
 **2. Porta em uso**:
+
 ```yaml
 # Mudar porta
 ports:
@@ -541,6 +553,7 @@ ports:
 ```
 
 **3. Volume permissions (Linux)**:
+
 ```bash
 sudo chown -R 999:999 sonarqube-data/
 ```
@@ -749,6 +762,7 @@ className={color === 'red' ? 'text-red-500' : 'text-blue-500'}
 **Verificar**:
 
 1. **ThemeProvider presente?**
+
 ```tsx
 <ThemeProvider attribute="class">
   {children}
@@ -756,12 +770,14 @@ className={color === 'red' ? 'text-red-500' : 'text-blue-500'}
 ```
 
 2. **Tailwind configurado?**
+
 ```javascript
 // tailwind.config.js
 darkMode: 'class',
 ```
 
 3. **Classes dark: presentes?**
+
 ```tsx
 className="bg-white dark:bg-black"
 ```
@@ -969,7 +985,7 @@ Ao reportar um problema, inclua:
 
 1. **GitHub Issues** - Para bugs
 2. **GitHub Discussions** - Para dúvidas
-3. **Email** - suporte@rainersoft.com.br
+3. **Email** - <suporte@rainersoft.com.br>
 
 ---
 
@@ -980,6 +996,7 @@ Ao reportar um problema, inclua:
 **Instalar**: Chrome/Firefox extension
 
 **Features**:
+
 - Inspect components
 - View props/state
 - Profiler para performance
@@ -1045,9 +1062,8 @@ Antes de pedir ajuda, verificar:
 
 **Ainda com problemas? Entre em contato!**
 
-📧 **Email**: suporte@rainersoft.com.br
+📧 **Email**: <suporte@rainersoft.com.br>
 
 ---
 
 _Última atualização: Outubro 2025_
-
