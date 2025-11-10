@@ -37,6 +37,7 @@ yarn-error.log*
 .env.local*
 .env.local
 .env.sonarqube
+env.local
 
 # vercel
 .vercel
