@@ -1,0 +1,21 @@
+{
+  "folders": [
+    {
+      "path": "../../../../rainer-portfolio-backend",
+    },
+    {
+      "path": "../../..",
+    },
+  ],
+  "settings": {
+    "cSpell.words": [
+      "componentizada",
+      "containerização",
+      "HIPERÁGEIS",
+      "turbopack",
+      "usuario",
+      "XLARGE",
+      "XXLARGE",
+    ],
+  },
+}

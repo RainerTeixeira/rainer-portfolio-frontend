@@ -1,9 +1,9 @@
 /**
  * Structured Logging System
- * 
+ *
  * Sistema de logging profissional para toda a aplicação.
  * Logs estruturados, níveis de severidade e contexto.
- * 
+ *
  * Características:
  * - Níveis: debug, info, warn, error
  * - Contexto adicional
@@ -11,7 +11,7 @@
  * - Desabilitado em produção (debug/info)
  * - Colorização no console
  * - Preparado para integração com serviços externos
- * 
+ *
  * @fileoverview Sistema de logging estruturado
  * @author Rainer Teixeira
  * @version 1.0.0
@@ -24,23 +24,23 @@
 /**
  * Níveis de log disponíveis
  */
-type LogLevel = 'debug' | 'info' | 'warn' | 'error'
+type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
 /**
  * Contexto adicional do log
  */
 interface LogContext {
-  readonly [key: string]: unknown
+  readonly [key: string]: unknown;
 }
 
 /**
  * Entrada estruturada de log
  */
 interface LogEntry {
-  readonly level: LogLevel
-  readonly message: string
-  readonly timestamp: string
-  readonly context?: LogContext
+  readonly level: LogLevel;
+  readonly message: string;
+  readonly timestamp: string;
+  readonly context?: LogContext;
 }
 
 // ============================================================================
@@ -51,11 +51,11 @@ interface LogEntry {
  * Cores para cada nível de log
  */
 const LOG_COLORS = {
-  debug: '#6B7280',    // Gray
-  info: '#3B82F6',     // Blue
-  warn: '#F59E0B',     // Amber
-  error: '#EF4444',    // Red
-} as const
+  debug: '#6B7280', // Gray
+  info: '#3B82F6', // Blue
+  warn: '#F59E0B', // Amber
+  error: '#EF4444', // Red
+} as const;
 
 /**
  * Emojis para cada nível
@@ -65,17 +65,17 @@ const LOG_EMOJIS = {
   info: 'ℹ️',
   warn: '⚠️',
   error: '❌',
-} as const
+} as const;
 
 /**
  * Verifica se está em desenvolvimento
  */
-const IS_DEV = process.env.NODE_ENV === 'development'
+const IS_DEV = process.env.NODE_ENV === 'development';
 
 /**
  * Verifica se está no browser
  */
-const IS_BROWSER = typeof window !== 'undefined'
+const IS_BROWSER = typeof window !== 'undefined';
 
 // ============================================================================
 // Helper Functions
@@ -85,38 +85,38 @@ const IS_BROWSER = typeof window !== 'undefined'
  * Formata timestamp para log
  */
 function getTimestamp(): string {
-  return new Date().toISOString()
+  return new Date().toISOString();
 }
 
 /**
  * Formata entrada de log
  */
 function formatLogEntry(entry: LogEntry): string {
-  const { level, message, timestamp, context } = entry
-  const emoji = LOG_EMOJIS[level]
-  
-  let formatted = `${emoji} [${level.toUpperCase()}] ${timestamp} - ${message}`
-  
+  const { level, message, timestamp, context } = entry;
+  const emoji = LOG_EMOJIS[level];
+
+  let formatted = `${emoji} [${level.toUpperCase()}] ${timestamp} - ${message}`;
+
   if (context && Object.keys(context).length > 0) {
-    formatted += `\nContexto: ${JSON.stringify(context, null, 2)}`
+    formatted += `\nContexto: ${JSON.stringify(context, null, 2)}`;
   }
-  
-  return formatted
+
+  return formatted;
 }
 
 /**
  * Envia log para console com estilo
  */
 function logToConsole(entry: LogEntry): void {
-  const formatted = formatLogEntry(entry)
-  const color = LOG_COLORS[entry.level]
-  
+  const formatted = formatLogEntry(entry);
+  const color = LOG_COLORS[entry.level];
+
   if (IS_BROWSER) {
     // Browser console com cores
-    console.log(`%c${formatted}`, `color: ${color}`)
+    console.log(`%c${formatted}`, `color: ${color}`);
   } else {
     // Server console sem cores
-    console.log(formatted)
+    console.log(formatted);
   }
 }
 
@@ -126,7 +126,7 @@ function logToConsole(entry: LogEntry): void {
 function sendToExternalService(entry: LogEntry): void {
   // TODO: Integrar com serviço de logging
   // Exemplos: LogRocket, Sentry, DataDog, etc
-  
+
   if (entry.level === 'error') {
     // Apenas erros em produção
     // Sentry.captureException(new Error(entry.message), {
@@ -142,7 +142,7 @@ function sendToExternalService(entry: LogEntry): void {
 
 /**
  * Logger principal
- * 
+ *
  * Classe singleton para logging estruturado.
  */
 class Logger {
@@ -150,16 +150,16 @@ class Logger {
    * Log de debug (apenas em desenvolvimento)
    */
   debug(message: string, context?: LogContext): void {
-    if (!IS_DEV) return
-    
+    if (!IS_DEV) return;
+
     const entry: LogEntry = {
       level: 'debug',
       message,
       timestamp: getTimestamp(),
       context,
-    }
-    
-    logToConsole(entry)
+    };
+
+    logToConsole(entry);
   }
 
   /**
@@ -171,9 +171,9 @@ class Logger {
       message,
       timestamp: getTimestamp(),
       context,
-    }
-    
-    logToConsole(entry)
+    };
+
+    logToConsole(entry);
   }
 
   /**
@@ -185,10 +185,10 @@ class Logger {
       message,
       timestamp: getTimestamp(),
       context,
-    }
-    
-    logToConsole(entry)
-    sendToExternalService(entry)
+    };
+
+    logToConsole(entry);
+    sendToExternalService(entry);
   }
 
   /**
@@ -201,24 +201,27 @@ class Logger {
       timestamp: getTimestamp(),
       context: {
         ...context,
-        error: error instanceof Error ? {
-          name: error.name,
-          message: error.message,
-          stack: error.stack,
-        } : error,
+        error:
+          error instanceof Error
+            ? {
+                fullName: error.fullName,
+                message: error.message,
+                stack: error.stack,
+              }
+            : error,
       },
-    }
-    
-    logToConsole(entry)
-    sendToExternalService(entry)
+    };
+
+    logToConsole(entry);
+    sendToExternalService(entry);
   }
 
   /**
    * Cria logger com contexto padrão
-   * 
+   *
    * @param defaultContext - Contexto que será adicionado a todos os logs
    * @returns Logger com contexto
-   * 
+   *
    * @example
    * ```tsx
    * const logger = Logger.withContext({ component: 'BlogPage' })
@@ -227,20 +230,24 @@ class Logger {
    * ```
    */
   withContext(defaultContext: LogContext): Logger {
-    const contextualLogger = new Logger()
-    
+    const contextualLogger = new Logger();
+
     // Sobrescreve métodos para incluir contexto padrão
-    const originalDebug = contextualLogger.debug.bind(contextualLogger)
-    const originalInfo = contextualLogger.info.bind(contextualLogger)
-    const originalWarn = contextualLogger.warn.bind(contextualLogger)
-    const originalError = contextualLogger.error.bind(contextualLogger)
-    
-    contextualLogger.debug = (msg, ctx?) => originalDebug(msg, { ...defaultContext, ...ctx })
-    contextualLogger.info = (msg, ctx?) => originalInfo(msg, { ...defaultContext, ...ctx })
-    contextualLogger.warn = (msg, ctx?) => originalWarn(msg, { ...defaultContext, ...ctx })
-    contextualLogger.error = (msg, err?, ctx?) => originalError(msg, err, { ...defaultContext, ...ctx })
-    
-    return contextualLogger
+    const originalDebug = contextualLogger.debug.bind(contextualLogger);
+    const originalInfo = contextualLogger.info.bind(contextualLogger);
+    const originalWarn = contextualLogger.warn.bind(contextualLogger);
+    const originalError = contextualLogger.error.bind(contextualLogger);
+
+    contextualLogger.debug = (msg, ctx?) =>
+      originalDebug(msg, { ...defaultContext, ...ctx });
+    contextualLogger.info = (msg, ctx?) =>
+      originalInfo(msg, { ...defaultContext, ...ctx });
+    contextualLogger.warn = (msg, ctx?) =>
+      originalWarn(msg, { ...defaultContext, ...ctx });
+    contextualLogger.error = (msg, err?, ctx?) =>
+      originalError(msg, err, { ...defaultContext, ...ctx });
+
+    return contextualLogger;
   }
 }
 
@@ -250,21 +257,20 @@ class Logger {
 
 /**
  * Instância singleton do logger
- * 
+ *
  * Importe e use em qualquer lugar da aplicação.
- * 
+ *
  * @example
  * ```tsx
  * import { logger } from '@/lib/logger'
- * 
+ *
  * logger.info('Usuário logado', { userId: '123' })
  * logger.error('Falha ao salvar', error, { postId: '456' })
  * ```
  */
-export const logger = new Logger()
+export const logger = new Logger();
 
 /**
  * Export da classe para uso avançado
  */
-export { Logger }
-
+export { Logger };

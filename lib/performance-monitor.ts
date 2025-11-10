@@ -1,16 +1,16 @@
 /**
  * Performance Monitoring System
- * 
+ *
  * Sistema de monitoramento de performance da aplicação.
  * Rastreia Core Web Vitals e métricas customizadas.
- * 
+ *
  * Características:
  * - Core Web Vitals (LCP, FID, CLS)
  * - Timing de página
  * - Métricas customizadas
  * - Alertas de performance
  * - Integração com Web Vitals API
- * 
+ *
  * @fileoverview Performance monitoring system
  * @author Rainer Teixeira
  * @version 1.0.0
@@ -20,8 +20,8 @@
 // Imports
 // ============================================================================
 
-import { analytics } from './analytics'
-import { logger } from './logger'
+import { analytics } from './analytics';
+import { logger } from './logger';
 
 // ============================================================================
 // Types
@@ -31,20 +31,20 @@ import { logger } from './logger'
  * Métrica de performance
  */
 interface PerformanceMetric {
-  readonly name: string
-  readonly value: number
-  readonly rating: 'good' | 'needs-improvement' | 'poor'
-  readonly timestamp: number
+  readonly fullName: string;
+  readonly value: number;
+  readonly rating: 'good' | 'needs-improvement' | 'poor';
+  readonly timestamp: number;
 }
 
 /**
  * Core Web Vital
  */
 interface WebVital {
-  readonly id: string
-  readonly name: 'CLS' | 'FID' | 'FCP' | 'LCP' | 'TTFB'
-  readonly value: number
-  readonly rating: 'good' | 'needs-improvement' | 'poor'
+  readonly id: string;
+  readonly fullName: 'CLS' | 'FID' | 'FCP' | 'LCP' | 'TTFB';
+  readonly value: number;
+  readonly rating: 'good' | 'needs-improvement' | 'poor';
 }
 
 // ============================================================================
@@ -55,12 +55,12 @@ interface WebVital {
  * Thresholds para Core Web Vitals
  */
 const WEB_VITAL_THRESHOLDS = {
-  LCP: { good: 2500, poor: 4000 },      // Largest Contentful Paint
-  FID: { good: 100, poor: 300 },        // First Input Delay
-  CLS: { good: 0.1, poor: 0.25 },       // Cumulative Layout Shift
-  FCP: { good: 1800, poor: 3000 },      // First Contentful Paint
-  TTFB: { good: 800, poor: 1800 },      // Time to First Byte
-} as const
+  LCP: { good: 2500, poor: 4000 }, // Largest Contentful Paint
+  FID: { good: 100, poor: 300 }, // First Input Delay
+  CLS: { good: 0.1, poor: 0.25 }, // Cumulative Layout Shift
+  FCP: { good: 1800, poor: 3000 }, // First Contentful Paint
+  TTFB: { good: 800, poor: 1800 }, // Time to First Byte
+} as const;
 
 /**
  * Thresholds para métricas customizadas
@@ -69,7 +69,7 @@ const CUSTOM_THRESHOLDS = {
   API_RESPONSE: { good: 500, poor: 2000 },
   COMPONENT_RENDER: { good: 100, poor: 500 },
   DATA_FETCH: { good: 1000, poor: 3000 },
-} as const
+} as const;
 
 // ============================================================================
 // Helper Functions
@@ -82,9 +82,9 @@ function getRating(
   value: number,
   thresholds: { good: number; poor: number }
 ): 'good' | 'needs-improvement' | 'poor' {
-  if (value <= thresholds.good) return 'good'
-  if (value <= thresholds.poor) return 'needs-improvement'
-  return 'poor'
+  if (value <= thresholds.good) return 'good';
+  if (value <= thresholds.poor) return 'needs-improvement';
+  return 'poor';
 }
 
 /**
@@ -92,9 +92,9 @@ function getRating(
  */
 function formatMetricValue(value: number, unit: 'ms' | 'score' = 'ms'): string {
   if (unit === 'score') {
-    return value.toFixed(3)
+    return value.toFixed(3);
   }
-  return `${Math.round(value)}ms`
+  return `${Math.round(value)}ms`;
 }
 
 // ============================================================================
@@ -103,15 +103,15 @@ function formatMetricValue(value: number, unit: 'ms' | 'score' = 'ms'): string {
 
 /**
  * Monitor de performance
- * 
+ *
  * Classe para rastreamento de métricas de performance.
  */
 class PerformanceMonitor {
-  private metrics: Map<string, PerformanceMetric>
+  private metrics: Map<string, PerformanceMetric>;
 
   constructor() {
-    this.metrics = new Map()
-    this.initWebVitals()
+    this.metrics = new Map();
+    this.initWebVitals();
   }
 
   // ============================================================================
@@ -122,10 +122,10 @@ class PerformanceMonitor {
    * Inicializa rastreamento de Core Web Vitals
    */
   private initWebVitals(): void {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined') return;
 
     // Usar Web Vitals library se disponível
-    this.measureWebVitals()
+    this.measureWebVitals();
   }
 
   /**
@@ -134,39 +134,39 @@ class PerformanceMonitor {
   private async measureWebVitals(): Promise<void> {
     try {
       // Dynamic import para code splitting
-      const { onCLS, onFID, onFCP, onLCP, onTTFB } = await import('web-vitals')
+      const { onCLS, onFID, onFCP, onLCP, onTTFB } = await import('web-vitals');
 
       // Callback para cada métrica
       const reportWebVital = (vital: WebVital) => {
-        const rating = this.getRatingForWebVital(vital.name, vital.value)
-        
-        logger.info(`Core Web Vital: ${vital.name}`, {
+        const rating = this.getRatingForWebVital(vital.fullName, vital.value);
+
+        logger.info(`Core Web Vital: ${vital.fullName}`, {
           value: vital.value,
           rating,
           id: vital.id,
-        })
+        });
 
         // Enviar para analytics
         analytics.track({
           category: 'performance',
-          action: `web_vital_${vital.name.toLowerCase()}`,
+          action: `web_vital_${vital.fullName.toLowerCase()}`,
           label: rating,
           value: Math.round(vital.value),
           properties: {
             id: vital.id,
             rating,
           },
-        })
-      }
+        });
+      };
 
       // Registrar listeners
-      onCLS(reportWebVital)
-      onFID(reportWebVital)
-      onFCP(reportWebVital)
-      onLCP(reportWebVital)
-      onTTFB(reportWebVital)
+      onCLS(reportWebVital);
+      onFID(reportWebVital);
+      onFCP(reportWebVital);
+      onLCP(reportWebVital);
+      onTTFB(reportWebVital);
     } catch (error) {
-      logger.warn('Web Vitals não disponível', { error })
+      logger.warn('Web Vitals não disponível', { error });
     }
   }
 
@@ -174,12 +174,12 @@ class PerformanceMonitor {
    * Determina rating para Core Web Vital
    */
   private getRatingForWebVital(
-    name: WebVital['name'],
+    fullName: WebVital['fullName'],
     value: number
   ): 'good' | 'needs-improvement' | 'poor' {
-    const threshold = WEB_VITAL_THRESHOLDS[name]
-    if (!threshold) return 'good'
-    return getRating(value, threshold)
+    const threshold = WEB_VITAL_THRESHOLDS[fullName];
+    if (!threshold) return 'good';
+    return getRating(value, threshold);
   }
 
   // ============================================================================
@@ -188,9 +188,9 @@ class PerformanceMonitor {
 
   /**
    * Marca início de medição
-   * 
-   * @param name - Nome da métrica
-   * 
+   *
+   * @param fullName - Nome da métrica
+   *
    * @example
    * ```tsx
    * performanceMonitor.start('api_fetch_posts')
@@ -198,64 +198,64 @@ class PerformanceMonitor {
    * performanceMonitor.end('api_fetch_posts')
    * ```
    */
-  start(name: string): void {
-    if (typeof window === 'undefined') return
-    
+  start(fullName: string): void {
+    if (typeof window === 'undefined') return;
+
     try {
-      performance.mark(`${name}_start`)
+      performance.mark(`${fullName}_start`);
     } catch (error) {
-      logger.debug('Erro ao marcar início de performance', { name, error })
+      logger.debug('Erro ao marcar início de performance', { fullName, error });
     }
   }
 
   /**
    * Marca fim de medição e calcula duração
-   * 
-   * @param name - Nome da métrica
+   *
+   * @param fullName - Nome da métrica
    * @returns Duração em ms ou null
    */
-  end(name: string): number | null {
-    if (typeof window === 'undefined') return null
-    
+  end(fullName: string): number | null {
+    if (typeof window === 'undefined') return null;
+
     try {
-      const startMark = `${name}_start`
-      const endMark = `${name}_end`
-      const measureName = `${name}_duration`
-      
-      performance.mark(endMark)
-      performance.measure(measureName, startMark, endMark)
-      
-      const measure = performance.getEntriesByName(measureName)[0]
-      const duration = measure ? measure.duration : 0
-      
+      const startMark = `${fullName}_start`;
+      const endMark = `${fullName}_end`;
+      const measureName = `${fullName}_duration`;
+
+      performance.mark(endMark);
+      performance.measure(measureName, startMark, endMark);
+
+      const measure = performance.getEntriesByName(measureName)[0];
+      const duration = measure ? measure.duration : 0;
+
       // Determina rating baseado no tipo de métrica
-      const rating = this.getRatingForCustomMetric(name, duration)
-      
+      const rating = this.getRatingForCustomMetric(fullName, duration);
+
       // Armazena métrica
       const metric: PerformanceMetric = {
-        name,
+        fullName,
         value: duration,
         rating,
         timestamp: Date.now(),
-      }
-      
-      this.metrics.set(name, metric)
-      
+      };
+
+      this.metrics.set(fullName, metric);
+
       // Log
-      logger.debug(`Performance: ${name}`, {
+      logger.debug(`Performance: ${fullName}`, {
         duration: formatMetricValue(duration),
         rating,
-      })
-      
+      });
+
       // Limpar marks
-      performance.clearMarks(startMark)
-      performance.clearMarks(endMark)
-      performance.clearMeasures(measureName)
-      
-      return duration
+      performance.clearMarks(startMark);
+      performance.clearMarks(endMark);
+      performance.clearMeasures(measureName);
+
+      return duration;
     } catch (error) {
-      logger.debug('Erro ao medir performance', { name, error })
-      return null
+      logger.debug('Erro ao medir performance', { fullName, error });
+      return null;
     }
   }
 
@@ -263,57 +263,57 @@ class PerformanceMonitor {
    * Determina rating para métrica customizada
    */
   private getRatingForCustomMetric(
-    name: string,
+    fullName: string,
     value: number
   ): 'good' | 'needs-improvement' | 'poor' {
     // Tentar identificar tipo de métrica pelo nome
-    if (name.includes('api') || name.includes('fetch')) {
-      return getRating(value, CUSTOM_THRESHOLDS.API_RESPONSE)
+    if (fullName.includes('api') || fullName.includes('fetch')) {
+      return getRating(value, CUSTOM_THRESHOLDS.API_RESPONSE);
     }
-    if (name.includes('render') || name.includes('component')) {
-      return getRating(value, CUSTOM_THRESHOLDS.COMPONENT_RENDER)
+    if (fullName.includes('render') || fullName.includes('component')) {
+      return getRating(value, CUSTOM_THRESHOLDS.COMPONENT_RENDER);
     }
-    return getRating(value, CUSTOM_THRESHOLDS.DATA_FETCH)
+    return getRating(value, CUSTOM_THRESHOLDS.DATA_FETCH);
   }
 
   /**
    * Obtém métrica específica
-   * 
-   * @param name - Nome da métrica
+   *
+   * @param fullName - Nome da métrica
    * @returns Métrica ou undefined
    */
-  getMetric(name: string): PerformanceMetric | undefined {
-    return this.metrics.get(name)
+  getMetric(fullName: string): PerformanceMetric | undefined {
+    return this.metrics.get(fullName);
   }
 
   /**
    * Obtém todas as métricas
-   * 
+   *
    * @returns Array de métricas
    */
   getAllMetrics(): PerformanceMetric[] {
-    return Array.from(this.metrics.values())
+    return Array.from(this.metrics.values());
   }
 
   /**
    * Limpa todas as métricas
    */
   clearMetrics(): void {
-    this.metrics.clear()
-    
+    this.metrics.clear();
+
     if (typeof window !== 'undefined') {
-      performance.clearMarks()
-      performance.clearMeasures()
+      performance.clearMarks();
+      performance.clearMeasures();
     }
   }
 
   /**
    * Mede tempo de execução de função
-   * 
-   * @param name - Nome da métrica
+   *
+   * @param fullName - Nome da métrica
    * @param fn - Função a medir
    * @returns Resultado da função
-   * 
+   *
    * @example
    * ```tsx
    * const data = await performanceMonitor.measure('fetch_data', async () => {
@@ -321,16 +321,16 @@ class PerformanceMonitor {
    * })
    * ```
    */
-  async measure<T>(name: string, fn: () => T | Promise<T>): Promise<T> {
-    this.start(name)
-    
+  async measure<T>(fullName: string, fn: () => T | Promise<T>): Promise<T> {
+    this.start(fullName);
+
     try {
-      const result = await fn()
-      this.end(name)
-      return result
+      const result = await fn();
+      this.end(fullName);
+      return result;
     } catch (error) {
-      this.end(name)
-      throw error
+      this.end(fullName);
+      throw error;
     }
   }
 
@@ -338,12 +338,14 @@ class PerformanceMonitor {
    * Reporta métricas de navegação
    */
   reportNavigationTiming(): void {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined') return;
 
     try {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming
-      
-      if (!navigation) return
+      const navigation = performance.getEntriesByType(
+        'navigation'
+      )[0] as PerformanceNavigationTiming;
+
+      if (!navigation) return;
 
       const metrics = {
         dns: navigation.domainLookupEnd - navigation.domainLookupStart,
@@ -353,11 +355,11 @@ class PerformanceMonitor {
         domInteractive: navigation.domInteractive - navigation.fetchStart,
         domComplete: navigation.domComplete - navigation.fetchStart,
         loadComplete: navigation.loadEventEnd - navigation.fetchStart,
-      }
+      };
 
-      logger.info('Navigation Timing', metrics)
+      logger.info('Navigation Timing', metrics);
     } catch (error) {
-      logger.debug('Erro ao obter navigation timing', { error })
+      logger.debug('Erro ao obter navigation timing', { error });
     }
   }
 }
@@ -368,26 +370,25 @@ class PerformanceMonitor {
 
 /**
  * Instância singleton do performance monitor
- * 
+ *
  * @example
  * ```tsx
  * import { performanceMonitor } from '@/lib/performance-monitor'
- * 
+ *
  * // Medir operação
  * performanceMonitor.start('load_posts')
  * await loadPosts()
  * performanceMonitor.end('load_posts')
- * 
+ *
  * // Ou usar helper
  * await performanceMonitor.measure('load_posts', async () => {
  *   return await loadPosts()
  * })
  * ```
  */
-export const performanceMonitor = new PerformanceMonitor()
+export const performanceMonitor = new PerformanceMonitor();
 
 /**
  * Export da classe
  */
-export { PerformanceMonitor }
-
+export { PerformanceMonitor };

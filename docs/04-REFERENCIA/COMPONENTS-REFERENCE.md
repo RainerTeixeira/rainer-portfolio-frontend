@@ -24,6 +24,7 @@
 **Props**: Nenhuma (self-contained)
 
 **Features**:
+
 - ✅ Menu desktop/mobile
 - ✅ Glassmorphism on scroll
 - ✅ User menu (quando autenticado)
@@ -33,14 +34,17 @@
 - ✅ Mobile drawer
 
 **State**:
+
 - `hasScrolled` - Detecta scroll > 10px
 - `isMobileMenuOpen` - Estado do menu mobile
 
 **Utilities**:
-- `getUserInitials(name)` - Extrai iniciais para avatar
+
+- `getUserInitials(fullName)` - Extrai iniciais para avatar
 - `getUserRoleLabel(role)` - Label em português do role
 
 **Uso**:
+
 ```tsx
 // Incluído automaticamente em app/layout.tsx
 <Navbar />
@@ -57,6 +61,7 @@
 **Props**: Nenhuma (self-contained)
 
 **Features**:
+
 - ✅ Seções organizadas (Navegação, Contato, Legal)
 - ✅ Icons dinâmicos (Mail, Phone, MapPin, etc)
 - ✅ Links externos (ARIA labels)
@@ -64,14 +69,17 @@
 - ✅ Gradientes animados
 
 **Types**:
+
 - `IconName` - Nome do ícone
 - `ContactItemType` - Tipo de contato
 
 **Interfaces**:
+
 - `ContactItemProps` - Props de item de contato
 - `ExternalLinkItemProps` - Props de link externo
 
 **Utilities**:
+
 - `getAriaLabel(type, label)` - ARIA label dinâmico
 
 ---
@@ -87,6 +95,7 @@
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Carrossel automático (6s por slide)
 - ✅ 4 slides com títulos/subtítulos
 - ✅ Partículas animadas (dark mode)
@@ -95,11 +104,13 @@
 - ✅ Responsivo
 
 **Constants**:
+
 - `HERO_TITLES` - 4 títulos principais
 - `HERO_SUBTITLES` - 4 subtítulos
 - `SLIDE_DURATION_MS` - 6000ms
 
 **Components internos**:
+
 - `HeroLoadingState` - Skeleton loader
 - `HeroContentOverlay` - Conteúdo sobreposto
 
@@ -114,6 +125,7 @@
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Estatísticas (projetos, clientes, anos)
 - ✅ Cards interativos
 - ✅ Animações staggered
@@ -121,9 +133,11 @@
 - ✅ Link para CV
 
 **Constants**:
+
 - `PROFESSIONAL_STATS` - Métricas profissionais
 
 **Types**:
+
 - `ProfessionalMetric` - Interface de métrica
 
 ---
@@ -137,6 +151,7 @@
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Grid responsivo
 - ✅ Hover effects
 - ✅ Tags de tecnologias
@@ -153,6 +168,7 @@
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Cards de depoimentos
 - ✅ Avatars
 - ✅ Rating stars
@@ -169,6 +185,7 @@
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Grid de tecnologias
 - ✅ Icons coloridos
 - ✅ Hover effects
@@ -205,6 +222,7 @@
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Form validation
 - ✅ Email input
 - ✅ Success/error states
@@ -228,6 +246,7 @@
 **Arquivo**: `components/blog/post-card.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly post: BlogPost
@@ -236,6 +255,7 @@
 ```
 
 **Features**:
+
 - ✅ Cover image
 - ✅ Title, description, date
 - ✅ Category badge
@@ -250,6 +270,7 @@
 **Arquivo**: `components/blog/reading-progress.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly targetRef: RefObject<HTMLElement>
@@ -257,6 +278,7 @@
 ```
 
 **Features**:
+
 - ✅ Barra de progresso fixa
 - ✅ Calcula % de leitura
 - ✅ Smooth animation
@@ -268,6 +290,7 @@
 **Arquivo**: `components/blog/table-of-contents.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly headings: Heading[]
@@ -275,6 +298,7 @@
 ```
 
 **Features**:
+
 - ✅ Links para seções
 - ✅ Active section highlight
 - ✅ Smooth scroll
@@ -287,6 +311,7 @@
 **Arquivo**: `components/blog/related-posts.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly currentPostId: string
@@ -295,6 +320,7 @@
 ```
 
 **Features**:
+
 - ✅ Posts da mesma categoria
 - ✅ Exclui post atual
 - ✅ Máximo 3 posts
@@ -306,6 +332,7 @@
 **Arquivo**: `components/blog/author-card.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly author: Author
@@ -329,6 +356,7 @@
 **Arquivo**: `components/blog/search/search-bar.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly onSearch: (query: string) => void
@@ -337,6 +365,7 @@
 ```
 
 **Features**:
+
 - ✅ Debounce (300ms)
 - ✅ Clear button
 - ✅ Keyboard shortcuts
@@ -351,6 +380,7 @@
 **Arquivo**: `components/blog/social/like-button.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly postId: string
@@ -359,6 +389,7 @@
 ```
 
 **Features**:
+
 - ✅ Optimistic update
 - ✅ Animation on click
 - ✅ Persiste no localStorage
@@ -368,6 +399,7 @@
 **Arquivo**: `components/blog/social/share-button.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly url: string
@@ -377,6 +409,7 @@
 ```
 
 **Features**:
+
 - ✅ Web Share API
 - ✅ Fallback para clipboard
 - ✅ QR Code modal
@@ -391,6 +424,7 @@
 **Arquivo**: `components/blog/comments/comment-section.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly postId: string
@@ -398,6 +432,7 @@
 ```
 
 **Features**:
+
 - ✅ Lista de comentários
 - ✅ Form de novo comentário
 - ✅ Reply system
@@ -408,6 +443,7 @@
 **Arquivo**: `components/blog/comments/comment-item.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly comment: Comment
@@ -426,6 +462,7 @@
 **Descrição**: Editor WYSIWYG TipTap
 
 **Props**:
+
 ```typescript
 {
   readonly content: string
@@ -435,6 +472,7 @@
 ```
 
 **Features**:
+
 - ✅ Rich text editing
 - ✅ Markdown shortcuts
 - ✅ Code blocks com syntax highlighting
@@ -446,6 +484,7 @@
 - ✅ Slash commands
 
 **Extensions**:
+
 - StarterKit
 - Image
 - Link
@@ -459,6 +498,7 @@
 **Arquivo**: `components/dashboard/ImageUpload.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly onUpload: (url: string) => void
@@ -468,6 +508,7 @@
 ```
 
 **Features**:
+
 - ✅ Drag and drop
 - ✅ Click to select
 - ✅ Preview
@@ -484,6 +525,7 @@
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Views chart
 - ✅ Engagement chart
 - ✅ Period selector
@@ -496,6 +538,7 @@
 **Arquivo**: `components/dashboard/stats-cards.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly stats: DashboardStats
@@ -503,6 +546,7 @@
 ```
 
 **Features**:
+
 - ✅ 4 cards (Posts, Views, Likes, Comments)
 - ✅ Icons coloridos
 - ✅ Gradientes
@@ -515,6 +559,7 @@
 **Arquivo**: `components/dashboard/recent-posts-list.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly posts: BlogPost[]
@@ -524,6 +569,7 @@
 ```
 
 **Features**:
+
 - ✅ Lista com imagens
 - ✅ Status (published/draft)
 - ✅ Views e likes
@@ -539,6 +585,7 @@
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Botões de ação rápida
 - ✅ Novo post
 - ✅ Ver blog
@@ -553,6 +600,7 @@
 **Arquivo**: `components/dashboard/charts/views-chart.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly data: ChartData[]
@@ -561,6 +609,7 @@
 ```
 
 **Features**:
+
 - ✅ Line chart (Recharts)
 - ✅ Responsive
 - ✅ Tooltip
@@ -575,6 +624,7 @@
 **Arquivo**: `components/dashboard/login/forms/login-form.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly onSuccess: () => void
@@ -582,6 +632,7 @@
 ```
 
 **Features**:
+
 - ✅ Email/password fields
 - ✅ Validation (React Hook Form + Zod)
 - ✅ Error messages
@@ -593,6 +644,7 @@
 **Arquivo**: `components/dashboard/login/forms/register-form.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly onSuccess?: () => void
@@ -600,6 +652,7 @@
 ```
 
 **Features**:
+
 - ✅ Name, email, password fields
 - ✅ Password strength indicator
 - ✅ Confirm password
@@ -623,6 +676,7 @@
 **Arquivo**: `components/dashboard/login/password-input.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly value: string
@@ -632,6 +686,7 @@
 ```
 
 **Features**:
+
 - ✅ Toggle visibility
 - ✅ Password strength bar
 - ✅ Color-coded strength
@@ -646,6 +701,7 @@
 **Arquivo**: `components/ui/button.tsx`
 
 **Props**:
+
 ```typescript
 {
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'
@@ -655,6 +711,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <Button variant="default" size="lg">
   Click Me
@@ -668,6 +725,7 @@
 **Arquivo**: `components/ui/card.tsx`
 
 **Components**:
+
 - `Card` - Container principal
 - `CardHeader` - Cabeçalho
 - `CardTitle` - Título
@@ -675,6 +733,7 @@
 - `CardContent` - Conteúdo
 
 **Uso**:
+
 ```tsx
 <Card>
   <CardHeader>
@@ -696,6 +755,7 @@
 **Props**: Standard HTMLInputElement props
 
 **Uso**:
+
 ```tsx
 <Input type="email" placeholder="seu@email.com" />
 ```
@@ -707,6 +767,7 @@
 **Arquivo**: `components/ui/dialog.tsx`
 
 **Components**:
+
 - `Dialog` - Container
 - `DialogTrigger` - Botão que abre
 - `DialogContent` - Conteúdo do modal
@@ -717,6 +778,7 @@
 - `DialogClose` - Botão fechar
 
 **Uso**:
+
 ```tsx
 <Dialog>
   <DialogTrigger asChild>
@@ -744,6 +806,7 @@
 #### FullPageLoader
 
 **Props**:
+
 ```typescript
 {
   readonly message?: string
@@ -751,6 +814,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <FullPageLoader message="Carregando dashboard..." />
 ```
@@ -758,6 +822,7 @@
 #### InlineLoader
 
 **Props**:
+
 ```typescript
 {
   readonly message?: string
@@ -766,6 +831,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <InlineLoader message="Buscando posts..." size="lg" />
 ```
@@ -773,6 +839,7 @@
 #### SkeletonGrid
 
 **Props**:
+
 ```typescript
 {
   readonly count?: number        // Default: 4
@@ -782,6 +849,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <SkeletonGrid count={6} columns={3} />
 ```
@@ -789,6 +857,7 @@
 #### EmptyState
 
 **Props**:
+
 ```typescript
 {
   readonly icon?: ComponentType
@@ -799,6 +868,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <EmptyState 
   icon={FileText}
@@ -811,6 +881,7 @@
 #### LoadingSpinner
 
 **Props**:
+
 ```typescript
 {
   readonly size?: 'sm' | 'md' | 'lg' | 'xl'
@@ -828,6 +899,7 @@
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Aparece após 300px de scroll
 - ✅ Smooth scroll to top
 - ✅ Fixed position
@@ -842,6 +914,7 @@
 **Arquivo**: `components/ui/page-header.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly title: string
@@ -851,6 +924,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <PageHeader 
   title="Blog"
@@ -865,6 +939,7 @@
 **Arquivo**: `components/ui/particles-effect.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly count?: number
@@ -874,6 +949,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <ParticlesEffect 
   count={30}
@@ -889,6 +965,7 @@
 **Arquivo**: `components/ui/skeleton.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly className?: string
@@ -896,6 +973,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <Skeleton className="h-12 w-full" />
 ```
@@ -907,6 +985,7 @@
 **Arquivo**: `components/ui/badge.tsx`
 
 **Props**:
+
 ```typescript
 {
   variant?: 'default' | 'secondary' | 'destructive' | 'outline'
@@ -914,6 +993,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <Badge variant="secondary">React</Badge>
 ```
@@ -925,11 +1005,13 @@
 **Arquivo**: `components/ui/avatar.tsx`
 
 **Components**:
+
 - `Avatar` - Container
 - `AvatarImage` - Imagem
 - `AvatarFallback` - Fallback (iniciais)
 
 **Uso**:
+
 ```tsx
 <Avatar>
   <AvatarImage src="/avatar.jpg" alt="User" />
@@ -944,6 +1026,7 @@
 **Arquivo**: `components/ui/progress.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly value: number // 0-100
@@ -951,6 +1034,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <Progress value={75} />
 ```
@@ -962,12 +1046,14 @@
 **Arquivo**: `components/ui/tooltip.tsx`
 
 **Components**:
+
 - `TooltipProvider` - Provider (wrap app)
 - `Tooltip` - Container
 - `TooltipTrigger` - Elemento que ativa
 - `TooltipContent` - Conteúdo do tooltip
 
 **Uso**:
+
 ```tsx
 <TooltipProvider>
   <Tooltip>
@@ -986,6 +1072,7 @@
 **Arquivo**: `components/ui/separator.tsx`
 
 **Props**:
+
 ```typescript
 {
   orientation?: 'horizontal' | 'vertical'
@@ -999,7 +1086,8 @@
 
 **Arquivo**: `components/ui/select.tsx`
 
-**Components**: 
+**Components**:
+
 - `Select`
 - `SelectTrigger`
 - `SelectValue`
@@ -1015,12 +1103,14 @@
 **Arquivo**: `components/ui/tabs.tsx`
 
 **Components**:
+
 - `Tabs`
 - `TabsList`
 - `TabsTrigger`
 - `TabsContent`
 
 **Uso**:
+
 ```tsx
 <Tabs defaultValue="tab1">
   <TabsList>
@@ -1041,6 +1131,7 @@
 **Props**: Standard switch props
 
 **Uso**:
+
 ```tsx
 <Switch checked={enabled} onCheckedChange={setEnabled} />
 ```
@@ -1076,6 +1167,7 @@
 **Arquivo**: `components/ui/alert.tsx`
 
 **Components**:
+
 - `Alert` - Container
 - `AlertTitle` - Título
 - `AlertDescription` - Descrição
@@ -1089,6 +1181,7 @@
 **Arquivo**: `components/ui/alert-dialog.tsx`
 
 **Components**:
+
 - `AlertDialog`
 - `AlertDialogTrigger`
 - `AlertDialogContent`
@@ -1108,6 +1201,7 @@
 **Arquivo**: `components/ui/dropdown-menu.tsx`
 
 **Components**: 15+ components
+
 - `DropdownMenu`
 - `DropdownMenuTrigger`
 - `DropdownMenuContent`
@@ -1123,6 +1217,7 @@
 **Arquivo**: `components/ui/sheet.tsx`
 
 **Components**:
+
 - `Sheet` - Drawer lateral
 - `SheetTrigger`
 - `SheetContent`
@@ -1138,6 +1233,7 @@
 **Arquivo**: `components/ui/popover.tsx`
 
 **Components**:
+
 - `Popover`
 - `PopoverTrigger`
 - `PopoverContent`
@@ -1149,6 +1245,7 @@
 **Arquivo**: `components/ui/command.tsx`
 
 **Components**:
+
 - `Command` - Command palette
 - `CommandInput`
 - `CommandList`
@@ -1166,6 +1263,7 @@
 **Arquivo**: `components/ui/scroll-area.tsx`
 
 **Components**:
+
 - `ScrollArea`
 - `ScrollBar`
 
@@ -1178,6 +1276,7 @@
 **Arquivo**: `components/providers/theme-provider.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly children: ReactNode
@@ -1187,6 +1286,7 @@
 ```
 
 **Uso**:
+
 ```tsx
 <ThemeProvider attribute="class" defaultTheme="system">
   {children}
@@ -1194,6 +1294,7 @@
 ```
 
 **Hook**:
+
 ```typescript
 import { useTheme } from 'next-themes'
 
@@ -1207,6 +1308,7 @@ const { theme, setTheme, resolvedTheme } = useTheme()
 **Arquivo**: `components/providers/auth-provider.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly children: ReactNode
@@ -1214,19 +1316,22 @@ const { theme, setTheme, resolvedTheme } = useTheme()
 ```
 
 **Hook**:
+
 ```typescript
-import { useAuth } from '@/components/providers/auth-provider'
+import { useAuthContext } from '@/components/providers/auth-context-provider'
 
 const {
-  currentUser,
-  isLoadingAuth,
+  user,
+  loading,
   isAuthenticated,
-  handleLogin,
-  handleLogout,
-} = useAuth()
+  login,
+  logout,
+  updateProfile,
+} = useAuthContext()
 ```
 
 **Features**:
+
 - ✅ Login/logout
 - ✅ Persistência localStorage
 - ✅ Loading state
@@ -1241,6 +1346,7 @@ const {
 **Descrição**: TanStack Query provider
 
 **Props**:
+
 ```typescript
 {
   readonly children: ReactNode
@@ -1266,6 +1372,7 @@ const {
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Skip link (Tab para mostrar)
 - ✅ Pula para #main-content
 - ✅ Acessível
@@ -1279,6 +1386,7 @@ const {
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Dialog com atalhos
 - ✅ Ctrl+/ para abrir
 - ✅ Lista de shortcuts
@@ -1292,6 +1400,7 @@ const {
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Toggle alto contraste
 - ✅ Persiste preferência
 
@@ -1302,6 +1411,7 @@ const {
 **Arquivo**: `components/accessibility/focus-trap.tsx`
 
 **Props**:
+
 ```typescript
 {
   readonly children: ReactNode
@@ -1310,6 +1420,7 @@ const {
 ```
 
 **Features**:
+
 - ✅ Mantém foco em modal
 - ✅ Tab cycling
 - ✅ Escape to close
@@ -1325,44 +1436,16 @@ const {
 **Props**: Nenhuma
 
 **Features**:
+
 - ✅ Toggle light/dark/system
 - ✅ Icons dinâmicos (Sun/Moon)
 - ✅ Dropdown menu
 - ✅ Persiste escolha
 
 **Uso**:
+
 ```tsx
 <ThemeToggle />
-```
-
----
-
-## 🧩 Error Boundary ✨ ENTERPRISE
-
-**Arquivo**: `components/error-boundary.tsx`
-
-**Props**:
-```typescript
-{
-  readonly children: ReactNode
-  readonly fallback?: ReactNode
-  readonly onError?: (error: Error, errorInfo: ErrorInfo) => void
-}
-```
-
-**Features**:
-- ✅ Captura erros de React
-- ✅ UI de fallback profissional
-- ✅ Botão retry
-- ✅ Botão voltar home
-- ✅ Stack trace (dev)
-- ✅ Error logging
-
-**Uso**:
-```tsx
-<ErrorBoundary onError={(error, info) => logger.error('Error', error, { info })}>
-  <CriticalComponent />
-</ErrorBoundary>
 ```
 
 ---
@@ -1501,7 +1584,6 @@ import {
 | Forms | Contact form | `contato/contact-form.tsx` |
 | Tema | ThemeToggle | `theme/theme-toggle.tsx` |
 | Loading | Loading states | `ui/loading-states.tsx` |
-| Erros | ErrorBoundary | `error-boundary.tsx` |
 
 ---
 
@@ -1509,7 +1591,7 @@ import {
 
 Dúvidas sobre componentes?
 
-- 📧 **Email**: suporte@rainersoft.com.br
+- 📧 **Email**: <suporte@rainersoft.com.br>
 - 📖 **Docs**: Ver [API Reference](./API-REFERENCE.md)
 - 💬 **Code**: Inline JSDoc em cada arquivo
 
@@ -1518,4 +1600,3 @@ Dúvidas sobre componentes?
 **Última atualização**: Outubro 2025
 **Total de componentes**: 60+
 **Documentados**: 100%
-

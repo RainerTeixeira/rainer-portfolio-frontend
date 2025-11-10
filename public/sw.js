@@ -1,17 +1,17 @@
 /**
  * Service Worker - PWA
- * 
+ *
  * Gerencia cache e funcionalidades offline do aplicativo.
  * Implementa estratégias de cache para diferentes tipos de recursos.
- * 
+ *
  * @fileoverview Service Worker para PWA
  * @author Rainer Teixeira
  * @version 1.0.0
  * @since 1.0.0
  */
 
-const CACHE_NAME = 'rainer-portfolio-v1'
-const RUNTIME_CACHE = 'rainer-runtime-v1'
+const CACHE_NAME = 'rainer-portfolio-v1';
+const RUNTIME_CACHE = 'rainer-runtime-v1';
 
 // Recursos essenciais para cache inicial
 const PRECACHE_URLS = [
@@ -20,140 +20,144 @@ const PRECACHE_URLS = [
   '/sobre',
   '/contato',
   '/manifest.json',
-  '/logo.png'
-]
+  '/logo.png',
+];
 
 // Recursos que NÃO devem ser cacheados
-const NO_CACHE_PATTERNS = [
-  /\/api\//,
-  /\/_next\/data\//,
-  /\.hot-update\./,
-]
+const NO_CACHE_PATTERNS = [/\/api\//, /\/_next\/data\//, /\.hot-update\./];
 
 /**
  * Event: Install
- * 
+ *
  * Executado quando o service worker é instalado pela primeira vez.
  * Faz pre-cache dos recursos essenciais.
  */
-self.addEventListener('install', (event) => {
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Pre-caching recursos essenciais')
-      return cache.addAll(PRECACHE_URLS)
-    }).then(() => {
-      // Força ativação imediata
-      return self.skipWaiting()
-    })
-  )
-})
+    caches
+      .open(CACHE_NAME)
+      .then(cache => {
+        console.log('[SW] Pre-caching recursos essenciais');
+        return cache.addAll(PRECACHE_URLS);
+      })
+      .then(() => {
+        // Força ativação imediata
+        return self.skipWaiting();
+      })
+  );
+});
 
 /**
  * Event: Activate
- * 
+ *
  * Executado quando o service worker se torna ativo.
  * Remove caches antigos e assume controle imediato.
  */
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          // Remove caches antigos
-          if (cacheName !== CACHE_NAME && cacheName !== RUNTIME_CACHE) {
-            console.log('[SW] Removendo cache antigo:', cacheName)
-            return caches.delete(cacheName)
-          }
-        })
-      )
-    }).then(() => {
-      // Assume controle de todas as páginas imediatamente
-      return self.clients.claim()
-    })
-  )
-})
+    caches
+      .keys()
+      .then(cacheNames => {
+        return Promise.all(
+          cacheNames.map(cacheName => {
+            // Remove caches antigos
+            if (cacheName !== CACHE_NAME && cacheName !== RUNTIME_CACHE) {
+              console.log('[SW] Removendo cache antigo:', cacheName);
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      })
+      .then(() => {
+        // Assume controle de todas as páginas imediatamente
+        return self.clients.claim();
+      })
+  );
+});
 
 /**
  * Event: Fetch
- * 
+ *
  * Intercepta todas as requisições de rede.
  * Implementa estratégia de cache apropriada para cada tipo de recurso.
  */
-self.addEventListener('fetch', (event) => {
-  const { request } = event
-  const url = new URL(request.url)
+self.addEventListener('fetch', event => {
+  const { request } = event;
+  const url = new URL(request.url);
 
   // Ignora requisições que não devem ser cacheadas
   if (NO_CACHE_PATTERNS.some(pattern => pattern.test(url.pathname))) {
-    return
+    return;
   }
 
   // Ignora requisições cross-origin
   if (url.origin !== self.location.origin) {
-    return
+    return;
   }
 
-  // Estratégia: Network First com Cache Fallback
+  // Estratégia: Network First com Cache Fallback (somente GET/HEAD)
   event.respondWith(
     fetch(request)
-      .then((response) => {
+      .then(response => {
         // Clone a resposta antes de cachear
-        const responseClone = response.clone()
-        
-        // Cacheia apenas respostas bem-sucedidas
-        if (response.status === 200) {
-          caches.open(RUNTIME_CACHE).then((cache) => {
-            cache.put(request, responseClone)
-          })
+        const responseClone = response.clone();
+
+        // Cacheia apenas respostas bem-sucedidas de requisições GET/HEAD
+        if (
+          response.status === 200 &&
+          (request.method === 'GET' || request.method === 'HEAD')
+        ) {
+          caches.open(RUNTIME_CACHE).then(cache => {
+            cache.put(request, responseClone);
+          });
         }
-        
-        return response
+
+        return response;
       })
       .catch(() => {
         // Se a rede falhar, tenta buscar do cache
-        return caches.match(request).then((cachedResponse) => {
+        return caches.match(request).then(cachedResponse => {
           if (cachedResponse) {
-            console.log('[SW] Servindo do cache:', url.pathname)
-            return cachedResponse
+            console.log('[SW] Servindo do cache:', url.pathname);
+            return cachedResponse;
           }
-          
+
           // Se não tem no cache e é uma página, retorna offline page
           if (request.mode === 'navigate') {
-            return caches.match('/')
+            return caches.match('/');
           }
-          
+
           // Retorna resposta de erro genérica
           return new Response('Offline - Recurso não disponível', {
             status: 503,
             statusText: 'Service Unavailable',
             headers: new Headers({
-              'Content-Type': 'text/plain'
-            })
-          })
-        })
+              'Content-Type': 'text/plain',
+            }),
+          });
+        });
       })
-  )
-})
+  );
+});
 
 /**
  * Event: Message
- * 
+ *
  * Recebe mensagens do cliente (página web).
  * Permite controle do service worker pela aplicação.
  */
-self.addEventListener('message', (event) => {
+self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting()
+    self.skipWaiting();
   }
-  
+
   if (event.data && event.data.type === 'CLEAR_CACHE') {
     event.waitUntil(
-      caches.keys().then((cacheNames) => {
+      caches.keys().then(cacheNames => {
         return Promise.all(
-          cacheNames.map((cacheName) => caches.delete(cacheName))
-        )
+          cacheNames.map(cacheName => caches.delete(cacheName))
+        );
       })
-    )
+    );
   }
-})
-
+});

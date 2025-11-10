@@ -4,7 +4,7 @@
 
 /**
  * Serviço para gerenciar categorias hierárquicas do blog
- * 
+ *
  * @fileoverview Serviço de categorias com métodos para CRUD e operações hierárquicas
  * @author Rainer Teixeira
  * @version 1.0.0
@@ -17,61 +17,90 @@ import type {
   CategoryFilters,
   CreateCategoryData,
   PaginatedResponse,
-  UpdateCategoryData
+  UpdateCategoryData,
 } from '../types';
 
 // ============================================================================
 // Classe do Serviço
 // ============================================================================
 
+/**
+ * Serviço responsável pelo CRUD de categorias e navegação hierárquica.
+ */
 export class CategoriesService {
   private readonly basePath = '/categories';
 
   /**
    * Lista categorias com paginação e filtros
    */
-  async listCategories(filters: CategoryFilters = {}): Promise<PaginatedResponse<Category>> {
+  /**
+   * Lista categorias com filtros e paginação.
+   */
+  async listCategories(
+    filters: CategoryFilters = {}
+  ): Promise<PaginatedResponse<Category>> {
     const params = new URLSearchParams();
-    
+
     if (filters.page) params.append('page', filters.page.toString());
     if (filters.limit) params.append('limit', filters.limit.toString());
-    if (filters.parentId !== undefined) params.append('parentId', filters.parentId);
-    if (filters.isActive !== undefined) params.append('isActive', filters.isActive.toString());
+    if (filters.parentId !== undefined)
+      params.append('parentId', filters.parentId);
+    if (filters.isActive !== undefined)
+      params.append('isActive', filters.isActive.toString());
     if (filters.search) params.append('search', filters.search);
 
     const queryString = params.toString();
     const url = queryString ? `${this.basePath}?${queryString}` : this.basePath;
-    
-    const response = await api.get<ApiResponse<PaginatedResponse<Category>>>(url);
+
+    const response =
+      await api.get<ApiResponse<PaginatedResponse<Category>>>(url);
     return response.data;
   }
 
   /**
    * Busca uma categoria por ID
    */
+  /**
+   * Busca categoria por ID.
+   */
   async getCategoryById(id: string): Promise<Category> {
-    const response = await api.get<ApiResponse<Category>>(`${this.basePath}/${id}`);
+    const response = await api.get<ApiResponse<Category>>(
+      `${this.basePath}/${id}`
+    );
     return response.data;
   }
 
   /**
    * Busca uma categoria por slug
    */
+  /**
+   * Busca categoria por slug.
+   */
   async getCategoryBySlug(slug: string): Promise<Category> {
-    const response = await api.get<ApiResponse<Category>>(`${this.basePath}/slug/${slug}`);
+    const response = await api.get<ApiResponse<Category>>(
+      `${this.basePath}/slug/${slug}`
+    );
     return response.data;
   }
 
   /**
    * Lista subcategorias de uma categoria principal
    */
+  /**
+   * Lista subcategorias de uma categoria principal.
+   */
   async getSubcategories(parentId: string): Promise<Category[]> {
-    const response = await api.get<ApiResponse<Category[]>>(`${this.basePath}/${parentId}/subcategories`);
+    const response = await api.get<ApiResponse<Category[]>>(
+      `${this.basePath}/${parentId}/subcategories`
+    );
     return response.data;
   }
 
   /**
    * Cria uma nova categoria
+   */
+  /**
+   * Cria nova categoria.
    */
   async createCategory(data: CreateCategoryData): Promise<Category> {
     const response = await api.post<ApiResponse<Category>>(this.basePath, data);
@@ -81,13 +110,25 @@ export class CategoriesService {
   /**
    * Atualiza uma categoria existente
    */
-  async updateCategory(id: string, data: UpdateCategoryData): Promise<Category> {
-    const response = await api.put<ApiResponse<Category>>(`${this.basePath}/${id}`, data);
+  /**
+   * Atualiza categoria existente.
+   */
+  async updateCategory(
+    id: string,
+    data: UpdateCategoryData
+  ): Promise<Category> {
+    const response = await api.put<ApiResponse<Category>>(
+      `${this.basePath}/${id}`,
+      data
+    );
     return response.data;
   }
 
   /**
    * Deleta uma categoria
+   */
+  /**
+   * Deleta uma categoria por ID.
    */
   async deleteCategory(id: string): Promise<ApiResponse<void>> {
     return api.delete<ApiResponse<void>>(`${this.basePath}/${id}`);
@@ -96,29 +137,50 @@ export class CategoriesService {
   /**
    * Lista apenas categorias principais (parentId = null)
    */
+  /**
+   * Lista categorias principais (parentId = null).
+   */
   async getMainCategories(): Promise<Category[]> {
-    const response = await this.listCategories({ parentId: null, isActive: true });
+    const response = await this.listCategories({
+      parentId: null,
+      isActive: true,
+    });
     return response.data;
   }
 
   /**
    * Lista apenas subcategorias (parentId != null)
    */
+  /**
+   * Lista apenas subcategorias (parentId != null).
+   */
   async getSubcategoriesOnly(): Promise<Category[]> {
-    const response = await this.listCategories({ isActive: true });
-    return response.data.filter(category => category.parentId);
+    try {
+      // Tenta usar o endpoint específico para todas as subcategorias
+      const response = await api.get<ApiResponse<Category[]>>(
+        `${this.basePath}/subcategories/all`
+      );
+      return response.data;
+    } catch (_error) {
+      // Fallback: busca todas as categorias e filtra no cliente
+      const response = await this.listCategories({ isActive: true });
+      return response.data.filter(category => category.parentId);
+    }
   }
 
   /**
    * Obtém a hierarquia completa de categorias
    */
+  /**
+   * Retorna a hierarquia completa Category → children.
+   */
   async getCategoryHierarchy(): Promise<Category[]> {
     const mainCategories = await this.getMainCategories();
     const subcategories = await this.getSubcategoriesOnly();
-    
+
     return mainCategories.map(mainCategory => ({
       ...mainCategory,
-      children: subcategories.filter(sub => sub.parentId === mainCategory.id)
+      children: subcategories.filter(sub => sub.parentId === mainCategory.id),
     }));
   }
 }

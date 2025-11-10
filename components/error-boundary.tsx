@@ -1,9 +1,29 @@
 /**
  * Error Boundary Component
- * 
- * Componente de tratamento de erros global para React.
- * Captura erros em componentes filhos e exibe UI de fallback.
- * 
+ *
+ * Componente de tratamento de erros global para React. Captura erros em
+ * componentes filhos e exibe UI de fallback elegante e informativa com
+ * opções de retry e navegação para home.
+ *
+ * @module components/error-boundary
+ * @fileoverview Error boundary global da aplicação
+ * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * // Uso básico
+ * <ErrorBoundary>
+ *   <App />
+ * </ErrorBoundary>
+ *
+ * // Com fallback customizado
+ * <ErrorBoundary fallback={<CustomError />}>
+ *   <App />
+ * </ErrorBoundary>
+ * ```
+ *
  * Características:
  * - Captura erros de renderização
  * - UI de fallback customizável
@@ -11,47 +31,50 @@
  * - Botão de retry
  * - Informações de debug em desenvolvimento
  * - Reset de estado
- * 
- * @fileoverview Error boundary global da aplicação
- * @author Rainer Teixeira
- * @version 1.0.0
+ * - Acessibilidade completa
  */
 
-'use client'
+'use client';
 
 // ============================================================================
 // React
 // ============================================================================
 
-import { Component, ErrorInfo, ReactNode } from 'react'
+import { Component, ErrorInfo, ReactNode } from 'react';
 
 // ============================================================================
 // Icons
 // ============================================================================
 
-import { AlertTriangle, Home, RefreshCw } from 'lucide-react'
+import { AlertTriangle, Home, RefreshCw } from 'lucide-react';
 
 // ============================================================================
 // UI Components
 // ============================================================================
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 // ============================================================================
 // Types
 // ============================================================================
 
 interface ErrorBoundaryProps {
-  readonly children: ReactNode
-  readonly fallback?: ReactNode
-  readonly onError?: (error: Error, errorInfo: ErrorInfo) => void
+  readonly children: ReactNode;
+  readonly fallback?: ReactNode;
+  readonly onError?: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
 interface ErrorBoundaryState {
-  readonly hasError: boolean
-  readonly error: Error | null
-  readonly errorInfo: ErrorInfo | null
+  readonly hasError: boolean;
+  readonly error: Error | null;
+  readonly errorInfo: ErrorInfo | null;
 }
 
 // ============================================================================
@@ -60,16 +83,16 @@ interface ErrorBoundaryState {
 
 /**
  * Error Boundary Class Component
- * 
+ *
  * Class component necessário pois error boundaries
  * ainda não são suportados em function components.
- * 
+ *
  * Funcionalidades:
  * - Captura erros em componentDidCatch
  * - Atualiza estado em getDerivedStateFromError
  * - Permite reset via botão
  * - Callback opcional onError
- * 
+ *
  * @example
  * ```tsx
  * <ErrorBoundary>
@@ -77,24 +100,27 @@ interface ErrorBoundaryState {
  * </ErrorBoundary>
  * ```
  */
-export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   // ============================================================================
   // Constructor
   // ============================================================================
-  
+
   constructor(props: ErrorBoundaryProps) {
-    super(props)
+    super(props);
     this.state = {
       hasError: false,
       error: null,
       errorInfo: null,
-    }
+    };
   }
 
   // ============================================================================
   // Lifecycle Methods
   // ============================================================================
-  
+
   /**
    * Atualiza estado quando erro é capturado
    */
@@ -102,7 +128,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     return {
       hasError: true,
       error,
-    }
+    };
   }
 
   /**
@@ -110,18 +136,18 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
    */
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Log do erro no console
-    console.error('Error Boundary capturou erro:', error, errorInfo)
-    
+    console.error('Error Boundary capturou erro:', error, errorInfo);
+
     // Atualiza estado com informações do erro
     this.setState({
       errorInfo,
-    })
-    
+    });
+
     // Executa callback se fornecido
     if (this.props.onError) {
-      this.props.onError(error, errorInfo)
+      this.props.onError(error, errorInfo);
     }
-    
+
     // Em produção, enviar para serviço de monitoramento
     // Exemplo: Sentry, LogRocket, etc
     if (process.env.NODE_ENV === 'production') {
@@ -133,7 +159,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   // ============================================================================
   // Handler Functions
   // ============================================================================
-  
+
   /**
    * Reseta erro e tenta renderizar novamente
    */
@@ -142,34 +168,34 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       hasError: false,
       error: null,
       errorInfo: null,
-    })
-  }
+    });
+  };
 
   /**
    * Navega para home
    */
   handleGoHome = (): void => {
-    window.location.href = '/'
-  }
+    window.location.href = '/';
+  };
 
   // ============================================================================
   // Render
   // ============================================================================
-  
+
   render(): ReactNode {
-    const { hasError, error, errorInfo } = this.state
-    const { children, fallback } = this.props
+    const { hasError, error, errorInfo } = this.state;
+    const { children, fallback } = this.props;
 
     // Se há erro, renderiza UI de fallback
     if (hasError) {
       // Usa fallback customizado se fornecido
       if (fallback) {
-        return fallback
+        return fallback;
       }
 
       // Renderiza UI de erro padrão
       return (
-        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black">
+        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-background dark:bg-linear-to-b dark:from-black dark:via-gray-900 dark:to-black">
           <Card className="max-w-2xl w-full dark:bg-black/60 dark:border-red-400/30">
             <CardHeader>
               <div className="flex items-center gap-3 mb-2">
@@ -180,13 +206,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                   <CardTitle className="text-2xl dark:text-red-200">
                     Algo deu errado
                   </CardTitle>
-                  <CardDescription>
-                    Um erro inesperado ocorreu
-                  </CardDescription>
+                  <CardDescription>Um erro inesperado ocorreu</CardDescription>
                 </div>
               </div>
             </CardHeader>
-            
+
             <CardContent className="space-y-6">
               {/* Mensagem de erro */}
               <div className="p-4 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-400/20">
@@ -234,11 +258,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             </CardContent>
           </Card>
         </div>
-      )
+      );
     }
 
     // Renderiza children normalmente
-    return children
+    return children;
   }
 }
-

@@ -11,8 +11,8 @@
 - **Tipo**: Portfolio Profissional & Empresa de Desenvolvimento
 - **Desenvolvedor**: Rainer Teixeira
 - **Empresa**: Rainer Soft
-- **Email**: suporte@rainersoft.com.br
-- **Website**: https://rainersoft.com.br
+- **Email**: <suporte@rainersoft.com.br>
+- **Website**: <https://rainersoft.com.br>
 - **Status**: 🟢 Production Ready
 
 ---
@@ -105,7 +105,6 @@ Evoluir de um portfolio pessoal para uma **plataforma completa de presença digi
 │  ├─ Design Tokens (constants/design-tokens.ts)         │
 │  ├─ Environment (lib/env.ts)                           │
 │  ├─ Logger (lib/logger.ts)                             │
-│  └─ Error Boundary (components/error-boundary.tsx)     │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -219,8 +218,6 @@ app/
 
 ```
 components/
-├── error-boundary.tsx     # Error handling global
-│
 ├── layout/               # Componentes de layout
 │   ├── navbar.tsx       # Header com navegação
 │   └── footer.tsx       # Footer com links
@@ -515,16 +512,16 @@ constants/
 
 - **Nome**: Rainer Teixeira
 - **Empresa**: Rainer Soft
-- **Email**: suporte@rainersoft.com.br
-- **Website**: https://rainersoft.com.br
+- **Email**: <suporte@rainersoft.com.br>
+- **Website**: <https://rainersoft.com.br>
 - **LinkedIn**: [linkedin.com/in/rainer-teixeira](https://linkedin.com/in/rainer-teixeira)
 - **GitHub**: [@rainerteixeira](https://github.com/rainerteixeira)
 
 ### Suporte e Dúvidas
 
-- 📧 **Email**: suporte@rainersoft.com.br
+- 📧 **Email**: <suporte@rainersoft.com.br>
 - 💬 **WhatsApp**: +55 24 99913-7382
-- 🌐 **Website**: https://rainersoft.com.br
+- 🌐 **Website**: <https://rainersoft.com.br>
 
 ---
 
@@ -548,4 +545,3 @@ constants/
 **Última atualização**: Outubro 2025
 **Versão**: 2.0.0 Enterprise Edition
 **Status**: 🟢 Production Ready
-

@@ -92,7 +92,7 @@ function Start-SonarQube {
     if (-not (Test-DockerRunning)) { return }
     
     # Verificar se já está rodando
-    $running = docker ps --filter "name=sonarqube-local" --format "{{.Names}}"
+    $running = docker ps --filter "fullName=sonarqube-local" --format "{{.Names}}"
     if ($running -eq "sonarqube-local") {
         Write-ColorOutput "✅ SonarQube já está rodando!" $SuccessColor
         Write-ColorOutput "Acesse: $SonarHost" $InfoColor
@@ -136,14 +136,14 @@ function Get-SonarQubeStatus {
     if (-not (Test-Docker)) { return }
     
     # Status do container
-    $containerStatus = docker ps -a --filter "name=sonarqube-local" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+    $containerStatus = docker ps -a --filter "fullName=sonarqube-local" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
     
     if ($containerStatus) {
         Write-ColorOutput "`nContainer:" $InfoColor
         Write-ColorOutput $containerStatus
         
         # Verificar se está rodando
-        $running = docker ps --filter "name=sonarqube-local" --format "{{.Names}}"
+        $running = docker ps --filter "fullName=sonarqube-local" --format "{{.Names}}"
         if ($running -eq "sonarqube-local") {
             Write-ColorOutput "`n✅ Status: RODANDO" $SuccessColor
             Write-ColorOutput "🌐 Interface: $SonarHost" $InfoColor
@@ -169,7 +169,7 @@ function Get-SonarQubeStatus {
     
     # Volumes
     Write-ColorOutput "`nVolumes Docker:" $InfoColor
-    docker volume ls --filter "name=rainer-portfolio-frontend" --format "table {{.Name}}\t{{.Driver}}"
+    docker volume ls --filter "fullName=rainer-portfolio-frontend" --format "table {{.Name}}\t{{.Driver}}"
 }
 
 function Show-Logs {
@@ -199,7 +199,7 @@ function Start-Analysis {
     }
     
     # Verificar se SonarQube está rodando
-    $running = docker ps --filter "name=sonarqube-local" --format "{{.Names}}"
+    $running = docker ps --filter "fullName=sonarqube-local" --format "{{.Names}}"
     if ($running -ne "sonarqube-local") {
         Write-ColorOutput "⚠️  SonarQube não está rodando!" $WarningColor
         Write-ColorOutput "Deseja iniciar o SonarQube? (S/N): " $InfoColor -NoNewline

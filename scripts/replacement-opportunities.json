@@ -1,0 +1,51 @@
+{
+  "opportunities": {
+    "carousel": [
+      {
+        "type": "carousel",
+        "replacement": "Carousel (shadcn/ui)",
+        "file": "C:\\Desenvolvimento\\rainer-portfolio-frontend\\components\\blog\\posts-carousel.tsx"
+      },
+      {
+        "type": "carousel",
+        "replacement": "Carousel (shadcn/ui)",
+        "file": "C:\\Desenvolvimento\\rainer-portfolio-frontend\\components\\home\\hero-section.tsx"
+      },
+      {
+        "type": "carousel",
+        "replacement": "Carousel (shadcn/ui)",
+        "file": "C:\\Desenvolvimento\\rainer-portfolio-frontend\\components\\home\\hooks\\use-carousel-keyboard.ts"
+      },
+      {
+        "type": "carousel",
+        "replacement": "Carousel (shadcn/ui)",
+        "file": "C:\\Desenvolvimento\\rainer-portfolio-frontend\\components\\home\\hooks\\use-carousel-keyboard.ts"
+      }
+    ],
+    "accordion": [
+      {
+        "type": "accordion",
+        "replacement": "Accordion (shadcn/ui)",
+        "file": "C:\\Desenvolvimento\\rainer-portfolio-frontend\\components\\dashboard\\Editor.tsx"
+      }
+    ],
+    "table": [
+      {
+        "type": "table",
+        "replacement": "Table (shadcn/ui)",
+        "file": "C:\\Desenvolvimento\\rainer-portfolio-frontend\\components\\dashboard\\Editor.tsx"
+      },
+      {
+        "type": "table",
+        "replacement": "Table (shadcn/ui)",
+        "file": "C:\\Desenvolvimento\\rainer-portfolio-frontend\\components\\dashboard\\lib\\tiptap-utils.ts"
+      },
+      {
+        "type": "table",
+        "replacement": "Table (shadcn/ui)",
+        "file": "C:\\Desenvolvimento\\rainer-portfolio-frontend\\app\\blog\\[slug]\\page.tsx"
+      }
+    ]
+  },
+  "total": 8
+}

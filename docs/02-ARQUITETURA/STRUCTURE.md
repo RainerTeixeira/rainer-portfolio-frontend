@@ -54,6 +54,7 @@ A documentação foi completamente reorganizada em **4 pastas temáticas** para 
 **Público**: Novos desenvolvedores, recrutadores, clientes
 
 **Conteúdo**:
+
 | Arquivo | Linhas | Tempo | Objetivo |
 |---------|--------|-------|----------|
 | PROJECT-OVERVIEW.md | ~400 | 15 min | Entender o projeto |
@@ -73,6 +74,7 @@ A documentação foi completamente reorganizada em **4 pastas temáticas** para 
 **Público**: Desenvolvedores ativos, contribuidores
 
 **Conteúdo**:
+
 | Arquivo | Linhas | Tempo | Objetivo |
 |---------|--------|-------|----------|
 | ARCHITECTURE.md | ~550 | 30 min | Entender estrutura |
@@ -92,6 +94,7 @@ A documentação foi completamente reorganizada em **4 pastas temáticas** para 
 **Público**: Desenvolvedores (uso diário)
 
 **Conteúdo**:
+
 | Arquivo | Linhas | Uso | Objetivo |
 |---------|--------|-----|----------|
 | API-REFERENCE.md | ~650 | Consulta | Usar APIs |
@@ -111,6 +114,7 @@ A documentação foi completamente reorganizada em **4 pastas temáticas** para 
 **Público**: Todos (conforme necessidade)
 
 **Conteúdo**:
+
 | Arquivo | Linhas | Uso | Objetivo |
 |---------|--------|-----|----------|
 | TROUBLESHOOTING.md | ~700 | SOS | Resolver problemas |
@@ -274,11 +278,13 @@ Uso Esporádico:
 ### Marcar Favoritos
 
 **VS Code**:
+
 1. Abra pasta `docs/reference/`
 2. Clique direito → "Add to Bookmarks"
 3. Acesso rápido sempre disponível
 
 **Browser**:
+
 1. Marque: `docs/reference/API-REFERENCE.md`
 2. Marque: `docs/reference/COMPONENTS-REFERENCE.md`
 3. Consulta rápida
@@ -374,4 +380,3 @@ A nova estrutura de pastas torna a documentação:
 **Estrutura**: v2.0.0 Organizada
 **Última atualização**: Outubro 2025
 **Status**: 🟢 Completa e Organizada
-

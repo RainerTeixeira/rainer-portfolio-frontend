@@ -32,7 +32,7 @@ Abra o navegador em: **<http://localhost:9000>**
 1. Clique em **"Create Project"** → **"Manually"**
 2. Preencha:
    - **Project key:** `rainer-portfolio-frontend`
-   - **Display name:** `Rainer Portfolio Frontend`
+   - **Display fullName:** `Rainer Portfolio Frontend`
 3. Clique em **"Set Up"** → **"Locally"**
 4. Gere um token de acesso:
    - Nome do token: `SONAR_TOKEN`

@@ -10,6 +10,7 @@
 ## 🎯 Objetivo
 
 Reorganizar a documentação do frontend seguindo o **mesmo padrão** usado no backend (yyyyyyyyy):
+
 - ✅ Pastas numeradas (01, 02, 03...)
 - ✅ Arquivos principais na raiz (00-LEIA_PRIMEIRO.md, README.md, INDEX.md)
 - ✅ Navegação por perfil
@@ -94,19 +95,22 @@ docs/
 
 ## 🔄 Mapeamento de Mudanças
 
-### Criar Pastas Numeradas:
+### Criar Pastas Numeradas
+
 - [ ] `01-INICIO/` (renomear getting-started/)
 - [ ] `02-ARQUITETURA/` (renomear architecture/)
 - [ ] `03-GUIAS/` (renomear guides/)
 - [ ] `04-REFERENCIA/` (renomear reference/)
 - [ ] `05-CONTRIBUICAO/` (criar nova)
 
-### Criar Arquivos Principais:
+### Criar Arquivos Principais
+
 - [ ] `00-LEIA_PRIMEIRO.md` (criar)
 - [ ] Atualizar `README.md`
 - [ ] Atualizar `INDEX.md`
 
-### Mover Arquivos:
+### Mover Arquivos
+
 - [ ] `STRUCTURE.md` → `02-ARQUITETURA/`
 - [ ] `architecture/CONTRIBUTING.md` → `05-CONTRIBUICAO/`
 - [ ] `getting-started/*` → `01-INICIO/`
@@ -119,6 +123,7 @@ docs/
 ## 📝 Conteúdo dos Arquivos Principais
 
 ### 00-LEIA_PRIMEIRO.md
+
 ```markdown
 # 🎯 LEIA PRIMEIRO - Bem-vindo ao Frontend!
 
@@ -136,6 +141,7 @@ docs/
 ```
 
 ### INDEX.md (atualizar)
+
 ```markdown
 # 🗺️ Guia de Navegação por Perfil
 
@@ -147,6 +153,7 @@ docs/
 ```
 
 ### README.md (atualizar)
+
 ```markdown
 # 📚 Documentação - Portfolio Frontend
 
@@ -182,4 +189,3 @@ docs/
 
 **Status:** 📋 Plano Criado  
 **Pronto para:** 🚀 Execução
-

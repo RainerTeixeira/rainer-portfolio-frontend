@@ -1,21 +1,25 @@
+/**
+ * Types - Bookmarks
+ */
+
 export interface Bookmark {
-  id: string;
-  userId: string;
-  postId: string;
-  collection?: string;
-  notes?: string;
-  createdAt: string;
-  updatedAt: string;
+  readonly id: string;
+  readonly userId: string;
+  readonly postId: string;
+  readonly collection?: string;
+  readonly notes?: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
 }
 
 export interface CreateBookmarkData {
-  userId: string;
-  postId: string;
-  collection?: string;
-  notes?: string;
+  readonly userId: string;
+  readonly postId: string;
+  readonly collection?: string;
+  readonly notes?: string;
 }
 
 export interface UpdateBookmarkData {
-  collection?: string;
-  notes?: string;
+  readonly collection?: string;
+  readonly notes?: string;
 }

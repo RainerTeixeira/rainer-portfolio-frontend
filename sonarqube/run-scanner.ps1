@@ -13,7 +13,7 @@ $ProjectKey = "rainer-portfolio-frontend"
 $NetworkName = "rainer-portfolio-frontend_default"
 
 # Verificar se SonarQube está rodando
-$running = docker ps --filter "name=sonarqube-local" --format "{{.Names}}"
+$running = docker ps --filter "fullName=sonarqube-local" --format "{{.Names}}"
 if ($running -ne "sonarqube-local") {
     Write-Host "❌ SonarQube não está rodando!" -ForegroundColor Red
     Write-Host "Execute: cd sonarqube && .\sonarqube.ps1 start" -ForegroundColor Yellow
@@ -49,7 +49,7 @@ Write-Host "🚀 Iniciando análise..." -ForegroundColor Green
 Write-Host ""
 
 # Verificar rede Docker
-$networkExists = docker network ls --filter "name=$NetworkName" --format "{{.Name}}"
+$networkExists = docker network ls --filter "fullName=$NetworkName" --format "{{.Name}}"
 if (-not $networkExists) {
     Write-Host "⚠️  Rede Docker não encontrada. Usando rede padrão..." -ForegroundColor Yellow
     $NetworkName = "bridge"

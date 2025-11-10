@@ -1,39 +1,37 @@
 /**
- * Hook para Focus Trap
- * 
- * Mantém o foco dentro de um container, útil para modals e dialogs
- * para garantir acessibilidade e navegação por teclado.
- * 
- * Funcionalidades:
- * - Detecta elementos focáveis
- * - Intercepta Tab/Shift+Tab
- * - Cicla o foco dentro do container
- * - Foca primeiro elemento ao ativar
- * 
+ * Focus Trap Hook
+ *
+ * Hook que mantém o foco dentro de um container. Essencial para modals
+ * e dialogs, garantindo acessibilidade e navegação por teclado adequada.
+ *
+ * @module components/accessibility/hooks/use-focus-trap
  * @fileoverview Hook para gerenciamento de focus trap
  * @author Rainer Teixeira
- * @version 1.0.0
+ * @version 2.0.0
+ * @since 1.0.0
  */
 
-"use client"
+'use client';
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from 'react';
 
 /**
- * Hook useFocusTrap
- * 
+ * useFocusTrap Hook
+ *
  * Configura focus trap em um container para navegação acessível.
- * 
+ * Detecta elementos focáveis, intercepta Tab/Shift+Tab e cicla o
+ * foco dentro do container.
+ *
  * @param {boolean} [active=true] - Se o focus trap está ativo
- * 
  * @returns {React.RefObject<HTMLDivElement>} Ref do container
- * 
+ *
  * @example
+ * ```tsx
  * import { useFocusTrap } from '@/components/accessibility/hooks'
- * 
+ *
  * function Modal({ isOpen }) {
  *   const containerRef = useFocusTrap(isOpen)
- *   
+ *
  *   return (
  *     <div ref={containerRef}>
  *       <button>Fechar</button>
@@ -42,50 +40,50 @@ import { useEffect, useRef } from "react"
  *     </div>
  *   )
  * }
+ * ```
  */
 export function useFocusTrap(active = true) {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!active || !containerRef.current) return
+    if (!active || !containerRef.current) return;
 
-    const container = containerRef.current
+    const container = containerRef.current;
     const focusableElements = container.querySelectorAll<HTMLElement>(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    )
+    );
 
-    const firstElement = focusableElements[0]
-    const lastElement = focusableElements[focusableElements.length - 1]
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
 
     function handleTabKey(e: KeyboardEvent) {
-      if (e.key !== "Tab") return
+      if (e.key !== 'Tab') return;
 
       if (e.shiftKey) {
         // Shift + Tab
         if (document.activeElement === firstElement) {
-          e.preventDefault()
-          lastElement?.focus()
+          e.preventDefault();
+          lastElement?.focus();
         }
       } else {
         // Tab
         if (document.activeElement === lastElement) {
-          e.preventDefault()
-          firstElement?.focus()
+          e.preventDefault();
+          firstElement?.focus();
         }
       }
     }
 
     // Focar primeiro elemento ao montar
-    firstElement?.focus()
+    firstElement?.focus();
 
-    const handleKeyDown = handleTabKey as EventListener
-    container.addEventListener("keydown", handleKeyDown)
+    const handleKeyDown = handleTabKey as EventListener;
+    container.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      container.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [active])
+      container.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [active]);
 
-  return containerRef
+  return containerRef;
 }
-

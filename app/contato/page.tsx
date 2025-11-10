@@ -1,182 +1,269 @@
-/**
+﻿/**
  * Contact Page Component
- * 
- * Página de contato profissional com formulário e informações.
- * Exibe formulário de contato e cards informativos sobre disponibilidade.
- * 
- * Características:
- * - Header com ícone decorativo
+ *
+ * Página de contato com formulário completo, informações de contato e seção
+ * FAQ. Inclui cards informativos, partículas animadas decorativas e integração
+ * com ContactForm e SITE_CONFIG.
+ *
+ * @module app/contato/page
+ * @fileoverview Página de contato completa da aplicação
+ * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * // Rota: /contato
+ * // Renderizada automaticamente pelo Next.js App Router
+ * ```
+ */
+
+'use client';
+
+// ============================================================================
+// NEXT.JS IMPORTS
+// ============================================================================
+
+import Image from 'next/image';
+import React from 'react';
+
+// ============================================================================
+// ICONS
+// ============================================================================
+
+import { HelpCircle } from 'lucide-react';
+
+// ============================================================================
+// CONTACT COMPONENTS
+// ============================================================================
+
+import { ContactForm } from '@/components/contato/contact-form';
+
+// ============================================================================
+// UI COMPONENTS
+// ============================================================================
+
+import { ContactInfoCard } from '@/components/contato/contact-info-card';
+import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+
+// ============================================================================
+// DESIGN TOKENS
+// ============================================================================
+
+import { cn } from '@/lib/utils';
+import { BACKGROUND } from '@rainer/design-tokens';
+
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
+import type { ContactInfoCardConfig, FAQItem } from '@/constants';
+import { CONTACT_INFO_CARDS, FAQ_ITEMS, SITE_CONFIG } from '@/constants';
+
+// ============================================================================
+// TYPES & INTERFACES
+// ============================================================================
+
+// Types são importados de constants
+
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
+/**
+ * ContactPage Component
+ *
+ * Componente principal da página de contato. Renderiza:
+ * - Header com título e descrição
  * - Formulário de contato completo
  * - Cards informativos (horário, localização, telefone, email)
- * - Efeitos visuais cyberpunk no dark mode
- * - Partículas animadas decorativas
- * 
- * @fileoverview Página de contato da aplicação
- * @author Rainer Teixeira
- * @version 1.0.0
- */
-
-// ============================================================================
-// Next.js Imports
-// ============================================================================
-
-import Image from "next/image"
-
-// ============================================================================
-// Icons
-// ============================================================================
-
-import { Clock, MapPin, Phone, Mail } from "lucide-react"
-
-// ============================================================================
-// Contact Components
-// ============================================================================
-
-import { ContactForm } from "@/components/contato/contact-form"
-
-// ============================================================================
-// UI Components
-// ============================================================================
-
-import { ParticlesEffect, PageHeader, BackToTop } from "@/components/ui"
-import { Card, CardContent } from "@/components/ui/card"
-
-// ============================================================================
-// Constants
-// ============================================================================
-
-/**
- * Informações de contato da empresa
- */
-const CONTACT_INFO = {
-  workingHours: {
-    days: 'Seg - Sex',
-    hours: '9:00 - 18:00'
-  },
-  location: {
-    city: 'Volta Redonda, RJ',
-    country: 'Brasil'
-  },
-  phone: {
-    number: '+55 24 99913-7382',
-    whatsapp: true
-  },
-  email: {
-    address: 'suporte@rainersoft.com.br',
-    responseTime: 'Resposta em 24h'
-  }
-} as const
-
-// ============================================================================
-// Main Component
-// ============================================================================
-
-/**
- * Componente principal da Contact Page
- * 
- * Renderiza página de contato com:
- * - Header com ícone decorativo
- * - Formulário de contato
- * - Cards de informações adicionais
- * 
- * @returns Página de contato completa
+ * - Seção FAQ com accordion
+ * - Efeitos visuais (partículas, gradientes)
+ *
+ * @component
+ * @returns {JSX.Element} Página de contato completa
+ *
+ * @remarks
+ * Este componente utiliza:
+ * - Next.js App Router para renderização
+ * - Partículas animadas para efeito visual
+ * - Cards informativos responsivos
+ * - Accordion para FAQ
+ * - Constantes centralizadas do SITE_CONFIG
+ * - Design system com Tailwind CSS
+ * - Acessibilidade WCAG AA compliant
+ *
+ * @see {@link ContactForm} Componente de formulário de contato
+ * @see {@link SITE_CONFIG} Constantes centralizadas de configuração
  */
 export default function ContactPage() {
+  // ========================================================================
+  // MAIN RENDER
+  // ========================================================================
+
   return (
-    <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black">
-      {/* Efeito de partículas decorativas */}
+    <div className={cn('min-h-screen', BACKGROUND.FULL)}>
+      {/* ================================================================
+          PARTICLES EFFECT
+          ================================================================ */}
+
       <ParticlesEffect variant="alt2" />
-      
-      {/* Header da página */}
+
+      {/* ================================================================
+          PAGE HEADER
+          ================================================================ */}
+
       <PageHeader
         title="Vamos Conversar Sobre Seu Projeto"
-        description="Estou disponível para projetos freelancer, desenvolvimento de aplicações web, sistemas full-stack e oportunidades de colaboração. Se você precisa de um desenvolvedor comprometido com qualidade, código limpo e resultado que funciona, vamos conversar! Respondo todos os contatos em até 24 horas com atenção e interesse real em entender como posso ajudar a concretizar sua ideia."
+        description={`Estou disponível para projetos freelancer, desenvolvimento de aplicações web, sistemas full-stack e oportunidades de colaboração. Se você precisa de um desenvolvedor comprometido com qualidade, código limpo e resultado que funciona, vamos conversar! Respondo todos os contatos em até ${SITE_CONFIG.contact.email.responseTime.toLowerCase()} com atenção e interesse real em entender como posso ajudar a concretizar sua ideia.`}
       >
-        {/* Ícone decorativo */}
+        {/* Decorative Icon */}
         <div className="relative w-24 h-24 mx-auto mb-4">
-          <div 
-            className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 dark:from-cyan-400/20 dark:to-purple-400/20 rounded-full blur-xl opacity-0 dark:opacity-100" 
+          <div
+            className={cn(
+              'absolute inset-0 rounded-full blur-xl opacity-0 dark:opacity-100',
+              BACKGROUND.DECORATIVE_BLUR
+            )}
             aria-hidden="true"
           />
           <Image
             src="/images/delivery.svg"
-            alt="Ícone de comunicação"
+            alt="Ícone de comunicação e entrega de projetos"
             fill
             className="object-contain relative z-10 filter dark:brightness-0 dark:invert"
             sizes="96px"
+            priority
           />
         </div>
       </PageHeader>
 
-      {/* Formulário de contato */}
-      <div className="max-w-7xl mx-auto px-6 pb-8 relative z-10">
+      {/* ================================================================
+          CONTACT FORM SECTION
+          ================================================================ */}
+
+      <section
+        aria-labelledby="contact-form-heading"
+        className="max-w-7xl mx-auto px-6 py-12 relative z-10"
+      >
+        <h2 id="contact-form-heading" className="sr-only">
+          Formulário de Contato
+        </h2>
         <ContactForm />
-      </div>
+      </section>
 
-      {/* Cards de informações adicionais */}
-      <div className="max-w-7xl mx-auto px-6 pb-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          
-          {/* Horário de atendimento */}
-          <Card className="dark:bg-black/30 dark:border-cyan-400/20">
-            <CardContent className="p-6 text-center">
-              <Clock className="h-8 w-8 mx-auto mb-3 text-cyan-400" aria-hidden="true" />
-              <h3 className="font-semibold mb-2 dark:text-cyan-200">
-                Horário
-              </h3>
-              <p className="text-sm text-muted-foreground dark:text-gray-400">
-                {CONTACT_INFO.workingHours.days}<br />
-                {CONTACT_INFO.workingHours.hours}
-              </p>
-            </CardContent>
-          </Card>
+      {/* ================================================================
+          CONTACT INFO CARDS SECTION
+          ================================================================ */}
 
-          {/* Localização */}
-          <Card className="dark:bg-black/30 dark:border-purple-400/20">
-            <CardContent className="p-6 text-center">
-              <MapPin className="h-8 w-8 mx-auto mb-3 text-purple-400" aria-hidden="true" />
-              <h3 className="font-semibold mb-2 dark:text-purple-200">
-                Localização
-              </h3>
-              <p className="text-sm text-muted-foreground dark:text-gray-400">
-                {CONTACT_INFO.location.city}<br />
-                {CONTACT_INFO.location.country}
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* Telefone */}
-          <Card className="dark:bg-black/30 dark:border-pink-400/20">
-            <CardContent className="p-6 text-center">
-              <Phone className="h-8 w-8 mx-auto mb-3 text-pink-400" aria-hidden="true" />
-              <h3 className="font-semibold mb-2 dark:text-pink-200">
-                Telefone
-              </h3>
-              <p className="text-sm text-muted-foreground dark:text-gray-400">
-                {CONTACT_INFO.phone.number}<br />
-                {CONTACT_INFO.phone.whatsapp && 'WhatsApp disponível'}
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* Email */}
-          <Card className="dark:bg-black/30 dark:border-orange-400/20">
-            <CardContent className="p-6 text-center">
-              <Mail className="h-8 w-8 mx-auto mb-3 text-orange-400" aria-hidden="true" />
-              <h3 className="font-semibold mb-2 dark:text-orange-200">
-                Email
-              </h3>
-              <p className="text-sm text-muted-foreground dark:text-gray-400">
-                {CONTACT_INFO.email.address}<br />
-                {CONTACT_INFO.email.responseTime}
-              </p>
-            </CardContent>
-          </Card>
+      <section
+        aria-labelledby="contact-info-heading"
+        className="max-w-7xl mx-auto px-6 pb-16 relative z-10"
+      >
+        <div className="text-center mb-8">
+          <h2
+            id="contact-info-heading"
+            className="text-3xl font-bold mb-2 dark:text-cyan-200"
+          >
+            Informações de Contato
+          </h2>
+          <p className="text-muted-foreground">
+            Escolha a forma de contato que preferir
+          </p>
         </div>
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {CONTACT_INFO_CARDS.map((card: ContactInfoCardConfig) => (
+            <ContactInfoCard
+              key={card.title}
+              icon={card.icon}
+              title={card.title}
+              primary={card.content.primary}
+              secondary={card.content.secondary}
+              href={card.href}
+              iconColor={card.iconColor}
+              borderColor={card.borderColor}
+              hoverBorder={card.hoverBorder}
+              textColor={card.textColor}
+              hoverText={card.hoverText}
+            />
+          ))}
+        </div>
+      </section>
 
-      {/* Botão Back to Top */}
+      {/* ================================================================
+          FAQ SECTION
+          ================================================================ */}
+
+      <section
+        aria-labelledby="faq-heading"
+        className="max-w-5xl mx-auto px-6 pb-16 relative z-10"
+      >
+        <Card className="shadow-lg dark:shadow-cyan-400/10 dark:bg-black/40 dark:border-cyan-400/20">
+          <CardHeader className="space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="rounded-lg bg-primary/10 p-2 dark:bg-cyan-400/10">
+                <HelpCircle
+                  className="h-5 w-5 text-primary dark:text-cyan-400"
+                  aria-hidden="true"
+                />
+              </div>
+              <div>
+                <CardTitle
+                  id="faq-heading"
+                  className="text-2xl font-bold dark:text-cyan-200"
+                >
+                  Perguntas Frequentes
+                </CardTitle>
+                <CardDescription>
+                  Tire suas dúvidas sobre nossos serviços
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <Separator />
+          <CardContent className="pt-6">
+            <Accordion type="single" collapsible className="w-full space-y-2">
+              {FAQ_ITEMS.map((item: FAQItem, index) => (
+                <React.Fragment key={item.value}>
+                  <AccordionItem
+                    value={item.value}
+                    className="border rounded-lg px-4 hover:bg-accent/50 transition-colors"
+                  >
+                    <AccordionTrigger className="text-left font-semibold hover:no-underline">
+                      {item.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground leading-relaxed pt-2">
+                      {item.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                  {index < FAQ_ITEMS.length - 1 && (
+                    <div className="py-1" aria-hidden="true" />
+                  )}
+                </React.Fragment>
+              ))}
+            </Accordion>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* ================================================================
+          BACK TO TOP BUTTON
+          ================================================================ */}
+
       <BackToTop />
     </div>
-  )
+  );
 }

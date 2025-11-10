@@ -11,6 +11,7 @@ Esta documentação fornece todas as informações necessárias para configurar,
 ### O que é SonarQube?
 
 SonarQube é uma plataforma de código aberto para inspeção contínua da qualidade do código, que detecta:
+
 - 🐛 **Bugs** - Erros que podem causar falhas
 - 🔒 **Vulnerabilidades** - Problemas de segurança
 - 💡 **Code Smells** - Problemas de manutenibilidade
@@ -24,6 +25,7 @@ SonarQube é uma plataforma de código aberto para inspeção contínua da quali
 ### 🚀 Para Começar Rapidamente
 
 **[QUICKSTART.md](./QUICKSTART.md)** ⭐ *Recomendado para iniciantes*
+
 - Configuração em 5-10 minutos
 - Passo a passo visual e simples
 - Primeira análise garantida
@@ -31,6 +33,7 @@ SonarQube é uma plataforma de código aberto para inspeção contínua da quali
 ### 🔧 Instalação e Configuração Completa
 
 **[SETUP.md](./SETUP.md)** ⭐⭐ *Para configuração detalhada*
+
 - Instalação do SonarQube (Docker e Manual)
 - Configuração avançada
 - Integração com CI/CD
@@ -39,6 +42,7 @@ SonarQube é uma plataforma de código aberto para inspeção contínua da quali
 ### ❓ Problemas e Soluções
 
 **[FAQ.md](./FAQ.md)** ⭐⭐ *Troubleshooting*
+
 - Perguntas frequentes
 - Soluções para erros comuns
 - Dicas de performance
@@ -47,6 +51,7 @@ SonarQube é uma plataforma de código aberto para inspeção contínua da quali
 ### 📋 Referência Rápida
 
 **[CHEATSHEET.md](./CHEATSHEET.md)** ⭐⭐⭐ *Consulta diária*
+
 - Comandos principais
 - Atalhos úteis
 - Configurações importantes
@@ -114,18 +119,23 @@ docker-compose -f docker-compose.sonarqube.yml up -d
 ## 🎯 Casos de Uso Comuns
 
 ### "Quero começar do zero"
+
 → [QUICKSTART.md](./QUICKSTART.md) - Guia completo para iniciantes
 
 ### "Preciso de ajuda com um erro"
+
 → [FAQ.md](./FAQ.md) - Perguntas frequentes e troubleshooting
 
 ### "Onde está o comando X?"
+
 → [CHEATSHEET.md](./CHEATSHEET.md) - Referência rápida de todos os comandos
 
 ### "Quero configurar algo avançado"
+
 → [SETUP.md](./SETUP.md) - Guia completo de instalação e configuração
 
 ### "Preciso integrar com CI/CD"
+
 → [SETUP.md - Seção Integração](./SETUP.md#integração-cicd)
 
 ---
@@ -183,21 +193,24 @@ docker-compose -f docker-compose.sonarqube.yml ps
 ## 🌐 Links Importantes
 
 ### Interface Local
-- **Dashboard:** http://localhost:9000
-- **Projetos:** http://localhost:9000/projects
-- **Quality Gates:** http://localhost:9000/quality_gates
-- **Regras:** http://localhost:9000/coding_rules
-- **Segurança (Tokens):** http://localhost:9000/account/security
+
+- **Dashboard:** <http://localhost:9000>
+- **Projetos:** <http://localhost:9000/projects>
+- **Quality Gates:** <http://localhost:9000/quality_gates>
+- **Regras:** <http://localhost:9000/coding_rules>
+- **Segurança (Tokens):** <http://localhost:9000/account/security>
 
 ### API
-- **Status do Sistema:** http://localhost:9000/api/system/status
-- **Health Check:** http://localhost:9000/api/system/health
+
+- **Status do Sistema:** <http://localhost:9000/api/system/status>
+- **Health Check:** <http://localhost:9000/api/system/health>
 
 ### Documentação Externa
-- **SonarQube Oficial:** https://docs.sonarqube.org/
-- **Regras TypeScript:** https://rules.sonarsource.com/typescript/
-- **Community Forum:** https://community.sonarsource.com/
-- **Stack Overflow:** https://stackoverflow.com/questions/tagged/sonarqube
+
+- **SonarQube Oficial:** <https://docs.sonarqube.org/>
+- **Regras TypeScript:** <https://rules.sonarsource.com/typescript/>
+- **Community Forum:** <https://community.sonarsource.com/>
+- **Stack Overflow:** <https://stackoverflow.com/questions/tagged/sonarqube>
 
 ---
 
@@ -248,7 +261,7 @@ Use esta checklist para garantir que tudo está configurado:
 
 - [ ] Docker instalado e rodando
 - [ ] SonarQube iniciado via Docker Compose
-- [ ] Interface acessível em http://localhost:9000
+- [ ] Interface acessível em <http://localhost:9000>
 - [ ] Login realizado e senha alterada
 - [ ] Projeto criado no SonarQube
 - [ ] Token gerado e salvo
@@ -263,26 +276,31 @@ Use esta checklist para garantir que tudo está configurado:
 ## 💡 Dicas Profissionais
 
 ### 1. Configure Quality Gates Personalizados
+
 - Defina limites adequados ao seu projeto
 - Foque em **código novo** vs código legado
 - Configure falhas apenas para issues críticos
 
 ### 2. Use SonarLint no VS Code
+
 - Feedback em tempo real durante desenvolvimento
 - Evita issues antes do commit
 - Instale: [SonarLint Extension](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarlint-vscode)
 
 ### 3. Integre com CI/CD
+
 - Análise automática em cada Pull Request
 - Bloqueie merges com issues críticos
 - Veja exemplo em `.github/workflows/sonarqube.yml.example`
 
 ### 4. Execute Análises Regularmente
+
 - **Diariamente:** Durante desenvolvimento ativo
 - **Antes de commits importantes:** Features, refactorings
 - **Em cada PR:** Via CI/CD
 
 ### 5. Revise Issues Periodicamente
+
 - **Diariamente:** Bugs e vulnerabilidades novas
 - **Semanalmente:** Code smells e dívida técnica
 - **Mensalmente:** Métricas gerais e tendências
@@ -336,11 +354,13 @@ Use esta checklist para garantir que tudo está configurado:
 ### Proteção de Tokens
 
 ✅ **FAZER:**
+
 - Usar variáveis de ambiente para tokens
 - Adicionar `.env.sonarqube` ao `.gitignore`
 - Rotacionar tokens periodicamente (recomendado: a cada 6 meses)
 
 ❌ **NÃO FAZER:**
+
 - Commitar tokens no código
 - Compartilhar tokens publicamente
 - Usar o mesmo token para ambientes diferentes
@@ -361,14 +381,16 @@ sonar.exclusions=\
 ## 📞 Suporte e Contato
 
 ### Autor do Projeto
+
 - **Nome:** Rainer Teixeira
-- **Email:** suporte@rainersoft.com.br
-- **Website:** https://rainersoft.com.br
+- **Email:** <suporte@rainersoft.com.br>
+- **Website:** <https://rainersoft.com.br>
 
 ### Sobre o SonarQube
-- **Website:** https://www.sonarqube.org/
-- **Documentação:** https://docs.sonarqube.org/
-- **Community:** https://community.sonarsource.com/
+
+- **Website:** <https://www.sonarqube.org/>
+- **Documentação:** <https://docs.sonarqube.org/>
+- **Community:** <https://community.sonarsource.com/>
 
 ---
 
@@ -384,18 +406,21 @@ sonar.exclusions=\
 ## 🎓 Recursos Adicionais
 
 ### Documentação Relacionada
+
 - [QUICKSTART.md](./QUICKSTART.md) - Guia de início rápido
 - [SETUP.md](./SETUP.md) - Instalação e configuração
 - [FAQ.md](./FAQ.md) - Perguntas frequentes
 - [CHEATSHEET.md](./CHEATSHEET.md) - Referência rápida
 
 ### Exemplos de Integração
+
 - GitHub Actions (`.github/workflows/sonarqube.yml.example`)
 - GitLab CI/CD
 - Azure DevOps
 - Jenkins
 
 ### Plugins Recomendados
+
 - **SonarLint** - VS Code, IntelliJ, Eclipse
 - **SonarQube Scanner** - CLI
 - **SonarQube GitHub Plugin** - Integração GitHub
@@ -422,5 +447,3 @@ sonar.exclusions=\
 ---
 
 **Desenvolvido com ❤️ para garantir código de qualidade excepcional!**
-
-

@@ -7,7 +7,9 @@ Como contribuir para o projeto Rainer Portfolio Frontend.
 ## 📄 Documentos desta Pasta
 
 ### 1. CONTRIBUTING.md
+
 **Conteúdo:** Processo completo de contribuição
+
 - Padrões de código
 - Fluxo de trabalho Git
 - Templates de PR
@@ -42,4 +44,3 @@ git commit -m "feat: adiciona nova feature"
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) - Guia completo
 - [../02-ARQUITETURA/DEVELOPER-GUIDE.md](../02-ARQUITETURA/DEVELOPER-GUIDE.md) - Padrões
-

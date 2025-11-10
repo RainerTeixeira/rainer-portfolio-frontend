@@ -174,6 +174,7 @@ console.log(metric?.value, metric?.rating) // 245ms, 'good'
 ### 📊 Core Web Vitals
 
 Rastreados automaticamente:
+
 - **LCP** (Largest Contentful Paint)
 - **FID** (First Input Delay)
 - **CLS** (Cumulative Layout Shift)
@@ -198,7 +199,7 @@ if (!emailResult.isValid) {
 }
 
 // Validação de form completo
-const formData = { name: 'João', email: 'joao@example.com', ... }
+const formData = { fullName: 'João', email: 'joao@example.com', ... }
 const result = validateWithSchema(formData, contactFormSchema)
 
 if (!result.isValid) {
@@ -225,34 +226,7 @@ if (!result.isValid) {
 
 ---
 
-## 🚨 6. Error Boundary
-
-**Onde**: `components/error-boundary.tsx`
-
-### ✅ Uso
-
-```typescript
-import { ErrorBoundary } from '@/components/error-boundary'
-
-// Envolver partes críticas
-<ErrorBoundary 
-  onError={(error, errorInfo) => {
-    // Callback opcional
-    logger.error('Erro capturado', error, { errorInfo })
-  }}
->
-  <CriticalComponent />
-</ErrorBoundary>
-
-// Fallback customizado
-<ErrorBoundary fallback={<CustomErrorUI />}>
-  <Component />
-</ErrorBoundary>
-```
-
----
-
-## ⏳ 7. Loading States
+## ⏳ 6. Loading States
 
 **Onde**: `components/ui/loading-states.tsx`
 
@@ -312,11 +286,13 @@ if (env.NEXT_PUBLIC_ENABLE_ANALYTICS) {
 ### 🔧 Adicionando Nova Variável
 
 1. Adicionar em `.env.local`:
+
 ```env
 NEXT_PUBLIC_MY_NEW_VAR=value
 ```
 
 2. Adicionar tipo em `lib/env.ts`:
+
 ```typescript
 interface EnvironmentConfig {
   // ... existing
@@ -325,6 +301,7 @@ interface EnvironmentConfig {
 ```
 
 3. Adicionar leitura:
+
 ```typescript
 export const env: EnvironmentConfig = {
   // ... existing
@@ -436,6 +413,7 @@ logger.error('Debug em prod', null, { debug: true })
 ## 📚 12. Recursos Adicionais
 
 ### Documentação Técnica
+
 - `/docs/ARCHITECTURE.md` - Arquitetura completa
 - `/docs/DEVELOPER-GUIDE.md` - Este guia
 - Inline JSDoc em todos os arquivos
@@ -725,7 +703,7 @@ Antes de deploy para produção:
 
 Dúvidas? Entre em contato:
 
-- **Email**: suporte@rainersoft.com.br
+- **Email**: <suporte@rainersoft.com.br>
 - **Documentação**: `/docs/ARCHITECTURE.md`
 - **Código**: Veja exemplos inline nos componentes
 
@@ -734,4 +712,3 @@ Dúvidas? Entre em contato:
 **Happy Coding! 🚀**
 
 _Última atualização: Outubro 2025_
-

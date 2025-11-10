@@ -1,45 +1,53 @@
 /**
  * Gráfico de Visualizações
- * 
+ *
  * Gráfico de linha mostrando views ao longo do tempo
- * 
+ *
  * @fileoverview Views chart component
  * @author Rainer Teixeira
  */
 
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
-  Legend
-} from "recharts"
-import { Eye } from "lucide-react"
-import { useState } from "react"
+  Legend,
+} from 'recharts';
+import { Eye } from 'lucide-react';
+import { useState } from 'react';
 
 interface ViewsData {
-  date: string
-  views: number
-  uniqueViews?: number
+  date: string;
+  views: number;
+  uniqueViews?: number;
 }
 
 interface ViewsChartProps {
-  data: ViewsData[]
-  isLoading?: boolean
+  data: ViewsData[];
+  isLoading?: boolean;
 }
 
 export function ViewsChart({ data, isLoading }: ViewsChartProps) {
-  const [period, setPeriod] = useState<"7d" | "30d" | "90d">("30d")
+  const [period, setPeriod] = useState<'7d' | '30d' | '90d'>('30d');
 
   // Filtrar dados por período
-  const filteredData = data.slice(-(period === "7d" ? 7 : period === "30d" ? 30 : 90))
+  const filteredData = data.slice(
+    -(period === '7d' ? 7 : period === '30d' ? 30 : 90)
+  );
 
   if (isLoading) {
     return (
@@ -52,7 +60,7 @@ export function ViewsChart({ data, isLoading }: ViewsChartProps) {
           <div className="h-[300px] bg-muted rounded animate-pulse" />
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -69,7 +77,10 @@ export function ViewsChart({ data, isLoading }: ViewsChartProps) {
             </CardDescription>
           </div>
 
-          <Tabs value={period} onValueChange={(v) => setPeriod(v as "7d" | "30d" | "90d")}>
+          <Tabs
+            value={period}
+            onValueChange={v => setPeriod(v as '7d' | '30d' | '90d')}
+          >
             <TabsList>
               <TabsTrigger value="7d">7 dias</TabsTrigger>
               <TabsTrigger value="30d">30 dias</TabsTrigger>
@@ -83,46 +94,45 @@ export function ViewsChart({ data, isLoading }: ViewsChartProps) {
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={filteredData}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis 
-              dataKey="date" 
+            <XAxis
+              dataKey="date"
               className="text-xs"
-              tick={{ fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fill: 'hsl(var(--muted-foreground))' }}
             />
-            <YAxis 
+            <YAxis
               className="text-xs"
-              tick={{ fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fill: 'hsl(var(--muted-foreground))' }}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "hsl(var(--popover))",
-                border: "1px solid hsl(var(--border))",
-                borderRadius: "0.5rem",
+                backgroundColor: 'hsl(var(--popover))',
+                border: '1px solid hsl(var(--border))',
+                borderRadius: '0.5rem',
               }}
-              labelStyle={{ color: "hsl(var(--popover-foreground))" }}
+              labelStyle={{ color: 'hsl(var(--popover-foreground))' }}
             />
             <Legend />
-            <Line 
-              type="monotone" 
-              dataKey="views" 
-              stroke="hsl(var(--primary))" 
+            <Line
+              type="monotone"
+              dataKey="views"
+              stroke="hsl(var(--primary))"
               strokeWidth={2}
               name="Visualizações"
-              dot={{ fill: "hsl(var(--primary))" }}
+              dot={{ fill: 'hsl(var(--primary))' }}
             />
             {filteredData[0]?.uniqueViews !== undefined && (
-              <Line 
-                type="monotone" 
-                dataKey="uniqueViews" 
-                stroke="hsl(var(--secondary))" 
+              <Line
+                type="monotone"
+                dataKey="uniqueViews"
+                stroke="hsl(var(--secondary))"
                 strokeWidth={2}
                 name="Visitantes Únicos"
-                dot={{ fill: "hsl(var(--secondary))" }}
+                dot={{ fill: 'hsl(var(--secondary))' }}
               />
             )}
           </LineChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>
-  )
+  );
 }
-

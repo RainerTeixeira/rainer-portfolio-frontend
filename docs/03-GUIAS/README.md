@@ -11,6 +11,7 @@ Esta pasta contém **guias práticos** para tarefas específicas: resolver probl
 **Solução de problemas A-Z**
 
 **Conteúdo**:
+
 - **Instalação**: npm, node, dependencies
 - **Build errors**: TypeScript, imports, webpack
 - **Runtime errors**: Hydration, theme, modules
@@ -35,6 +36,7 @@ Esta pasta contém **guias práticos** para tarefas específicas: resolver probl
 **PWA em todos os dispositivos**
 
 **Conteúdo**:
+
 - **iOS**: Metatags, splash screens, características
 - **Android**: Manifest, maskable icons, shortcuts
 - **Desktop**: Windows tiles, install
@@ -57,6 +59,7 @@ Esta pasta contém **guias práticos** para tarefas específicas: resolver probl
 **Plano futuro do projeto**
 
 **Conteúdo**:
+
 - Visão de longo prazo
 - **9 Fases do projeto**:
   - ✅ Fase 1: Foundation (concluída)
@@ -74,6 +77,42 @@ Esta pasta contém **guias práticos** para tarefas específicas: resolver probl
 **Quando usar**: Entender próximos passos
 
 **Tempo estimado**: 15-25 minutos
+
+---
+
+### 4. ⚡ [SOLUCAO_RAPIDA.md](SOLUCAO_RAPIDA.md)
+
+**Solução rápida para criar usuário**
+
+**Conteúdo**:
+
+- Problema: "Email ou senha incorretos"
+- Solução em 3 comandos
+- Alternativa via interface
+- Confirmação de email
+- Troubleshooting rápido
+
+**Quando usar**: Criar usuário rapidamente
+
+**Tempo estimado**: 2-3 minutos
+
+---
+
+### 5. 📋 [LOGS_CONSOLE.md](LOGS_CONSOLE.md)
+
+**Guia sobre logs do console**
+
+**Conteúdo**:
+
+- Como analisar logs
+- Erros comuns
+- Warnings importantes
+- Debug de problemas
+- Ferramentas úteis
+
+**Quando usar**: Debug e análise de logs
+
+**Tempo estimado**: 5-10 minutos
 
 ---
 
@@ -127,8 +166,8 @@ DECISÃO INFORMADA! ✅
 
 | Métrica | Valor |
 |---------|-------|
-| **Total de documentos** | 3 arquivos |
-| **Total de linhas** | ~1.850 linhas |
+| **Total de documentos** | 5 arquivos |
+| **Total de linhas** | ~2.000 linhas |
 | **Problemas documentados** | 30+ |
 | **Devices PWA** | iOS, Android, Desktop |
 | **Fases do roadmap** | 9 fases |
@@ -174,6 +213,7 @@ DECISÃO INFORMADA! ✅
 **Use Ctrl+F** para buscar erro específico.
 
 Estrutura por tipo:
+
 - Instalação
 - Build
 - Runtime
@@ -188,6 +228,7 @@ Estrutura por tipo:
 **Teste em devices reais!**
 
 Simuladores não mostram tudo:
+
 - Safe areas
 - Splash screens
 - Install prompt
@@ -214,4 +255,3 @@ Ver "Feature Requests" para sugerir features.
 **Propósito**: Guias práticos para tarefas específicas
 **Status**: ✅ Completa
 **Uso**: Consulta quando necessário
-

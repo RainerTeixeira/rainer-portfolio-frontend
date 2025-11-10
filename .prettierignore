@@ -27,6 +27,10 @@ coverage
 # Docs
 docs/
 
+# Scripts de teste opcionais
+scripts/**/*stealth*.ts
+scripts/**/*test-*.ts
+
 # SonarQube
 .scannerwork/
 

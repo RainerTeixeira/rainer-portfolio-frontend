@@ -2,61 +2,61 @@
   "version": 1.1,
   "atDirectives": [
     {
-      "name": "@apply",
+      "fullName": "@apply",
       "description": "Use @apply to inline any existing utility classes into your own custom CSS.",
       "references": [
         {
-          "name": "Tailwind CSS @apply",
+          "fullName": "Tailwind CSS @apply",
           "url": "https://tailwindcss.com/docs/functions-and-directives#apply"
         }
       ]
     },
     {
-      "name": "@theme",
+      "fullName": "@theme",
       "description": "Use @theme to define custom theme values directly in your CSS.",
       "references": [
         {
-          "name": "Tailwind CSS @theme",
+          "fullName": "Tailwind CSS @theme",
           "url": "https://tailwindcss.com/docs/functions-and-directives#theme"
         }
       ]
     },
     {
-      "name": "@custom-variant",
+      "fullName": "@custom-variant",
       "description": "Use @custom-variant to define custom variants for your utilities.",
       "references": [
         {
-          "name": "Tailwind CSS Custom Variants",
+          "fullName": "Tailwind CSS Custom Variants",
           "url": "https://tailwindcss.com/docs/functions-and-directives#custom-variants"
         }
       ]
     },
     {
-      "name": "@variant",
+      "fullName": "@variant",
       "description": "Use @variant to define variants for your utilities.",
       "references": [
         {
-          "name": "Tailwind CSS @variant",
+          "fullName": "Tailwind CSS @variant",
           "url": "https://tailwindcss.com/docs/functions-and-directives#variant"
         }
       ]
     },
     {
-      "name": "@screen",
-      "description": "Use @screen to create media queries that reference your breakpoints by name.",
+      "fullName": "@screen",
+      "description": "Use @screen to create media queries that reference your breakpoints by fullName.",
       "references": [
         {
-          "name": "Tailwind CSS @screen",
+          "fullName": "Tailwind CSS @screen",
           "url": "https://tailwindcss.com/docs/functions-and-directives#screen"
         }
       ]
     },
     {
-      "name": "@layer",
+      "fullName": "@layer",
       "description": "Use @layer to tell Tailwind which 'bucket' a set of custom styles belong to.",
       "references": [
         {
-          "name": "Tailwind CSS @layer",
+          "fullName": "Tailwind CSS @layer",
           "url": "https://tailwindcss.com/docs/functions-and-directives#layer"
         }
       ]

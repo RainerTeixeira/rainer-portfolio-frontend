@@ -1,33 +1,18 @@
 /**
- * Hooks para Gerenciamento de Posts do Dashboard
- * 
+ * Posts Hooks (React Query)
+ *
  * Hooks React Query para CRUD completo de posts com cache inteligente,
- * optimistic updates e sincronização automática.
- * 
- * Funcionalidades:
- * - ✓ Listagem com paginação e filtros
- * - ✓ Busca por slug individual
- * - ✓ CRUD completo (Create, Read, Update, Delete)
- * - ✓ Publicar/Despublicar posts
- * - ✓ Sistema de curtidas
- * - ✓ Sistema de bookmarks
- * - ✓ Incremento de views
- * - ✓ Cache inteligente (5 minutos)
- * - ✓ Optimistic updates
- * - ✓ Rollback em caso de erro
- * - ✓ Notificações toast
- * 
- * Uso principal:
- * - Dashboard de administração de posts
- * - Editor de posts
- * - Listagens e filtros
- * 
+ * optimistic updates e sincronização automática. Inclui listagem, busca,
+ * criação, atualização, exclusão, publicação e sistemas de engajamento.
+ *
+ * @module components/dashboard/hooks/use-posts
  * @fileoverview Hooks React Query para gerenciamento de posts
  * @author Rainer Teixeira
- * @version 1.0.0
+ * @version 2.0.0
+ * @since 1.0.0
  */
 
-"use client"
+'use client';
 
 import {
   bookmarkPost,
@@ -41,11 +26,11 @@ import {
   unbookmarkPost,
   unlikePost,
   unpublishPost,
-  updatePost
-} from '@/components/dashboard/lib/api-client'
-import type { CreatePostDTO, UpdatePostDTO } from '@/types/database'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
+  updatePost,
+} from '@/components/dashboard/lib/api-client';
+import type { CreatePostDTO, UpdatePostDTO } from '@/lib/api/types';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // QUERY KEYS
@@ -54,7 +39,7 @@ import { toast } from 'sonner'
 /**
  * Keys padronizadas para cache do React Query
  * Permite invalidação e refetch granulares
- * 
+ *
  * @constant
  */
 export const postKeys = {
@@ -63,7 +48,7 @@ export const postKeys = {
   list: (filters: any) => [...postKeys.lists(), filters] as const,
   details: () => [...postKeys.all, 'detail'] as const,
   detail: (slug: string) => [...postKeys.details(), slug] as const,
-}
+};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // HOOKS DE QUERY (LEITURA)
@@ -71,9 +56,9 @@ export const postKeys = {
 
 /**
  * Hook usePosts
- * 
+ *
  * Lista posts com paginação, filtros e cache de 5 minutos.
- * 
+ *
  * @param {Object} [params] - Parâmetros de filtro
  * @param {number} [params.page] - Número da página
  * @param {number} [params.pageSize] - Itens por página
@@ -81,21 +66,21 @@ export const postKeys = {
  * @param {string} [params.categoryId] - Filtrar por categoria
  * @param {string} [params.search] - Busca textual
  * @param {boolean} [params.featured] - Apenas posts destacados
- * 
+ *
  * @returns {UseQueryResult} Resultado do React Query
- * 
+ *
  * @example
  * import { usePosts } from '@/components/dashboard/hooks'
- * 
+ *
  * function PostsList() {
  *   const { data, isLoading, error } = usePosts({
  *     page: 1,
  *     pageSize: 10,
  *     status: 'published'
  *   })
- *   
+ *
  *   if (isLoading) return <Spinner />
- *   
+ *
  *   return (
  *     <div>
  *       {data?.posts.map(post => (
@@ -106,38 +91,38 @@ export const postKeys = {
  * }
  */
 export function usePosts(params?: {
-  page?: number
-  pageSize?: number
-  status?: string
-  categoryId?: string
-  search?: string
-  featured?: boolean
+  page?: number;
+  pageSize?: number;
+  status?: string;
+  categoryId?: string;
+  search?: string;
+  featured?: boolean;
 }) {
   return useQuery({
     queryKey: postKeys.list(params || {}),
     queryFn: () => getPosts(params),
     staleTime: 5 * 60 * 1000, // 5 minutos
-  })
+  });
 }
 
 /**
  * Hook usePost
- * 
+ *
  * Busca um post específico por slug com cache.
- * 
+ *
  * @param {string} slug - Slug único do post
  * @param {boolean} [enabled=true] - Se a query está ativa
- * 
+ *
  * @returns {UseQueryResult} Resultado do React Query
- * 
+ *
  * @example
  * import { usePost } from '@/components/dashboard/hooks'
- * 
+ *
  * function PostEditor({ slug }) {
  *   const { data: post, isLoading } = usePost(slug)
- *   
+ *
  *   if (isLoading) return <Skeleton />
- *   
+ *
  *   return <Editor initialContent={post.content} />
  * }
  */
@@ -147,7 +132,7 @@ export function usePost(slug: string, enabled: boolean = true) {
     queryFn: () => getPostBySlug(slug),
     enabled: enabled && !!slug,
     staleTime: 5 * 60 * 1000,
-  })
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -156,22 +141,22 @@ export function usePost(slug: string, enabled: boolean = true) {
 
 /**
  * Hook useCreatePost
- * 
+ *
  * Cria um novo post e atualiza o cache automaticamente.
- * 
+ *
  * @returns {UseMutationResult} Mutation do React Query
- * 
+ *
  * @example
  * import { useCreatePost } from '@/components/dashboard/hooks'
- * 
+ *
  * function NewPostForm() {
  *   const createPost = useCreatePost()
- *   
+ *
  *   const handleSubmit = async (data) => {
  *     await createPost.mutateAsync(data)
  *     router.push('/dashboard')
  *   }
- *   
+ *
  *   return (
  *     <form onSubmit={handleSubmit}>
  *       <input name="title" />
@@ -182,42 +167,42 @@ export function usePost(slug: string, enabled: boolean = true) {
  * }
  */
 export function useCreatePost() {
-  const queryClient = useQueryClient()
-  
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (data: CreatePostDTO) => createPost(data),
-    onSuccess: (newPost) => {
+    onSuccess: newPost => {
       // Invalida cache de listagens
-      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
-      
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() });
+
       // Adiciona ao cache de detalhes
-      queryClient.setQueryData(postKeys.detail(newPost.slug), newPost)
-      
-      toast.success('Post criado com sucesso!')
+      queryClient.setQueryData(postKeys.detail(newPost.slug), newPost);
+
+      toast.success('Post criado com sucesso!');
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Erro ao criar post')
+      toast.error(error.message || 'Erro ao criar post');
     },
-  })
+  });
 }
 
 /**
  * Hook useUpdatePost
- * 
+ *
  * Atualiza um post existente com optimistic update.
- * 
+ *
  * @returns {UseMutationResult} Mutation do React Query
- * 
+ *
  * @example
  * import { useUpdatePost } from '@/components/dashboard/hooks'
- * 
+ *
  * function EditPostForm({ slug }) {
  *   const updatePost = useUpdatePost()
- *   
+ *
  *   const handleSave = async (data) => {
  *     await updatePost.mutateAsync({ slug, data })
  *   }
- *   
+ *
  *   return (
  *     <form onSubmit={handleSave}>
  *       <input name="title" defaultValue={post.title} />
@@ -227,96 +212,97 @@ export function useCreatePost() {
  * }
  */
 export function useUpdatePost() {
-  const queryClient = useQueryClient()
-  
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ slug, data }: { slug: string; data: UpdatePostDTO }) =>
       updatePost(slug, data),
     onMutate: async ({ slug, data }) => {
       // Cancela queries em andamento
-      await queryClient.cancelQueries({ queryKey: postKeys.detail(slug) })
-      
+      await queryClient.cancelQueries({ queryKey: postKeys.detail(slug) });
+
       // Snapshot do valor anterior
-      const previousPost = queryClient.getQueryData(postKeys.detail(slug))
-      
+      const previousPost = queryClient.getQueryData(postKeys.detail(slug));
+
       // Atualização otimista
       queryClient.setQueryData(postKeys.detail(slug), (old: any) => ({
         ...old,
         ...data,
-      }))
-      
-      return { previousPost }
+      }));
+
+      return { previousPost };
     },
     onError: (err, { slug }, context) => {
       // Reverte em caso de erro
       if (context?.previousPost) {
-        queryClient.setQueryData(postKeys.detail(slug), context.previousPost)
+        queryClient.setQueryData(postKeys.detail(slug), context.previousPost);
       }
-      toast.error('Erro ao atualizar post')
+      toast.error('Erro ao atualizar post');
     },
-    onSuccess: (updatedPost) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onSuccess: _updatedPost => {
       // Invalida listagens
-      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
-      toast.success('Post atualizado!')
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() });
+      toast.success('Post atualizado!');
     },
-  })
+  });
 }
 
 /**
  * Hook useDeletePost
- * 
+ *
  * Deleta um post e atualiza o cache.
- * 
+ *
  * @returns {UseMutationResult} Mutation do React Query
- * 
+ *
  * @example
  * import { useDeletePost } from '@/components/dashboard/hooks'
- * 
+ *
  * function DeleteButton({ slug }) {
  *   const deletePost = useDeletePost()
- *   
+ *
  *   const handleDelete = async () => {
  *     if (confirm('Tem certeza?')) {
  *       await deletePost.mutateAsync(slug)
  *     }
  *   }
- *   
+ *
  *   return <button onClick={handleDelete}>Deletar</button>
  * }
  */
 export function useDeletePost() {
-  const queryClient = useQueryClient()
-  
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (slug: string) => deletePost(slug),
     onSuccess: (_, slug) => {
       // Remove do cache
-      queryClient.removeQueries({ queryKey: postKeys.detail(slug) })
-      
+      queryClient.removeQueries({ queryKey: postKeys.detail(slug) });
+
       // Invalida listagens
-      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
-      
-      toast.success('Post deletado!')
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() });
+
+      toast.success('Post deletado!');
     },
     onError: () => {
-      toast.error('Erro ao deletar post')
+      toast.error('Erro ao deletar post');
     },
-  })
+  });
 }
 
 /**
  * Hook usePublishPost
- * 
+ *
  * Publica um post (muda status de draft para published).
- * 
+ *
  * @returns {UseMutationResult} Mutation do React Query
- * 
+ *
  * @example
  * import { usePublishPost } from '@/components/dashboard/hooks'
- * 
+ *
  * function PublishButton({ slug }) {
  *   const publishPost = usePublishPost()
- *   
+ *
  *   return (
  *     <button onClick={() => publishPost.mutate(slug)}>
  *       Publicar
@@ -325,36 +311,36 @@ export function useDeletePost() {
  * }
  */
 export function usePublishPost() {
-  const queryClient = useQueryClient()
-  
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (slug: string) => publishPost(slug),
-    onSuccess: (updatedPost) => {
+    onSuccess: updatedPost => {
       // Atualiza cache
-      queryClient.setQueryData(postKeys.detail(updatedPost.slug), updatedPost)
-      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
-      
-      toast.success('Post publicado!')
+      queryClient.setQueryData(postKeys.detail(updatedPost.slug), updatedPost);
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() });
+
+      toast.success('Post publicado!');
     },
     onError: () => {
-      toast.error('Erro ao publicar post')
+      toast.error('Erro ao publicar post');
     },
-  })
+  });
 }
 
 /**
  * Hook useUnpublishPost
- * 
+ *
  * Despublica um post (volta para draft).
- * 
+ *
  * @returns {UseMutationResult} Mutation do React Query
- * 
+ *
  * @example
  * import { useUnpublishPost } from '@/components/dashboard/hooks'
- * 
+ *
  * function UnpublishButton({ slug }) {
  *   const unpublishPost = useUnpublishPost()
- *   
+ *
  *   return (
  *     <button onClick={() => unpublishPost.mutate(slug)}>
  *       Despublicar
@@ -363,17 +349,17 @@ export function usePublishPost() {
  * }
  */
 export function useUnpublishPost() {
-  const queryClient = useQueryClient()
-  
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (slug: string) => unpublishPost(slug),
-    onSuccess: (updatedPost) => {
-      queryClient.setQueryData(postKeys.detail(updatedPost.slug), updatedPost)
-      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
-      
-      toast.success('Post despublicado!')
+    onSuccess: updatedPost => {
+      queryClient.setQueryData(postKeys.detail(updatedPost.slug), updatedPost);
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() });
+
+      toast.success('Post despublicado!');
     },
-  })
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -382,17 +368,17 @@ export function useUnpublishPost() {
 
 /**
  * Hook useLikePost
- * 
+ *
  * Curtir ou descurtir post com optimistic update.
- * 
+ *
  * @returns {UseMutationResult} Mutation do React Query
- * 
+ *
  * @example
  * import { useLikePost } from '@/components/dashboard/hooks'
- * 
+ *
  * function LikeButton({ postId, isLiked }) {
  *   const likePost = useLikePost()
- *   
+ *
  *   return (
  *     <button onClick={() => likePost.mutate({ postId, isLiked })}>
  *       {isLiked ? '❤️' : '🤍'}
@@ -401,51 +387,52 @@ export function useUnpublishPost() {
  * }
  */
 export function useLikePost() {
-  const queryClient = useQueryClient()
-  
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ postId, isLiked }: { postId: string; isLiked: boolean }) =>
       isLiked ? unlikePost(postId) : likePost(postId),
-    onMutate: async ({ postId, isLiked }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onMutate: async ({ postId: _postId, isLiked }) => {
       // Atualização otimista
-      await queryClient.cancelQueries({ queryKey: postKeys.all })
-      
+      await queryClient.cancelQueries({ queryKey: postKeys.all });
+
       // Atualiza contador localmente
       queryClient.setQueriesData({ queryKey: postKeys.all }, (old: any) => {
-        if (!old) return old
-        
+        if (!old) return old;
+
         return {
           ...old,
-          likesCount: isLiked ? old.likesCount - 1 : old.likesCount + 1
-        }
-      })
+          likesCount: isLiked ? old.likesCount - 1 : old.likesCount + 1,
+        };
+      });
     },
     onError: () => {
-      queryClient.invalidateQueries({ queryKey: postKeys.all })
-      toast.error('Erro ao curtir post')
+      queryClient.invalidateQueries({ queryKey: postKeys.all });
+      toast.error('Erro ao curtir post');
     },
-  })
+  });
 }
 
 /**
  * Hook useBookmarkPost
- * 
+ *
  * Salvar ou remover post dos bookmarks com optimistic update.
- * 
+ *
  * @returns {UseMutationResult} Mutation do React Query
- * 
+ *
  * @example
  * import { useBookmarkPost } from '@/components/dashboard/hooks'
- * 
+ *
  * function BookmarkButton({ postId, isBookmarked }) {
  *   const bookmarkPost = useBookmarkPost()
- *   
+ *
  *   return (
- *     <button 
- *       onClick={() => bookmarkPost.mutate({ 
- *         postId, 
+ *     <button
+ *       onClick={() => bookmarkPost.mutate({
+ *         postId,
  *         isBookmarked,
- *         collection: 'favorites' 
+ *         collection: 'favorites'
  *       })}
  *     >
  *       {isBookmarked ? '🔖' : '📑'}
@@ -454,35 +441,42 @@ export function useLikePost() {
  * }
  */
 export function useBookmarkPost() {
-  const queryClient = useQueryClient()
-  
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: ({ postId, isBookmarked, collection }: { 
-      postId: string
-      isBookmarked: boolean
-      collection?: string 
+    mutationFn: ({
+      postId,
+      isBookmarked,
+      collection,
+    }: {
+      postId: string;
+      isBookmarked: boolean;
+      collection?: string;
     }) =>
       isBookmarked ? unbookmarkPost(postId) : bookmarkPost(postId, collection),
-    onMutate: async ({ postId, isBookmarked }) => {
-      await queryClient.cancelQueries({ queryKey: postKeys.all })
-      
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onMutate: async ({ postId: _postId, isBookmarked }) => {
+      await queryClient.cancelQueries({ queryKey: postKeys.all });
+
       queryClient.setQueriesData({ queryKey: postKeys.all }, (old: any) => {
-        if (!old) return old
-        
+        if (!old) return old;
+
         return {
           ...old,
-          bookmarksCount: isBookmarked ? old.bookmarksCount - 1 : old.bookmarksCount + 1
-        }
-      })
+          bookmarksCount: isBookmarked
+            ? old.bookmarksCount - 1
+            : old.bookmarksCount + 1,
+        };
+      });
     },
     onSuccess: (_, { isBookmarked }) => {
-      toast.success(isBookmarked ? 'Removido dos salvos' : 'Post salvo!')
+      toast.success(isBookmarked ? 'Removido dos salvos' : 'Post salvo!');
     },
     onError: () => {
-      queryClient.invalidateQueries({ queryKey: postKeys.all })
-      toast.error('Erro ao salvar post')
+      queryClient.invalidateQueries({ queryKey: postKeys.all });
+      toast.error('Erro ao salvar post');
     },
-  })
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -491,24 +485,24 @@ export function useBookmarkPost() {
 
 /**
  * Hook useIncrementViews
- * 
+ *
  * Incrementa contador de visualizações de um post.
  * Chamado automaticamente ao abrir um post.
- * 
+ *
  * @param {string} slug - Slug do post
- * 
+ *
  * @returns {UseMutationResult} Mutation do React Query
- * 
+ *
  * @example
  * import { useIncrementViews } from '@/components/dashboard/hooks'
- * 
+ *
  * function PostPage({ slug }) {
  *   const incrementViews = useIncrementViews(slug)
- *   
+ *
  *   useEffect(() => {
  *     incrementViews.mutate()
  *   }, [])
- *   
+ *
  *   return <Article slug={slug} />
  * }
  */
@@ -516,6 +510,5 @@ export function useIncrementViews(slug: string) {
   return useMutation({
     mutationFn: () => incrementViews(slug),
     // Silencioso, não mostra toast
-  })
+  });
 }
-

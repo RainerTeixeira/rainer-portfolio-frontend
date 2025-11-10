@@ -1,159 +1,351 @@
-/**
- * Página de Visualização de Post Individual (por Slug)
- * 
- * Exibe o conteúdo completo de um post do blog.
- * Renderiza o JSON do Tiptap em HTML formatado.
- * Usa SLUG para URLs amigáveis (SEO-friendly).
- * 
- * Rota: /blog/[slug]
- * Exemplo: /blog/arquiteturas-escalaveis-react-typescript
- * 
- * Características:
- * - Header com imagem de capa
- * - Metadados (autor, data, categoria, tempo de leitura)
- * - Conteúdo rico renderizado do JSON
- * - Compartilhamento social
- * - Posts relacionados
- * - Navegação entre posts
- * - URLs SEO-friendly
- * 
- * @fileoverview Página de post individual com slug
+﻿/**
+ * Post Page Component (Individual Post by Slug)
+ *
+ * Página de visualização de post individual. Exibe conteúdo completo renderizado
+ * do JSON Tiptap com metadados, ações sociais (like, bookmark, share), navegação
+ * entre posts e seção de comentários.
+ *
+ * @module app/blog/[slug]/page
+ * @fileoverview Página de post individual com slug SEO-friendly
  * @author Rainer Teixeira
  * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * // Rota: /blog/[slug]
+ * // Exemplo: /blog/arquiteturas-escalaveis-react-typescript
+ * // Renderizada automaticamente pelo Next.js App Router
+ * ```
  */
 
-"use client"
+'use client';
+
+// ============================================================================
+// NEXT.JS IMPORTS
+// ============================================================================
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
+
+// ============================================================================
+// REACT & HOOKS
+// ============================================================================
+
+import { useEffect, useState } from 'react';
+
+// ============================================================================
+// THIRD-PARTY LIBRARIES
+// ============================================================================
+
+import { motion } from 'framer-motion';
+import { ArrowLeft, Tag } from 'lucide-react';
+
+// ============================================================================
+// BLOG COMPONENTS
+// ============================================================================
 
 import {
   AuthorCard,
-  BookmarkButton,
   CommentSection,
-  LikeButton,
   NewsletterBox,
+  PostActionsCard,
+  PostMetadataCard,
+  PostNavigation,
   ReadingProgress,
-  ReadingTime,
-  ShareButton,
-  TableOfContents
-} from "@/components/blog"
-import { blogStore, type BlogPost } from "@/components/blog/lib/blog-store"
-import { tiptapJSONtoHTML } from "@/components/dashboard/lib/tiptap-utils"
-import { BackToTop, ParticlesEffect } from "@/components/ui"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
-import { motion } from "framer-motion"
-import {
-  ArrowLeft,
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
-  Eye,
-  Heart,
-  Tag,
-  User
-} from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+  TableOfContents,
+} from '@/components/blog';
+
+// ============================================================================
+// API SERVICES & TYPES
+// ============================================================================
+
+import { postsService } from '@/lib/api/services';
+import type { Post } from '@/lib/api/types';
+import { PostStatus } from '@/lib/api/types';
+
+// ============================================================================
+// UI COMPONENTS
+// ============================================================================
+
+import { BackToTop, ParticlesEffect } from '@/components/ui';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+
+// ============================================================================
+// DESIGN TOKENS
+// ============================================================================
+
+import { BACKGROUND, BADGE, BORDER_RADIUS } from '@rainer/design-tokens';
+
+// ============================================================================
+// UTILS
+// ============================================================================
+
+import { tiptapJSONtoHTML } from '@/components/dashboard/lib/tiptap-utils';
+import { cn } from '@/lib/utils';
+
+// ============================================================================
+// CONSTANTS
+// ============================================================================
 
 /**
- * Componente PostPage
- * 
- * Página de visualização de post individual por slug
+ * Número máximo de posts relacionados a exibir
+ * @type {number}
+ * @constant
+ */
+const MAX_RELATED_POSTS = 3;
+
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
+/**
+ * PostPage Component
+ *
+ * Componente principal da página de post individual com:
+ * - Header com imagem de capa opcional
+ * - Metadados completos (autor, data, categoria, tempo de leitura)
+ * - Conteúdo rico renderizado do JSON Tiptap
+ * - Ações sociais (like, bookmark, share)
+ * - Compartilhamento social
+ * - Posts relacionados
+ * - Navegação entre posts (anterior/próximo)
+ * - Breadcrumbs para navegação
+ * - Table of Contents (sumário)
+ * - Seção de comentários
+ * - Newsletter signup
+ *
+ * @component
+ * @returns {JSX.Element} Página de post individual completa
+ *
+ * @remarks
+ * Este componente utiliza:
+ * - blogStore para buscar post por slug
+ * - Tiptap JSON para renderização de conteúdo rico
+ * - Framer Motion para animações suaves
+ * - Design system com Tailwind CSS
+ * - Acessibilidade WCAG AA compliant
+ * - SEO-friendly URLs com slugs
+ *
+ * @see {@link blogStore} Store de gerenciamento de posts
+ * @see {@link tiptapJSONtoHTML} Utilitário de conversão Tiptap JSON para HTML
  */
 export default function PostPage() {
-  const params = useParams()
-  const router = useRouter()
-  const postSlug = params.slug as string // Parâmetro agora é 'slug'
+  // ========================================================================
+  // HOOKS
+  // ========================================================================
 
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [previousPost, setPreviousPost] = useState<BlogPost | null>(null)
-  const [nextPost, setNextPost] = useState<BlogPost | null>(null)
+  const params = useParams();
+  const router = useRouter();
+  const postSlug = params.slug as string;
+
+  // ========================================================================
+  // STATE
+  // ========================================================================
+
+  /**
+   * Post atual sendo visualizado
+   * @type {Post | null}
+   */
+  const [post, setPost] = useState<Post | null>(null);
+
+  /**
+   * Posts relacionados (mesma categoria)
+   * @type {Post[]}
+   */
+  const [relatedPosts, setRelatedPosts] = useState<Post[]>([]);
+
+  /**
+   * Estado de carregamento
+   * @type {boolean}
+   */
+  const [isLoading, setIsLoading] = useState(true);
+
+  /**
+   * Post anterior na sequência
+   * @type {Post | null}
+   */
+  const [previousPost, setPreviousPost] = useState<Post | null>(null);
+
+  /**
+   * Próximo post na sequência
+   * @type {Post | null}
+   */
+  const [nextPost, setNextPost] = useState<Post | null>(null);
+
+  // ========================================================================
+  // EFFECTS
+  // ========================================================================
 
   /**
    * Carrega post e posts relacionados por SLUG
+   *
+   * Busca o post pelo slug, posts relacionados da mesma categoria,
+   * e configura navegação entre posts (anterior/próximo).
    */
   useEffect(() => {
-    setIsLoading(true)
+    const loadPost = async () => {
+      setIsLoading(true);
 
-    // Busca post pelo SLUG (SEO-friendly)
-    const foundPost = blogStore.getPostBySlug(postSlug)
-    
-    if (!foundPost) {
-      setIsLoading(false)
-      return
-    }
+      try {
+        // Busca post pelo SLUG (SEO-friendly)
+        const foundPost = await postsService.getPostBySlug(postSlug);
 
-    setPost(foundPost)
+        if (!foundPost) {
+          setIsLoading(false);
+          return;
+        }
 
-    // Busca posts relacionados (mesma categoria)
-    const allPosts = blogStore.getPublishedPosts()
-    const related = allPosts
-      .filter(p => p.slug !== postSlug && p.category === foundPost.category)
-      .slice(0, 3)
-    
-    setRelatedPosts(related)
+        setPost(foundPost);
 
-    // Navegação entre posts
-    const currentIndex = allPosts.findIndex(p => p.slug === postSlug)
-    setPreviousPost(currentIndex > 0 ? allPosts[currentIndex - 1] || null : null)
-    setNextPost(currentIndex >= 0 && currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] || null : null)
+        // Busca posts relacionados (mesma subcategoria)
+        const relatedResponse = await postsService.listPosts({
+          status: PostStatus.PUBLISHED,
+          subcategoryId: foundPost.subcategoryId,
+          limit: MAX_RELATED_POSTS + 1, // +1 para excluir o post atual
+        });
 
-    setIsLoading(false)
-  }, [postSlug])
+        if (relatedResponse.success && relatedResponse.posts) {
+          const related = relatedResponse.posts
+            .filter(p => p.slug !== postSlug)
+            .slice(0, MAX_RELATED_POSTS);
+          setRelatedPosts(related);
+        }
+
+        // Buscar todos os posts para navegação
+        const allPostsResponse = await postsService.listPosts({
+          status: PostStatus.PUBLISHED,
+          limit: 100,
+        });
+
+        if (allPostsResponse.success && allPostsResponse.posts) {
+          const allPosts = allPostsResponse.posts;
+          const currentIndex = allPosts.findIndex(p => p.slug === postSlug);
+          setPreviousPost(
+            currentIndex > 0 ? allPosts[currentIndex - 1] || null : null
+          );
+          setNextPost(
+            currentIndex >= 0 && currentIndex < allPosts.length - 1
+              ? allPosts[currentIndex + 1] || null
+              : null
+          );
+        }
+      } catch (error) {
+        console.error('Erro ao carregar post:', error);
+        setPost(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadPost();
+  }, [postSlug]);
+
+  // ========================================================================
+  // RENDER STATES
+  // ========================================================================
 
   // Loading state
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background dark:bg-black">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground dark:text-gray-400">Carregando post...</p>
+        <div className="text-center" role="status" aria-live="polite">
+          <div
+            className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"
+            aria-label="Carregando post..."
+          />
+          <p className="text-muted-foreground dark:text-gray-400">
+            Carregando post...
+          </p>
         </div>
       </div>
-    )
+    );
   }
 
   // Post não encontrado
   if (!post) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black">
+      <div
+        className={cn(
+          'min-h-screen flex items-center justify-center',
+          BACKGROUND.FULL
+        )}
+      >
         <ParticlesEffect variant="default" />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center relative z-10"
+          role="alert"
         >
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-400/30 mb-6">
-            <svg className="w-10 h-10 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          <div
+            className={cn(
+              'inline-flex items-center justify-center w-20 h-20 mb-6',
+              BORDER_RADIUS.FULL,
+              BADGE.GRADIENTS.ERROR,
+              BADGE.BORDERS.ERROR
+            )}
+          >
+            <svg
+              className="w-10 h-10 text-red-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold mb-2 dark:text-cyan-200 dark:font-mono">Post não encontrado</h1>
-          <p className="text-muted-foreground dark:text-gray-400 mb-6">O post que você procura não existe ou foi removido.</p>
+          <h1 className="text-2xl font-bold mb-2 dark:text-cyan-200 dark:font-mono">
+            Post não encontrado
+          </h1>
+          <p className="text-muted-foreground dark:text-gray-400 mb-6">
+            O post que você procura não existe ou foi removido.
+          </p>
           <Button
-            onClick={() => router.push("/blog")}
+            onClick={() => router.push('/blog')}
             className="gap-2 dark:bg-cyan-600 dark:hover:bg-cyan-700"
+            aria-label="Voltar para página do blog"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             Voltar ao Blog
           </Button>
         </motion.div>
       </div>
-    )
+    );
   }
 
+  // ========================================================================
+  // MAIN RENDER
+  // ========================================================================
+
   return (
-    <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-black relative">
+    <div className={cn('min-h-screen relative', BACKGROUND.FULL)}>
+      {/* ================================================================
+          PARTICLES EFFECT
+          ================================================================ */}
+
       <ParticlesEffect variant="default" />
+
+      {/* ================================================================
+          READING PROGRESS
+          ================================================================ */}
+
       <ReadingProgress />
 
-      {/* Botão Voltar Fixo */}
+      {/* ================================================================
+          FIXED BACK BUTTON (Desktop)
+          ================================================================ */}
+
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -162,21 +354,25 @@ export default function PostPage() {
         <Button
           variant="outline"
           size="icon"
-          onClick={() => router.push("/blog")}
+          onClick={() => router.push('/blog')}
           className="dark:border-cyan-400/30 dark:hover:bg-cyan-400/10 dark:text-cyan-400"
           title="Voltar ao blog"
+          aria-label="Voltar para página do blog"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4" aria-hidden="true" />
         </Button>
       </motion.div>
 
-      {/* Header do Post */}
-      <motion.div
+      {/* ================================================================
+          POST HEADER
+          ================================================================ */}
+
+      <motion.header
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="relative"
       >
-        {/* Imagem de Capa */}
+        {/* Cover Image */}
         {post.coverImage && (
           <div className="relative h-[50vh] w-full overflow-hidden">
             <Image
@@ -187,9 +383,12 @@ export default function PostPage() {
               priority
             />
             {/* Overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/90" />
-            
-            {/* Título sobre a imagem */}
+            <div
+              className={cn('absolute inset-0', BACKGROUND.OVERLAY_IMAGE)}
+              aria-hidden="true"
+            />
+
+            {/* Title over image */}
             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
               <div className="max-w-4xl mx-auto">
                 <motion.div
@@ -197,10 +396,17 @@ export default function PostPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  {post.category && (
-                    <Badge className="mb-4 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-400/50 text-cyan-200">
-                      <Tag className="w-3 h-3 mr-1" />
-                      {post.category}
+                  {post.subcategory?.name && (
+                    <Badge
+                      className={cn(
+                        'mb-4',
+                        BADGE.GRADIENTS.BRAND_OVERLAY,
+                        BADGE.BORDERS.BRAND_OVERLAY,
+                        BADGE.TEXT.BRAND_OVERLAY
+                      )}
+                    >
+                      <Tag className="w-3 h-3 mr-1" aria-hidden="true" />
+                      {post.subcategory.name}
                     </Badge>
                   )}
                   <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-2xl">
@@ -212,27 +418,35 @@ export default function PostPage() {
           </div>
         )}
 
-        {/* Título sem imagem de capa */}
+        {/* Title without cover image */}
         {!post.coverImage && (
           <div className="relative py-20 md:py-32">
             <div className="max-w-4xl mx-auto px-6">
               <Button
                 variant="ghost"
-                onClick={() => router.push("/blog")}
+                onClick={() => router.push('/blog')}
                 className="mb-6 gap-2 lg:hidden dark:text-cyan-400"
+                aria-label="Voltar para página do blog"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="w-4 h-4" aria-hidden="true" />
                 Voltar
               </Button>
-              
+
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                {post.category && (
-                  <Badge className="mb-4 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-400/30 text-cyan-600 dark:text-cyan-300">
-                    <Tag className="w-3 h-3 mr-1" />
-                    {post.category}
+                {post.subcategory?.name && (
+                  <Badge
+                    className={cn(
+                      'mb-4',
+                      BADGE.GRADIENTS.BRAND_LIGHT,
+                      BADGE.BORDERS.BRAND,
+                      BADGE.TEXT.BRAND
+                    )}
+                  >
+                    <Tag className="w-3 h-3 mr-1" aria-hidden="true" />
+                    {post.subcategory.name}
                   </Badge>
                 )}
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold dark:text-cyan-200 dark:font-mono mb-4">
@@ -242,9 +456,12 @@ export default function PostPage() {
             </div>
           </div>
         )}
-      </motion.div>
+      </motion.header>
 
-      {/* Breadcrumbs */}
+      {/* ================================================================
+          BREADCRUMBS
+          ================================================================ */}
+
       <motion.nav
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -253,100 +470,96 @@ export default function PostPage() {
         aria-label="Breadcrumb"
       >
         <ol className="flex items-center gap-2 text-sm text-muted-foreground dark:text-gray-400">
-          <li><Link href="/" className="hover:text-cyan-400 transition-colors">Home</Link></li>
-          <li>/</li>
-          <li><Link href="/blog" className="hover:text-cyan-400 transition-colors">Blog</Link></li>
-          {post.category && (
+          <li>
+            <Link
+              href="/"
+              className="hover:text-cyan-400 transition-colors"
+              aria-label="Ir para página inicial"
+            >
+              Home
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <Link
+              href="/blog"
+              className="hover:text-cyan-400 transition-colors"
+              aria-label="Ir para página do blog"
+            >
+              Blog
+            </Link>
+          </li>
+          {post.subcategory?.name && (
             <>
-              <li>/</li>
-              <li className="text-cyan-400">{post.category}</li>
+              <li aria-hidden="true">/</li>
+              <li className="text-cyan-400" aria-current="page">
+                {post.subcategory.name}
+              </li>
             </>
           )}
         </ol>
       </motion.nav>
 
-      {/* Metadados do Post */}
-      <motion.div
+      {/* ================================================================
+          POST METADATA
+          ================================================================ */}
+
+      <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
+        aria-labelledby="post-metadata-heading"
         className="max-w-4xl mx-auto px-6 -mt-8 relative z-10"
       >
-        <Card className="dark:bg-black/80 dark:border-cyan-400/20 backdrop-blur-sm">
-          <CardContent className="p-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground dark:text-gray-400">
-              <div className="flex flex-wrap items-center gap-4">
-                {/* Autor */}
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-cyan-400" />
-                  <span className="font-medium">{post.author || "Rainer Teixeira"}</span>
-                </div>
+        <h2 id="post-metadata-heading" className="sr-only">
+          Metadados do Post
+        </h2>
+        <PostMetadataCard
+          author={post.author?.fullName || post.author?.nickname}
+          date={
+            post.publishedAt
+              ? new Date(post.publishedAt).toLocaleDateString('pt-BR', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })
+              : new Date(post.createdAt).toLocaleDateString('pt-BR', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })
+          }
+          category={post.subcategory?.name}
+          tags={post.tags}
+          views={post.views}
+          likesCount={post.likesCount}
+          content={post.content}
+        />
+      </motion.section>
 
-                <Separator orientation="vertical" className="h-4 dark:bg-cyan-400/20" />
+      {/* ================================================================
+          TABLE OF CONTENTS
+          ================================================================ */}
 
-                {/* Data */}
-                {post.date && (
-                  <>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-cyan-400" />
-                      <span className="font-mono">{post.date}</span>
-                    </div>
-                    <Separator orientation="vertical" className="h-4 dark:bg-cyan-400/20" />
-                  </>
-                )}
-
-                {/* Tempo de Leitura */}
-                <ReadingTime content={post.content} showIcon={true} />
-              </div>
-
-              {/* Estatísticas */}
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1">
-                  <Eye className="w-4 h-4" />
-                  <span>{post.views || 0}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Heart className="w-4 h-4" />
-                  <span>{post.likesCount || 0}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Tags */}
-            {post.tags && post.tags.length > 0 && (
-              <>
-                <Separator className="my-4 dark:bg-cyan-400/10" />
-                <div className="flex flex-wrap items-center gap-2">
-                  <Tag className="w-4 h-4 text-cyan-400" />
-                  {post.tags.map((tag, idx) => (
-                    <Badge
-                      key={idx}
-                      variant="outline"
-                      className="text-xs font-mono dark:border-cyan-400/30 dark:text-cyan-400"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </>
-            )}
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      {/* Sumário (Table of Contents) - Opcional */}
       {post.content && typeof post.content === 'object' && (
-        <motion.div
+        <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.35 }}
+          aria-labelledby="toc-heading"
           className="max-w-4xl mx-auto px-6 pt-8 relative z-10"
         >
+          <h2 id="toc-heading" className="sr-only">
+            Sumário do Conteúdo
+          </h2>
           <TableOfContents />
-        </motion.div>
+        </motion.section>
       )}
 
-      {/* Conteúdo do Post */}
+      {/* ================================================================
+          POST CONTENT
+          ================================================================ */}
+
       <motion.article
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -355,124 +568,125 @@ export default function PostPage() {
       >
         <div
           className={cn(
-            "prose prose-lg dark:prose-invert max-w-none",
-            "prose-headings:font-bold prose-headings:dark:text-cyan-200 prose-headings:mb-4 prose-headings:mt-8",
-            "prose-h1:text-4xl prose-h1:mb-6",
-            "prose-h2:text-3xl",
-            "prose-h3:text-2xl",
-            "prose-p:leading-relaxed prose-p:mb-6 prose-p:dark:text-gray-300",
-            "prose-strong:dark:text-cyan-300 prose-strong:font-bold",
-            "prose-em:dark:text-purple-300",
-            "prose-code:dark:text-pink-400 prose-code:dark:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm",
-            "prose-pre:dark:bg-gray-950 prose-pre:dark:border prose-pre:dark:border-cyan-400/20 prose-pre:p-4 prose-pre:rounded-lg",
-            "prose-blockquote:border-l-4 prose-blockquote:border-cyan-400 prose-blockquote:dark:border-cyan-400/60 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:dark:text-gray-400",
-            "prose-ul:dark:text-gray-300 prose-ul:list-disc prose-ul:pl-6",
-            "prose-ol:dark:text-gray-300 prose-ol:list-decimal prose-ol:pl-6",
-            "prose-li:mb-2",
-            "prose-a:text-cyan-500 prose-a:dark:text-cyan-400 prose-a:underline prose-a:hover:text-cyan-600 prose-a:dark:hover:text-cyan-300 prose-a:transition-colors",
-            "prose-img:rounded-lg prose-img:shadow-lg prose-img:my-8",
-            "prose-hr:border-cyan-400/30 prose-hr:my-8"
+            'prose prose-lg dark:prose-invert max-w-none',
+            'prose-headings:font-bold prose-headings:dark:text-cyan-200 prose-headings:mb-4 prose-headings:mt-8',
+            'prose-h1:text-4xl prose-h1:mb-6',
+            'prose-h2:text-3xl',
+            'prose-h3:text-2xl',
+            'prose-p:leading-relaxed prose-p:mb-6 prose-p:dark:text-gray-300',
+            'prose-strong:dark:text-cyan-300 prose-strong:font-bold',
+            'prose-em:dark:text-purple-300',
+            'prose-code:dark:text-pink-400 prose-code:dark:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm',
+            'prose-pre:dark:bg-gray-950 prose-pre:dark:border prose-pre:dark:border-cyan-400/20 prose-pre:p-4 prose-pre:rounded-lg',
+            'prose-blockquote:border-l-4 prose-blockquote:border-cyan-400 prose-blockquote:dark:border-cyan-400/60 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:dark:text-gray-400',
+            'prose-ul:dark:text-gray-300 prose-ul:list-disc prose-ul:pl-6',
+            'prose-ol:dark:text-gray-300 prose-ol:list-decimal prose-ol:pl-6',
+            'prose-li:mb-2',
+            'prose-a:text-cyan-500 prose-a:dark:text-cyan-400 prose-a:underline prose-a:hover:text-cyan-600 prose-a:dark:hover:text-cyan-300 prose-a:transition-colors',
+            'prose-img:rounded-lg prose-img:shadow-lg prose-img:my-8',
+            'prose-hr:border-cyan-400/30 prose-hr:my-8'
           )}
           dangerouslySetInnerHTML={{ __html: tiptapJSONtoHTML(post.content) }}
         />
       </motion.article>
 
-      {/* Ações do Post */}
-      <motion.div
+      {/* ================================================================
+          POST ACTIONS
+          ================================================================ */}
+
+      <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
+        aria-labelledby="post-actions-heading"
         className="max-w-4xl mx-auto px-6 pb-8 relative z-10"
       >
-        <Card className="dark:bg-black/50 dark:border-cyan-400/20">
-          <CardContent className="p-6">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-2 flex-wrap">
-                <LikeButton
-                  postId={post.id}
-                  initialLikes={post.likesCount || 0}
-                  variant="default"
-                />
-                <BookmarkButton
-                  postId={post.id}
-                  variant="outline"
-                  size="sm"
-                  showLabel={true}
-                />
-                <ShareButton
-                  url={`/blog/${post.slug}`}
-                  title={post.title}
-                  description={post.excerpt || post.description}
-                  variant="outline"
-                  size="sm"
-                  showLabel={true}
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+        <h2 id="post-actions-heading" className="sr-only">
+          Ações do Post
+        </h2>
+        <PostActionsCard
+          postId={post.id}
+          initialLikes={post.likesCount || 0}
+          url={`/blog/${post.slug}`}
+          title={post.title}
+          description={post.excerpt}
+        />
+      </motion.section>
 
-      {/* Divisor */}
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
-        <Separator className="dark:bg-cyan-400/20" />
-      </div>
+      {/* ================================================================
+          AUTHOR CARD
+          ================================================================ */}
 
-      {/* Card do Autor */}
-      <motion.div
+      <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.55 }}
+        aria-labelledby="author-heading"
         className="max-w-4xl mx-auto px-6 py-8 relative z-10"
       >
+        <h2 id="author-heading" className="sr-only">
+          Sobre o Autor
+        </h2>
         <AuthorCard />
-      </motion.div>
+      </motion.section>
 
-      {/* Divisor */}
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
-        <Separator className="dark:bg-cyan-400/20" />
-      </div>
+      <Separator className="max-w-4xl mx-auto dark:bg-cyan-400/20" />
 
-      {/* Seção de Comentários */}
-      <motion.div
+      {/* ================================================================
+          COMMENTS SECTION
+          ================================================================ */}
+
+      <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
+        aria-labelledby="comments-heading"
         className="max-w-4xl mx-auto px-6 py-12 relative z-10"
       >
+        <h2 id="comments-heading" className="sr-only">
+          Comentários
+        </h2>
         <CommentSection postId={post.id} />
-      </motion.div>
+      </motion.section>
 
-      {/* Divisor */}
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
-        <Separator className="dark:bg-cyan-400/20" />
-      </div>
+      <Separator className="max-w-4xl mx-auto dark:bg-cyan-400/20" />
 
-      {/* Newsletter */}
-      <motion.div
+      {/* ================================================================
+          NEWSLETTER
+          ================================================================ */}
+
+      <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.65 }}
+        aria-labelledby="newsletter-heading"
         className="max-w-4xl mx-auto px-6 py-8 relative z-10"
       >
+        <h2 id="newsletter-heading" className="sr-only">
+          Newsletter
+        </h2>
         <NewsletterBox />
-      </motion.div>
+      </motion.section>
 
-      {/* Divisor */}
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
-        <Separator className="dark:bg-cyan-400/20" />
-      </div>
+      <Separator className="max-w-4xl mx-auto dark:bg-cyan-400/20" />
 
-      {/* Posts Relacionados */}
+      {/* ================================================================
+          RELATED POSTS
+          ================================================================ */}
+
       {relatedPosts.length > 0 && (
-        <motion.div
+        <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
+          aria-labelledby="related-posts-heading"
           className="max-w-4xl mx-auto px-6 py-12 relative z-10"
         >
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold dark:text-cyan-200 dark:font-mono mb-2">
+            <h2
+              id="related-posts-heading"
+              className="text-3xl font-bold dark:text-cyan-200 dark:font-mono mb-2"
+            >
               Continue Lendo
             </h2>
             <p className="text-muted-foreground dark:text-gray-400">
@@ -480,8 +694,12 @@ export default function PostPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {relatedPosts.map((relatedPost) => (
-              <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`}>
+            {relatedPosts.map(relatedPost => (
+              <Link
+                key={relatedPost.id}
+                href={`/blog/${relatedPost.slug}`}
+                aria-label={`Ler post: ${relatedPost.title}`}
+              >
                 <Card className="h-full dark:bg-black/50 dark:border-cyan-400/20 hover:border-cyan-400/50 dark:hover:border-cyan-400/60 transition-all overflow-hidden group">
                   {relatedPost.coverImage && (
                     <div className="relative h-40 w-full overflow-hidden">
@@ -498,67 +716,46 @@ export default function PostPage() {
                       {relatedPost.title}
                     </h3>
                     <p className="text-xs text-muted-foreground dark:text-gray-400 line-clamp-2">
-                      {relatedPost.excerpt || relatedPost.description}
+                      {relatedPost.excerpt}
                     </p>
                   </CardContent>
                 </Card>
               </Link>
             ))}
           </div>
-        </motion.div>
+        </motion.section>
       )}
 
-      {/* Navegação entre Posts */}
+      {/* ================================================================
+          POST NAVIGATION
+          ================================================================ */}
+
       {(previousPost || nextPost) && (
-        <motion.div
+        <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
+          aria-label="Navegação entre posts"
           className="max-w-4xl mx-auto px-6 pb-12 relative z-10"
         >
-          <Separator className="dark:bg-cyan-400/20 mb-8" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Post Anterior */}
-            {previousPost ? (
-              <Link href={`/blog/${previousPost.slug}`}>
-                <Card className="h-full dark:bg-black/50 dark:border-cyan-400/20 hover:border-cyan-400/50 dark:hover:border-cyan-400/60 transition-all group">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground dark:text-gray-400 mb-2">
-                      <ChevronLeft className="w-4 h-4" />
-                      <span>Post Anterior</span>
-                    </div>
-                    <h3 className="font-semibold dark:text-gray-100 group-hover:text-cyan-400 transition-colors line-clamp-2">
-                      {previousPost.title}
-                    </h3>
-                  </CardContent>
-                </Card>
-              </Link>
-            ) : (
-              <div />
-            )}
-
-            {/* Próximo Post */}
-            {nextPost && (
-              <Link href={`/blog/${nextPost.slug}`}>
-                <Card className="h-full dark:bg-black/50 dark:border-cyan-400/20 hover:border-cyan-400/50 dark:hover:border-cyan-400/60 transition-all group">
-                  <CardContent className="p-6 text-right">
-                    <div className="flex items-center justify-end gap-2 text-sm text-muted-foreground dark:text-gray-400 mb-2">
-                      <span>Próximo Post</span>
-                      <ChevronRight className="w-4 h-4" />
-                    </div>
-                    <h3 className="font-semibold dark:text-gray-100 group-hover:text-cyan-400 transition-colors line-clamp-2">
-                      {nextPost.title}
-                    </h3>
-                  </CardContent>
-                </Card>
-              </Link>
-            )}
-          </div>
-        </motion.div>
+          <PostNavigation
+            previousPost={
+              previousPost
+                ? { slug: previousPost.slug, title: previousPost.title }
+                : null
+            }
+            nextPost={
+              nextPost ? { slug: nextPost.slug, title: nextPost.title } : null
+            }
+          />
+        </motion.section>
       )}
 
-      {/* Botão Voltar ao Blog */}
-      <motion.div
+      {/* ================================================================
+          BACK TO BLOG BUTTON
+          ================================================================ */}
+
+      <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.9 }}
@@ -568,18 +765,21 @@ export default function PostPage() {
           <Button
             variant="outline"
             size="lg"
-            onClick={() => router.push("/blog")}
+            onClick={() => router.push('/blog')}
             className="gap-2 dark:border-cyan-400/30 dark:hover:bg-cyan-400/10 dark:text-cyan-400"
+            aria-label="Voltar para página do blog"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             Voltar ao Blog
           </Button>
         </div>
-      </motion.div>
+      </motion.section>
 
-      {/* Back to Top Button */}
+      {/* ================================================================
+          BACK TO TOP BUTTON
+          ================================================================ */}
+
       <BackToTop />
     </div>
-  )
+  );
 }
-

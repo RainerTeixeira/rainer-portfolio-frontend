@@ -11,6 +11,7 @@ Esta pasta contém documentação sobre **arquitetura**, **padrões de código**
 **Arquitetura completa do sistema**
 
 **Conteúdo**:
+
 - Visão geral da arquitetura
 - Estrutura de pastas detalhada
 - Padrões de código
@@ -34,6 +35,7 @@ Esta pasta contém documentação sobre **arquitetura**, **padrões de código**
 **Guia completo do desenvolvedor**
 
 **Conteúdo**:
+
 - Como usar Design Tokens
 - Logging System (4 níveis)
 - Analytics System (15+ eventos)
@@ -54,11 +56,29 @@ Esta pasta contém documentação sobre **arquitetura**, **padrões de código**
 
 ---
 
-### 3. 🤝 [CONTRIBUTING.md](CONTRIBUTING.md)
+### 3. 📐 [ARQUITETURA_MERMAID.md](ARQUITETURA_MERMAID.md)
+
+**Diagramas de arquitetura em Mermaid**
+
+**Conteúdo**:
+
+- Diagramas de estrutura
+- Fluxos de dados
+- Relacionamentos entre componentes
+- Visualizações de arquitetura
+
+**Quando usar**: Visualizar arquitetura do sistema
+
+**Tempo estimado**: 10-15 minutos
+
+---
+
+### 4. 🤝 [CONTRIBUTING.md](CONTRIBUTING.md)
 
 **Como contribuir com o projeto**
 
 **Conteúdo**:
+
 - Código de conduta
 - Tipos de contribuição
 - Processo de desenvolvimento (6 passos)
@@ -150,4 +170,3 @@ PRONTO PARA CONTRIBUIR! ✅
 **Pasta**: architecture/
 **Propósito**: Arquitetura e desenvolvimento
 **Status**: ✅ Completa
-

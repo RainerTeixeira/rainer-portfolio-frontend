@@ -1,27 +1,46 @@
 /**
- * Botão de Compartilhamento
- * 
- * Botão com menu de opções de compartilhamento social
- * 
- * @fileoverview Share button component
+ * Share Button Component
+ *
+ * Botão de compartilhamento com menu de opções de compartilhamento social.
+ * Suporta múltiplas plataformas (Facebook, Twitter, LinkedIn), compartilhamento
+ * nativo via Web Share API e geração de QR code.
+ *
+ * @module components/blog/social/share-button
+ * @fileoverview Botão de compartilhamento com múltiplas opções
  * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * <ShareButton
+ *   url="https://example.com/post"
+ *   title="Título do Post"
+ *   description="Descrição do post"
+ *   variant="default"
+ * />
+ * ```
+ *
+ * Características:
+ * - Menu dropdown com opções de compartilhamento
+ * - Compartilhamento nativo (Web Share API)
+ * - QR Code para compartilhamento
+ * - Múltiplas plataformas (Facebook, Twitter, LinkedIn)
+ * - Copiar link para clipboard
+ * - Notificações toast
+ * - Acessibilidade completa
  */
 
-"use client"
+'use client';
 
-import { useState } from "react"
-import { 
-  Share2, 
-  Facebook, 
-  Twitter, 
-  Linkedin, 
-  MessageCircle, 
-  Send, 
-  Link as LinkIcon,
-  QrCode,
-  Check
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,51 +48,55 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
-import { toast } from "sonner"
-import { QRCodeSVG } from "qrcode.react"
+  Check,
+  Facebook,
+  Link as LinkIcon,
+  Linkedin,
+  MessageCircle,
+  QrCode,
+  Send,
+  Share2,
+  Twitter,
+} from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface ShareButtonProps {
-  url: string
-  title: string
-  description?: string
-  variant?: "default" | "ghost" | "outline"
-  size?: "sm" | "default" | "lg"
-  showLabel?: boolean
+  url: string;
+  title: string;
+  description?: string;
+  variant?: 'default' | 'ghost' | 'outline';
+  size?: 'sm' | 'default' | 'lg';
+  showLabel?: boolean;
 }
 
-export function ShareButton({ 
-  url, 
-  title, 
-  description = "",
-  variant = "outline",
-  size = "sm",
-  showLabel = true
+export function ShareButton({
+  url,
+  title,
+  description = '',
+  variant = 'outline',
+  size = 'sm',
+  showLabel = true,
 }: ShareButtonProps) {
-  const [copied, setCopied] = useState(false)
-  const [showQR, setShowQR] = useState(false)
+  const [copied, setCopied] = useState(false);
+  const [showQR, setShowQR] = useState(false);
 
-  const shareUrl = typeof window !== "undefined" 
-    ? `${window.location.origin}${url}`
-    : url
+  const shareUrl =
+    typeof window !== 'undefined' ? `${window.location.origin}${url}` : url;
 
   async function copyToClipboard() {
     try {
-      await navigator.clipboard.writeText(shareUrl)
-      setCopied(true)
-      toast.success("Link copiado para a área de transferência!")
-      
-      setTimeout(() => setCopied(false), 2000)
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      toast.success('Link copiado para a área de transferência!');
+
+      setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      console.error("Erro ao copiar:", error)
-      toast.error("Erro ao copiar link")
+      console.error('Erro ao copiar:', error);
+      toast.error('Erro ao copiar link');
     }
   }
 
@@ -84,19 +107,19 @@ export function ShareButton({
           title,
           text: description,
           url: shareUrl,
-        })
-        toast.success("Compartilhado com sucesso!")
+        });
+        toast.success('Compartilhado com sucesso!');
       } catch (error) {
-        if (error instanceof Error && error.name !== "AbortError") {
-          console.error("Erro ao compartilhar:", error)
+        if (error instanceof Error && error.name !== 'AbortError') {
+          console.error('Erro ao compartilhar:', error);
         }
       }
     }
   }
 
   function shareOnPlatform(platform: string) {
-    const encodedUrl = encodeURIComponent(shareUrl)
-    const encodedTitle = encodeURIComponent(title)
+    const encodedUrl = encodeURIComponent(shareUrl);
+    const encodedTitle = encodeURIComponent(title);
     // const encodedDescription = encodeURIComponent(description) // Pode ser usado futuramente
 
     const urls = {
@@ -106,11 +129,15 @@ export function ShareButton({
       whatsapp: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
       telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`,
       reddit: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
-    }
+    };
 
-    const platformUrl = urls[platform as keyof typeof urls]
+    const platformUrl = urls[platform as keyof typeof urls];
     if (platformUrl) {
-      window.open(platformUrl, "_blank", "noopener,noreferrer,width=600,height=600")
+      window.open(
+        platformUrl,
+        '_blank',
+        'noopener,noreferrer,width=600,height=600'
+      );
     }
   }
 
@@ -128,7 +155,7 @@ export function ShareButton({
           <DropdownMenuSeparator />
 
           {/* Native Share API (mobile) */}
-          {typeof navigator !== "undefined" && "share" in navigator && (
+          {typeof navigator !== 'undefined' && 'share' in navigator && (
             <>
               <DropdownMenuItem onClick={shareNative}>
                 <Share2 className="mr-2 h-4 w-4" />
@@ -139,27 +166,27 @@ export function ShareButton({
           )}
 
           {/* Social Media */}
-          <DropdownMenuItem onClick={() => shareOnPlatform("facebook")}>
+          <DropdownMenuItem onClick={() => shareOnPlatform('facebook')}>
             <Facebook className="mr-2 h-4 w-4 text-blue-600" />
             Facebook
           </DropdownMenuItem>
-          
-          <DropdownMenuItem onClick={() => shareOnPlatform("twitter")}>
+
+          <DropdownMenuItem onClick={() => shareOnPlatform('twitter')}>
             <Twitter className="mr-2 h-4 w-4 text-sky-500" />
             Twitter / X
           </DropdownMenuItem>
-          
-          <DropdownMenuItem onClick={() => shareOnPlatform("linkedin")}>
+
+          <DropdownMenuItem onClick={() => shareOnPlatform('linkedin')}>
             <Linkedin className="mr-2 h-4 w-4 text-blue-700" />
             LinkedIn
           </DropdownMenuItem>
-          
-          <DropdownMenuItem onClick={() => shareOnPlatform("whatsapp")}>
+
+          <DropdownMenuItem onClick={() => shareOnPlatform('whatsapp')}>
             <MessageCircle className="mr-2 h-4 w-4 text-green-600" />
             WhatsApp
           </DropdownMenuItem>
-          
-          <DropdownMenuItem onClick={() => shareOnPlatform("telegram")}>
+
+          <DropdownMenuItem onClick={() => shareOnPlatform('telegram')}>
             <Send className="mr-2 h-4 w-4 text-blue-500" />
             Telegram
           </DropdownMenuItem>
@@ -198,18 +225,17 @@ export function ShareButton({
               Escaneie o QR Code abaixo para acessar este conteúdo
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="flex justify-center p-6 bg-white rounded-lg">
-            <QRCodeSVG 
-              value={shareUrl} 
-              size={256}
-              level="H"
-              includeMargin
-            />
+            <QRCodeSVG value={shareUrl} size={256} level="H" includeMargin />
           </div>
 
           <div className="flex gap-2">
-            <Button variant="outline" className="flex-1" onClick={() => setShowQR(false)}>
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => setShowQR(false)}
+            >
               Fechar
             </Button>
             <Button className="flex-1" onClick={copyToClipboard}>
@@ -220,6 +246,5 @@ export function ShareButton({
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }
-

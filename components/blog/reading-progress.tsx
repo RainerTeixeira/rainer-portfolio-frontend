@@ -1,57 +1,78 @@
 /**
- * Barra de Progresso de Leitura
- * 
- * Indica o progresso de leitura do artigo
- * 
- * @fileoverview Reading progress bar component
+ * Reading Progress Component
+ *
+ * Barra de progresso de leitura que indica o progresso de leitura do artigo.
+ * Barra fixa no topo com animação suave, suporta elemento específico ou página
+ * inteira.
+ *
+ * @module components/blog/reading-progress
+ * @fileoverview Barra de progresso de leitura com animação
  * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * // Barra de progresso padrão
+ * <ReadingProgress />
+ *
+ * // Barra de progresso para elemento específico
+ * <ReadingProgress target={articleRef} height={4} />
+ * ```
+ *
+ * Características:
+ * - Barra fixa no topo da página
+ * - Animação suave com Framer Motion
+ * - Suporte a elemento específico ou página inteira
+ * - Altura configurável
+ * - Integração com useScroll do Framer Motion
+ * - Performance otimizada
  */
 
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { motion, useScroll, useSpring } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
+import { GRADIENTS } from '@rainer/design-tokens';
+import { motion, useScroll, useSpring } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 interface ReadingProgressProps {
-  target?: React.RefObject<HTMLElement>
-  className?: string
-  height?: number
+  target?: React.RefObject<HTMLElement>;
+  className?: string;
+  height?: number;
 }
 
-export function ReadingProgress({ 
-  target, 
+export function ReadingProgress({
+  target,
   className,
-  height = 3
+  height = 3,
 }: ReadingProgressProps) {
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0);
 
-  const { scrollYProgress } = useScroll(
-    target ? { target } : undefined
-  )
+  const { scrollYProgress } = useScroll(target ? { target } : undefined);
 
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001,
-  })
+  });
 
   useEffect(() => {
-    return scrollYProgress.on("change", (latest) => {
-      setProgress(Math.round(latest * 100))
-    })
-  }, [scrollYProgress])
+    return scrollYProgress.on('change', latest => {
+      setProgress(Math.round(latest * 100));
+    });
+  }, [scrollYProgress]);
 
   return (
     <>
       {/* Barra de progresso fixa no topo */}
       <motion.div
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 origin-left",
-          "bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500",
+          'fixed top-0 left-0 right-0 z-50 origin-left',
+          GRADIENTS.TEXT_PRIMARY,
           className
         )}
-        style={{ 
+        style={{
           scaleX,
           height: `${height}px`,
         }}
@@ -64,12 +85,16 @@ export function ReadingProgress({
           animate={{ opacity: 1, y: 0 }}
           className="fixed top-20 right-4 z-40 bg-background/95 backdrop-blur-sm border-2 rounded-full px-3 py-1.5 shadow-lg"
         >
-          <span className="text-xs font-bold bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <span
+            className={cn(
+              'text-xs font-bold bg-clip-text text-transparent',
+              GRADIENTS.TEXT_PRIMARY
+            )}
+          >
             {progress}%
           </span>
         </motion.div>
       )}
     </>
-  )
+  );
 }
-
