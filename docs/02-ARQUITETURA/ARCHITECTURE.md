@@ -20,6 +20,7 @@
 Aplicação Next.js 15 com React 19 e TypeScript, seguindo padrões enterprise de código limpo, semântico e altamente manutenível.
 
 ### **Tech Stack Principal**
+
 - **Framework**: Next.js 15 (App Router)
 - **UI Library**: React 19
 - **Linguagem**: TypeScript 5
@@ -29,6 +30,7 @@ Aplicação Next.js 15 com React 19 e TypeScript, seguindo padrões enterprise d
 - **Ícones**: Lucide React
 
 ### **Características Enterprise**
+
 - ✅ TypeScript estrito com types robustos
 - ✅ Design tokens centralizados
 - ✅ Error boundaries globais
@@ -62,7 +64,6 @@ rainer-portfolio-frontend/
 │   ├── blog/                    # Componentes do blog
 │   ├── dashboard/               # Componentes do dashboard
 │   ├── theme/                   # Sistema de tema
-│   └── error-boundary.tsx       # Error handling
 │
 ├── hooks/                        # Custom hooks
 │   ├── use-analytics.ts         # Analytics tracking
@@ -192,17 +193,20 @@ export function ComponentName({ prop1, prop2 }: ComponentProps) {
 ### **Nomenclatura Semântica**
 
 #### **Variáveis de Estado**
+
 - ✅ `isLoading`, `hasError`, `shouldShow` (boolean)
 - ✅ `currentUser`, `selectedItem`, `activeTab` (objetos/valores)
 - ✅ `allPosts`, `filteredData`, `sortedItems` (arrays)
 
 #### **Funções**
+
 - ✅ `handleClick`, `handleSubmit` (event handlers)
 - ✅ `loadData`, `fetchPosts` (async operations)
 - ✅ `calculateTotal`, `formatDate` (pure functions)
 - ✅ `startEditing`, `stopLoading` (state changers)
 
 #### **Constantes**
+
 - ✅ `UPPERCASE_SNAKE_CASE` para config values
 - ✅ `PascalCase` para components/types
 - ✅ `camelCase` para functions/variables
@@ -231,6 +235,7 @@ const heading = TYPOGRAPHY.HEADING_1 // 'text-4xl sm:text-5xl...'
 ```
 
 ### **Benefícios**
+
 - ✅ Single source of truth
 - ✅ Fácil manutenção
 - ✅ Consistência garantida
@@ -272,6 +277,7 @@ Layout (app/layout.tsx)
 ## 🔌 Providers
 
 ### **ThemeProvider**
+
 Gerencia tema claro/escuro global.
 
 ```typescript
@@ -283,13 +289,14 @@ import { ThemeProvider } from '@/components/providers/theme-provider'
 ```
 
 ### **AuthProvider**
+
 Gerencia autenticação e sessão.
 
 ```typescript
-import { useAuth } from '@/components/providers/auth-provider'
+import { useAuthContext } from '@/components/providers/auth-context-provider'
 
 function Component() {
-  const { user, login, logout, isAuthenticated } = useAuth()
+  const { user, login, logout, isAuthenticated } = useAuthContext()
   // ...
 }
 ```
@@ -310,6 +317,7 @@ function Component() {
 ## 🛠️ Utilitários
 
 ### **Logger**
+
 ```typescript
 import { logger } from '@/lib/logger'
 
@@ -320,6 +328,7 @@ logger.error('Error occurred', error, { context })
 ```
 
 ### **Analytics**
+
 ```typescript
 import { analytics, ANALYTICS_EVENTS } from '@/lib/analytics'
 
@@ -328,6 +337,7 @@ analytics.track(ANALYTICS_EVENTS.BLOG_POST_LIKE('post-123'))
 ```
 
 ### **Performance Monitor**
+
 ```typescript
 import { performanceMonitor } from '@/lib/performance-monitor'
 
@@ -342,6 +352,7 @@ await performanceMonitor.measure('load_data', async () => {
 ```
 
 ### **Validation**
+
 ```typescript
 import { validateEmail, validatePassword } from '@/lib/validation-schemas'
 
@@ -383,6 +394,7 @@ if (!emailResult.isValid) {
    - Compressão gzip/brotli
 
 ### **Core Web Vitals Target**
+
 - ✅ LCP < 2.5s
 - ✅ FID < 100ms
 - ✅ CLS < 0.1
@@ -423,7 +435,9 @@ if (!emailResult.isValid) {
 ## 📊 Monitoramento
 
 ### **Analytics Events**
+
 Todos os eventos estão em `lib/analytics.ts`:
+
 - Page views
 - User actions
 - Form submissions
@@ -431,11 +445,13 @@ Todos os eventos estão em `lib/analytics.ts`:
 - Performance metrics
 
 ### **Error Tracking**
+
 - Error Boundary global captura erros de React
 - Logger envia erros críticos para serviço
 - Stack traces em desenvolvimento
 
 ### **Performance Metrics**
+
 - Core Web Vitals automáticos
 - Custom metrics via performanceMonitor
 - Navigation timing
@@ -518,17 +534,20 @@ NEXT_PUBLIC_ENABLE_PWA=true
 ## 🧪 Qualidade de Código
 
 ### **Linting**
+
 - ESLint com regras estritas
 - TypeScript em modo strict
 - Prettier para formatação
 
 ### **Padrões**
+
 - Zero erros de lint
 - 100% TypeScript
 - JSDoc completo
 - Comentários em português
 
 ### **Performance**
+
 - Lighthouse Score > 95
 - Bundles otimizados
 - Lazy loading estratégico
@@ -538,8 +557,8 @@ NEXT_PUBLIC_ENABLE_PWA=true
 ## 📞 Contato e Suporte
 
 - **Desenvolvedor**: Rainer Teixeira
-- **Email**: suporte@rainersoft.com.br
-- **Website**: https://rainersoft.com.br
+- **Email**: <suporte@rainersoft.com.br>
+- **Website**: <https://rainersoft.com.br>
 
 ---
 
@@ -551,4 +570,3 @@ Propriedade de Rainer Soft - Todos os direitos reservados.
 
 **Última atualização**: Outubro 2025
 **Versão**: 2.0.0
-

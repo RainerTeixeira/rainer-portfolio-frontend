@@ -1,13 +1,40 @@
 /**
- * Dialog de Termos e Privacidade
- * 
- * Modal para exibir termos e política de privacidade
- * 
- * @fileoverview Terms and Privacy Dialog
+ * Terms Dialog Component
+ *
+ * Dialog para exibir termos de uso e política de privacidade. Conformidade
+ * com LGPD (Lei Geral de Proteção de Dados), conteúdo estruturado e navegação
+ * facilitada com scroll area.
+ *
+ * @module components/dashboard/login/terms-dialog
+ * @fileoverview Dialog de termos e privacidade com conformidade LGPD
  * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * // Exibir termos de uso
+ * <TermsDialog type="terms">
+ *   <Button>Aceitar Termos</Button>
+ * </TermsDialog>
+ *
+ * // Exibir política de privacidade
+ * <TermsDialog type="privacy">
+ *   <Button>Política de Privacidade</Button>
+ * </TermsDialog>
+ * ```
+ *
+ * Características:
+ * - Exibição de termos de uso ou política de privacidade
+ * - Conformidade com LGPD (Lei Geral de Proteção de Dados)
+ * - Conteúdo estruturado e navegável
+ * - Scroll area para conteúdo longo
+ * - Design premium consistente
+ * - Integração com SITE_CONFIG
+ * - Acessibilidade completa
  */
 
-"use client"
+'use client';
 
 import {
   Dialog,
@@ -16,50 +43,49 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
-import { FileText, Shield, Lock, Eye, Database, UserCheck } from "lucide-react"
+} from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import { SITE_CONFIG } from '@/constants';
+import { Database, Eye, FileText, Lock, Shield, UserCheck } from 'lucide-react';
 
 interface TermsDialogProps {
-  children: React.ReactNode
-  type: "terms" | "privacy"
+  children: React.ReactNode;
+  type: 'terms' | 'privacy';
 }
 
 export function TermsDialog({ children, type }: TermsDialogProps) {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] p-0">
         <DialogHeader className="p-6 pb-4">
           <div className="flex items-center gap-3">
-            {type === "terms" ? (
+            {type === 'terms' ? (
               <FileText className="w-6 h-6 text-cyan-500" />
             ) : (
               <Shield className="w-6 h-6 text-cyan-500" />
             )}
             <DialogTitle className="text-2xl dark:text-cyan-200">
-              {type === "terms" ? "Termos de Uso" : "Política de Privacidade"}
+              {type === 'terms' ? 'Termos de Uso' : 'Política de Privacidade'}
             </DialogTitle>
           </div>
           <DialogDescription>
             Última atualização: 14 de outubro de 2025
-            {type === "privacy" && (
+            {type === 'privacy' && (
               <span className="block mt-2 text-cyan-600 dark:text-cyan-400 font-medium">
                 Conforme LGPD - Lei nº 13.709/2018
               </span>
             )}
           </DialogDescription>
         </DialogHeader>
-        
+
         <ScrollArea className="h-[calc(90vh-120px)] px-6 pb-6">
-          {type === "terms" ? <TermsContent /> : <PrivacyContent />}
+          {type === 'terms' ? <TermsContent /> : <PrivacyContent />}
         </ScrollArea>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 function TermsContent() {
@@ -67,15 +93,19 @@ function TermsContent() {
     <div className="space-y-6 text-sm">
       {/* Introdução */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">1. Introdução</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          1. Introdução
+        </h3>
         <div className="space-y-3 text-muted-foreground">
           <p>
-            Bem-vindo à <strong className="text-foreground">Rainer Soft</strong>. Estes Termos de Uso 
-            (&quot;Termos&quot;) regem o seu acesso e uso de nossos serviços, website e plataforma de blog.
+            Bem-vindo à <strong className="text-foreground">Rainer Soft</strong>
+            . Estes Termos de Uso (&quot;Termos&quot;) regem o seu acesso e uso
+            de nossos serviços, website e plataforma de blog.
           </p>
           <p>
-            Ao acessar ou usar nossos serviços, você concorda em ficar vinculado a estes Termos. 
-            Se você não concordar com qualquer parte destes termos, não utilize nossos serviços.
+            Ao acessar ou usar nossos serviços, você concorda em ficar vinculado
+            a estes Termos. Se você não concordar com qualquer parte destes
+            termos, não utilize nossos serviços.
           </p>
         </div>
       </section>
@@ -84,12 +114,29 @@ function TermsContent() {
 
       {/* Definições */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">2. Definições</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          2. Definições
+        </h3>
         <div className="space-y-2 text-muted-foreground">
-          <p><strong className="text-foreground">&quot;Serviço&quot;</strong>: website, plataforma de blog e dashboard administrativo da Rainer Soft.</p>
-          <p><strong className="text-foreground">&quot;Usuário&quot;</strong>: qualquer pessoa que acesse ou utilize nossos Serviços.</p>
-          <p><strong className="text-foreground">&quot;Conteúdo&quot;</strong>: textos, imagens, vídeos, códigos e outros materiais publicados no Serviço.</p>
-          <p><strong className="text-foreground">&quot;Conta&quot;</strong>: registro de usuário necessário para acessar funcionalidades restritas.</p>
+          <p>
+            <strong className="text-foreground">&quot;Serviço&quot;</strong>:
+            website, plataforma de blog e dashboard administrativo da Rainer
+            Soft.
+          </p>
+          <p>
+            <strong className="text-foreground">&quot;Usuário&quot;</strong>:
+            qualquer pessoa que acesse ou utilize nossos Serviços.
+          </p>
+          <p>
+            <strong className="text-foreground">&quot;Conteúdo&quot;</strong>:
+            textos, imagens, vídeos, códigos e outros materiais publicados no
+            Serviço.
+          </p>
+          <p>
+            <strong className="text-foreground">&quot;Conta&quot;</strong>:
+            registro de usuário necessário para acessar funcionalidades
+            restritas.
+          </p>
         </div>
       </section>
 
@@ -97,26 +144,36 @@ function TermsContent() {
 
       {/* Uso do Serviço */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">3. Uso do Serviço</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          3. Uso do Serviço
+        </h3>
         <div className="space-y-3 text-muted-foreground">
           <div>
-            <h4 className="font-semibold text-foreground mb-2">3.1 Elegibilidade</h4>
+            <h4 className="font-semibold text-foreground mb-2">
+              3.1 Elegibilidade
+            </h4>
             <p>
-              Você deve ter pelo menos 18 anos de idade para criar uma conta. 
-              Ao criar uma conta, você declara que todas as informações fornecidas são verdadeiras e precisas.
+              Você deve ter pelo menos 18 anos de idade para criar uma conta. Ao
+              criar uma conta, você declara que todas as informações fornecidas
+              são verdadeiras e precisas.
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold text-foreground mb-2">3.2 Conta de Usuário</h4>
+            <h4 className="font-semibold text-foreground mb-2">
+              3.2 Conta de Usuário
+            </h4>
             <p>
-              Você é responsável por manter a confidencialidade de sua senha e conta. 
-              Você concorda em notificar-nos imediatamente sobre qualquer uso não autorizado de sua conta.
+              Você é responsável por manter a confidencialidade de sua senha e
+              conta. Você concorda em notificar-nos imediatamente sobre qualquer
+              uso não autorizado de sua conta.
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold text-foreground mb-2">3.3 Uso Aceitável</h4>
+            <h4 className="font-semibold text-foreground mb-2">
+              3.3 Uso Aceitável
+            </h4>
             <p>Você concorda em NÃO:</p>
             <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
               <li>Violar leis ou regulamentos aplicáveis</li>
@@ -134,12 +191,15 @@ function TermsContent() {
 
       {/* Propriedade Intelectual */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">4. Propriedade Intelectual</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          4. Propriedade Intelectual
+        </h3>
         <div className="space-y-3 text-muted-foreground">
           <p>
-            Todo o conteúdo original publicado no Rainer Soft, incluindo mas não limitado a textos, 
-            códigos, designs, gráficos e logotipos, é propriedade de Rainer Teixeira e está protegido 
-            por leis de direitos autorais brasileiras e internacionais.
+            Todo o conteúdo original publicado no Rainer Soft, incluindo mas não
+            limitado a textos, códigos, designs, gráficos e logotipos, é
+            propriedade de Rainer Teixeira e está protegido por leis de direitos
+            autorais brasileiras e internacionais.
           </p>
         </div>
       </section>
@@ -154,12 +214,15 @@ function TermsContent() {
         </h3>
         <div className="space-y-3 text-muted-foreground">
           <p>
-            A Rainer Soft está comprometida com a proteção de seus dados pessoais em conformidade com a 
-            Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).
+            A Rainer Soft está comprometida com a proteção de seus dados
+            pessoais em conformidade com a Lei Geral de Proteção de Dados (LGPD
+            - Lei nº 13.709/2018).
           </p>
-          
+
           <div>
-            <h4 className="font-semibold text-foreground mb-2">5.1 Dados Coletados</h4>
+            <h4 className="font-semibold text-foreground mb-2">
+              5.1 Dados Coletados
+            </h4>
             <ul className="list-disc list-inside space-y-1 ml-4">
               <li>Nome completo</li>
               <li>Nome de usuário</li>
@@ -170,7 +233,9 @@ function TermsContent() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-foreground mb-2">5.2 Seus Direitos (LGPD)</h4>
+            <h4 className="font-semibold text-foreground mb-2">
+              5.2 Seus Direitos (LGPD)
+            </h4>
             <p>Você tem direito a:</p>
             <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
               <li>Confirmação de existência de tratamento</li>
@@ -184,7 +249,8 @@ function TermsContent() {
           </div>
 
           <p className="mt-3">
-            Para exercer seus direitos: <strong className="text-cyan-500">dpo@rainersoft.com.br</strong>
+            Para exercer seus direitos:{' '}
+            <strong className="text-cyan-500">dpo@rainersoft.com.br</strong>
           </p>
         </div>
       </section>
@@ -193,11 +259,23 @@ function TermsContent() {
 
       {/* Contato */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">6. Contato</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          6. Contato
+        </h3>
         <div className="space-y-2 text-muted-foreground">
-          <p><strong className="text-foreground">Email:</strong> suporte@rainersoft.com.br</p>
-          <p><strong className="text-foreground">Telefone:</strong> +55 24 99913-7382</p>
-          <p><strong className="text-foreground">Endereço:</strong> Volta Redonda, RJ, Brasil</p>
+          <p>
+            <strong className="text-foreground">Email:</strong>{' '}
+            {SITE_CONFIG.contact.email.address}
+          </p>
+          <p>
+            <strong className="text-foreground">Telefone:</strong>{' '}
+            {SITE_CONFIG.contact.phone.number}
+          </p>
+          <p>
+            <strong className="text-foreground">Endereço:</strong>{' '}
+            {SITE_CONFIG.contact.location.city},{' '}
+            {SITE_CONFIG.contact.location.country}
+          </p>
         </div>
       </section>
 
@@ -205,7 +283,7 @@ function TermsContent() {
         <p>© 2025 Rainer Soft - Todos os direitos reservados.</p>
       </div>
     </div>
-  )
+  );
 }
 
 function PrivacyContent() {
@@ -213,12 +291,15 @@ function PrivacyContent() {
     <div className="space-y-6 text-sm">
       {/* Introdução */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">1. Introdução</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          1. Introdução
+        </h3>
         <div className="space-y-3 text-muted-foreground">
           <p>
-            A <strong className="text-foreground">Rainer Soft</strong> valoriza sua privacidade e está 
-            comprometida em proteger seus dados pessoais em conformidade com a Lei Geral de Proteção de 
-            Dados (LGPD - Lei nº 13.709/2018).
+            A <strong className="text-foreground">Rainer Soft</strong> valoriza
+            sua privacidade e está comprometida em proteger seus dados pessoais
+            em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº
+            13.709/2018).
           </p>
         </div>
       </section>
@@ -233,21 +314,47 @@ function PrivacyContent() {
         </h3>
         <div className="space-y-3 text-muted-foreground">
           <div>
-            <h4 className="font-semibold text-foreground mb-2">2.1 Dados Fornecidos por Você</h4>
+            <h4 className="font-semibold text-foreground mb-2">
+              2.1 Dados Fornecidos por Você
+            </h4>
             <ul className="list-disc list-inside space-y-1 ml-4">
-              <li><strong className="text-foreground">Nome completo</strong>: para identificação e personalização</li>
-              <li><strong className="text-foreground">Nome de usuário</strong>: para autenticação única</li>
-              <li><strong className="text-foreground">Endereço de email</strong>: para comunicação e recuperação de conta</li>
-              <li><strong className="text-foreground">Senha</strong>: armazenada com hash criptográfico (bcrypt/Cognito)</li>
-              <li><strong className="text-foreground">Comentários e conteúdo</strong>: publicados por você no blog</li>
+              <li>
+                <strong className="text-foreground">Nome completo</strong>: para
+                identificação e personalização
+              </li>
+              <li>
+                <strong className="text-foreground">Nome de usuário</strong>:
+                para autenticação única
+              </li>
+              <li>
+                <strong className="text-foreground">Endereço de email</strong>:
+                para comunicação e recuperação de conta
+              </li>
+              <li>
+                <strong className="text-foreground">Senha</strong>: armazenada
+                com hash criptográfico (bcrypt/Cognito)
+              </li>
+              <li>
+                <strong className="text-foreground">
+                  Comentários e conteúdo
+                </strong>
+                : publicados por você no blog
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold text-foreground mb-2">2.2 Dados Coletados Automaticamente</h4>
+            <h4 className="font-semibold text-foreground mb-2">
+              2.2 Dados Coletados Automaticamente
+            </h4>
             <ul className="list-disc list-inside space-y-1 ml-4">
-              <li>Dados de navegação: páginas visitadas, tempo de permanência</li>
-              <li>Informações técnicas: endereço IP, tipo de navegador, sistema operacional</li>
+              <li>
+                Dados de navegação: páginas visitadas, tempo de permanência
+              </li>
+              <li>
+                Informações técnicas: endereço IP, tipo de navegador, sistema
+                operacional
+              </li>
               <li>Cookies: preferências de tema, sessão de usuário</li>
             </ul>
           </div>
@@ -258,7 +365,9 @@ function PrivacyContent() {
 
       {/* Como Usamos */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">3. Como Usamos Seus Dados</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          3. Como Usamos Seus Dados
+        </h3>
         <div className="space-y-2 text-muted-foreground">
           <ul className="list-disc list-inside space-y-1 ml-4">
             <li>Fornecer, manter e melhorar nossos serviços</li>
@@ -276,13 +385,27 @@ function PrivacyContent() {
 
       {/* Base Legal */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">4. Base Legal (LGPD Art. 7º)</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          4. Base Legal (LGPD Art. 7º)
+        </h3>
         <div className="space-y-2 text-muted-foreground">
           <ul className="list-disc list-inside space-y-1 ml-4">
-            <li><strong className="text-foreground">Consentimento</strong> (Art. 7º, I): ao criar sua conta</li>
-            <li><strong className="text-foreground">Execução de contrato</strong> (Art. 7º, V): para fornecer os serviços</li>
-            <li><strong className="text-foreground">Legítimo interesse</strong> (Art. 7º, IX): melhoria e segurança do serviço</li>
-            <li><strong className="text-foreground">Cumprimento legal</strong> (Art. 7º, II): obrigações legais</li>
+            <li>
+              <strong className="text-foreground">Consentimento</strong> (Art.
+              7º, I): ao criar sua conta
+            </li>
+            <li>
+              <strong className="text-foreground">Execução de contrato</strong>{' '}
+              (Art. 7º, V): para fornecer os serviços
+            </li>
+            <li>
+              <strong className="text-foreground">Legítimo interesse</strong>{' '}
+              (Art. 7º, IX): melhoria e segurança do serviço
+            </li>
+            <li>
+              <strong className="text-foreground">Cumprimento legal</strong>{' '}
+              (Art. 7º, II): obrigações legais
+            </li>
           </ul>
         </div>
       </section>
@@ -291,9 +414,13 @@ function PrivacyContent() {
 
       {/* Compartilhamento */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">5. Compartilhamento de Dados</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          5. Compartilhamento de Dados
+        </h3>
         <div className="space-y-3 text-muted-foreground">
-          <p className="font-semibold text-foreground">NÃO vendemos seus dados pessoais a terceiros.</p>
+          <p className="font-semibold text-foreground">
+            NÃO vendemos seus dados pessoais a terceiros.
+          </p>
           <p>Podemos compartilhar dados apenas com:</p>
           <ul className="list-disc list-inside space-y-1 ml-4">
             <li>Prestadores de serviço: AWS (hospedagem), serviços de email</li>
@@ -333,41 +460,65 @@ function PrivacyContent() {
         </h3>
         <div className="space-y-3 text-muted-foreground">
           <p>De acordo com a LGPD, você tem os seguintes direitos:</p>
-          
+
           <div className="grid gap-3">
             <div className="p-3 bg-muted dark:bg-cyan-400/5 rounded-lg">
-              <h5 className="font-semibold text-foreground text-xs mb-1">I. Confirmação e Acesso</h5>
-              <p className="text-xs text-muted-foreground">Confirmar a existência de tratamento e acessar seus dados</p>
+              <h5 className="font-semibold text-foreground text-xs mb-1">
+                I. Confirmação e Acesso
+              </h5>
+              <p className="text-xs text-muted-foreground">
+                Confirmar a existência de tratamento e acessar seus dados
+              </p>
             </div>
 
             <div className="p-3 bg-muted dark:bg-cyan-400/5 rounded-lg">
-              <h5 className="font-semibold text-foreground text-xs mb-1">II. Correção</h5>
-              <p className="text-xs text-muted-foreground">Corrigir dados incompletos, inexatos ou desatualizados</p>
+              <h5 className="font-semibold text-foreground text-xs mb-1">
+                II. Correção
+              </h5>
+              <p className="text-xs text-muted-foreground">
+                Corrigir dados incompletos, inexatos ou desatualizados
+              </p>
             </div>
 
             <div className="p-3 bg-muted dark:bg-cyan-400/5 rounded-lg">
-              <h5 className="font-semibold text-foreground text-xs mb-1">III. Anonimização ou Eliminação</h5>
-              <p className="text-xs text-muted-foreground">Solicitar anonimização ou eliminação de dados desnecessários</p>
+              <h5 className="font-semibold text-foreground text-xs mb-1">
+                III. Anonimização ou Eliminação
+              </h5>
+              <p className="text-xs text-muted-foreground">
+                Solicitar anonimização ou eliminação de dados desnecessários
+              </p>
             </div>
 
             <div className="p-3 bg-muted dark:bg-cyan-400/5 rounded-lg">
-              <h5 className="font-semibold text-foreground text-xs mb-1">IV. Portabilidade</h5>
-              <p className="text-xs text-muted-foreground">Receber seus dados em formato estruturado e interoperável</p>
+              <h5 className="font-semibold text-foreground text-xs mb-1">
+                IV. Portabilidade
+              </h5>
+              <p className="text-xs text-muted-foreground">
+                Receber seus dados em formato estruturado e interoperável
+              </p>
             </div>
 
             <div className="p-3 bg-muted dark:bg-cyan-400/5 rounded-lg">
-              <h5 className="font-semibold text-foreground text-xs mb-1">V. Revogação do Consentimento</h5>
-              <p className="text-xs text-muted-foreground">Revogar seu consentimento a qualquer momento</p>
+              <h5 className="font-semibold text-foreground text-xs mb-1">
+                V. Revogação do Consentimento
+              </h5>
+              <p className="text-xs text-muted-foreground">
+                Revogar seu consentimento a qualquer momento
+              </p>
             </div>
           </div>
 
-          <div className="mt-4 p-4 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-lg">
-            <h5 className="font-semibold text-foreground mb-2 text-xs">Como Exercer Seus Direitos:</h5>
+          <div className="mt-4 p-4 bg-linear-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-lg">
+            <h5 className="font-semibold text-foreground mb-2 text-xs">
+              Como Exercer Seus Direitos:
+            </h5>
             <p className="text-xs">
-              Entre em contato: <strong className="text-cyan-500">dpo@rainersoft.com.br</strong>
+              Entre em contato:{' '}
+              <strong className="text-cyan-500">dpo@rainersoft.com.br</strong>
             </p>
             <p className="mt-2 text-xs">
-              Responderemos em até 15 dias corridos, conforme estabelecido pela LGPD.
+              Responderemos em até 15 dias corridos, conforme estabelecido pela
+              LGPD.
             </p>
           </div>
         </div>
@@ -377,12 +528,23 @@ function PrivacyContent() {
 
       {/* Cookies */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">8. Cookies</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          8. Cookies
+        </h3>
         <div className="space-y-2 text-muted-foreground">
           <ul className="list-disc list-inside space-y-1 ml-4">
-            <li><strong className="text-foreground">Essenciais</strong>: autenticação, segurança</li>
-            <li><strong className="text-foreground">Preferência</strong>: tema (claro/escuro), idioma</li>
-            <li><strong className="text-foreground">Analíticos</strong>: entender como você usa o site</li>
+            <li>
+              <strong className="text-foreground">Essenciais</strong>:
+              autenticação, segurança
+            </li>
+            <li>
+              <strong className="text-foreground">Preferência</strong>: tema
+              (claro/escuro), idioma
+            </li>
+            <li>
+              <strong className="text-foreground">Analíticos</strong>: entender
+              como você usa o site
+            </li>
           </ul>
         </div>
       </section>
@@ -391,18 +553,28 @@ function PrivacyContent() {
 
       {/* DPO */}
       <section>
-        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">9. Encarregado de Dados (DPO)</h3>
+        <h3 className="text-lg font-bold mb-3 dark:text-cyan-200">
+          9. Encarregado de Dados (DPO)
+        </h3>
         <div className="space-y-2 text-muted-foreground">
-          <p><strong className="text-foreground">Nome:</strong> Rainer Teixeira</p>
-          <p><strong className="text-foreground">Email:</strong> dpo@rainersoft.com.br</p>
-          <p><strong className="text-foreground">Telefone:</strong> +55 24 99913-7382</p>
+          <p>
+            <strong className="text-foreground">Nome:</strong> Rainer Teixeira
+          </p>
+          <p>
+            <strong className="text-foreground">Email:</strong>{' '}
+            dpo@rainersoft.com.br
+          </p>
+          <p>
+            <strong className="text-foreground">Telefone:</strong>{' '}
+            {SITE_CONFIG.contact.phone.number}
+          </p>
         </div>
       </section>
 
       <Separator />
 
       {/* Consentimento */}
-      <section className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-lg p-4">
+      <section className="bg-linear-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-lg p-4">
         <h3 className="text-base font-bold mb-3 text-foreground flex items-center gap-2">
           <Eye className="w-5 h-5 text-cyan-500" />
           Seu Consentimento
@@ -413,7 +585,9 @@ function PrivacyContent() {
           </p>
           <ul className="list-disc list-inside space-y-1 ml-4 text-xs">
             <li>A coleta e uso de seus dados conforme descrito</li>
-            <li>O tratamento de seus dados para as finalidades especificadas</li>
+            <li>
+              O tratamento de seus dados para as finalidades especificadas
+            </li>
             <li>O compartilhamento limitado conforme descrito</li>
             <li>O uso de cookies</li>
           </ul>
@@ -424,6 +598,5 @@ function PrivacyContent() {
         <p>© 2025 Rainer Soft - Todos os direitos reservados.</p>
       </div>
     </div>
-  )
+  );
 }
-

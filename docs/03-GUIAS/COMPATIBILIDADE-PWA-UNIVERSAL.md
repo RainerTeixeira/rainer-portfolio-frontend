@@ -5,14 +5,16 @@
 ### 📱 iOS (iPhone & iPad)
 
 #### Metatags Apple
+
 ```html
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="RainerSoft">
-<meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+<meta fullName="apple-mobile-web-app-capable" content="yes">
+<meta fullName="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta fullName="apple-mobile-web-app-title" content="RainerSoft">
+<meta fullName="format-detection" content="telephone=no, date=no, email=no, address=no">
 ```
 
 #### Características
+
 - ✅ **Efeito topo contínuo** - Barra de status integrada (preta translúcida)
 - ✅ **Fullscreen** - Remove barra de navegação do Safari
 - ✅ **Safe Area Insets** - Respeita notch e Dynamic Island
@@ -21,6 +23,7 @@
 - ✅ **Theme Color adaptativo** - Muda com tema claro/escuro
 
 #### Dispositivos Suportados
+
 - iPhone 5/SE até iPhone 14 Pro Max
 - iPad Mini, Air, Pro (todas as gerações)
 - Safari 15+ com suporte completo a PWA
@@ -30,13 +33,15 @@
 ### 🤖 Android (Chrome, Samsung, Edge)
 
 #### Metatags Android
+
 ```html
-<meta name="theme-color" content="#000000">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-status-bar-style" content="black-translucent">
+<meta fullName="theme-color" content="#000000">
+<meta fullName="mobile-web-app-capable" content="yes">
+<meta fullName="mobile-web-app-status-bar-style" content="black-translucent">
 ```
 
 #### Características
+
 - ✅ **Barra de status colorida** - Integrada com o app (#000000)
 - ✅ **Ícones maskable** - Adaptam ao formato do launcher
 - ✅ **Display standalone** - App nativo sem barra do navegador
@@ -46,12 +51,14 @@
 - ✅ **Overscroll behavior** - Previne scroll bounce
 
 #### Características Android Exclusivas
+
 - **Display Override**: `window-controls-overlay`, `standalone`, `minimal-ui`
 - **Launch Handler**: Reutiliza janela existente ao abrir
 - **Protocol Handlers**: Suporte a `web+portfolio://`
 - **Edge Side Panel**: Largura preferida 400px
 
 #### Dispositivos Suportados
+
 - Android 5.0+ (Chrome 76+)
 - Samsung Internet 12+
 - Edge Mobile 79+
@@ -62,6 +69,7 @@
 ### 🪟 Windows/Desktop (Edge, Chrome)
 
 #### Microsoft Edge
+
 ```xml
 <!-- browserconfig.xml -->
 <TileColor>#000000</TileColor>
@@ -69,6 +77,7 @@
 ```
 
 #### Características
+
 - ✅ **Live Tiles** - Suporte a tiles do Windows
 - ✅ **Window Controls Overlay** - Barra de título customizada
 - ✅ **Desktop install** - Instalação via Chrome/Edge
@@ -111,10 +120,12 @@
 ## 🎨 Splash Screens
 
 ### iOS (14 tamanhos)
+
 - iPhone 5/SE até 14 Pro Max
 - iPad Mini, Air, Pro (10.5", 11", 12.9")
 
 ### Android (Automático)
+
 - Chrome gera automaticamente com:
   - `theme_color`: #000000
   - `background_color`: #000000
@@ -159,22 +170,26 @@ body {
 ## 🚀 Recursos PWA Avançados
 
 ### 1. **Shortcuts (Atalhos Rápidos)**
+
 ```json
 {
   "shortcuts": [
-    { "name": "Blog", "url": "/blog?source=shortcut" },
-    { "name": "Contato", "url": "/contato?source=shortcut" },
-    { "name": "Dashboard", "url": "/dashboard?source=shortcut" }
+    { "fullName": "Blog", "url": "/blog?source=shortcut" },
+    { "fullName": "Contato", "url": "/contato?source=shortcut" },
+    { "fullName": "Dashboard", "url": "/dashboard?source=shortcut" }
   ]
 }
 ```
 
 **Como usar:**
+
 - **Android**: Toque longo no ícone do app
 - **Windows**: Clique direito no atalho
 
 ### 2. **Share Target**
+
 Permite receber conteúdo de outros apps:
+
 ```json
 {
   "share_target": {
@@ -187,7 +202,9 @@ Permite receber conteúdo de outros apps:
 **Exemplo**: Compartilhar link → Abre formulário de contato
 
 ### 3. **Launch Handler**
+
 Reutiliza janela ao invés de abrir nova:
+
 ```json
 {
   "launch_handler": { "client_mode": "navigate-existing" }
@@ -195,7 +212,9 @@ Reutiliza janela ao invés de abrir nova:
 ```
 
 ### 4. **Protocol Handler**
+
 Abre links customizados:
+
 ```
 web+portfolio://projeto → abre /?portfolio=projeto
 ```
@@ -205,35 +224,41 @@ web+portfolio://projeto → abre /?portfolio=projeto
 ## 📱 Teste de Instalação
 
 ### iOS (Safari)
+
 1. Abra o site no Safari
 2. Toque em **Compartilhar** (ícone de seta)
 3. Role e toque em **Adicionar à Tela Inicial**
 4. Confirme o nome e toque em **Adicionar**
 
 **Resultado esperado:**
+
 - ✅ Ícone aparece na tela inicial
 - ✅ Splash screen preta com logo ao abrir
 - ✅ Barra de status preta integrada
 - ✅ Sem barra do Safari (fullscreen)
 
 ### Android (Chrome)
+
 1. Abra o site no Chrome
 2. Toque no menu (⋮) → **Instalar aplicativo**
 3. Ou aguarde o banner automático de instalação
 4. Confirme a instalação
 
 **Resultado esperado:**
+
 - ✅ Ícone no launcher (adaptado ao formato)
 - ✅ Barra de status preta
 - ✅ Sem barra do Chrome
 - ✅ Atalhos rápidos disponíveis (toque longo)
 
 ### Desktop (Chrome/Edge)
+
 1. Abra o site
 2. Clique no ícone de **instalação** na barra de endereço (+)
 3. Ou vá em Menu → **Instalar RainerSoft...**
 
 **Resultado esperado:**
+
 - ✅ App na área de trabalho
 - ✅ Abre em janela standalone
 - ✅ Atalhos de teclado funcionam
@@ -243,6 +268,7 @@ web+portfolio://projeto → abre /?portfolio=projeto
 ## 🎯 Otimizações Mobile
 
 ### Previne Zoom Automático
+
 ```css
 input, textarea, select {
   font-size: 16px; /* iOS e Android não dão zoom com 16px+ */
@@ -250,6 +276,7 @@ input, textarea, select {
 ```
 
 ### Touch Action
+
 ```css
 body {
   touch-action: manipulation; /* Previne double-tap zoom */
@@ -258,6 +285,7 @@ body {
 ```
 
 ### Scroll Performance
+
 ```css
 body {
   -webkit-overflow-scrolling: touch; /* iOS scroll suave */
@@ -270,6 +298,7 @@ body {
 ## ✅ Checklist de Compatibilidade
 
 ### iOS
+
 - [x] apple-mobile-web-app-capable
 - [x] apple-mobile-web-app-status-bar-style: black-translucent
 - [x] viewport-fit: cover
@@ -279,6 +308,7 @@ body {
 - [x] theme-color adaptativo
 
 ### Android
+
 - [x] theme-color (#000000)
 - [x] manifest.json completo
 - [x] Ícones 72-512px (10 tamanhos)
@@ -289,12 +319,14 @@ body {
 - [x] overscroll-behavior
 
 ### Desktop
+
 - [x] browserconfig.xml (Microsoft)
 - [x] window-controls-overlay
 - [x] display_override
 - [x] Ícones múltiplos tamanhos
 
 ### Universal
+
 - [x] manifest.json válido
 - [x] service-worker.js
 - [x] offline support
@@ -307,6 +339,7 @@ body {
 ## 📚 Recursos Relacionados
 
 ### Arquivos Criados/Modificados
+
 - ✅ `app/layout.tsx` - Metatags universais
 - ✅ `app/globals.css` - CSS com safe-area
 - ✅ `public/manifest.json` - PWA manifest completo
@@ -314,6 +347,7 @@ body {
 - ✅ `public/splash-screens/` - Diretório para splash screens
 
 ### Como Gerar Assets
+
 ```bash
 # Splash Screens iOS
 node generate-splash.js
@@ -327,11 +361,13 @@ node generate-splash.js
 ## 🎨 Identidade Visual PWA
 
 ### Cores Padrão
+
 - **Background**: `#000000` (preto)
 - **Theme Color**: `#000000` (dark) / `#ffffff` (light)
 - **Tiles**: `#000000`
 
 ### Logo/Ícone
+
 - **Formato**: PNG com transparência
 - **Tamanho base**: 512x512px
 - **Safe zone**: 40% (para maskable)
@@ -342,17 +378,18 @@ node generate-splash.js
 ## 🔍 Validação
 
 ### Ferramentas de Teste
+
 1. **Lighthouse** (Chrome DevTools)
    - PWA score: 100/100 ✅
    - Installable: ✅
    - Offline ready: ✅
 
 2. **PWA Builder**
-   - https://www.pwabuilder.com/
+   - <https://www.pwabuilder.com/>
    - Valida manifest.json
 
 3. **Maskable.app**
-   - https://maskable.app/
+   - <https://maskable.app/>
    - Testa ícones maskable
 
 4. **iOS Simulator** (Xcode)
@@ -378,12 +415,14 @@ node generate-splash.js
 Quando instalado em **qualquer dispositivo**, o app apresenta:
 
 ### Visual
+
 - ✅ Barra de status integrada (sem quebra de cor)
 - ✅ Fullscreen (sem barra do navegador)
 - ✅ Splash screen profissional
 - ✅ Ícone adaptado ao sistema
 
 ### Funcional
+
 - ✅ Abre em janela standalone
 - ✅ Funciona offline
 - ✅ Atalhos rápidos
@@ -391,6 +430,7 @@ Quando instalado em **qualquer dispositivo**, o app apresenta:
 - ✅ Notificações push
 
 ### Performance
+
 - ✅ Scroll nativo e suave
 - ✅ Sem zoom acidental
 - ✅ Touch otimizado
@@ -400,4 +440,3 @@ Quando instalado em **qualquer dispositivo**, o app apresenta:
 
 **Desenvolvido por RainerSoft** 🚀
 Compatível com iOS, Android, Windows, macOS, Linux
-

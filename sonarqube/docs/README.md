@@ -100,10 +100,10 @@ npm run sonar:local
 
 ## 🔗 Links Rápidos
 
-- **Interface Local:** http://localhost:9000
+- **Interface Local:** <http://localhost:9000>
 - **Índice Completo:** [INDEX.md](./INDEX.md)
-- **Documentação Oficial:** https://docs.sonarqube.org/
-- **Community:** https://community.sonarsource.com/
+- **Documentação Oficial:** <https://docs.sonarqube.org/>
+- **Community:** <https://community.sonarsource.com/>
 
 ---
 
@@ -119,4 +119,3 @@ npm run sonar:local
 ---
 
 **Desenvolvido com ❤️ para garantir código de qualidade excepcional!**
-

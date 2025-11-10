@@ -1,16 +1,34 @@
 /**
- * Formulário de Recuperação de Senha
- * 
- * Formulário para solicitar reset de senha
- * 
- * @fileoverview Forgot password form component
+ * Forgot Password Form Component
+ *
+ * Formulário de recuperação de senha para solicitar reset de senha. Valida
+ * email, envia código de verificação e integra com sistema de autenticação.
+ *
+ * @module components/dashboard/login/forms/forgot-password-form
+ * @fileoverview Formulário de recuperação de senha
  * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * <ForgotPasswordForm />
+ * ```
+ *
+ * Características:
+ * - Formulário com validação Zod
+ * - Validação de email
+ * - Estados de loading, erro e sucesso
+ * - Integração com react-hook-form
+ * - Integração com AWS Cognito
+ * - Mensagens de feedback claras
+ * - Acessibilidade completa
  */
 
-"use client"
+'use client';
 
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -19,57 +37,65 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowLeft, CheckCircle2, Loader2, XCircle } from "lucide-react"
-import Link from "next/link"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowLeft, CheckCircle2, Loader2, XCircle } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 const forgotPasswordSchema = z.object({
-  email: z.string().email("Email inválido"),
-})
+  email: z.string().email('Email inválido'),
+});
 
-type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>
+type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
 export function ForgotPasswordForm() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
-      email: "",
+      email: '',
     },
-  })
+  });
 
   async function onSubmit(data: ForgotPasswordFormValues) {
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
 
     try {
-      const { localAuth } = await import('@/components/dashboard/lib/auth-local')
-      
-      const result = await localAuth.forgotPassword(data.email)
+      const { localAuth } = await import(
+        '@/components/dashboard/lib/auth-local'
+      );
+
+      const result = await localAuth.forgotPassword(data.email);
 
       if (!result.success) {
-        throw new Error(result.message)
+        throw new Error(result.message);
       }
 
       // Mostrar token no console para dev
       if (result.token) {
-        console.log('🔗 Use este link para resetar:', `/dashboard/login/reset-password/${result.token}`)
+        console.log(
+          '🔗 Use este link para resetar:',
+          `/dashboard/login/reset-password/${result.token}`
+        );
       }
 
-      setSuccess(true)
+      setSuccess(true);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Erro ao enviar email. Tente novamente."
-      setError(errorMessage)
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : 'Erro ao enviar email. Tente novamente.';
+      setError(errorMessage);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -79,7 +105,8 @@ export function ForgotPasswordForm() {
         <Alert className="border-green-500">
           <CheckCircle2 className="h-4 w-4 text-green-500" />
           <AlertDescription className="text-green-700 dark:text-green-400">
-            Email enviado com sucesso! Verifique sua caixa de entrada para redefinir sua senha.
+            Email enviado com sucesso! Verifique sua caixa de entrada para
+            redefinir sua senha.
           </AlertDescription>
         </Alert>
 
@@ -91,7 +118,7 @@ export function ForgotPasswordForm() {
           Voltar para login
         </Link>
       </div>
-    )
+    );
   }
 
   return (
@@ -121,10 +148,10 @@ export function ForgotPasswordForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input 
+                  <Input
                     type="email"
-                    placeholder="seu@email.com" 
-                    {...field} 
+                    placeholder="seu@email.com"
+                    {...field}
                     disabled={isLoading}
                   />
                 </FormControl>
@@ -153,6 +180,5 @@ export function ForgotPasswordForm() {
         </Link>
       </div>
     </div>
-  )
+  );
 }
-

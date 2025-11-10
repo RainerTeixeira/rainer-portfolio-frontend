@@ -1,20 +1,34 @@
-// ============================================================================
-// Exportações principais da API
-// ============================================================================
+/**
+ * API - Barrel Export Global
+ */
 
-// Cliente HTTP e tipos base
+// Client & Config
 export * from './client';
 export * from './config';
-export * from './types';
 
-// Serviços (todos os serviços da API)
-export * from './services';
+// Types (todos centralizados)
+export * from './types/auth';
+export * from './types/bookmarks';
+export * from './types/categories';
+export * from './types/comments';
+export * from './types/common';
+export * from './types/likes';
+export * from './types/notifications';
+export * from './types/posts';
+export * from './types/users';
 
-// Tipos de serviços
-// (removido re-export duplicado para evitar conflitos)
+// Namespace consolidado para imports limpos
+export * as types from './types';
 
-// Instância do cliente API
-export { api } from './client';
-
-// Tipos de erro
-export { ApiError } from './client';
+// Services
+export * from './services/auth.service';
+export * from './services/bookmarks.service';
+export * from './services/categories.service';
+export * from './services/comments.service';
+export * from './services/dashboard.service';
+export * from './services/health.service';
+export * from './services/likes.service';
+export * from './services/notifications.service';
+export * from './services/posts.service';
+export * from './services/user.service';
+export * from './services/users.service';

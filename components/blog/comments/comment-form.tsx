@@ -1,55 +1,81 @@
 /**
- * Formulário de Comentário
- * 
- * Formulário para criar/editar comentários
- * 
- * @fileoverview Comment form component
+ * Comment Form Component
+ *
+ * Formulário de comentário para criar/editar comentários em posts. Inclui
+ * validação de conteúdo, estados de loading e erro, e integração com sistema
+ * de autenticação.
+ *
+ * @module components/blog/comments/comment-form
+ * @fileoverview Formulário de comentário com validação
  * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * <CommentForm
+ *   postId="post-123"
+ *   parentId="comment-456"
+ *   onCommentAdded={(comment) => handleAdd(comment)}
+ * />
+ * ```
+ *
+ * Características:
+ * - Formulário com validação Zod
+ * - Suporte a comentários principais e respostas
+ * - Modo de edição de comentários existentes
+ * - Estados de loading e erro
+ * - Integração com react-hook-form
+ * - Avatar do usuário autenticado
+ * - Callbacks opcionais (onCommentAdded, onCancel)
+ * - Acessibilidade completa
  */
 
-"use client"
+'use client';
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, Send, X, AlertCircle } from "lucide-react"
-import { toast } from "sonner"
-import { useAuth } from "@/components/providers/auth-provider"
-import type { Comment } from "@/types/database"
+import { useAuth } from '@/components/providers/auth-provider';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { commentsService } from '@/lib/api/services';
+import type { Comment } from '@/lib/api/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AlertCircle, Loader2, Send, X } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import * as z from 'zod';
 
 const commentSchema = z.object({
-  content: z.string()
-    .min(1, "Comentário não pode estar vazio")
-    .max(1000, "Comentário deve ter no máximo 1000 caracteres"),
-})
+  content: z
+    .string()
+    .min(1, 'Comentário não pode estar vazio')
+    .max(1000, 'Comentário deve ter no máximo 1000 caracteres'),
+});
 
-type CommentFormValues = z.infer<typeof commentSchema>
+type CommentFormValues = z.infer<typeof commentSchema>;
 
 interface CommentFormProps {
-  postId: string
-  parentId?: string
-  editingComment?: Comment
-  onCommentAdded?: (comment: Comment) => void
-  onCancel?: () => void
-  placeholder?: string
+  postId: string;
+  parentId?: string;
+  editingComment?: Comment;
+  onCommentAdded?: (comment: Comment) => void;
+  onCancel?: () => void;
+  placeholder?: string;
 }
 
-export function CommentForm({ 
-  postId, 
+export function CommentForm({
+  postId,
   parentId,
   editingComment,
   onCommentAdded,
   onCancel,
-  placeholder = "Escreva seu comentário..."
+  placeholder = 'Escreva seu comentário...',
 }: CommentFormProps) {
-  const { user } = useAuth()
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const { user } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
@@ -60,65 +86,69 @@ export function CommentForm({
   } = useForm<CommentFormValues>({
     resolver: zodResolver(commentSchema),
     defaultValues: {
-      content: editingComment?.content || "",
+      content: editingComment?.content || '',
     },
-  })
+  });
 
-  const content = watch("content")
-  const remainingChars = 1000 - (content?.length || 0)
+  const content = watch('content');
+  const remainingChars = 1000 - (content?.length || 0);
 
   async function onSubmit(data: CommentFormValues) {
-    setIsSubmitting(true)
-    setError(null)
+    if (!user?.username) {
+      setError('Você precisa estar autenticado para comentar');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
 
     try {
-      const url = editingComment 
-        ? `/api/comments/${editingComment.id}`
-        : `/api/posts/${postId}/comments`
-
-      const method = editingComment ? "PATCH" : "POST"
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      if (editingComment) {
+        // Atualizar comentário existente
+        const updatedComment = await commentsService.updateComment(
+          editingComment.id,
+          {
+            content: data.content,
+          }
+        );
+        toast.success('Comentário atualizado!');
+        reset();
+        if (onCommentAdded) {
+          onCommentAdded(updatedComment);
+        }
+      } else {
+        // Criar novo comentário
+        const newComment = await commentsService.createComment({
           content: data.content,
+          postId,
           parentId,
-        }),
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.message || "Erro ao enviar comentário")
-      }
-
-      const newComment = await response.json()
-
-      toast.success(editingComment ? "Comentário atualizado!" : "Comentário enviado!")
-      
-      reset()
-      
-      if (onCommentAdded) {
-        onCommentAdded(newComment)
+          authorId: user.username, // Usar username como authorId temporário
+        });
+        toast.success('Comentário enviado!');
+        reset();
+        if (onCommentAdded) {
+          onCommentAdded(newComment);
+        }
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Erro ao enviar comentário. Tente novamente."
-      setError(errorMessage)
-      toast.error(errorMessage)
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : 'Erro ao enviar comentário. Tente novamente.';
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   }
 
   function getInitials(name: string) {
     return name
-      .split(" ")
+      .split(' ')
       .map(n => n[0])
-      .join("")
+      .join('')
       .toUpperCase()
-      .slice(0, 2)
+      .slice(0, 2);
   }
 
   return (
@@ -144,7 +174,7 @@ export function CommentForm({
         {/* Campo de texto */}
         <div className="flex-1 space-y-2">
           <Textarea
-            {...register("content")}
+            {...register('content')}
             placeholder={placeholder}
             rows={3}
             className="resize-none"
@@ -155,9 +185,11 @@ export function CommentForm({
           <div className="flex items-center justify-between text-xs">
             <div className="text-muted-foreground">
               {errors.content ? (
-                <span className="text-destructive">{errors.content.message}</span>
+                <span className="text-destructive">
+                  {errors.content.message}
+                </span>
               ) : (
-                <span className={remainingChars < 100 ? "text-orange-500" : ""}>
+                <span className={remainingChars < 100 ? 'text-orange-500' : ''}>
                   {remainingChars} caracteres restantes
                 </span>
               )}
@@ -194,12 +226,11 @@ export function CommentForm({
           ) : (
             <>
               <Send className="h-4 w-4 mr-2" />
-              {editingComment ? "Salvar" : "Comentar"}
+              {editingComment ? 'Salvar' : 'Comentar'}
             </>
           )}
         </Button>
       </div>
     </form>
-  )
+  );
 }
-

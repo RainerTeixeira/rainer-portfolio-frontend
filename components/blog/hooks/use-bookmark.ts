@@ -1,46 +1,41 @@
 /**
- * Hook para Sistema de Bookmarks
- * 
- * Gerencia marcação/desmarcação de posts salvos com optimistic updates,
- * animações, notificações e persistência via API.
- * 
- * Funcionalidades:
- * - Optimistic updates (atualização imediata da UI)
- * - Animação de bookmark
- * - Notificações toast de feedback
- * - Integração com API de bookmarks
- * - Rollback em caso de erro
- * - Callbacks para eventos de bookmark/unbookmark
- * 
- * @fileoverview Hook para gerenciamento de bookmarks/salvos
+ * Bookmark Hook
+ *
+ * Hook que gerencia marcação/desmarcação de posts salvos com optimistic
+ * updates, animações, notificações e persistência via API. Inclui rollback
+ * em caso de erro.
+ *
+ * @module components/blog/hooks/use-bookmark
+ * @fileoverview Hook para gerenciamento de bookmarks de posts
  * @author Rainer Teixeira
- * @version 1.0.0
+ * @version 2.0.0
+ * @since 1.0.0
  */
 
-"use client"
+'use client';
 
-import { useState } from "react"
-import { toast } from "sonner"
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 /**
  * Hook useBookmark
- * 
+ *
  * Gerencia o estado e lógica de bookmarks de um post.
  * Atualiza a UI otimisticamente e sincroniza com o backend.
- * 
+ *
  * @param {string} postId - ID do post
  * @param {boolean} [initialIsBookmarked=false] - Se o post já está salvo
  * @param {Function} [onBookmark] - Callback ao salvar
  * @param {Function} [onUnbookmark] - Callback ao remover dos salvos
- * 
+ *
  * @returns {Object} Estado e funções de bookmark
  * @returns {boolean} isBookmarked - Se o post está salvo
  * @returns {boolean} isAnimating - Se está animando
  * @returns {Function} handleBookmark - Função para salvar/remover
- * 
+ *
  * @example
  * import { useBookmark } from '@/components/blog/hooks'
- * 
+ *
  * function BookmarkButton({ postId }) {
  *   const { isBookmarked, isAnimating, handleBookmark } = useBookmark(
  *     postId,
@@ -48,7 +43,7 @@ import { toast } from "sonner"
  *     () => console.log('Salvo!'),
  *     () => console.log('Removido!')
  *   )
- *   
+ *
  *   return (
  *     <button onClick={handleBookmark}>
  *       {isBookmarked ? '🔖' : '📑'} {isBookmarked ? 'Salvo' : 'Salvar'}
@@ -62,44 +57,44 @@ export function useBookmark(
   onBookmark?: () => void,
   onUnbookmark?: () => void
 ) {
-  const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked)
-  const [isAnimating, setIsAnimating] = useState(false)
+  const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   async function handleBookmark() {
-    const wasBookmarked = isBookmarked
-    
+    const wasBookmarked = isBookmarked;
+
     // Optimistic update
-    setIsBookmarked(!wasBookmarked)
-    setIsAnimating(!wasBookmarked)
+    setIsBookmarked(!wasBookmarked);
+    setIsAnimating(!wasBookmarked);
 
     try {
-      const endpoint = wasBookmarked 
+      const endpoint = wasBookmarked
         ? `/api/posts/${postId}/bookmark`
-        : `/api/posts/${postId}/bookmark`
+        : `/api/posts/${postId}/bookmark`;
 
       const response = await fetch(endpoint, {
-        method: wasBookmarked ? "DELETE" : "POST",
-      })
+        method: wasBookmarked ? 'DELETE' : 'POST',
+      });
 
       if (!response.ok) {
-        throw new Error("Erro ao atualizar bookmark")
+        throw new Error('Erro ao atualizar bookmark');
       }
 
       // Feedback
       if (!wasBookmarked) {
-        toast.success("Post salvo com sucesso!")
-        if (onBookmark) onBookmark()
+        toast.success('Post salvo com sucesso!');
+        if (onBookmark) onBookmark();
       } else {
-        toast.success("Post removido dos salvos")
-        if (onUnbookmark) onUnbookmark()
+        toast.success('Post removido dos salvos');
+        if (onUnbookmark) onUnbookmark();
       }
     } catch (error) {
       // Reverter em caso de erro
-      setIsBookmarked(wasBookmarked)
-      toast.error("Erro ao salvar post")
-      console.error("Erro ao bookmark:", error)
+      setIsBookmarked(wasBookmarked);
+      toast.error('Erro ao salvar post');
+      console.error('Erro ao bookmark:', error);
     } finally {
-      setTimeout(() => setIsAnimating(false), 600)
+      setTimeout(() => setIsAnimating(false), 600);
     }
   }
 
@@ -107,6 +102,5 @@ export function useBookmark(
     isBookmarked,
     isAnimating,
     handleBookmark,
-  }
+  };
 }
-

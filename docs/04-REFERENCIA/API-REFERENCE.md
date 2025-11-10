@@ -182,6 +182,7 @@ logger.debug('User data loaded', { userId: '123', count: 10 })
 ```
 
 **Características**:
+
 - Apenas em desenvolvimento
 - Cor: Cinza
 - Emoji: 🔍
@@ -193,6 +194,7 @@ logger.info('User logged in', { userId: user.id })
 ```
 
 **Características**:
+
 - Produção e desenvolvimento
 - Cor: Azul
 - Emoji: ℹ️
@@ -204,6 +206,7 @@ logger.warn('Cache expired', { cacheKey: 'posts' })
 ```
 
 **Características**:
+
 - Envia para external service
 - Cor: Amarelo
 - Emoji: ⚠️
@@ -215,6 +218,7 @@ logger.error('Failed to save post', error, { postId: '123' })
 ```
 
 **Características**:
+
 - Envia para external service
 - Inclui stack trace
 - Cor: Vermelho
@@ -278,7 +282,7 @@ analytics.pageView('/blog')
 
 ```typescript
 analytics.identify('user-123', { 
-  name: 'João',
+  fullName: 'João',
   plan: 'premium'
 })
 ```
@@ -299,7 +303,7 @@ analytics.enable()
 
 ### API
 
-#### `performanceMonitor.start(name)`
+#### `performanceMonitor.start(fullName)`
 
 ```typescript
 performanceMonitor.start('fetch_posts')
@@ -307,7 +311,7 @@ performanceMonitor.start('fetch_posts')
 
 **Marca início de medição**
 
-#### `performanceMonitor.end(name)` → `number | null`
+#### `performanceMonitor.end(fullName)` → `number | null`
 
 ```typescript
 const duration = performanceMonitor.end('fetch_posts')
@@ -316,7 +320,7 @@ console.log(duration) // 245 (ms)
 
 **Retorna duração em milissegundos**
 
-#### `performanceMonitor.measure(name, fn)` → `Promise<T>`
+#### `performanceMonitor.measure(fullName, fn)` → `Promise<T>`
 
 ```typescript
 const data = await performanceMonitor.measure('load_data', async () => {
@@ -328,7 +332,7 @@ const data = await performanceMonitor.measure('load_data', async () => {
 
 **Método recomendado para measuring**
 
-#### `performanceMonitor.getMetric(name)` → `PerformanceMetric | undefined`
+#### `performanceMonitor.getMetric(fullName)` → `PerformanceMetric | undefined`
 
 ```typescript
 const metric = performanceMonitor.getMetric('fetch_posts')
@@ -337,9 +341,10 @@ console.log(metric?.rating) // 'good'
 ```
 
 **Returns**:
+
 ```typescript
 interface PerformanceMetric {
-  readonly name: string
+  readonly fullName: string
   readonly value: number
   readonly rating: 'good' | 'needs-improvement' | 'poor'
   readonly timestamp: number
@@ -350,7 +355,7 @@ interface PerformanceMetric {
 
 ```typescript
 const allMetrics = performanceMonitor.getAllMetrics()
-allMetrics.forEach(m => console.log(m.name, m.value, m.rating))
+allMetrics.forEach(m => console.log(m.fullName, m.value, m.rating))
 ```
 
 #### `performanceMonitor.clearMetrics()`
@@ -449,13 +454,15 @@ const result = validateWithSchema(data, loginFormSchema)
 ```
 
 **Fields**:
+
 - `username` - Validates username
 - `password` - Validates password
 
 #### `contactFormSchema`
 
 **Fields**:
-- `name` - Validates name (username rules)
+
+- `fullName` - Validates fullName (username rules)
 - `email` - Validates email
 - `phone` - Validates phone (BR format)
 - `message` - Validates message
@@ -463,6 +470,7 @@ const result = validateWithSchema(data, loginFormSchema)
 #### `postFormSchema`
 
 **Fields**:
+
 - `title` - Max 100 chars
 - `description` - Max 300 chars
 - `slug` - Lowercase + hyphens
@@ -471,6 +479,7 @@ const result = validateWithSchema(data, loginFormSchema)
 #### `newsletterFormSchema`
 
 **Fields**:
+
 - `email` - Validates email
 
 ### `validateWithSchema(data, schema)` → `ValidationResult`
@@ -598,6 +607,7 @@ function Component() {
 ```
 
 **Features**:
+
 - Auto-track page views
 - Type-safe tracking functions
 - useCallback optimized
@@ -646,6 +656,7 @@ function Component() {
 ```
 
 **Returns**:
+
 ```typescript
 {
   scrollToSection: (id: string) => void
@@ -655,6 +666,7 @@ function Component() {
 ```
 
 **Features**:
+
 - Respects `prefers-reduced-motion`
 - Smooth behavior
 - Header offset
@@ -688,6 +700,7 @@ function Component() {
 ```
 
 **Returns**:
+
 ```typescript
 {
   isInstallable: boolean
@@ -720,6 +733,7 @@ function Component() {
 ```
 
 **Returns**:
+
 ```typescript
 {
   strength: number // 0-4
@@ -749,6 +763,7 @@ import { Button, buttonVariants } from '@/components/ui/button'
 ```
 
 **Variants**:
+
 - `default` - Botão primário
 - `destructive` - Ações destrutivas
 - `outline` - Outline button
@@ -757,6 +772,7 @@ import { Button, buttonVariants } from '@/components/ui/button'
 - `link` - Como link
 
 **Sizes**:
+
 - `default` - Tamanho normal
 - `sm` - Pequeno
 - `lg` - Grande
@@ -825,6 +841,7 @@ import {
 ```
 
 **SkeletonGrid Props**:
+
 ```typescript
 {
   count?: number        // Default: 4
@@ -834,44 +851,6 @@ import {
 ```
 
 **LoadingSpinner Sizes**: `'sm' | 'md' | 'lg' | 'xl'`
-
----
-
-## 🧩 Error Boundary
-
-**Arquivo**: `components/error-boundary.tsx`
-
-### API
-
-```typescript
-import { ErrorBoundary } from '@/components/error-boundary'
-
-<ErrorBoundary
-  onError={(error, errorInfo) => {
-    logger.error('Error caught', error, { errorInfo })
-  }}
-  fallback={<CustomErrorUI />}
->
-  <App />
-</ErrorBoundary>
-```
-
-**Props**:
-```typescript
-{
-  children: ReactNode
-  fallback?: ReactNode
-  onError?: (error: Error, errorInfo: ErrorInfo) => void
-}
-```
-
-**Features**:
-- Catches React render errors
-- Professional fallback UI
-- Retry button
-- Navigate home button
-- Stack trace in development
-- Error logging
 
 ---
 
@@ -928,7 +907,7 @@ import {
 // User
 interface User {
   readonly id: string
-  readonly name: string
+  readonly fullName: string
   readonly email: string
   readonly role: 'admin' | 'editor' | 'viewer'
 }
@@ -953,7 +932,7 @@ interface ValidationResult {
 
 // Performance Metric
 interface PerformanceMetric {
-  readonly name: string
+  readonly fullName: string
   readonly value: number
   readonly rating: 'good' | 'needs-improvement' | 'poor'
   readonly timestamp: number
@@ -1052,7 +1031,7 @@ logger.debug('Analytics event', { event })
 
 Dúvidas sobre a API? Entre em contato:
 
-- 📧 **Email**: suporte@rainersoft.com.br
+- 📧 **Email**: <suporte@rainersoft.com.br>
 - 📖 **Docs**: Ver outros documentos em `/docs/`
 - 💬 **Issues**: GitHub Issues
 
@@ -1060,4 +1039,3 @@ Dúvidas sobre a API? Entre em contato:
 
 **Última atualização**: Outubro 2025
 **Versão**: 1.0.0
-

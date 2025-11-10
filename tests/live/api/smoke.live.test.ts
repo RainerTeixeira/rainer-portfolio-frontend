@@ -6,9 +6,10 @@
  * - Se o /health falhar, os testes serão pulados
  */
 
-import { api } from '@/lib/api';
+import { api } from '../../../lib/api';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
+
 jest.setTimeout(20000);
 const DB_PROVIDER = (process.env.API_DB_PROVIDER || 'PRISMA').toUpperCase();
 
@@ -19,7 +20,7 @@ describe('LIVE API Smoke', () => {
     try {
       const res = await fetch(`${BASE_URL}/health`, {
         headers: {
-          'accept': '*/*',
+          accept: '*/*',
           'X-Database-Provider': DB_PROVIDER,
         },
       });
@@ -45,7 +46,10 @@ describe('LIVE API Smoke', () => {
   });
 
   test('GET /posts lista posts', async () => {
-    if (!healthy) { console.warn('Sem saúde da API'); return; }
+    if (!healthy) {
+      console.warn('Sem saúde da API');
+      return;
+    }
     const res = await api.get<any>('/posts', {
       headers: { 'X-Database-Provider': DB_PROVIDER },
       params: { page: 1, limit: 1 },
@@ -54,7 +58,10 @@ describe('LIVE API Smoke', () => {
   });
 
   test('GET /categories lista categorias', async () => {
-    if (!healthy) { console.warn('Sem saúde da API'); return; }
+    if (!healthy) {
+      console.warn('Sem saúde da API');
+      return;
+    }
     const res = await api.get<any>('/categories', {
       headers: { 'X-Database-Provider': DB_PROVIDER },
     });
@@ -62,7 +69,10 @@ describe('LIVE API Smoke', () => {
   });
 
   test('GET /comments lista comentários', async () => {
-    if (!healthy) { console.warn('Sem saúde da API'); return; }
+    if (!healthy) {
+      console.warn('Sem saúde da API');
+      return;
+    }
     const res = await api.get<any>('/comments', {
       headers: { 'X-Database-Provider': DB_PROVIDER },
       params: { page: 1, limit: 1 },
@@ -71,7 +81,10 @@ describe('LIVE API Smoke', () => {
   });
 
   test('GET /users lista usuários', async () => {
-    if (!healthy) { console.warn('Sem saúde da API'); return; }
+    if (!healthy) {
+      console.warn('Sem saúde da API');
+      return;
+    }
     const res = await api.get<any>('/users', {
       headers: { 'X-Database-Provider': DB_PROVIDER },
       params: { page: 1, limit: 1 },

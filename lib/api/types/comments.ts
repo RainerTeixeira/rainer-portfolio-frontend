@@ -1,32 +1,45 @@
+/**
+ * Types - Comments
+ */
+
 export interface Comment {
-  id: string;
-  content: string;
-  postId: string;
-  authorId: string;
-  parentId?: string;
-  isReported?: boolean;
-  approved?: boolean;
-  createdAt: string;
-  updatedAt: string;
+  readonly id: string;
+  readonly content: string;
+  readonly contentJson?: any;
+  readonly authorId: string;
+  readonly postId: string;
+  readonly parentId?: string;
+  readonly isApproved: boolean;
+  readonly isReported: boolean;
+  readonly reportReason?: string;
+  readonly isEdited: boolean;
+  readonly likesCount: number;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly editedAt?: string;
 }
 
 export interface CreateCommentData {
-  content: string;
-  postId: string;
-  authorId: string;
-  parentId?: string;
+  readonly content: string;
+  readonly contentJson?: any;
+  readonly authorId: string;
+  readonly postId: string;
+  readonly parentId?: string;
 }
 
 export interface UpdateCommentData {
-  content?: string;
+  readonly content?: string;
+  readonly contentJson?: any;
+  readonly isApproved?: boolean;
+  readonly isReported?: boolean;
+  readonly reportReason?: string;
 }
 
-export interface ListCommentsParams {
-  [key: string]: string | number | boolean | undefined;
-  limit?: number;
-  page?: number;
-  postId?: string;
-  authorId?: string;
-  isApproved?: boolean;
-  parentId?: string;
+export interface CommentFilters {
+  readonly page?: number;
+  readonly limit?: number;
+  readonly postId?: string;
+  readonly authorId?: string;
+  readonly isApproved?: boolean;
+  readonly parentId?: string;
 }

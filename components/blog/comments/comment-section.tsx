@@ -1,176 +1,156 @@
 /**
- * Seção de Comentários
- * 
- * Componente completo para exibir e gerenciar comentários de posts
- * 
- * @fileoverview Comment Section Component
+ * Comment Section Component
+ *
+ * Seção de comentários para exibir e gerenciar comentários de posts. Suporta
+ * comentários aninhados (replies), edição e exclusão de comentários, e
+ * integração com sistema de autenticação.
+ *
+ * @module components/blog/comments/comment-section
+ * @fileoverview Seção completa de comentários com CRUD
  * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * <CommentSection postId="post-123" />
+ * ```
+ *
+ * Características:
+ * - Lista de comentários com autor e metadados
+ * - Formulário de novo comentário
+ * - Suporte a comentários aninhados (replies)
+ * - Edição e exclusão de comentários
+ * - Estados de loading e erro
+ * - Integração com sistema de autenticação
+ * - Layout responsivo
+ * - Acessibilidade completa
  */
 
-"use client"
+'use client';
 
-import { useState, useEffect, useCallback } from "react"
-import { AlertCircle } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { CommentForm } from "./comment-form"
-import { CommentItem } from "./comment-item"
-import { useAuth } from "@/components/providers/auth-provider"
-import type { Comment as CommentType } from "@/types/database"
+import { useAuth } from '@/components/providers/auth-provider';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { commentsService } from '@/lib/api/services';
+import type { Comment as ApiComment } from '@/lib/api/types';
+import { AlertCircle } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { CommentForm } from './comment-form';
+import { CommentItem } from './comment-item';
 
-// Tipo estendido com informações do autor
-export interface Comment extends CommentType {
+// Tipo estendido de comentário com informações do autor e replies
+export interface CommentWithAuthor extends ApiComment {
   author?: {
-    id: string
-    name: string
-    username: string
-    avatar?: string
-  }
-  replies?: Comment[]
+    id: string;
+    name: string;
+    username: string;
+    avatar?: string;
+  };
+  replies?: CommentWithAuthor[];
+  // Mantém createdAt e updatedAt como string (do ApiComment)
 }
 
 interface CommentSectionProps {
-  postId: string
+  postId: string;
 }
 
 export function CommentSection({ postId }: CommentSectionProps) {
-  const { user } = useAuth()
-  const [comments, setComments] = useState<Comment[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const { user } = useAuth();
+  const [comments, setComments] = useState<CommentWithAuthor[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const currentUserId = user?.username // Usar username como ID temporário
+  const currentUserId = user?.username; // Usar username como ID temporário
 
   const loadComments = useCallback(async () => {
     try {
-      setIsLoading(true)
-      setError(null)
-      
-      // TODO: Implementar busca de comentários do backend
-      const response = await fetch(`/api/posts/${postId}/comments`)
-      
-      if (!response.ok) {
-        throw new Error('Erro ao carregar comentários')
-      }
-      
-      const data = await response.json()
-      setComments(data)
-    } catch {
-      // Fallback: usar dados mockados para demonstração
-      const mockComments: Comment[] = [
-        {
-          id: '1',
-          content: 'Excelente artigo! Muito bem explicado. Esse tipo de conteúdo é exatamente o que eu estava procurando para entender melhor sobre microserviços.',
-          authorId: 'user-1',
-          postId,
-          isApproved: true,
-          isReported: false,
-          isEdited: false,
-          likesCount: 5,
-          createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 horas atrás
-          updatedAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
-          author: {
-            id: 'user-1',
-            name: 'Carlos Silva',
-            username: 'carlos.silva',
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos',
-          },
-        },
-        {
-          id: '2',
-          content: 'Concordo totalmente! Passei por essa migração recentemente e os pontos levantados aqui são muito importantes.',
-          authorId: 'user-2',
-          postId,
-          isApproved: true,
-          isReported: false,
-          isEdited: false,
-          likesCount: 3,
-          createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 horas atrás
-          updatedAt: new Date(Date.now() - 5 * 60 * 60 * 1000),
-          author: {
-            id: 'user-2',
-            name: 'Ana Paula',
-            username: 'ana.paula',
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ana',
-          },
-        },
-        {
-          id: '3',
-          content: 'Gostaria de saber mais sobre como implementar o Event Storming na prática. Tem algum material complementar?',
-          authorId: 'user-3',
-          postId,
-          isApproved: true,
-          isReported: false,
-          isEdited: false,
-          likesCount: 2,
-          createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 dia atrás
-          updatedAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
-          author: {
-            id: 'user-3',
-            name: 'Pedro Santos',
-            username: 'pedro.santos',
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Pedro',
-          },
-          replies: [
-            {
-              id: '4',
-              content: 'Boa pergunta! Vou preparar um artigo específico sobre Event Storming em breve.',
-              authorId: 'admin-1',
-              postId,
-              parentId: '3',
-              isApproved: true,
-              isReported: false,
-              isEdited: false,
-              likesCount: 1,
-              createdAt: new Date(Date.now() - 20 * 60 * 60 * 1000),
-              updatedAt: new Date(Date.now() - 20 * 60 * 60 * 1000),
-              author: {
-                id: 'admin-1',
-                name: 'Rainer Teixeira',
-                username: 'rainer.teixeira',
-                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rainer',
-              },
-            },
-          ],
-        },
-      ]
-      setComments(mockComments)
-      setError(null) // Não mostrar erro quando usar mock
+      setIsLoading(true);
+      setError(null);
+
+      // Buscar comentários aprovados do post
+      const commentsList = await commentsService.getCommentsByPost(postId);
+
+      // Organizar comentários em estrutura hierárquica (comentários e replies)
+      const commentsMap = new Map<string, CommentWithAuthor>();
+      const rootComments: CommentWithAuthor[] = [];
+
+      // Primeiro, criar mapa de todos os comentários
+      commentsList.forEach(comment => {
+        commentsMap.set(comment.id, {
+          ...comment,
+          replies: [] as CommentWithAuthor[],
+        });
+      });
+
+      // Organizar em estrutura hierárquica
+      commentsMap.forEach(comment => {
+        if (comment.parentId) {
+          // É uma resposta
+          const parent = commentsMap.get(comment.parentId);
+          if (parent) {
+            if (!parent.replies) {
+              parent.replies = [];
+            }
+            parent.replies.push(comment);
+          }
+        } else {
+          // É um comentário raiz
+          rootComments.push(comment);
+        }
+      });
+
+      // Ordenar comentários por data (mais recentes primeiro)
+      rootComments.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      rootComments.forEach(comment => {
+        if (comment.replies) {
+          comment.replies.sort(
+            (a, b) =>
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
+        }
+      });
+
+      setComments(rootComments);
+    } catch (err) {
+      console.error('Erro ao carregar comentários:', err);
+      setError('Erro ao carregar comentários. Tente novamente mais tarde.');
+      setComments([]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [postId])
+  }, [postId]);
 
   useEffect(() => {
-    loadComments()
-  }, [loadComments])
+    loadComments();
+  }, [loadComments]);
 
-  const handleCommentAdded = (newComment: Comment) => {
-    setComments([newComment, ...comments])
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleCommentAdded = async (_newComment: ApiComment) => {
+    // Recarregar comentários para obter dados atualizados do backend
+    await loadComments();
+  };
 
-  const handleCommentDeleted = (commentId: string) => {
-    setComments(comments.filter(c => c.id !== commentId))
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleCommentDeleted = async (_commentId: string) => {
+    // Recarregar comentários após deletar
+    await loadComments();
+  };
 
-  const handleCommentUpdated = (updatedComment: Comment) => {
-    setComments(comments.map(c => 
-      c.id === updatedComment.id ? updatedComment : c
-    ))
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleCommentUpdated = async (_updatedComment: ApiComment) => {
+    // Recarregar comentários após atualizar
+    await loadComments();
+  };
 
-  const handleReplyAdded = (reply: Comment) => {
-    // Adicionar resposta ao comentário pai
-    setComments(comments.map(c => {
-      if (c.id === reply.parentId) {
-        return {
-          ...c,
-          replies: [...(c.replies || []), reply]
-        }
-      }
-      return c
-    }))
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleReplyAdded = async (_reply: ApiComment) => {
+    // Recarregar comentários após adicionar resposta
+    await loadComments();
+  };
 
   return (
     <Card className="dark:bg-black/50 dark:border-cyan-400/20">
@@ -182,16 +162,16 @@ export function CommentSection({ postId }: CommentSectionProps) {
       <CardContent className="space-y-6">
         {/* Formulário de novo comentário */}
         {currentUserId ? (
-          <CommentForm
-            postId={postId}
-            onCommentAdded={handleCommentAdded}
-          />
+          <CommentForm postId={postId} onCommentAdded={handleCommentAdded} />
         ) : (
           <Alert>
             <AlertDescription>
-              <a href="/dashboard/login" className="text-primary hover:underline font-medium">
+              <a
+                href="/dashboard/login"
+                className="text-primary hover:underline font-medium"
+              >
                 Faça login
-              </a>{" "}
+              </a>{' '}
               para comentar
             </AlertDescription>
           </Alert>
@@ -205,7 +185,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
           </Alert>
         ) : isLoading ? (
           <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3].map(i => (
               <div key={i} className="animate-pulse">
                 <div className="flex gap-4">
                   <div className="w-10 h-10 bg-muted rounded-full" />
@@ -223,7 +203,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
           </div>
         ) : (
           <div className="space-y-4">
-            {comments.map((comment) => (
+            {comments.map(comment => (
               <CommentItem
                 key={comment.id}
                 comment={comment}
@@ -238,5 +218,5 @@ export function CommentSection({ postId }: CommentSectionProps) {
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

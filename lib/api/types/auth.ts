@@ -1,54 +1,61 @@
-export interface UserProfile {
-  id: string;
-  cognitoSub: string;
-  email: string;
-  name: string;
-  username: string;
-  avatar?: string;
-  role: 'ADMIN' | 'AUTHOR' | 'READER';
-  bio?: string;
-  website?: string;
-  emailVerified: boolean;
-  createdAt: string;
-  updatedAt: string;
+/**
+ * Tipos da camada de Autenticação do frontend.
+ *
+ * Observação: Estes tipos refletem o contrato esperado pela API
+ * e são reutilizados em serviços e formulários.
+ */
+
+/**
+ * Dados para registro de usuário.
+ */
+export interface RegisterData {
+  readonly email: string;
+  readonly password: string;
+  readonly fullName: string;
+  readonly nickname: string;
+  // Campo mantido para compatibilidade com versões antigas, mas não deve ser mais usado
+  // Use 'nickname' em vez disso
+  readonly username?: string;
+  readonly phoneNumber?: string;
+  readonly avatar?: string;
 }
 
-export interface LoginCredentials {
-  email: string;
-  password: string;
+/**
+ * Credenciais de login.
+ */
+export interface LoginData {
+  readonly email: string;
+  readonly password: string;
 }
 
-export interface RegisterData extends LoginCredentials {
-  name: string;
-  username: string;
+/**
+ * Dados para confirmação de e-mail.
+ */
+export interface ConfirmEmailData {
+  readonly email: string;
+  readonly username: string;
+  readonly code: string;
 }
 
-export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
-  user: UserProfile;
+/**
+ * Payload para renovação de token.
+ */
+export interface RefreshTokenData {
+  readonly refreshToken: string;
 }
 
-export interface PasswordResetRequest {
-  email: string;
+/**
+ * Dados para solicitar recuperação de senha.
+ */
+export interface ForgotPasswordData {
+  readonly email: string;
 }
 
-export interface PasswordResetConfirm {
-  email: string;
-  code: string;
-  newPassword: string;
-}
-
-export interface ChangePasswordData {
-  currentPassword: string;
-  newPassword: string;
-}
-
-export interface UpdateProfileData {
-  name?: string;
-  username?: string;
-  bio?: string;
-  website?: string;
-  avatar?: string;
+/**
+ * Dados para redefinição de senha.
+ */
+export interface ResetPasswordData {
+  readonly email: string;
+  readonly code: string;
+  readonly newPassword: string;
 }

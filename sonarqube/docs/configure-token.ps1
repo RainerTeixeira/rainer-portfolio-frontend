@@ -38,7 +38,7 @@ Write-Host ""
 
 # Verificar se SonarQube está rodando
 Write-ColorOutput "🔍 Verificando se SonarQube está rodando..." $InfoColor
-$running = docker ps --filter "name=sonarqube-local" --format "{{.Names}}"
+$running = docker ps --filter "fullName=sonarqube-local" --format "{{.Names}}"
 
 if ($running -ne "sonarqube-local") {
     Write-ColorOutput "⚠️  SonarQube não está rodando!" $WarningColor

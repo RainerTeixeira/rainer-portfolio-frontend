@@ -11,6 +11,7 @@ Esta pasta contém documentação essencial para **começar** com o projeto.
 **Leia primeiro!**
 
 **Conteúdo**:
+
 - Sobre o projeto
 - Propósito e visão
 - Características principais
@@ -31,6 +32,7 @@ Esta pasta contém documentação essencial para **começar** com o projeto.
 **Novidades da v2.0.0!**
 
 **Conteúdo**:
+
 - Resumo da atualização Enterprise
 - 10 sistemas novos explicados
 - 11 documentos criados
@@ -51,6 +53,7 @@ Esta pasta contém documentação essencial para **começar** com o projeto.
 **Stack tecnológico completo**
 
 **Conteúdo**:
+
 - Next.js, React, TypeScript
 - 50+ dependências explicadas
 - Por que cada escolha
@@ -103,4 +106,3 @@ PRÓXIMO: ../architecture/DEVELOPER-GUIDE.md
 **Pasta**: getting-started/
 **Propósito**: Início rápido e onboarding
 **Status**: ✅ Completa
-

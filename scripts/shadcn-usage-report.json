@@ -1,0 +1,447 @@
+{
+  "installed": [
+    {
+      "name": "accordion",
+      "usage": ["components\\ui\\accordion.tsx"]
+    },
+    {
+      "name": "alert-dialog",
+      "usage": [
+        "components\\blog\\comments\\comment-item.tsx",
+        "components\\ui\\alert-dialog.tsx"
+      ]
+    },
+    {
+      "name": "alert",
+      "usage": [
+        "components\\blog\\comments\\comment-form.tsx",
+        "components\\blog\\comments\\comment-item.tsx",
+        "components\\blog\\comments\\comment-section.tsx",
+        "components\\dashboard\\change-username-dialog.tsx",
+        "components\\dashboard\\login\\forms\\forgot-password-form.tsx",
+        "components\\dashboard\\login\\forms\\register-form.tsx",
+        "components\\dashboard\\login\\forms\\reset-password-form.tsx",
+        "components\\error-boundary.tsx",
+        "components\\home\\newsletter-section.tsx",
+        "components\\ui\\alert-dialog.tsx",
+        "app\\dashboard\\login\\callback\\page.tsx",
+        "app\\dashboard\\login\\confirm-email\\page.tsx",
+        "app\\dashboard\\login\\page.tsx",
+        "app\\dashboard\\login\\reset-password\\page.tsx",
+        "app\\dashboard\\login\\verify-email-admin\\page.tsx"
+      ]
+    },
+    {
+      "name": "avatar",
+      "usage": [
+        "components\\blog\\author-card.tsx",
+        "components\\blog\\comments\\comment-form.tsx",
+        "components\\blog\\comments\\comment-item.tsx",
+        "components\\dashboard\\profile-form.tsx",
+        "components\\dashboard\\profile-header.tsx",
+        "components\\layout\\navbar.tsx",
+        "components\\ui\\avatar.tsx",
+        "components\\ui\\page-header.tsx"
+      ]
+    },
+    {
+      "name": "badge",
+      "usage": [
+        "components\\blog\\post-card.tsx",
+        "components\\blog\\posts-carousel.tsx",
+        "components\\blog\\related-posts.tsx",
+        "components\\blog\\search\\search-bar.tsx",
+        "components\\contato\\contact-form.tsx",
+        "components\\dashboard\\login\\status-badge.tsx",
+        "components\\dashboard\\profile-header.tsx",
+        "components\\dashboard\\recent-posts-list.tsx",
+        "components\\home\\highlights.tsx",
+        "components\\home\\portfolio-showcase.tsx",
+        "components\\home\\tech-stack.tsx",
+        "components\\sobre\\team-card.tsx",
+        "components\\ui\\badge.tsx",
+        "app\\blog\\page.tsx",
+        "app\\blog\\[slug]\\page.tsx",
+        "app\\dashboard\\page.tsx",
+        "app\\not-found.tsx"
+      ]
+    },
+    {
+      "name": "button",
+      "usage": [
+        "components\\accessibility\\high-contrast-toggle.tsx",
+        "components\\accessibility\\hooks\\use-keyboard-shortcuts.ts",
+        "components\\accessibility\\keyboard-shortcuts.tsx",
+        "components\\blog\\author-card.tsx",
+        "components\\blog\\comments\\comment-form.tsx",
+        "components\\blog\\comments\\comment-item.tsx",
+        "components\\blog\\newsletter-box.tsx",
+        "components\\blog\\search\\search-bar.tsx",
+        "components\\blog\\social\\bookmark-button.tsx",
+        "components\\blog\\social\\like-button.tsx",
+        "components\\blog\\social\\share-button.tsx",
+        "components\\contato\\contact-form.tsx",
+        "components\\dashboard\\change-email-dialog.tsx",
+        "components\\dashboard\\change-username-dialog.tsx",
+        "components\\dashboard\\Editor.tsx",
+        "components\\dashboard\\help-center.tsx",
+        "components\\dashboard\\image-editor-panel.tsx",
+        "components\\dashboard\\ImageUpload.tsx",
+        "components\\dashboard\\login\\forms\\forgot-password-form.tsx",
+        "components\\dashboard\\login\\forms\\register-form.tsx",
+        "components\\dashboard\\login\\forms\\reset-password-form.tsx",
+        "components\\dashboard\\profile-form.tsx",
+        "components\\dashboard\\profile-header.tsx",
+        "components\\dashboard\\quick-actions.tsx",
+        "components\\dashboard\\recent-posts-list.tsx",
+        "components\\error-boundary.tsx",
+        "components\\home\\about-section.tsx",
+        "components\\home\\contact-section.tsx",
+        "components\\home\\cta-section.tsx",
+        "components\\home\\newsletter-section.tsx",
+        "components\\home\\portfolio-showcase.tsx",
+        "components\\layout\\navbar.tsx",
+        "components\\ui\\alert-dialog.tsx",
+        "components\\ui\\back-to-top.tsx",
+        "components\\ui\\card.tsx",
+        "components\\ui\\carousel.tsx",
+        "components\\ui\\install-prompt.tsx",
+        "components\\ui\\tooltip.tsx",
+        "components\\ui\\update-notification.tsx",
+        "app\\blog\\page.tsx",
+        "app\\blog\\[slug]\\page.tsx",
+        "app\\dashboard\\login\\callback\\page.tsx",
+        "app\\dashboard\\login\\confirm-email\\page.tsx",
+        "app\\dashboard\\login\\page.tsx",
+        "app\\dashboard\\login\\reset-password\\page.tsx",
+        "app\\dashboard\\login\\verify-email-admin\\page.tsx",
+        "app\\dashboard\\page.tsx",
+        "app\\dashboard\\settings\\page.tsx",
+        "app\\not-found.tsx",
+        "app\\sobre\\page.tsx"
+      ]
+    },
+    {
+      "name": "card",
+      "usage": [
+        "components\\blog\\author-card.tsx",
+        "components\\blog\\comments\\comment-section.tsx",
+        "components\\blog\\newsletter-box.tsx",
+        "components\\blog\\post-card.tsx",
+        "components\\blog\\posts-carousel.tsx",
+        "components\\blog\\related-posts.tsx",
+        "components\\contato\\contact-form.tsx",
+        "components\\dashboard\\analytics-overview.tsx",
+        "components\\dashboard\\charts\\engagement-chart.tsx",
+        "components\\dashboard\\charts\\views-chart.tsx",
+        "components\\dashboard\\Editor.tsx",
+        "components\\dashboard\\help-center.tsx",
+        "components\\dashboard\\image-editor-panel.tsx",
+        "components\\dashboard\\profile-form.tsx",
+        "components\\dashboard\\quick-actions.tsx",
+        "components\\dashboard\\quick-stats.tsx",
+        "components\\dashboard\\recent-posts-list.tsx",
+        "components\\dashboard\\stats-cards.tsx",
+        "components\\error-boundary.tsx",
+        "components\\home\\highlights.tsx",
+        "components\\home\\newsletter-section.tsx",
+        "components\\home\\portfolio-showcase.tsx",
+        "components\\home\\stats-showcase.tsx",
+        "components\\home\\tech-stack.tsx",
+        "components\\home\\testimonials.tsx",
+        "components\\sobre\\team-card.tsx",
+        "components\\ui\\card.tsx",
+        "components\\ui\\install-prompt.tsx",
+        "components\\ui\\update-notification.tsx",
+        "app\\blog\\page.tsx",
+        "app\\blog\\[slug]\\page.tsx",
+        "app\\contato\\page.tsx",
+        "app\\dashboard\\login\\confirm-email\\page.tsx",
+        "app\\dashboard\\login\\forgot-password\\page.tsx",
+        "app\\dashboard\\login\\page.tsx",
+        "app\\dashboard\\login\\register\\page.tsx",
+        "app\\dashboard\\login\\reset-password\\page.tsx",
+        "app\\dashboard\\login\\reset-password\\[token]\\page.tsx",
+        "app\\dashboard\\login\\verify-email-admin\\page.tsx",
+        "app\\dashboard\\page.tsx",
+        "app\\not-found.tsx"
+      ]
+    },
+    {
+      "name": "carousel",
+      "usage": [
+        "components\\home\\hero-section.tsx",
+        "components\\ui\\carousel.tsx"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "usage": [
+        "components\\dashboard\\login\\forms\\register-form.tsx",
+        "components\\home\\newsletter-section.tsx",
+        "components\\ui\\checkbox.tsx"
+      ]
+    },
+    {
+      "name": "command",
+      "usage": [
+        "components\\blog\\hooks\\use-search.ts",
+        "components\\blog\\search\\search-bar.tsx",
+        "components\\ui\\command.tsx"
+      ]
+    },
+    {
+      "name": "dialog",
+      "usage": [
+        "components\\accessibility\\hooks\\use-keyboard-shortcuts.ts",
+        "components\\accessibility\\keyboard-shortcuts.tsx",
+        "components\\blog\\social\\share-button.tsx",
+        "components\\dashboard\\change-email-dialog.tsx",
+        "components\\dashboard\\change-username-dialog.tsx",
+        "components\\dashboard\\login\\terms-dialog.tsx",
+        "components\\dashboard\\profile-header.tsx",
+        "components\\ui\\command.tsx",
+        "components\\ui\\dialog.tsx"
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "usage": [
+        "components\\blog\\comments\\comment-item.tsx",
+        "components\\blog\\social\\share-button.tsx",
+        "components\\layout\\navbar.tsx",
+        "components\\ui\\dropdown-menu.tsx"
+      ]
+    },
+    {
+      "name": "form",
+      "usage": [
+        "components\\dashboard\\login\\forms\\forgot-password-form.tsx",
+        "components\\dashboard\\login\\forms\\register-form.tsx",
+        "components\\dashboard\\login\\forms\\reset-password-form.tsx",
+        "components\\ui\\form.tsx"
+      ]
+    },
+    {
+      "name": "hover-card",
+      "usage": ["components\\ui\\hover-card.tsx"]
+    },
+    {
+      "name": "input",
+      "usage": [
+        "components\\blog\\newsletter-box.tsx",
+        "components\\blog\\search\\search-bar.tsx",
+        "components\\dashboard\\change-email-dialog.tsx",
+        "components\\dashboard\\change-username-dialog.tsx",
+        "components\\dashboard\\image-editor-panel.tsx",
+        "components\\dashboard\\login\\forms\\forgot-password-form.tsx",
+        "components\\dashboard\\login\\forms\\register-form.tsx",
+        "components\\dashboard\\login\\password-input.tsx",
+        "components\\dashboard\\profile-form.tsx",
+        "components\\dashboard\\profile-header.tsx",
+        "components\\home\\newsletter-section.tsx",
+        "components\\ui\\input.tsx",
+        "app\\dashboard\\login\\confirm-email\\page.tsx",
+        "app\\dashboard\\login\\page.tsx",
+        "app\\dashboard\\login\\reset-password\\page.tsx",
+        "app\\dashboard\\login\\verify-email-admin\\page.tsx",
+        "app\\dashboard\\page.tsx"
+      ]
+    },
+    {
+      "name": "label",
+      "usage": [
+        "components\\dashboard\\change-email-dialog.tsx",
+        "components\\dashboard\\change-username-dialog.tsx",
+        "components\\dashboard\\image-editor-panel.tsx",
+        "components\\dashboard\\profile-form.tsx",
+        "components\\dashboard\\profile-header.tsx",
+        "components\\ui\\form.tsx",
+        "components\\ui\\label.tsx",
+        "app\\dashboard\\login\\page.tsx",
+        "app\\dashboard\\login\\reset-password\\page.tsx",
+        "app\\dashboard\\login\\verify-email-admin\\page.tsx",
+        "app\\dashboard\\page.tsx"
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "usage": ["components\\ui\\navigation-menu.tsx"]
+    },
+    {
+      "name": "popover",
+      "usage": ["components\\ui\\popover.tsx"]
+    },
+    {
+      "name": "progress",
+      "usage": [
+        "components\\dashboard\\hooks\\use-upload.ts",
+        "components\\dashboard\\ImageUpload.tsx",
+        "components\\ui\\progress.tsx",
+        "app\\not-found.tsx"
+      ]
+    },
+    {
+      "name": "radio-group",
+      "usage": ["components\\ui\\radio-group.tsx"]
+    },
+    {
+      "name": "scroll-area",
+      "usage": [
+        "components\\dashboard\\login\\terms-dialog.tsx",
+        "components\\ui\\scroll-area.tsx"
+      ]
+    },
+    {
+      "name": "select",
+      "usage": ["components\\ui\\select.tsx"]
+    },
+    {
+      "name": "separator",
+      "usage": [
+        "components\\contato\\contact-form.tsx",
+        "components\\dashboard\\Editor.tsx",
+        "components\\dashboard\\login\\terms-dialog.tsx",
+        "components\\dashboard\\profile-form.tsx",
+        "components\\home\\highlights.tsx",
+        "components\\ui\\separator.tsx",
+        "app\\blog\\page.tsx",
+        "app\\blog\\[slug]\\page.tsx",
+        "app\\dashboard\\login\\page.tsx"
+      ]
+    },
+    {
+      "name": "sheet",
+      "usage": ["components\\layout\\navbar.tsx", "components\\ui\\sheet.tsx"]
+    },
+    {
+      "name": "skeleton",
+      "usage": [
+        "components\\dashboard\\hooks\\use-posts.ts",
+        "components\\ui\\loading-states.tsx",
+        "components\\ui\\skeleton.tsx",
+        "app\\blog\\page.tsx"
+      ]
+    },
+    {
+      "name": "sonner",
+      "usage": ["components\\ui\\sonner.tsx"]
+    },
+    {
+      "name": "switch",
+      "usage": ["components\\ui\\switch.tsx"]
+    },
+    {
+      "name": "table",
+      "usage": [
+        "components\\dashboard\\Editor.tsx",
+        "app\\blog\\[slug]\\page.tsx"
+      ]
+    },
+    {
+      "name": "tabs",
+      "usage": [
+        "components\\dashboard\\charts\\views-chart.tsx",
+        "components\\ui\\tabs.tsx",
+        "app\\not-found.tsx"
+      ]
+    },
+    {
+      "name": "textarea",
+      "usage": [
+        "components\\blog\\comments\\comment-form.tsx",
+        "components\\dashboard\\profile-form.tsx",
+        "components\\dashboard\\profile-header.tsx",
+        "app\\dashboard\\page.tsx"
+      ]
+    },
+    {
+      "name": "toggle",
+      "usage": ["components\\ui\\toggle.tsx"]
+    },
+    {
+      "name": "tooltip",
+      "usage": [
+        "components\\dashboard\\charts\\engagement-chart.tsx",
+        "components\\dashboard\\charts\\views-chart.tsx",
+        "components\\ui\\tooltip.tsx"
+      ]
+    }
+  ],
+  "notInstalled": [
+    "aspect-ratio",
+    "calendar",
+    "collapsible",
+    "context-menu",
+    "drawer",
+    "menubar",
+    "slider",
+    "toast",
+    "toggle-group"
+  ],
+  "opportunities": {
+    "accordion": {
+      "description": "Para seções expansíveis/colapsáveis",
+      "useCases": ["FAQ", "Filtros expansíveis", "Listas de itens colapsáveis"]
+    },
+    "carousel": {
+      "description": "Para carrosséis de imagens/conteúdo",
+      "useCases": ["Galeria de imagens", "Testimonials", "Posts em destaque"]
+    },
+    "drawer": {
+      "description": "Menu lateral mobile",
+      "useCases": ["Menu mobile", "Filtros mobile", "Navegação lateral"]
+    },
+    "hover-card": {
+      "description": "Cards que aparecem no hover",
+      "useCases": [
+        "Preview de conteúdo",
+        "Tooltips avançados",
+        "Informações adicionais"
+      ]
+    },
+    "menubar": {
+      "description": "Barra de menu horizontal",
+      "useCases": [
+        "Menu principal",
+        "Navegação horizontal",
+        "Barra de ferramentas"
+      ]
+    },
+    "navigation-menu": {
+      "description": "Menu de navegação avançado",
+      "useCases": ["Menu principal", "Navegação com dropdowns", "Mega menu"]
+    },
+    "radio-group": {
+      "description": "Grupos de opções radio",
+      "useCases": ["Seleção de opções", "Filtros", "Configurações"]
+    },
+    "slider": {
+      "description": "Controle deslizante",
+      "useCases": ["Filtros de preço", "Volume", "Configurações numéricas"]
+    },
+    "sonner": {
+      "description": "Notificações toast modernas",
+      "useCases": ["Mensagens de sucesso/erro", "Notificações", "Feedback"]
+    },
+    "table": {
+      "description": "Tabelas responsivas",
+      "useCases": ["Dados tabulares", "Listas de dados", "Dashboards"]
+    },
+    "toggle": {
+      "description": "Botões toggle",
+      "useCases": ["Alternar estados", "Filtros", "Configurações"]
+    },
+    "toggle-group": {
+      "description": "Grupo de toggles",
+      "useCases": [
+        "Múltiplas seleções",
+        "Filtros múltiplos",
+        "Opções relacionadas"
+      ]
+    }
+  },
+  "totalComponents": 41,
+  "installedCount": 32,
+  "coverage": "78.0"
+}

@@ -1,103 +1,135 @@
 /**
- * Componente de Upload de Imagem
- * 
- * Upload com drag & drop, preview e progress bar.
- * Usa Cloudinary como servidor de imagens.
- * 
+ * Image Upload Component
+ *
+ * Componente de upload de imagem com drag & drop, preview e barra de progresso.
+ * Integração com Cloudinary para armazenamento de imagens, compressão automática
+ * e suporte a múltiplos tipos de upload (cover, content, general).
+ *
+ * @module components/dashboard/ImageUpload
  * @fileoverview Componente de upload de imagens via Cloudinary
  * @author Rainer Teixeira
  * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * <ImageUpload
+ *   value={imageUrl}
+ *   onChange={(url) => setImageUrl(url)}
+ *   maxSize={10}
+ *   type="cover"
+ * />
+ * ```
+ *
+ * Características:
+ * - Drag & drop para upload
+ * - Preview de imagem antes do upload
+ * - Progress bar durante upload
+ * - Compressão automática de imagens
+ * - Validação de tamanho e tipo
+ * - Integração com Cloudinary
+ * - Múltiplos tipos de upload (cover, content, general)
+ * - Acessibilidade completa
  */
 
-"use client"
+'use client';
 
-import { useCallback, useState } from 'react'
-import { X, Loader2, ImageIcon } from 'lucide-react'
-import { useUpload, useImageCompression } from '@/components/dashboard/hooks'
-import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
-import { cn } from '@/lib/utils'
-import Image from 'next/image'
+import { useImageCompression, useUpload } from '@/components/dashboard/hooks';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { cn } from '@/lib/utils';
+import { ImageIcon, Loader2, X } from 'lucide-react';
+import Image from 'next/image';
+import { useCallback, useState } from 'react';
 
 interface ImageUploadProps {
-  value?: string
-  onChange: (url: string) => void
-  className?: string
-  maxSize?: number // MB
-  type?: 'cover' | 'content' | 'general' // Tipo de upload
+  value?: string;
+  onChange: (url: string) => void;
+  className?: string;
+  maxSize?: number; // MB
+  type?: 'cover' | 'content' | 'general'; // Tipo de upload
 }
 
 /**
  * Componente ImageUpload
- * 
+ *
  * Upload de imagem com drag & drop, preview via Cloudinary.
  */
-export function ImageUpload({ 
-  value, 
-  onChange, 
-  className, 
+export function ImageUpload({
+  value,
+  onChange,
+  className,
   maxSize = 10,
-  type = 'general' 
+  type = 'general',
 }: ImageUploadProps) {
-  const { upload, isUploading, progress } = useUpload(type)
-  const { compress } = useImageCompression()
-  
-  const [isDragging, setIsDragging] = useState(false)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(value || null)
+  const { upload, isUploading, progress } = useUpload(type);
+  const { compress } = useImageCompression();
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(value || null);
 
   /**
    * Processa arquivo selecionado e faz upload para Cloudinary
    */
-  const handleFile = useCallback(async (file: File) => {
-    // Preview local
-    const localPreview = URL.createObjectURL(file)
-    setPreviewUrl(localPreview)
+  const handleFile = useCallback(
+    async (file: File) => {
+      // Preview local
+      const localPreview = URL.createObjectURL(file);
+      setPreviewUrl(localPreview);
 
-    // Comprime imagem (opcional, Cloudinary já otimiza)
-    const compressed = await compress(file, 1920, 1080, 0.92)
-    
-    // Faz upload para Cloudinary
-    const url = await upload(compressed)
-    
-    if (url) {
-      onChange(url) // Retorna URL do Cloudinary
-      setPreviewUrl(url)
-    }
-  }, [upload, compress, onChange])
+      // Comprime imagem (opcional, Cloudinary já otimiza)
+      const compressed = await compress(file, 1920, 1080, 0.92);
+
+      // Faz upload para Cloudinary
+      const url = await upload(compressed);
+
+      if (url) {
+        onChange(url); // Retorna URL do Cloudinary
+        setPreviewUrl(url);
+      }
+    },
+    [upload, compress, onChange]
+  );
 
   /**
    * Handler de drop
    */
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(false)
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
 
-    const file = e.dataTransfer.files[0]
-    if (file && file.type.startsWith('image/')) {
-      handleFile(file)
-    }
-  }, [handleFile])
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        handleFile(file);
+      }
+    },
+    [handleFile]
+  );
 
   /**
    * Handler de input file
    */
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      handleFile(file)
-    }
-  }, [handleFile])
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        handleFile(file);
+      }
+    },
+    [handleFile]
+  );
 
   /**
    * Remove imagem
    */
   const handleRemove = useCallback(() => {
-    setPreviewUrl(null)
-    onChange('')
-  }, [onChange])
+    setPreviewUrl(null);
+    onChange('');
+  }, [onChange]);
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn('space-y-4', className)}>
       {/* Área de Upload ou Preview */}
       {previewUrl ? (
         /* Preview da Imagem */
@@ -118,7 +150,7 @@ export function ImageUpload({
               </div>
             )}
           </div>
-          
+
           {/* Botão de remover */}
           <Button
             type="button"
@@ -135,18 +167,18 @@ export function ImageUpload({
         /* Área de Drop */
         <div
           onDrop={handleDrop}
-          onDragOver={(e) => {
-            e.preventDefault()
-            setIsDragging(true)
+          onDragOver={e => {
+            e.preventDefault();
+            setIsDragging(true);
           }}
           onDragLeave={() => setIsDragging(false)}
           className={cn(
-            "relative h-48 w-full rounded-lg border-2 border-dashed transition-all duration-200",
+            'relative h-48 w-full rounded-lg border-2 border-dashed transition-all duration-200',
             isDragging
-              ? "border-cyan-400 bg-cyan-400/5 dark:bg-cyan-400/5"
-              : "border-border dark:border-cyan-400/20 hover:border-cyan-400/50",
-            "flex flex-col items-center justify-center gap-2",
-            "cursor-pointer group"
+              ? 'border-cyan-400 bg-cyan-400/5 dark:bg-cyan-400/5'
+              : 'border-border dark:border-cyan-400/20 hover:border-cyan-400/50',
+            'flex flex-col items-center justify-center gap-2',
+            'cursor-pointer group'
           )}
         >
           <input
@@ -156,19 +188,23 @@ export function ImageUpload({
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             disabled={isUploading}
           />
-          
-          <div className={cn(
-            "p-4 rounded-full",
-            "bg-gradient-to-br from-cyan-500/10 to-purple-500/10",
-            "border border-cyan-400/30",
-            "group-hover:scale-110 transition-transform"
-          )}>
+
+          <div
+            className={cn(
+              'p-4 rounded-full',
+              'bg-linear-to-br from-cyan-500/10 to-purple-500/10',
+              'border border-cyan-400/30',
+              'group-hover:scale-110 transition-transform'
+            )}
+          >
             <ImageIcon className="w-8 h-8 text-cyan-400" />
           </div>
-          
+
           <div className="text-center">
             <p className="text-sm font-medium dark:text-gray-200">
-              {isDragging ? 'Solte a imagem aqui' : 'Clique ou arraste uma imagem'}
+              {isDragging
+                ? 'Solte a imagem aqui'
+                : 'Clique ou arraste uma imagem'}
             </p>
             <p className="text-xs text-muted-foreground dark:text-gray-400 mt-1">
               PNG, JPG, WebP ou GIF (máx. {maxSize}MB)
@@ -190,6 +226,5 @@ export function ImageUpload({
         </div>
       )}
     </div>
-  )
+  );
 }
-

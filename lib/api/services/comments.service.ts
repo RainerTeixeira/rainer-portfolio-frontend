@@ -4,7 +4,7 @@
 
 /**
  * Serviço para gerenciar comentários dos posts
- * 
+ *
  * @fileoverview Serviço de comentários com métodos para CRUD e moderação
  * @author Rainer Teixeira
  * @version 1.0.0
@@ -17,62 +17,91 @@ import type {
   CommentFilters,
   CreateCommentData,
   PaginatedResponse,
-  UpdateCommentData
+  UpdateCommentData,
 } from '../types';
 
 // ============================================================================
 // Classe do Serviço
 // ============================================================================
 
+/**
+ * Serviço responsável por CRUD e moderação de comentários.
+ */
 export class CommentsService {
   private readonly basePath = '/comments';
 
   /**
    * Lista comentários com paginação e filtros
    */
-  async listComments(filters: CommentFilters = {}): Promise<PaginatedResponse<Comment>> {
+  /**
+   * Lista comentários com filtros (post, autor, aprovação) e paginação.
+   */
+  async listComments(
+    filters: CommentFilters = {}
+  ): Promise<PaginatedResponse<Comment>> {
     const params = new URLSearchParams();
-    
+
     if (filters.page) params.append('page', filters.page.toString());
     if (filters.limit) params.append('limit', filters.limit.toString());
     if (filters.postId) params.append('postId', filters.postId);
     if (filters.authorId) params.append('authorId', filters.authorId);
-    if (filters.isApproved !== undefined) params.append('isApproved', filters.isApproved.toString());
-    if (filters.parentId !== undefined) params.append('parentId', filters.parentId);
+    if (filters.isApproved !== undefined)
+      params.append('isApproved', filters.isApproved.toString());
+    if (filters.parentId !== undefined)
+      params.append('parentId', filters.parentId);
 
     const queryString = params.toString();
     const url = queryString ? `${this.basePath}?${queryString}` : this.basePath;
-    
-    const response = await api.get<ApiResponse<PaginatedResponse<Comment>>>(url);
+
+    const response =
+      await api.get<ApiResponse<PaginatedResponse<Comment>>>(url);
     return response.data;
   }
 
   /**
    * Busca um comentário por ID
    */
+  /**
+   * Busca comentário por ID.
+   */
   async getCommentById(id: string): Promise<Comment> {
-    const response = await api.get<ApiResponse<Comment>>(`${this.basePath}/${id}`);
+    const response = await api.get<ApiResponse<Comment>>(
+      `${this.basePath}/${id}`
+    );
     return response.data;
   }
 
   /**
    * Lista comentários de um post específico
    */
+  /**
+   * Lista comentários de um post específico.
+   */
   async getCommentsByPost(postId: string): Promise<Comment[]> {
-    const response = await api.get<ApiResponse<Comment[]>>(`${this.basePath}/post/${postId}`);
+    const response = await api.get<ApiResponse<Comment[]>>(
+      `${this.basePath}/post/${postId}`
+    );
     return response.data;
   }
 
   /**
    * Lista comentários de um autor específico
    */
+  /**
+   * Lista comentários de um autor específico.
+   */
   async getCommentsByAuthor(authorId: string): Promise<Comment[]> {
-    const response = await api.get<ApiResponse<Comment[]>>(`${this.basePath}/user/${authorId}`);
+    const response = await api.get<ApiResponse<Comment[]>>(
+      `${this.basePath}/user/${authorId}`
+    );
     return response.data;
   }
 
   /**
    * Cria um novo comentário
+   */
+  /**
+   * Cria novo comentário.
    */
   async createComment(data: CreateCommentData): Promise<Comment> {
     const response = await api.post<ApiResponse<Comment>>(this.basePath, data);
@@ -82,13 +111,22 @@ export class CommentsService {
   /**
    * Atualiza um comentário existente
    */
+  /**
+   * Atualiza comentário existente.
+   */
   async updateComment(id: string, data: UpdateCommentData): Promise<Comment> {
-    const response = await api.put<ApiResponse<Comment>>(`${this.basePath}/${id}`, data);
+    const response = await api.put<ApiResponse<Comment>>(
+      `${this.basePath}/${id}`,
+      data
+    );
     return response.data;
   }
 
   /**
    * Deleta um comentário
+   */
+  /**
+   * Deleta comentário por ID.
    */
   async deleteComment(id: string): Promise<ApiResponse<void>> {
     return api.delete<ApiResponse<void>>(`${this.basePath}/${id}`);
@@ -97,21 +135,34 @@ export class CommentsService {
   /**
    * Aprova um comentário (moderação)
    */
+  /**
+   * Aprova comentário (moderação).
+   */
   async approveComment(id: string): Promise<Comment> {
-    const response = await api.patch<ApiResponse<Comment>>(`${this.basePath}/${id}/approve`);
+    const response = await api.patch<ApiResponse<Comment>>(
+      `${this.basePath}/${id}/approve`
+    );
     return response.data;
   }
 
   /**
    * Reprova um comentário (moderação)
    */
+  /**
+   * Reprova comentário (moderação).
+   */
   async disapproveComment(id: string): Promise<Comment> {
-    const response = await api.patch<ApiResponse<Comment>>(`${this.basePath}/${id}/disapprove`);
+    const response = await api.patch<ApiResponse<Comment>>(
+      `${this.basePath}/${id}/disapprove`
+    );
     return response.data;
   }
 
   /**
    * Lista comentários aprovados de um post
+   */
+  /**
+   * Lista comentários aprovados de um post.
    */
   async getApprovedCommentsByPost(postId: string): Promise<Comment[]> {
     const response = await this.listComments({ postId, isApproved: true });
@@ -121,6 +172,9 @@ export class CommentsService {
   /**
    * Lista comentários pendentes de aprovação
    */
+  /**
+   * Lista comentários pendentes de aprovação.
+   */
   async getPendingComments(): Promise<Comment[]> {
     const response = await this.listComments({ isApproved: false });
     return response.data;
@@ -128,6 +182,9 @@ export class CommentsService {
 
   /**
    * Lista comentários reportados
+   */
+  /**
+   * Lista comentários reportados.
    */
   async getReportedComments(): Promise<Comment[]> {
     const response = await this.listComments({ isApproved: false });

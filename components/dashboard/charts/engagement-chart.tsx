@@ -1,36 +1,42 @@
 /**
  * Gráfico de Engajamento
- * 
+ *
  * Gráfico de barras mostrando curtidas e comentários
- * 
+ *
  * @fileoverview Engagement chart component
  * @author Rainer Teixeira
  */
 
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
-  Legend
-} from "recharts"
-import { Heart } from "lucide-react"
+  Legend,
+} from 'recharts';
+import { Heart } from 'lucide-react';
 
 interface EngagementData {
-  date: string
-  likes: number
-  comments: number
+  date: string;
+  likes: number;
+  comments: number;
 }
 
 interface EngagementChartProps {
-  data: EngagementData[]
-  isLoading?: boolean
+  data: EngagementData[];
+  isLoading?: boolean;
 }
 
 export function EngagementChart({ data, isLoading }: EngagementChartProps) {
@@ -45,7 +51,7 @@ export function EngagementChart({ data, isLoading }: EngagementChartProps) {
           <div className="h-[300px] bg-muted rounded animate-pulse" />
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -64,33 +70,33 @@ export function EngagementChart({ data, isLoading }: EngagementChartProps) {
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis 
-              dataKey="date" 
+            <XAxis
+              dataKey="date"
               className="text-xs"
-              tick={{ fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fill: 'hsl(var(--muted-foreground))' }}
             />
-            <YAxis 
+            <YAxis
               className="text-xs"
-              tick={{ fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fill: 'hsl(var(--muted-foreground))' }}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "hsl(var(--popover))",
-                border: "1px solid hsl(var(--border))",
-                borderRadius: "0.5rem",
+                backgroundColor: 'hsl(var(--popover))',
+                border: '1px solid hsl(var(--border))',
+                borderRadius: '0.5rem',
               }}
-              labelStyle={{ color: "hsl(var(--popover-foreground))" }}
+              labelStyle={{ color: 'hsl(var(--popover-foreground))' }}
             />
             <Legend />
-            <Bar 
-              dataKey="likes" 
-              fill="hsl(var(--chart-1))" 
+            <Bar
+              dataKey="likes"
+              fill="hsl(var(--chart-1))"
               name="Curtidas"
               radius={[4, 4, 0, 0]}
             />
-            <Bar 
-              dataKey="comments" 
-              fill="hsl(var(--chart-2))" 
+            <Bar
+              dataKey="comments"
+              fill="hsl(var(--chart-2))"
               name="Comentários"
               radius={[4, 4, 0, 0]}
             />
@@ -98,6 +104,5 @@ export function EngagementChart({ data, isLoading }: EngagementChartProps) {
         </ResponsiveContainer>
       </CardContent>
     </Card>
-  )
+  );
 }
-

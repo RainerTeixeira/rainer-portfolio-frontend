@@ -1,38 +1,61 @@
 /**
- * Página de Reset de Senha - Dashboard
- * 
- * Página para redefinir senha com token
- * 
- * @fileoverview Reset password page
+ * Reset Password Page Component (with Token)
+ *
+ * Página para redefinir senha usando token de verificação.
+ * Recebe token via parâmetro de rota e renderiza ResetPasswordForm.
+ *
+ * @module app/dashboard/login/reset-password/[token]/page
+ * @fileoverview Página de reset de senha com token
  * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * // Rota: /dashboard/login/reset-password/[token]
+ * // Exemplo: /dashboard/login/reset-password/abc123xyz
+ * ```
  */
 
-import { Metadata } from "next"
-import Link from "next/link"
-import { ResetPasswordForm } from "@/components/dashboard/login"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { BackToTop } from "@/components/ui"
+import { ResetPasswordForm } from '@/components/dashboard/login';
+import { BackToTop } from '@/components/ui';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { SITE_CONFIG } from '@/constants';
+import { cn } from '@/lib/utils';
+import { BACKGROUND, GRADIENTS } from '@rainer/design-tokens';
+import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: "Redefinir Senha | Dashboard",
-  description: "Crie uma nova senha para sua conta",
-}
+  title: 'Redefinir Senha | Dashboard',
+  description: 'Crie uma nova senha para sua conta',
+};
 
 interface ResetPasswordPageProps {
   params: {
-    token: string
-  }
+    token: string;
+  };
 }
 
 export default function ResetPasswordPage({ params }: ResetPasswordPageProps) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-muted/20">
+    <div
+      className={cn(
+        'min-h-screen flex items-center justify-center p-4',
+        BACKGROUND.SOFT_GRADIENT
+      )}
+    >
       <div className="w-full max-w-md space-y-6">
         {/* Logo/Brand */}
         <div className="text-center">
           <Link href="/" className="inline-block">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              Rainer Soft - Dashboard
+            <h1
+              className={cn(
+                'text-3xl font-bold bg-clip-text text-transparent',
+                GRADIENTS.TEXT_CYAN_PURPLE_PINK
+              )}
+            >
+              {SITE_CONFIG.fullName} - Dashboard
             </h1>
           </Link>
         </div>
@@ -51,6 +74,5 @@ export default function ResetPasswordPage({ params }: ResetPasswordPageProps) {
       {/* Back to Top */}
       <BackToTop />
     </div>
-  )
+  );
 }
-

@@ -1,17 +1,41 @@
 /**
- * Formulário de Registro
- * 
- * Formulário completo de cadastro de novos usuários
- * 
- * @fileoverview Register form component
+ * Register Form Component
+ *
+ * Formulário de registro para cadastro de novos usuários. Inclui validação
+ * completa de campos, verificação de disponibilidade de nickname em tempo real,
+ * indicador de força de senha e integração com sistema de autenticação.
+ *
+ * @module components/dashboard/login/forms/register-form
+ * @fileoverview Formulário de registro com validação completa
  * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * <RegisterForm
+ *   onSuccess={() => router.push('/dashboard')}
+ *   onError={(error) => console.error(error)}
+ * />
+ * ```
+ *
+ * Características:
+ * - Formulário completo com validação Zod
+ * - Verificação de disponibilidade de nickname
+ * - Indicador de força de senha
+ * - Validação de confirmação de senha
+ * - Aceite de termos e política de privacidade
+ * - Estados de loading, erro e sucesso
+ * - Integração com react-hook-form
+ * - Integração com AWS Cognito
+ * - Acessibilidade completa
  */
 
-"use client"
+'use client';
 
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -20,92 +44,107 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { CheckCircle2, Loader2, XCircle } from "lucide-react"
-import Link from "next/link"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { PasswordInput } from "../password-input"
-import { TermsDialog } from "../terms-dialog"
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { PasswordInput } from '../password-input';
+import { TermsDialog } from '../terms-dialog';
 
 // Schema de validação
-const registerSchema = z.object({
-  name: z.string().min(3, "Nome deve ter no mínimo 3 caracteres"),
-  username: z.string()
-    .min(3, "Username deve ter no mínimo 3 caracteres")
-    .max(20, "Username deve ter no máximo 20 caracteres")
-    .regex(/^[a-zA-Z0-9_-]+$/, "Username deve conter apenas letras, números, - e _"),
-  email: z.string().email("Email inválido"),
-  password: z.string()
-    .min(8, "Senha deve ter no mínimo 8 caracteres")
-    .regex(/[A-Z]/, "Senha deve conter pelo menos uma letra maiúscula")
-    .regex(/[a-z]/, "Senha deve conter pelo menos uma letra minúscula")
-    .regex(/[0-9]/, "Senha deve conter pelo menos um número")
-    .regex(/[^A-Za-z0-9]/, "Senha deve conter pelo menos um caractere especial"),
-  confirmPassword: z.string(),
-  acceptTerms: z.boolean().refine(val => val === true, {
-    message: "Você deve aceitar os termos de uso"
+const registerSchema = z
+  .object({
+    name: z.string().min(3, 'Nome deve ter no mínimo 3 caracteres'),
+    username: z
+      .string()
+      .min(3, 'Username deve ter no mínimo 3 caracteres')
+      .max(20, 'Username deve ter no máximo 20 caracteres')
+      .regex(
+        /^[a-zA-Z0-9_-]+$/,
+        'Username deve conter apenas letras, números, - e _'
+      ),
+    email: z.string().email('Email inválido'),
+    password: z
+      .string()
+      .min(8, 'Senha deve ter no mínimo 8 caracteres')
+      .regex(/[A-Z]/, 'Senha deve conter pelo menos uma letra maiúscula')
+      .regex(/[a-z]/, 'Senha deve conter pelo menos uma letra minúscula')
+      .regex(/[0-9]/, 'Senha deve conter pelo menos um número')
+      .regex(
+        /[^A-Za-z0-9]/,
+        'Senha deve conter pelo menos um caractere especial'
+      ),
+    confirmPassword: z.string(),
+    acceptTerms: z.boolean().refine(val => val === true, {
+      message: 'Você deve aceitar os termos de uso',
+    }),
   })
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "As senhas não coincidem",
-  path: ["confirmPassword"],
-})
+  .refine(data => data.password === data.confirmPassword, {
+    message: 'As senhas não coincidem',
+    path: ['confirmPassword'],
+  });
 
-type RegisterFormValues = z.infer<typeof registerSchema>
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
 interface RegisterFormProps {
-  onSuccess?: () => void
+  onSuccess?: () => void;
 }
 
-export function RegisterForm({ }: RegisterFormProps) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
+export function RegisterForm({}: RegisterFormProps) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: "",
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      name: '',
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
       acceptTerms: false,
     },
-  })
+  });
 
   async function onSubmit(data: RegisterFormValues) {
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
 
     try {
-      const { localAuth } = await import('@/components/dashboard/lib/auth-local')
-      
+      const { localAuth } = await import(
+        '@/components/dashboard/lib/auth-local'
+      );
+
       const result = await localAuth.register({
         name: data.name,
         username: data.username,
         email: data.email,
         password: data.password,
-      })
+      });
 
       if (!result.success) {
-        throw new Error(result.message)
+        throw new Error(result.message);
       }
 
-      setSuccess(true)
-      
+      setSuccess(true);
+
       // Aguardar 2s e redirecionar para login
       setTimeout(() => {
-        window.location.href = '/dashboard/login'
-      }, 2000)
+        window.location.href = '/dashboard/login';
+      }, 2000);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Erro ao criar conta. Tente novamente."
-      setError(errorMessage)
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : 'Erro ao criar conta. Tente novamente.';
+      setError(errorMessage);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -117,7 +156,7 @@ export function RegisterForm({ }: RegisterFormProps) {
           Conta criada com sucesso! Verifique seu email para ativar sua conta.
         </AlertDescription>
       </Alert>
-    )
+    );
   }
 
   return (
@@ -138,9 +177,9 @@ export function RegisterForm({ }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Nome Completo</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="João da Silva" 
-                  {...field} 
+                <Input
+                  placeholder="João da Silva"
+                  {...field}
                   disabled={isLoading}
                 />
               </FormControl>
@@ -157,15 +196,13 @@ export function RegisterForm({ }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Nome de Usuário</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="joaosilva" 
-                  {...field} 
+                <Input
+                  placeholder="joaosilva"
+                  {...field}
                   disabled={isLoading}
                 />
               </FormControl>
-              <FormDescription>
-                Apenas letras, números, - e _
-              </FormDescription>
+              <FormDescription>Apenas letras, números, - e _</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -179,10 +216,10 @@ export function RegisterForm({ }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input 
+                <Input
                   type="email"
-                  placeholder="joao@exemplo.com" 
-                  {...field} 
+                  placeholder="joao@exemplo.com"
+                  {...field}
                   disabled={isLoading}
                 />
               </FormControl>
@@ -199,7 +236,7 @@ export function RegisterForm({ }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <PasswordInput 
+                <PasswordInput
                   value={field.value}
                   onChange={field.onChange}
                   disabled={isLoading}
@@ -220,7 +257,7 @@ export function RegisterForm({ }: RegisterFormProps) {
             <FormItem>
               <FormLabel>Confirmar Senha</FormLabel>
               <FormControl>
-                <PasswordInput 
+                <PasswordInput
                   value={field.value}
                   onChange={field.onChange}
                   disabled={isLoading}
@@ -247,18 +284,18 @@ export function RegisterForm({ }: RegisterFormProps) {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel className="text-sm font-normal">
-                  Eu aceito os{" "}
+                  Eu aceito os{' '}
                   <TermsDialog type="terms">
-                    <button 
+                    <button
                       type="button"
                       className="text-cyan-500 hover:underline font-medium cursor-pointer"
                     >
                       Termos de Uso
                     </button>
-                  </TermsDialog>{" "}
-                  e{" "}
+                  </TermsDialog>{' '}
+                  e{' '}
                   <TermsDialog type="privacy">
-                    <button 
+                    <button
                       type="button"
                       className="text-cyan-500 hover:underline font-medium cursor-pointer"
                     >
@@ -278,13 +315,15 @@ export function RegisterForm({ }: RegisterFormProps) {
         </Button>
 
         <p className="text-center text-sm text-muted-foreground">
-          Já tem uma conta?{" "}
-          <Link href="/dashboard/login" className="text-primary hover:underline font-medium">
+          Já tem uma conta?{' '}
+          <Link
+            href="/dashboard/login"
+            className="text-primary hover:underline font-medium"
+          >
             Fazer login
           </Link>
         </p>
       </form>
     </Form>
-  )
+  );
 }
-

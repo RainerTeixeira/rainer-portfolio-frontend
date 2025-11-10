@@ -9,10 +9,13 @@ export function mockFetchOnce(data: any, init: Partial<Response> = {}) {
     text: async () => body,
     headers: new Headers({ 'content-type': 'application/json' }),
   } as unknown as Response) as any;
-  return (global.fetch as unknown) as FetchMock;
+  return global.fetch as unknown as FetchMock;
 }
 
-export function mockFetchOnceError(status = 500, data: any = { message: 'Error' }) {
+export function mockFetchOnceError(
+  status = 500,
+  data: any = { message: 'Error' }
+) {
   (global as any).fetch = jest.fn().mockResolvedValue({
     ok: false,
     status,
@@ -20,7 +23,7 @@ export function mockFetchOnceError(status = 500, data: any = { message: 'Error' 
     text: async () => (typeof data === 'string' ? data : JSON.stringify(data)),
     headers: new Headers({ 'content-type': 'application/json' }),
   } as unknown as Response) as any;
-  return (global.fetch as unknown) as FetchMock;
+  return global.fetch as unknown as FetchMock;
 }
 
 export function resetFetchMock() {

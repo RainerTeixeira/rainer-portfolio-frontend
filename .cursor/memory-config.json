@@ -1,0 +1,45 @@
+{
+  "name": "cursor-memory-auto-load",
+  "version": "1.0.0",
+  "description": "Configuração para carregamento automático de memórias no Cursor AI (Tipo MCP)",
+  "enabled": true,
+  "autoLoad": true,
+  "memory": {
+    "path": "docs/.memories",
+    "files": {
+      "always": ["initial-memory.json", "technical-details.json"],
+      "optional": ["code-analysis.json"]
+    },
+    "loadOrder": [
+      "initial-memory.json",
+      "technical-details.json",
+      "code-analysis.json"
+    ]
+  },
+  "instructions": {
+    "preInteraction": [
+      "SEMPRE carregar memórias automaticamente no início de cada interação",
+      "Usar read_file para carregar: docs/.memories/initial-memory.json",
+      "Usar read_file para carregar: docs/.memories/technical-details.json",
+      "Carregar code-analysis.json se contexto arquitetural for necessário",
+      "NÃO ESPERAR solicitação do usuário - carregar automaticamente como MCP"
+    ],
+    "duringInteraction": [
+      "Usar informações das memórias como fonte primária de contexto",
+      "Referenciar estruturas e padrões documentados nas memórias",
+      "Validar código com informações das memórias",
+      "Consultar memórias antes de fazer suposições"
+    ],
+    "postInteraction": [
+      "Atualizar memórias se estrutura do projeto mudou significativamente",
+      "Executar npm run memory:update após grandes mudanças",
+      "Manter memórias sincronizadas com estado atual do código"
+    ]
+  },
+  "context": {
+    "priority": "high",
+    "source": "primary",
+    "type": "mcp",
+    "description": "Memórias funcionam como Model Context Protocol - sempre disponíveis"
+  }
+}

@@ -1,19 +1,36 @@
 /**
- * Cabeçalho de Perfil do Dashboard
- * 
- * Componente com foto de perfil, informações do usuário
- * e opções de edição.
- * 
- * @fileoverview Profile Header Component
+ * Profile Header Component
+ *
+ * Cabeçalho de perfil do dashboard com foto de perfil, informações do usuário
+ * (nome, email, role) e opções de edição. Suporta upload de avatar, modal de
+ * edição de perfil e integração com sistema de autenticação.
+ *
+ * @module components/dashboard/profile-header
+ * @fileoverview Cabeçalho de perfil do dashboard com design premium
  * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * <ProfileHeader onAvatarChange={(file) => handleAvatarUpload(file)} />
+ * ```
+ *
+ * Características:
+ * - Avatar editável com upload de imagem
+ * - Informações do usuário (nome, email, role)
+ * - Modal de edição de perfil
+ * - Gradientes adaptativos (light/dark mode)
+ * - Animações suaves com Framer Motion
+ * - Integração com sistema de autenticação
  */
 
-"use client"
+'use client';
 
-import { useAuth } from "@/components/providers/auth-provider"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { useAuth } from '@/components/providers/auth-provider';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -21,79 +38,88 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { cn } from "@/lib/utils"
-import { motion } from "framer-motion"
-import { Calendar, Camera, Edit2, Mail, Shield } from "lucide-react"
-import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import { Calendar, Camera, Edit2, Mail, Shield } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 interface ProfileHeaderProps {
-  onAvatarChange?: (file: File) => void
+  onAvatarChange?: (file: File) => void;
 }
 
 export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
-  const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  const { user } = useAuth()
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const { user } = useAuth();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  const isDark = mounted && resolvedTheme === 'dark'
+  /**
+   * Determina se o tema atual é dark mode
+   * Só retorna true após montagem para evitar hydration mismatch
+   */
+  const isDark = mounted ? resolvedTheme === 'dark' : false;
   const [editData, setEditData] = useState({
-    name: user?.name || "",
-    email: user?.email || "",
-    bio: user?.bio || "",
-  })
+    name: user?.name || '',
+    email: user?.email || '',
+    bio: user?.bio || '',
+  });
 
   // Simular upload de avatar
   const handleAvatarClick = () => {
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.accept = 'image/*'
-    input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0]
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = e => {
+      const file = (e.target as HTMLInputElement).files?.[0];
       if (file && onAvatarChange) {
-        onAvatarChange(file)
+        onAvatarChange(file);
       }
-    }
-    input.click()
-  }
+    };
+    input.click();
+  };
 
   const handleSaveProfile = () => {
     // TODO: Salvar dados do perfil
-    console.log('Salvando perfil:', editData)
-    setIsEditModalOpen(false)
-  }
+    console.log('Salvando perfil:', editData);
+    setIsEditModalOpen(false);
+  };
 
   // Iniciais do usuário para o avatar
-  const initials = user?.name
-    ?.split(' ')
-    .map(n => n[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2) || 'AD'
+  const initials =
+    user?.name
+      ?.split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2) || 'AD';
 
   return (
     <>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className={`${isDark ? 'bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-700' : 'bg-gradient-to-r from-blue-500 via-purple-600 to-pink-600'} rounded-lg p-8 text-white relative overflow-hidden shadow-xl ${isDark ? 'shadow-cyan-500/20' : 'shadow-blue-500/20'}`}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className={`${isDark ? 'bg-linear-to-r from-cyan-500 via-blue-600 to-purple-700' : 'bg-linear-to-r from-blue-500 via-purple-600 to-pink-600'} rounded-lg p-8 text-white relative overflow-hidden shadow-xl ${isDark ? 'shadow-cyan-500/20' : 'shadow-blue-500/20'}`}
       >
         {/* Pattern de fundo */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-            backgroundSize: '20px 20px'
-          }} />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                'radial-gradient(circle, white 1px, transparent 1px)',
+              backgroundSize: '20px 20px',
+            }}
+          />
         </div>
 
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6">
@@ -101,19 +127,19 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
           <div className="relative group">
             <Avatar className="w-24 h-24 border-4 border-white/20">
               <AvatarImage src={user?.avatar} alt={user?.name} />
-              <AvatarFallback className="text-2xl font-bold bg-gradient-to-br from-cyan-400 to-purple-500">
+              <AvatarFallback className="text-2xl font-bold bg-linear-to-br from-cyan-400 to-purple-500">
                 {initials}
               </AvatarFallback>
             </Avatar>
-            
+
             {/* Botão de upload de foto */}
             <button
               onClick={handleAvatarClick}
               className={cn(
-                "absolute inset-0 rounded-full bg-black/50 backdrop-blur-sm",
-                "flex items-center justify-center",
-                "opacity-0 group-hover:opacity-100",
-                "transition-opacity cursor-pointer"
+                'absolute inset-0 rounded-full bg-black/50 backdrop-blur-sm',
+                'flex items-center justify-center',
+                'opacity-0 group-hover:opacity-100',
+                'transition-opacity cursor-pointer'
               )}
               title="Trocar foto"
             >
@@ -125,12 +151,15 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-3xl font-bold">{user?.name || 'Usuário'}</h1>
-              <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+              <Badge
+                variant="secondary"
+                className="bg-white/20 text-white border-white/30"
+              >
                 <Shield className="w-3 h-3 mr-1" />
                 Admin
               </Badge>
             </div>
-            
+
             <div className="flex flex-wrap items-center gap-4 text-white/90 text-sm">
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
@@ -143,9 +172,7 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
             </div>
 
             {user?.bio && (
-              <p className="mt-3 text-white/80 max-w-2xl">
-                {user.bio}
-              </p>
+              <p className="mt-3 text-white/80 max-w-2xl">{user.bio}</p>
             )}
           </div>
 
@@ -177,7 +204,9 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
               <Input
                 id="edit-name"
                 value={editData.name}
-                onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+                onChange={e =>
+                  setEditData({ ...editData, name: e.target.value })
+                }
                 placeholder="Seu nome completo"
               />
             </div>
@@ -188,7 +217,9 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
                 id="edit-email"
                 type="email"
                 value={editData.email}
-                onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                onChange={e =>
+                  setEditData({ ...editData, email: e.target.value })
+                }
                 placeholder="seu@email.com"
               />
             </div>
@@ -198,7 +229,9 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
               <Textarea
                 id="edit-bio"
                 value={editData.bio}
-                onChange={(e) => setEditData({ ...editData, bio: e.target.value })}
+                onChange={e =>
+                  setEditData({ ...editData, bio: e.target.value })
+                }
                 placeholder="Conte um pouco sobre você..."
                 rows={4}
               />
@@ -209,13 +242,15 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
             <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleSaveProfile} className="dark:bg-cyan-600 dark:hover:bg-cyan-700">
+            <Button
+              onClick={handleSaveProfile}
+              className="dark:bg-cyan-600 dark:hover:bg-cyan-700"
+            >
               Salvar Alterações
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }
-

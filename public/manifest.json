@@ -1,20 +1,20 @@
 {
-  "name": "RainerSoft - Desenvolvedor Full-Stack",
+  "fullName": "RainerSoft - Desenvolvedor Full-Stack",
   "short_name": "RainerSoft",
   "description": "Portfolio de Rainer - Desenvolvedor Full-Stack com React, Next.js, TypeScript e Node.js. Projetos reais e código profissional.",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  
+
   "theme_color": "#000000",
   "background_color": "#000000",
-  
+
   "lang": "pt-BR",
   "dir": "ltr",
-  
+
   "categories": ["business", "technology", "portfolio", "productivity"],
-  
+
   "icons": [
     {
       "src": "/logo.png",
@@ -87,31 +87,31 @@
   ],
   "shortcuts": [
     {
-      "name": "Blog",
+      "fullName": "Blog",
       "short_name": "Blog",
       "description": "Artigos sobre tecnologia",
       "url": "/blog?source=shortcut",
       "icons": [{ "src": "/logo.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
-      "name": "Contato",
+      "fullName": "Contato",
       "short_name": "Contato",
       "description": "Entre em contato",
       "url": "/contato?source=shortcut",
       "icons": [{ "src": "/logo.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
-      "name": "Dashboard",
+      "fullName": "Dashboard",
       "short_name": "Admin",
       "description": "Painel administrativo",
       "url": "/dashboard?source=shortcut",
       "icons": [{ "src": "/logo.png", "sizes": "192x192", "type": "image/png" }]
     }
   ],
-  
+
   "prefer_related_applications": false,
   "related_applications": [],
-  
+
   "share_target": {
     "action": "/contato",
     "method": "GET",
@@ -122,22 +122,21 @@
       "url": "url"
     }
   },
-  
+
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  
+
   "edge_side_panel": {
     "preferred_width": 400
   },
-  
+
   "protocol_handlers": [
     {
       "protocol": "web+portfolio",
       "url": "/?portfolio=%s"
     }
   ],
-  
+
   "launch_handler": {
     "client_mode": "navigate-existing"
   }
 }
-

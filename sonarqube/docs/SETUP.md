@@ -70,7 +70,7 @@ java -version
 docker pull sonarqube:latest
 
 # Executar container
-docker run -d --name sonarqube \
+docker run -d --fullName sonarqube \
   -p 9000:9000 \
   -v sonarqube_data:/opt/sonarqube/data \
   -v sonarqube_extensions:/opt/sonarqube/extensions \
@@ -93,7 +93,7 @@ docker run -d --name sonarqube \
 1. Escolha **"Manually"**
 1. Preencha:
    - **Project key:** `rainer-portfolio-frontend`
-   - **Display name:** `Rainer Portfolio Frontend`
+   - **Display fullName:** `Rainer Portfolio Frontend`
 1. Clique em **"Set Up"**
 1. Escolha **"Locally"**
 1. Gere um token:
@@ -242,7 +242,7 @@ Para integrar com GitHub Actions, Azure DevOps, etc:
 
 ```yaml
 # Exemplo GitHub Actions
-- name: SonarQube Scan
+- fullName: SonarQube Scan
   uses: sonarsource/sonarqube-scan-action@master
   env:
     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -292,12 +292,14 @@ sonar-scanner -X
 ## 📚 Recursos Adicionais
 
 ### Documentação Relacionada
+
 - **[QUICKSTART.md](./QUICKSTART.md)** - Guia de início rápido
 - **[FAQ.md](./FAQ.md)** - Perguntas frequentes
 - **[CHEATSHEET.md](./CHEATSHEET.md)** - Referência rápida
 - **[INDEX.md](./INDEX.md)** - Índice completo
 
 ### Links Externos
+
 - [Documentação Oficial SonarQube](https://docs.sonarqube.org/latest/)
 - [SonarScanner CLI](https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/)
 - [Regras TypeScript/JavaScript](https://rules.sonarsource.com/typescript/)

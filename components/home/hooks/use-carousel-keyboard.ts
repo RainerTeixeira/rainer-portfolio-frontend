@@ -1,9 +1,9 @@
 /**
  * Hook para Navegação por Teclado em Carrossel
- * 
+ *
  * Hook completo que gerencia navegação por teclado em carrosséis/sliders,
  * incluindo autoplay, controles de pausa e acessibilidade.
- * 
+ *
  * Funcionalidades:
  * - ✓ Navegação com setas (← → ou ArrowLeft/ArrowRight)
  * - ✓ Ir para primeiro slide (Home)
@@ -14,7 +14,7 @@
  * - ✓ Suporte a prefers-reduced-motion
  * - ✓ Callbacks para eventos de navegação
  * - ✓ Estado de pausa/play do autoplay
- * 
+ *
  * Atalhos de teclado:
  * - ArrowLeft / ←: Slide anterior
  * - ArrowRight / →: Próximo slide
@@ -22,19 +22,19 @@
  * - End: Último slide
  * - Space: Pausar/Retomar autoplay
  * - Escape: Parar autoplay
- * 
+ *
  * @fileoverview Hook para navegação por teclado em carrosséis
  * @author Rainer Teixeira
  * @version 1.0.0
  */
 
-"use client"
+'use client';
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import * as React from 'react';
 
 /**
  * Opções de configuração do hook
- * 
+ *
  * @interface UseCarouselKeyboardOptions
  * @property {number} slideCount - Total de slides no carrossel
  * @property {number} [initialSlide=0] - Índice inicial do slide ativo
@@ -50,23 +50,23 @@ import { useCallback, useEffect, useRef, useState } from "react"
  * @property {Function} [onAutoplayToggle] - Callback ao pausar/retomar autoplay
  */
 export interface UseCarouselKeyboardOptions {
-  slideCount: number
-  initialSlide?: number
-  loop?: boolean
-  autoplay?: boolean
-  autoplayInterval?: number
-  pauseOnHover?: boolean
-  pauseOnInteraction?: boolean
-  respectReducedMotion?: boolean
-  onSlideChange?: (index: number) => void
-  onNext?: (index: number) => void
-  onPrevious?: (index: number) => void
-  onAutoplayToggle?: (isPlaying: boolean) => void
+  slideCount: number;
+  initialSlide?: number;
+  loop?: boolean;
+  autoplay?: boolean;
+  autoplayInterval?: number;
+  pauseOnHover?: boolean;
+  pauseOnInteraction?: boolean;
+  respectReducedMotion?: boolean;
+  onSlideChange?: (index: number) => void;
+  onNext?: (index: number) => void;
+  onPrevious?: (index: number) => void;
+  onAutoplayToggle?: (isPlaying: boolean) => void;
 }
 
 /**
  * Retorno do hook
- * 
+ *
  * @interface CarouselKeyboardReturn
  * @property {number} currentSlide - Índice do slide atual (0-based)
  * @property {Function} goToSlide - Função para ir a um slide específico
@@ -82,39 +82,39 @@ export interface UseCarouselKeyboardOptions {
  * @property {boolean} canGoPrevious - Se pode voltar (útil para UI)
  */
 export interface CarouselKeyboardReturn {
-  currentSlide: number
-  goToSlide: (index: number) => void
-  goToNext: () => void
-  goToPrevious: () => void
-  goToFirst: () => void
-  goToLast: () => void
-  isPlaying: boolean
-  toggleAutoplay: () => void
-  pauseAutoplay: () => void
-  resumeAutoplay: () => void
-  canGoNext: boolean
-  canGoPrevious: boolean
+  currentSlide: number;
+  goToSlide: (index: number) => void;
+  goToNext: () => void;
+  goToPrevious: () => void;
+  goToFirst: () => void;
+  goToLast: () => void;
+  isPlaying: boolean;
+  toggleAutoplay: () => void;
+  pauseAutoplay: () => void;
+  resumeAutoplay: () => void;
+  canGoNext: boolean;
+  canGoPrevious: boolean;
 }
 
 /**
  * Hook useCarouselKeyboard
- * 
+ *
  * Gerencia navegação por teclado em carrosséis com autoplay e controles.
- * 
+ *
  * @param {UseCarouselKeyboardOptions} options - Opções de configuração
  * @returns {CarouselKeyboardReturn} Objeto com estado e funções de controle
- * 
+ *
  * @example
  * // Uso básico com navegação por teclado
  * import { useCarouselKeyboard } from '@/components/home/hooks'
- * 
+ *
  * function SimpleCarousel() {
  *   const slides = ['Slide 1', 'Slide 2', 'Slide 3']
  *   const { currentSlide, goToNext, goToPrevious } = useCarouselKeyboard({
  *     slideCount: slides.length,
  *     loop: true
  *   })
- *   
+ *
  *   return (
  *     <div>
  *       <h2>{slides[currentSlide]}</h2>
@@ -123,7 +123,7 @@ export interface CarouselKeyboardReturn {
  *     </div>
  *   )
  * }
- * 
+ *
  * @example
  * // Com autoplay e controles
  * function AutoplayCarousel() {
@@ -140,7 +140,7 @@ export interface CarouselKeyboardReturn {
  *     pauseOnInteraction: true,
  *     onSlideChange: (index) => console.log('Slide:', index)
  *   })
- *   
+ *
  *   return (
  *     <div>
  *       <p>Slide {currentSlide + 1}</p>
@@ -154,7 +154,7 @@ export interface CarouselKeyboardReturn {
  *     </div>
  *   )
  * }
- * 
+ *
  * @example
  * // Com todas as funcionalidades
  * function AdvancedCarousel() {
@@ -171,7 +171,7 @@ export interface CarouselKeyboardReturn {
  *     onPrevious: (index) => console.log('Previous:', index),
  *     onAutoplayToggle: (playing) => console.log('Autoplay:', playing)
  *   })
- *   
+ *
  *   return (
  *     <div
  *       onMouseEnter={carousel.pauseAutoplay}
@@ -199,7 +199,8 @@ export function useCarouselKeyboard({
   loop = true,
   autoplay = false,
   autoplayInterval = 5000,
-  pauseOnHover = true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  pauseOnHover: _pauseOnHover = true,
   pauseOnInteraction = true,
   respectReducedMotion = true,
   onSlideChange,
@@ -208,250 +209,292 @@ export function useCarouselKeyboard({
   onAutoplayToggle,
 }: UseCarouselKeyboardOptions): CarouselKeyboardReturn {
   // Estado do slide atual
-  const [currentSlide, setCurrentSlide] = useState(
+  const [currentSlide, setCurrentSlide] = React.useState(
     Math.min(Math.max(0, initialSlide), slideCount - 1)
-  )
-  
+  );
+
   // Estado do autoplay
-  const [isPlaying, setIsPlaying] = useState(autoplay)
-  
+  const [isPlaying, setIsPlaying] = React.useState(autoplay);
+
   // Ref para o timer do autoplay
-  const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null)
-  
+  const autoplayTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+
   // Detectar prefers-reduced-motion
-  const prefersReducedMotion = typeof window !== 'undefined' 
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-    : false
+  const prefersReducedMotion =
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false;
 
   /**
    * Função para ir a um slide específico
    */
-  const goToSlide = useCallback(
+  const goToSlide = React.useCallback(
     (index: number) => {
-      const validIndex = Math.min(Math.max(0, index), slideCount - 1)
-      
+      const validIndex = Math.min(Math.max(0, index), slideCount - 1);
+
       if (validIndex !== currentSlide) {
-        setCurrentSlide(validIndex)
-        
+        setCurrentSlide(validIndex);
+
         if (onSlideChange) {
-          onSlideChange(validIndex)
+          onSlideChange(validIndex);
         }
       }
     },
     [currentSlide, slideCount, onSlideChange]
-  )
+  );
 
   /**
    * Função para ir ao próximo slide
    */
-  const goToNext = useCallback(() => {
-    let nextIndex: number
-    
+  const goToNext = React.useCallback(() => {
+    let nextIndex: number;
+
     if (currentSlide === slideCount - 1) {
-      nextIndex = loop ? 0 : currentSlide
+      nextIndex = loop ? 0 : currentSlide;
     } else {
-      nextIndex = currentSlide + 1
+      nextIndex = currentSlide + 1;
     }
-    
+
     if (nextIndex !== currentSlide) {
-      setCurrentSlide(nextIndex)
-      
+      setCurrentSlide(nextIndex);
+
       if (onSlideChange) {
-        onSlideChange(nextIndex)
+        onSlideChange(nextIndex);
       }
-      
+
       if (onNext) {
-        onNext(nextIndex)
+        onNext(nextIndex);
       }
-      
+
       // Pausar autoplay se configurado
       if (pauseOnInteraction && isPlaying) {
-        setIsPlaying(false)
+        setIsPlaying(false);
         if (onAutoplayToggle) {
-          onAutoplayToggle(false)
+          onAutoplayToggle(false);
         }
       }
     }
-  }, [currentSlide, slideCount, loop, pauseOnInteraction, isPlaying, onSlideChange, onNext, onAutoplayToggle])
+  }, [
+    currentSlide,
+    slideCount,
+    loop,
+    pauseOnInteraction,
+    isPlaying,
+    onSlideChange,
+    onNext,
+    onAutoplayToggle,
+  ]);
 
   /**
    * Função para ir ao slide anterior
    */
-  const goToPrevious = useCallback(() => {
-    let prevIndex: number
-    
+  const goToPrevious = React.useCallback(() => {
+    let prevIndex: number;
+
     if (currentSlide === 0) {
-      prevIndex = loop ? slideCount - 1 : 0
+      prevIndex = loop ? slideCount - 1 : 0;
     } else {
-      prevIndex = currentSlide - 1
+      prevIndex = currentSlide - 1;
     }
-    
+
     if (prevIndex !== currentSlide) {
-      setCurrentSlide(prevIndex)
-      
+      setCurrentSlide(prevIndex);
+
       if (onSlideChange) {
-        onSlideChange(prevIndex)
+        onSlideChange(prevIndex);
       }
-      
+
       if (onPrevious) {
-        onPrevious(prevIndex)
+        onPrevious(prevIndex);
       }
-      
+
       // Pausar autoplay se configurado
       if (pauseOnInteraction && isPlaying) {
-        setIsPlaying(false)
+        setIsPlaying(false);
         if (onAutoplayToggle) {
-          onAutoplayToggle(false)
+          onAutoplayToggle(false);
         }
       }
     }
-  }, [currentSlide, slideCount, loop, pauseOnInteraction, isPlaying, onSlideChange, onPrevious, onAutoplayToggle])
+  }, [
+    currentSlide,
+    slideCount,
+    loop,
+    pauseOnInteraction,
+    isPlaying,
+    onSlideChange,
+    onPrevious,
+    onAutoplayToggle,
+  ]);
 
   /**
    * Função para ir ao primeiro slide
    */
-  const goToFirst = useCallback(() => {
-    goToSlide(0)
-  }, [goToSlide])
+  const goToFirst = React.useCallback(() => {
+    goToSlide(0);
+  }, [goToSlide]);
 
   /**
    * Função para ir ao último slide
    */
-  const goToLast = useCallback(() => {
-    goToSlide(slideCount - 1)
-  }, [goToSlide, slideCount])
+  const goToLast = React.useCallback(() => {
+    goToSlide(slideCount - 1);
+  }, [goToSlide, slideCount]);
 
   /**
    * Função para pausar autoplay
    */
-  const pauseAutoplay = useCallback(() => {
+  const pauseAutoplay = React.useCallback(() => {
     if (isPlaying) {
-      setIsPlaying(false)
+      setIsPlaying(false);
       if (onAutoplayToggle) {
-        onAutoplayToggle(false)
+        onAutoplayToggle(false);
       }
     }
-  }, [isPlaying, onAutoplayToggle])
+  }, [isPlaying, onAutoplayToggle]);
 
   /**
    * Função para retomar autoplay
    */
-  const resumeAutoplay = useCallback(() => {
-    if (autoplay && !isPlaying && (!respectReducedMotion || !prefersReducedMotion)) {
-      setIsPlaying(true)
+  const resumeAutoplay = React.useCallback(() => {
+    if (
+      autoplay &&
+      !isPlaying &&
+      (!respectReducedMotion || !prefersReducedMotion)
+    ) {
+      setIsPlaying(true);
       if (onAutoplayToggle) {
-        onAutoplayToggle(true)
+        onAutoplayToggle(true);
       }
     }
-  }, [autoplay, isPlaying, respectReducedMotion, prefersReducedMotion, onAutoplayToggle])
+  }, [
+    autoplay,
+    isPlaying,
+    respectReducedMotion,
+    prefersReducedMotion,
+    onAutoplayToggle,
+  ]);
 
   /**
    * Função para alternar autoplay (pausar/retomar)
    */
-  const toggleAutoplay = useCallback(() => {
+  const toggleAutoplay = React.useCallback(() => {
     if (isPlaying) {
-      pauseAutoplay()
+      pauseAutoplay();
     } else {
-      resumeAutoplay()
+      resumeAutoplay();
     }
-  }, [isPlaying, pauseAutoplay, resumeAutoplay])
+  }, [isPlaying, pauseAutoplay, resumeAutoplay]);
 
   /**
    * Effect: Gerenciar autoplay
    */
-  useEffect(() => {
+  React.useEffect(() => {
     // Limpar timer existente
     if (autoplayTimerRef.current) {
-      clearInterval(autoplayTimerRef.current)
-      autoplayTimerRef.current = null
+      clearInterval(autoplayTimerRef.current);
+      autoplayTimerRef.current = null;
     }
 
     // Desabilitar autoplay se prefers-reduced-motion
     if (respectReducedMotion && prefersReducedMotion) {
-      setIsPlaying(false)
-      return
+      setIsPlaying(false);
+      return;
     }
 
     // Iniciar autoplay se ativo
     if (isPlaying) {
       autoplayTimerRef.current = setInterval(() => {
-        goToNext()
-      }, autoplayInterval)
+        goToNext();
+      }, autoplayInterval);
     }
 
     // Cleanup
     return () => {
       if (autoplayTimerRef.current) {
-        clearInterval(autoplayTimerRef.current)
-        autoplayTimerRef.current = null
+        clearInterval(autoplayTimerRef.current);
+        autoplayTimerRef.current = null;
       }
-    }
-  }, [isPlaying, autoplayInterval, goToNext, respectReducedMotion, prefersReducedMotion])
+    };
+  }, [
+    isPlaying,
+    autoplayInterval,
+    goToNext,
+    respectReducedMotion,
+    prefersReducedMotion,
+  ]);
 
   /**
    * Effect: Listeners de teclado
    */
-  useEffect(() => {
+  React.useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       // Ignorar se estiver em input/textarea
-      const target = event.target as HTMLElement
+      const target = event.target as HTMLElement;
       if (
         target.tagName === 'INPUT' ||
         target.tagName === 'TEXTAREA' ||
         target.isContentEditable
       ) {
-        return
+        return;
       }
 
       switch (event.key) {
         case 'ArrowLeft':
         case 'Left': // IE/Edge
-          event.preventDefault()
-          goToPrevious()
-          break
+          event.preventDefault();
+          goToPrevious();
+          break;
 
         case 'ArrowRight':
         case 'Right': // IE/Edge
-          event.preventDefault()
-          goToNext()
-          break
+          event.preventDefault();
+          goToNext();
+          break;
 
         case 'Home':
-          event.preventDefault()
-          goToFirst()
-          break
+          event.preventDefault();
+          goToFirst();
+          break;
 
         case 'End':
-          event.preventDefault()
-          goToLast()
-          break
+          event.preventDefault();
+          goToLast();
+          break;
 
         case ' ': // Espaço
         case 'Spacebar': // IE/Edge
-          event.preventDefault()
-          toggleAutoplay()
-          break
+          event.preventDefault();
+          toggleAutoplay();
+          break;
 
         case 'Escape':
         case 'Esc': // IE/Edge
-          event.preventDefault()
-          pauseAutoplay()
-          break
+          event.preventDefault();
+          pauseAutoplay();
+          break;
       }
     }
 
-    document.addEventListener('keydown', handleKeyDown)
-    
+    document.addEventListener('keydown', handleKeyDown);
+
     return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [goToNext, goToPrevious, goToFirst, goToLast, toggleAutoplay, pauseAutoplay])
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [
+    goToNext,
+    goToPrevious,
+    goToFirst,
+    goToLast,
+    toggleAutoplay,
+    pauseAutoplay,
+  ]);
 
   /**
    * Calcular estados de navegação
    */
-  const canGoNext = loop || currentSlide < slideCount - 1
-  const canGoPrevious = loop || currentSlide > 0
+  const canGoNext = loop || currentSlide < slideCount - 1;
+  const canGoPrevious = loop || currentSlide > 0;
 
   return {
     currentSlide,
@@ -466,5 +509,5 @@ export function useCarouselKeyboard({
     resumeAutoplay,
     canGoNext,
     canGoPrevious,
-  }
+  };
 }
