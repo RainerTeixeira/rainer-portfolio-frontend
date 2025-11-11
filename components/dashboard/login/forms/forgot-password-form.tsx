@@ -39,7 +39,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { TRANSITIONS } from '@rainer/design-tokens';
 import { ArrowLeft, CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -112,7 +114,10 @@ export function ForgotPasswordForm() {
 
         <Link
           href="/dashboard/login"
-          className="flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className={cn(
+            'flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20',
+            TRANSITIONS.COLORS
+          )}
         >
           <ArrowLeft className="h-4 w-4" />
           Voltar para login
@@ -122,63 +127,52 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2 text-center">
-        <h2 className="text-2xl font-bold tracking-tight">
-          Esqueceu sua senha?
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          Digite seu email e enviaremos instruções para redefinir sua senha
-        </p>
-      </div>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 sm:space-y-5"
+      >
+        {error && (
+          <Alert variant="destructive">
+            <XCircle className="h-4 w-4" />
+            <AlertDescription className="text-sm wrap-break-word">
+              {error}
+            </AlertDescription>
+          </Alert>
+        )}
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {error && (
-            <Alert variant="destructive">
-              <XCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="seu@email.com"
+                  {...field}
+                  disabled={isLoading}
+                  className="h-9 sm:h-10"
+                />
+              </FormControl>
+              <FormDescription>
+                Enviaremos um link de recuperação para este email
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
           )}
+        />
 
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="seu@email.com"
-                    {...field}
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Enviaremos um link de recuperação para este email
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Enviar Link de Recuperação
-          </Button>
-        </form>
-      </Form>
-
-      <div className="text-center">
-        <Link
-          href="/dashboard/login"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        <Button
+          type="submit"
+          className="w-full h-9 sm:h-10"
+          disabled={isLoading}
         >
-          <ArrowLeft className="h-4 w-4" />
-          Voltar para login
-        </Link>
-      </div>
-    </div>
+          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Enviar Link de Recuperação
+        </Button>
+      </form>
+    </Form>
   );
 }

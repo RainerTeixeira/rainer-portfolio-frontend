@@ -17,84 +17,71 @@
  * ```
  */
 
-import { RegisterForm, TermsDialog } from '@/components/dashboard/login';
-import { BackToTop } from '@/components/ui';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { SITE_CONFIG } from '@/constants';
-import { cn } from '@/lib/utils';
-import { BACKGROUND, GRADIENTS } from '@rainer/design-tokens';
-import { Metadata } from 'next';
-import Link from 'next/link';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Criar Conta | Dashboard',
-  description: 'Crie sua conta para acessar o dashboard',
-};
+import {
+  AuthLayout,
+  RegisterForm,
+  TermsDialog,
+} from '@/components/dashboard/login';
+import { BackToTop } from '@/components/ui';
+import { cn } from '@/lib/utils';
+import { TRANSITIONS } from '@rainer/design-tokens';
+import Link from 'next/link';
 
 export default function RegisterPage() {
   return (
-    <div
-      className={cn(
-        'min-h-screen flex items-center justify-center p-4',
-        BACKGROUND.SOFT_GRADIENT
-      )}
-    >
-      <div className="w-full max-w-lg space-y-6">
-        {/* Logo/Brand */}
-        <div className="text-center space-y-2">
-          <Link href="/" className="inline-block">
-            <h1
-              className={cn(
-                'text-3xl font-bold bg-clip-text text-transparent',
-                GRADIENTS.TEXT_CYAN_PURPLE_PINK
-              )}
-            >
-              {SITE_CONFIG.fullName} - Dashboard
-            </h1>
-          </Link>
-          <p className="text-muted-foreground">
-            Crie sua conta para acessar o dashboard
-          </p>
-        </div>
+    <>
+      <AuthLayout
+        title="Criar conta"
+        description="Preencha os dados abaixo para criar sua conta"
+        showBranding={true}
+        maxWidth="lg"
+        footer={
+          <>
+            <p className="text-center text-sm text-muted-foreground mb-4">
+              Já tem uma conta?{' '}
+              <Link
+                href="/dashboard/login"
+                className={cn(
+                  'text-primary hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-primary/20',
+                  TRANSITIONS.COLORS
+                )}
+              >
+                Fazer login
+              </Link>
+            </p>
+            <p className="text-center text-xs text-muted-foreground">
+              Ao criar uma conta, você concorda com nossos{' '}
+              <TermsDialog type="terms">
+                <button
+                  className={cn(
+                    'text-primary hover:underline font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20',
+                    TRANSITIONS.COLORS
+                  )}
+                >
+                  Termos de Uso
+                </button>
+              </TermsDialog>{' '}
+              e{' '}
+              <TermsDialog type="privacy">
+                <button
+                  className={cn(
+                    'text-primary hover:underline font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20',
+                    TRANSITIONS.COLORS
+                  )}
+                >
+                  Política de Privacidade
+                </button>
+              </TermsDialog>
+            </p>
+          </>
+        }
+      >
+        <RegisterForm />
+      </AuthLayout>
 
-        {/* Form Card */}
-        <Card className="border-2">
-          <CardHeader>
-            <CardTitle>Criar Conta</CardTitle>
-            <CardDescription>
-              Preencha os dados abaixo para criar sua conta
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <RegisterForm />
-          </CardContent>
-        </Card>
-
-        {/* Footer */}
-        <p className="text-center text-sm text-muted-foreground">
-          Ao criar uma conta, você concorda com nossos{' '}
-          <TermsDialog type="terms">
-            <button className="text-cyan-500 hover:underline font-medium cursor-pointer">
-              Termos de Uso
-            </button>
-          </TermsDialog>{' '}
-          e{' '}
-          <TermsDialog type="privacy">
-            <button className="text-cyan-500 hover:underline font-medium cursor-pointer">
-              Política de Privacidade
-            </button>
-          </TermsDialog>
-        </p>
-      </div>
-
-      {/* Back to Top */}
       <BackToTop />
-    </div>
+    </>
   );
 }

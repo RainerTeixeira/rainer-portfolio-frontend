@@ -80,6 +80,12 @@ Esta pasta contém toda a documentação relacionada a testes do projeto, inclui
     - Recomendações de padronização
     - Plano de ação para migração
 
+14. **RESUMO_IMPLEMENTACAO_E2E.md**
+    - Resumo completo da implementação de testes E2E
+    - Detalhes de todas as fases implementadas
+    - Estatísticas e métricas
+    - Fase 6: Testes de Performance (✅ Implementado)
+
 ---
 
 ## 🎯 Ordem de Leitura Recomendada
@@ -118,14 +124,18 @@ Para testes gerais:
 
 | Métrica | Valor |
 |---------|-------|
-| **Total de documentos** | 23 arquivos |
+| **Total de documentos** | 24 arquivos |
 | **Checklists** | 7 documentos |
 | **Relatórios** | 1 documento |
 | **Guias de funcionalidades** | 1 documento |
 | **Guias OAuth** | 2 documentos |
-| **Testes E2E** | 2 documentos |
+| **Testes E2E** | 4 documentos |
 | **Análises** | 1 documento |
 | **Outros** | 9 documentos |
+| **Total de testes E2E** | 120+ testes |
+| **Arquivos de teste** | 11 arquivos |
+| **Helpers** | 4 helpers |
+| **Workflows CI/CD** | 1 workflow |
 
 ## ✅ Status dos Testes
 
@@ -147,6 +157,11 @@ Todas as 19 páginas do app têm seus respectivos testes em `tests/app/`:
 - ✅ Teste de verificação de erros nas rotas principais (`main-routes-console-check.spec.ts`)
 - ✅ Captura automática de erros JavaScript, warnings e erros de rede
 - ✅ Relatórios detalhados com localização dos erros
+- ✅ Testes de Performance (`performance.spec.ts`) - 20 testes
+  - Core Web Vitals (LCP, FID, CLS, FCP, TTFB)
+  - Tempos de carregamento
+  - Otimizações de recursos (lazy loading, code splitting, cache)
+  - Otimizações específicas (Next.js Image, fontes, preload)
 
 **Rotas testadas E2E:**
 - `/` - Home
@@ -156,6 +171,21 @@ Todas as 19 páginas do app têm seus respectivos testes em `tests/app/`:
 - `/termos` - Termos
 - `/privacidade` - Privacidade
 - `/cookies` - Cookies
+
+**Arquivos de teste E2E:**
+- `blog-detailed.spec.ts` - 17 testes do blog
+- `formularios.spec.ts` - 8 testes de formulários
+- `navegacao.spec.ts` - 10 testes de navegação
+- `dashboard-detailed.spec.ts` - 17 testes do dashboard
+- `auth-test.spec.ts` - Teste de autenticação
+- `main-routes-console-check.spec.ts` - Verificação de rotas principais
+- `performance.spec.ts` - 20 testes de performance
+- `visual-regression.spec.ts` - 10 testes de regressão visual
+- `integration-complex.spec.ts` - 10 testes de integração complexos
+- `accessibility-advanced.spec.ts` - 12 testes de acessibilidade avançados
+- `security.spec.ts` - 10 testes de segurança
+
+**Total: 120+ testes E2E implementados**
 
 ### Estrutura Espelhada
 

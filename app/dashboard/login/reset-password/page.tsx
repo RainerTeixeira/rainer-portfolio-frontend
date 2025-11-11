@@ -20,27 +20,16 @@
 
 'use client';
 
+import { AuthLayout } from '@/components/dashboard/login';
+import { PasswordInput } from '@/components/dashboard/login/password-input';
+import { BackToTop } from '@/components/ui';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { motion } from 'framer-motion';
-import {
-  AlertCircle,
-  ArrowLeft,
-  CheckCircle2,
-  Eye,
-  EyeOff,
-  Loader2,
-  Lock,
-} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { BORDER_RADIUS, TRANSITIONS } from '@rainer/design-tokens';
+import { AlertCircle, ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
@@ -55,8 +44,6 @@ export default function ResetPasswordPage() {
   const [verificationCode, setVerificationCode] = useState(code);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -137,139 +124,117 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8 bg-background">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md"
+    <>
+      <AuthLayout
+        title="Redefinir senha"
+        description={
+          email
+            ? `Digite o código de 6 dígitos recebido no email ${email} e defina sua nova senha. O código é válido por 24 horas.`
+            : 'Digite o código de 6 dígitos recebido por email e defina sua nova senha. O código é válido por 24 horas.'
+        }
+        showBranding={true}
+        maxWidth="md"
+        footer={
+          <div className="text-center">
+            <Link
+              href="/dashboard/login"
+              className={cn(
+                'inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20',
+                TRANSITIONS.COLORS
+              )}
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Voltar para login
+            </Link>
+          </div>
+        }
       >
-        <Card className="border-2 shadow-xl">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold flex items-center gap-2">
-              <Lock className="w-6 h-6 text-cyan-500" />
-              Redefinir Senha
-            </CardTitle>
-            <CardDescription>
-              Digite o código de 6 dígitos recebido no email{' '}
-              <strong>{email}</strong> e defina sua nova senha. O código é
-              válido por 24 horas.
-            </CardDescription>
-          </CardHeader>
-
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="code">Código de Verificação</Label>
-                <Input
-                  id="code"
-                  type="text"
-                  placeholder="Digite o código de 6 dígitos"
-                  value={verificationCode}
-                  onChange={e => setVerificationCode(e.target.value)}
-                  disabled={isLoading}
-                  className="h-11"
-                  autoFocus
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="newPassword">Nova Senha</Label>
-                <div className="relative">
-                  <Input
-                    id="newPassword"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Mínimo 8 caracteres"
-                    value={newPassword}
-                    onChange={e => setNewPassword(e.target.value)}
-                    disabled={isLoading}
-                    className="h-11 pr-10"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    tabIndex={-1}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirmar Senha</Label>
-                <div className="relative">
-                  <Input
-                    id="confirmPassword"
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder="Digite a senha novamente"
-                    value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)}
-                    disabled={isLoading}
-                    className="h-11 pr-10"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    tabIndex={-1}
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              {error && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+          {/* Campo de Código */}
+          <div className="space-y-2">
+            <Label htmlFor="code">Código de Verificação</Label>
+            <Input
+              id="code"
+              type="text"
+              placeholder="Digite o código de 6 dígitos"
+              value={verificationCode}
+              onChange={e => setVerificationCode(e.target.value)}
+              disabled={isLoading}
+              className={cn(
+                'h-9 sm:h-10 text-center text-lg tracking-widest font-mono',
+                BORDER_RADIUS.MD,
+                TRANSITIONS.ALL
               )}
+              maxLength={6}
+              autoFocus
+            />
+          </div>
 
-              {success && (
-                <Alert className="border-green-500 bg-green-500/10">
-                  <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  <AlertDescription className="text-green-700 dark:text-green-400">
-                    Senha redefinida! Redirecionando para login...
-                  </AlertDescription>
-                </Alert>
-              )}
+          {/* Campo de Nova Senha */}
+          <div className="space-y-2">
+            <Label htmlFor="newPassword">Nova Senha</Label>
+            <PasswordInput
+              value={newPassword}
+              onChange={setNewPassword}
+              placeholder="Mínimo 8 caracteres"
+              disabled={isLoading}
+              showStrengthIndicator
+              name="newPassword"
+              id="newPassword"
+            />
+          </div>
 
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full h-11 text-base"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                    Redefinindo...
-                  </>
-                ) : (
-                  'Redefinir Senha'
-                )}
-              </Button>
-            </form>
+          {/* Campo de Confirmar Senha */}
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">Confirmar Senha</Label>
+            <PasswordInput
+              value={confirmPassword}
+              onChange={setConfirmPassword}
+              placeholder="Digite a senha novamente"
+              disabled={isLoading}
+              name="confirmPassword"
+              id="confirmPassword"
+            />
+          </div>
 
-            <div className="mt-6 text-center">
-              <Link
-                href="/dashboard/login"
-                className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-2"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Voltar para login
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-    </div>
+          {/* Mensagens de Erro/Sucesso */}
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="text-sm wrap-break-word">
+                {error}
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {success && (
+            <Alert className="border-green-500 bg-green-50 dark:bg-green-950/20">
+              <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
+              <AlertDescription className="text-sm text-green-700 dark:text-green-400">
+                Senha redefinida! Redirecionando para login...
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {/* Botão de Submit */}
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="w-full h-9 sm:h-10"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Redefinindo...
+              </>
+            ) : (
+              'Redefinir Senha'
+            )}
+          </Button>
+        </form>
+      </AuthLayout>
+
+      <BackToTop />
+    </>
   );
 }

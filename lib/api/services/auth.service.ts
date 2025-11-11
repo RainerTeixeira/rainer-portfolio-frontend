@@ -552,6 +552,52 @@ export class AuthService {
         throw enhancedError;
       }
 
+      // Tratamento específico para erros 500 (erro interno do servidor)
+      if (error instanceof ApiError && error.status === 500) {
+        // Extrair informações adicionais da resposta do servidor
+        const serverMessage =
+          error.data?.message || error.data?.error || error.message;
+
+        // Construir mensagem mais informativa
+        let errorMessage = 'Erro interno do servidor ao realizar login';
+        if (serverMessage && serverMessage !== 'Internal Server Error') {
+          errorMessage = serverMessage;
+        } else {
+          errorMessage =
+            'Erro interno do servidor (500). O backend retornou um erro.';
+        }
+
+        const enhancedError = new ApiError(
+          500,
+          errorMessage,
+          error.data,
+          error.url,
+          error.method,
+          error.endpoint
+        );
+
+        (enhancedError as any).suggestions = [
+          'O servidor está enfrentando problemas temporários',
+          'Verifique se o backend está rodando corretamente em http://localhost:4000',
+          'Verifique os logs do servidor backend para mais detalhes',
+          'Tente novamente em alguns instantes',
+          'Se o problema persistir, entre em contato com o suporte técnico',
+        ];
+
+        logApiError(enhancedError, this.context, {
+          operation: 'login',
+          email: data.email,
+          status: 500,
+          url: error.url,
+          endpoint: error.endpoint,
+          method: error.method,
+          responseData: error.data,
+          serverMessage,
+          suggestions: (enhancedError as any).suggestions,
+        });
+        throw enhancedError;
+      }
+
       logApiError(error, this.context, {
         operation: 'login',
         email: data.email,

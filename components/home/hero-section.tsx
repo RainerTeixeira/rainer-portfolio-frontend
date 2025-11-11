@@ -29,8 +29,16 @@
 
 'use client';
 
+import { hexToRGBA } from '@/lib/design-tokens-helpers';
 import { cn } from '@/lib/utils';
-import { GRADIENTS, GRADIENT_DIRECTIONS } from '@rainer/design-tokens';
+import {
+  COLOR_BLUE,
+  COLOR_CYAN,
+  COLOR_EMERALD,
+  COLOR_GREEN,
+  GRADIENTS,
+  GRADIENT_DIRECTIONS,
+} from '@rainer/design-tokens';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
@@ -189,16 +197,16 @@ function HeroContentOverlay({
   const titleStyle: CSSProperties = {
     fontSize: 'clamp(1.75rem, 7vw + 0.5rem, 5rem)',
     textShadow: safeIsDarkTheme
-      ? '0 0 30px rgba(0,255,255,0.7), 0 0 50px rgba(255,0,255,0.5)'
-      : '0 0 30px rgba(59,130,246,0.6), 0 0 50px rgba(139,92,246,0.4)',
+      ? `0 0 30px ${hexToRGBA(COLOR_CYAN[300], 0.7)}, 0 0 50px ${hexToRGBA(COLOR_CYAN[400], 0.5)}`
+      : `0 0 30px ${hexToRGBA(COLOR_BLUE[500], 0.6)}, 0 0 50px ${hexToRGBA(COLOR_BLUE[600], 0.4)}`,
     lineHeight: 1.05,
   };
 
   const subtitleStyle: CSSProperties = {
     fontSize: 'clamp(1rem, 3.5vw + 0.3rem, 2rem)',
     textShadow: safeIsDarkTheme
-      ? '0 0 20px rgba(0,255,0,0.6)'
-      : '0 0 20px rgba(34,197,94,0.5)',
+      ? `0 0 20px ${hexToRGBA(COLOR_EMERALD[400], 0.6)}`
+      : `0 0 20px ${hexToRGBA(COLOR_GREEN[500], 0.5)}`,
     lineHeight: 1.3,
   };
 

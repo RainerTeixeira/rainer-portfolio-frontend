@@ -47,14 +47,22 @@ interface LogEntry {
 // Constants
 // ============================================================================
 
+import {
+  COLOR_AMBER,
+  COLOR_BLUE,
+  COLOR_NEUTRAL,
+  COLOR_RED,
+} from '@rainer/design-tokens';
+
 /**
  * Cores para cada nível de log
+ * Usa cores primitivas da biblioteca @rainer/design-tokens
  */
 const LOG_COLORS = {
-  debug: '#6B7280', // Gray
-  info: '#3B82F6', // Blue
-  warn: '#F59E0B', // Amber
-  error: '#EF4444', // Red
+  debug: COLOR_NEUTRAL[500], // Gray
+  info: COLOR_BLUE[500], // Blue
+  warn: COLOR_AMBER[500], // Amber
+  error: COLOR_RED[500], // Red
 } as const;
 
 /**

@@ -7,6 +7,8 @@
 
 'use client';
 
+import { hexToRGBA } from '@/lib/design-tokens-helpers';
+import { COLOR_BLUE, COLOR_CYAN } from '@rainer/design-tokens';
 import { useEffect, useRef } from 'react';
 
 interface FloatingGridProps {
@@ -48,13 +50,16 @@ export function FloatingGrid({
     const drawGrid = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Cor do grid baseada no tema
+      // Cor do grid baseada no tema usando cores da biblioteca
       const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const color = isDark
-        ? `rgba(6, 182, 212, ${intensity * 1.2})`
-        : `rgba(59, 130, 246, ${intensity * 0.6})`;
+      const strokeColor = isDark
+        ? hexToRGBA(COLOR_CYAN[400], intensity * 1.2)
+        : hexToRGBA(COLOR_BLUE[500], intensity * 0.6);
+      const fillColor = isDark
+        ? hexToRGBA(COLOR_CYAN[400], intensity * 0.6)
+        : hexToRGBA(COLOR_BLUE[500], intensity * 0.4);
 
-      ctx.strokeStyle = color;
+      ctx.strokeStyle = strokeColor;
       ctx.lineWidth = config.lineWidth;
 
       // Linhas verticais
@@ -74,9 +79,7 @@ export function FloatingGrid({
       }
 
       // Pontos de interseção brilhantes
-      ctx.fillStyle = isDark
-        ? `rgba(6, 182, 212, ${intensity * 0.6})`
-        : `rgba(59, 130, 246, ${intensity * 0.4})`;
+      ctx.fillStyle = fillColor;
       for (let x = 0; x < canvas.width; x += config.spacing) {
         for (let y = 0; y < canvas.height; y += config.spacing) {
           ctx.beginPath();
