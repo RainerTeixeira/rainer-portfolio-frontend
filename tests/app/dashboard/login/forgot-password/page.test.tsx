@@ -50,4 +50,3 @@ describe('Forgot Password Page', () => {
     expect(screen.getByTestId('back-to-top')).toBeInTheDocument();
   });
 });
-

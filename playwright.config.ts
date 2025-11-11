@@ -16,10 +16,10 @@ import { defineConfig, devices } from '@playwright/test';
  * - Erros JavaScript são detectados e reportados
  * - Requisições HTTP que falham são monitoradas
  * - Use os fixtures em tests/e2e/fixtures/index.ts para monitoramento automático
- * - Veja tests/e2e/README_CONSOLE_MONITORING.md para mais detalhes
+ * - Veja docs/09-TESTES/README_CONSOLE_MONITORING.md para mais detalhes
  *
  * @see https://playwright.dev/docs/test-configuration
- * @see tests/e2e/README_CONSOLE_MONITORING.md
+ * @see docs/09-TESTES/README_CONSOLE_MONITORING.md
  */
 const config: PlaywrightTestConfig = {
   testDir: './tests/e2e',

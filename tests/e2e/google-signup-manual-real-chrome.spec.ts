@@ -1,6 +1,7 @@
-import { chromium, expect, test } from '@playwright/test';
+import { chromium } from '@playwright/test';
 import * as os from 'os';
 import * as path from 'path';
+import { expect, test } from './fixtures';
 
 /**
  * Teste MANUAL com Chrome REAL do Sistema
@@ -126,7 +127,7 @@ test.describe('Google Real Browser Test', () => {
       console.log('  ETAPA 1: Navegando para página de login');
       console.log('───────────────────────────────────────────────────────');
 
-      await page.goto('http://localhost:3000/dashboard/login', {
+      await page.goto('/dashboard/login', {
         waitUntil: 'networkidle',
         timeout: 30000,
       });

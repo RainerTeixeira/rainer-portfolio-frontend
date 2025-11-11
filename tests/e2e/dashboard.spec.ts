@@ -8,15 +8,14 @@
  * - Listagem de posts
  */
 
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 test.describe('Dashboard - Teste de UI', () => {
   test.beforeEach(async ({ page }) => {
     // Visitar a página do dashboard
-    await page.goto(`${BASE_URL}/dashboard`);
+    await page.goto('/dashboard');
   });
 
   test('deve carregar a página do dashboard', async ({ page }) => {
@@ -136,25 +135,19 @@ test.describe('Dashboard - Teste de UI', () => {
 
   test('deve verificar que não há erros de console relacionados a fullName ou name', async ({
     page,
+    consoleHelper,
   }) => {
-    const consoleErrors: string[] = [];
-
-    page.on('console', msg => {
-      if (msg.type() === 'error') {
-        consoleErrors.push(msg.text());
-      }
-    });
-
-    await page.goto(`${BASE_URL}/dashboard`);
+    await page.goto('/dashboard');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
     // Filtrar erros relacionados a campos incorretos
-    const relevantErrors = consoleErrors.filter(
+    const allErrors = consoleHelper.getErrors();
+    const relevantErrors = allErrors.filter(
       error =>
-        error.includes('fullName') ||
-        error.includes('Property') ||
-        error.includes('does not exist')
+        error.text.includes('fullName') ||
+        error.text.includes('Property') ||
+        error.text.includes('does not exist')
     );
 
     // Verificar que não há erros críticos relacionados aos campos
@@ -179,7 +172,7 @@ test.describe('Dashboard - Teste de UI', () => {
       }
     });
 
-    await page.goto(`${BASE_URL}/dashboard`);
+    await page.goto('/dashboard');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(3000);
 

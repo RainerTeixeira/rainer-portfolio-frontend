@@ -4,7 +4,7 @@
  * Abre o Chrome e testa a funcionalidade de preview de imagem
  */
 
-import { test } from '@playwright/test';
+import { test } from './fixtures';
 
 test.describe('Preview de Imagem - Chrome Visual Test', () => {
   test.use({
@@ -29,7 +29,7 @@ test.describe('Preview de Imagem - Chrome Visual Test', () => {
     console.log('🌐 Abrindo Chrome e navegando para o dashboard...');
 
     // Acessar dashboard
-    await page.goto('http://localhost:3000/dashboard', {
+    await page.goto('/dashboard', {
       waitUntil: 'networkidle',
       timeout: 30000,
     });
@@ -77,7 +77,7 @@ test.describe('Preview de Imagem - Chrome Visual Test', () => {
       console.log('✅ Clicado em "Novo Post"');
     } else {
       console.log('⚠️ Botão não encontrado, navegando diretamente...');
-      await page.goto('http://localhost:3000/dashboard?mode=new');
+      await page.goto('/dashboard?mode=new');
       await page.waitForTimeout(2000);
     }
 

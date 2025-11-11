@@ -9,8 +9,8 @@
  * - Verificação de erros
  */
 
-import { expect, test } from '@playwright/test';
 import path from 'path';
+import { expect, test } from './fixtures';
 
 test.describe('Criar Postagem com Imagem', () => {
   test.beforeEach(async ({ page }) => {

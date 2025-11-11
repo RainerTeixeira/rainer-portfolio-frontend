@@ -210,4 +210,3 @@ describe('Login Page', () => {
     expect(mockUseAuth.loginWithGitHub).toHaveBeenCalled();
   });
 });
-
