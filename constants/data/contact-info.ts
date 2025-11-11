@@ -8,7 +8,12 @@
  * @version 2.0.0
  */
 
-import { COLORS } from '@rainer/design-tokens';
+import {
+  COLOR_CYAN,
+  COLOR_ORANGE,
+  COLOR_PINK,
+  COLOR_PURPLE,
+} from '@rainer/design-tokens';
 import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 import React from 'react';
 import { CONTACT_CONFIG } from '../site/meta';
@@ -47,9 +52,9 @@ export const CONTACT_INFO_CARDS: ReadonlyArray<ContactInfoCardConfig> = [
       secondary: CONTACT_CONFIG.workingHours.hours,
     },
     color: 'cyan',
-    borderColor: COLORS.BORDER.DARK_CYAN_20 || 'border-cyan-200',
-    textColor: COLORS.TEXT.DARK_CYAN_200 || 'text-cyan-200',
-    iconColor: (COLORS.ACCENT as { CYAN: string })?.CYAN || '#06b6d4',
+    borderColor: 'border-cyan-400/20',
+    textColor: 'text-cyan-200',
+    iconColor: COLOR_CYAN[400],
   },
   {
     icon: MapPin,
@@ -59,9 +64,9 @@ export const CONTACT_INFO_CARDS: ReadonlyArray<ContactInfoCardConfig> = [
       secondary: CONTACT_CONFIG.location.country,
     },
     color: 'purple',
-    borderColor: COLORS.BORDER.DARK_PURPLE_20 || 'border-purple-200',
-    textColor: COLORS.TEXT.DARK_PURPLE_200 || 'text-purple-200',
-    iconColor: (COLORS.ACCENT as { PURPLE: string })?.PURPLE || '#a855f7',
+    borderColor: 'border-purple-400/20',
+    textColor: 'text-purple-200',
+    iconColor: COLOR_PURPLE[400],
   },
   {
     icon: Phone,
@@ -72,11 +77,11 @@ export const CONTACT_INFO_CARDS: ReadonlyArray<ContactInfoCardConfig> = [
     },
     href: `tel:${CONTACT_CONFIG.phone.number.replace(/\s/g, '')}`,
     color: 'pink',
-    borderColor: COLORS.BORDER.DARK_PINK_20 || 'border-pink-200',
-    hoverBorder: COLORS.BORDER.DARK_PINK_40 || 'border-pink-400',
-    textColor: COLORS.TEXT.DARK_PINK_200 || 'text-pink-200',
-    hoverText: COLORS.TEXT.DARK_PINK_300 || 'text-pink-300',
-    iconColor: (COLORS.ACCENT as { PINK: string })?.PINK || '#ec4899',
+    borderColor: 'border-pink-400/20',
+    hoverBorder: 'hover:border-pink-400/40',
+    textColor: 'text-pink-200',
+    hoverText: 'hover:text-pink-300',
+    iconColor: COLOR_PINK[400],
   },
   {
     icon: Mail,
@@ -87,10 +92,10 @@ export const CONTACT_INFO_CARDS: ReadonlyArray<ContactInfoCardConfig> = [
     },
     href: `mailto:${CONTACT_CONFIG.email.address}`,
     color: 'orange',
-    borderColor: COLORS.BORDER.DARK_ORANGE_20 || 'border-orange-200',
-    textColor: COLORS.TEXT.DARK_ORANGE_200 || 'text-orange-200',
-    hoverBorder: COLORS.BORDER.DARK_ORANGE_40 || 'border-orange-400',
-    hoverText: COLORS.TEXT.DARK_ORANGE_300 || 'text-orange-300',
-    iconColor: (COLORS.ACCENT as { ORANGE: string })?.ORANGE || '#f97316',
+    borderColor: 'border-orange-400/20',
+    textColor: 'text-orange-200',
+    hoverBorder: 'hover:border-orange-400/40',
+    hoverText: 'hover:text-orange-300',
+    iconColor: COLOR_ORANGE[400],
   },
 ] as const;

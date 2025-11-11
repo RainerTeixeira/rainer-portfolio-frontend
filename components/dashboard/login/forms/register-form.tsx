@@ -46,9 +46,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { TRANSITIONS } from '@rainer/design-tokens';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
-import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -161,11 +162,16 @@ export function RegisterForm({}: RegisterFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 sm:space-y-5"
+      >
         {error && (
           <Alert variant="destructive">
             <XCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
+            <AlertDescription className="text-sm wrap-break-word">
+              {error}
+            </AlertDescription>
           </Alert>
         )}
 
@@ -181,6 +187,7 @@ export function RegisterForm({}: RegisterFormProps) {
                   placeholder="João da Silva"
                   {...field}
                   disabled={isLoading}
+                  className="h-9 sm:h-10"
                 />
               </FormControl>
               <FormMessage />
@@ -200,9 +207,12 @@ export function RegisterForm({}: RegisterFormProps) {
                   placeholder="joaosilva"
                   {...field}
                   disabled={isLoading}
+                  className="h-9 sm:h-10"
                 />
               </FormControl>
-              <FormDescription>Apenas letras, números, - e _</FormDescription>
+              <FormDescription className="text-xs sm:text-sm">
+                Apenas letras, números, - e _
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -221,6 +231,7 @@ export function RegisterForm({}: RegisterFormProps) {
                   placeholder="joao@exemplo.com"
                   {...field}
                   disabled={isLoading}
+                  className="h-9 sm:h-10"
                 />
               </FormControl>
               <FormMessage />
@@ -288,7 +299,10 @@ export function RegisterForm({}: RegisterFormProps) {
                   <TermsDialog type="terms">
                     <button
                       type="button"
-                      className="text-cyan-500 hover:underline font-medium cursor-pointer"
+                      className={cn(
+                        'text-primary hover:underline font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20',
+                        TRANSITIONS.COLORS
+                      )}
                     >
                       Termos de Uso
                     </button>
@@ -297,7 +311,10 @@ export function RegisterForm({}: RegisterFormProps) {
                   <TermsDialog type="privacy">
                     <button
                       type="button"
-                      className="text-cyan-500 hover:underline font-medium cursor-pointer"
+                      className={cn(
+                        'text-primary hover:underline font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20',
+                        TRANSITIONS.COLORS
+                      )}
                     >
                       Política de Privacidade
                     </button>
@@ -309,20 +326,14 @@ export function RegisterForm({}: RegisterFormProps) {
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button
+          type="submit"
+          className="w-full h-9 sm:h-10"
+          disabled={isLoading}
+        >
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Criar Conta
         </Button>
-
-        <p className="text-center text-sm text-muted-foreground">
-          Já tem uma conta?{' '}
-          <Link
-            href="/dashboard/login"
-            className="text-primary hover:underline font-medium"
-          >
-            Fazer login
-          </Link>
-        </p>
       </form>
     </Form>
   );

@@ -5,13 +5,14 @@
  * validação de dados e integração com a API
  */
 
-import { ApiError } from './client';
-import { API_CONFIG } from './config';
+import { COLOR_RED } from '@rainer/design-tokens';
 import {
   validateEmail,
   validatePassword,
   validateUsername,
 } from '../validation-schemas';
+import { ApiError } from './client';
+import { API_CONFIG } from './config';
 
 type ValidationFunction = (value: string) => {
   isValid: boolean;
@@ -271,7 +272,7 @@ export function logApiError(
   if (process.env.NODE_ENV === 'development') {
     console.groupCollapsed(
       `%c[${context}] ${errorAnalysis.message}`,
-      'color: #ef4444'
+      `color: ${COLOR_RED[500]}`
     );
     console.error('Detalhes do erro:', error);
     console.error('Análise do erro:', errorAnalysis);

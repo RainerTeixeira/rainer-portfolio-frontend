@@ -39,7 +39,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { TRANSITIONS } from '@rainer/design-tokens';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -130,70 +132,70 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2 text-center">
-        <h2 className="text-2xl font-bold tracking-tight">Redefinir Senha</h2>
-        <p className="text-sm text-muted-foreground">
-          Digite sua nova senha abaixo
-        </p>
-      </div>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 sm:space-y-5"
+      >
+        {error && (
+          <Alert variant="destructive">
+            <XCircle className="h-4 w-4" />
+            <AlertDescription className="text-sm wrap-break-word">
+              {error}
+            </AlertDescription>
+          </Alert>
+        )}
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {error && (
-            <Alert variant="destructive">
-              <XCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
+        {/* Nova senha */}
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nova Senha</FormLabel>
+              <FormControl>
+                <PasswordInput
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={isLoading}
+                  showStrengthIndicator
+                  name={field.name}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
+        />
 
-          {/* Nova senha */}
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nova Senha</FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    value={field.value}
-                    onChange={field.onChange}
-                    disabled={isLoading}
-                    showStrengthIndicator
-                    name={field.name}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Confirmar nova senha */}
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirmar Nova Senha</FormLabel>
+              <FormControl>
+                <PasswordInput
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={isLoading}
+                  name={field.name}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Confirmar nova senha */}
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirmar Nova Senha</FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    value={field.value}
-                    onChange={field.onChange}
-                    disabled={isLoading}
-                    name={field.name}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Redefinir Senha
-          </Button>
-        </form>
-      </Form>
-    </div>
+        <Button
+          type="submit"
+          className={cn('w-full h-9 sm:h-10', TRANSITIONS.ALL_EASE_IN_OUT)}
+          disabled={isLoading}
+        >
+          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Redefinir Senha
+        </Button>
+      </form>
+    </Form>
   );
 }

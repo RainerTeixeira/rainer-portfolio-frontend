@@ -40,6 +40,7 @@ import {
 } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { COLOR_HEX, hexToRGBA } from '@/lib/design-tokens-helpers';
 import {
   Crown,
   Flame,
@@ -75,9 +76,9 @@ const WORLDS = [
     icon: Zap,
     colors: {
       bg: 'from-purple-900 via-black to-cyan-900',
-      platform: '#06b6d4',
-      enemy: '#a855f7',
-      coin: '#fbbf24',
+      platform: COLOR_HEX.cyan[500],
+      enemy: COLOR_HEX.purple[500],
+      coin: COLOR_HEX.amber[400],
     },
     description: 'Cidade neon futurística',
     difficulty: '⭐ Fácil',
@@ -89,9 +90,9 @@ const WORLDS = [
     icon: Star,
     colors: {
       bg: 'from-blue-400 via-green-300 to-blue-500',
-      platform: '#8B4513',
-      enemy: '#ef4444',
-      coin: '#fbbf24',
+      platform: '#8B4513', // Brown específico do Mario (mantido para autenticidade)
+      enemy: COLOR_HEX.red[500],
+      coin: COLOR_HEX.amber[400],
     },
     description: 'Reino dos cogumelos',
     difficulty: '⭐ Fácil/Médio',
@@ -103,9 +104,9 @@ const WORLDS = [
     icon: Flame,
     colors: {
       bg: 'from-red-950 via-black to-orange-950',
-      platform: '#8B0000',
-      enemy: '#ff0000',
-      coin: '#ff6600',
+      platform: '#8B0000', // Dark red específico (mantido para autenticidade)
+      enemy: COLOR_HEX.red[600],
+      coin: COLOR_HEX.orange[500],
     },
     description: 'Inferno demoníaco',
     difficulty: '⭐⭐ Médio',
@@ -117,9 +118,9 @@ const WORLDS = [
     icon: Skull,
     colors: {
       bg: 'from-gray-800 via-green-900 to-gray-700',
-      platform: '#4a5568',
-      enemy: '#10b981',
-      coin: '#60a5fa',
+      platform: COLOR_HEX.neutral[600],
+      enemy: COLOR_HEX.green[500],
+      coin: COLOR_HEX.blue[400],
     },
     description: 'Base militar',
     difficulty: '⭐⭐ Médio/Difícil',
@@ -131,9 +132,9 @@ const WORLDS = [
     icon: Ghost,
     colors: {
       bg: 'from-blue-900 via-black to-purple-900',
-      platform: '#1e40af',
-      enemy: '#ec4899',
-      coin: '#fef08a',
+      platform: COLOR_HEX.blue[800],
+      enemy: COLOR_HEX.pink[500],
+      coin: COLOR_HEX.amber[300],
     },
     description: 'Labirinto fantasma',
     difficulty: '⭐⭐⭐ Difícil',
@@ -145,9 +146,9 @@ const WORLDS = [
     icon: Gem,
     colors: {
       bg: 'from-indigo-900 via-purple-800 to-pink-900',
-      platform: '#a78bfa',
-      enemy: '#c084fc',
-      coin: '#f0abfc',
+      platform: COLOR_HEX.purple[300],
+      enemy: COLOR_HEX.purple[400],
+      coin: COLOR_HEX.pink[300],
     },
     description: 'Caverna de cristais',
     difficulty: '⭐⭐⭐ Difícil',
@@ -159,9 +160,9 @@ const WORLDS = [
     icon: Sparkles,
     colors: {
       bg: 'from-gray-900 via-blue-950 to-black',
-      platform: '#475569',
-      enemy: '#0ea5e9',
-      coin: '#fbbf24',
+      platform: COLOR_HEX.neutral[600],
+      enemy: COLOR_HEX.blue[500],
+      coin: COLOR_HEX.amber[400],
     },
     description: 'Estação espacial',
     difficulty: '⭐⭐⭐⭐ Muito Difícil',
@@ -173,9 +174,9 @@ const WORLDS = [
     icon: Zap,
     colors: {
       bg: 'from-green-900 via-emerald-800 to-teal-900',
-      platform: '#10b981',
-      enemy: '#f59e0b',
-      coin: '#fbbf24',
+      platform: COLOR_HEX.green[500],
+      enemy: COLOR_HEX.amber[500],
+      coin: COLOR_HEX.amber[400],
     },
     description: 'Selva bioluminescente',
     difficulty: '⭐⭐⭐⭐ Muito Difícil',
@@ -187,9 +188,9 @@ const WORLDS = [
     icon: Crown,
     colors: {
       bg: 'from-slate-900 via-gray-900 to-stone-900',
-      platform: '#6b7280',
-      enemy: '#7c3aed',
-      coin: '#fbbf24',
+      platform: COLOR_HEX.neutral[500],
+      enemy: COLOR_HEX.purple[600],
+      coin: COLOR_HEX.amber[400],
     },
     description: 'Castelo sombrio',
     difficulty: '⭐⭐⭐⭐⭐ Extremo',
@@ -201,9 +202,9 @@ const WORLDS = [
     icon: Zap,
     colors: {
       bg: 'from-black via-green-950 to-black',
-      platform: '#22c55e',
-      enemy: '#ef4444',
-      coin: '#22c55e',
+      platform: COLOR_HEX.green[500],
+      enemy: COLOR_HEX.red[500],
+      coin: COLOR_HEX.green[500],
     },
     description: 'Mundo digital',
     difficulty: '⭐⭐⭐⭐⭐ MASTER',
@@ -752,6 +753,12 @@ export default function NotFound() {
           // Topo
           { x: 300, y: 100, width: 120, height: 15, color: platformColor },
         ];
+        // Usar cores do mundo ou cores variadas baseadas no tema
+        const enemyColors = [
+          enemyColor, // Cor principal do inimigo do mundo
+          world.colors.enemy, // Cor do mundo (pode ser a mesma ou variar)
+          world.colors.coin, // Cor da moeda como variação
+        ] as const;
         enemies = [
           {
             x: 80,
@@ -760,7 +767,7 @@ export default function NotFound() {
             height: 30,
             direction: 1,
             type: world.theme,
-            color: enemyColor,
+            color: enemyColors[0] ?? enemyColor,
           },
           {
             x: 210,
@@ -769,7 +776,7 @@ export default function NotFound() {
             height: 30,
             direction: -1,
             type: world.theme,
-            color: '#a855f7',
+            color: enemyColors[1] ?? enemyColor,
           },
           {
             x: 140,
@@ -778,7 +785,7 @@ export default function NotFound() {
             height: 30,
             direction: 1,
             type: world.theme,
-            color: '#ec4899',
+            color: enemyColors[2] ?? enemyColor,
           },
           {
             x: 530,
@@ -787,7 +794,7 @@ export default function NotFound() {
             height: 30,
             direction: -1,
             type: world.theme,
-            color: '#06b6d4',
+            color: enemyColors[0] ?? enemyColor,
           },
           {
             x: 340,
@@ -796,7 +803,7 @@ export default function NotFound() {
             height: 30,
             direction: 1,
             type: world.theme,
-            color: '#fbbf24',
+            color: enemyColors[1] ?? enemyColor,
           },
         ];
         coinPositions = [
@@ -1588,10 +1595,11 @@ export default function NotFound() {
         gradient.addColorStop(0, '#000000');
         gradient.addColorStop(0.5, '#001100');
         gradient.addColorStop(1, '#000000');
-        // Adicionar "chuva" de código
+        // Adicionar "chuva" de código - usando cor verde da biblioteca
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        ctx.fillStyle = 'rgba(34, 197, 94, 0.1)';
+        // Usar hexToRGBA para converter cor da biblioteca para rgba
+        ctx.fillStyle = hexToRGBA(COLOR_HEX.green[500], 0.1);
         for (let i = 0; i < 20; i++) {
           const x = (i * 40) % CANVAS_WIDTH;
           const offset = (Date.now() / 50 + i * 100) % CANVAS_HEIGHT;
@@ -1653,8 +1661,8 @@ export default function NotFound() {
       );
     });
 
-    // Jogador
-    const playerColor = isDark ? '#22d3ee' : '#06b6d4';
+    // Jogador - usando cores primitivas da biblioteca
+    const playerColor = isDark ? COLOR_HEX.cyan[300] : COLOR_HEX.cyan[500];
     drawIcon(
       ctx,
       'player',

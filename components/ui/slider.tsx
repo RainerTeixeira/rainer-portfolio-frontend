@@ -4,7 +4,7 @@ import * as SliderPrimitive from '@radix-ui/react-slider';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import { BORDER_RADIUS, OPACITY, TRANSITIONS } from '@rainer/design-tokens';
+import { BORDER_RADIUS, TRANSITIONS } from '@rainer/design-tokens';
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
@@ -33,7 +33,7 @@ const Slider = React.forwardRef<
         TRANSITIONS.COLORS,
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         'disabled:pointer-events-none',
-        OPACITY.DISABLED
+        'disabled:opacity-50'
       )}
     />
   </SliderPrimitive.Root>
