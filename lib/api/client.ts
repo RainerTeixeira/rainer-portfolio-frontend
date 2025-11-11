@@ -127,7 +127,17 @@ class ApiClient {
       }
     ) => void;
   }) {
-    this.baseUrl = API_CONFIG.BASE_URL;
+    // Validar URL da API
+    if (!API_CONFIG.BASE_URL) {
+      const errorMessage =
+        'NEXT_PUBLIC_API_URL não está configurada. Verifique suas variáveis de ambiente.';
+      console.error('[ApiClient]', errorMessage);
+      if (process.env.NODE_ENV === 'development') {
+        throw new Error(errorMessage);
+      }
+    }
+
+    this.baseUrl = API_CONFIG.BASE_URL || '';
     this.defaultHeaders = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -138,6 +148,11 @@ class ApiClient {
     };
     this.logger = options?.logger;
     this.onRequest = options?.onRequest;
+
+    // Log da URL base em desenvolvimento
+    if (process.env.NODE_ENV === 'development' && this.baseUrl) {
+      console.log('[ApiClient] URL base da API:', this.baseUrl);
+    }
   }
 
   /**
@@ -182,6 +197,7 @@ class ApiClient {
     const contentType = response.headers.get('content-type');
 
     try {
+      // Processar a resposta normalmente
       if (contentType && contentType.includes('application/json')) {
         data = await response.json();
       } else if (response.status !== HTTP_STATUS.NO_CONTENT) {
@@ -194,7 +210,32 @@ class ApiClient {
         error: jsonError,
         status: response.status,
       });
-      data = {};
+
+      // Para erros 500, tentar ler como texto mesmo se falhar o JSON
+      if (response.status >= 500) {
+        try {
+          // Tentar clonar e ler como texto
+          const clonedResponse = response.clone();
+          const text = await clonedResponse.text();
+          data = text;
+
+          // Tentar parsear como JSON
+          try {
+            data = JSON.parse(text);
+          } catch {
+            // Se não for JSON, manter como texto
+            data = text;
+          }
+        } catch (e) {
+          console.error('[ApiClient] Erro ao ler resposta do servidor:', e);
+          data = {
+            error: 'Não foi possível ler a resposta do servidor',
+            originalError: String(e),
+          };
+        }
+      } else {
+        data = {};
+      }
     }
 
     return data;
@@ -208,12 +249,36 @@ class ApiClient {
     if (typeof data === 'string') return data;
 
     // Tenta extrair mensagem de erro de estruturas comuns
-    const errorMessage =
+    // Para erros 500, tenta várias estruturas possíveis
+    let errorMessage =
       data?.message ||
       data?.error?.message ||
       data?.error ||
       data?.detail ||
-      `Request failed with status ${status}`;
+      data?.errorMessage ||
+      data?.error_description ||
+      data?.err?.message ||
+      data?.stack; // Último recurso: mostrar stack trace
+
+    // Se não encontrou mensagem e há dados, tenta stringificar
+    if (!errorMessage && data) {
+      try {
+        const dataString = JSON.stringify(data);
+        // Se os dados são muito grandes, trunca
+        if (dataString.length > 500) {
+          errorMessage = `Erro do servidor (${status}): ${dataString.substring(0, 500)}...`;
+        } else {
+          errorMessage = `Erro do servidor (${status}): ${dataString}`;
+        }
+      } catch (e) {
+        errorMessage = `Request failed with status ${status}`;
+      }
+    }
+
+    // Fallback final
+    if (!errorMessage) {
+      errorMessage = `Request failed with status ${status}`;
+    }
 
     return errorMessage;
   }
@@ -307,7 +372,12 @@ class ApiClient {
 
       if (process.env.NODE_ENV === 'development') {
         console.log(
-          `[${requestId}] Fetch concluído em ${Date.now() - fetchStartTime}ms`
+          `[${requestId}] Fetch concluído em ${Date.now() - fetchStartTime}ms`,
+          {
+            status: response.status,
+            statusText: response.statusText,
+            headers: Object.fromEntries(response.headers.entries()),
+          }
         );
       }
 
@@ -315,7 +385,28 @@ class ApiClient {
       metrics.endTime = Date.now();
       metrics.duration = metrics.endTime - metrics.startTime;
 
+      // Processar resposta primeiro
       const data = await this.processResponse<T>(response);
+
+      // Para erros 500, logar dados processados de forma consolidada
+      if (response.status >= 500 && process.env.NODE_ENV === 'development') {
+        console.error(
+          `[${requestId}] [ApiClient] ERRO ${response.status} DETECTADO:`,
+          {
+            endpoint,
+            url,
+            method: fetchOptions.method || 'GET',
+            status: response.status,
+            statusText: response.statusText,
+            headers: Object.fromEntries(response.headers.entries()),
+            responseData: data,
+            responseDataStringified:
+              typeof data === 'object'
+                ? JSON.stringify(data, null, 2)
+                : String(data),
+          }
+        );
+      }
 
       // Log da resposta
       this.log(`Resposta recebida: ${response.status} ${endpoint}`, {
@@ -336,6 +427,20 @@ class ApiClient {
 
       if (!response.ok) {
         const errorMessage = this.getErrorMessage(data, response.status);
+
+        // Log detalhado de erros do servidor em desenvolvimento
+        if (process.env.NODE_ENV === 'development' && response.status >= 500) {
+          console.error('[ApiClient] Erro do servidor:', {
+            status: response.status,
+            statusText: response.statusText,
+            endpoint,
+            url,
+            method: fetchOptions.method || 'GET',
+            responseData: data,
+            errorMessage,
+          });
+        }
+
         throw new ApiError(
           response.status,
           errorMessage,

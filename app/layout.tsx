@@ -69,6 +69,7 @@ import {
 // ============================================================================
 
 import { SEO_KEYWORDS, SITE_CONFIG } from '@/constants';
+import { COLOR_NEUTRAL } from '@rainer/design-tokens';
 
 // ============================================================================
 // Analytics
@@ -320,13 +321,13 @@ export const metadata: import('next').Metadata = {
 
     // ========== Android (Chrome/Samsung) ==========
     // Theme color para barra de status Android - Using neutral-950 (dark background)
-    'theme-color': 'rgb(10, 10, 10)', // neutral-950
+    'theme-color': COLOR_NEUTRAL[950],
     'mobile-web-app-status-bar-style': 'black-translucent',
 
     // ========== Microsoft (Windows/Edge) ==========
     // Using neutral-950 for dark theme consistency
-    'msapplication-TileColor': 'rgb(10, 10, 10)', // neutral-950
-    'msapplication-navbutton-color': 'rgb(10, 10, 10)', // neutral-950
+    'msapplication-TileColor': COLOR_NEUTRAL[950],
+    'msapplication-navbutton-color': COLOR_NEUTRAL[950],
     'msapplication-starturl': '/',
     'msapplication-tap-highlight': 'no',
 
@@ -367,8 +368,8 @@ export const viewport: import('next').Viewport = {
   // Theme Color adaptativo (Android + iOS 15+)
   // Using semantic background tokens: white (light) / neutral-950 (dark)
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'rgb(255, 255, 255)' }, // white
-    { media: '(prefers-color-scheme: dark)', color: 'rgb(10, 10, 10)' }, // neutral-950
+    { media: '(prefers-color-scheme: light)', color: COLOR_NEUTRAL[50] }, // white (neutral-50)
+    { media: '(prefers-color-scheme: dark)', color: COLOR_NEUTRAL[950] }, // neutral-950
   ],
 };
 

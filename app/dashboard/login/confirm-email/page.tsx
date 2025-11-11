@@ -27,17 +27,14 @@
  */
 'use client';
 
+import { AuthLayout } from '@/components/dashboard/login';
+import { BackToTop } from '@/components/ui';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { authService } from '@/lib/api/services/auth.service';
+import { cn } from '@/lib/utils';
+import { BORDER_RADIUS, TRANSITIONS } from '@rainer/design-tokens';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -276,72 +273,81 @@ export default function ConfirmEmailPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="max-w-md w-full border-green-600/50">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-green-600" />
-              Email confirmado
-            </CardTitle>
-            <CardDescription>Redirecionando para o login...</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Alert className="border-green-500">
-              <AlertDescription className="text-green-700 dark:text-green-400">
-                Email confirmado com sucesso! Você será redirecionado em
-                instantes.
-              </AlertDescription>
-            </Alert>
-          </CardContent>
-        </Card>
-      </div>
+      <>
+        <AuthLayout
+          title="Email confirmado"
+          description="Redirecionando para o login..."
+          showBranding={true}
+          maxWidth="md"
+        >
+          <Alert className="border-green-500 bg-green-50 dark:bg-green-950/20">
+            <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
+            <AlertDescription className="text-sm text-green-700 dark:text-green-400">
+              Email confirmado com sucesso! Você será redirecionado em
+              instantes.
+            </AlertDescription>
+          </Alert>
+        </AuthLayout>
+        <BackToTop />
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Confirmar Email</CardTitle>
-          <CardDescription>
-            Digite o código enviado para{' '}
-            <span className="font-medium">{email}</span>
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <Alert variant="destructive">
-                <XCircle className="h-4 w-4" />
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
+    <>
+      <AuthLayout
+        title="Confirmar email"
+        description={
+          email
+            ? `Digite o código enviado para ${email}`
+            : 'Digite o código de verificação enviado para seu email'
+        }
+        showBranding={true}
+        maxWidth="md"
+      >
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+          {/* Mensagens de Erro/Sucesso */}
+          {error && (
+            <Alert variant="destructive">
+              <XCircle className="h-4 w-4" />
+              <AlertDescription className="text-sm wrap-break-word">
+                {error}
+              </AlertDescription>
+            </Alert>
+          )}
 
-            {resendSuccess && (
-              <Alert className="border-green-500">
-                <CheckCircle2 className="h-4 w-4 text-green-500" />
-                <AlertDescription className="text-green-700 dark:text-green-400">
-                  Código reenviado com sucesso! Verifique seu email.
-                </AlertDescription>
-              </Alert>
-            )}
+          {resendSuccess && (
+            <Alert className="border-green-500 bg-green-50 dark:bg-green-950/20">
+              <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
+              <AlertDescription className="text-sm text-green-700 dark:text-green-400">
+                Código reenviado com sucesso! Verifique seu email.
+              </AlertDescription>
+            </Alert>
+          )}
 
-            <div>
-              <Input
-                type="text"
-                placeholder="Código de 6 dígitos"
-                value={code}
-                onChange={e => setCode(e.target.value)}
-                maxLength={6}
-                disabled={isLoading}
-                className="text-center text-2xl tracking-widest"
-                ref={codeInputRef}
-              />
-            </div>
+          {/* Campo de Código */}
+          <div className="space-y-2">
+            <Input
+              type="text"
+              placeholder="Código de 6 dígitos"
+              value={code}
+              onChange={e => setCode(e.target.value)}
+              maxLength={6}
+              disabled={isLoading}
+              className={cn(
+                'h-12 sm:h-14 text-center text-2xl sm:text-3xl tracking-widest font-mono',
+                BORDER_RADIUS.MD,
+                TRANSITIONS.ALL
+              )}
+              ref={codeInputRef}
+            />
+          </div>
 
+          {/* Botões */}
+          <div className="space-y-3">
             <Button
               type="submit"
-              className="w-full"
+              className="w-full h-9 sm:h-10"
               disabled={isLoading || code.length !== 6}
             >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -351,16 +357,18 @@ export default function ConfirmEmailPage() {
             <Button
               type="button"
               variant="outline"
-              className="w-full"
+              className="w-full h-9 sm:h-10"
               onClick={handleResend}
               disabled={isResending || isLoading}
             >
               {isResending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Reenviar código
             </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+          </div>
+        </form>
+      </AuthLayout>
+
+      <BackToTop />
+    </>
   );
 }

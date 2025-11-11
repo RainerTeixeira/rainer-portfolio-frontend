@@ -69,8 +69,9 @@ import { PostStatus } from '@/lib/api/types';
 // DESIGN TOKENS
 // ============================================================================
 
+import { hexToRGBA } from '@/lib/design-tokens-helpers';
 import { cn } from '@/lib/utils';
-import { BACKGROUND } from '@rainer/design-tokens';
+import { BACKGROUND, COLOR_CYAN } from '@rainer/design-tokens';
 
 // ============================================================================
 // TYPES & INTERFACES
@@ -384,7 +385,16 @@ export default function BlogPage() {
 
       {/* Grid pattern background - Using cyan-600 primitive token */}
       <div
-        className="absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.03)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,rgb(0,0,0),transparent)] pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(${hexToRGBA(COLOR_CYAN[600], 0.03)} 1px, transparent 1px),
+            linear-gradient(90deg, ${hexToRGBA(COLOR_CYAN[600], 0.03)} 1px, transparent 1px)
+          `,
+          backgroundSize: '4rem 4rem',
+          maskImage:
+            'radial-gradient(ellipse 80% 50% at 50% 50%, rgb(0,0,0), transparent)',
+        }}
         aria-hidden="true"
       />
 

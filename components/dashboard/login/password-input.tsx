@@ -35,6 +35,8 @@
 
 import { usePasswordStrength } from '@/components/dashboard/hooks';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { BORDER_RADIUS, TRANSITIONS } from '@rainer/design-tokens';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 
@@ -90,13 +92,18 @@ export function PasswordInput({
           disabled={disabled}
           name={name}
           id={id}
+          className="h-9 sm:h-10 pr-10"
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          className={cn(
+            'absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20',
+            TRANSITIONS.COLORS
+          )}
           disabled={disabled}
           tabIndex={-1}
+          aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
         >
           {showPassword ? (
             <EyeOff className="h-4 w-4" />
@@ -113,11 +120,14 @@ export function PasswordInput({
             {[...Array(5)].map((_, i) => (
               <div
                 key={i}
-                className={`h-1 flex-1 rounded-full transition-colors ${
+                className={cn(
+                  'h-1 flex-1',
+                  BORDER_RADIUS.FULL,
+                  TRANSITIONS.COLORS,
                   i < passwordStrength.strength
                     ? passwordStrength.color
                     : 'bg-muted'
-                }`}
+                )}
               />
             ))}
           </div>
