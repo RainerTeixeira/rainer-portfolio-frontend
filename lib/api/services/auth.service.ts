@@ -55,6 +55,14 @@ export interface RegisterResponse {
   readonly tokens?: AuthTokens;
 }
 
+export interface PasswordlessInitResponse {
+  readonly success: boolean;
+  readonly message: string;
+  readonly session?: string;
+}
+
+export interface PasswordlessVerifyResponse extends LoginResponse {}
+
 // ============================================================================
 // Classe do Serviço
 // ============================================================================
@@ -204,11 +212,11 @@ export class AuthService {
     }
 
     // Criar um perfil básico a partir do token com todos os campos necessários
+    // Nota: User não tem nickname, apenas UserProfile tem
     const user: User = {
       id: cognitoSub, // Usamos o sub como ID único
       cognitoSub, // Mantemos uma referência ao sub do Cognito
-      fullName: decodedToken['fullName'] || '',
-      nickname, // Usar nickname ao invés de identities
+      fullName: decodedToken['fullName'] || nickname || '',
       role:
         (decodedToken['cognito:groups']?.[0] as UserRole) ||
         UserRole.SUBSCRIBER,
@@ -378,8 +386,18 @@ export class AuthService {
     const redirectUri =
       process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN ||
       (typeof window !== 'undefined'
-        ? `${window.location.origin}/dashboard/login/callback`
+        ? `${window.location.origin}/auth/callback`
         : undefined);
+
+    console.log(
+      `[${this.context}] exchangeOAuthCodeViaBackend - Trocando código por tokens`,
+      {
+        provider,
+        endpoint,
+        redirectUri,
+        hasState: !!state,
+      }
+    );
 
     const response = await api.post<ApiResponse<LoginResponse>>(
       endpoint,
@@ -900,6 +918,153 @@ export class AuthService {
       });
       throw error;
     }
+  }
+
+  /**
+   * Inicia o fluxo de autenticação passwordless
+   * Envia um código de 6 dígitos para o email do usuário
+   *
+   * @param email - Email do usuário
+   * @returns Resposta com mensagem de sucesso
+   */
+  async initiatePasswordless(email: string): Promise<PasswordlessInitResponse> {
+    console.log(
+      `[${this.context}] initiatePasswordless - Iniciando autenticação passwordless`,
+      { email }
+    );
+
+    try {
+      const response = await api.post<ApiResponse<PasswordlessInitResponse>>(
+        `${this.basePath}/passwordless/init`,
+        { email },
+        { timeout: 30000 }
+      );
+
+      if (!response.success) {
+        throw new Error(
+          response.message || 'Erro ao iniciar autenticação passwordless'
+        );
+      }
+
+      const initResponse = (
+        response as ApiSuccessResponse<PasswordlessInitResponse>
+      ).data;
+
+      console.log(
+        `[${this.context}] initiatePasswordless - Código enviado com sucesso`
+      );
+
+      return initResponse;
+    } catch (error) {
+      logApiError(error, this.context, {
+        operation: 'initiatePasswordless',
+        email,
+      });
+      throw error;
+    }
+  }
+
+  /**
+   * Verifica o código passwordless e autentica o usuário
+   * Usa fluxo nativo ForgotPassword do Cognito (sem Lambda triggers)
+   *
+   * @param email - Email do usuário
+   * @param code - Código de verificação recebido por email
+   * @param session - Session ID (obsoleto, não é mais usado)
+   * @returns Resposta com tokens e dados do usuário
+   */
+  async verifyPasswordless(
+    email: string,
+    code: string,
+    session?: string
+  ): Promise<LoginResponse> {
+    console.log(
+      `[${this.context}] verifyPasswordless - Verificando código passwordless`,
+      { email }
+    );
+
+    try {
+      const response = await api.post<ApiResponse<LoginResponse>>(
+        `${this.basePath}/passwordless/verify`,
+        { email, code, session },
+        { timeout: 30000 }
+      );
+
+      if (!response.success) {
+        throw new Error(
+          response.message || 'Erro ao verificar código passwordless'
+        );
+      }
+
+      const loginResponse = (response as ApiSuccessResponse<LoginResponse>)
+        .data;
+
+      // Salvar tokens
+      this.setTokens(loginResponse.tokens);
+
+      if (loginResponse.user.cognitoSub) {
+        localStorage.setItem('userId', loginResponse.user.cognitoSub);
+      }
+
+      console.log(
+        `[${this.context}] verifyPasswordless - Autenticação bem-sucedida`,
+        {
+          userId: loginResponse.user.cognitoSub,
+        }
+      );
+
+      return loginResponse;
+    } catch (error) {
+      logApiError(error, this.context, {
+        operation: 'verifyPasswordless',
+        email,
+      });
+      throw error;
+    }
+  }
+
+  /**
+   * Inicia login com Google OAuth
+   * Redireciona para o backend que redireciona para o Cognito Hosted UI
+   */
+  loginWithGoogle(): void {
+    console.log(
+      `[${this.context}] loginWithGoogle - Redirecionando para Google OAuth`
+    );
+
+    if (typeof window === 'undefined') {
+      console.warn('[AuthService] loginWithGoogle chamado no servidor');
+      return;
+    }
+
+    const backendUrl =
+      process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+    const redirectUri = `${window.location.origin}/auth/callback`;
+    const oauthUrl = `${backendUrl}/auth/oauth/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
+
+    window.location.href = oauthUrl;
+  }
+
+  /**
+   * Inicia login com GitHub OAuth
+   * Redireciona para o backend que redireciona para o Cognito Hosted UI
+   */
+  loginWithGitHub(): void {
+    console.log(
+      `[${this.context}] loginWithGitHub - Redirecionando para GitHub OAuth`
+    );
+
+    if (typeof window === 'undefined') {
+      console.warn('[AuthService] loginWithGitHub chamado no servidor');
+      return;
+    }
+
+    const backendUrl =
+      process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+    const redirectUri = `${window.location.origin}/auth/callback`;
+    const oauthUrl = `${backendUrl}/auth/oauth/github?redirect_uri=${encodeURIComponent(redirectUri)}`;
+
+    window.location.href = oauthUrl;
   }
 }
 

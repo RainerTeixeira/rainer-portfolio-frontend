@@ -80,7 +80,7 @@ function collectProjectInfo(): ProjectInfo {
     testing: {
       framework: 'Jest + Playwright',
       coverage: coverageMatch ? `${coverageMatch[1]}%` : 'N/A',
-      totalTests: testsMatch ? parseInt(testsMatch[1]) : 0,
+      totalTests: testsMatch && testsMatch[1] ? parseInt(testsMatch[1], 10) : 0,
     },
     deployment: 'Vercel',
     structure: {

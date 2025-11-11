@@ -168,7 +168,8 @@ const MatrixCharacterSet = memo(function MatrixCharacterSet({
   setIndex,
 }: MatrixCharacterSetProps) {
   const charColor = isDarkTheme ? 'text-green-400' : 'text-green-600';
-  const glowColor = isDarkTheme ? '#00ff00' : '#10b981';
+  // Using green primitive tokens for glow effect
+  const glowColor = isDarkTheme ? 'rgb(74, 222, 128)' : 'rgb(16, 185, 129)'; // green-400 / green-600
 
   return (
     <div

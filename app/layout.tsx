@@ -319,13 +319,14 @@ export const metadata: import('next').Metadata = {
     'format-detection': 'telephone=no, date=no, email=no, address=no',
 
     // ========== Android (Chrome/Samsung) ==========
-    // Theme color para barra de status Android
-    'theme-color': '#000000',
+    // Theme color para barra de status Android - Using neutral-950 (dark background)
+    'theme-color': 'rgb(10, 10, 10)', // neutral-950
     'mobile-web-app-status-bar-style': 'black-translucent',
 
     // ========== Microsoft (Windows/Edge) ==========
-    'msapplication-TileColor': '#000000',
-    'msapplication-navbutton-color': '#000000',
+    // Using neutral-950 for dark theme consistency
+    'msapplication-TileColor': 'rgb(10, 10, 10)', // neutral-950
+    'msapplication-navbutton-color': 'rgb(10, 10, 10)', // neutral-950
     'msapplication-starturl': '/',
     'msapplication-tap-highlight': 'no',
 
@@ -364,9 +365,10 @@ export const viewport: import('next').Viewport = {
   viewportFit: 'cover',
 
   // Theme Color adaptativo (Android + iOS 15+)
+  // Using semantic background tokens: white (light) / neutral-950 (dark)
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#000000' },
+    { media: '(prefers-color-scheme: light)', color: 'rgb(255, 255, 255)' }, // white
+    { media: '(prefers-color-scheme: dark)', color: 'rgb(10, 10, 10)' }, // neutral-950
   ],
 };
 

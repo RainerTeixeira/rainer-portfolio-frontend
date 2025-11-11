@@ -11,6 +11,7 @@
 
 import { postsService } from './api/services';
 import type { Post } from './api/types';
+import { PostStatus } from './api/types';
 
 export interface SearchResult {
   id: string;
@@ -34,7 +35,7 @@ export async function searchContent(query: string): Promise<SearchResult[]> {
     // Buscar posts da API com filtro de busca
     const response = await postsService.listPosts({
       search: query,
-      status: 'PUBLISHED',
+      status: PostStatus.PUBLISHED,
       limit: 20,
     });
 

@@ -110,7 +110,7 @@ export function preparePostForCreate(
   formData: {
     title: string;
     content: TiptapJSON;
-    categoryId?: string;
+    subcategoryId?: string;
     status?: PostStatus;
     featured?: boolean;
     pinned?: boolean;
@@ -120,19 +120,20 @@ export function preparePostForCreate(
 ): CreatePostDTO {
   const slug = textToSlug(formData.title);
 
-  return {
+  const dto: CreatePostDTO = {
     title: formData.title,
     slug,
     content: formData.content,
     authorId,
-    categoryId: formData.categoryId,
+    subcategoryId: formData.subcategoryId || '',
     status: (formData.status || 'DRAFT') as PostStatus,
     featured: formData.featured || false,
     allowComments: true,
     pinned: formData.pinned || false,
     priority: formData.priority || 0,
-    publishedAt: formData.status === 'PUBLISHED' ? new Date() : undefined,
   };
+
+  return dto;
 }
 
 /**
@@ -145,35 +146,44 @@ export function preparePostForUpdate(
   formData: Partial<{
     title: string;
     content: TiptapJSON;
-    categoryId?: string;
+    subcategoryId?: string;
     status?: PostStatus;
     featured?: boolean;
     pinned?: boolean;
     priority?: number;
   }>
 ): UpdatePostDTO {
-  const dto: UpdatePostDTO = {};
+  // Construir objeto diretamente ao invés de atribuir a propriedades readonly
+  const dto: UpdatePostDTO = {} as UpdatePostDTO;
 
   if (formData.title) {
-    dto.title = formData.title;
-    dto.slug = textToSlug(formData.title);
+    (dto as any).title = formData.title;
+    (dto as any).slug = textToSlug(formData.title);
   }
 
   if (formData.content) {
-    dto.content = formData.content;
+    (dto as any).content = formData.content;
   }
 
-  if (formData.categoryId !== undefined) dto.categoryId = formData.categoryId;
-  if (formData.status) {
-    dto.status = formData.status;
-    // Auto-define publishedAt ao publicar
-    if (formData.status === 'PUBLISHED') {
-      dto.publishedAt = new Date();
-    }
+  if (formData.subcategoryId !== undefined) {
+    (dto as any).subcategoryId = formData.subcategoryId;
   }
-  if (formData.featured !== undefined) dto.featured = formData.featured;
-  if (formData.pinned !== undefined) dto.pinned = formData.pinned;
-  if (formData.priority !== undefined) dto.priority = formData.priority;
+
+  if (formData.status !== undefined) {
+    (dto as any).status = formData.status;
+  }
+
+  if (formData.featured !== undefined) {
+    (dto as any).featured = formData.featured;
+  }
+
+  if (formData.pinned !== undefined) {
+    (dto as any).pinned = formData.pinned;
+  }
+
+  if (formData.priority !== undefined) {
+    (dto as any).priority = formData.priority;
+  }
 
   return dto;
 }

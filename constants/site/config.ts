@@ -114,18 +114,19 @@ export const SITE_CONFIG = {
    * Título SEO otimizado
    */
   title:
-    'Empresa de Desenvolvimento Full-Stack | Especialista em React, Next.js & Node.js',
+    'Desenvolvedor Full-Stack | Especialista em React, Next.js, TypeScript & Node.js',
 
   /**
    * Descrição para SEO e meta tags
    */
   description:
-    'RainerSoft é uma empresa especializada em desenvolvimento Full-Stack com domínio técnico avançado ' +
-    'em React 19, Next.js 15, TypeScript, Node.js e bancos de dados. Desenvolvemos aplicações web ' +
-    'completas e profissionais: dashboards interativos, sistemas de autenticação, PWAs, integrações ' +
-    'com APIs e arquiteturas escaláveis. Portfólio comprovado com projetos reais de alta complexidade. ' +
-    'Código limpo, documentação completa e resultados que impressionam. Transformamos ideias em ' +
-    'software funcional que resolve problemas reais.',
+    'Desenvolvedor Full-Stack especializado em criar aplicações web modernas e profissionais. ' +
+    'Domínio técnico em React 19, Next.js 15, TypeScript, Node.js, NestJS e bancos de dados. ' +
+    'Desenvolvo dashboards interativos, sistemas de autenticação seguros, PWAs, APIs RESTful, ' +
+    'integrações com serviços externos e arquiteturas escaláveis. Portfólio comprovado com projetos ' +
+    'reais funcionais. Código limpo, documentação completa, testes automatizados e resultados que ' +
+    'impressionam. Transformo ideias em soluções digitais que resolvem problemas reais e agregam ' +
+    'valor ao seu negócio.',
 
   /**
    * URL principal do site
