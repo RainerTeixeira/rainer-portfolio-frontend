@@ -1,23 +1,24 @@
 /**
- * Global Styles with Tailwind CSS v4
+ * Global Styles with Tailwind CSS v4 + Design Tokens
  *
- * Arquivo de estilos globais da aplicação. Contém apenas importação do
- * Tailwind CSS, variáveis CSS de tema e configurações base essenciais.
+ * Arquivo de estilos globais da aplicação integrado com @rainer/design-tokens.
+ * Contém importação do Tailwind CSS, variáveis CSS de tema baseadas em tokens
+ * profissionais e configurações base essenciais.
  *
  * @module app/globals.css
- * @fileoverview Estilos globais otimizados com Tailwind CSS v4
+ * @fileoverview Estilos globais otimizados com Tailwind CSS v4 e Design Tokens
  * @author Rainer Teixeira
- * @version 2.0.0
+ * @version 3.0.0
  * @since 1.0.0
  *
  * @remarks
  * Estrutura do arquivo:
  * 1. Importação do Tailwind CSS
- * 2. Variáveis CSS de tema (cores, bordas, etc)
+ * 2. Variáveis CSS de tema baseadas em design tokens
  * 3. Configurações base essenciais
+ * 4. Animações e utilitários
  *
- * Todas as classes customizadas foram convertidas para utilitários Tailwind
- * ou movidas para o plugin no tailwind.config.js
+ * Todas as cores e espaçamentos agora vêm de @rainer/design-tokens
  */
 
 @import 'tailwindcss';
@@ -27,6 +28,7 @@
 
 /* =============================================================================
    VARIÁVEIS DE TEMA - LIGHT MODE
+   Baseadas em @rainer/design-tokens - Tokens Semânticos
    ============================================================================= */
 :root {
   /* Fontes */
@@ -34,75 +36,122 @@
   --font-orbitron: var(--font-orbitron);
   --font-rajdhani: var(--font-rajdhani);
 
-  /* Cores do sistema */
-  --color-background: 0 0% 100%;
-  --color-foreground: 222.2 84% 4.9%;
-  --color-card: 0 0% 100%;
-  --color-card-foreground: 222.2 84% 4.9%;
-  --color-popover: 0 0% 100%;
-  --color-popover-foreground: 222.2 84% 4.9%;
-  --color-primary: 222.2 47.4% 11.2%;
-  --color-primary-foreground: 210 40% 98%;
-  --color-secondary: 210 40% 96.1%;
-  --color-secondary-foreground: 222.2 47.4% 11.2%;
-  --color-muted: 210 40% 96.1%;
-  --color-muted-foreground: 215.4 16.3% 46.9%;
-  --color-accent: 210 40% 96.1%;
-  --color-accent-foreground: 222.2 47.4% 11.2%;
-  --color-destructive: 0 84.2% 60.2%;
-  --color-destructive-foreground: 210 40% 98%;
-  --color-border: 214.3 31.8% 91.4%;
-  --color-input: 214.3 31.8% 91.4%;
-  --color-ring: 222.2 84% 4.9%;
+  /* Cores do sistema - Baseadas em tokens semânticos */
+  /* Background: neutral-50 (#fafafa) = 0 0% 98% */
+  --color-background: 0 0% 98%;
+  /* Foreground: neutral-900 (#171717) = 0 0% 9.0% */
+  --color-foreground: 0 0% 9%;
 
-  /* Radius de bordas */
+  /* Card: surface-primary (#ffffff) = 0 0% 100% */
+  --color-card: 0 0% 100%;
+  --color-card-foreground: 0 0% 9%;
+
+  /* Popover: surface-primary (#ffffff) = 0 0% 100% */
+  --color-popover: 0 0% 100%;
+  --color-popover-foreground: 0 0% 9%;
+
+  /* Primary: brand-primary (cyan-600 #0891b2) = 188 85.7% 53.3% */
+  --color-primary: 188 85.7% 53.3%;
+  /* Primary foreground: neutral-50 (#fafafa) = 0 0% 98% */
+  --color-primary-foreground: 0 0% 98%;
+
+  /* Secondary: neutral-100 (#f5f5f5) = 0 0% 96.1% */
+  --color-secondary: 0 0% 96.1%;
+  --color-secondary-foreground: 0 0% 9%;
+
+  /* Muted: neutral-100 (#f5f5f5) = 0 0% 96.1% */
+  --color-muted: 0 0% 96.1%;
+  /* Muted foreground: neutral-500 (#737373) = 0 0% 45.1% */
+  --color-muted-foreground: 0 0% 45.1%;
+
+  /* Accent: cyan-50 (#ecfeff) = 186.7 100% 96.7% */
+  --color-accent: 186.7 100% 96.7%;
+  /* Accent foreground: cyan-900 (#164e63) = 192.9 73.8% 24.3% */
+  --color-accent-foreground: 192.9 73.8% 24.3%;
+
+  /* Destructive: red-500 (#ef4444) = 0 84.2% 60.2% */
+  --color-destructive: 0 84.2% 60.2%;
+  --color-destructive-foreground: 0 0% 98%;
+
+  /* Border: neutral-200 (#e5e5e5) = 0 0% 89.8% */
+  --color-border: 0 0% 89.8%;
+  --color-input: 0 0% 89.8%;
+
+  /* Ring: cyan-500 (#06b6d4) = 186.7 94.5% 42.7% */
+  --color-ring: 186.7 94.5% 42.7%;
+
+  /* Radius de bordas - Design token semântico */
   --radius: 0.5rem;
 
-  /* Sidebar */
-  --sidebar: hsl(0 0% 98%);
-  --sidebar-foreground: hsl(240 5.3% 26.1%);
-  --sidebar-primary: hsl(240 5.9% 10%);
-  --sidebar-primary-foreground: hsl(0 0% 98%);
-  --sidebar-accent: hsl(240 4.8% 95.9%);
-  --sidebar-accent-foreground: hsl(240 5.9% 10%);
-  --sidebar-border: hsl(220 13% 91%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  /* Sidebar - Tema claro */
+  --sidebar: 0 0% 98%;
+  --sidebar-foreground: 0 0% 20%;
+  --sidebar-primary: 188 85.7% 53.3%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 0 0% 96.1%;
+  --sidebar-accent-foreground: 0 0% 9%;
+  --sidebar-border: 0 0% 89.8%;
+  --sidebar-ring: 186.7 94.5% 42.7%;
 }
 
 /* =============================================================================
    VARIÁVEIS DE TEMA - DARK MODE
+   Baseadas em @rainer/design-tokens - Tokens Semânticos Dark
    ============================================================================= */
 .dark {
-  /* Cores do sistema */
-  --color-background: 222.2 84% 4.9%;
-  --color-foreground: 210 40% 98%;
-  --color-card: 222.2 84% 4.9%;
-  --color-card-foreground: 210 40% 98%;
-  --color-popover: 222.2 84% 4.9%;
-  --color-popover-foreground: 210 40% 98%;
-  --color-primary: 210 40% 98%;
-  --color-primary-foreground: 222.2 47.4% 11.2%;
-  --color-secondary: 217.2 32.6% 17.5%;
-  --color-secondary-foreground: 210 40% 98%;
-  --color-muted: 217.2 32.6% 17.5%;
-  --color-muted-foreground: 215 20.2% 65.1%;
-  --color-accent: 217.2 32.6% 17.5%;
-  --color-accent-foreground: 210 40% 98%;
-  --color-destructive: 0 62.8% 30.6%;
-  --color-destructive-foreground: 210 40% 98%;
-  --color-border: 217.2 32.6% 17.5%;
-  --color-input: 217.2 32.6% 17.5%;
-  --color-ring: 212.7 26.8% 83.9%;
+  /* Cores do sistema - Baseadas em tokens semânticos dark */
+  /* Background: neutral-950 (#0a0a0a) = 0 0% 3.9% */
+  --color-background: 0 0% 3.9%;
+  /* Foreground: neutral-50 (#fafafa) = 0 0% 98% */
+  --color-foreground: 0 0% 98%;
 
-  /* Sidebar */
-  --sidebar: hsl(240 5.9% 10%);
-  --sidebar-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-primary: hsl(224.3 76.3% 48%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(240 3.7% 15.9%);
-  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-border: hsl(240 3.7% 15.9%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  /* Card: neutral-900 (#171717) = 0 0% 9.0% */
+  --color-card: 0 0% 9%;
+  --color-card-foreground: 0 0% 98%;
+
+  /* Popover: neutral-900 (#171717) = 0 0% 9.0% */
+  --color-popover: 0 0% 9%;
+  --color-popover-foreground: 0 0% 98%;
+
+  /* Primary: brand-primary dark (cyan-400 #22d3ee) = 186.7 94.0% 53.3% */
+  --color-primary: 186.7 94% 53.3%;
+  /* Primary foreground: neutral-900 (#171717) = 0 0% 9.0% */
+  --color-primary-foreground: 0 0% 9%;
+
+  /* Secondary: neutral-800 (#262626) = 0 0% 14.9% */
+  --color-secondary: 0 0% 14.9%;
+  --color-secondary-foreground: 0 0% 98%;
+
+  /* Muted: neutral-800 (#262626) = 0 0% 14.9% */
+  --color-muted: 0 0% 14.9%;
+  /* Muted foreground: neutral-300 (#d4d4d4) = 0 0% 83.1% */
+  --color-muted-foreground: 0 0% 83.1%;
+
+  /* Accent: cyan-950 (#083344) = 192.9 81.8% 15.3% */
+  --color-accent: 192.9 81.8% 15.3%;
+  /* Accent foreground: cyan-50 (#ecfeff) = 186.7 100% 96.7% */
+  --color-accent-foreground: 186.7 100% 96.7%;
+
+  /* Destructive: red-400 (#f87171) = 0 84.6% 71.2% */
+  --color-destructive: 0 84.6% 71.2%;
+  --color-destructive-foreground: 0 0% 98%;
+
+  /* Border: neutral-800 (#262626) = 0 0% 14.9% */
+  --color-border: 0 0% 14.9%;
+  --color-input: 0 0% 14.9%;
+
+  /* Ring: cyan-400 (#22d3ee) = 186.7 94.0% 53.3% */
+  --color-ring: 186.7 94% 53.3%;
+
+  /* Sidebar - Tema escuro */
+  --sidebar: 0 0% 9%;
+  --sidebar-foreground: 0 0% 98%;
+  --sidebar-primary: 186.7 94% 53.3%;
+  --sidebar-primary-foreground: 0 0% 9%;
+  --sidebar-accent: 0 0% 14.9%;
+  --sidebar-accent-foreground: 0 0% 98%;
+  --sidebar-border: 0 0% 14.9%;
+  --sidebar-ring: 186.7 94% 53.3%;
 }
 
 /* =============================================================================

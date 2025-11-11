@@ -38,13 +38,15 @@ interface PerformanceMetric {
 }
 
 /**
- * Core Web Vital
+ * Core Web Vital - compatível com web-vitals v3+
  */
-interface WebVital {
+interface WebVitalMetric {
   readonly id: string;
-  readonly fullName: 'CLS' | 'FID' | 'FCP' | 'LCP' | 'TTFB';
+  readonly name: 'CLS' | 'FCP' | 'FID' | 'INP' | 'LCP' | 'TTFB';
   readonly value: number;
   readonly rating: 'good' | 'needs-improvement' | 'poor';
+  readonly delta: number;
+  readonly entries: PerformanceEntry[];
 }
 
 // ============================================================================
@@ -54,13 +56,14 @@ interface WebVital {
 /**
  * Thresholds para Core Web Vitals
  */
-const WEB_VITAL_THRESHOLDS = {
+const WEB_VITAL_THRESHOLDS: Record<string, { good: number; poor: number }> = {
   LCP: { good: 2500, poor: 4000 }, // Largest Contentful Paint
-  FID: { good: 100, poor: 300 }, // First Input Delay
+  FID: { good: 100, poor: 300 }, // First Input Delay (deprecated, usar INP)
+  INP: { good: 200, poor: 500 }, // Interaction to Next Paint
   CLS: { good: 0.1, poor: 0.25 }, // Cumulative Layout Shift
   FCP: { good: 1800, poor: 3000 }, // First Contentful Paint
   TTFB: { good: 800, poor: 1800 }, // Time to First Byte
-} as const;
+};
 
 /**
  * Thresholds para métricas customizadas
@@ -134,26 +137,26 @@ class PerformanceMonitor {
   private async measureWebVitals(): Promise<void> {
     try {
       // Dynamic import para code splitting
-      const { onCLS, onFID, onFCP, onLCP, onTTFB } = await import('web-vitals');
+      const { onCLS, onFCP, onINP, onLCP, onTTFB } = await import('web-vitals');
 
       // Callback para cada métrica
-      const reportWebVital = (vital: WebVital) => {
-        const rating = this.getRatingForWebVital(vital.fullName, vital.value);
+      const reportWebVital = (metric: WebVitalMetric) => {
+        const rating = this.getRatingForWebVital(metric.name, metric.value);
 
-        logger.info(`Core Web Vital: ${vital.fullName}`, {
-          value: vital.value,
+        logger.info(`Core Web Vital: ${metric.name}`, {
+          value: metric.value,
           rating,
-          id: vital.id,
+          id: metric.id,
         });
 
         // Enviar para analytics
         analytics.track({
           category: 'performance',
-          action: `web_vital_${vital.fullName.toLowerCase()}`,
+          action: `web_vital_${metric.name.toLowerCase()}`,
           label: rating,
-          value: Math.round(vital.value),
+          value: Math.round(metric.value),
           properties: {
-            id: vital.id,
+            id: metric.id,
             rating,
           },
         });
@@ -161,8 +164,8 @@ class PerformanceMonitor {
 
       // Registrar listeners
       onCLS(reportWebVital);
-      onFID(reportWebVital);
       onFCP(reportWebVital);
+      onINP(reportWebVital);
       onLCP(reportWebVital);
       onTTFB(reportWebVital);
     } catch (error) {
@@ -174,10 +177,10 @@ class PerformanceMonitor {
    * Determina rating para Core Web Vital
    */
   private getRatingForWebVital(
-    fullName: WebVital['fullName'],
+    name: string,
     value: number
   ): 'good' | 'needs-improvement' | 'poor' {
-    const threshold = WEB_VITAL_THRESHOLDS[fullName];
+    const threshold = WEB_VITAL_THRESHOLDS[name];
     if (!threshold) return 'good';
     return getRating(value, threshold);
   }

@@ -31,10 +31,10 @@
 
 import { cn } from '@/lib/utils';
 import { GRADIENTS, GRADIENT_DIRECTIONS } from '@rainer/design-tokens';
-import { motion, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { useCarouselKeyboard } from './hooks';
 
 // ============================================================================
@@ -54,42 +54,42 @@ const Carousel = dynamic(() => import('./carousel'), {
  * Textos principais exibidos no hero
  */
 const HERO_TITLES = [
-  'ELEVE-SE AO FUTURO DIGITAL',
-  'TRANSFORME IDEIAS EM CÓDIGO VIVO',
-  'DOMINE A NUVEM, EXPANDA LIMITES',
-  'TURBINE SUA PERFORMANCE SEM BARREIRAS',
-  'CONSTRUA SEGURANÇA DE NÍVEL NEXT-GEN',
-  'POTENCIALIZE SEUS DADOS EM SEGUNDOS',
-  'ORQUESTRE TIMES HIPERÁGEIS',
-  'INOVE COM MOBILE MULTIVERSO',
-  'ATIVE EXPERIÊNCIAS UI/UX IMERSIVAS',
-  'MOLDE SOFTWARES COM ARQUITETURA NEURAL',
-  'ACELERE SEU DEVOPS AUTOMATIZADO',
-  'REVELE INSIGHTS DE DADOS EM TEMPO REAL',
-  'LIBERE A INTELIGÊNCIA ARTIFICIAL GENERATIVA',
-  'INSPIRE-SE NA TECNOLOGIA QUE IMPACTA',
-  'MESTRE EM WEB: SOLUÇÕES ESCALÁVEIS',
+  'TRANSFORME IDEIAS EM SOLUÇÕES DIGITAIS',
+  'DESENVOLVIMENTO FULL-STACK PROFISSIONAL',
+  'APLICAÇÕES WEB MODERNAS E ESCALÁVEIS',
+  'CÓDIGO LIMPO, RESULTADOS IMPRESSIONANTES',
+  'ARQUITETURA ROBUSTA E PERFORMANCE OTIMIZADA',
+  'EXPERIÊNCIAS DIGITAIS QUE ENCANTAM',
+  'TECNOLOGIA DE PONTA, ENTREGA GARANTIDA',
+  'INOVAÇÃO E QUALIDADE EM CADA LINHA',
+  'SOLUÇÕES COMPLETAS DO DESIGN AO DEPLOY',
+  'EXPERTISE EM REACT, NEXT.JS E NODE.JS',
+  'DASHBOARDS INTERATIVOS E INTELIGENTES',
+  'APIS RESTFUL SEGURAS E DOCUMENTADAS',
+  'INTEGRAÇÃO PERFEITA COM SERVIÇOS EXTERNOS',
+  'AUTENTICAÇÃO E SEGURANÇA DE NÍVEL ENTERPRISE',
+  'PROJETOS QUE RESOLVEM PROBLEMAS REAIS',
 ] as const;
 
 /**
  * Subtítulos descritivos correspondentes aos títulos
  */
 const HERO_SUBTITLES = [
-  'Conecte-se ao extraordinário – para quem exige o próximo nível.',
-  'Aplicações impecáveis, execução rápida, tecnologia de ponta.',
-  'Infraestrutura distribuída, disponível e resiliente para você crescer.',
-  'Nada mais de lentidão – tenha eficiência máxima em cada clique.',
-  'Sua proteção digital reforçada com criptografia e vigilância ativa.',
-  'Armazene, acesse e analise massivos volumes de dados em instantes.',
-  'Sinergia total – visão estratégica guiando equipes ao topo.',
-  'Aplicativos híbridos, experiência nativa e multiplataformas sem limites.',
-  'Interfaces que fascinam e guiam usuários como nunca antes.',
-  'Organize, escale e evolua sistemas com inteligência artificial integrada.',
-  'Entregas contínuas, automação total, velocidade e segurança unidas.',
-  'Monitore, entenda e transforme dados em decisões precisas.',
-  'Soluções cognitivas para criar, aprender e inovar além do humano.',
-  'Tecnologia radical que inspira negócios, marcas e pessoas.',
-  'Performance neural, robustez e escalabilidade para mercados globais.',
+  'Desenvolvedor Full-Stack especializado em criar aplicações web completas e profissionais.',
+  'Domínio técnico avançado em React 19, Next.js 15, TypeScript, Node.js e bancos de dados.',
+  'Arquiteturas escaláveis, componentizadas e preparadas para crescer com seu negócio.',
+  'Código bem estruturado, documentado e seguindo as melhores práticas do mercado.',
+  'Performance otimizada, SEO avançado e experiência do usuário excepcional.',
+  'Interfaces modernas, responsivas e acessíveis que seus usuários vão adorar.',
+  'Stack moderna, ferramentas profissionais e processos comprovados de desenvolvimento.',
+  'Atenção aos detalhes, testes rigorosos e compromisso com a excelência técnica.',
+  'Da análise de requisitos ao deploy em produção, acompanhamento completo do projeto.',
+  'Especialista em ecossistema React com experiência comprovada em projetos reais.',
+  'Painéis administrativos completos com gráficos, métricas e gestão de conteúdo.',
+  'Backend robusto com NestJS, validação de dados, tratamento de erros e documentação.',
+  'Conexão com APIs de terceiros, webhooks, autenticação OAuth e processamento de dados.',
+  'Sistemas de login seguros com JWT, proteção de rotas e gerenciamento de permissões.',
+  'Portfólio comprovado com aplicações funcionais que agregam valor ao negócio.',
 ] as const;
 
 /**
@@ -162,26 +162,45 @@ function HeroContentOverlay({
   currentSlideIndex,
   isDarkTheme,
 }: HeroContentOverlayProps) {
-  const [isContentVisible, setIsContentVisible] = useState(false);
-  const animationControls = useAnimation();
+  const [hasMounted, setHasMounted] = useState(false);
 
-  const currentTitle = HERO_TITLES[currentSlideIndex % HERO_TITLES.length];
-  const currentSubtitle =
-    HERO_SUBTITLES[currentSlideIndex % HERO_SUBTITLES.length];
+  // Durante SSR, sempre usar tema claro para garantir consistência
+  const safeIsDarkTheme = hasMounted ? isDarkTheme : false;
 
-  // Previne erro de hidratação no SSR
+  // Marcar como montado após primeiro render no cliente (após hidratação)
   useEffect(() => {
-    setIsContentVisible(true);
+    setHasMounted(true);
   }, []);
 
-  // Animação de entrada do conteúdo
-  useEffect(() => {
-    animationControls.start({
-      scale: [0.95, 1],
-      opacity: [0, 1],
-      transition: { duration: 0.8, ease: 'easeOut' },
-    });
-  }, [currentSlideIndex, animationControls]);
+  // Garantir índice estável durante SSR (sempre 0)
+  // Isso garante que o conteúdo seja idêntico entre servidor e cliente
+  // Durante SSR e primeiro render: stableIndex = 0
+  // Após hidratação: stableIndex = currentSlideIndex (com validação)
+  const displayIndex = hasMounted ? currentSlideIndex : 0;
+  const safeIndex = Math.max(0, Math.min(displayIndex, HERO_TITLES.length - 1));
+  const stableIndex = hasMounted ? safeIndex : 0;
+  const displayTitle = HERO_TITLES[stableIndex];
+  const displaySubtitle = HERO_SUBTITLES[stableIndex];
+
+  // Estilos base que são sempre aplicados (consistentes entre SSR e client)
+  // Durante SSR e primeiro render do cliente, sempre usar tema claro (false)
+  // para garantir que os estilos sejam idênticos
+  // Nota: Não incluir opacity/transform aqui - deixar Framer Motion gerenciar
+  const titleStyle: CSSProperties = {
+    fontSize: 'clamp(1.75rem, 7vw + 0.5rem, 5rem)',
+    textShadow: safeIsDarkTheme
+      ? '0 0 30px rgba(0,255,255,0.7), 0 0 50px rgba(255,0,255,0.5)'
+      : '0 0 30px rgba(59,130,246,0.6), 0 0 50px rgba(139,92,246,0.4)',
+    lineHeight: 1.05,
+  };
+
+  const subtitleStyle: CSSProperties = {
+    fontSize: 'clamp(1rem, 3.5vw + 0.3rem, 2rem)',
+    textShadow: safeIsDarkTheme
+      ? '0 0 20px rgba(0,255,0,0.6)'
+      : '0 0 20px rgba(34,197,94,0.5)',
+    lineHeight: 1.3,
+  };
 
   return (
     <div
@@ -189,11 +208,7 @@ function HeroContentOverlay({
       aria-live="polite"
       aria-atomic="true"
     >
-      <div
-        className={`relative z-10 w-full max-w-[95vw] xs:max-w-[93vw] sm:max-w-[88vw] md:max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto transition-opacity duration-500 pointer-events-auto ${
-          isContentVisible ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
+      <div className="relative z-10 w-full max-w-[95vw] xs:max-w-[93vw] sm:max-w-[88vw] md:max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto pointer-events-auto">
         <div
           className="text-center relative z-20 flex flex-col justify-center items-center min-h-[400px] px-6 xs:px-8 sm:px-10 md:px-12 lg:px-14 xl:px-18 space-y-6 xs:space-y-7 sm:space-y-9 md:space-y-11 lg:space-y-13 xl:space-y-15"
           style={{
@@ -201,46 +216,40 @@ function HeroContentOverlay({
             paddingBottom: 'clamp(2.5rem, 8vh, 7rem)',
           }}
         >
-          {/* Título principal */}
+          {/* Título principal - Key baseado no índice para permitir animações entre slides */}
           <motion.h1
-            key={currentSlideIndex}
-            initial={{ opacity: 0, y: 30, scale: 0.9 }}
+            key={`title-${stableIndex}`}
+            initial={hasMounted ? { opacity: 0, y: 30, scale: 0.9 } : false}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.7 }}
+            transition={
+              hasMounted ? { delay: 0.3, duration: 0.7 } : { duration: 0 }
+            }
             className={cn(
               'font-black font-mono tracking-tight leading-none px-2 xs:px-3 sm:px-4 md:px-0',
               'text-transparent bg-clip-text',
               GRADIENTS.TEXT_PRIMARY
             )}
-            style={{
-              fontSize: 'clamp(1.75rem, 7vw + 0.5rem, 5rem)',
-              textShadow: isDarkTheme
-                ? '0 0 30px rgba(0,255,255,0.7), 0 0 50px rgba(255,0,255,0.5)'
-                : '0 0 30px rgba(59,130,246,0.6), 0 0 50px rgba(139,92,246,0.4)',
-              lineHeight: 1.05,
-            }}
+            style={titleStyle}
+            suppressHydrationWarning
           >
-            {currentTitle}
+            {displayTitle}
           </motion.h1>
 
-          {/* Subtítulo */}
+          {/* Subtítulo - Key baseado no índice para permitir animações entre slides */}
           <motion.h2
-            key={`subtitle-${currentSlideIndex}`}
-            initial={{ opacity: 0, y: 20 }}
+            key={`subtitle-${stableIndex}`}
+            initial={hasMounted ? { opacity: 0, y: 20 } : false}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
+            transition={
+              hasMounted ? { delay: 0.5, duration: 0.6 } : { duration: 0 }
+            }
             className={`font-semibold font-mono px-3 xs:px-4 sm:px-6 ${
-              isDarkTheme ? 'text-green-400' : 'text-green-600'
+              safeIsDarkTheme ? 'text-green-400' : 'text-green-600'
             }`}
-            style={{
-              fontSize: 'clamp(1rem, 3.5vw + 0.3rem, 2rem)',
-              textShadow: isDarkTheme
-                ? '0 0 20px rgba(0,255,0,0.6)'
-                : '0 0 20px rgba(34,197,94,0.5)',
-              lineHeight: 1.3,
-            }}
+            style={subtitleStyle}
+            suppressHydrationWarning
           >
-            {currentSubtitle}
+            {displaySubtitle}
           </motion.h2>
         </div>
       </div>
@@ -279,7 +288,8 @@ export function HeroSection() {
     resumeAutoplay,
   } = useCarouselKeyboard({
     slideCount: HERO_TITLES.length,
-    autoplay: true,
+    initialSlide: 0, // Sempre começar no slide 0 para SSR
+    autoplay: false, // Iniciar manualmente após hidratação
     autoplayInterval: SLIDE_DURATION_MS,
     loop: true,
     pauseOnInteraction: false, // Não pausar ao navegar (manter fluidez)
@@ -291,7 +301,20 @@ export function HeroSection() {
     },
   });
 
+  // Durante SSR, sempre usar índice 0 para garantir hidratação correta
+  const safeSlideIndex = isMounted ? currentSlideIndex : 0;
   const isDarkTheme = isMounted && resolvedTheme === 'dark';
+
+  // Iniciar autoplay apenas após hidratação completa
+  useEffect(() => {
+    if (!isMounted) return undefined;
+
+    // Delay para garantir que a hidratação terminou antes de iniciar autoplay
+    const timer = setTimeout(() => {
+      resumeAutoplay();
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [isMounted, resumeAutoplay]);
 
   return (
     <header
@@ -321,7 +344,7 @@ export function HeroSection() {
 
       {/* Layer 3: Conteúdo principal (z-20) */}
       <HeroContentOverlay
-        currentSlideIndex={currentSlideIndex}
+        currentSlideIndex={safeSlideIndex}
         isDarkTheme={isDarkTheme}
       />
 

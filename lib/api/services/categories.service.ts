@@ -13,6 +13,7 @@
 import { api } from '../client';
 import type {
   ApiResponse,
+  ApiSuccessResponse,
   Category,
   CategoryFilters,
   CreateCategoryData,
@@ -54,7 +55,10 @@ export class CategoriesService {
 
     const response =
       await api.get<ApiResponse<PaginatedResponse<Category>>>(url);
-    return response.data;
+    if (!response.success) {
+      throw new Error(response.message || 'Erro ao listar categorias');
+    }
+    return (response as ApiSuccessResponse<PaginatedResponse<Category>>).data;
   }
 
   /**
@@ -67,7 +71,10 @@ export class CategoriesService {
     const response = await api.get<ApiResponse<Category>>(
       `${this.basePath}/${id}`
     );
-    return response.data;
+    if (!response.success) {
+      throw new Error(response.message || 'Erro ao buscar categoria');
+    }
+    return (response as ApiSuccessResponse<Category>).data;
   }
 
   /**
@@ -80,7 +87,10 @@ export class CategoriesService {
     const response = await api.get<ApiResponse<Category>>(
       `${this.basePath}/slug/${slug}`
     );
-    return response.data;
+    if (!response.success) {
+      throw new Error(response.message || 'Erro ao buscar categoria');
+    }
+    return (response as ApiSuccessResponse<Category>).data;
   }
 
   /**
@@ -93,7 +103,10 @@ export class CategoriesService {
     const response = await api.get<ApiResponse<Category[]>>(
       `${this.basePath}/${parentId}/subcategories`
     );
-    return response.data;
+    if (!response.success) {
+      throw new Error(response.message || 'Erro ao buscar subcategorias');
+    }
+    return (response as ApiSuccessResponse<Category[]>).data;
   }
 
   /**
@@ -104,7 +117,10 @@ export class CategoriesService {
    */
   async createCategory(data: CreateCategoryData): Promise<Category> {
     const response = await api.post<ApiResponse<Category>>(this.basePath, data);
-    return response.data;
+    if (!response.success) {
+      throw new Error(response.message || 'Erro ao criar categoria');
+    }
+    return (response as ApiSuccessResponse<Category>).data;
   }
 
   /**
@@ -121,7 +137,10 @@ export class CategoriesService {
       `${this.basePath}/${id}`,
       data
     );
-    return response.data;
+    if (!response.success) {
+      throw new Error(response.message || 'Erro ao atualizar categoria');
+    }
+    return (response as ApiSuccessResponse<Category>).data;
   }
 
   /**
@@ -142,7 +161,7 @@ export class CategoriesService {
    */
   async getMainCategories(): Promise<Category[]> {
     const response = await this.listCategories({
-      parentId: null,
+      parentId: undefined,
       isActive: true,
     });
     return response.data;
@@ -160,7 +179,10 @@ export class CategoriesService {
       const response = await api.get<ApiResponse<Category[]>>(
         `${this.basePath}/subcategories/all`
       );
-      return response.data;
+      if (!response.success) {
+        throw new Error(response.message || 'Erro ao buscar subcategorias');
+      }
+      return (response as ApiSuccessResponse<Category[]>).data;
     } catch (_error) {
       // Fallback: busca todas as categorias e filtra no cliente
       const response = await this.listCategories({ isActive: true });

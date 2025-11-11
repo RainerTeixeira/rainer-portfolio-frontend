@@ -33,72 +33,78 @@ import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { Code, Globe, Star, Trophy, Users, Zap } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import React from 'react';
+
+/**
+ * Estatísticas com gradientes baseados em design tokens
+ * Definidas fora do componente para evitar recriação e problemas de hidratação
+ * Usando cores primitivas da biblioteca para consistência
+ */
+const STATS_DATA = [
+  {
+    icon: Code,
+    value: '50K+',
+    label: 'Linhas de Código',
+    gradient: 'from-cyan-500 to-blue-600',
+    iconBg: 'from-cyan-400 to-blue-500',
+    glowColor: 'cyan-500',
+  },
+  {
+    icon: Users,
+    value: '10+',
+    label: 'Projetos Completos',
+    gradient: 'from-purple-500 to-pink-600',
+    iconBg: 'from-purple-400 to-pink-500',
+    glowColor: 'purple-500',
+  },
+  {
+    icon: Star,
+    value: '95+',
+    label: 'Lighthouse Score',
+    gradient: 'from-amber-500 to-orange-600',
+    iconBg: 'from-amber-400 to-orange-500',
+    glowColor: 'amber-500',
+  },
+  {
+    icon: Trophy,
+    value: '200+',
+    label: 'Componentes Criados',
+    gradient: 'from-green-500 to-emerald-600',
+    iconBg: 'from-green-400 to-emerald-500',
+    glowColor: 'green-500',
+  },
+  {
+    icon: Zap,
+    value: '< 2s',
+    label: 'Tempo de Carregamento',
+    gradient: 'from-orange-500 to-red-600',
+    iconBg: 'from-orange-400 to-red-500',
+    glowColor: 'orange-500',
+  },
+  {
+    icon: Globe,
+    value: '20+',
+    label: 'Tecnologias Dominadas',
+    gradient: 'from-pink-500 to-purple-600',
+    iconBg: 'from-pink-400 to-purple-500',
+    glowColor: 'pink-500',
+  },
+] as const;
 
 export function StatsShowcase() {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setMounted(true);
   }, []);
 
   /**
    * Determina se o tema atual é dark mode
-   * Só retorna true após montagem para evitar hydration mismatch
+   * Durante SSR e primeira renderização, sempre retorna false para evitar hydration mismatch
+   * Após montagem, usa o tema resolvido
    */
-  const isDark = mounted ? resolvedTheme === 'dark' : false;
-
-  const stats = [
-    {
-      icon: Code,
-      value: '50K+',
-      label: 'Linhas de Código',
-      gradient: 'from-cyan-500 to-blue-600',
-      iconBg: 'from-cyan-400 to-blue-500',
-      glowColor: 'cyan-500',
-    },
-    {
-      icon: Users,
-      value: '10+',
-      label: 'Projetos Completos',
-      gradient: 'from-purple-500 to-pink-600',
-      iconBg: 'from-purple-400 to-pink-500',
-      glowColor: 'purple-500',
-    },
-    {
-      icon: Star,
-      value: '95+',
-      label: 'Lighthouse Score',
-      gradient: 'from-yellow-500 to-orange-600',
-      iconBg: 'from-yellow-400 to-orange-500',
-      glowColor: 'yellow-500',
-    },
-    {
-      icon: Trophy,
-      value: '200+',
-      label: 'Componentes Criados',
-      gradient: 'from-green-500 to-emerald-600',
-      iconBg: 'from-green-400 to-emerald-500',
-      glowColor: 'green-500',
-    },
-    {
-      icon: Zap,
-      value: '< 2s',
-      label: 'Tempo de Carregamento',
-      gradient: 'from-orange-500 to-red-600',
-      iconBg: 'from-orange-400 to-red-500',
-      glowColor: 'orange-500',
-    },
-    {
-      icon: Globe,
-      value: '20+',
-      label: 'Tecnologias Dominadas',
-      gradient: 'from-pink-500 to-rose-600',
-      iconBg: 'from-pink-400 to-rose-500',
-      glowColor: 'pink-500',
-    },
-  ];
+  const isDark = mounted && resolvedTheme === 'dark';
 
   return (
     <section className="py-20 sm:py-24 relative overflow-hidden">
@@ -109,7 +115,12 @@ export function StatsShowcase() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full ${isDark ? 'bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-linear-to-r from-blue-500 via-purple-500 to-pink-500'} text-white font-bold text-sm mb-8 shadow-xl`}
+            className={cn(
+              'inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-white font-bold text-sm mb-8 shadow-xl',
+              isDark
+                ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400'
+                : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'
+            )}
           >
             <Trophy className="w-5 h-5" />
             Métricas de Impacto
@@ -119,7 +130,7 @@ export function StatsShowcase() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
+            className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
           >
             Números que Falam
           </motion.h2>
@@ -140,11 +151,13 @@ export function StatsShowcase() {
 
         {/* Stats Grid Redesenhado */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
-          {stats.map((stat, index) => {
+          {STATS_DATA.map((stat, index) => {
             const Icon = stat.icon;
+            // Usar label como key estável para evitar problemas de hidratação
+            const statKey = stat.label;
             return (
               <motion.div
-                key={index}
+                key={statKey}
                 initial={{ opacity: 0, y: 30, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
@@ -158,7 +171,10 @@ export function StatsShowcase() {
                 <div className="relative">
                   {/* Brilho de fundo */}
                   <div
-                    className={`absolute inset-0 bg-linear-to-br ${stat.iconBg} rounded-3xl blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500`}
+                    className={cn(
+                      'absolute inset-0 bg-gradient-to-br rounded-3xl blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500',
+                      stat.iconBg
+                    )}
                   ></div>
 
                   {/* Card */}
@@ -174,17 +190,26 @@ export function StatsShowcase() {
                   >
                     {/* Brilho interno */}
                     <div
-                      className={`absolute inset-0 bg-linear-to-br ${stat.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                      className={cn(
+                        'absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500',
+                        stat.gradient
+                      )}
                     ></div>
 
                     <CardContent className="p-6 sm:p-8 text-center relative z-10">
                       {/* Ícone com efeito premium */}
                       <div className="relative mb-6">
                         <div
-                          className={`absolute inset-0 bg-linear-to-br ${stat.iconBg} rounded-2xl blur-md opacity-40`}
+                          className={cn(
+                            'absolute inset-0 bg-gradient-to-br rounded-2xl blur-md opacity-40',
+                            stat.iconBg
+                          )}
                         ></div>
                         <div
-                          className={`relative inline-flex p-4 rounded-2xl bg-linear-to-br ${stat.iconBg} shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}
+                          className={cn(
+                            'relative inline-flex p-4 rounded-2xl bg-gradient-to-br shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300',
+                            stat.iconBg
+                          )}
                         >
                           <Icon className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                         </div>
@@ -192,7 +217,10 @@ export function StatsShowcase() {
 
                       {/* Valor */}
                       <div
-                        className={`text-4xl sm:text-5xl font-black mb-3 bg-linear-to-r ${stat.gradient} bg-clip-text text-transparent`}
+                        className={cn(
+                          'text-4xl sm:text-5xl font-black mb-3 bg-gradient-to-r bg-clip-text text-transparent',
+                          stat.gradient
+                        )}
                       >
                         {stat.value}
                       </div>

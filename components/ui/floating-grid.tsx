@@ -44,7 +44,6 @@ export function FloatingGrid({
     };
 
     const config = gridConfig[variant];
-    let animationFrame: number;
 
     const drawGrid = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -91,7 +90,6 @@ export function FloatingGrid({
 
     return () => {
       window.removeEventListener('resize', setCanvasSize);
-      if (animationFrame) cancelAnimationFrame(animationFrame);
     };
   }, [variant, intensity]);
 

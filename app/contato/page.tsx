@@ -128,8 +128,8 @@ export default function ContactPage() {
           ================================================================ */}
 
       <PageHeader
-        title="Vamos Conversar Sobre Seu Projeto"
-        description={`Estou disponível para projetos freelancer, desenvolvimento de aplicações web, sistemas full-stack e oportunidades de colaboração. Se você precisa de um desenvolvedor comprometido com qualidade, código limpo e resultado que funciona, vamos conversar! Respondo todos os contatos em até ${SITE_CONFIG.contact.email.responseTime.toLowerCase()} com atenção e interesse real em entender como posso ajudar a concretizar sua ideia.`}
+        title="Vamos Transformar Sua Ideia em Realidade"
+        description={`Estou disponível para novos projetos e oportunidades de colaboração. Se você precisa de um desenvolvedor Full-Stack comprometido com qualidade, código limpo e resultados que funcionam, vamos conversar! Desenvolvo aplicações web completas, dashboards interativos, sistemas de autenticação, APIs RESTful e integrações personalizadas. ${SITE_CONFIG.contact.email.responseTime} para todos os contatos, com atenção e interesse genuíno em entender como posso ajudar a concretizar seu projeto.`}
       >
         {/* Decorative Icon */}
         <div className="relative w-24 h-24 mx-auto mb-4">

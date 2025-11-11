@@ -204,7 +204,7 @@ class Logger {
         error:
           error instanceof Error
             ? {
-                fullName: error.fullName,
+                fullName: (error as any).fullName || error.name,
                 message: error.message,
                 stack: error.stack,
               }

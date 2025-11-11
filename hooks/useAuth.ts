@@ -46,6 +46,11 @@ export function useAuth() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [passwordlessStep, setPasswordlessStep] = useState<
+    'email' | 'code' | null
+  >(null);
+  const [passwordlessEmail, setPasswordlessEmail] = useState<string>('');
+  const [passwordlessSession, setPasswordlessSession] = useState<string>('');
 
   // Verifica se o usuário está autenticado ao carregar o hook
   useEffect(() => {
@@ -321,15 +326,35 @@ export function useAuth() {
         // Se não houver provider explícito, tentar extrair do state
         if (!provider && state) {
           try {
-            const parsed = JSON.parse(
-              Buffer.from(state, 'base64').toString('utf-8')
-            ) as { p?: string };
+            // Decodificar base64url no browser
+            const base64urlDecode = (str: string): string => {
+              // Converter base64url para base64
+              let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+              // Adicionar padding se necessário
+              while (base64.length % 4) {
+                base64 += '=';
+              }
+              // Decodificar base64
+              const decoded = atob(base64);
+              // Converter para string UTF-8
+              return decodeURIComponent(
+                decoded
+                  .split('')
+                  .map(
+                    c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                  )
+                  .join('')
+              );
+            };
+
+            const parsed = JSON.parse(base64urlDecode(state)) as { p?: string };
             if (parsed?.p === 'google' || parsed?.p === 'github') {
               finalProvider = parsed.p;
             }
           } catch (e) {
             console.warn(
-              '[useAuth] Não foi possível extrair provider do state, usando google como padrão'
+              '[useAuth] Não foi possível extrair provider do state, usando google como padrão',
+              e
             );
           }
         }
@@ -468,6 +493,92 @@ export function useAuth() {
     []
   );
 
+  // Inicia autenticação passwordless
+  const initiatePasswordless = useCallback(async (email: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await authService.initiatePasswordless(email);
+
+      setPasswordlessEmail(email);
+      setPasswordlessStep('code');
+
+      // Session não é mais necessária (usando fluxo nativo ForgotPassword)
+      setPasswordlessSession('');
+
+      return response;
+    } catch (err) {
+      console.error('Erro ao iniciar autenticação passwordless:', err);
+      setError(
+        err instanceof Error
+          ? err
+          : new Error('Erro ao iniciar autenticação passwordless')
+      );
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Verifica código passwordless
+  const verifyPasswordless = useCallback(
+    async (code: string) => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        if (!passwordlessEmail) {
+          throw new Error('Email não encontrado. Inicie o processo novamente.');
+        }
+
+        // Session não é mais necessária (usando fluxo nativo ForgotPassword)
+        const response = await authService.verifyPasswordless(
+          passwordlessEmail,
+          code,
+          undefined // Session não é mais usado
+        );
+
+        const userProfile = convertUserToUserProfile(response.user);
+        setUser(userProfile);
+        setPasswordlessStep(null);
+        setPasswordlessEmail('');
+        setPasswordlessSession(''); // Limpar session após uso
+
+        return userProfile;
+      } catch (err) {
+        console.error('Erro ao verificar código passwordless:', err);
+        setError(
+          err instanceof Error
+            ? err
+            : new Error('Erro ao verificar código passwordless')
+        );
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [passwordlessEmail, passwordlessSession]
+  );
+
+  // Reseta o fluxo passwordless
+  const resetPasswordless = useCallback(() => {
+    setPasswordlessStep(null);
+    setPasswordlessEmail('');
+    setPasswordlessSession('');
+    setError(null);
+  }, []);
+
+  // Login com Google OAuth
+  const loginWithGoogle = useCallback(() => {
+    authService.loginWithGoogle();
+  }, []);
+
+  // Login com GitHub OAuth
+  const loginWithGitHub = useCallback(() => {
+    authService.loginWithGitHub();
+  }, []);
+
   return {
     user,
     isAuthenticated: !!user,
@@ -482,6 +593,15 @@ export function useAuth() {
     changePassword,
     checkAuth,
     loginWithOAuthCode,
+    // Passwordless
+    initiatePasswordless,
+    verifyPasswordless,
+    resetPasswordless,
+    passwordlessStep,
+    passwordlessEmail,
+    // OAuth
+    loginWithGoogle,
+    loginWithGitHub,
   };
 }
 

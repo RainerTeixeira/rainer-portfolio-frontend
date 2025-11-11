@@ -56,7 +56,7 @@ export function analyzeImage(source: string | File): ImageAnalysis {
  */
 function extractFormatFromUrl(url: string): string {
   const match = url.match(/\.(webp|gif|jpg|jpeg|png|svg|avif)(\?|$)/i);
-  if (match) {
+  if (match && match[1]) {
     const ext = match[1].toLowerCase();
     return ext === 'jpeg' ? 'jpg' : ext;
   }
@@ -68,7 +68,7 @@ function extractFormatFromUrl(url: string): string {
  */
 function extractFormatFromFilename(filename: string): string {
   const match = filename.match(/\.(webp|gif|jpg|jpeg|png|svg|avif)$/i);
-  if (match) {
+  if (match && match[1]) {
     const ext = match[1].toLowerCase();
     return ext === 'jpeg' ? 'jpg' : ext;
   }

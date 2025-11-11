@@ -382,9 +382,9 @@ export default function BlogPage() {
 
       <ParticlesEffect variant="default" />
 
-      {/* Grid pattern background */}
+      {/* Grid pattern background - Using cyan-600 primitive token */}
       <div
-        className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000,transparent)] pointer-events-none"
+        className="absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.03)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,rgb(0,0,0),transparent)] pointer-events-none"
         aria-hidden="true"
       />
 

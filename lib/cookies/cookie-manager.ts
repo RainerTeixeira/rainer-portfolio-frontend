@@ -261,12 +261,13 @@ export class CookieManager {
         const baseName = cookieName.replace('*', '');
         const cookies = document.cookie.split(';');
         cookies.forEach(cookie => {
-          const name = cookie.split('=')[0].trim();
-          if (name.startsWith(baseName)) {
-            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-            // Também tenta remover para subdomínios
-            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${window.location.hostname};`;
-          }
+          const parts = cookie.split('=');
+          if (parts.length === 0) return;
+          const name = parts[0]?.trim();
+          if (!name || !name.startsWith(baseName)) return;
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+          // Também tenta remover para subdomínios
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${window.location.hostname};`;
         });
       }
     });

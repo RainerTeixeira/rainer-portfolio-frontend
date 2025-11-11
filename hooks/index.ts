@@ -18,7 +18,7 @@ export { useAnalytics, withAnalytics } from './use-analytics';
 // UI & UX
 // ============================================================================
 
-export { useMobile } from './use-mobile';
+export { useIsMobile } from './use-mobile';
 export { usePWA } from './use-pwa';
 export { useSmoothScroll } from './use-smooth-scroll';
 
@@ -26,5 +26,6 @@ export { useSmoothScroll } from './use-smooth-scroll';
 // Forms
 // ============================================================================
 
-export { usePasswordStrength } from './use-password-strength';
-export { useUpload } from './use-upload';
+// Removidos temporariamente - hooks não existem ainda
+// export { usePasswordStrength } from './use-password-strength';
+// export { useUpload } from './use-upload';
