@@ -11,9 +11,7 @@
  * @module tests/e2e/cookies-localstorage.spec
  */
 
-import { expect, test } from '@playwright/test';
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+import { expect, test } from './fixtures';
 
 test.describe('Cookies - localStorage em Produção', () => {
   test.beforeEach(async ({ page, context }) => {
@@ -26,7 +24,7 @@ test.describe('Cookies - localStorage em Produção', () => {
   });
 
   test('deve salvar estrutura correta no localStorage', async ({ page }) => {
-    await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+    await page.goto(, { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Aceita cookies
@@ -78,7 +76,7 @@ test.describe('Cookies - localStorage em Produção', () => {
   });
 
   test('deve salvar preferências separadamente', async ({ page }) => {
-    await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+    await page.goto(, { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Aceita cookies
@@ -111,7 +109,7 @@ test.describe('Cookies - localStorage em Produção', () => {
   });
 
   test('deve manter dados após múltiplas navegações', async ({ page }) => {
-    await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+    await page.goto(, { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Aceita cookies
@@ -132,7 +130,7 @@ test.describe('Cookies - localStorage em Produção', () => {
     const pages = ['/sobre', '/contato', '/cookies', '/privacidade', '/termos'];
 
     for (const path of pages) {
-      await page.goto(`${BASE_URL}${path}`, { waitUntil: 'networkidle' });
+      await page.goto(`${}${path}`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(500);
 
       // Verifica que consentimento foi mantido
@@ -148,7 +146,7 @@ test.describe('Cookies - localStorage em Produção', () => {
     page,
   }) => {
     // Primeiro, salva dados válidos
-    await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+    await page.goto(, { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     const acceptButton = page.getByRole('button', {
@@ -175,7 +173,7 @@ test.describe('Cookies - localStorage em Produção', () => {
   });
 
   test('deve ter versionamento correto', async ({ page }) => {
-    await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+    await page.goto(, { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Aceita cookies
@@ -198,7 +196,7 @@ test.describe('Cookies - localStorage em Produção', () => {
 
   test('deve limpar dados ao revogar consentimento', async ({ page }) => {
     // Aceita cookies primeiro
-    await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+    await page.goto(, { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     const acceptButton = page.getByRole('button', {

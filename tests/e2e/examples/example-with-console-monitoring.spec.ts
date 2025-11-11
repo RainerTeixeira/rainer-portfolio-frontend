@@ -8,7 +8,7 @@
  * - Falhar testes quando há erros críticos
  */
 
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures';
 import {
   checkConsoleErrors,
   createConsoleHelper,

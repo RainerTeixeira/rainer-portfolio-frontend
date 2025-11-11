@@ -1,4 +1,5 @@
-import { chromium, expect, test } from '@playwright/test';
+import { chromium } from '@playwright/test';
+import { expect, test } from './fixtures';
 
 /**
  * Teste MANUAL Real com Google - Usando Chrome do Sistema
@@ -80,7 +81,7 @@ test.describe('Google Real Manual Signup', () => {
       console.log('');
 
       // Step 1: Vai para página de login
-      await page.goto('http://localhost:3000/dashboard/login');
+      await page.goto('/dashboard/login');
       await page.waitForLoadState('networkidle');
       console.log('✅ Página de login carregada');
 

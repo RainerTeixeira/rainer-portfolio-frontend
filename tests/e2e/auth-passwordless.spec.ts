@@ -1,6 +1,6 @@
 /**
  * Testes E2E para Autenticação Passwordless
- * 
+ *
  * Valida o fluxo completo de autenticação sem senha:
  * 1. Usuário insere email
  * 2. Sistema envia código de verificação
@@ -8,16 +8,16 @@
  * 4. Sistema autentica e redireciona
  */
 
-import { test, expect } from '@playwright/test';
+import { expect, test } from './fixtures';
 
 test.describe('Autenticação Passwordless', () => {
   test.beforeEach(async ({ page }) => {
     // Navegar para página de login
-    await page.goto('http://localhost:3000/dashboard/login');
-    
+    await page.goto('/dashboard/login');
+
     // Aguardar página carregar
     await page.waitForLoadState('networkidle');
-    
+
     // Selecionar tab de autenticação passwordless
     await page.click('button:has-text("Código")');
   });
@@ -25,10 +25,12 @@ test.describe('Autenticação Passwordless', () => {
   test('deve exibir formulário de email inicialmente', async ({ page }) => {
     // Verificar que o campo de email está visível
     await expect(page.locator('input[type="email"]')).toBeVisible();
-    
+
     // Verificar que o botão de enviar código está visível
-    await expect(page.locator('button:has-text("Enviar Código")')).toBeVisible();
-    
+    await expect(
+      page.locator('button:has-text("Enviar Código")')
+    ).toBeVisible();
+
     // Verificar que há informação sobre o código
     await expect(page.locator('text=/código de 6 dígitos/i')).toBeVisible();
   });
@@ -36,7 +38,7 @@ test.describe('Autenticação Passwordless', () => {
   test('deve validar email antes de enviar', async ({ page }) => {
     // Tentar enviar sem preencher email
     await page.click('button:has-text("Enviar Código")');
-    
+
     // Verificar mensagem de erro
     await expect(page.locator('text=/Digite seu email/i')).toBeVisible();
   });
@@ -44,24 +46,26 @@ test.describe('Autenticação Passwordless', () => {
   test('deve validar formato de email', async ({ page }) => {
     // Preencher email inválido
     await page.fill('input[type="email"]', 'email-invalido');
-    
+
     // Tentar enviar
     await page.click('button:has-text("Enviar Código")');
-    
+
     // Verificar mensagem de erro
     await expect(page.locator('text=/email válido/i')).toBeVisible();
   });
 
-  test('deve enviar código e mostrar formulário de verificação', async ({ page }) => {
+  test('deve enviar código e mostrar formulário de verificação', async ({
+    page,
+  }) => {
     // Preencher email válido
     await page.fill('input[type="email"]', 'test@example.com');
-    
+
     // Clicar em enviar código
     await page.click('button:has-text("Enviar Código")');
-    
+
     // Aguardar resposta da API (pode ser mock ou real)
     await page.waitForTimeout(1000);
-    
+
     // Verificar que mudou para etapa de código
     // (Nota: Este teste pode falhar se o backend não estiver rodando)
     // await expect(page.locator('input[type="text"]')).toBeVisible();
@@ -72,10 +76,10 @@ test.describe('Autenticação Passwordless', () => {
     // Preencher email
     await page.fill('input[type="email"]', 'test@example.com');
     await page.click('button:has-text("Enviar Código")');
-    
+
     // Aguardar transição
     await page.waitForTimeout(1000);
-    
+
     // Verificar que o email está exibido
     // await expect(page.locator('text=test@example.com')).toBeVisible();
   });
@@ -89,12 +93,12 @@ test.describe('Autenticação Passwordless', () => {
     // Preencher email e avançar
     await page.fill('input[type="email"]', 'test@example.com');
     await page.click('button:has-text("Enviar Código")');
-    
+
     await page.waitForTimeout(1000);
-    
+
     // Clicar em voltar
     // await page.click('button:has-text("Alterar email")');
-    
+
     // Verificar que voltou para formulário de email
     // await expect(page.locator('input[type="email"]')).toBeVisible();
   });
@@ -103,12 +107,12 @@ test.describe('Autenticação Passwordless', () => {
     // Avançar para etapa de código
     await page.fill('input[type="email"]', 'test@example.com');
     await page.click('button:has-text("Enviar Código")');
-    
+
     await page.waitForTimeout(1000);
-    
+
     // Aguardar countdown (60 segundos)
     // await page.waitForTimeout(61000);
-    
+
     // Clicar em reenviar
     // await page.click('button:has-text("Reenviar código")');
   });
@@ -122,14 +126,16 @@ test.describe('Autenticação Passwordless', () => {
     // Pode ser necessário mockar a resposta da API
   });
 
-  test('deve redirecionar para dashboard após autenticação', async ({ page }) => {
+  test('deve redirecionar para dashboard após autenticação', async ({
+    page,
+  }) => {
     // Este teste requer fluxo completo funcionando
   });
 });
 
 test.describe('Autenticação Passwordless - Cenários de Erro', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/dashboard/login');
+    await page.goto('/dashboard/login');
     await page.waitForLoadState('networkidle');
     await page.click('button:has-text("Código")');
   });
@@ -139,10 +145,10 @@ test.describe('Autenticação Passwordless - Cenários de Erro', () => {
     await page.route('**/auth/passwordless/init', route => {
       route.abort('failed');
     });
-    
+
     await page.fill('input[type="email"]', 'test@example.com');
     await page.click('button:has-text("Enviar Código")');
-    
+
     // Verificar mensagem de erro
     await expect(page.locator('text=/erro/i')).toBeVisible();
   });
@@ -160,20 +166,20 @@ test.describe('Autenticação Passwordless - Cenários de Erro', () => {
     await page.route('**/auth/passwordless/init', route => {
       route.abort('failed');
     });
-    
+
     await page.fill('input[type="email"]', 'test@example.com');
     await page.click('button:has-text("Enviar Código")');
-    
+
     // Verificar erro
     await expect(page.locator('text=/erro/i')).toBeVisible();
-    
+
     // Remover mock de erro
     await page.unroute('**/auth/passwordless/init');
-    
+
     // Tentar novamente
     await page.fill('input[type="email"]', 'test2@example.com');
     await page.click('button:has-text("Enviar Código")');
-    
+
     // Verificar que erro foi limpo
     // await expect(page.locator('text=/erro/i')).not.toBeVisible();
   });
@@ -181,7 +187,7 @@ test.describe('Autenticação Passwordless - Cenários de Erro', () => {
 
 test.describe('Autenticação Passwordless - Acessibilidade', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/dashboard/login');
+    await page.goto('/dashboard/login');
     await page.waitForLoadState('networkidle');
     await page.click('button:has-text("Código")');
   });
@@ -190,7 +196,7 @@ test.describe('Autenticação Passwordless - Acessibilidade', () => {
     // Verificar label do email
     const emailLabel = page.locator('label[for="email"]');
     await expect(emailLabel).toBeVisible();
-    
+
     // Verificar que input tem id correspondente
     const emailInput = page.locator('input#email');
     await expect(emailInput).toBeVisible();
@@ -199,13 +205,13 @@ test.describe('Autenticação Passwordless - Acessibilidade', () => {
   test('deve permitir navegação por teclado', async ({ page }) => {
     // Tab para o campo de email
     await page.keyboard.press('Tab');
-    
+
     // Verificar que email está focado
     await expect(page.locator('input[type="email"]')).toBeFocused();
-    
+
     // Tab para o botão
     await page.keyboard.press('Tab');
-    
+
     // Verificar que botão está focado
     // await expect(page.locator('button:has-text("Enviar Código")')).toBeFocused();
   });
@@ -224,24 +230,26 @@ test.describe('Autenticação Passwordless - Responsividade', () => {
   test('deve funcionar em mobile', async ({ page }) => {
     // Configurar viewport mobile
     await page.setViewportSize({ width: 375, height: 667 });
-    
-    await page.goto('http://localhost:3000/dashboard/login');
+
+    await page.goto('/dashboard/login');
     await page.waitForLoadState('networkidle');
     await page.click('button:has-text("Código")');
-    
+
     // Verificar que formulário está visível e funcional
     await expect(page.locator('input[type="email"]')).toBeVisible();
-    await expect(page.locator('button:has-text("Enviar Código")')).toBeVisible();
+    await expect(
+      page.locator('button:has-text("Enviar Código")')
+    ).toBeVisible();
   });
 
   test('deve funcionar em tablet', async ({ page }) => {
     // Configurar viewport tablet
     await page.setViewportSize({ width: 768, height: 1024 });
-    
-    await page.goto('http://localhost:3000/dashboard/login');
+
+    await page.goto('/dashboard/login');
     await page.waitForLoadState('networkidle');
     await page.click('button:has-text("Código")');
-    
+
     // Verificar que formulário está visível e funcional
     await expect(page.locator('input[type="email"]')).toBeVisible();
   });
@@ -249,13 +257,12 @@ test.describe('Autenticação Passwordless - Responsividade', () => {
   test('deve funcionar em desktop', async ({ page }) => {
     // Configurar viewport desktop
     await page.setViewportSize({ width: 1920, height: 1080 });
-    
-    await page.goto('http://localhost:3000/dashboard/login');
+
+    await page.goto('/dashboard/login');
     await page.waitForLoadState('networkidle');
     await page.click('button:has-text("Código")');
-    
+
     // Verificar que formulário está visível e funcional
     await expect(page.locator('input[type="email"]')).toBeVisible();
   });
 });
-
