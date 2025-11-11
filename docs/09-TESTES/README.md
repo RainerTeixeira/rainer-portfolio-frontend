@@ -104,10 +104,32 @@ Para testes gerais:
 
 | Métrica | Valor |
 |---------|-------|
-| **Total de documentos** | 11 arquivos |
+| **Total de documentos** | 21 arquivos |
 | **Checklists** | 7 documentos |
 | **Relatórios** | 1 documento |
 | **Guias de funcionalidades** | 1 documento |
+| **Guias OAuth** | 2 documentos |
+| **Outros** | 10 documentos |
+
+## ✅ Status dos Testes
+
+### Cobertura de Páginas
+
+**Status: 100% de cobertura!** 🎉
+
+Todas as 19 páginas do app têm seus respectivos testes em `tests/app/`:
+- ✅ Páginas principais (home, blog, contato, sobre)
+- ✅ Páginas de políticas (cookies, privacidade, termos)
+- ✅ Páginas do dashboard (dashboard, settings)
+- ✅ Páginas de autenticação (login, register, confirm-email, forgot-password, reset-password, callback, verify-email-admin)
+- ✅ Rotas API (analytics, stats)
+
+### Estrutura Espelhada
+
+A estrutura `tests/app/` está **100% espelhada** de `app/`:
+- Cada `page.tsx` tem seu `page.test.tsx`
+- Cada rota API tem seu `route.test.ts`
+- Total de 21 arquivos de teste para páginas
 
 ---
 
