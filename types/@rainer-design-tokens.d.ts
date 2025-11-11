@@ -1,6 +1,6 @@
 /**
- * Type declarations for @rainer/design-tokens
- * Temporary shim until TypeScript resolves the module correctly
+ * Declarações de tipo para @rainer/design-tokens
+ * Solução temporária até que o TypeScript resolva o módulo corretamente
  */
 
 declare module '@rainer/design-tokens' {
