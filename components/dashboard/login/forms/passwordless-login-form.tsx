@@ -85,6 +85,7 @@ export function PasswordlessLoginForm({
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [countdown]);
 
   /**
@@ -139,8 +140,9 @@ export function PasswordlessLoginForm({
       return;
     }
 
-    if (!/^\d{6}$/.test(code)) {
-      setError('O código deve conter exatamente 6 dígitos');
+    // Validar que o código não está vazio (formato é determinado pelo Cognito)
+    if (code.trim().length < 4) {
+      setError('Código muito curto. Verifique o código recebido.');
       return;
     }
 
@@ -239,8 +241,8 @@ export function PasswordlessLoginForm({
         <Alert className="bg-cyan-500/10 border-cyan-500/30">
           <Shield className="h-4 w-4 text-cyan-500" />
           <AlertDescription className="text-sm text-cyan-700 dark:text-cyan-400">
-            Você receberá um código de 6 dígitos no seu email. O código expira
-            em 10 minutos.
+            Você receberá um código de verificação no seu email. O código expira
+            em alguns minutos. Verifique sua caixa de entrada e pasta de spam.
           </AlertDescription>
         </Alert>
 
@@ -293,15 +295,14 @@ export function PasswordlessLoginForm({
         <Input
           id="code"
           type="text"
-          placeholder="000000"
+          placeholder="Digite o código recebido"
           value={code}
-          onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+          onChange={e => setCode(e.target.value)}
           disabled={isLoading}
           className={cn(
-            'h-11 text-center text-2xl tracking-widest font-mono',
+            'h-11 text-center text-lg tracking-wider font-mono',
             'dark:bg-black/50 dark:border-cyan-400/30 dark:focus:border-cyan-400'
           )}
-          maxLength={6}
           autoComplete="one-time-code"
           autoFocus
         />
@@ -328,7 +329,7 @@ export function PasswordlessLoginForm({
 
       <Button
         type="submit"
-        disabled={isLoading || code.length !== 6}
+        disabled={isLoading || code.trim().length < 4}
         className={cn(
           'w-full h-11 text-base gap-2',
           'dark:bg-cyan-600 dark:hover:bg-cyan-700'
@@ -368,4 +369,3 @@ export function PasswordlessLoginForm({
     </form>
   );
 }
-

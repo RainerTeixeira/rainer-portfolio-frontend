@@ -320,7 +320,7 @@ export class AuthService {
       process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN ||
       (typeof window !== 'undefined'
         ? `${window.location.origin}/dashboard/login/callback`
-        : 'http://localhost:3000/dashboard/login/callback');
+        : `${window.location.origin}/dashboard/login/callback`);
 
     if (!domain || !clientId) {
       throw new Error(
@@ -386,7 +386,7 @@ export class AuthService {
     const redirectUri =
       process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN ||
       (typeof window !== 'undefined'
-        ? `${window.location.origin}/auth/callback`
+        ? `${window.location.origin}/dashboard/login/callback`
         : undefined);
 
     console.log(
@@ -1039,7 +1039,7 @@ export class AuthService {
 
     const backendUrl =
       process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-    const redirectUri = `${window.location.origin}/auth/callback`;
+    const redirectUri = `${window.location.origin}/dashboard/login/callback`;
     const oauthUrl = `${backendUrl}/auth/oauth/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
 
     window.location.href = oauthUrl;
@@ -1061,7 +1061,7 @@ export class AuthService {
 
     const backendUrl =
       process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-    const redirectUri = `${window.location.origin}/auth/callback`;
+    const redirectUri = `${window.location.origin}/dashboard/login/callback`;
     const oauthUrl = `${backendUrl}/auth/oauth/github?redirect_uri=${encodeURIComponent(redirectUri)}`;
 
     window.location.href = oauthUrl;

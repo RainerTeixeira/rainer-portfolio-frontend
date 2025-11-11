@@ -28,9 +28,9 @@
 
 'use client';
 
-import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -39,7 +39,7 @@ import { toast } from 'sonner';
 export default function OAuthCallbackPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const authContext = useAuthContext();
+  const { loginWithOAuthCode, isAuthenticated } = useAuth();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>(
     'loading'
   );
@@ -48,97 +48,37 @@ export default function OAuthCallbackPage() {
   // Prevenir chamadas duplicadas (React StrictMode executa useEffect 2x em dev)
   const hasProcessed = useRef(false);
 
-  // Debug: Log do contexto para diagnóstico
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[OAuth Callback] authContext disponível:', {
-        hasContext: !!authContext,
-        contextKeys: authContext ? Object.keys(authContext) : [],
-        hasLoginWithOAuthCode:
-          typeof authContext?.loginWithOAuthCode === 'function',
-        loginWithOAuthCodeType: typeof authContext?.loginWithOAuthCode,
-      });
+    // Prevenir execução duplicada
+    if (hasProcessed.current) {
+      console.log(
+        '[OAuth Callback] Já processado, ignorando chamada duplicada'
+      );
+      return;
     }
-  }, [authContext]);
 
-  useEffect(() => {
+    const code = searchParams.get('code');
+    const errorParam = searchParams.get('error');
+
+    // Só processar se tiver código ou erro na URL
+    if (!code && !errorParam) {
+      console.log('[OAuth Callback] Sem código ou erro na URL, aguardando...');
+      return;
+    }
+
     async function handleCallback() {
-      // Prevenir execução duplicada
-      if (hasProcessed.current) {
-        console.log(
-          '[OAuth Callback] Já processado, ignorando chamada duplicada'
-        );
-        return;
-      }
-
       hasProcessed.current = true;
       console.log('[OAuth Callback] Processando callback pela primeira vez');
 
       try {
-        // Verificar se authContext está disponível
-        if (!authContext) {
-          console.error('[OAuth Callback] authContext não está disponível');
-          setError(
-            'Erro de configuração: contexto de autenticação não disponível'
-          );
-          setStatus('error');
-          toast.error(
-            'Erro de configuração: contexto de autenticação não disponível'
-          );
-          return;
-        }
-
-        // Verificar se loginWithOAuthCode está disponível e é uma função
-        const loginFn = authContext.loginWithOAuthCode;
-        if (!loginFn || typeof loginFn !== 'function') {
-          console.error(
-            '[OAuth Callback] loginWithOAuthCode não está disponível ou não é uma função:',
-            {
-              hasLoginFn: !!loginFn,
-              type: typeof loginFn,
-              authContextKeys: Object.keys(authContext),
-              authContext: authContext,
-            }
-          );
-          setError('Erro de configuração: loginWithOAuthCode não disponível');
-          setStatus('error');
-          toast.error(
-            'Erro de configuração: loginWithOAuthCode não disponível'
-          );
-          return;
-        }
-
-        const code = searchParams.get('code');
         const state = searchParams.get('state') || undefined;
+        const errorDescription = searchParams.get('error_description');
 
         console.log('[OAuth Callback] Dados recebidos:', {
           code: code ? `${code.substring(0, 10)}...` : 'null',
           state: state ? 'presente' : 'ausente',
+          error: errorParam || 'nenhum',
         });
-
-        // Extrair provider do state (se presente)
-        // IMPORTANTE: Sempre tentar detectar o provider para garantir que usamos o backend
-        let provider: 'google' | 'github' | undefined;
-        if (state) {
-          try {
-            const parsed = JSON.parse(
-              Buffer.from(state, 'base64').toString('utf-8')
-            ) as { p?: string };
-            if (parsed?.p === 'google' || parsed?.p === 'github') {
-              provider = parsed.p;
-            }
-          } catch (e) {
-            console.warn('[OAuth Callback] Erro ao parsear state:', e);
-            // Se não conseguir parsear, tenta detectar pela URL ou usa 'google' como padrão
-            provider = 'google'; // Fallback seguro
-          }
-        } else {
-          // Se não houver state, usar 'google' como padrão
-          // Isso garante que sempre usamos o backend
-          provider = 'google';
-        }
-        const errorParam = searchParams.get('error');
-        const errorDescription = searchParams.get('error_description');
 
         // Se houver erro na resposta do OAuth
         if (errorParam) {
@@ -159,12 +99,51 @@ export default function OAuthCallbackPage() {
           return;
         }
 
-        // Trocar código por tokens
+        // Extrair provider do state (se presente)
+        let provider: 'google' | 'github' | undefined;
+        if (state) {
+          try {
+            // Decodificar base64url no browser
+            const base64urlDecode = (str: string): string => {
+              // Converter base64url para base64
+              let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+              // Adicionar padding se necessário
+              while (base64.length % 4) {
+                base64 += '=';
+              }
+              // Decodificar base64
+              const decoded = atob(base64);
+              // Converter para string UTF-8
+              return decodeURIComponent(
+                decoded
+                  .split('')
+                  .map(
+                    c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                  )
+                  .join('')
+              );
+            };
+
+            const decoded = JSON.parse(base64urlDecode(state)) as {
+              p?: string;
+            };
+            if (decoded?.p === 'google' || decoded?.p === 'github') {
+              provider = decoded.p;
+            }
+          } catch (e) {
+            console.warn('[OAuth Callback] Erro ao parsear state:', e);
+            // Tentar detectar provider pela URL ou usar padrão
+            // Se não conseguir detectar, o backend tentará detectar
+            provider = undefined;
+          }
+        }
+
+        // Trocar código por tokens via backend
         console.log('[OAuth Callback] Chamando loginWithOAuthCode...', {
-          provider: provider || 'undefined',
+          provider: provider || 'undefined (será detectado pelo backend)',
         });
 
-        const success = await loginFn(code, provider, state);
+        const success = await loginWithOAuthCode(code, provider, state);
 
         console.log(
           '[OAuth Callback] Resultado:',
@@ -199,7 +178,14 @@ export default function OAuthCallbackPage() {
 
     handleCallback();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Array vazio: executa apenas uma vez na montagem
+  }, [searchParams, loginWithOAuthCode, router]); // Dependências necessárias, mas protegido por hasProcessed
+
+  // Se já estiver autenticado, redirecionar
+  useEffect(() => {
+    if (isAuthenticated && status === 'loading') {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, status, router]);
 
   if (status === 'loading') {
     return (

@@ -30,7 +30,6 @@
 'use client';
 
 import { PasswordlessLoginForm } from '@/components/dashboard/login/forms/passwordless-login-form';
-import { useAuth } from '@/components/providers/auth-provider';
 import { BackToTop } from '@/components/ui';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -45,6 +44,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SITE_CONFIG } from '@/constants';
+import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { GRADIENTS, GRADIENT_DIRECTIONS } from '@rainer/design-tokens';
 import { motion } from 'framer-motion';
@@ -89,7 +89,7 @@ export default function LoginPage() {
   const {
     login,
     isAuthenticated,
-    isLoading: authLoading,
+    loading: authLoading,
     initiatePasswordless,
     verifyPasswordless,
     resetPasswordless,
