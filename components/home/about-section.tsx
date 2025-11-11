@@ -327,25 +327,25 @@ export const AboutSection = memo(function AboutSection() {
                   <span className="font-bold text-foreground dark:text-cyan-200">
                     Desenvolvedor Full-Stack
                   </span>{' '}
-                  com domínio técnico comprovado através de projetos reais.
-                  Desenvolvi sistemas enterprise completos:{' '}
+                  especializado em criar aplicações web completas e
+                  profissionais. Portfólio comprovado com projetos reais:{' '}
                   <span className="font-semibold text-foreground/90 dark:text-purple-200">
-                    portfólio profissional com PWA + blog + autenticação +
-                    dashboard admin
+                    portfólio enterprise com PWA, blog, autenticação e dashboard
                   </span>{' '}
-                  (este site!), dashboard de criptomoedas com backend NestJS +
-                  PostgreSQL, planejador financeiro full-stack e mais.
+                  (este site!), dashboard de criptomoedas com backend NestJS e
+                  PostgreSQL, planejador financeiro full-stack e sistemas de
+                  controle integrados.
                 </p>
 
                 <p className="text-sm sm:text-base text-muted-foreground dark:text-gray-300 leading-relaxed">
-                  Stack completa:{' '}
+                  Domínio técnico em:{' '}
                   <span className="font-semibold text-foreground/90 dark:text-pink-200">
                     React 19, Next.js 15, TypeScript, Node.js, NestJS,
                     PostgreSQL, Prisma ORM, Docker e CI/CD
                   </span>
-                  . Arquitetura modular, código limpo, documentação completa e{' '}
+                  . Código limpo, arquitetura escalável, documentação completa e{' '}
                   <span className="font-bold text-foreground dark:text-cyan-200">
-                    resultado que impressiona
+                    resultados que agregam valor ao negócio
                   </span>
                   .
                 </p>

@@ -138,7 +138,7 @@ export default function AboutPage() {
       {/** Header da página com avatar */}
       <PageHeader
         title="Rainer Teixeira"
-        description="Desenvolvedor Full-Stack especializado em criar experiências digitais completas e profissionais. Do design ao deploy, transformo ideias em aplicações web modernas, escaláveis e de alta performance."
+        description="Desenvolvedor Full-Stack especializado em criar aplicações web completas e profissionais. Domínio técnico em React, Next.js, TypeScript, Node.js e bancos de dados. Do planejamento ao deploy, transformo ideias em soluções digitais modernas, escaláveis e de alta performance que resolvem problemas reais."
       >
         {/** Avatar com efeitos modernos e animados */}
         <div className="relative w-36 h-36 sm:w-40 sm:h-40 mx-auto group/avatar">

@@ -920,7 +920,7 @@ export function Editor({
           .ProseMirror p.is-editor-empty:first-child::before {
             content: attr(data-placeholder);
             float: left;
-            color: #9ca3af;
+            color: rgb(156, 163, 175); /* neutral-400 - placeholder text */
             pointer-events: none;
             height: 0;
           }
@@ -950,8 +950,8 @@ export function Editor({
 
           /* Código inline */
           .ProseMirror code {
-            background-color: #f3f4f6;
-            color: #e11d48;
+            background-color: rgb(243, 244, 246); /* neutral-100 */
+            color: rgb(225, 29, 72); /* rose-600 */
             padding: 0.2em 0.5em;
             border-radius: 0.375rem;
             font-size: 0.9em;
@@ -960,8 +960,8 @@ export function Editor({
           }
 
           .dark .ProseMirror code {
-            background-color: #1f2937;
-            color: #fb7185;
+            background-color: rgb(31, 41, 55); /* neutral-800 */
+            color: rgb(251, 113, 133); /* rose-400 */
           }
 
           /* Bloco de código */
@@ -971,15 +971,15 @@ export function Editor({
           }
 
           .ProseMirror pre {
-            background: #0f172a;
-            color: #e2e8f0;
+            background: rgb(15, 23, 42); /* slate-900 */
+            color: rgb(226, 232, 240); /* slate-200 */
             font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
             padding: 1.25rem;
             border-radius: 0.75rem;
             overflow-x: auto;
             line-height: 1.6;
             font-size: 0.9em;
-            border: 1px solid #1e293b;
+            border: 1px solid rgb(30, 41, 59); /* slate-800 */
             position: relative;
           }
 
@@ -990,7 +990,7 @@ export function Editor({
             right: 0.75rem;
             font-size: 0.7rem;
             text-transform: uppercase;
-            color: #64748b;
+            color: rgb(100, 116, 139); /* slate-500 */
             font-weight: 600;
             letter-spacing: 0.05em;
           }
@@ -1007,14 +1007,14 @@ export function Editor({
           /* Syntax Highlighting - GitHub Dark Theme */
           .ProseMirror pre .hljs-comment,
           .ProseMirror pre .hljs-quote {
-            color: #8b949e;
+            color: rgb(139, 148, 158); /* neutral-500 variant */
             font-style: italic;
           }
 
           .ProseMirror pre .hljs-keyword,
           .ProseMirror pre .hljs-selector-tag,
           .ProseMirror pre .hljs-subst {
-            color: #ff7b72;
+            color: rgb(255, 123, 114); /* red-400 variant */
           }
 
           .ProseMirror pre .hljs-number,
@@ -1022,59 +1022,59 @@ export function Editor({
           .ProseMirror pre .hljs-variable,
           .ProseMirror pre .hljs-template-variable,
           .ProseMirror pre .hljs-tag .hljs-attr {
-            color: #79c0ff;
+            color: rgb(121, 192, 255); /* blue-400 variant */
           }
 
           .ProseMirror pre .hljs-string,
           .ProseMirror pre .hljs-doctag {
-            color: #a5d6ff;
+            color: rgb(165, 214, 255); /* blue-300 variant */
           }
 
           .ProseMirror pre .hljs-title,
           .ProseMirror pre .hljs-section,
           .ProseMirror pre .hljs-selector-id {
-            color: #d2a8ff;
+            color: rgb(210, 168, 255); /* purple-300 variant */
             font-weight: bold;
           }
 
           .ProseMirror pre .hljs-type,
           .ProseMirror pre .hljs-class .hljs-title {
-            color: #ffa657;
+            color: rgb(255, 166, 87); /* orange-400 variant */
           }
 
           .ProseMirror pre .hljs-tag,
           .ProseMirror pre .hljs-name,
           .ProseMirror pre .hljs-attribute {
-            color: #7ee787;
+            color: rgb(126, 231, 135); /* green-400 variant */
           }
 
           .ProseMirror pre .hljs-regexp,
           .ProseMirror pre .hljs-link {
-            color: #a5d6ff;
+            color: rgb(165, 214, 255); /* blue-300 variant */
           }
 
           .ProseMirror pre .hljs-symbol,
           .ProseMirror pre .hljs-bullet {
-            color: #79c0ff;
+            color: rgb(121, 192, 255); /* blue-400 variant */
           }
 
           .ProseMirror pre .hljs-built_in,
           .ProseMirror pre .hljs-builtin-name {
-            color: #ffa657;
+            color: rgb(255, 166, 87); /* orange-400 variant */
           }
 
           .ProseMirror pre .hljs-meta {
-            color: #8b949e;
+            color: rgb(139, 148, 158); /* neutral-500 variant */
           }
 
           .ProseMirror pre .hljs-deletion {
-            background: #490202;
-            color: #ffdcd7;
+            background: rgb(73, 2, 2); /* red-950 variant */
+            color: rgb(255, 220, 215); /* red-100 variant */
           }
 
           .ProseMirror pre .hljs-addition {
-            background: #0e4b20;
-            color: #aff5b4;
+            background: rgb(14, 75, 32); /* green-950 variant */
+            color: rgb(175, 245, 180); /* green-200 variant */
           }
 
           .ProseMirror pre .hljs-emphasis {
@@ -1091,10 +1091,10 @@ export function Editor({
             top: 0.75rem;
             right: 0.75rem;
             padding: 0.5rem;
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid #334155;
+            background: rgba(30, 41, 59, 0.8); /* slate-800 with opacity */
+            border: 1px solid rgb(51, 65, 85); /* slate-700 */
             border-radius: 0.375rem;
-            color: #94a3b8;
+            color: rgb(148, 163, 184); /* slate-400 */
             cursor: pointer;
             opacity: 0;
             transition: all 0.2s;
@@ -1106,28 +1106,28 @@ export function Editor({
           }
 
           .code-copy-btn:hover {
-            background: rgba(51, 65, 85, 0.9);
-            color: #06b6d4;
-            border-color: #06b6d4;
+            background: rgba(51, 65, 85, 0.9); /* slate-700 with opacity */
+            color: rgb(6, 182, 212); /* cyan-600 - primary brand */
+            border-color: rgb(6, 182, 212); /* cyan-600 */
           }
 
           .code-copy-btn.copied {
-            color: #10b981;
-            border-color: #10b981;
+            color: rgb(16, 185, 129); /* green-600 - success */
+            border-color: rgb(16, 185, 129); /* green-600 */
           }
 
           /* Citações */
           .ProseMirror blockquote {
-            border-left: 4px solid #06b6d4;
+            border-left: 4px solid rgb(6, 182, 212); /* cyan-600 - primary brand */
             padding-left: 1.25rem;
             font-style: italic;
-            color: #64748b;
+            color: rgb(100, 116, 139); /* slate-500 */
             margin: 1.5rem 0;
           }
 
           .dark .ProseMirror blockquote {
-            color: #94a3b8;
-            border-left-color: #06b6d4;
+            color: rgb(148, 163, 184); /* slate-400 */
+            border-left-color: rgb(6, 182, 212); /* cyan-600 */
           }
         `}</style>
       </div>

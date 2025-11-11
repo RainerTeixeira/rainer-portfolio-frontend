@@ -368,7 +368,7 @@ export function ProfileForm() {
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                   <Input
                     id="username"
-                    value={user.username}
+                    value={user.nickname}
                     disabled
                     className={cn(FORM_STYLES.input, 'flex-1 bg-muted/50')}
                   />
@@ -507,7 +507,7 @@ export function ProfileForm() {
         open={showUsernameDialog}
         onOpenChange={setShowUsernameDialog}
         cognitoSub={user.cognitoSub}
-        currentUsername={user.username}
+        currentUsername={user.nickname}
       />
     </div>
   );

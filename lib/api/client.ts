@@ -20,6 +20,8 @@ export class ApiError extends Error {
    * @param {string} [method] - Método HTTP da requisição
    * @param {string} [endpoint] - Endpoint da API
    */
+  public readonly fullName = 'ApiError';
+
   constructor(
     public status: number,
     message: string,
@@ -29,7 +31,8 @@ export class ApiError extends Error {
     public endpoint?: string
   ) {
     super(message);
-    this.fullName = 'ApiError';
+    Object.setPrototypeOf(this, ApiError.prototype);
+    this.name = 'ApiError';
 
     // Mantém o stack trace para debug
     if (Error.captureStackTrace) {
@@ -410,7 +413,11 @@ class ApiClient {
       if (error instanceof ApiError) throw error;
 
       // Tratamento de timeout
-      if (error instanceof Error && error.fullName === 'AbortError') {
+      if (
+        error instanceof Error &&
+        (error.name === 'AbortError' ||
+          (error as any).fullName === 'AbortError')
+      ) {
         throw new ApiError(
           HTTP_STATUS.SERVICE_UNAVAILABLE,
           ERROR_MESSAGES.TIMEOUT_ERROR,

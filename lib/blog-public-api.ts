@@ -11,6 +11,7 @@
 
 import { postsService } from './api/services';
 import type { Post } from './api/types';
+import { PostStatus } from './api/types';
 
 /**
  * API Pública do Blog
@@ -22,7 +23,7 @@ export const blogPublicApi = {
    */
   async getPublishedPosts(): Promise<Post[]> {
     const response = await postsService.listPosts({
-      status: 'PUBLISHED',
+      status: PostStatus.PUBLISHED,
       limit: 100,
     });
     return response.posts || [];

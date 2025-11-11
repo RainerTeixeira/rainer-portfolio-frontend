@@ -22,46 +22,43 @@ export interface ExperienceItem {
  */
 export const EXPERIENCE: ReadonlyArray<ExperienceItem> = [
   {
-    period: 'Projetos Atuais',
-    role: 'Desenvolvedor Full-Stack | Portfolio Técnico Comprovado',
+    period: '2023 - Presente',
+    role: 'Desenvolvedor Full-Stack | Projetos Reais e Comprovados',
     description:
-      'Desenvolvi aplicações web completas e profissionais que demonstram domínio técnico avançado: ' +
-      '**Portfólio Enterprise** (Next.js 15 + React 19 + TypeScript) com PWA, sistema de blog com ' +
-      'editor Tiptap WYSIWYG, dashboard administrativo, autenticação completa preparada para AWS Cognito, ' +
-      'animações cyberpunk customizadas, carousel modular com 6 componentes, 100% documentado com JSDoc, ' +
-      'Lighthouse 95+, WCAG AA e LGPD compliant. **Dashboard Crypto** com backend Node.js + NestJS, ' +
-      'integração com APIs de criptomoedas, gráficos em tempo real com Recharts, autenticação JWT, ' +
-      'banco PostgreSQL com Prisma ORM e Docker containerizado. **Planejador Financeiro** full-stack ' +
-      'com frontend React e backend robusto. **Sistema de Controle** integrado com Supabase. Todos com ' +
-      'Git flow profissional, deploy automatizado e código limpo seguindo princípios SOLID.',
+      '**Portfólio Enterprise** (Next.js 15 + React 19 + TypeScript): PWA completo com sistema de ' +
+      'blog, editor WYSIWYG Tiptap, dashboard administrativo, autenticação AWS Cognito, animações ' +
+      'customizadas, design system com tokens, 100% documentado (JSDoc), Lighthouse 95+, WCAG AA e ' +
+      'LGPD compliant. **Dashboard Crypto**: Backend NestJS + PostgreSQL/Prisma, integração com APIs ' +
+      'de criptomoedas, gráficos em tempo real (Recharts), autenticação JWT, Docker containerizado. ' +
+      '**Planejador Financeiro**: Full-stack com gestão de transações, categorias, relatórios e ' +
+      'gráficos. **Sistema de Controle**: Integração Supabase, CRUD completo, autenticação e ' +
+      'permissões. Todos os projetos seguem Git flow profissional, deploy automatizado (CI/CD), ' +
+      'código limpo (SOLID), testes automatizados e documentação completa.',
   },
   {
-    period: 'Formação Técnica',
-    role: 'Stack Moderna & Arquitetura Profissional',
+    period: '2022 - 2023',
+    role: 'Formação Técnica | Stack Moderna e Arquitetura Profissional',
     description:
-      'Domínio técnico completo da stack moderna de desenvolvimento web: Frontend avançado ' +
-      '(React 19 com Hooks customizados, Context API, state management com Zustand, TypeScript types ' +
-      'e interfaces complexas, Tailwind CSS com design system, Framer Motion para animações fluidas, ' +
-      'shadcn/ui e Radix UI para componentes acessíveis), Backend profissional (Node.js 20+, NestJS ' +
-      'framework enterprise, Express.js, APIs RESTful bem estruturadas, autenticação JWT/OAuth2, ' +
-      'validação com Zod), Banco de Dados (PostgreSQL com Prisma ORM, queries otimizadas, modelagem ' +
-      'de dados, migrations), DevOps (Git/GitHub com feature branches e pull requests, deploy CI/CD ' +
-      'automatizado, Docker containerização, Vercel deployments) e Qualidade (ESLint + Prettier, ' +
-      'TypeScript strict mode, documentação JSDoc completa, SonarQube code quality). Arquitetura ' +
-      'componentizada, reutilizável e escalável aplicada em todos os projetos.',
+      '**Frontend**: React 19 (Hooks customizados, Context API, Zustand), TypeScript (types/interfaces ' +
+      'complexas), Tailwind CSS + Design System, Framer Motion, shadcn/ui, Radix UI, Next.js 15 (App ' +
+      'Router, Server Components, API Routes). **Backend**: Node.js 20+, NestJS (módulos, controllers, ' +
+      'services, guards), Express.js, APIs RESTful, autenticação JWT/OAuth2, validação Zod, tratamento ' +
+      'de erros. **Banco de Dados**: PostgreSQL, MongoDB, Prisma ORM, queries otimizadas, modelagem ' +
+      'relacional, migrations. **DevOps**: Git/GitHub (feature branches, PRs, code review), Docker, ' +
+      'CI/CD, Vercel, AWS. **Qualidade**: ESLint, Prettier, TypeScript strict, testes (Jest, Vitest), ' +
+      'documentação JSDoc, SonarQube. Arquitetura componentizada, reutilizável e escalável.',
   },
   {
-    period: 'Base Técnica',
-    role: 'Fundamentos Sólidos & Aprendizado Acelerado',
+    period: '2021 - 2022',
+    role: 'Fundamentos Sólidos | Base Técnica e Aprendizado Contínuo',
     description:
-      'Base técnica sólida conquistada através de aprendizado intensivo e prática constante: Lógica ' +
-      'de programação avançada, algoritmos e estruturas de dados, JavaScript ES6+ moderno ' +
-      '(async/await, promises, destructuring, spread operators, arrow functions), HTML5 semântico, ' +
-      'CSS3 avançado (Flexbox, Grid, animations, transitions), responsividade mobile-first e design ' +
-      'acessível. Aprendi através de documentação oficial (React Docs, Next.js Docs, TypeScript ' +
-      'Handbook), cursos técnicos estruturados, análise de código open source e muita prática ' +
-      'construindo projetos reais. Desenvolvi mentalidade de resolução de problemas, debugging ' +
-      'sistemático, leitura de stack traces, Git para versionamento profissional e capacidade de ' +
-      'aprender tecnologias novas rapidamente através de documentação técnica.',
+      '**Fundamentos**: Lógica de programação, algoritmos, estruturas de dados, paradigmas (OOP, ' +
+      'funcional). **JavaScript ES6+**: async/await, promises, destructuring, spread/rest operators, ' +
+      'arrow functions, modules, classes. **Web**: HTML5 semântico, CSS3 (Flexbox, Grid, animations, ' +
+      'transitions), responsividade mobile-first, acessibilidade (WCAG). **Aprendizado**: Documentação ' +
+      'oficial (React Docs, Next.js Docs, TypeScript Handbook, MDN), cursos estruturados, análise de ' +
+      'código open source, prática constante. **Habilidades**: Resolução de problemas, debugging ' +
+      'sistemático, leitura de stack traces, Git profissional, capacidade de aprender novas tecnologias ' +
+      'rapidamente através de documentação técnica.',
   },
 ] as const;
