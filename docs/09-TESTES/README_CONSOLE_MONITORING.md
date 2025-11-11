@@ -227,6 +227,64 @@ Se um teste falhar devido a erros do console:
 3. Verifique o trace do Playwright: `npx playwright show-trace`
 4. Veja o vídeo (se o teste falhou): `test-results/`
 
+## 🧪 Teste de Verificação de Rotas Principais
+
+Foi criado um teste E2E específico para verificar erros no console nas principais rotas do site:
+
+**Arquivo**: `tests/e2e/main-routes-console-check.spec.ts`
+
+### Rotas Testadas
+
+- `/` - Home
+- `/sobre` - Sobre
+- `/blog` - Blog
+- `/contato` - Contato
+- `/termos` - Termos
+- `/privacidade` - Privacidade
+- `/cookies` - Cookies
+
+### Como Executar
+
+1. **Inicie o servidor** (em um terminal separado):
+   ```bash
+   npm run dev
+   ```
+
+2. **Execute o teste**:
+   ```bash
+   npx playwright test main-routes-console-check.spec.ts --project=chrome
+   ```
+
+### Recursos do Teste
+
+- ✅ Verifica se o servidor está rodando antes de iniciar
+- ✅ Navega por cada rota principal
+- ✅ Captura todos os logs do console automaticamente
+- ✅ Filtra erros críticos (ignora erros de rede esperados)
+- ✅ Gera relatório detalhado com localização dos erros
+- ✅ Reporta warnings sem falhar o teste
+- ✅ Falha apenas se houver erros críticos no console
+
+### Exemplo de Saída
+
+```
+🔍 Testando rota: Home (/)
+✅ Home: Sem erros ou warnings
+
+🔍 Testando rota: Sobre (/sobre)
+⚠️  Sobre: 1 warning(s)
+
+================================================================================
+📊 RELATÓRIO FINAL - VERIFICAÇÃO DE CONSOLE
+================================================================================
+
+Total de rotas testadas: 7
+Rotas com erros: 0
+Rotas com warnings: 1
+Total de erros: 0
+Total de warnings: 1
+```
+
 ## 📚 Referências
 
 - [Playwright Console API](https://playwright.dev/docs/api/class-console)

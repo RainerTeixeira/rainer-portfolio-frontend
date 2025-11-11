@@ -4,8 +4,8 @@
  * Testa e mostra a UI funcionando com screenshots
  */
 
-import { expect, test } from '@playwright/test';
 import path from 'path';
+import { expect, test } from './fixtures';
 
 test.describe('Preview de Imagem - Teste Visual', () => {
   test('Deve mostrar preview apenas no Preview em Tempo Real', async ({
@@ -21,7 +21,7 @@ test.describe('Preview de Imagem - Teste Visual', () => {
     console.log('🌐 Navegando para o dashboard...');
 
     // Acessar dashboard
-    await page.goto('http://localhost:3000/dashboard', {
+    await page.goto('/dashboard', {
       waitUntil: 'networkidle',
     });
 
@@ -51,7 +51,7 @@ test.describe('Preview de Imagem - Teste Visual', () => {
       console.warn(
         '⚠️ Botão "Novo Post" não encontrado, tentando URL direta...'
       );
-      await page.goto('http://localhost:3000/dashboard?mode=new');
+      await page.goto('/dashboard?mode=new');
       await page.waitForTimeout(2000);
     }
 

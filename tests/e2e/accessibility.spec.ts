@@ -1,5 +1,5 @@
-import { expect, test } from '@playwright/test';
 import { checkA11y, injectAxe } from 'axe-playwright';
+import { expect, test } from './fixtures';
 
 /**
  * Testes de Acessibilidade (WCAG 2.1 AA)

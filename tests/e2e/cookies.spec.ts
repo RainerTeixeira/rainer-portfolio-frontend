@@ -14,9 +14,7 @@
  * @fileoverview Testes E2E do sistema de cookies em produção
  */
 
-import { expect, test } from '@playwright/test';
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+import { expect, test } from './fixtures';
 
 test.describe('Sistema de Cookies - Testes E2E Produção', () => {
   // Contexto isolado para cada teste (novo navegador)
@@ -32,7 +30,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('deve exibir banner de cookies na primeira visita', async ({
       page,
     }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
 
       // Aguarda banner aparecer (delay de 500ms + margem)
@@ -57,7 +55,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     });
 
     test('não deve exibir banner após aceitar cookies', async ({ page }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -85,7 +83,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('deve aceitar todos os cookies e salvar no localStorage', async ({
       page,
     }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -119,7 +117,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('deve rejeitar cookies opcionais e salvar apenas essenciais', async ({
       page,
     }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -144,7 +142,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     });
 
     test('deve abrir personalização de cookies', async ({ page }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -176,7 +174,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     });
 
     test('deve fechar banner ao clicar no botão X', async ({ page }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -201,7 +199,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('deve permitir personalizar preferências de cookies', async ({
       page,
     }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -251,7 +249,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     });
 
     test('deve exibir lista de cookies por categoria', async ({ page }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -273,7 +271,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('deve acessar página de configurações de cookies', async ({
       page,
     }) => {
-      await page.goto(`${BASE_URL}/cookies/settings`);
+      await page.goto('/cookies/settings');
       await page.waitForLoadState('networkidle');
 
       // Verifica se a página carregou
@@ -300,7 +298,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
       page,
     }) => {
       // Primeiro aceita todos os cookies
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -313,7 +311,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
       }
 
       // Vai para página de configurações
-      await page.goto(`${BASE_URL}/cookies/settings`);
+      await page.goto('/cookies/settings');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(1000);
 
@@ -347,7 +345,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('deve ter links para políticas de privacidade e termos', async ({
       page,
     }) => {
-      await page.goto(`${BASE_URL}/cookies/settings`);
+      await page.goto('/cookies/settings');
       await page.waitForLoadState('networkidle');
 
       // Verifica links para políticas
@@ -362,7 +360,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
 
   test.describe('Persistência de Cookies', () => {
     test('deve persistir preferências entre navegações', async ({ page }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -376,7 +374,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
       }
 
       // Navega para outra página
-      await page.goto(`${BASE_URL}/sobre`);
+      await page.goto('/sobre');
       await page.waitForLoadState('networkidle');
 
       // Verifica que consentimento ainda está salvo
@@ -386,7 +384,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
       expect(consent).not.toBeNull();
 
       // Navega para outra página
-      await page.goto(`${BASE_URL}/contato`);
+      await page.goto('/contato');
       await page.waitForLoadState('networkidle');
 
       // Verifica que consentimento ainda está salvo
@@ -398,7 +396,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     });
 
     test('deve manter preferências após reload da página', async ({ page }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -431,7 +429,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
 
   test.describe('Links no Footer', () => {
     test('deve ter link para gerenciar cookies no footer', async ({ page }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
 
       // Rola para o footer
@@ -457,7 +455,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('deve ter link para política de cookies no footer', async ({
       page,
     }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
 
       // Rola para o footer
@@ -485,7 +483,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
 
   test.describe('Páginas Legais', () => {
     test('deve carregar página de política de cookies', async ({ page }) => {
-      await page.goto(`${BASE_URL}/cookies`);
+      await page.goto('/cookies');
       await page.waitForLoadState('networkidle');
 
       // Verifica se a página carregou
@@ -508,7 +506,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('deve carregar página de política de privacidade', async ({
       page,
     }) => {
-      await page.goto(`${BASE_URL}/privacidade`);
+      await page.goto('/privacidade');
       await page.waitForLoadState('networkidle');
 
       // Verifica se a página carregou
@@ -526,7 +524,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     });
 
     test('deve carregar página de termos de uso', async ({ page }) => {
-      await page.goto(`${BASE_URL}/termos`);
+      await page.goto('/termos');
       await page.waitForLoadState('networkidle');
 
       // Verifica se a página carregou
@@ -548,7 +546,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('deve carregar scripts de analytics quando permitido', async ({
       page,
     }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -588,7 +586,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('não deve carregar scripts de analytics quando rejeitado', async ({
       page,
     }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -615,7 +613,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
       page,
     }) => {
       // 1. Primeira visita
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -658,7 +656,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
       expect(consent).not.toBeNull();
 
       // 7. Navega para outra página
-      await page.goto(`${BASE_URL}/sobre`);
+      await page.goto('/sobre');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(500);
 
@@ -679,7 +677,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
       page,
     }) => {
       // 1. Aceita todos os cookies inicialmente
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -692,7 +690,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
       }
 
       // 2. Vai para página de configurações
-      await page.goto(`${BASE_URL}/cookies/settings`);
+      await page.goto('/cookies/settings');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(1000);
 
@@ -729,7 +727,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
       // Simula dispositivo mobile
       await page.setViewportSize({ width: 375, height: 667 });
 
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -749,7 +747,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
       // Simula dispositivo tablet
       await page.setViewportSize({ width: 768, height: 1024 });
 
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -761,7 +759,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     });
 
     test('deve ter elementos acessíveis (ARIA labels)', async ({ page }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(600);
 
@@ -780,7 +778,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     test('banner deve aparecer rapidamente', async ({ page }) => {
       const startTime = Date.now();
 
-      await page.goto(BASE_URL);
+      await page.goto('/');
       await page.waitForLoadState('networkidle');
 
       // Aguarda banner aparecer
@@ -796,7 +794,7 @@ test.describe('Sistema de Cookies - Testes E2E Produção', () => {
     });
 
     test('não deve bloquear carregamento da página', async ({ page }) => {
-      await page.goto(BASE_URL);
+      await page.goto('/');
 
       // Verifica que a página carrega mesmo sem interação com o banner
       await page.waitForLoadState('networkidle');

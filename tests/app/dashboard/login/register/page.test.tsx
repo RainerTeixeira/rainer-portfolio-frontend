@@ -79,4 +79,3 @@ describe('Register Page', () => {
     expect(screen.getByTestId('back-to-top')).toBeInTheDocument();
   });
 });
-

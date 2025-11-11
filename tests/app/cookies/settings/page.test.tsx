@@ -18,7 +18,9 @@ jest.mock('@/components/ui', () => ({
 }));
 
 jest.mock('@/components/cookies/cookie-settings', () => ({
-  CookieSettings: () => <div data-testid="cookie-settings">Cookie Settings</div>,
+  CookieSettings: () => (
+    <div data-testid="cookie-settings">Cookie Settings</div>
+  ),
 }));
 
 describe('Cookie Settings Page', () => {
@@ -48,4 +50,3 @@ describe('Cookie Settings Page', () => {
     expect(screen.getByTestId('back-to-top')).toBeInTheDocument();
   });
 });
-

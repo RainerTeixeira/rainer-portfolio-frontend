@@ -74,9 +74,7 @@ describe('Privacy Policy Page', () => {
 
   it('deve exibir informações sobre compartilhamento', () => {
     render(<PrivacyPolicyPage />);
-    expect(
-      screen.getByText(/Compartilhamento de Dados/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Compartilhamento de Dados/i)).toBeInTheDocument();
   });
 
   it('deve exibir informações sobre segurança', () => {
@@ -107,4 +105,3 @@ describe('Privacy Policy Page', () => {
     expect(screen.getByText(/Última atualização:/i)).toBeInTheDocument();
   });
 });
-

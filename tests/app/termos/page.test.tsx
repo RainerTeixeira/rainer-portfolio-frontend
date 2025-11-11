@@ -67,9 +67,7 @@ describe('Terms of Use Page', () => {
 
   it('deve exibir informações sobre propriedade intelectual', () => {
     render(<TermsOfUsePage />);
-    expect(
-      screen.getByText(/Propriedade Intelectual/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Propriedade Intelectual/i)).toBeInTheDocument();
   });
 
   it('deve exibir informações sobre limitação de responsabilidade', () => {
@@ -81,9 +79,7 @@ describe('Terms of Use Page', () => {
 
   it('deve exibir informações sobre modificações', () => {
     render(<TermsOfUsePage />);
-    expect(
-      screen.getByText(/Modificações dos Termos/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Modificações dos Termos/i)).toBeInTheDocument();
   });
 
   it('deve exibir informações sobre rescisão', () => {
@@ -109,4 +105,3 @@ describe('Terms of Use Page', () => {
     expect(screen.getByText(/Última atualização:/i)).toBeInTheDocument();
   });
 });
-

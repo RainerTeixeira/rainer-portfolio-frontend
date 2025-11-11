@@ -22,7 +22,9 @@ jest.mock('next/navigation', () => ({
 
 // Mock do authService
 const mockConfirmEmail = jest.fn().mockResolvedValue({ success: true });
-const mockResendConfirmationCode = jest.fn().mockResolvedValue({ success: true });
+const mockResendConfirmationCode = jest
+  .fn()
+  .mockResolvedValue({ success: true });
 
 jest.mock('@/lib/api/services/auth.service', () => ({
   authService: {
@@ -60,7 +62,9 @@ describe('Confirm Email Page', () => {
 
   it('deve exibir campo para código de verificação', () => {
     render(<ConfirmEmailPage />);
-    expect(screen.getByPlaceholderText(/Código de 6 dígitos/i)).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(/Código de 6 dígitos/i)
+    ).toBeInTheDocument();
   });
 
   it('deve exibir botão para confirmar email', () => {
@@ -191,4 +195,3 @@ describe('Confirm Email Page', () => {
     });
   });
 });
-

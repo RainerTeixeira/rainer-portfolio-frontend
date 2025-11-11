@@ -66,6 +66,20 @@ Esta pasta contém toda a documentação relacionada a testes do projeto, inclui
     - Resumo completo de funcionalidades
     - Status de implementação
 
+### 🧪 Testes E2E
+
+12. **Testes E2E com Playwright**
+    - Testes end-to-end automatizados
+    - Monitoramento automático de console (F12)
+    - Verificação de erros nas rotas principais
+    - Veja `README_CONSOLE_MONITORING.md` para detalhes do sistema de monitoramento
+
+13. **DISCREPANCIAS_TESTES.md**
+    - Análise completa de discrepâncias nos testes E2E
+    - Padrões inconsistentes encontrados
+    - Recomendações de padronização
+    - Plano de ação para migração
+
 ---
 
 ## 🎯 Ordem de Leitura Recomendada
@@ -104,12 +118,14 @@ Para testes gerais:
 
 | Métrica | Valor |
 |---------|-------|
-| **Total de documentos** | 21 arquivos |
+| **Total de documentos** | 23 arquivos |
 | **Checklists** | 7 documentos |
 | **Relatórios** | 1 documento |
 | **Guias de funcionalidades** | 1 documento |
 | **Guias OAuth** | 2 documentos |
-| **Outros** | 10 documentos |
+| **Testes E2E** | 2 documentos |
+| **Análises** | 1 documento |
+| **Outros** | 9 documentos |
 
 ## ✅ Status dos Testes
 
@@ -124,12 +140,47 @@ Todas as 19 páginas do app têm seus respectivos testes em `tests/app/`:
 - ✅ Páginas de autenticação (login, register, confirm-email, forgot-password, reset-password, callback, verify-email-admin)
 - ✅ Rotas API (analytics, stats)
 
+### Testes E2E
+
+**Testes End-to-End com Playwright:**
+- ✅ Sistema de monitoramento automático de console (F12)
+- ✅ Teste de verificação de erros nas rotas principais (`main-routes-console-check.spec.ts`)
+- ✅ Captura automática de erros JavaScript, warnings e erros de rede
+- ✅ Relatórios detalhados com localização dos erros
+
+**Rotas testadas E2E:**
+- `/` - Home
+- `/sobre` - Sobre
+- `/blog` - Blog
+- `/contato` - Contato
+- `/termos` - Termos
+- `/privacidade` - Privacidade
+- `/cookies` - Cookies
+
 ### Estrutura Espelhada
 
 A estrutura `tests/app/` está **100% espelhada** de `app/`:
-- Cada `page.tsx` tem seu `page.test.tsx`
-- Cada rota API tem seu `route.test.ts`
-- Total de 21 arquivos de teste para páginas
+- Cada `page.tsx` tem seu `page.test.tsx` correspondente
+- `layout.tsx` tem seu `layout.test.tsx` correspondente
+- `not-found.tsx` tem seu `not-found.test.tsx` correspondente
+- Cada rota API tem seu `route.test.ts` correspondente
+- **Total: 21 arquivos de teste** (19 páginas + 1 layout + 1 not-found)
+
+### Detalhamento dos Testes
+
+**Páginas (19 testes):**
+- ✅ Página inicial, blog, contato, sobre
+- ✅ Cookies, privacidade, termos
+- ✅ Dashboard, settings
+- ✅ Login e todas as páginas de autenticação (8 páginas)
+
+**Arquivos da Raiz (2 testes):**
+- ✅ Layout principal
+- ✅ Página 404
+
+**Rotas API (2 testes):**
+- ✅ Analytics
+- ✅ Stats
 
 ---
 
