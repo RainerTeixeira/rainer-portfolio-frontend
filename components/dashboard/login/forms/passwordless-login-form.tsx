@@ -30,11 +30,16 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
+import type {
+  PasswordlessInitResponse,
+  PasswordlessVerifyResponse,
+} from '@/lib/api/services/auth.service';
+
 interface PasswordlessLoginFormProps {
   onSuccess?: () => void;
   onBack?: () => void;
-  initiatePasswordless: (email: string) => Promise<any>;
-  verifyPasswordless: (code: string) => Promise<any>;
+  initiatePasswordless: (email: string) => Promise<PasswordlessInitResponse>;
+  verifyPasswordless: (code: string) => Promise<PasswordlessVerifyResponse>;
   resetPasswordless: () => void;
   passwordlessStep: 'email' | 'code' | null;
   passwordlessEmail: string;

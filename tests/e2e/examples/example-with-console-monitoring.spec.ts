@@ -9,10 +9,8 @@
  */
 
 import { expect, test } from '../fixtures';
-import {
-  checkConsoleErrors,
-  createConsoleHelper,
-} from '../helpers/console-helper';
+import { createConsoleHelper } from '../helpers/console-helper';
+import { checkConsoleErrors } from '../helpers/setup-console-monitoring';
 
 test.describe('Exemplo com Monitoramento de Console', () => {
   test('deve capturar e reportar erros do console automaticamente', async ({

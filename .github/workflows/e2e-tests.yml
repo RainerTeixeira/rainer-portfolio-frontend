@@ -40,7 +40,7 @@ jobs:
           PORT: 3000
 
       - name: Run E2E tests
-        run: npx playwright test --project=chrome --reporter=html,json
+        run: npx playwright test --project=chrome --reporter=html,json --workers=2
         env:
           CI: true
 

@@ -11,10 +11,11 @@
 
 import type {
   Category,
-  CreatePostDTO,
+  CreatePostData,
   Post,
+  PostFilters,
   PostsListResponse,
-  UpdatePostDTO,
+  UpdatePostData,
   User,
 } from '@/lib/api/types';
 
@@ -112,20 +113,16 @@ async function fetchAPI<T>(
 /**
  * Lista posts com paginação e filtros
  */
-export async function getPosts(params?: {
-  page?: number;
-  pageSize?: number;
-  status?: string;
-  categoryId?: string;
-  search?: string;
-  featured?: boolean;
-}): Promise<PostsListResponse> {
+export async function getPosts(
+  params?: PostFilters
+): Promise<PostsListResponse> {
   const query = new URLSearchParams();
 
   if (params?.page) query.set('page', params.page.toString());
-  if (params?.pageSize) query.set('pageSize', params.pageSize.toString());
+  if (params?.limit) query.set('limit', params.limit.toString());
   if (params?.status) query.set('status', params.status);
-  if (params?.categoryId) query.set('categoryId', params.categoryId);
+  if (params?.subcategoryId) query.set('subcategoryId', params.subcategoryId);
+  if (params?.authorId) query.set('authorId', params.authorId);
   if (params?.search) query.set('search', params.search);
   if (params?.featured !== undefined)
     query.set('featured', params.featured.toString());
@@ -146,7 +143,7 @@ export async function getPostBySlug(slug: string): Promise<Post> {
 /**
  * Cria novo post
  */
-export async function createPost(data: CreatePostDTO): Promise<Post> {
+export async function createPost(data: CreatePostData): Promise<Post> {
   return fetchAPI<Post>('/posts', {
     method: 'POST',
     body: JSON.stringify(data),
@@ -158,7 +155,7 @@ export async function createPost(data: CreatePostDTO): Promise<Post> {
  */
 export async function updatePost(
   slug: string,
-  data: UpdatePostDTO
+  data: UpdatePostData
 ): Promise<Post> {
   return fetchAPI<Post>(`/posts/${slug}`, {
     method: 'PATCH',

@@ -2,7 +2,7 @@
  * Testes para lib/search.ts
  */
 
-import { searchContent } from '@/lib/search';
+import { searchContent } from '@/lib/utils/search';
 
 describe('lib/search', () => {
   describe('searchContent', () => {

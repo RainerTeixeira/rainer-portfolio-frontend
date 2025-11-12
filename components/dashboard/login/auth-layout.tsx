@@ -96,7 +96,7 @@ export function AuthLayout({
       <div
         className={cn(
           'absolute inset-0 -z-10',
-          'bg-gradient-to-br',
+          'bg-linear-to-br',
           'from-cyan-50/30 via-blue-50/20 to-purple-50/30',
           'dark:from-cyan-950/20 dark:via-blue-950/10 dark:to-purple-950/20',
           'transition-opacity duration-1000'
@@ -225,7 +225,7 @@ export function AuthLayout({
                   <h1
                     className={cn(
                       'text-xl sm:text-2xl font-semibold text-foreground mb-1 sm:mb-2',
-                      'bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text'
+                      'bg-linear-to-r from-foreground to-foreground/70 bg-clip-text'
                     )}
                   >
                     {title}

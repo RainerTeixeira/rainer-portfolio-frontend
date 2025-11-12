@@ -19,6 +19,10 @@ Esta pasta contém **referências técnicas completas** de APIs, componentes e f
 - Validation Schemas API (7 validators)
 - Environment API (type-safe)
 - Utilities API (cn, scroll, etc)
+- **String Utils API** (textToSlug, formatDate, translateStatus)
+- **Content Utils API** (extractTextFromTiptap, calculateReadingTime)
+- **API Helpers** (preparePostForCreate, validatePostData)
+- **SEO Utils API** (generateMetadata, generateSitemap)
 - Hooks API (useAnalytics, useMobile, etc)
 - Component Utils (Button, Card, Loading)
 - Error Boundary API
@@ -30,7 +34,27 @@ Esta pasta contém **referências técnicas completas** de APIs, componentes e f
 
 ---
 
-### 2. 🧩 [COMPONENTS-REFERENCE.md](COMPONENTS-REFERENCE.md)
+### 2. 📚 [REFERENCIA_UTILITARIOS.md](REFERENCIA_UTILITARIOS.md)
+
+**Referência completa de utilitários**
+
+**Conteúdo**:
+
+- **String Utils** - Manipulação de strings e formatação de datas
+- **Content Utils** - Utilitários para conteúdo Tiptap
+- **Post Helpers** - Helpers para preparar dados de posts
+- **SEO Utils** - Funções para gerar metadados e dados estruturados
+- Guia de migração de `@/lib/api-helpers`
+- Imports recomendados
+- Exemplos de uso
+
+**Quando usar**: Consulta de utilitários específicos
+
+**Tempo estimado**: Consulta rápida (2-5 min por seção)
+
+---
+
+### 3. 🧩 [COMPONENTS-REFERENCE.md](COMPONENTS-REFERENCE.md)
 
 **Catálogo de todos os componentes**
 
@@ -58,7 +82,7 @@ Esta pasta contém **referências técnicas completas** de APIs, componentes e f
 
 ---
 
-### 3. 🌟 [ENTERPRISE-FEATURES.md](ENTERPRISE-FEATURES.md)
+### 4. 🌟 [ENTERPRISE-FEATURES.md](ENTERPRISE-FEATURES.md)
 
 **Features enterprise implementadas**
 

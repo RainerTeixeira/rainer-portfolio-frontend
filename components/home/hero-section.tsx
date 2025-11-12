@@ -29,8 +29,8 @@
 
 'use client';
 
-import { hexToRGBA } from '@/lib/design-tokens-helpers';
 import { cn } from '@/lib/utils';
+import { hexToRGBA } from '@/lib/utils/design-tokens';
 import {
   COLOR_BLUE,
   COLOR_CYAN,

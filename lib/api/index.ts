@@ -32,3 +32,6 @@ export * from './services/notifications.service';
 export * from './services/posts.service';
 export * from './services/user.service';
 export * from './services/users.service';
+
+// Blog Public API
+export * from './blog-public-api';

@@ -46,7 +46,6 @@ import * as React from 'react';
 
 // Type aliases para eventos
 type ChangeEvent<T = HTMLInputElement> = React.ChangeEvent<T>;
-type FormEvent = React.FormEvent<HTMLFormElement>;
 
 // ============================================================================
 // Third-party Libraries
@@ -128,8 +127,9 @@ import { Editor } from '@/components/dashboard/Editor';
 // ============================================================================
 
 import { tiptapJSONtoHTML } from '@/components/dashboard/lib/tiptap-utils';
-import { textToSlug } from '@/lib/api-helpers';
+import { createEmptyTiptapContent } from '@/lib/content';
 import { cn } from '@/lib/utils';
+import { textToSlug } from '@/lib/utils/string';
 
 // ============================================================================
 // Design Tokens
@@ -171,7 +171,7 @@ const MAX_RECENT_POSTS = 5;
 const EMPTY_POST_TEMPLATE: Partial<CreatePostData> = {
   title: '',
   excerpt: '',
-  content: { type: 'doc', content: [] },
+  content: createEmptyTiptapContent(),
   subcategoryId: '',
   coverImage: '/images/b1.png',
   status: 'DRAFT' as PostStatus,

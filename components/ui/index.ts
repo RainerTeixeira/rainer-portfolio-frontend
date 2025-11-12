@@ -51,6 +51,9 @@ export { Progress } from './progress';
 /** Componente ParticlesEffect: partículas decorativas para dark mode */
 export { ParticlesEffect } from './particles-effect';
 
+/** Componente FloatingGrid: grid futurista cyberpunk para dark mode */
+export { FloatingGrid } from './floating-grid';
+
 /** Componente PageHeader: header padronizado para páginas internas */
 export { PageHeader } from './page-header';
 

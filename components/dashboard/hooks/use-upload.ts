@@ -184,15 +184,16 @@ export function useUpload(type: 'cover' | 'content' | 'general' = 'general') {
 
         toast.success('Imagem enviada para Cloudinary!');
         return url;
-      } catch (error: any) {
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : 'Erro ao fazer upload';
+        toast.error(errorMessage);
         setState({
           isUploading: false,
           progress: 0,
-          error: error.message || 'Erro no upload',
+          error: errorMessage,
           uploadedUrl: null,
         });
-
-        toast.error(error.message || 'Erro ao enviar imagem');
         return null;
       }
     },

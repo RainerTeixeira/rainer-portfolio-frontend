@@ -6,9 +6,7 @@ Após extensa investigação, concluímos que:
 
 **❌ Automação completa do OAuth do Google é IMPOSSÍVEL**
 
-- Google detecta Playwright
-- Google detecta Puppeteer
-- Google detecta Puppeteer Stealth
+- Google detecta Playwright (sem configurações especiais)
 - Google detecta até Chrome com perfil real via automação
 
 **✅ A ÚNICA forma confiável é TESTE MANUAL**
@@ -27,7 +25,8 @@ Após extensa investigação, concluímos que:
 #### 1. Abra Chrome NORMALMENTE (não automatizado)
 
 ```
-Não use Playwright, Puppeteer ou qualquer automação!
+Não use automação para login OAuth do Google!
+Use Playwright apenas para testar o fluxo após login manual.
 ```
 
 #### 2. Limpe o localStorage
@@ -226,7 +225,7 @@ await page.route('**/auth/oauth/**', mockRoute);
 ## 📚 Documentação Adicional
 
 - `ANALISE_ERRO_GOOGLE.md` - Por que automação falha
-- `TESTE_PUPPETEER_STEALTH.md` - Tentativas com Stealth
+- `TESTE_PLAYWRIGHT_OAUTH.md` - Testes OAuth com Playwright
 - `README_TESTES_OAUTH.md` - Visão geral de testes
 
 ## ✅ Conclusão

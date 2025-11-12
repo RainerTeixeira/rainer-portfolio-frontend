@@ -6,14 +6,15 @@
 
 import { test } from './fixtures';
 
-test.describe('Preview de Imagem - Chrome Visual Test', () => {
-  test.use({
-    // Usar Chrome especificamente
-    channel: 'chrome',
-    // Slower para você ver melhor
-    headless: false,
-  });
+// Configuração global para este arquivo
+test.use({
+  // Usar Chrome especificamente
+  channel: 'chrome',
+  // Slower para você ver melhor
+  headless: false,
+});
 
+test.describe('Preview de Imagem - Chrome Visual Test', () => {
   test('Deve mostrar preview apenas no Preview em Tempo Real - Chrome', async ({
     page,
   }) => {

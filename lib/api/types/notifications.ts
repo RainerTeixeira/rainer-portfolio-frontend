@@ -17,7 +17,7 @@ export interface Notification {
   readonly title: string;
   readonly message: string;
   readonly link?: string;
-  readonly metadata?: any;
+  readonly metadata?: Record<string, unknown>;
   readonly isRead: boolean;
   readonly userId: string;
   readonly createdAt: string;
@@ -29,7 +29,7 @@ export interface CreateNotificationData {
   readonly title: string;
   readonly message: string;
   readonly link?: string;
-  readonly metadata?: any;
+  readonly metadata?: Record<string, unknown>;
   readonly userId: string;
 }
 

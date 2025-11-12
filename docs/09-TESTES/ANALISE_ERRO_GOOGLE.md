@@ -37,12 +37,13 @@ Não usar Playwright para o login do Google, apenas validar o callback:
 // 4. Teste valida o callback
 ```
 
-### Opção 2: Usar Chrome sem Playwright
-Usar `puppeteer-extra` com plugins stealth:
+### Opção 2: Usar Playwright com configurações anti-detecção
 
-```bash
-npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
-```
+Os testes já foram migrados para Playwright com configurações anti-detecção integradas.
+
+Arquivos:
+- `tests/e2e/google-oauth.spec.ts`
+- `tests/e2e/github-oauth.spec.ts`
 
 ### Opção 3: Usar Selenium com undetected-chromedriver
 Python com biblioteca que evita detecção:
@@ -133,7 +134,7 @@ test('Google signup flow (mocked)', async ({ page }) => {
 3. ⏳ Implementar teste semi-manual com input do usuário
 
 ### Longo Prazo
-1. 🔮 Avaliar puppeteer-extra com stealth plugin
+1. ✅ Migrado para Playwright com configurações anti-detecção
 2. 🔮 Configurar ambiente CI/CD com credenciais de teste
 3. 🔮 Implementar testes de contrato com Cognito
 

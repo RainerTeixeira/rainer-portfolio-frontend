@@ -9,9 +9,9 @@
  * @version 2.0.0
  */
 
-import { postsService } from './api/services';
-import type { Post } from './api/types';
-import { PostStatus } from './api/types';
+import { postsService } from './services';
+import type { Post } from './types';
+import { PostStatus } from './types';
 
 /**
  * API Pública do Blog

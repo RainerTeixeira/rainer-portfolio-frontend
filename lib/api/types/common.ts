@@ -2,7 +2,7 @@
  * Types - Common
  */
 
-export interface ApiSuccessResponse<T = any> {
+export interface ApiSuccessResponse<T = unknown> {
   readonly success: true;
   readonly message?: string;
   readonly data: T;
@@ -13,10 +13,10 @@ export interface ApiErrorResponse {
   readonly message: string;
   readonly error?: string;
   readonly statusCode?: number;
-  readonly details?: any;
+  readonly details?: unknown;
 }
 
-export type ApiResponse<T = any> = ApiSuccessResponse<T> | ApiErrorResponse;
+export type ApiResponse<T = unknown> = ApiSuccessResponse<T> | ApiErrorResponse;
 
 export interface PaginationMeta {
   readonly page: number;
@@ -67,11 +67,16 @@ export interface TiptapJSON {
 }
 
 /**
+ * Tipo para atributos de nós Tiptap
+ */
+type TiptapAttrs = Record<string, unknown>;
+
+/**
  * Nó do documento Tiptap
  */
 export interface TiptapNode {
   readonly type: string;
-  readonly attrs?: Record<string, any>;
+  readonly attrs?: TiptapAttrs;
   readonly content?: TiptapNode[];
   readonly marks?: TiptapMark[];
   readonly text?: string;
@@ -82,5 +87,5 @@ export interface TiptapNode {
  */
 export interface TiptapMark {
   readonly type: string;
-  readonly attrs?: Record<string, any>;
+  readonly attrs?: TiptapAttrs;
 }

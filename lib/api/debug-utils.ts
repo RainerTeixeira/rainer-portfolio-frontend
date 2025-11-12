@@ -10,7 +10,7 @@ import {
   validateEmail,
   validatePassword,
   validateUsername,
-} from '../validation-schemas';
+} from '../utils/validation';
 import { ApiError } from './client';
 import { API_CONFIG } from './config';
 
@@ -106,7 +106,7 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
 
   // Tratamento de erros de rede
   if (typeof error === 'object' && error !== null) {
-    const err = error as Record<string, any>;
+    const err = error as Record<string, unknown>;
 
     // Erro de timeout
     if (err.fullName === 'TimeoutError' || err.code === 'ECONNABORTED') {
@@ -149,9 +149,13 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
 
       // Extrai erros de validação da resposta da API, se disponível
       if (error.data && typeof error.data === 'object') {
-        const data = error.data as Record<string, any>;
-        if (data.errors) {
-          result.validationErrors = data.errors;
+        const data = error.data as Record<string, unknown>;
+        if (
+          data.errors &&
+          typeof data.errors === 'object' &&
+          data.errors !== null
+        ) {
+          result.validationErrors = data.errors as Record<string, string[]>;
           result.suggestions = ['Verifique os campos do formulário'];
         }
       }
@@ -251,7 +255,7 @@ export function validateFields(
 export function logApiError(
   error: unknown,
   context: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 ): void {
   const errorAnalysis = analyzeApiError(error);
 

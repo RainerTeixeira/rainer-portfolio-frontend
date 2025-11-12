@@ -16,14 +16,14 @@
 
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
 import {
-  prefersReducedMotion,
-  smoothScrollTo,
-  scrollToTop,
-  scrollToPosition,
   onReducedMotionChange,
-} from '@/lib/scroll-utils';
+  prefersReducedMotion,
+  scrollToPosition,
+  scrollToTop,
+  smoothScrollTo,
+} from '@/lib/utils/scroll';
+import { useCallback, useEffect, useState } from 'react';
 
 /**
  * Objeto retornado pelo hook useSmoothScroll

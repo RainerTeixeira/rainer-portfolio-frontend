@@ -79,8 +79,10 @@ export function ChangeEmailDialog({
 
       alert('✅ Código de verificação enviado para o novo email!');
       setStep('code');
-    } catch (error: any) {
-      alert(`❌ Erro: ${error.message || 'Falha ao solicitar alteração'}`);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Falha ao solicitar alteração';
+      alert(`❌ Erro: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -102,8 +104,10 @@ export function ChangeEmailDialog({
       alert('✅ Email alterado com sucesso! Faça login novamente.');
       onOpenChange(false);
       window.location.href = '/dashboard/login';
-    } catch (error: any) {
-      alert(`❌ Erro: ${error.message || 'Código inválido'}`);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Código inválido';
+      alert(`❌ Erro: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
