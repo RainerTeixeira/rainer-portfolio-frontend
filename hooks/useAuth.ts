@@ -21,12 +21,12 @@ function convertUserToUserProfile(user: User): UserProfile {
     try {
       const decodedToken = authService.getCognitoUserFromToken();
       if (decodedToken) {
-        email = decodedToken.email || '';
-        emailVerified = decodedToken.email_verified || false;
+        email = typeof decodedToken.email === 'string' ? decodedToken.email : '';
+        emailVerified = typeof decodedToken.email_verified === 'boolean' ? decodedToken.email_verified : false;
         nickname =
-          decodedToken.nickname ||
-          decodedToken['custom:nickname'] ||
-          decodedToken['cognito:username'] ||
+          (typeof decodedToken.nickname === 'string' ? decodedToken.nickname : '') ||
+          (typeof decodedToken['custom:nickname'] === 'string' ? decodedToken['custom:nickname'] : '') ||
+          (typeof decodedToken['cognito:username'] === 'string' ? decodedToken['cognito:username'] : '') ||
           '';
       }
     } catch (e) {

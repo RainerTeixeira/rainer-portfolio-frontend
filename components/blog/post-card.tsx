@@ -61,6 +61,7 @@ import Link from 'next/link';
 // BLOG COMPONENTS
 // ============================================================================
 
+import type { TiptapJSON } from '@/lib/api/types/common';
 import { BookmarkButton, LikeButton, ReadingTime, ShareButton } from './social';
 
 // ============================================================================
@@ -81,7 +82,7 @@ import { BookmarkButton, LikeButton, ReadingTime, ShareButton } from './social';
  * @property {number} [likes] - Número inicial de curtidas
  * @property {boolean} [isLiked] - Se o post está curtido pelo usuário atual
  * @property {boolean} [isBookmarked] - Se o post está salvo pelo usuário atual
- * @property {string | object} [content] - Conteúdo do post para calcular tempo de leitura
+ * @property {string | TiptapJSON} [content] - Conteúdo do post para calcular tempo de leitura
  * @property {boolean} [showSocialActions] - Se deve mostrar ações sociais (curtir, compartilhar, etc)
  */
 interface PostCardProps {
@@ -95,7 +96,7 @@ interface PostCardProps {
   likes?: number;
   isLiked?: boolean;
   isBookmarked?: boolean;
-  content?: string | object;
+  content?: string | TiptapJSON;
   showSocialActions?: boolean;
 }
 

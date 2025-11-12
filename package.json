@@ -30,7 +30,7 @@
     "test:coverage": "jest --coverage",
     "test:e2e": "playwright test",
     "clean": "rm -rf .next out dist coverage .turbo node_modules/.cache",
-    "prepare": "husky install"
+    "prepare": "node -e \"if (!process.env.CI && !process.env.VERCEL) { try { require('husky').install(); } catch(e) { } }\""
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.913.0",
