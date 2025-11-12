@@ -10,10 +10,40 @@
  */
 
 import {
-  ERROR_MESSAGES,
+  ERROR_MESSAGES as DESIGN_TOKENS_ERROR_MESSAGES,
   FORM_CONFIG,
-  REGEX_PATTERNS,
+  REGEX_PATTERNS as DESIGN_TOKENS_REGEX_PATTERNS,
 } from '@rainer/design-tokens';
+
+// ============================================================================
+// Fallback para propriedades faltantes na biblioteca de design tokens
+// ============================================================================
+
+const REGEX_PATTERNS = {
+  ...DESIGN_TOKENS_REGEX_PATTERNS,
+  USERNAME: /^[a-zA-Z0-9_]{3,20}$/,
+  PHONE: DESIGN_TOKENS_REGEX_PATTERNS.PHONE_BR,
+} as typeof DESIGN_TOKENS_REGEX_PATTERNS & {
+  readonly USERNAME: RegExp;
+  readonly PHONE: RegExp;
+};
+
+const ERROR_MESSAGES = {
+  ...DESIGN_TOKENS_ERROR_MESSAGES,
+  INVALID_USERNAME: 'Nome de usuário inválido',
+  INVALID_PHONE: 'Telefone inválido',
+  MESSAGE_TOO_SHORT: 'Mensagem muito curta',
+  MESSAGE_TOO_LONG: 'Mensagem muito longa',
+  INVALID_URL: 'URL inválida',
+  INVALID_SLUG: 'Slug inválido',
+} as typeof DESIGN_TOKENS_ERROR_MESSAGES & {
+  readonly INVALID_USERNAME: string;
+  readonly INVALID_PHONE: string;
+  readonly MESSAGE_TOO_SHORT: string;
+  readonly MESSAGE_TOO_LONG: string;
+  readonly INVALID_URL: string;
+  readonly INVALID_SLUG: string;
+};
 
 // ============================================================================
 // Types

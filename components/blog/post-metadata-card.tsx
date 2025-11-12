@@ -18,6 +18,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Calendar, Eye, Heart, Tag, User } from 'lucide-react';
 import { ReadingTime } from './social';
+import type { TiptapJSON } from '@/lib/api/types/common';
 
 interface PostMetadataCardProps {
   author?: string;
@@ -26,7 +27,7 @@ interface PostMetadataCardProps {
   tags?: readonly string[];
   views?: number;
   likesCount?: number;
-  content: string | object;
+  content: string | TiptapJSON;
   className?: string;
 }
 

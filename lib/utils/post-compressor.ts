@@ -349,7 +349,7 @@ export function compressPost(postContent: TiptapNode | string): string {
  * Descomprime um nó
  */
 function decompressNode(node: CompressedNode): TiptapNode {
-  if (!node || typeof node !== 'object') return node as TiptapNode;
+  if (!node || typeof node !== 'object') return node as unknown as TiptapNode;
 
   const compressed = node as Record<string, unknown>;
 
@@ -657,7 +657,7 @@ export function generateTOC(compressedContent: string): Array<{
         /^h[1-3]$/.test(block.t)
       ) {
         const blockObj = block as Record<string, unknown>;
-        const level = parseInt(blockObj.t.slice(1), 10);
+        const level = parseInt((typeof blockObj.t === 'string' ? blockObj.t : 'h1').slice(1), 10);
         const text = (blockObj.c as string) || '';
         const id = blockObj.id as string | undefined;
         toc.push({

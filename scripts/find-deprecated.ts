@@ -157,10 +157,11 @@ if (uniqueItems.length === 0) {
   // Agrupar por tipo
   const byType = uniqueItems.reduce(
     (acc, item) => {
-      if (!acc[item.name]) {
-        acc[item.name] = [];
+      const name = item.name;
+      if (!acc[name]) {
+        acc[name] = [];
       }
-      acc[item.name].push(item);
+      acc[name]!.push(item);
       return acc;
     },
     {} as Record<string, DeprecatedItem[]>
