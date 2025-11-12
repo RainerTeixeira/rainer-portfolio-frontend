@@ -1,0 +1,34 @@
+
+> @rainer/portfolio-frontend@1.0.0 build
+> next build
+
+   Ôû▓ Next.js 15.5.6
+   - Environments: .env.local
+   - Experiments (use with caution):
+     ┬À optimizePackageImports
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./lib/api/services/auth.service.ts
+Error:   x Unexpected token `JwtPayload`. Expected * for generator, private key, identifier or async
+     ,-[C:\Desenvolvimento\rainer-portfolio-frontend\lib\api\services\auth.service.ts:129:1]
+ 126 |   /**
+ 127 |    * Tipo para payload JWT
+ 128 |    */
+ 129 |   interface JwtPayload {
+     :             ^^^^^^^^^^
+ 130 |     sub?: string;
+ 131 |     email?: string;
+ 131 |     'cognito:username'?: string;
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./lib/api/services/auth.service.ts
+./app/dashboard/login/confirm-email/page.tsx
+
+
+> Build failed because of webpack errors

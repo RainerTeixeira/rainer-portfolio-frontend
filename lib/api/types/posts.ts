@@ -10,11 +10,13 @@ export enum PostStatus {
   TRASH = 'TRASH',
 }
 
+import type { TiptapJSON } from './common';
+
 export interface Post {
   readonly id: string;
   readonly title: string;
   readonly slug: string;
-  readonly content: any;
+  readonly content: TiptapJSON;
   readonly excerpt?: string;
   readonly coverImage?: string;
   readonly tags?: string[];
@@ -49,7 +51,7 @@ export interface Post {
 export interface CreatePostData {
   readonly title: string;
   readonly slug: string;
-  readonly content: any;
+  readonly content: TiptapJSON;
   readonly excerpt?: string;
   readonly coverImage?: string;
   readonly tags?: string[];
@@ -65,7 +67,7 @@ export interface CreatePostData {
 export interface UpdatePostData {
   readonly title?: string;
   readonly slug?: string;
-  readonly content?: any;
+  readonly content?: TiptapJSON;
   readonly excerpt?: string;
   readonly coverImage?: string;
   readonly tags?: string[];

@@ -183,7 +183,7 @@ export class CategoriesService {
         throw new Error(response.message || 'Erro ao buscar subcategorias');
       }
       return (response as ApiSuccessResponse<Category[]>).data;
-    } catch (_error) {
+    } catch {
       // Fallback: busca todas as categorias e filtra no cliente
       const response = await this.listCategories({ isActive: true });
       return response.data.filter(category => category.parentId);

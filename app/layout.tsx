@@ -59,6 +59,7 @@ import { Navbar } from '@/components/layout/navbar';
 import { CookieInitializer } from '@/components/cookies/cookie-initializer';
 import {
   CookieBanner,
+  FloatingGrid,
   InstallPrompt,
   Toaster,
   UpdateNotification,
@@ -430,6 +431,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
          */}
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AuthProvider>
+            {/**
+             * Floating Grid Background
+             *
+             * Grid futurista cyberpunk que aparece APENAS no modo dark.
+             * Cria profundidade e atmosfera futurista no fundo do site.
+             * - fixed inset-0: Cobre toda a tela
+             * - z-0: Fica atrás de todo conteúdo
+             * - pointer-events-none: Não interfere com interações
+             */}
+            <FloatingGrid />
+
             {/* Layout otimizado: Flexbox apenas no wrapper interno */}
             {/**
              * Container principal com Flexbox
@@ -524,14 +536,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
          * - Analytics: Rastreia métricas de performance e analytics do site
          * - SpeedInsights: Monitora Core Web Vitals em tempo real
          * Não afeta performance e respeita privacidade.
-         * Carregados apenas se o usuário consentir com cookies de analytics.
+         * Componentes já lidam com renderização SSR/CSR internamente.
          */}
-        {typeof window !== 'undefined' && (
-          <>
-            <Analytics />
-            <SpeedInsights />
-          </>
-        )}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

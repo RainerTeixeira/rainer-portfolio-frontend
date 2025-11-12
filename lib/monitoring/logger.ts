@@ -17,6 +17,13 @@
  * @version 1.0.0
  */
 
+import {
+  COLOR_AMBER,
+  COLOR_BLUE,
+  COLOR_NEUTRAL,
+  COLOR_RED,
+} from '@rainer/design-tokens';
+
 // ============================================================================
 // Types
 // ============================================================================
@@ -47,16 +54,8 @@ interface LogEntry {
 // Constants
 // ============================================================================
 
-import {
-  COLOR_AMBER,
-  COLOR_BLUE,
-  COLOR_NEUTRAL,
-  COLOR_RED,
-} from '@rainer/design-tokens';
-
 /**
  * Cores para cada nível de log
- * Usa cores primitivas da biblioteca @rainer/design-tokens
  */
 const LOG_COLORS = {
   debug: COLOR_NEUTRAL[500], // Gray
@@ -212,7 +211,10 @@ class Logger {
         error:
           error instanceof Error
             ? {
-                fullName: (error as any).fullName || error.name,
+                fullName:
+                  ('fullName' in error && typeof error.fullName === 'string'
+                    ? error.fullName
+                    : undefined) || error.name,
                 message: error.message,
                 stack: error.stack,
               }
@@ -234,7 +236,6 @@ class Logger {
    * ```tsx
    * const logger = Logger.withContext({ component: 'BlogPage' })
    * logger.info('Posts carregados', { count: 10 })
-   * // Output: [INFO] Posts carregados { component: 'BlogPage', count: 10 }
    * ```
    */
   withContext(defaultContext: LogContext): Logger {
@@ -266,11 +267,9 @@ class Logger {
 /**
  * Instância singleton do logger
  *
- * Importe e use em qualquer lugar da aplicação.
- *
  * @example
  * ```tsx
- * import { logger } from '@/lib/logger'
+ * import { logger } from '@/lib/monitoring/logger'
  *
  * logger.info('Usuário logado', { userId: '123' })
  * logger.error('Falha ao salvar', error, { postId: '456' })

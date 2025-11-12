@@ -3,13 +3,15 @@
  *
  * Grid futurista cyberpunk que flutua no espaço
  * Cria profundidade e atmosfera futurista
+ * Renderizado APENAS no modo dark
  */
 
 'use client';
 
-import { hexToRGBA } from '@/lib/design-tokens-helpers';
-import { COLOR_BLUE, COLOR_CYAN } from '@rainer/design-tokens';
-import { useEffect, useRef } from 'react';
+import { hexToRGBA } from '@/lib/utils/design-tokens';
+import { COLOR_CYAN } from '@rainer/design-tokens';
+import { useTheme } from 'next-themes';
+import { useEffect, useRef, useState } from 'react';
 
 interface FloatingGridProps {
   /** Variante do grid (default, dense, sparse) */
@@ -23,8 +25,18 @@ export function FloatingGrid({
   intensity = 0.3,
 }: FloatingGridProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Previne erro de hidratação SSR
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
+    // Renderizar apenas após montagem e no modo dark
+    if (!mounted || resolvedTheme !== 'dark') return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -50,14 +62,9 @@ export function FloatingGrid({
     const drawGrid = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Cor do grid baseada no tema usando cores da biblioteca
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const strokeColor = isDark
-        ? hexToRGBA(COLOR_CYAN[400], intensity * 1.2)
-        : hexToRGBA(COLOR_BLUE[500], intensity * 0.6);
-      const fillColor = isDark
-        ? hexToRGBA(COLOR_CYAN[400], intensity * 0.6)
-        : hexToRGBA(COLOR_BLUE[500], intensity * 0.4);
+      // Cores do grid para modo dark usando cores da biblioteca
+      const strokeColor = hexToRGBA(COLOR_CYAN[400], intensity * 1.2);
+      const fillColor = hexToRGBA(COLOR_CYAN[400], intensity * 0.6);
 
       ctx.strokeStyle = strokeColor;
       ctx.lineWidth = config.lineWidth;
@@ -94,14 +101,25 @@ export function FloatingGrid({
     return () => {
       window.removeEventListener('resize', setCanvasSize);
     };
-  }, [variant, intensity]);
+  }, [variant, intensity, resolvedTheme, mounted]);
+
+  // Não renderizar até montagem completa (evita hydration mismatch)
+  if (!mounted) {
+    return null;
+  }
+
+  // Não renderizar se não estiver no modo dark
+  if (resolvedTheme !== 'dark') {
+    return null;
+  }
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none {OPACITY.NONE} dark:opacity-100 {TRANSITIONS.OPACITY_VERY_SLOW}"
+      className="fixed inset-0 pointer-events-none opacity-100 transition-opacity duration-1000"
       style={{ zIndex: 0 }}
       aria-hidden="true"
+      suppressHydrationWarning
     />
   );
 }

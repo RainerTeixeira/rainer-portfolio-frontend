@@ -1,21 +1,32 @@
 /**
- * Testes para lib/api-helpers.ts
+ * Testes para utilitários de API helpers
+ *
+ * Testa funções migradas para módulos específicos:
+ * - String utils: textToSlug, formatDate, formatDateTime, translateStatus
+ * - Content utils: extractTextFromTiptap, generateExcerpt, createEmptyTiptapContent, isContentEmpty, calculateReadingTime
+ * - Post helpers: preparePostForCreate, preparePostForUpdate, validatePostData
  */
 
 import {
   calculateReadingTime,
   createEmptyTiptapContent,
   extractTextFromTiptap,
-  formatDate,
-  formatDateTime,
   generateExcerpt,
   isContentEmpty,
+} from '@/lib/content';
+
+import {
   preparePostForCreate,
   preparePostForUpdate,
+  validatePostData,
+} from '@/lib/api/helpers';
+
+import {
+  formatDate,
+  formatDateTime,
   textToSlug,
   translateStatus,
-  validatePostData,
-} from '@/lib/api-helpers';
+} from '@/lib/utils/string';
 
 describe('api-helpers', () => {
   describe('textToSlug', () => {

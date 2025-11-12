@@ -74,7 +74,7 @@ export function OAuthButtons({
         >
           {/* Efeito de brilho no hover */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent"
+            className="absolute inset-0 bg-linear-to-r from-transparent via-primary/5 to-transparent"
             initial={{ x: '-100%' }}
             whileHover={{ x: '100%' }}
             transition={{ duration: 0.6, ease: 'easeInOut' }}
@@ -130,7 +130,7 @@ export function OAuthButtons({
         >
           {/* Efeito de brilho no hover */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent"
+            className="absolute inset-0 bg-linear-to-r from-transparent via-primary/5 to-transparent"
             initial={{ x: '-100%' }}
             whileHover={{ x: '100%' }}
             transition={{ duration: 0.6, ease: 'easeInOut' }}

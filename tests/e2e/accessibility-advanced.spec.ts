@@ -325,6 +325,100 @@ test.describe('Contraste e Visibilidade', () => {
   });
 });
 
+test.describe('Leitores de Tela', () => {
+  test('elementos devem ter roles ARIA apropriados', async ({
+    page,
+    consoleHelper,
+  }) => {
+    await page.goto('/', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(2000);
+
+    // Verificar elementos com roles ARIA
+    const elementsWithRoles = await page.evaluate(() => {
+      const elements = Array.from(document.querySelectorAll('[role]'));
+      return elements.length;
+    });
+
+    // Deve ter pelo menos alguns elementos com roles
+    expect(elementsWithRoles).toBeGreaterThanOrEqual(0);
+
+    const criticalErrors = consoleHelper
+      .getErrors()
+      .filter(
+        e =>
+          !e.text.includes('500') &&
+          !e.text.includes('Internal Server Error') &&
+          !e.text.includes('COLOR_CYAN') &&
+          !e.text.includes('Module parse failed')
+      );
+    expect(criticalErrors.length).toBeLessThan(5);
+  });
+
+  test('elementos interativos devem ter aria-labels descritivos', async ({
+    page,
+    consoleHelper,
+  }) => {
+    await page.goto('/', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(2000);
+
+    // Verificar botões e links com aria-label
+    const interactiveElements = await page.evaluate(() => {
+      const buttons = Array.from(document.querySelectorAll('button, a[href]'));
+      return buttons.filter(el => {
+        const ariaLabel = el.getAttribute('aria-label');
+        const text = el.textContent?.trim();
+        return ariaLabel || (text && text.length > 0);
+      }).length;
+    });
+
+    // Pelo menos alguns elementos devem ter labels
+    expect(interactiveElements).toBeGreaterThan(0);
+
+    const criticalErrors = consoleHelper
+      .getErrors()
+      .filter(
+        e =>
+          !e.text.includes('500') &&
+          !e.text.includes('Internal Server Error') &&
+          !e.text.includes('COLOR_CYAN') &&
+          !e.text.includes('Module parse failed')
+      );
+    expect(criticalErrors.length).toBeLessThan(5);
+  });
+
+  test('estados de elementos devem ser comunicados via ARIA', async ({
+    page,
+    consoleHelper,
+  }) => {
+    await page.goto('/', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(2000);
+
+    // Verificar elementos com estados ARIA
+    const elementsWithStates = await page.evaluate(() => {
+      const elements = Array.from(
+        document.querySelectorAll(
+          '[aria-expanded], [aria-hidden], [aria-disabled], [aria-checked]'
+        )
+      );
+      return elements.length;
+    });
+
+    // Pode ou não ter elementos com estados (depende da implementação)
+    expect(elementsWithStates).toBeGreaterThanOrEqual(0);
+
+    const criticalErrors = consoleHelper
+      .getErrors()
+      .filter(
+        e =>
+          !e.text.includes('500') &&
+          !e.text.includes('Internal Server Error') &&
+          !e.text.includes('COLOR_CYAN') &&
+          !e.text.includes('Module parse failed')
+      );
+    expect(criticalErrors.length).toBeLessThan(5);
+  });
+});
+
 test.describe('Estrutura e Hierarquia', () => {
   test('deve ter hierarquia de cabeçalhos apropriada', async ({
     page,

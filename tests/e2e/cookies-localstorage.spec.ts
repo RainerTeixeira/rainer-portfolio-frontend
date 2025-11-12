@@ -24,7 +24,7 @@ test.describe('Cookies - localStorage em Produção', () => {
   });
 
   test('deve salvar estrutura correta no localStorage', async ({ page }) => {
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Aceita cookies
@@ -76,7 +76,7 @@ test.describe('Cookies - localStorage em Produção', () => {
   });
 
   test('deve salvar preferências separadamente', async ({ page }) => {
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Aceita cookies
@@ -109,7 +109,7 @@ test.describe('Cookies - localStorage em Produção', () => {
   });
 
   test('deve manter dados após múltiplas navegações', async ({ page }) => {
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Aceita cookies
@@ -146,7 +146,7 @@ test.describe('Cookies - localStorage em Produção', () => {
     page,
   }) => {
     // Primeiro, salva dados válidos
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     const acceptButton = page.getByRole('button', {
@@ -173,7 +173,7 @@ test.describe('Cookies - localStorage em Produção', () => {
   });
 
   test('deve ter versionamento correto', async ({ page }) => {
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Aceita cookies
@@ -196,7 +196,7 @@ test.describe('Cookies - localStorage em Produção', () => {
 
   test('deve limpar dados ao revogar consentimento', async ({ page }) => {
     // Aceita cookies primeiro
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     const acceptButton = page.getByRole('button', {

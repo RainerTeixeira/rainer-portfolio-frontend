@@ -10,7 +10,7 @@ import {
   validateSlug,
   validateUrl,
   validateUsername,
-} from '@/lib/validation-schemas';
+} from '@/lib/utils/validation';
 
 describe('validation-schemas', () => {
   describe('validateEmail', () => {

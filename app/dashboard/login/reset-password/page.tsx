@@ -163,7 +163,7 @@ export default function ResetPasswordPage() {
               className={cn(
                 'h-9 sm:h-10 text-center text-lg tracking-widest font-mono',
                 BORDER_RADIUS.MD,
-                TRANSITIONS.ALL
+                TRANSITIONS.ALL_EASE_IN_OUT
               )}
               maxLength={6}
               autoFocus

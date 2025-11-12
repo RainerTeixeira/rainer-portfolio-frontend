@@ -69,8 +69,8 @@ import { PostStatus } from '@/lib/api/types';
 // DESIGN TOKENS
 // ============================================================================
 
-import { hexToRGBA } from '@/lib/design-tokens-helpers';
 import { cn } from '@/lib/utils';
+import { hexToRGBA } from '@/lib/utils/design-tokens';
 import { BACKGROUND, COLOR_CYAN } from '@rainer/design-tokens';
 
 // ============================================================================

@@ -18,7 +18,7 @@
 // React Hooks
 // ============================================================================
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // ============================================================================
 // Next.js Imports
@@ -86,6 +86,7 @@ import {
  */
 export function CookieBanner() {
   const [showBanner, setShowBanner] = useState(false);
+  const [canShowBanner, setCanShowBanner] = useState(false);
   const [showCustomize, setShowCustomize] = useState(false);
   const [preferences, setPreferences] = useState<CookiePreferences>({
     essential: true, // Sempre true, não pode ser desabilitado
@@ -96,13 +97,19 @@ export function CookieBanner() {
 
   const cookieManager = getCookieManager();
 
-  // Verifica se já há consentimento salvo
+  // Verifica se já há consentimento salvo e se pode mostrar o banner
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     if (!cookieManager.hasConsent()) {
-      // Mostra o banner após um pequeno delay para melhor UX
-      setTimeout(() => setShowBanner(true), 500);
+      // Não mostra imediatamente - aguarda scroll ou saída do hero
+      setCanShowBanner(true);
+
+      // Carrega preferências padrão
+      const savedPreferences = cookieManager.getPreferences();
+      if (savedPreferences) {
+        setPreferences(savedPreferences);
+      }
     } else {
       // Carrega preferências salvas
       const savedPreferences = cookieManager.getPreferences();
@@ -111,6 +118,96 @@ export function CookieBanner() {
       }
     }
   }, [cookieManager]);
+
+  // Refs para rastrear estado
+  const hasShownBannerRef = useRef(false);
+  const scrollThresholdRef = useRef(0);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const mouseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Detecta scroll e saída da área do hero
+  useEffect(() => {
+    if (
+      typeof window === 'undefined' ||
+      !canShowBanner ||
+      hasShownBannerRef.current
+    )
+      return;
+
+    // Calcular altura do hero (100vh)
+    const heroHeight = window.innerHeight;
+    // Threshold: 30% da altura do hero
+    scrollThresholdRef.current = heroHeight * 0.3;
+
+    // Função para verificar se pode mostrar o banner
+    const checkCanShow = () => {
+      if (hasShownBannerRef.current) return;
+
+      const scrollY = window.scrollY || window.pageYOffset;
+
+      // Se scrollou além do threshold, mostra o banner
+      if (scrollY > scrollThresholdRef.current) {
+        hasShownBannerRef.current = true;
+        setShowBanner(true);
+      }
+    };
+
+    // Listener de scroll - detecta quando usuário rola a página
+    const handleScroll = () => {
+      checkCanShow();
+    };
+
+    // Listener de movimento do mouse - detecta quando mouse sai da área do hero
+    const handleMouseMove = (e: MouseEvent) => {
+      if (hasShownBannerRef.current) return;
+
+      const scrollY = window.scrollY || window.pageYOffset;
+      const mouseY = e.clientY + scrollY;
+
+      // Se o mouse está abaixo da área do hero (com margem de 150px)
+      if (mouseY > heroHeight + 150) {
+        hasShownBannerRef.current = true;
+        setShowBanner(true);
+      }
+    };
+
+    // Verificar posição inicial (caso já tenha scrollado antes do componente montar)
+    checkCanShow();
+
+    // Adicionar listeners com throttling para performance
+    const throttledScroll = () => {
+      if (scrollTimeoutRef.current) return;
+      scrollTimeoutRef.current = setTimeout(() => {
+        handleScroll();
+        scrollTimeoutRef.current = null;
+      }, 100);
+    };
+
+    const throttledMouseMove = (e: MouseEvent) => {
+      if (mouseTimeoutRef.current) return;
+      mouseTimeoutRef.current = setTimeout(() => {
+        handleMouseMove(e);
+        mouseTimeoutRef.current = null;
+      }, 200);
+    };
+
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+    window.addEventListener('mousemove', throttledMouseMove, { passive: true });
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('scroll', throttledScroll);
+      window.removeEventListener('mousemove', throttledMouseMove);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = null;
+      }
+      if (mouseTimeoutRef.current) {
+        clearTimeout(mouseTimeoutRef.current);
+        mouseTimeoutRef.current = null;
+      }
+    };
+  }, [canShowBanner]);
 
   // Salva consentimento usando CookieManager
   const saveConsent = (prefs: CookiePreferences) => {

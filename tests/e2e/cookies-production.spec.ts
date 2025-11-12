@@ -32,7 +32,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
 
   test('deve funcionar como em produção: fluxo completo', async ({ page }) => {
     // 1. Visita inicial
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800); // Aguarda delay do banner
 
     // 2. Verifica que banner aparece
@@ -107,7 +107,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
   test('deve funcionar como em produção: rejeitar opcionais', async ({
     page,
   }) => {
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Rejeita cookies opcionais
@@ -140,7 +140,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
   test('deve funcionar como em produção: personalização completa', async ({
     page,
   }) => {
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Abre personalização
@@ -210,7 +210,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
   });
 
   test('deve funcionar como em produção: link do footer', async ({ page }) => {
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
 
     // Aceita cookies primeiro
     await page.waitForTimeout(800);
@@ -276,7 +276,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
     page,
   }) => {
     // Aceita cookies primeiro
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     const acceptButton = page.getByRole('button', {
@@ -312,7 +312,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
     page,
     context,
   }) => {
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Aceita todos os cookies
@@ -352,7 +352,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
       });
     });
 
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Aceita cookies
@@ -380,7 +380,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
   }) => {
     const startTime = Date.now();
 
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
 
     // Aguarda banner aparecer
     await page.waitForSelector('text=/utilizamos cookies/i', {
@@ -413,7 +413,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
   test('deve funcionar como em produção: acessibilidade completa', async ({
     page,
   }) => {
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Verifica ARIA labels
@@ -449,7 +449,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
     page,
   }) => {
     // Este teste roda em todos os navegadores configurados
-    await page.goto(, { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
 
     // Verifica que banner aparece independente do navegador

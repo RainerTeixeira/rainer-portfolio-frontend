@@ -359,7 +359,7 @@ export function LoginForm({
           >
             {/* Efeito de brilho animado */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent"
               initial={{ x: '-100%' }}
               animate={{
                 x: isLoading ? ['100%', '-100%'] : '100%',

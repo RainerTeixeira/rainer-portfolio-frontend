@@ -178,5 +178,5 @@ import { SHADOWS } from '@rainer/design-tokens';
 
 **Última atualização**: 2025-11-10  
 **Responsável**: Rainer Teixeira  
-**Versão**: 1.0.0
+**Versão**: 2.0.0
 

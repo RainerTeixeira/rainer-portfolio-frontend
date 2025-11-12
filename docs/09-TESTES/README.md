@@ -132,8 +132,8 @@ Para testes gerais:
 | **Testes E2E** | 4 documentos |
 | **Análises** | 1 documento |
 | **Outros** | 9 documentos |
-| **Total de testes E2E** | 120+ testes |
-| **Arquivos de teste** | 11 arquivos |
+| **Total de testes E2E** | 160+ testes |
+| **Arquivos de teste** | 19 arquivos principais |
 | **Helpers** | 4 helpers |
 | **Workflows CI/CD** | 1 workflow |
 
@@ -182,10 +182,19 @@ Todas as 19 páginas do app têm seus respectivos testes em `tests/app/`:
 - `performance.spec.ts` - 20 testes de performance
 - `visual-regression.spec.ts` - 10 testes de regressão visual
 - `integration-complex.spec.ts` - 10 testes de integração complexos
-- `accessibility-advanced.spec.ts` - 12 testes de acessibilidade avançados
-- `security.spec.ts` - 10 testes de segurança
+- `accessibility-advanced.spec.ts` - 15 testes de acessibilidade avançados (incluindo leitores de tela)
+- `security.spec.ts` - 12 testes de segurança (incluindo CSRF)
+- `lighthouse-ci.spec.ts` - 4 testes de métricas Lighthouse
+- `api-endpoints.spec.ts` - 4 testes de endpoints da API
+- `cookies-detailed.spec.ts` - 6 testes detalhados de cookies
+- `seo-metadata.spec.ts` - 6 testes de SEO e metadata
+- `error-handling.spec.ts` - 5 testes de tratamento de erros
+- `loading-states.spec.ts` - 3 testes de estados de carregamento
+- `responsive-design.spec.ts` - 5 testes de design responsivo
+- `google-oauth.spec.ts` - Teste de OAuth Google (migrado de Puppeteer)
+- `github-oauth.spec.ts` - Teste de OAuth GitHub (migrado de Puppeteer)
 
-**Total: 120+ testes E2E implementados**
+**Total: 160+ testes E2E implementados**
 
 ### Estrutura Espelhada
 

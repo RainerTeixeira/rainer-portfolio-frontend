@@ -17,15 +17,17 @@ flowchart LR
 
   subgraph NextInfra
     Routes[app/ pages & layouts]
-    APIHelpers[lib/api & api-helpers]
+    API[lib/api/ services & helpers]
+    Utils[lib/ utils, content, seo]
     Providers[components/providers]
   end
 
   App --> Routes
   Routes --> Providers
-  Routes --> APIHelpers
+  Routes --> API
+  Routes --> Utils
   AuthCtx --> Cognito[AWS Cognito]
-  APIHelpers --> Backend[Backend NestJS API]
+  API --> Backend[Backend NestJS API]
 
   subgraph Qualidade
     Tests[Jest + Testing Library]

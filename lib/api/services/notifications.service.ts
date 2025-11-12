@@ -213,7 +213,7 @@ export class NotificationsService {
   ): Promise<Notification[]> {
     const response = await this.listNotifications({
       userId,
-      type: type as any,
+      type: type as NotificationType,
     });
     return response.data;
   }

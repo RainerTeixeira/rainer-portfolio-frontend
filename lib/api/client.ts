@@ -6,6 +6,11 @@
 import { API_CONFIG, ERROR_MESSAGES, HTTP_STATUS } from './config';
 
 /**
+ * Tipo para dados de erro da API
+ */
+type ApiErrorData = unknown;
+
+/**
  * Classe de erro personalizada para erros de API com informações detalhadas
  * @class
  * @extends Error
@@ -15,7 +20,7 @@ export class ApiError extends Error {
    * Cria uma instância de ApiError
    * @param {number} status - Status HTTP do erro
    * @param {string} message - Mensagem de erro
-   * @param {any} [data] - Dados adicionais do erro
+   * @param {ApiErrorData} [data] - Dados adicionais do erro
    * @param {string} [url] - URL da requisição que causou o erro
    * @param {string} [method] - Método HTTP da requisição
    * @param {string} [endpoint] - Endpoint da API
@@ -25,7 +30,7 @@ export class ApiError extends Error {
   constructor(
     public status: number,
     message: string,
-    public data?: any,
+    public data?: ApiErrorData,
     public url?: string,
     public method?: string,
     public endpoint?: string
@@ -66,13 +71,18 @@ export class ApiError extends Error {
 }
 
 /**
+ * Tipo para valores de parâmetros de query string
+ */
+type QueryParamValue = string | number | boolean | null | undefined;
+
+/**
  * Interface para opções de requisição HTTP
  * @interface RequestOptions
  * @extends RequestInit
  */
 interface RequestOptions extends RequestInit {
   /** Parâmetros de query string */
-  params?: Record<string, any>;
+  params?: Record<string, QueryParamValue>;
   /** Timeout em milissegundos */
   timeout?: number;
   /** Tentativas de retry */
@@ -101,7 +111,7 @@ class ApiClient {
   /** Headers padrão para todas as requisições */
   private defaultHeaders: HeadersInit;
   /** Callback para logging */
-  private logger?: (message: string, data?: any) => void;
+  private logger?: (message: string, data?: unknown) => void;
   /** Callback para monitoramento */
   private onRequest?: (
     metrics: RequestMetrics & {
@@ -118,7 +128,7 @@ class ApiClient {
    * @param {Function} options.onRequest - Callback para monitoramento de requisições
    */
   constructor(options?: {
-    logger?: (message: string, data?: any) => void;
+    logger?: (message: string, data?: unknown) => void;
     onRequest?: (
       metrics: RequestMetrics & {
         endpoint: string;
@@ -159,7 +169,7 @@ class ApiClient {
    * Loga mensagens se logger estiver configurado
    * @private
    */
-  private log(message: string, data?: any): void {
+  private log(message: string, data?: unknown): void {
     if (this.logger) {
       this.logger(message, data);
     }
@@ -169,7 +179,10 @@ class ApiClient {
    * Constrói a URL completa com parâmetros de query
    * @private
    */
-  private buildUrl(endpoint: string, params?: Record<string, any>): string {
+  private buildUrl(
+    endpoint: string,
+    params?: Record<string, QueryParamValue>
+  ): string {
     const base = this.baseUrl.replace(/\/$/, '');
     const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     const fullUrl = `${base}${path}`;
@@ -193,7 +206,7 @@ class ApiClient {
    * @private
    */
   private async processResponse<T>(response: Response): Promise<T> {
-    let data: any;
+    let data: unknown;
     const contentType = response.headers.get('content-type');
 
     try {
@@ -226,11 +239,10 @@ class ApiClient {
             // Se não for JSON, manter como texto
             data = text;
           }
-        } catch (e) {
-          console.error('[ApiClient] Erro ao ler resposta do servidor:', e);
+        } catch {
+          console.error('[ApiClient] Erro ao ler resposta do servidor');
           data = {
             error: 'Não foi possível ler a resposta do servidor',
-            originalError: String(e),
           };
         }
       } else {
@@ -238,27 +250,51 @@ class ApiClient {
       }
     }
 
-    return data;
+    return data as T;
   }
 
   /**
    * Extrai mensagem de erro dos dados de resposta
    * @private
    */
-  private getErrorMessage(data: any, status: number): string {
+  private getErrorMessage(data: unknown, status: number): string {
+    /**
+     * Tipo para dados de erro estruturados
+     */
+    interface ErrorDataStructure {
+      message?: string;
+      error?: string | { message?: string };
+      detail?: string;
+      errorMessage?: string;
+      error_description?: string;
+      err?: { message?: string };
+      stack?: string;
+    }
     if (typeof data === 'string') return data;
+
+    // Tipo guard para verificar se é objeto
+    if (typeof data !== 'object' || data === null) {
+      return `Request failed with status ${status}`;
+    }
+
+    const errorData = data as ErrorDataStructure;
 
     // Tenta extrair mensagem de erro de estruturas comuns
     // Para erros 500, tenta várias estruturas possíveis
-    let errorMessage =
-      data?.message ||
-      data?.error?.message ||
-      data?.error ||
-      data?.detail ||
-      data?.errorMessage ||
-      data?.error_description ||
-      data?.err?.message ||
-      data?.stack; // Último recurso: mostrar stack trace
+    let errorMessage: string | undefined =
+      errorData?.message ||
+      (typeof errorData?.error === 'object' && errorData.error !== null
+        ? (errorData.error as { message?: string })?.message
+        : typeof errorData?.error === 'string'
+          ? errorData.error
+          : undefined) ||
+      errorData?.detail ||
+      errorData?.errorMessage ||
+      errorData?.error_description ||
+      (errorData?.err && typeof errorData.err === 'object'
+        ? (errorData.err as { message?: string })?.message
+        : undefined) ||
+      errorData?.stack; // Último recurso: mostrar stack trace
 
     // Se não encontrou mensagem e há dados, tenta stringificar
     if (!errorMessage && data) {
@@ -270,7 +306,7 @@ class ApiClient {
         } else {
           errorMessage = `Erro do servidor (${status}): ${dataString}`;
         }
-      } catch (e) {
+      } catch {
         errorMessage = `Request failed with status ${status}`;
       }
     }
@@ -460,11 +496,24 @@ class ApiClient {
       // Log do erro detalhado (apenas em desenvolvimento)
       const errorMessage =
         error instanceof Error ? error.message : 'Erro desconhecido';
-      const errorObj = error as any;
 
       if (process.env.NODE_ENV === 'development') {
         // Extrair informações detalhadas do erro
-        const errorDetails: any = {
+        interface ErrorDetails {
+          endpoint: string;
+          url: string;
+          method: string;
+          duration?: number;
+          error: string;
+          status?: number;
+          statusText?: string;
+          responseData?: unknown;
+          errorType?: string;
+          stack?: string;
+          isAbortError?: boolean;
+        }
+
+        const errorDetails: ErrorDetails = {
           endpoint,
           url,
           method: fetchOptions.method || 'GET',
@@ -473,24 +522,22 @@ class ApiClient {
         };
 
         // Se for ApiError, incluir status e dados da resposta
-        if (errorObj.status) {
-          errorDetails.status = errorObj.status;
-          errorDetails.statusText = errorObj.statusText;
-          errorDetails.responseData = errorObj.data;
+        if (error instanceof ApiError) {
+          errorDetails.status = error.status;
+          errorDetails.responseData = error.data;
         }
 
         // Incluir tipo e stack se disponível
-        if (errorObj.constructor?.name) {
-          errorDetails.errorType = errorObj.constructor.name;
-        }
-        if (errorObj.stack) {
-          errorDetails.stack = errorObj.stack;
-        }
-        if (
-          errorObj.name === 'AbortError' ||
-          errorMessage.includes('aborted')
-        ) {
-          errorDetails.isAbortError = true;
+        if (error instanceof Error) {
+          if (error.constructor?.name) {
+            errorDetails.errorType = error.constructor.name;
+          }
+          if (error.stack) {
+            errorDetails.stack = error.stack;
+          }
+          if (error.name === 'AbortError' || errorMessage.includes('aborted')) {
+            errorDetails.isAbortError = true;
+          }
         }
 
         console.error(`[${requestId}] Erro na requisição:`, errorDetails);
@@ -518,11 +565,7 @@ class ApiClient {
       if (error instanceof ApiError) throw error;
 
       // Tratamento de timeout
-      if (
-        error instanceof Error &&
-        (error.name === 'AbortError' ||
-          (error as any).fullName === 'AbortError')
-      ) {
+      if (error instanceof Error && error.name === 'AbortError') {
         throw new ApiError(
           HTTP_STATUS.SERVICE_UNAVAILABLE,
           ERROR_MESSAGES.TIMEOUT_ERROR,
@@ -560,7 +603,7 @@ class ApiClient {
    */
   async post<T>(
     endpoint: string,
-    body?: any,
+    body?: unknown,
     options?: Omit<RequestOptions, 'body'>
   ): Promise<T> {
     // Se body for FormData, não fazer JSON.stringify
@@ -615,7 +658,7 @@ class ApiClient {
    */
   async put<T>(
     endpoint: string,
-    body?: any,
+    body?: unknown,
     options?: Omit<RequestOptions, 'body'>
   ): Promise<T> {
     // Se body for FormData, não fazer JSON.stringify (deixar o navegador definir Content-Type com boundary)
@@ -672,7 +715,7 @@ class ApiClient {
    */
   async patch<T>(
     endpoint: string,
-    body?: any,
+    body?: unknown,
     options?: Omit<RequestOptions, 'body'>
   ): Promise<T> {
     return this.request<T>(endpoint, {
@@ -703,10 +746,9 @@ class ApiClient {
    * Remove o token de autenticação
    */
   clearAuthToken(): void {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { Authorization: _Authorization, ...rest } = this
-      .defaultHeaders as any;
-    this.defaultHeaders = rest;
+    const headers = { ...this.defaultHeaders } as Record<string, string>;
+    delete headers.Authorization;
+    this.defaultHeaders = headers;
   }
 
   /**
@@ -723,8 +765,8 @@ class ApiClient {
    * Remove um header personalizado
    */
   removeHeader(key: string): void {
-    const headers = { ...this.defaultHeaders };
-    delete (headers as any)[key];
+    const headers = { ...this.defaultHeaders } as Record<string, string>;
+    delete headers[key];
     this.defaultHeaders = headers;
   }
 
