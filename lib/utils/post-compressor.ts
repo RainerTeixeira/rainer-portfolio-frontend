@@ -657,7 +657,10 @@ export function generateTOC(compressedContent: string): Array<{
         /^h[1-3]$/.test(block.t)
       ) {
         const blockObj = block as Record<string, unknown>;
-        const level = parseInt((typeof blockObj.t === 'string' ? blockObj.t : 'h1').slice(1), 10);
+        const level = parseInt(
+          (typeof blockObj.t === 'string' ? blockObj.t : 'h1').slice(1),
+          10
+        );
         const text = (blockObj.c as string) || '';
         const id = blockObj.id as string | undefined;
         toc.push({

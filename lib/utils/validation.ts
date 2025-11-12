@@ -11,8 +11,8 @@
 
 import {
   ERROR_MESSAGES as DESIGN_TOKENS_ERROR_MESSAGES,
-  FORM_CONFIG,
   REGEX_PATTERNS as DESIGN_TOKENS_REGEX_PATTERNS,
+  FORM_CONFIG,
 } from '@rainer/design-tokens';
 
 // ============================================================================
