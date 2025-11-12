@@ -9,7 +9,11 @@
 5. [Validation Schemas](#validation-schemas)
 6. [Environment](#environment)
 7. [Utilities](#utilities)
-8. [Hooks](#hooks)
+8. [String Utils](#string-utils)
+9. [Content Utils](#content-utils)
+10. [API Helpers](#api-helpers)
+11. [SEO Utils](#seo-utils)
+12. [Hooks](#hooks)
 
 ---
 
@@ -171,7 +175,8 @@ if (REGEX_PATTERNS.EMAIL.test(email)) {
 
 ## 📝 Logger
 
-**Arquivo**: `lib/logger.ts`
+**Arquivo**: `lib/monitoring/logger.ts`  
+**⚠️ DEPRECATED**: `lib/logger.ts` (use `lib/monitoring/logger.ts`)
 
 ### API
 
@@ -242,14 +247,17 @@ componentLogger.info('Mounted')
 
 ## 📊 Analytics
 
-**Arquivo**: `lib/analytics.ts`
+**Arquivo**: `lib/monitoring/analytics.ts`  
+**⚠️ DEPRECATED**: `lib/analytics.ts` (use `lib/monitoring/analytics.ts`)
 
 ### API
 
 #### `analytics.track(event)`
 
 ```typescript
-import { analytics, ANALYTICS_EVENTS } from '@/lib/analytics'
+import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring/analytics'
+// ou via barrel export:
+import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring'
 
 analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'))
 analytics.track(ANALYTICS_EVENTS.BLOG_POST_LIKE('post-123'))
@@ -299,7 +307,8 @@ analytics.enable()
 
 ## ⚡ Performance Monitor
 
-**Arquivo**: `lib/performance-monitor.ts`
+**Arquivo**: `lib/monitoring/performance.ts`  
+**⚠️ DEPRECATED**: `lib/performance-monitor.ts` (use `lib/monitoring/performance.ts`)
 
 ### API
 
@@ -378,7 +387,8 @@ performanceMonitor.reportNavigationTiming()
 
 ## ✅ Validation Schemas
 
-**Arquivo**: `lib/validation-schemas.ts`
+**Arquivo**: `lib/utils/validation.ts`  
+**⚠️ DEPRECATED**: `lib/validation-schemas.ts` (use `lib/utils/validation.ts`)
 
 ### Validators
 
@@ -447,7 +457,9 @@ interface ValidationResult {
 #### `loginFormSchema`
 
 ```typescript
-import { loginFormSchema, validateWithSchema } from '@/lib/validation-schemas'
+import { loginFormSchema, validateWithSchema } from '@/lib/utils/validation'
+// ou via barrel export:
+import { loginFormSchema, validateWithSchema } from '@/lib/utils'
 
 const data = { username: 'john', password: '12345678' }
 const result = validateWithSchema(data, loginFormSchema)
@@ -555,12 +567,15 @@ cn({ 'bg-red-500': isError })
 
 ---
 
-**Arquivo**: `lib/scroll-utils.ts`
+**Arquivo**: `lib/utils/scroll.ts`  
+**⚠️ DEPRECATED**: `lib/scroll-utils.ts` (use `lib/utils/scroll.ts`)
 
 ### `scrollToElement(elementId, options?)`
 
 ```typescript
-import { scrollToElement } from '@/lib/scroll-utils'
+import { scrollToElement } from '@/lib/utils/scroll'
+// ou via barrel export:
+import { scrollToElement } from '@/lib/utils'
 
 scrollToElement('section-id', {
   behavior: 'smooth',
@@ -854,6 +869,201 @@ import {
 
 ---
 
+## 🔤 String Utils
+
+**Arquivo**: `lib/utils/string.ts`
+
+### Importação
+
+```typescript
+import {
+  textToSlug,
+  formatDate,
+  formatDateTime,
+  translatePostStatus,
+  translateStatus,
+} from '@/lib/utils/string';
+```
+
+### Funções
+
+#### `textToSlug(text: string): string`
+
+Converte string para slug URL-friendly.
+
+```typescript
+textToSlug('Meu Primeiro Post!'); // "meu-primeiro-post"
+textToSlug('Café & Pão'); // "cafe-pao"
+```
+
+#### `formatDate(date: Date | string): string`
+
+Formata data para exibição em português.
+
+```typescript
+formatDate(new Date()); // "15 de janeiro de 2024"
+formatDate('2024-01-15T00:00:00Z'); // "15 de janeiro de 2024"
+```
+
+#### `formatDateTime(date: Date | string): string`
+
+Formata data e hora para exibição em português.
+
+```typescript
+formatDateTime(new Date()); // "15 de janeiro de 2024, 14:30"
+```
+
+#### `translatePostStatus(status: PostStatus | string): string`
+
+Traduz status do post para português.
+
+```typescript
+translatePostStatus('DRAFT'); // "Rascunho"
+translatePostStatus('PUBLISHED'); // "Publicado"
+```
+
+---
+
+## 📝 Content Utils
+
+**Arquivo**: `lib/content/`
+
+### Importação
+
+```typescript
+import {
+  extractTextFromTiptap,
+  generateExcerpt,
+  createEmptyTiptapContent,
+  isContentEmpty,
+  calculateReadingTime,
+} from '@/lib/content';
+```
+
+### Funções
+
+#### `extractTextFromTiptap(content: TiptapJSON): string`
+
+Extrai texto puro do JSON do Tiptap.
+
+```typescript
+const content = {
+  type: 'doc',
+  content: [
+    { type: 'paragraph', content: [{ type: 'text', text: 'Olá mundo' }] },
+  ],
+};
+
+extractTextFromTiptap(content); // "Olá mundo"
+```
+
+#### `generateExcerpt(content: TiptapJSON, maxLength?: number): string`
+
+Gera excerpt (resumo) do conteúdo Tiptap.
+
+```typescript
+const excerpt = generateExcerpt(content, 50); // "Primeiros 50 caracteres..."
+```
+
+#### `calculateReadingTime(content: string | TiptapJSON, wordsPerMinute?: number): number`
+
+Calcula tempo de leitura baseado no conteúdo.
+
+```typescript
+calculateReadingTime(tiptapContent); // 5
+calculateReadingTime('<p>Texto longo...</p>'); // 3
+```
+
+---
+
+## 🔧 API Helpers
+
+**Arquivo**: `lib/api/helpers/`
+
+### Importação
+
+```typescript
+import {
+  preparePostForCreate,
+  preparePostForUpdate,
+  validatePostData,
+} from '@/lib/api/helpers';
+```
+
+### Funções
+
+#### `preparePostForCreate(formData, authorId): CreatePostData`
+
+Prepara dados do formulário para criar post no backend.
+
+```typescript
+const postData = preparePostForCreate(
+  {
+    title: 'Meu Post',
+    content: tiptapJSON,
+    subcategoryId: 'cat-123',
+  },
+  user.id
+);
+```
+
+#### `validatePostData(data): string[]`
+
+Valida dados de post antes de enviar para API.
+
+```typescript
+const errors = validatePostData(postData);
+if (errors.length > 0) {
+  console.error('Erros:', errors);
+}
+```
+
+---
+
+## 🔍 SEO Utils
+
+**Arquivo**: `lib/seo/`
+
+### Importação
+
+```typescript
+import {
+  generateMetadata,
+  generatePostMetadata,
+  generateCategoryMetadata,
+  generateArticleStructuredData,
+  generateBreadcrumbStructuredData,
+  generateSitemap,
+  generateRobotsTxt,
+} from '@/lib/seo';
+```
+
+### Funções
+
+#### `generateMetadata(props): Metadata`
+
+Gera metadados completos para SEO.
+
+```typescript
+const metadata = generateMetadata({
+  title: 'Meu Post',
+  description: 'Descrição do post',
+  type: 'article',
+  publishedTime: '2024-01-15T00:00:00Z',
+});
+```
+
+#### `generatePostMetadata(post): Metadata`
+
+Gera metadados para post do blog.
+
+```typescript
+const post = await getPostBySlug('meu-post');
+const metadata = generatePostMetadata(post);
+```
+
+---
+
 ## 📦 Barrel Exports
 
 ### `@/lib`
@@ -866,7 +1076,20 @@ import {
   performanceMonitor,
   env,
   validateEmail,
-  blogStore
+  blogPublicApi,
+  // String Utils
+  textToSlug,
+  formatDate,
+  translatePostStatus,
+  // Content Utils
+  extractTextFromTiptap,
+  calculateReadingTime,
+  // API Helpers
+  preparePostForCreate,
+  validatePostData,
+  // SEO Utils
+  generateMetadata,
+  generatePostMetadata,
 } from '@/lib'
 ```
 
@@ -971,7 +1194,9 @@ console.log('User logged in', userId)
 
 ```typescript
 // ✅ SEMPRE
-import { validateEmail } from '@/lib/validation-schemas'
+import { validateEmail } from '@/lib/utils/validation'
+// ou via barrel export:
+import { validateEmail } from '@/lib/utils'
 const result = validateEmail(email)
 
 // ❌ NUNCA
@@ -1038,4 +1263,4 @@ Dúvidas sobre a API? Entre em contato:
 ---
 
 **Última atualização**: Outubro 2025
-**Versão**: 1.0.0
+**Versão**: 2.0.0

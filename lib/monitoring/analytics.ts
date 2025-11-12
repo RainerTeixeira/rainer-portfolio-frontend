@@ -16,11 +16,7 @@
  * @version 1.0.0
  */
 
-// ============================================================================
-// Environment
-// ============================================================================
-
-import { env } from './env';
+import { env } from '@/lib/env';
 import { logger } from './logger';
 
 // ============================================================================
@@ -263,9 +259,8 @@ class Analytics {
  *
  * @example
  * ```tsx
- * import { analytics, ANALYTICS_EVENTS } from '@/lib/analytics'
+ * import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring/analytics'
  *
- * // Em componentes
  * analytics.track(ANALYTICS_EVENTS.BLOG_POST_VIEW('123', 'Título'))
  * analytics.pageView('/blog')
  * ```

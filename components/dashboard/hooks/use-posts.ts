@@ -28,7 +28,8 @@ import {
   unpublishPost,
   updatePost,
 } from '@/components/dashboard/lib/api-client';
-import type { CreatePostDTO, UpdatePostDTO } from '@/lib/api/types';
+import type { CreatePostData, UpdatePostData } from '@/lib/api/types';
+import type { Post, PostFilters, PostStatus } from '@/lib/api/types/posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -42,10 +43,11 @@ import { toast } from 'sonner';
  *
  * @constant
  */
+
 export const postKeys = {
   all: ['posts'] as const,
   lists: () => [...postKeys.all, 'list'] as const,
-  list: (filters: any) => [...postKeys.lists(), filters] as const,
+  list: (filters: PostFilters) => [...postKeys.lists(), filters] as const,
   details: () => [...postKeys.all, 'detail'] as const,
   detail: (slug: string) => [...postKeys.details(), slug] as const,
 };
@@ -93,14 +95,24 @@ export const postKeys = {
 export function usePosts(params?: {
   page?: number;
   pageSize?: number;
-  status?: string;
+  status?: PostStatus | string;
   categoryId?: string;
   search?: string;
   featured?: boolean;
 }) {
+  // Converter params para PostFilters
+  const filters: PostFilters = {
+    page: params?.page,
+    limit: params?.pageSize,
+    status: params?.status as PostStatus | undefined,
+    subcategoryId: params?.categoryId,
+    search: params?.search,
+    featured: params?.featured,
+  };
+
   return useQuery({
-    queryKey: postKeys.list(params || {}),
-    queryFn: () => getPosts(params),
+    queryKey: postKeys.list(filters),
+    queryFn: () => getPosts(filters),
     staleTime: 5 * 60 * 1000, // 5 minutos
   });
 }
@@ -170,7 +182,7 @@ export function useCreatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: CreatePostDTO) => createPost(data),
+    mutationFn: (data: CreatePostData) => createPost(data),
     onSuccess: newPost => {
       // Invalida cache de listagens
       queryClient.invalidateQueries({ queryKey: postKeys.lists() });
@@ -180,8 +192,10 @@ export function useCreatePost() {
 
       toast.success('Post criado com sucesso!');
     },
-    onError: (error: any) => {
-      toast.error(error.message || 'Erro ao criar post');
+    onError: (error: unknown) => {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Erro ao criar post';
+      toast.error(errorMessage);
     },
   });
 }
@@ -215,7 +229,7 @@ export function useUpdatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ slug, data }: { slug: string; data: UpdatePostDTO }) =>
+    mutationFn: ({ slug, data }: { slug: string; data: UpdatePostData }) =>
       updatePost(slug, data),
     onMutate: async ({ slug, data }) => {
       // Cancela queries em andamento
@@ -225,10 +239,16 @@ export function useUpdatePost() {
       const previousPost = queryClient.getQueryData(postKeys.detail(slug));
 
       // Atualização otimista
-      queryClient.setQueryData(postKeys.detail(slug), (old: any) => ({
-        ...old,
-        ...data,
-      }));
+      queryClient.setQueryData(
+        postKeys.detail(slug),
+        (old: Post | undefined): Post | undefined => {
+          if (!old) return old;
+          return {
+            ...old,
+            ...data,
+          };
+        }
+      );
 
       return { previousPost };
     },
@@ -398,14 +418,20 @@ export function useLikePost() {
       await queryClient.cancelQueries({ queryKey: postKeys.all });
 
       // Atualiza contador localmente
-      queryClient.setQueriesData({ queryKey: postKeys.all }, (old: any) => {
-        if (!old) return old;
-
-        return {
-          ...old,
-          likesCount: isLiked ? old.likesCount - 1 : old.likesCount + 1,
-        };
-      });
+      queryClient.setQueriesData(
+        { queryKey: postKeys.all },
+        (old: unknown): unknown => {
+          if (!old || typeof old !== 'object') return old;
+          const postData = old as { likesCount?: number };
+          if (typeof postData.likesCount !== 'number') return old;
+          return {
+            ...postData,
+            likesCount: isLiked
+              ? postData.likesCount - 1
+              : postData.likesCount + 1,
+          };
+        }
+      );
     },
     onError: () => {
       queryClient.invalidateQueries({ queryKey: postKeys.all });
@@ -458,16 +484,20 @@ export function useBookmarkPost() {
     onMutate: async ({ postId: _postId, isBookmarked }) => {
       await queryClient.cancelQueries({ queryKey: postKeys.all });
 
-      queryClient.setQueriesData({ queryKey: postKeys.all }, (old: any) => {
-        if (!old) return old;
-
-        return {
-          ...old,
-          bookmarksCount: isBookmarked
-            ? old.bookmarksCount - 1
-            : old.bookmarksCount + 1,
-        };
-      });
+      queryClient.setQueriesData(
+        { queryKey: postKeys.all },
+        (old: unknown): unknown => {
+          if (!old || typeof old !== 'object') return old;
+          const postData = old as { bookmarksCount?: number };
+          if (typeof postData.bookmarksCount !== 'number') return old;
+          return {
+            ...postData,
+            bookmarksCount: isBookmarked
+              ? postData.bookmarksCount - 1
+              : postData.bookmarksCount + 1,
+          };
+        }
+      );
     },
     onSuccess: (_, { isBookmarked }) => {
       toast.success(isBookmarked ? 'Removido dos salvos' : 'Post salvo!');

@@ -1,145 +1,221 @@
 /**
- * Image Optimizer - Utilitário para otimização de imagens
+ * Image Optimizer (Formato Post-Compressor)
  *
- * Fornece funções para analisar e otimizar imagens antes do upload
+ * Utilitário inspirado no estilo do post-compressor para análise e otimização de imagens.
+ * Estrutura compacta, funções puras e todas as decisões condensadas em objetos tipo map.
  */
-
-export interface ImageAnalysis {
-  format: string;
-  animated: boolean;
-  needsConversion: boolean;
-  recommendedFormat: 'webp' | 'original';
-  size: number;
-  dimensions?: {
-    width: number;
-    height: number;
-  };
-}
 
 /**
- * Analisa uma URL ou arquivo de imagem para determinar formato e características
+ * Tipos compactos de formato de imagem
  */
-export function analyzeImage(source: string | File): ImageAnalysis {
-  let url = '';
+type ImageFormat = 'webp' | 'gif' | 'jpg' | 'png' | 'svg' | 'avif' | '';
+
+/**
+ * Mapeia formatos semelhantes para uma única key
+ */
+const FORMAT_REMAP: Record<string, ImageFormat> = {
+  jpeg: 'jpg',
+  jpg: 'jpg',
+  png: 'png',
+  webp: 'webp',
+  gif: 'gif',
+  svg: 'svg',
+  avif: 'avif',
+};
+
+/**
+ * Mapeamento para recomendações com base no formato/estado
+ * Similar aos mapas do post-compressor
+ */
+const FORMAT_OPTIMIZATION: Record<
+  ImageFormat,
+  {
+    recommended: 'webp' | 'original';
+    compression: 'high' | 'medium' | 'low';
+    notes: string;
+    needsConversion: (animated: boolean) => boolean;
+  }
+> = {
+  webp: {
+    recommended: 'webp',
+    compression: 'medium',
+    notes: 'Já está em WebP - considerar apenas otimização leve.',
+    needsConversion: () => false,
+  },
+  gif: {
+    recommended: 'original',
+    compression: 'medium',
+    notes: 'GIF animado - manter formato original (pode ser animado).',
+    needsConversion: animated => !animated, // só converte GIF estático
+  },
+  jpg: {
+    recommended: 'webp',
+    compression: 'high',
+    notes: 'JPEG detectado - recomenda conversão para WebP.',
+    needsConversion: () => true,
+  },
+  png: {
+    recommended: 'webp',
+    compression: 'high',
+    notes: 'PNG detectado - recomenda conversão para WebP.',
+    needsConversion: () => true,
+  },
+  svg: {
+    recommended: 'original',
+    compression: 'low',
+    notes: 'SVG detectado - manter formato vetorial (sem compressão bitmap).',
+    needsConversion: () => false,
+  },
+  avif: {
+    recommended: 'original',
+    compression: 'medium',
+    notes: 'AVIF detectado - alta compressão, manter formato salvo indicação contrária.',
+    needsConversion: () => false,
+  },
+  '': {
+    recommended: 'original',
+    compression: 'medium',
+    notes: 'Formato desconhecido.',
+    needsConversion: () => false,
+  },
+};
+
+/**
+ * Estrutura ultra-compacta para análise e recomendação de imagem
+ */
+export type ImageAnalysisCompact = {
+  f: ImageFormat; // format
+  a: boolean;     // animated
+  c: boolean;     // needs conversion
+  r: 'webp' | 'original'; // recommended
+  s: number;      // size
+  d?: [number, number]; // dimensions: [w, h]
+};
+
+/**
+ * Analisa imagem (arquivo ou url) como no padrão post-compressor
+ */
+export function analyzeImageCompact(
+  src: string | File,
+  dims?: { width: number; height: number }
+): ImageAnalysisCompact {
+  let filename = '';
   let size = 0;
-  let format = '';
+  let format: ImageFormat = '';
   let animated = false;
 
-  if (source instanceof File) {
-    url = source.name.toLowerCase();
-    size = source.size;
-    format = extractFormatFromFilename(url);
-    // GIFs de arquivo são potencialmente animados
-    animated = format === 'gif';
+  if (src instanceof File) {
+    filename = src.name.toLowerCase();
+    size = src.size;
+    format = extractFormat(filename);
+    animated = isGifOrAnimatedName(filename, src.type);
   } else {
-    url = source.toLowerCase();
-    format = extractFormatFromUrl(url);
-    animated =
-      url.includes('animated') || url.includes('anim') || format === 'gif';
+    filename = src.toLowerCase();
+    format = extractFormat(filename);
+    animated = isAnimatedHeuristic(filename);
+    size = 0; // Não disponível para string
   }
 
-  // Determinar se precisa conversão
-  const needsConversion = format !== 'webp' && !animated;
-  const recommendedFormat: 'webp' | 'original' = animated ? 'original' : 'webp';
+  const opt = FORMAT_OPTIMIZATION[format] || FORMAT_OPTIMIZATION[''];
+  const needsConversion = opt.needsConversion(animated);
+  const recommended = animated ? 'original' : opt.recommended;
 
-  return {
-    format,
-    animated,
-    needsConversion,
-    recommendedFormat,
-    size,
+  const result: ImageAnalysisCompact = {
+    f: format,
+    a: animated,
+    c: needsConversion,
+    r: recommended,
+    s: size,
   };
+  if (dims) {
+    result.d = [dims.width, dims.height];
+  }
+  return result;
 }
 
 /**
- * Extrai formato da URL
+ * Extrator compacto de formato de arquivo
  */
-function extractFormatFromUrl(url: string): string {
-  const match = url.match(/\.(webp|gif|jpg|jpeg|png|svg|avif)(\?|$)/i);
+function extractFormat(filename: string): ImageFormat {
+  const match = filename.match(/\.(webp|gif|jpg|jpeg|png|svg|avif)(\?|$)/i);
   if (match && match[1]) {
-    const ext = match[1].toLowerCase();
-    return ext === 'jpeg' ? 'jpg' : ext;
+    return FORMAT_REMAP[match[1].toLowerCase()] ?? '';
   }
   return '';
 }
 
 /**
- * Extrai formato do nome do arquivo
+ * Heurística para GIF animado em arquivo
  */
-function extractFormatFromFilename(filename: string): string {
-  const match = filename.match(/\.(webp|gif|jpg|jpeg|png|svg|avif)$/i);
-  if (match && match[1]) {
-    const ext = match[1].toLowerCase();
-    return ext === 'jpeg' ? 'jpg' : ext;
-  }
-  return '';
-}
-
-/**
- * Verifica se uma imagem é animada (GIF animado)
- *
- * Nota: Esta é uma verificação heurística baseada na URL/nome.
- * Para verificação precisa, seria necessário analisar os bytes do arquivo.
- */
-export function isAnimatedImage(url: string | File): boolean {
-  if (url instanceof File) {
-    return url.type === 'image/gif' || url.name.toLowerCase().endsWith('.gif');
-  }
-
-  const urlLower = url.toLowerCase();
+function isGifOrAnimatedName(filename: string, mime?: string): boolean {
   return (
-    urlLower.includes('.gif') ||
-    urlLower.includes('animated') ||
-    urlLower.includes('anim') ||
-    urlLower.includes('_anim')
+    filename.includes('.gif') ||
+    (mime && mime === 'image/gif') ||
+    filename.includes('animated') ||
+    filename.includes('anim')
   );
 }
 
 /**
- * Obtém recomendações de otimização para uma imagem
+ * Heurística para animação via string/url
  */
-export function getOptimizationRecommendations(analysis: ImageAnalysis): {
-  shouldConvertToWebP: boolean;
-  shouldPreserveAnimation: boolean;
-  compressionLevel: 'high' | 'medium' | 'low';
-  notes: string[];
-} {
+function isAnimatedHeuristic(str: string): boolean {
+  const l = str.toLowerCase();
+  return (
+    l.includes('.gif') ||
+    l.includes('animated') ||
+    l.includes('anim') ||
+    l.includes('_anim')
+  );
+}
+
+/**
+ * Get recomendações de otimização, formato compacto
+ */
+export type OptimizationTipsCompact = {
+  w: boolean; // shouldConvertToWebP
+  p: boolean; // shouldPreserveAnimation
+  l: 'high' | 'medium' | 'low'; // compression level
+  n: string[]; // notes
+};
+
+/**
+ * Obtenha recomendações baseadas na análise compacta (post-compressor style)
+ */
+export function getOptimizationTips(an: ImageAnalysisCompact): OptimizationTipsCompact {
   const notes: string[] = [];
   let shouldConvertToWebP = false;
-  let shouldPreserveAnimation = analysis.animated;
+  let shouldPreserveAnimation = an.a;
   let compressionLevel: 'high' | 'medium' | 'low' = 'medium';
 
-  if (analysis.animated) {
+  const opt = FORMAT_OPTIMIZATION[an.f] || FORMAT_OPTIMIZATION[''];
+
+  if (an.a) {
     shouldPreserveAnimation = true;
-    notes.push('Imagem animada detectada - preservar formato original');
-    compressionLevel = 'medium'; // GIFs animados: compressão média para manter qualidade
-  } else if (analysis.format === 'png' && analysis.needsConversion) {
-    shouldConvertToWebP = true;
-    notes.push(
-      'PNG detectado - recomenda conversão para WebP (melhor compressão)'
-    );
-    compressionLevel = 'high';
-  } else if (
-    ['jpg', 'jpeg'].includes(analysis.format) &&
-    analysis.needsConversion
-  ) {
-    shouldConvertToWebP = true;
-    notes.push(
-      'JPEG detectado - recomenda conversão para WebP (menor tamanho)'
-    );
-    compressionLevel = 'high';
-  } else if (analysis.format === 'webp') {
-    notes.push('Já está em WebP - otimização adicional recomendada');
     compressionLevel = 'medium';
-  } else if (analysis.format === 'svg') {
-    notes.push('SVG detectado - manter formato original (vetorial)');
+    notes.push('Imagem animada detectada - preservar formato original');
+  }
+  if ((an.f === 'png' || an.f === 'jpg') && an.c) {
+    shouldConvertToWebP = true;
+    notes.push(opt.notes);
+    compressionLevel = 'high';
+  }
+  if (an.f === 'webp') {
+    notes.push(opt.notes);
+    compressionLevel = 'medium';
+  }
+  if (an.f === 'svg') {
+    notes.push(opt.notes);
     compressionLevel = 'low';
+  }
+  if (!notes.length) {
+    notes.push(opt.notes);
   }
 
   return {
-    shouldConvertToWebP,
-    shouldPreserveAnimation,
-    compressionLevel,
-    notes,
+    w: shouldConvertToWebP,
+    p: shouldPreserveAnimation,
+    l: compressionLevel,
+    n: notes,
   };
 }

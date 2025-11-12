@@ -87,7 +87,7 @@ Evoluir de um portfolio pessoal para uma **plataforma completa de presença digi
 │                   PRESENTATION LAYER                     │
 │  ├─ Pages (app/)                                        │
 │  ├─ Components (components/)                            │
-│  ├─ Hooks (hooks/)                                      │
+│  ├─ Hooks (hooks/ + components/*/hooks/)                │
 │  └─ Providers (components/providers/)                   │
 ├─────────────────────────────────────────────────────────┤
 │                    BUSINESS LOGIC                        │
@@ -97,14 +97,18 @@ Evoluir de um portfolio pessoal para uma **plataforma completa de presença digi
 │  └─ Performance (lib/performance-monitor.ts)            │
 ├─────────────────────────────────────────────────────────┤
 │                     DATA LAYER                           │
-│  ├─ Blog Store (lib/blog-store.ts)                     │
-│  ├─ Auth Local (lib/auth-local.ts)                     │
-│  └─ API Helpers (lib/api-helpers.ts)                   │
+│  ├─ Blog Public API (lib/api/blog-public-api.ts)       │
+│  ├─ API Services (lib/api/services/)                   │
+│  ├─ Auth Local (components/dashboard/lib/auth-local.ts)│
+│  ├─ API Helpers (lib/api/helpers/)                     │
+│  ├─ Content Utils (lib/content/)                       │
+│  ├─ String Utils (lib/utils/string.ts)                 │
+│  └─ SEO Utils (lib/seo/)                               │
 ├─────────────────────────────────────────────────────────┤
 │                 INFRASTRUCTURE LAYER                     │
-│  ├─ Design Tokens (constants/design-tokens.ts)         │
+│  ├─ Design Tokens (@rainer/design-tokens)              │
 │  ├─ Environment (lib/env.ts)                           │
-│  ├─ Logger (lib/logger.ts)                             │
+│  ├─ Logger (lib/monitoring/logger.ts)                 │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -124,7 +128,7 @@ User Input → Component → Hook → API/Store → State Update → Re-render
 
 | Tecnologia | Versão | Propósito |
 |------------|--------|-----------|
-| **Next.js** | 15.5.5 | Framework React com SSR/SSG |
+| **Next.js** | 15.1.6 | Framework React com SSR/SSG |
 | **React** | 19.0.0 | Biblioteca UI |
 | **TypeScript** | 5.x | Type safety |
 | **Tailwind CSS** | 4.1.14 | Styling utility-first |
@@ -205,13 +209,37 @@ app/
 ├── sobre/                 # Sobre a empresa
 │   └── page.tsx          # Informações profissionais
 │
+├── privacidade/          # Política de Privacidade (LGPD)
+│   └── page.tsx
+│
+├── termos/               # Termos de Uso
+│   └── page.tsx
+│
+├── cookies/              # Política de Cookies
+│   ├── page.tsx
+│   └── settings/
+│       └── page.tsx      # Configurações de cookies
+│
 └── dashboard/            # Admin dashboard
     ├── page.tsx         # Dashboard principal
+    ├── settings/
+    │   └── page.tsx     # Configurações do dashboard
     └── login/           # Autenticação
         ├── page.tsx     # Login page
+        ├── callback/
+        │   └── page.tsx # Callback OAuth (Google/GitHub)
         ├── register/
+        │   └── page.tsx # Registro de usuário
         ├── forgot-password/
-        └── reset-password/
+        │   └── page.tsx # Recuperação de senha
+        ├── reset-password/
+        │   ├── [token]/
+        │   │   └── page.tsx # Reset com token
+        │   └── page.tsx
+        ├── confirm-email/
+        │   └── page.tsx # Confirmação de email
+        └── verify-email-admin/
+            └── page.tsx # Verificação admin
 ```
 
 ### Diretório `/components`
@@ -251,7 +279,11 @@ components/
 │   ├── quick-actions.tsx
 │   ├── charts/
 │   ├── login/
-│   ├── hooks/
+│   ├── hooks/          # Hooks específicos do dashboard
+│   │   ├── use-password-strength.ts
+│   │   ├── use-upload.ts
+│   │   ├── use-dashboard-stats.ts
+│   │   └── use-analytics-data.ts
 │   └── utils/
 │
 ├── contato/            # Componentes de contato
@@ -264,7 +296,10 @@ components/
 │   ├── theme-provider.tsx
 │   ├── auth-provider.tsx
 │   ├── query-provider.tsx
-│   └── toast-provider.tsx
+│   └── auth-context-provider.tsx
+│
+│   **Nota**: Toast notifications usam `Toaster` do shadcn/ui (`components/ui/sonner.tsx`)
+│   diretamente em `app/layout.tsx`, não como provider separado
 │
 ├── accessibility/      # Acessibilidade
 │   ├── skip-to-content.tsx
@@ -284,7 +319,8 @@ components/
     ├── back-to-top.tsx
     ├── page-header.tsx
     ├── particles-effect.tsx
-    └── [40+ componentes shadcn/ui]
+    ├── sonner.tsx      # Toaster (notificações toast)
+    └── [48 componentes shadcn/ui]
 ```
 
 ### Diretório `/lib` (Utilities)
@@ -292,21 +328,57 @@ components/
 ```
 lib/
 ├── index.ts                    # Barrel exports
-├── utils.ts                    # Helpers gerais
+├── utils.ts                    # Helpers gerais (cn, getIcon, etc)
 ├── env.ts                      # ✨ Environment tipado
-├── logger.ts                   # ✨ Logging system
-├── analytics.ts                # ✨ Analytics tracking
-├── performance-monitor.ts      # ✨ Performance metrics
-├── validation-schemas.ts       # ✨ Validation centralized
-├── blog-store.ts              # Blog data management
-├── blog-mock-data.ts          # Mock data
-├── auth-local.ts              # Local authentication
-├── api-helpers.ts             # API utilities
-├── api-client.ts              # API client
-├── cloudinary.ts              # Cloudinary integration
-├── tiptap-utils.ts            # TipTap helpers
-├── scroll-utils.ts            # Scroll utilities
-└── [outros utilitários]
+├── api/                       # API utilities
+│   ├── client.ts             # HTTP client
+│   ├── config.ts             # API config
+│   ├── blog-public-api.ts    # Blog public API
+│   ├── helpers/              # API helpers
+│   │   └── post-helpers.ts   # Post preparation
+│   ├── services/             # API services
+│   │   ├── auth.service.ts
+│   │   ├── posts.service.ts
+│   │   ├── categories.service.ts
+│   │   └── ...
+│   └── types/                # API types
+│       ├── posts.ts
+│       ├── categories.ts
+│       └── ...
+├── utils/                     # Utilitários organizados
+│   ├── index.ts              # Barrel exports
+│   ├── string.ts             # String utils (slug, date, status)
+│   ├── design-tokens.ts      # Design tokens helpers
+│   ├── scroll.ts             # Scroll utils (a11y)
+│   ├── search.ts             # Search utilities
+│   ├── validation.ts         # Validation schemas
+│   ├── image-optimizer.ts    # Image optimization
+│   └── post-compressor.ts    # Post compression
+├── content/                   # Content utilities
+│   ├── index.ts              # Barrel exports
+│   ├── tiptap-utils.ts       # Tiptap content utils
+│   └── reading-time.ts       # Reading time calculation
+├── seo/                       # SEO utilities
+│   ├── index.ts              # Barrel exports
+│   ├── metadata.ts           # SEO metadata
+│   ├── sitemap.ts            # Sitemap generation
+│   └── structured-data.ts    # Structured data
+├── monitoring/                # Monitoring & Observability
+│   ├── index.ts              # Barrel exports
+│   ├── analytics.ts          # Analytics tracking
+│   ├── logger.ts             # Logging system
+│   └── performance.ts        # Performance metrics
+├── cookies/                   # Cookie management (LGPD/GDPR)
+│   ├── index.ts              # Barrel exports
+│   ├── cookie-manager.ts     # Cookie manager singleton
+│   └── analytics.ts          # Analytics cookies condicionais
+├── analytics.ts               # ⚠️ DEPRECATED - usar lib/monitoring/analytics
+├── logger.ts                  # ⚠️ DEPRECATED - usar lib/monitoring/logger
+├── performance-monitor.ts    # ⚠️ DEPRECATED - usar lib/monitoring/performance
+├── search.ts                  # ⚠️ DEPRECATED - usar lib/utils/search
+├── scroll-utils.ts            # ⚠️ DEPRECATED - usar lib/utils/scroll
+├── validation-schemas.ts     # ⚠️ DEPRECATED - usar lib/utils/validation
+└── design-tokens-helpers.ts  # ⚠️ DEPRECATED - usar lib/utils/design-tokens
 ```
 
 ### Diretório `/hooks`
@@ -318,17 +390,27 @@ hooks/
 ├── use-mobile.ts          # Mobile detection
 ├── use-pwa.ts             # PWA features
 ├── use-smooth-scroll.ts   # Smooth scrolling
-├── use-password-strength.ts # Password validation
-└── use-upload.ts          # File upload
+└── useAuth.ts             # Authentication hook
 ```
+
+**Nota**: Hooks são organizados por domínio:
+- **Hooks globais** em `hooks/` (use-analytics, use-mobile, use-pwa, etc.)
+- **Hooks por domínio** em `components/*/hooks/`:
+  - `components/dashboard/hooks/` - Hooks do dashboard (use-password-strength, use-upload, etc.)
+  - `components/blog/hooks/` - Hooks do blog (use-posts, use-comments, etc.)
+  - `components/contato/hooks/` - Hooks de contato (use-contact-form)
 
 ### Diretório `/constants`
 
 ```
 constants/
-├── design-tokens.ts       # ✨ 200+ design tokens
-└── index.tsx              # Configurações gerais
+├── index.ts               # Re-exports de @rainer/design-tokens
+└── [outros arquivos de configuração]
 ```
+
+**Nota**: Design tokens migrados para biblioteca `@rainer/design-tokens`.
+O arquivo `constants/design-tokens.ts` não existe mais.
+Backup disponível em `constants/OLD_design-tokens.ts` (se existir).
 
 ---
 
@@ -542,6 +624,6 @@ constants/
 
 ---
 
-**Última atualização**: Outubro 2025
+**Última atualização**: Janeiro 2025
 **Versão**: 2.0.0 Enterprise Edition
 **Status**: 🟢 Production Ready

@@ -2,10 +2,12 @@
  * Types - Comments
  */
 
+import type { TiptapJSON } from './common';
+
 export interface Comment {
   readonly id: string;
   readonly content: string;
-  readonly contentJson?: any;
+  readonly contentJson?: TiptapJSON;
   readonly authorId: string;
   readonly postId: string;
   readonly parentId?: string;
@@ -21,7 +23,7 @@ export interface Comment {
 
 export interface CreateCommentData {
   readonly content: string;
-  readonly contentJson?: any;
+  readonly contentJson?: TiptapJSON;
   readonly authorId: string;
   readonly postId: string;
   readonly parentId?: string;
@@ -29,7 +31,7 @@ export interface CreateCommentData {
 
 export interface UpdateCommentData {
   readonly content?: string;
-  readonly contentJson?: any;
+  readonly contentJson?: TiptapJSON;
   readonly isApproved?: boolean;
   readonly isReported?: boolean;
   readonly reportReason?: string;

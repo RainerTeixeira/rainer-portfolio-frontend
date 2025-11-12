@@ -19,18 +19,26 @@ import type { JSONContent } from '@tiptap/core';
  * @param json - JSON do Tiptap
  * @returns Markdown string (muito mais compacto que JSON)
  */
-export function tiptapJSONToMarkdown(json: JSONContent | string | any): string {
+export function tiptapJSONToMarkdown(
+  json: JSONContent | string | unknown
+): string {
   // Se já for string (Markdown), retorna direto
   if (typeof json === 'string') {
     return json;
   }
 
-  // Se não tiver conteúdo, retorna vazio
-  if (!json || !json.content || !Array.isArray(json.content)) {
-    return '';
+  // Tipo guard para JSONContent
+  if (
+    typeof json === 'object' &&
+    json !== null &&
+    'content' in json &&
+    Array.isArray(json.content)
+  ) {
+    return convertNodesToMarkdown(json.content);
   }
 
-  return convertNodesToMarkdown(json.content);
+  // Se não tiver conteúdo válido, retorna vazio
+  return '';
 }
 
 /**
@@ -51,10 +59,12 @@ function convertNodeToMarkdown(node: JSONContent): string {
     let output = text;
 
     // Aplica marcações (negrito, itálico, código, etc)
-    if (marks) {
+    if (marks && Array.isArray(marks)) {
       // Ordem importante: código primeiro, depois negrito/itálico
-      marks.forEach((mark: any) => {
-        switch (mark.type) {
+      marks.forEach(mark => {
+        if (!mark || typeof mark !== 'object' || !('type' in mark)) return;
+        const markType = mark.type as string;
+        switch (markType) {
           case 'code':
             output = `\`${output}\``;
             break;
@@ -67,10 +77,15 @@ function convertNodeToMarkdown(node: JSONContent): string {
           case 'strike':
             output = `~~${output}~~`;
             break;
-          case 'link':
-            const href = mark.attrs?.href || '';
+          case 'link': {
+            const markAttrs =
+              mark.attrs && typeof mark.attrs === 'object'
+                ? (mark.attrs as { href?: string })
+                : undefined;
+            const href = markAttrs?.href || '';
             output = `[${output}](${href})`;
             break;
+          }
         }
       });
     }

@@ -16,8 +16,8 @@
  * @since 1.0.0
  */
 
-import * as React from 'react';
 import * as SeparatorPrimitive from '@radix-ui/react-separator';
+import * as React from 'react';
 
 import { cn } from '../../lib/utils';
 
@@ -67,7 +67,7 @@ const Separator = React.forwardRef<
       className={cn(
         'shrink-0 bg-border',
         /** Define dimensões baseado na orientação */
-        orientation === 'horizontal' ? 'h-[1px] w-full' : 'h-full w-[1px]',
+        orientation === 'horizontal' ? 'h-px w-full' : 'h-full w-px',
         className
       )}
       {...props}

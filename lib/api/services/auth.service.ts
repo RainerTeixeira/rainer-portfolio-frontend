@@ -61,7 +61,22 @@ export interface PasswordlessInitResponse {
   readonly session?: string;
 }
 
-export interface PasswordlessVerifyResponse extends LoginResponse {}
+export type PasswordlessVerifyResponse = LoginResponse;
+
+// ============================================================================
+// Types
+// ============================================================================
+
+/**
+ * Tipo para payload JWT
+ */
+interface JwtPayload {
+  sub?: string;
+  email?: string;
+  'cognito:username'?: string;
+  exp?: number;
+  [key: string]: unknown;
+}
 
 // ============================================================================
 // Classe do Serviço
@@ -126,9 +141,11 @@ export class AuthService {
   /**
    * Decodifica um JWT sem validação de assinatura (uso client-side).
    */
-  private decodeToken(token: string): any {
+  private decodeToken(token: string): JwtPayload | null {
     try {
-      const base64Url = token.split('.')[1];
+      const parts = token.split('.');
+      if (parts.length < 2) return null;
+      const base64Url = parts[1];
       if (!base64Url) return null;
 
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -138,10 +155,10 @@ export class AuthService {
           .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
           .join('')
       );
-      return JSON.parse(jsonPayload);
-    } catch (error) {
+      return JSON.parse(jsonPayload) as JwtPayload;
+    } catch {
       if (process.env.NODE_ENV === 'development') {
-        console.error('Erro ao decodificar token:', error);
+        console.error('Erro ao decodificar token');
       }
       return null;
     }
@@ -157,14 +174,16 @@ export class AuthService {
     if (!decodedToken) return true;
 
     const currentTime = Math.floor(Date.now() / 1000);
-    return decodedToken.exp < currentTime;
+    const exp = decodedToken.exp;
+    if (!exp) return true;
+    return exp < currentTime;
   }
 
   /**
    * Extrai dados do Cognito do token JWT (método público para testes).
    * Retorna o payload decodificado do token ou null se não houver token.
    */
-  public getCognitoUserFromToken(): any | null {
+  public getCognitoUserFromToken(): JwtPayload | null {
     const token = this.getAccessToken();
     if (!token) return null;
     return this.decodeToken(token);
@@ -213,25 +232,40 @@ export class AuthService {
 
     // Criar um perfil básico a partir do token com todos os campos necessários
     // Nota: User não tem nickname, apenas UserProfile tem
+    if (!cognitoSub) {
+      throw new Error('Cognito sub não encontrado no token');
+    }
+
+    const cognitoGroups = decodedToken['cognito:groups'];
+    const groupsArray = Array.isArray(cognitoGroups) ? cognitoGroups : [];
+    const userRole = (groupsArray[0] as UserRole) || UserRole.SUBSCRIBER;
+
+    const fullNameValue =
+      (decodedToken['fullName'] as string | undefined) ||
+      (decodedToken.fullName as string | undefined) ||
+      nickname ||
+      '';
+    const fullName: string = typeof fullNameValue === 'string' ? fullNameValue : '';
+
+    const iat = decodedToken.iat;
+    const createdAtTimestamp =
+      typeof iat === 'number' ? iat * 1000 : Date.now();
+
     const user: User = {
       id: cognitoSub, // Usamos o sub como ID único
       cognitoSub, // Mantemos uma referência ao sub do Cognito
-      fullName: decodedToken['fullName'] || nickname || '',
-      role:
-        (decodedToken['cognito:groups']?.[0] as UserRole) ||
-        UserRole.SUBSCRIBER,
+      fullName,
+      role: userRole,
       isActive: true,
       isBanned: false,
       postsCount: 0,
       commentsCount: 0,
-      createdAt: new Date(
-        (decodedToken.iat || Date.now() / 1000) * 1000
-      ).toISOString(),
+      createdAt: new Date(createdAtTimestamp).toISOString(),
       updatedAt: new Date().toISOString(),
-      avatar,
-      bio,
-      website,
-      socialLinks,
+      avatar: avatar || undefined,
+      bio: bio || undefined,
+      website: website || undefined,
+      socialLinks: socialLinks || undefined,
     };
 
     return user;
@@ -320,7 +354,7 @@ export class AuthService {
       process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN ||
       (typeof window !== 'undefined'
         ? `${window.location.origin}/dashboard/login/callback`
-        : `${window.location.origin}/dashboard/login/callback`);
+        : '/dashboard/login/callback');
 
     if (!domain || !clientId) {
       throw new Error(
@@ -528,6 +562,11 @@ export class AuthService {
     } catch (error) {
       // Tratamento específico para erros 401 (credenciais inválidas)
       if (error instanceof ApiError && error.status === 401) {
+        // Interface para ApiError com suggestions (adicionado dinamicamente)
+        interface ApiErrorWithSuggestions extends ApiError {
+          suggestions?: string[];
+        }
+
         // Cria um erro mais descritivo com sugestões
         const enhancedError = new ApiError(
           401,
@@ -536,27 +575,37 @@ export class AuthService {
           error.url,
           error.method,
           error.endpoint
-        );
-        (enhancedError as any).suggestions = [
+        ) as ApiErrorWithSuggestions;
+
+        enhancedError.suggestions = [
           'Verifique se o email está correto',
           'Verifique se a senha está correta',
           'Certifique-se de que a conta foi confirmada',
           'Se você esqueceu a senha, use a opção "Esqueci minha senha"',
           'Se o problema persistir, pode ser necessário usar o username ao invés do email',
         ];
+
         logApiError(enhancedError, this.context, {
           operation: 'login',
           email: data.email,
-          suggestions: (enhancedError as any).suggestions,
+          suggestions: enhancedError.suggestions,
         });
         throw enhancedError;
       }
 
       // Tratamento específico para erros 500 (erro interno do servidor)
       if (error instanceof ApiError && error.status === 500) {
+        // Interface para ApiError com suggestions (adicionado dinamicamente)
+        interface ApiErrorWithSuggestions extends ApiError {
+          suggestions?: string[];
+        }
+
         // Extrair informações adicionais da resposta do servidor
+        const errorData = error.data as Record<string, unknown> | undefined;
         const serverMessage =
-          error.data?.message || error.data?.error || error.message;
+          (errorData?.message as string) ||
+          (errorData?.error as string) ||
+          error.message;
 
         // Construir mensagem mais informativa
         let errorMessage = 'Erro interno do servidor ao realizar login';
@@ -574,9 +623,9 @@ export class AuthService {
           error.url,
           error.method,
           error.endpoint
-        );
+        ) as ApiErrorWithSuggestions;
 
-        (enhancedError as any).suggestions = [
+        enhancedError.suggestions = [
           'O servidor está enfrentando problemas temporários',
           'Verifique se o backend está rodando corretamente em http://localhost:4000',
           'Verifique os logs do servidor backend para mais detalhes',
@@ -593,7 +642,7 @@ export class AuthService {
           method: error.method,
           responseData: error.data,
           serverMessage,
-          suggestions: (enhancedError as any).suggestions,
+          suggestions: enhancedError.suggestions,
         });
         throw enhancedError;
       }

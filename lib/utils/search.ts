@@ -1,5 +1,5 @@
 /**
- * Search Utilities
+ * Search Utils
  *
  * Utilitários de busca para posts, categorias e autores.
  * Integração com API real para busca de conteúdo.
@@ -9,24 +9,40 @@
  * @version 2.0.0
  */
 
-import { postsService } from './api/services';
-import type { Post } from './api/types';
-import { PostStatus } from './api/types';
+import { postsService } from '@/lib/api/services';
+import type { Post } from '@/lib/api/types';
+import { PostStatus } from '@/lib/api/types';
 
+// ============================================================================
+// Types
+// ============================================================================
+
+/**
+ * Resultado de busca
+ */
 export interface SearchResult {
-  id: string;
-  title: string;
-  slug: string;
-  type: 'post' | 'category' | 'author';
-  category?: string;
-  excerpt?: string;
+  readonly id: string;
+  readonly title: string;
+  readonly slug: string;
+  readonly type: 'post' | 'category' | 'author';
+  readonly category?: string;
+  readonly excerpt?: string;
 }
+
+// ============================================================================
+// Search Functions
+// ============================================================================
 
 /**
  * Busca conteúdo (posts, categorias, autores) usando a API real
  *
  * @param query - Termo de busca
  * @returns Array de resultados da busca
+ *
+ * @example
+ * ```ts
+ * const results = await searchContent('Next.js')
+ * ```
  */
 export async function searchContent(query: string): Promise<SearchResult[]> {
   if (!query || query.length < 2) return [];
@@ -62,11 +78,12 @@ export async function searchContent(query: string): Promise<SearchResult[]> {
 
 /**
  * Busca síncrona (compatibilidade) - retorna array vazio
- * Use searchContent() assíncrona para buscar dados reais
  *
  * @deprecated Use searchContent() assíncrona
+ * @param _query - Termo de busca (não utilizado)
+ * @returns Array vazio
  */
-export function searchContentSync(query: string): SearchResult[] {
+export function searchContentSync(_query: string): SearchResult[] {
   console.warn(
     'searchContentSync está depreciado. Use searchContent() assíncrona.'
   );

@@ -1,10 +1,10 @@
 /**
- * Design Tokens Helpers
+ * Design Tokens Utils
  *
  * Utilitários para trabalhar com design tokens da biblioteca @rainer/design-tokens.
- * Fornece funções para converter cores HEX para HSL e outras transformações necessárias.
+ * Fornece funções para converter cores HEX para HSL, RGB e outras transformações necessárias.
  *
- * @module lib/design-tokens-helpers
+ * @fileoverview Utilitários para design tokens
  * @author Rainer Teixeira
  * @version 2.0.0
  */
@@ -21,6 +21,10 @@ import {
   COLOR_PURPLE,
   COLOR_RED,
 } from '@rainer/design-tokens';
+
+// ============================================================================
+// Color Conversion
+// ============================================================================
 
 /**
  * Converte uma cor HEX para HSL no formato esperado pelo Tailwind CSS
@@ -140,6 +144,10 @@ export function hexToRGBA(hex: string, alpha: number): string {
   const rgb = hexToRGB(hex);
   return `rgba(${rgb}, ${alpha})`;
 }
+
+// ============================================================================
+// Color Constants
+// ============================================================================
 
 /**
  * Obtém cores primitivas como valores hex

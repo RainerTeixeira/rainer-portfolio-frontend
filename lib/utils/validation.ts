@@ -1,23 +1,13 @@
-﻿/**
- * Validation Schemas
+/**
+ * Validation Utils
  *
  * Schemas de validação centralizados para formulários.
  * Define regras e mensagens de validação consistentes.
- *
- * Características:
- * - Validações reutilizáveis
- * - Mensagens de erro padronizadas
- * - Type-safe
- * - Regras centralizadas
  *
  * @fileoverview Validation schemas da aplicação
  * @author Rainer Teixeira
  * @version 1.0.0
  */
-
-// ============================================================================
-// Constants
-// ============================================================================
 
 import {
   ERROR_MESSAGES,
@@ -32,7 +22,7 @@ import {
 /**
  * Resultado de validação
  */
-interface ValidationResult {
+export interface ValidationResult {
   readonly isValid: boolean;
   readonly errors: string[];
 }
@@ -40,8 +30,7 @@ interface ValidationResult {
 /**
  * Schema de validação de campo (reservado para uso futuro)
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface FieldSchema {
+export interface FieldSchema {
   readonly required?: boolean;
   readonly minLength?: number;
   readonly maxLength?: number;
@@ -59,6 +48,14 @@ interface FieldSchema {
  *
  * @param email - Email a validar
  * @returns Resultado da validação
+ *
+ * @example
+ * ```ts
+ * const result = validateEmail('user@example.com')
+ * if (!result.isValid) {
+ *   console.error(result.errors)
+ * }
+ * ```
  */
 export function validateEmail(email: string): ValidationResult {
   const errors: string[] = [];
@@ -83,6 +80,14 @@ export function validateEmail(email: string): ValidationResult {
  *
  * @param password - Senha a validar
  * @returns Resultado da validação
+ *
+ * @example
+ * ```ts
+ * const result = validatePassword('senha123')
+ * if (!result.isValid) {
+ *   console.error(result.errors)
+ * }
+ * ```
  */
 export function validatePassword(password: string): ValidationResult {
   const errors: string[] = [];
@@ -107,6 +112,14 @@ export function validatePassword(password: string): ValidationResult {
  *
  * @param username - Username a validar
  * @returns Resultado da validação
+ *
+ * @example
+ * ```ts
+ * const result = validateUsername('john_doe')
+ * if (!result.isValid) {
+ *   console.error(result.errors)
+ * }
+ * ```
  */
 export function validateUsername(username: string): ValidationResult {
   const errors: string[] = [];
@@ -116,16 +129,8 @@ export function validateUsername(username: string): ValidationResult {
     return { isValid: false, errors };
   }
 
-  if (username.length < FORM_CONFIG.USERNAME_MIN_LENGTH) {
-    errors.push(
-      `Username deve ter no mínimo ${FORM_CONFIG.USERNAME_MIN_LENGTH} caracteres`
-    );
-  }
-
-  if (username.length > FORM_CONFIG.USERNAME_MAX_LENGTH) {
-    errors.push(
-      `Username deve ter no máximo ${FORM_CONFIG.USERNAME_MAX_LENGTH} caracteres`
-    );
+  if (!REGEX_PATTERNS.USERNAME.test(username)) {
+    errors.push(ERROR_MESSAGES.INVALID_USERNAME);
   }
 
   return {
@@ -135,10 +140,18 @@ export function validateUsername(username: string): ValidationResult {
 }
 
 /**
- * Valida telefone brasileiro
+ * Valida telefone
  *
  * @param phone - Telefone a validar
  * @returns Resultado da validação
+ *
+ * @example
+ * ```ts
+ * const result = validatePhone('(11) 98765-4321')
+ * if (!result.isValid) {
+ *   console.error(result.errors)
+ * }
+ * ```
  */
 export function validatePhone(phone: string): ValidationResult {
   const errors: string[] = [];
@@ -148,8 +161,8 @@ export function validatePhone(phone: string): ValidationResult {
     return { isValid: false, errors };
   }
 
-  if (!REGEX_PATTERNS.PHONE_BR.test(phone)) {
-    errors.push('Telefone inválido. Use formato: (XX) XXXXX-XXXX');
+  if (!REGEX_PATTERNS.PHONE.test(phone)) {
+    errors.push(ERROR_MESSAGES.INVALID_PHONE);
   }
 
   return {
@@ -163,6 +176,14 @@ export function validatePhone(phone: string): ValidationResult {
  *
  * @param message - Mensagem a validar
  * @returns Resultado da validação
+ *
+ * @example
+ * ```ts
+ * const result = validateMessage('Olá, esta é uma mensagem.')
+ * if (!result.isValid) {
+ *   console.error(result.errors)
+ * }
+ * ```
  */
 export function validateMessage(message: string): ValidationResult {
   const errors: string[] = [];
@@ -173,15 +194,11 @@ export function validateMessage(message: string): ValidationResult {
   }
 
   if (message.length < FORM_CONFIG.MESSAGE_MIN_LENGTH) {
-    errors.push(
-      `Mensagem deve ter no mínimo ${FORM_CONFIG.MESSAGE_MIN_LENGTH} caracteres`
-    );
+    errors.push(ERROR_MESSAGES.MESSAGE_TOO_SHORT);
   }
 
   if (message.length > FORM_CONFIG.MESSAGE_MAX_LENGTH) {
-    errors.push(
-      `Mensagem deve ter no máximo ${FORM_CONFIG.MESSAGE_MAX_LENGTH} caracteres`
-    );
+    errors.push(ERROR_MESSAGES.MESSAGE_TOO_LONG);
   }
 
   return {
@@ -195,6 +212,14 @@ export function validateMessage(message: string): ValidationResult {
  *
  * @param url - URL a validar
  * @returns Resultado da validação
+ *
+ * @example
+ * ```ts
+ * const result = validateUrl('https://example.com')
+ * if (!result.isValid) {
+ *   console.error(result.errors)
+ * }
+ * ```
  */
 export function validateUrl(url: string): ValidationResult {
   const errors: string[] = [];
@@ -205,7 +230,7 @@ export function validateUrl(url: string): ValidationResult {
   }
 
   if (!REGEX_PATTERNS.URL.test(url)) {
-    errors.push('URL inválida. Deve começar com http:// ou https://');
+    errors.push(ERROR_MESSAGES.INVALID_URL);
   }
 
   return {
@@ -219,6 +244,14 @@ export function validateUrl(url: string): ValidationResult {
  *
  * @param slug - Slug a validar
  * @returns Resultado da validação
+ *
+ * @example
+ * ```ts
+ * const result = validateSlug('my-post-title')
+ * if (!result.isValid) {
+ *   console.error(result.errors)
+ * }
+ * ```
  */
 export function validateSlug(slug: string): ValidationResult {
   const errors: string[] = [];
@@ -229,9 +262,7 @@ export function validateSlug(slug: string): ValidationResult {
   }
 
   if (!REGEX_PATTERNS.SLUG.test(slug)) {
-    errors.push(
-      'Slug inválido. Use apenas letras minúsculas, números e hífens'
-    );
+    errors.push(ERROR_MESSAGES.INVALID_SLUG);
   }
 
   return {
@@ -240,87 +271,20 @@ export function validateSlug(slug: string): ValidationResult {
   };
 }
 
-// ============================================================================
-// Form Schemas
-// ============================================================================
-
 /**
- * Schema de validação para formulário de login
- */
-export const loginFormSchema = {
-  username: (value: string) => validateUsername(value),
-  password: (value: string) => validatePassword(value),
-};
-
-/**
- * Schema de validação para formulário de contato
- */
-export const contactFormSchema = {
-  fullName: (value: string) => validateUsername(value),
-  email: (value: string) => validateEmail(value),
-  phone: (value: string) => validatePhone(value),
-  message: (value: string) => validateMessage(value),
-};
-
-/**
- * Schema de validação para formulário de post
- */
-export const postFormSchema = {
-  title: (value: string) => {
-    const errors: string[] = [];
-    if (!value || value.trim() === '') {
-      errors.push(ERROR_MESSAGES.REQUIRED_FIELD);
-    }
-    if (value.length > 100) {
-      errors.push('Título deve ter no máximo 100 caracteres');
-    }
-    return { isValid: errors.length === 0, errors };
-  },
-  description: (value: string) => {
-    const errors: string[] = [];
-    if (!value || value.trim() === '') {
-      errors.push(ERROR_MESSAGES.REQUIRED_FIELD);
-    }
-    if (value.length > 300) {
-      errors.push('Descrição deve ter no máximo 300 caracteres');
-    }
-    return { isValid: errors.length === 0, errors };
-  },
-  slug: (value: string) => validateSlug(value),
-  category: (value: string) => {
-    const errors: string[] = [];
-    if (value && value.length > 50) {
-      errors.push('Categoria deve ter no máximo 50 caracteres');
-    }
-    return { isValid: errors.length === 0, errors };
-  },
-};
-
-/**
- * Schema de validação para newsletter
- */
-export const newsletterFormSchema = {
-  email: (value: string) => validateEmail(value),
-};
-
-// ============================================================================
-// Utility Functions
-// ============================================================================
-
-/**
- * Valida objeto completo com schema
+ * Valida dados com schema customizado
  *
  * @param data - Dados a validar
  * @param schema - Schema de validação
- * @returns Resultado consolidado
+ * @returns Resultado da validação
  *
  * @example
- * ```tsx
- * const result = validateWithSchema(
- *   { email: 'test@example.com', password: '12345678' },
- *   loginFormSchema
- * )
- *
+ * ```ts
+ * const schema = {
+ *   email: validateEmail,
+ *   password: validatePassword
+ * }
+ * const result = validateWithSchema({ email: 'user@example.com', password: '123' }, schema)
  * if (!result.isValid) {
  *   console.error(result.errors)
  * }
@@ -330,20 +294,20 @@ export function validateWithSchema<T extends Record<string, unknown>>(
   data: T,
   schema: Record<keyof T, (value: string) => ValidationResult>
 ): ValidationResult {
-  const allErrors: string[] = [];
+  const errors: string[] = [];
 
-  for (const key in schema) {
-    const validator = schema[key];
-    const value = String(data[key] ?? '');
-    const result = validator(value);
-
-    if (!result.isValid) {
-      allErrors.push(...result.errors.map(err => `${String(key)}: ${err}`));
+  for (const [key, validator] of Object.entries(schema)) {
+    const value = data[key];
+    if (typeof value === 'string') {
+      const result = validator(value);
+      if (!result.isValid) {
+        errors.push(...result.errors);
+      }
     }
   }
 
   return {
-    isValid: allErrors.length === 0,
-    errors: allErrors,
+    isValid: errors.length === 0,
+    errors,
   };
 }

@@ -3,11 +3,11 @@
  */
 
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll';
-import * as scrollUtils from '@/lib/scroll-utils';
+import * as scrollUtils from '@/lib/utils/scroll';
 import { renderHook, waitFor } from '@testing-library/react';
 
 // Mock scroll-utils
-jest.mock('@/lib/scroll-utils', () => ({
+jest.mock('@/lib/utils/scroll', () => ({
   prefersReducedMotion: jest.fn(() => false),
   smoothScrollTo: jest.fn(),
   scrollToTop: jest.fn(),

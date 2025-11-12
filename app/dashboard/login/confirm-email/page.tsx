@@ -337,7 +337,7 @@ export default function ConfirmEmailPage() {
               className={cn(
                 'h-12 sm:h-14 text-center text-2xl sm:text-3xl tracking-widest font-mono',
                 BORDER_RADIUS.MD,
-                TRANSITIONS.ALL
+                TRANSITIONS.ALL_EASE_IN_OUT
               )}
               ref={codeInputRef}
             />

@@ -8,7 +8,7 @@ import {
   scrollToPosition,
   scrollToTop,
   smoothScrollTo,
-} from '@/lib/scroll-utils';
+} from '@/lib/utils/scroll';
 
 // Mock window.matchMedia
 const mockMatchMedia = jest.fn();

@@ -36,24 +36,19 @@
  * - Acessibilidade completa
  */
 
+import type { TiptapJSON } from '@/lib/api/types/common';
+import { calculateReadingTime } from '@/lib/content/reading-time';
 import { cn } from '@/lib/utils';
 import { Clock } from 'lucide-react';
 
-// Tipo recursivo para nodes do Tiptap
-interface TiptapNode {
-  text?: string;
-  content?: TiptapNode[];
-  [key: string]: unknown;
-}
-
-interface TiptapContent {
-  content?: TiptapNode[];
-}
-
 interface ReadingTimeProps {
-  content: string | object; // Aceita texto ou JSON do Tiptap
+  /** Conteúdo do post (TiptapJSON, HTML ou texto simples) */
+  content: string | TiptapJSON;
+  /** Palavras por minuto (padrão: 250) */
   wordsPerMinute?: number;
+  /** Classes CSS adicionais */
   className?: string;
+  /** Exibir ícone de relógio */
   showIcon?: boolean;
 }
 
@@ -63,41 +58,7 @@ export function ReadingTime({
   className,
   showIcon = true,
 }: ReadingTimeProps) {
-  function calculateReadingTime(): number {
-    let text = '';
-
-    // Se for JSON do Tiptap
-    if (typeof content === 'object') {
-      text = extractTextFromTiptap(content as TiptapContent);
-    } else {
-      // Se for HTML ou texto simples
-      text = content.replace(/<[^>]*>/g, '');
-    }
-
-    const words = text.trim().split(/\s+/).length;
-    const minutes = Math.ceil(words / wordsPerMinute);
-
-    return minutes;
-  }
-
-  function extractTextFromTiptap(json: TiptapContent): string {
-    if (!json || !json.content) return '';
-
-    let text = '';
-
-    for (const node of json.content) {
-      if (node.text) {
-        text += node.text + ' ';
-      }
-      if (node.content) {
-        text += extractTextFromTiptap({ content: node.content });
-      }
-    }
-
-    return text;
-  }
-
-  const minutes = calculateReadingTime();
+  const minutes = calculateReadingTime(content, wordsPerMinute);
 
   return (
     <div

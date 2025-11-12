@@ -3,10 +3,10 @@
 ## ⚠️ Problema: Google Detecta Automação
 
 O Google tem proteções anti-bot extremamente avançadas que detectam **TODOS** os frameworks de automação:
-- ❌ Playwright
-- ❌ Puppeteer
-- ❌ Puppeteer Stealth
+- ❌ Playwright (sem configurações especiais)
 - ❌ Selenium
+
+> **Nota:** Os testes foram migrados para Playwright com configurações anti-detecção.
 
 **Mensagem de erro típica:**
 ```
@@ -15,15 +15,22 @@ O Google tem proteções anti-bot extremamente avançadas que detectam **TODOS**
 
 ## ✅ Solução: Usar Chrome REAL do Sistema
 
-### Opção 1: Teste com Chrome Real (RECOMENDADO)
+### Opção 1: Teste com Playwright (RECOMENDADO)
 
 ```bash
-# IMPORTANTE: Feche TODOS os Chromes abertos primeiro!
-node scripts/test-google-real-chrome.js
+# Google OAuth
+npx playwright test google-oauth.spec.ts --project=chrome
+
+# GitHub OAuth
+npx playwright test github-oauth.spec.ts --project=chrome
 ```
 
+**Arquivos:**
+- `tests/e2e/google-oauth.spec.ts`
+- `tests/e2e/github-oauth.spec.ts`
+
 **Como funciona:**
-1. Usa SEU perfil Chrome (não o do Puppeteer)
+1. Usa SEU perfil Chrome (não o do Playwright)
 2. Usa suas sessões já logadas
 3. Google não detecta como automação
 4. Se já estiver logado, só seleciona a conta
@@ -103,19 +110,17 @@ test('login com usuário de teste do Cognito', async () => {
 
 ```
 scripts/
-  ├── test-google-stealth.js          # Puppeteer Stealth (bloqueado pelo Google)
-  ├── test-github-stealth.js          # Puppeteer Stealth para GitHub
   └── test-google-real-chrome.js      # Chrome REAL (✅ FUNCIONA!)
 
 tests/e2e/
-  ├── google-stealth.test.ts          # Jest + Puppeteer
-  ├── github-stealth.test.ts          # Jest + Puppeteer
+  ├── google-oauth.spec.ts            # Playwright OAuth Google
+  ├── github-oauth.spec.ts            # Playwright OAuth GitHub
   ├── google-signup-flow.spec.ts      # Playwright com mocks
   └── github-signup-flow.spec.ts      # Playwright com mocks
 
 docs/09-TESTES/
   ├── README_TESTES_OAUTH.md          # Este arquivo
-  ├── TESTE_PUPPETEER_STEALTH.md      # Documentação Stealth
+  ├── TESTE_PLAYWRIGHT_OAUTH.md      # Documentação OAuth Playwright
   └── ANALISE_ERRO_GOOGLE.md          # Análise de detecção
 ```
 
@@ -148,7 +153,7 @@ npx playwright test tests/e2e/google-signup-flow.spec.ts
 
 ## 🔗 Links Úteis
 
-- [Puppeteer Stealth](https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-stealth)
+- [Playwright Documentation](https://playwright.dev/)
 - [Playwright Mock API](https://playwright.dev/docs/mock)
 - [AWS Cognito Testing](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-testing.html)
 

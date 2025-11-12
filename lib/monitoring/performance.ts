@@ -16,10 +16,6 @@
  * @version 1.0.0
  */
 
-// ============================================================================
-// Imports
-// ============================================================================
-
 import { analytics } from './analytics';
 import { logger } from './logger';
 
@@ -376,7 +372,7 @@ class PerformanceMonitor {
  *
  * @example
  * ```tsx
- * import { performanceMonitor } from '@/lib/performance-monitor'
+ * import { performanceMonitor } from '@/lib/monitoring/performance'
  *
  * // Medir operação
  * performanceMonitor.start('load_posts')

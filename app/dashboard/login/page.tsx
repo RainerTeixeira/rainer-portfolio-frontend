@@ -35,9 +35,9 @@ import {
   OAuthButtons,
 } from '@/components/dashboard/login';
 import { BackToTop } from '@/components/ui';
-import { Separator } from '@/components/ui/separator';
 import { SITE_CONFIG } from '@/constants';
 import { useAuth } from '@/hooks/useAuth';
+import { ApiError } from '@/lib/api/client';
 import { cn } from '@/lib/utils';
 import { ANIMATION_DURATION_MS, TRANSITIONS } from '@rainer/design-tokens';
 import { motion } from 'framer-motion';
@@ -118,12 +118,17 @@ export default function LoginPage() {
     } catch (err) {
       let errorMessage = 'Erro ao fazer login. Tente novamente.';
 
+      // Interface para ApiError com suggestions (adicionado dinamicamente)
+      interface ApiErrorWithSuggestions extends ApiError {
+        suggestions?: string[];
+      }
+
       // Tratamento específico para ApiError
-      if (err instanceof Error) {
+      if (err instanceof ApiError) {
         errorMessage = err.message;
+        const apiError = err as ApiErrorWithSuggestions;
 
         // Se for ApiError com sugestões, incluir na mensagem
-        const apiError = err as any;
         if (apiError.suggestions && Array.isArray(apiError.suggestions)) {
           errorMessage = `${err.message}\n\nSugestões:\n${apiError.suggestions
             .slice(0, 2)
@@ -138,15 +143,15 @@ export default function LoginPage() {
           let serverMessage = err.message;
           if (apiError.data) {
             try {
-              const responseData = apiError.data;
+              const responseData = apiError.data as Record<string, unknown>;
               serverMessage =
-                responseData?.message ||
-                responseData?.error?.message ||
-                responseData?.error ||
-                responseData?.detail ||
-                responseData?.errorMessage ||
+                (responseData?.message as string) ||
+                (responseData?.error as { message?: string })?.message ||
+                (responseData?.error as string) ||
+                (responseData?.detail as string) ||
+                (responseData?.errorMessage as string) ||
                 err.message;
-            } catch (e) {
+            } catch {
               serverMessage = err.message;
             }
           }
@@ -160,14 +165,20 @@ export default function LoginPage() {
               .join('\n')}`;
           }
         }
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
       }
 
       setError(errorMessage);
       console.error('Erro no login:', err);
 
       // Log detalhado em desenvolvimento
-      if (process.env.NODE_ENV === 'development') {
-        const apiError = err as any;
+      if (process.env.NODE_ENV === 'development' && err instanceof ApiError) {
+        interface ApiErrorWithSuggestions extends ApiError {
+          suggestions?: string[];
+        }
+
+        const apiError = err as ApiErrorWithSuggestions;
         console.error('Detalhes do erro:', {
           error: err,
           status: apiError.status,
@@ -307,7 +318,7 @@ export default function LoginPage() {
           className="relative my-4 sm:my-5 md:my-6"
         >
           <div className="absolute inset-0 flex items-center">
-            <Separator className="bg-gradient-to-r from-transparent via-border to-transparent" />
+            <div className="h-px w-full bg-linear-to-r from-transparent via-border to-transparent" />
           </div>
           <div className="relative flex justify-center">
             <motion.span

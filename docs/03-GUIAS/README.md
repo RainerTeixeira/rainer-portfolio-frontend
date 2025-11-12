@@ -31,7 +31,26 @@ Esta pasta contém **guias práticos** para tarefas específicas: resolver probl
 
 ---
 
-### 2. 📲 [COMPATIBILIDADE-PWA-UNIVERSAL.md](COMPATIBILIDADE-PWA-UNIVERSAL.md)
+### 2. 🔄 [GUIA_MIGRACAO_API_HELPERS.md](GUIA_MIGRACAO_API_HELPERS.md)
+
+**Guia de migração de API Helpers**
+
+**Conteúdo**:
+
+- **Visão geral** - Estrutura nova vs antiga
+- **Mapeamento de funções** - Tabela completa de migração
+- **Exemplos de migração** - Antes e depois
+- **Passos para migração** - Checklist passo a passo
+- **Benefícios** - Organização, performance, type safety
+- **Documentação adicional** - Links para guias específicos
+
+**Quando usar**: Ao migrar código que usa `@/lib/api-helpers`
+
+**Tempo estimado**: 10-15 minutos
+
+---
+
+### 3. 📲 [COMPATIBILIDADE-PWA-UNIVERSAL.md](COMPATIBILIDADE-PWA-UNIVERSAL.md)
 
 **PWA em todos os dispositivos**
 

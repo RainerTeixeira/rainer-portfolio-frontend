@@ -21,15 +21,15 @@
 // React
 // ============================================================================
 
-import { logger } from '@/lib/logger';
 import { usePathname } from 'next/navigation';
 import React, { useCallback, useEffect } from 'react';
 
 // ============================================================================
-// Analytics
+// Monitoring
 // ============================================================================
 
-import { analytics, ANALYTICS_EVENTS } from '@/lib/analytics';
+import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring/analytics';
+import { logger } from '@/lib/monitoring/logger';
 
 // ============================================================================
 // Types

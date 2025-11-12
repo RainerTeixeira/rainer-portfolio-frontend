@@ -6,7 +6,7 @@ import {
   measurePerformance,
   reportWebVitals,
   startPerformanceMonitoring,
-} from '@/lib/performance-monitor';
+} from '@/lib/monitoring/performance';
 
 describe('performance-monitor', () => {
   beforeEach(() => {

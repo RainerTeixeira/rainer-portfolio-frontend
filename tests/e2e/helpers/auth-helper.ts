@@ -132,10 +132,20 @@ export async function loginToDashboard(
  * @returns true se autenticado, false caso contrário
  */
 export async function isAuthenticated(page: Page): Promise<boolean> {
-  const authUser = await page.evaluate(() => {
-    return localStorage.getItem('auth_user');
-  });
-  return !!authUser;
+  try {
+    const authUser = await page.evaluate(() => {
+      try {
+        return localStorage.getItem('auth_user');
+      } catch (e) {
+        // Se não conseguir acessar localStorage (página about:blank, etc)
+        return null;
+      }
+    });
+    return !!authUser;
+  } catch (e) {
+    // Se a página não permitir acesso ao localStorage
+    return false;
+  }
 }
 
 /**

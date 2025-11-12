@@ -86,8 +86,8 @@ import {
  */
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   /**
-   * Renderiza NextThemesProvider com todas as props recebidas
-   * Usa spread operator para passar todas as configurações
+   * Renderiza NextThemesProvider com todas as props recebidas.
+   * O next-themes já lida com hidratação SSR/CSR internamente.
    */
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }

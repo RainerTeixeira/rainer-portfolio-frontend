@@ -125,7 +125,7 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        Root: (props: any) => {
+        Root: (props: React.ComponentProps<'div'> & { rootRef?: React.Ref<HTMLDivElement> }) => {
           const { className, rootRef, ...rest } = props;
           return (
             <div
@@ -165,7 +165,7 @@ function Calendar({
           );
         },
         DayButton: CalendarDayButton,
-        WeekNumber: (props: any) => {
+        WeekNumber: (props: React.ComponentProps<'td'>) => {
           const { children, ...rest } = props;
           return (
             <td {...rest}>
@@ -221,3 +221,4 @@ function CalendarDayButton({
 }
 
 export { Calendar, CalendarDayButton };
+

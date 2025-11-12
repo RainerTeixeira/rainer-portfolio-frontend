@@ -15,8 +15,13 @@ const nextConfig = {
    * Otimiza imports de pacotes específicos para reduzir
    * o tamanho do bundle e melhorar a performance.
    *
-   * NOTA: Next.js 15 usa webpack por padrão, que resolve corretamente
-   * pacotes locais instalados via file: protocol.
+   * NOTA IMPORTANTE SOBRE TURBOPACK:
+   * O Turbopack no Next.js 15 ainda tem limitações conhecidas com pacotes locais
+   * instalados via `file:` protocol. Se você encontrar erros como:
+   * "Module not found: Can't resolve '@rainer/design-tokens'"
+   * ao usar `--turbo`, use `npm run dev` (webpack) ao invés de `npm run dev:turbo`.
+   *
+   * O webpack resolve corretamente pacotes locais instalados via file: protocol.
    */
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
@@ -130,9 +135,10 @@ const nextConfig = {
   /**
    * Webpack configuration
    *
-   * Next.js 15 usa webpack por padrão, que resolve corretamente
-   * pacotes locais instalados via file: protocol.
+   * NOTA: Quando usando --turbo, o Turbopack substitui o webpack.
+   * Esta configuração só é usada quando não está usando Turbopack.
    *
+   * Next.js 15 usa webpack por padrão (ou Turbopack com --turbo).
    * Esta configuração garante que o webpack resolve corretamente:
    * - Pacotes locais (file: protocol)
    * - Symlinks
