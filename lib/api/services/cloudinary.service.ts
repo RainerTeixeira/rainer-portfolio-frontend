@@ -5,6 +5,9 @@
 /**
  * Serviço para upload de imagens para Cloudinary
  *
+ * Suporta WebP animado (GIF WebP) - formato moderno para imagens em movimento.
+ * WebP animado oferece melhor compressão que GIF tradicional.
+ *
  * @fileoverview Serviço de upload de imagens otimizadas
  * @author Rainer Teixeira
  */
@@ -26,17 +29,23 @@ export class CloudinaryService {
   /**
    * Faz upload de uma imagem para o blog
    *
-   * @param file - Arquivo de imagem (File)
+   * Suporta WebP animado (GIF WebP) - formato moderno para animações.
+   * WebP animado oferece melhor compressão que GIF tradicional.
+   *
+   * @param file - Arquivo de imagem (File) - suporta JPG, PNG, GIF, WebP (incluindo WebP animado)
    * @param fileName - Nome customizado para a imagem (opcional, formato: foto1.jpg)
    * @returns URL da imagem otimizada no Cloudinary (formato curto: /blog/foto1.jpg)
    * @throws Error se o upload falhar
    */
   async uploadBlogImage(file: File, fileName?: string): Promise<string> {
-    // Validar arquivo
+    // Validar arquivo - aceita JPG, PNG, GIF, WebP (incluindo WebP animado)
     if (!file.type.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
-      throw new Error('Apenas imagens são permitidas (JPG, PNG, GIF, WebP)');
+      throw new Error(
+        'Apenas imagens são permitidas (JPG, PNG, GIF, WebP, WebP animado)'
+      );
     }
 
+    // WebP animado pode ser maior que imagens estáticas, mas mantemos limite de 5MB
     if (file.size > 5 * 1024 * 1024) {
       throw new Error('Imagem muito grande. Máximo 5MB.');
     }
@@ -105,16 +114,21 @@ export class CloudinaryService {
   /**
    * Faz upload de um avatar
    *
-   * @param file - Arquivo de imagem (File)
+   * Suporta WebP animado (GIF WebP) - formato moderno para avatares animados.
+   *
+   * @param file - Arquivo de imagem (File) - suporta JPG, PNG, GIF, WebP (incluindo WebP animado)
    * @returns URL da imagem otimizada no Cloudinary
    * @throws Error se o upload falhar
    */
   async uploadAvatar(file: File): Promise<string> {
-    // Validar arquivo
+    // Validar arquivo - aceita JPG, PNG, GIF, WebP (incluindo WebP animado)
     if (!file.type.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
-      throw new Error('Apenas imagens são permitidas (JPG, PNG, GIF, WebP)');
+      throw new Error(
+        'Apenas imagens são permitidas (JPG, PNG, GIF, WebP, WebP animado)'
+      );
     }
 
+    // Avatar com animação pode ser maior, mas mantemos limite de 2MB
     if (file.size > 2 * 1024 * 1024) {
       throw new Error('Imagem muito grande. Máximo 2MB.');
     }

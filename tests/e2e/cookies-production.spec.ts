@@ -249,7 +249,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
 
     try {
       // Aba 1: Aceita cookies
-      await page1.goto(, { waitUntil: 'networkidle' });
+      await page1.goto('/', { waitUntil: 'networkidle' });
       await page1.waitForTimeout(800);
 
       const acceptButton = page1.getByRole('button', {
@@ -261,7 +261,7 @@ test.describe('Sistema de Cookies - Produção Real', () => {
       }
 
       // Aba 2: Verifica que não vê banner (mesmo contexto de storage)
-      await page2.goto(, { waitUntil: 'networkidle' });
+      await page2.goto('/', { waitUntil: 'networkidle' });
       await page2.waitForTimeout(800);
 
       const banner2 = page2.getByText(/utilizamos cookies/i);

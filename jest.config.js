@@ -1,7 +1,12 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tests/tsconfig.json',
+    },
+  },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
@@ -24,7 +29,7 @@ module.exports = {
     '!**/coverage/**',
     '!**/tests/**',
   ],
-  coverageDirectory: 'coverage',
+  coverageDirectory: 'tests/test-results/coverage',
   coverageReporters: ['text', 'lcov', 'html', 'json'],
   coverageThreshold: {
     global: {

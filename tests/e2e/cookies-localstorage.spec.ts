@@ -130,7 +130,7 @@ test.describe('Cookies - localStorage em Produção', () => {
     const pages = ['/sobre', '/contato', '/cookies', '/privacidade', '/termos'];
 
     for (const path of pages) {
-      await page.goto(`${}${path}`, { waitUntil: 'networkidle' });
+      await page.goto(path, { waitUntil: 'networkidle' });
       await page.waitForTimeout(500);
 
       // Verifica que consentimento foi mantido

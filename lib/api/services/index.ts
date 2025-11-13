@@ -5,6 +5,7 @@
 export * from './auth.service';
 export * from './bookmarks.service';
 export * from './categories.service';
+export * from './cloudinary.service';
 export * from './comments.service';
 export * from './dashboard.service';
 export * from './health.service';

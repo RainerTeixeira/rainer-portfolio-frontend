@@ -4,7 +4,6 @@
 
 import TermsOfUsePage from '@/app/termos/page';
 import { render, screen } from '@testing-library/react';
-import React from 'react';
 
 // Mock dos componentes
 jest.mock('@/components/ui', () => ({
@@ -51,23 +50,29 @@ describe('Terms of Use Page', () => {
 
   it('deve exibir seção de aceitação dos termos', () => {
     render(<TermsOfUsePage />);
-    expect(screen.getByText(/Aceitação dos Termos/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Aceitação dos Termos/i)[0]).toBeInTheDocument();
     expect(screen.getByText(/RainerSoft/i)).toBeInTheDocument();
   });
 
   it('deve exibir informações sobre uso dos serviços', () => {
     render(<TermsOfUsePage />);
-    expect(screen.getByText(/Uso dos Serviços/i)).toBeInTheDocument();
+    // Usa getAllByText pois há múltiplos elementos com esse texto
+    expect(screen.getAllByText(/Uso dos Serviços/i)[0]).toBeInTheDocument();
   });
 
   it('deve exibir informações sobre responsabilidades', () => {
     render(<TermsOfUsePage />);
-    expect(screen.getByText(/Responsabilidades/i)).toBeInTheDocument();
+    // Pode estar em múltiplos lugares, usa getAllByText
+    const elements = screen.queryAllByText(/Responsabilidades/i);
+    expect(elements.length).toBeGreaterThan(0);
   });
 
   it('deve exibir informações sobre propriedade intelectual', () => {
     render(<TermsOfUsePage />);
-    expect(screen.getByText(/Propriedade Intelectual/i)).toBeInTheDocument();
+    // Usa getAllByText pois há múltiplos elementos
+    expect(
+      screen.getAllByText(/Propriedade Intelectual/i)[0]
+    ).toBeInTheDocument();
   });
 
   it('deve exibir informações sobre limitação de responsabilidade', () => {

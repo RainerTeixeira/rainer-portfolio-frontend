@@ -110,7 +110,35 @@ Esta pasta contém **referências técnicas completas** de APIs, componentes e f
 
 ---
 
-### 4. 📊 [API_ROUTES_COVERAGE.md](API_ROUTES_COVERAGE.md)
+### 4. 📚 [REFERENCIA_LIB.md](REFERENCIA_LIB.md)
+
+**Referência completa da biblioteca `lib/`**
+
+**Conteúdo**:
+
+- Visão geral e estrutura da biblioteca
+- Módulos principais (API, Content, Cookies, Monitoring, SEO, Utils)
+- Guia de uso completo
+- Exemplos práticos de cada módulo
+- Padrões recomendados
+- Documentação JSDoc profissional
+
+**Módulos documentados**:
+
+- **API**: Cliente HTTP, serviços, tipos e helpers
+- **Content**: Utilitários Tiptap e reading time
+- **Cookies**: Gerenciamento de cookies e consentimento
+- **Monitoring**: Analytics, logging e performance
+- **SEO**: Metadata, sitemap e structured data
+- **Utils**: Validação, strings, scroll, search, design tokens, etc.
+
+**Quando usar**: Consultar funcionalidades da biblioteca principal
+
+**Tempo estimado**: 15-20 minutos (consulta rápida por módulo)
+
+---
+
+### 5. 📊 [API_ROUTES_COVERAGE.md](API_ROUTES_COVERAGE.md)
 
 **Cobertura de rotas da API**
 
@@ -169,12 +197,13 @@ Destacar comparativo com mercado
 
 | Métrica | Valor |
 |---------|-------|
-| **Total de documentos** | 3 arquivos |
-| **Total de linhas** | ~2.160 linhas |
+| **Total de documentos** | 5 arquivos |
+| **Total de linhas** | ~3.000+ linhas |
 | **APIs documentadas** | 15+ |
+| **Módulos da biblioteca** | 6 principais |
 | **Componentes documentados** | 60+ |
 | **Features explicadas** | 10 |
-| **Exemplos de código** | 100+ |
+| **Exemplos de código** | 150+ |
 
 ---
 
@@ -195,6 +224,14 @@ Destacar comparativo com mercado
 - ✅ Como compor componentes
 - ✅ Patterns (composition, polymorphic, render props)
 - ✅ Onde encontrar cada componente
+
+### REFERENCIA_LIB.md
+
+- ✅ Estrutura completa da biblioteca
+- ✅ Documentação de todos os módulos
+- ✅ Exemplos práticos de uso
+- ✅ Padrões recomendados
+- ✅ Guia de importação
 
 ### ENTERPRISE-FEATURES.md
 

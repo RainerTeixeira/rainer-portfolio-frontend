@@ -20,17 +20,23 @@ describe('lib/monitoring/analytics', () => {
     expect(typeof analytics.track).toBe('function');
   });
 
-  it('deve ter método trackPageView', () => {
-    expect(typeof analytics.trackPageView).toBe('function');
+  it('deve ter método pageView', () => {
+    expect(typeof analytics.pageView).toBe('function');
   });
 
-  it('deve ter método initialize', () => {
-    expect(typeof analytics.initialize).toBe('function');
+  it('deve ter método identify', () => {
+    expect(typeof analytics.identify).toBe('function');
   });
 
   it('deve rastrear eventos', () => {
     // Verifica se a função pode ser chamada sem erro
-    expect(() => analytics.track('click', { button: 'test' })).not.toThrow();
+    expect(() => {
+      analytics.track({
+        category: 'user_action',
+        action: 'click',
+        properties: { button: 'test' },
+      });
+    }).not.toThrow();
   });
 
   it('deve ter constantes ANALYTICS_EVENTS', () => {
@@ -38,4 +44,3 @@ describe('lib/monitoring/analytics', () => {
     expect(typeof ANALYTICS_EVENTS).toBe('object');
   });
 });
-

@@ -1,6 +1,12 @@
 /**
  * Testes para utilitários de API helpers
  *
+ * @deprecated Este arquivo de teste agrupa funções de múltiplos módulos.
+ * Considere separar em testes específicos:
+ * - String utils → tests/lib/utils/string.test.ts
+ * - Content utils → tests/lib/content/tiptap-utils.test.ts, tests/lib/content/reading-time.test.ts
+ * - Post helpers → tests/lib/api/helpers/post-helpers.test.ts
+ *
  * Testa funções migradas para módulos específicos:
  * - String utils: textToSlug, formatDate, formatDateTime, translateStatus
  * - Content utils: extractTextFromTiptap, generateExcerpt, createEmptyTiptapContent, isContentEmpty, calculateReadingTime

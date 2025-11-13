@@ -19,7 +19,7 @@ describe('commentsService', () => {
     expect(typeof commentsService.listComments).toBe('function');
   });
 
-  it('deve ter método addComment', () => {
-    expect(typeof commentsService.addComment).toBe('function');
+  it('deve ter método createComment', () => {
+    expect(typeof commentsService.createComment).toBe('function');
   });
 });

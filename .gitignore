@@ -16,6 +16,17 @@ node_modules/
 /test-results
 /playwright-report
 
+# Test results - manter estrutura mas ignorar conteúdo temporário
+tests/test-results/coverage/
+tests/test-results/e2e/artifacts/
+tests/test-results/e2e/*.json
+tests/test-results/e2e/*.xml
+tests/test-results/logs/*.log
+tests/test-results/logs/*.log.*
+!tests/test-results/.gitkeep
+!tests/test-results/e2e/.gitkeep
+!tests/test-results/logs/.gitkeep
+
 # next.js
 /.next/
 /out/
