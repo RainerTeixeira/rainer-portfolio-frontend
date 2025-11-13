@@ -7,7 +7,11 @@ describe('commentsService', () => {
   test('listComments envia params page/limit', async () => {
     const mock = mockFetchOnce({ success: true, data: [] });
     await commentsService.listComments({ page: 2, limit: 5 });
-    const url = new URL((mock as any).mock.calls[0][0]);
+    const urlString = (mock as any).mock.calls[0][0];
+    // Se for URL relativa, adiciona base URL
+    const url = urlString.startsWith('http')
+      ? new URL(urlString)
+      : new URL(urlString, 'http://localhost:4000');
     expect(url.pathname.endsWith('/comments')).toBe(true);
     expect(url.searchParams.get('page')).toBe('2');
     expect(url.searchParams.get('limit')).toBe('5');

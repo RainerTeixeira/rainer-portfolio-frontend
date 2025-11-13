@@ -20,9 +20,12 @@ describe('Card Components', () => {
     });
 
     it('deve aceitar className customizada', () => {
-      render(<Card className="custom-class">Content</Card>);
-      const card = screen.getByText('Content').parentElement;
-      expect(card).toHaveClass('custom-class');
+      const { container } = render(
+        <Card className="custom-class">Content</Card>
+      );
+      const card = container.querySelector('.custom-class');
+      expect(card).toBeInTheDocument();
+      expect(card?.textContent).toContain('Content');
     });
   });
 

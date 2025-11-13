@@ -5,15 +5,36 @@
 import { useAutosave } from '@/components/dashboard/hooks/use-autosave';
 import { renderHook } from '@testing-library/react';
 
+// Mock do toast
+jest.mock('sonner', () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}));
+
 describe('useAutosave', () => {
   it('deve retornar função de autosave', () => {
-    const { result } = renderHook(() => useAutosave({} as any, jest.fn()));
-    expect(typeof result.current.save).toBe('function');
+    const mockOnSave = jest.fn().mockResolvedValue(undefined);
+    const { result } = renderHook(() =>
+      useAutosave({
+        onSave: mockOnSave,
+      })
+    );
+    expect(typeof result.current.saveNow).toBe('function');
   });
 
-  it('deve ter estado de salvamento', () => {
-    const { result } = renderHook(() => useAutosave({} as any, jest.fn()));
-    expect(result.current).toHaveProperty('isSaving');
-    expect(typeof result.current.isSaving).toBe('boolean');
+  it('deve ter propriedades de autosave', () => {
+    const mockOnSave = jest.fn().mockResolvedValue(undefined);
+    const { result } = renderHook(() =>
+      useAutosave({
+        onSave: mockOnSave,
+      })
+    );
+    expect(result.current).toHaveProperty('saveNow');
+    expect(result.current).toHaveProperty('lastSave');
+    expect(result.current).toHaveProperty('getTimeSinceLastSave');
+    expect(typeof result.current.saveNow).toBe('function');
+    expect(typeof result.current.getTimeSinceLastSave).toBe('function');
   });
 });

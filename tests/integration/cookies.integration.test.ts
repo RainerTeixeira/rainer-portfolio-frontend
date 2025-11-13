@@ -96,7 +96,16 @@ try {
 } catch (e) {
   // Se falhar, apenas atualiza propriedades diretamente
   (window.document as any).createElement = createElementMock;
-  (window.document as any).head = mockHead;
+  // Não tenta definir head se for read-only
+  try {
+    Object.defineProperty(window.document, 'head', {
+      value: mockHead,
+      writable: true,
+      configurable: true,
+    });
+  } catch (headError) {
+    // Ignora erro se head for read-only
+  }
 }
 
 // Mock do process.env

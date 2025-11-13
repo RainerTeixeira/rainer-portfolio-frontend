@@ -2,17 +2,17 @@
  * Testes para componente RecentPostsList
  */
 
+// Mock do CSS primeiro
+jest.mock('@/app/globals.css', () => ({}));
+
 import { RecentPostsList } from '@/components/dashboard/recent-posts-list';
 import { render } from '@testing-library/react';
 
-// Mock do blogStore
-jest.mock('@/store/blog-store', () => ({
-  useBlogStore: () => ({
-    posts: [],
-    isLoading: false,
-    error: null,
-    fetchPosts: jest.fn(),
-  }),
+// Mock do postsService
+jest.mock('@/lib/api/services/posts.service', () => ({
+  postsService: {
+    listPosts: jest.fn(() => Promise.resolve({ posts: [] })),
+  },
 }));
 
 describe('RecentPostsList', () => {

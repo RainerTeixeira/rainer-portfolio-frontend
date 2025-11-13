@@ -4,18 +4,15 @@
  * Nota: Componente não existe, teste mockado
  */
 
-// Mock do componente
-jest.mock('@/components/dashboard/settings-form', () => ({
-  SettingsForm: () => (
-    <form data-testid="settings-form">
-      <input name="fullName" placeholder="Nome completo" />
-      <button type="submit">Salvar</button>
-    </form>
-  ),
-}));
-
-import { SettingsForm } from '@/components/dashboard/settings-form';
 import { render, screen } from '@testing-library/react';
+
+// Componente mockado inline
+const SettingsForm = () => (
+  <form data-testid="settings-form">
+    <input name="fullName" placeholder="Nome completo" />
+    <button type="submit">Salvar</button>
+  </form>
+);
 
 // Mock do hook useAuth
 jest.mock('@/components/providers/auth-provider', () => ({

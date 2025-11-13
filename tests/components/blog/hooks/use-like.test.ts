@@ -3,18 +3,19 @@
  */
 
 import { useLike } from '@/components/blog/hooks/use-like';
-import { act, renderHook } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 
-// Mock do likesService
-jest.mock('@/lib/api', () => ({
-  likesService: {
-    toggleLike: jest.fn(),
-  },
-}));
+// Mock do fetch global
+global.fetch = jest.fn();
 
 describe('useLike', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({ success: true }),
+    });
   });
 
   it('deve retornar estado inicial', () => {
@@ -30,18 +31,28 @@ describe('useLike', () => {
   });
 
   it('deve alternar like', async () => {
-    const { likesService } = require('@/lib/api');
-    likesService.toggleLike.mockResolvedValue({ success: true });
-
     const { result } = renderHook(() => useLike('post-1', 10, false));
 
     const initialLiked = result.current.isLiked;
+    const initialLikes = result.current.likes;
 
     await act(async () => {
       await result.current.handleLike();
     });
 
-    // Verifica se o estado mudou
+    // Aguarda a animação finalizar
+    await waitFor(
+      () => {
+        expect(result.current.isAnimating).toBe(false);
+      },
+      { timeout: 1000 }
+    );
+
+    // Verifica se o estado mudou (optimistic update)
     expect(result.current.isLiked).toBe(!initialLiked);
+    expect(result.current.likes).toBe(
+      initialLiked ? initialLikes - 1 : initialLikes + 1
+    );
+    expect(global.fetch).toHaveBeenCalled();
   });
 });
