@@ -2,10 +2,8 @@
  * Testes para página de post individual do blog
  */
 
-// Mock do componente da página
-jest.mock('@/app/blog/[slug]/page', () => ({
-  default: () => <div>Blog Post Page</div>,
-}));
+// Mock do CSS primeiro
+jest.mock('@/app/globals.css', () => ({}));
 
 describe('Blog Post Page', () => {
   it('deve existir', () => {

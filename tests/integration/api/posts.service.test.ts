@@ -41,19 +41,22 @@ describe('postsService - Integração', () => {
 
   test('getPostBySlug retorna um post', async () => {
     mockFetchOnce({
-      id: '1',
-      title: 'Post 1',
-      slug: 'post-1',
-      content: {},
-      status: 'PUBLISHED',
-      viewCount: 0,
-      likeCount: 0,
-      commentCount: 0,
-      allowComments: true,
-      featured: false,
-      pinned: false,
-      createdAt: '',
-      updatedAt: '',
+      success: true,
+      data: {
+        id: '1',
+        title: 'Post 1',
+        slug: 'post-1',
+        content: {},
+        status: 'PUBLISHED',
+        viewCount: 0,
+        likeCount: 0,
+        commentCount: 0,
+        allowComments: true,
+        featured: false,
+        pinned: false,
+        createdAt: '',
+        updatedAt: '',
+      },
     });
     const post = await postsService.getPostBySlug('post-1');
     expect(post.slug).toBe('post-1');

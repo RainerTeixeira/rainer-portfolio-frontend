@@ -2,6 +2,9 @@
  * Testes para componente RelatedPosts
  */
 
+// Mock do CSS primeiro
+jest.mock('@/app/globals.css', () => ({}));
+
 import { RelatedPosts } from '@/components/blog/related-posts';
 import { render } from '@testing-library/react';
 
@@ -11,10 +14,76 @@ jest.mock('next/image', () => ({
   default: (props: any) => <img {...props} />,
 }));
 
+// Mock do framer-motion
+jest.mock('framer-motion', () => ({
+  motion: {
+    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  },
+  AnimatePresence: ({ children }: any) => <>{children}</>,
+}));
+
+// Mock do next/link
+jest.mock('next/link', () => ({
+  __esModule: true,
+  default: ({ children, href }: any) => <a href={href}>{children}</a>,
+}));
+
+// Mock do ReadingTime
+jest.mock('@/components/blog/social/reading-time', () => ({
+  ReadingTime: () => <div>5 min</div>,
+}));
+
+// Mock do Badge
+jest.mock('@/components/ui/badge', () => ({
+  Badge: ({ children }: any) => <span>{children}</span>,
+}));
+
+// Mock dos componentes Card
+jest.mock('@/components/ui/card', () => ({
+  Card: ({ children }: any) => <div>{children}</div>,
+  CardContent: ({ children }: any) => <div>{children}</div>,
+  CardDescription: ({ children }: any) => <div>{children}</div>,
+  CardHeader: ({ children }: any) => <div>{children}</div>,
+  CardTitle: ({ children }: any) => <h3>{children}</h3>,
+}));
+
 const mockPosts = [
-  { id: '1', title: 'Post 1', slug: 'post-1', category: { name: 'Test' } },
-  { id: '2', title: 'Post 2', slug: 'post-2', category: { name: 'Test' } },
-  { id: '3', title: 'Post 3', slug: 'post-3', category: { name: 'Test' } },
+  {
+    id: '1',
+    title: 'Post 1',
+    slug: 'post-1',
+    subcategory: { name: 'Test' },
+    content: { type: 'doc', content: [] },
+    views: 100,
+    likesCount: 10,
+    commentsCount: 5,
+    createdAt: '2023-01-01T00:00:00.000Z',
+    featured: false,
+  },
+  {
+    id: '2',
+    title: 'Post 2',
+    slug: 'post-2',
+    subcategory: { name: 'Test' },
+    content: { type: 'doc', content: [] },
+    views: 200,
+    likesCount: 20,
+    commentsCount: 10,
+    createdAt: '2023-01-02T00:00:00.000Z',
+    featured: false,
+  },
+  {
+    id: '3',
+    title: 'Post 3',
+    slug: 'post-3',
+    subcategory: { name: 'Test' },
+    content: { type: 'doc', content: [] },
+    views: 300,
+    likesCount: 30,
+    commentsCount: 15,
+    createdAt: '2023-01-03T00:00:00.000Z',
+    featured: false,
+  },
 ];
 
 describe('RelatedPosts', () => {

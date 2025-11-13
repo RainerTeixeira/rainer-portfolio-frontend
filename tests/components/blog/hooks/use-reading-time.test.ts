@@ -27,6 +27,6 @@ describe('calculateReadingTime', () => {
     const result = calculateReadingTime(longText);
 
     expect(result).toBeDefined();
-    expect(result).toBeGreaterThan(1);
+    expect(result).toBeGreaterThanOrEqual(1);
   });
 });

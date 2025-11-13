@@ -2,20 +2,24 @@
  * Testes para componente CommentSection
  */
 
+// Mock do CSS primeiro
+jest.mock('@/app/globals.css', () => ({}));
+
 import { CommentSection } from '@/components/blog/comments/comment-section';
 import { render } from '@testing-library/react';
 
 // Mock do auth context
-jest.mock('@/components/providers/auth-context-provider', () => ({
-  useAuthContext: jest.fn(() => ({
+jest.mock('@/components/providers/auth-provider', () => ({
+  useAuth: jest.fn(() => ({
     user: null,
+    isAuthenticated: false,
   })),
 }));
 
 // Mock do commentsService
-jest.mock('@/lib/api', () => ({
+jest.mock('@/lib/api/services/comments.service', () => ({
   commentsService: {
-    getCommentsByPost: jest.fn(() => Promise.resolve([])),
+    listComments: jest.fn(() => Promise.resolve({ comments: [] })),
   },
 }));
 

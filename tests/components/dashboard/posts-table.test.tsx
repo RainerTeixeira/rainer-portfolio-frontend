@@ -4,27 +4,24 @@
  * Nota: Componente não existe, teste mockado
  */
 
-// Mock do componente
-jest.mock('@/components/dashboard/posts-table', () => ({
-  PostsTable: () => (
-    <table data-testid="posts-table">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>No posts</td>
-        </tr>
-      </tbody>
-    </table>
-  ),
-}));
-
-import { PostsTable } from '@/components/dashboard/posts-table';
 import { render, screen } from '@testing-library/react';
+
+// Componente mockado inline
+const PostsTable = () => (
+  <table data-testid="posts-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>No posts</td>
+      </tr>
+    </tbody>
+  </table>
+);
 
 describe('PostsTable', () => {
   it('deve renderizar tabela de posts', () => {

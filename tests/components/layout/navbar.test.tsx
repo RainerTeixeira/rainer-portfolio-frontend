@@ -2,6 +2,9 @@
  * Testes para componente Navbar
  */
 
+// Mock do CSS primeiro
+jest.mock('@/app/globals.css', () => ({}));
+
 import { Navbar } from '@/components/layout/navbar';
 import { render } from '@testing-library/react';
 
@@ -20,9 +23,9 @@ jest.mock('next-themes', () => ({
   })),
 }));
 
-// Mock do useAuthContext
-jest.mock('@/components/providers/auth-context-provider', () => ({
-  useAuthContext: jest.fn(() => ({
+// Mock do useAuth
+jest.mock('@/components/providers/auth-provider', () => ({
+  useAuth: jest.fn(() => ({
     user: null,
     isAuthenticated: false,
   })),

@@ -2,35 +2,45 @@
  * Testes para AuthContextProvider
  */
 
-import { AuthContextProvider } from '@/components/providers/auth-context-provider';
+import { AuthProvider } from '@/components/providers/auth-context-provider';
 import { render } from '@testing-library/react';
 
 // Mock do hook useAuth
+const mockUseAuth = {
+  user: null,
+  isAuthenticated: false,
+  loading: false,
+  error: null,
+  login: jest.fn().mockResolvedValue(undefined),
+  register: jest.fn().mockResolvedValue(undefined),
+  logout: jest.fn().mockResolvedValue(undefined),
+  updateProfile: jest.fn().mockResolvedValue(undefined),
+  forgotPassword: jest.fn().mockResolvedValue(undefined),
+  confirmPasswordReset: jest.fn().mockResolvedValue(undefined),
+  changePassword: jest.fn().mockResolvedValue(undefined),
+  checkAuth: jest.fn().mockResolvedValue(undefined),
+  loginWithOAuthCode: jest.fn().mockResolvedValue(false),
+};
+
 jest.mock('@/hooks/useAuth', () => ({
-  useAuth: jest.fn(() => ({
-    user: null,
-    isAuthenticated: false,
-    loading: false,
-    login: jest.fn(),
-    logout: jest.fn(),
-  })),
+  useAuth: jest.fn(() => mockUseAuth),
 }));
 
-describe('AuthContextProvider', () => {
+describe('AuthProvider', () => {
   it('deve renderizar o provider', () => {
     const { container } = render(
-      <AuthContextProvider>
+      <AuthProvider>
         <div>Test</div>
-      </AuthContextProvider>
+      </AuthProvider>
     );
     expect(container).toBeTruthy();
   });
 
   it('deve renderizar children', () => {
     const { getByText } = render(
-      <AuthContextProvider>
+      <AuthProvider>
         <div>Test Content</div>
-      </AuthContextProvider>
+      </AuthProvider>
     );
     expect(getByText('Test Content')).toBeInTheDocument();
   });
