@@ -44,12 +44,16 @@ const config: PlaywrightTestConfig = {
     timeout: 10 * 1000,
   },
 
-  /* Reporters */
+  /* Reporters - todos os resultados em tests/test-results/ */
   reporter: [
-    ['html', { outputFolder: 'playwright-report' }],
+    ['html', { outputFolder: 'tests/test-results/e2e/playwright-report' }],
     ['list'],
-    ['json', { outputFile: 'test-results/results.json' }],
+    ['json', { outputFile: 'tests/test-results/e2e/results.json' }],
+    ['junit', { outputFile: 'tests/test-results/e2e/junit.xml' }],
   ],
+
+  /* Output directory para screenshots, vídeos e traces */
+  outputDir: 'tests/test-results/e2e/artifacts',
 
   /* Configurações compartilhadas para todos os projetos */
   use: {

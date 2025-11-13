@@ -24,9 +24,9 @@ describe('usePWA', () => {
 
     expect(result.current).toHaveProperty('isInstallable');
     expect(result.current).toHaveProperty('isInstalled');
-    expect(result.current).toHaveProperty('install');
+    expect(result.current).toHaveProperty('promptInstall');
     expect(typeof result.current.isInstallable).toBe('boolean');
     expect(typeof result.current.isInstalled).toBe('boolean');
-    expect(typeof result.current.install).toBe('function');
+    expect(typeof result.current.promptInstall).toBe('function');
   });
 });

@@ -159,13 +159,37 @@ export function onReducedMotionChange(
 
   handler(mediaQuery);
 
-  if (mediaQuery.addEventListener) {
+  // addEventListener é suportado em todos os navegadores modernos
+  if (
+    mediaQuery.addEventListener &&
+    typeof mediaQuery.addEventListener === 'function'
+  ) {
     mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
-  } else {
-    mediaQuery.addListener(handler);
-    return () => mediaQuery.removeListener(handler);
+    return () => {
+      if (
+        mediaQuery.removeEventListener &&
+        typeof mediaQuery.removeEventListener === 'function'
+      ) {
+        mediaQuery.removeEventListener('change', handler);
+      }
+    };
   }
+
+  // Fallback para navegadores antigos (não deve acontecer em navegadores modernos)
+  if (mediaQuery.addListener && typeof mediaQuery.addListener === 'function') {
+    mediaQuery.addListener(handler);
+    return () => {
+      if (
+        mediaQuery.removeListener &&
+        typeof mediaQuery.removeListener === 'function'
+      ) {
+        mediaQuery.removeListener(handler);
+      }
+    };
+  }
+
+  // Se nenhum método estiver disponível, retorna função vazia
+  return () => {};
 }
 
 /**

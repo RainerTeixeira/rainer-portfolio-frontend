@@ -1,455 +1,136 @@
-# Estrutura de Testes - Frontend
+# Estrutura de Testes
 
-Este diretório contém todos os testes do projeto frontend, organizados para espelhar a estrutura de `app/`.
+Este diretório contém todos os testes do projeto, organizados por tipo e seguindo boas práticas.
 
-## 📁 Organização
+## 📁 Estrutura
 
 ```
 tests/
-├── app/                    # Testes que espelham a estrutura de app/
-│   ├── page.test.tsx       # ✅ Teste da página inicial
-│   ├── layout.test.tsx     # ✅ Teste do layout principal
-│   ├── not-found.test.tsx  # ✅ Teste da página 404
-│   ├── blog/
-│   │   ├── page.test.tsx   # ✅ Teste da página de blog
-│   │   └── [slug]/
-│   │       └── page.test.tsx  # ✅ Teste da página de post individual
-│   ├── contato/
-│   │   └── page.test.tsx   # ✅ Teste da página de contato
-│   ├── cookies/
-│   │   ├── page.test.tsx   # ✅ Teste da página de política de cookies
-│   │   └── settings/
-│   │       └── page.test.tsx # ✅ Teste da página de configurações de cookies
-│   ├── privacidade/
-│   │   └── page.test.tsx   # ✅ Teste da página de política de privacidade
-│   ├── sobre/
-│   │   └── page.test.tsx   # ✅ Teste da página sobre
-│   ├── termos/
-│   │   └── page.test.tsx   # ✅ Teste da página de termos de uso
-│   ├── dashboard/
-│   │   ├── page.test.tsx   # ✅ Teste da página do dashboard
-│   │   ├── settings/
-│   │   │   └── page.test.tsx  # ✅ Teste da página de configurações
-│   │   └── login/          # ✅ Testes de páginas de autenticação
-│   │       ├── page.test.tsx ✅
-│   │       ├── callback/
-│   │       │   └── page.test.tsx ✅
-│   │       ├── confirm-email/
-│   │       │   └── page.test.tsx ✅
-│   │       ├── forgot-password/
-│   │       │   └── page.test.tsx ✅
-│   │       ├── register/
-│   │       │   └── page.test.tsx ✅
-│   │       ├── reset-password/
-│   │       │   ├── page.test.tsx ✅
-│   │       │   └── [token]/
-│   │       │       └── page.test.tsx ✅
-│   │       └── verify-email-admin/
-│   │           └── page.test.tsx ✅
-│   └── api/                 # Testes de rotas API (espelha app/api/)
-│       └── dashboard/
-│           ├── analytics/
-│           │   └── route.test.ts  # ✅ Teste da rota de analytics
-│           └── stats/
-│               └── route.test.ts  # ✅ Teste da rota de stats
-├── components/              # Testes de componentes
-│   ├── dashboard/
-│   │   └── login/          # ✅ Testes de componentes de autenticação
-│   │       ├── forms/
-│   │       │   ├── forgot-password-form.test.tsx
-│   │       │   ├── register-form.test.tsx
-│   │       │   └── reset-password-form.test.tsx
-│   │       ├── name-availability.test.tsx
-│   │       ├── nickname-availability.test.tsx
-│   │       ├── password-input.test.tsx
-│   │       ├── status-badge.test.tsx
-│   │       └── terms-dialog.test.tsx
-│   ├── home/               # ✅ Testes de componentes da home
-│   ├── blog/               # ✅ Testes de componentes do blog
-│   ├── ui/                 # ✅ Testes de componentes UI
-│   └── ... (outros componentes)
-├── integration/             # Testes de integração de serviços
-│   └── api/
-│       ├── auth.service.test.ts          # ✅ Teste de autenticação
-│       ├── bookmarks.service.test.ts     # ✅ Teste de bookmarks
-│       ├── categories.service.test.ts    # ✅ Teste de categorias
-│       ├── comments.service.test.ts      # ✅ Teste de comentários
-│       ├── likes.service.test.ts         # ✅ Teste de likes
-│       ├── posts.service.test.ts         # ✅ Teste de posts
-│       ├── user.service.test.ts          # ✅ Teste de usuário
-│       └── users.service.test.ts         # ✅ Teste de usuários
-├── lib/                    # Testes de utilitários e serviços
-│   └── api/
-│       └── services/
-│           └── auth.service.test.ts      # ✅ Teste do serviço de autenticação
-├── e2e/                     # Testes end-to-end (Playwright)
-│   ├── accessibility.spec.ts             # ✅ Testes de acessibilidade
-│   ├── api-structure.spec.ts             # ✅ Testes de estrutura de API
-│   ├── auth-passwordless.spec.ts         # ✅ Testes de autenticação passwordless
-│   ├── chrome-visual.spec.ts             # ✅ Testes visuais no Chrome
-│   ├── cookies.spec.ts                   # ✅ Testes de cookies
-│   ├── cookies-localstorage.spec.ts      # ✅ Testes de localStorage
-│   ├── cookies-production.spec.ts        # ✅ Testes de cookies em produção
-│   ├── create-post-with-image.spec.ts    # ✅ Testes de criação de post com imagem
-│   ├── dashboard.spec.ts                 # ✅ Testes do dashboard
-│   ├── github-signup-flow.spec.ts        # ✅ Testes de fluxo de registro GitHub
-│   ├── google-signup-flow.spec.ts        # ✅ Testes de fluxo de registro Google
-│   ├── oauth-callback.spec.ts            # ✅ Testes de callback OAuth
-│   ├── preview-imagem-ui.spec.ts         # ✅ Testes de preview de imagem
-│   └── social-login.spec.ts              # ✅ Testes de login social
-├── live/                    # Testes live (requerem servidor em execução)
-│   └── api/
-│       └── smoke.live.test.ts            # ✅ Testes de smoke
-├── scripts/                 # Scripts auxiliares de teste
-│   ├── run-all-tests.js
-│   ├── test-performance.js
-│   ├── testar-ui-chrome.js
-│   └── ... (ver README.md em scripts/)
-├── fixtures/                # Dados de teste (JSON, etc)
-│   └── test-post.json
-└── utils/                   # Utilitários e mocks para testes
-    └── mockFetch.ts
-
-app/tests/                   # Páginas de teste manual (acessíveis no browser)
-└── passwordless/
-    └── page.tsx             # ✅ Página de teste manual de passwordless
+├── app/              # Testes de páginas Next.js
+├── components/       # Testes de componentes React
+├── hooks/            # Testes de custom hooks
+├── lib/              # Testes de utilitários e serviços
+├── integration/      # Testes de integração (dados reais)
+├── e2e/              # Testes end-to-end (sem mocks)
+├── live/             # Testes com APIs reais
+├── scripts/          # Scripts auxiliares de teste
+├── utils/            # Utilitários para testes
+├── test-results/     # Resultados e relatórios de testes
+│   ├── coverage/     # Relatórios de cobertura
+│   ├── e2e/          # Resultados de testes E2E
+│   └── logs/         # Logs de execução
+└── tsconfig.json     # Configuração TypeScript para testes
 ```
 
-## 🎯 Princípios de Organização
+## 🎯 Boas Práticas
 
-### 1. Estrutura Espelhada (`tests/app/`)
+### Testes Unitários (`app/`, `components/`, `hooks/`, `lib/`)
 
-- A estrutura de `tests/app/` **espelha exatamente** a estrutura de `app/`
-- Cada arquivo `page.tsx` em `app/` deve ter um correspondente `page.test.tsx` em `tests/app/`
-- Cada rota API em `app/api/` deve ter um correspondente `route.test.ts` em `tests/app/api/`
+- ✅ **Use mocks** para isolar unidades de código
+- ✅ Teste comportamento, não implementação
+- ✅ Mantenha testes rápidos e independentes
+- ✅ Use dados mockados controlados
 
-### 2. Testes de Integração (`tests/integration/`)
+**Exemplo:**
 
-- Testes que verificam a integração entre serviços e APIs
-- Testam o comportamento completo de serviços, não apenas unidades isoladas
+```typescript
+// ✅ BOM: Mock de dependências
+jest.mock('@/lib/api/client');
+const mockApi = api as jest.Mocked<typeof api>;
 
-### 3. Testes E2E (`tests/e2e/`)
+// ❌ EVITE: Dados reais em testes unitários
+const realData = await fetchRealData();
+```
 
-- Testes end-to-end usando Playwright
-- Testam fluxos completos do usuário
-- Nomenclatura: `*.spec.ts`
+### Testes de Integração (`integration/`)
 
-### 4. Testes Live (`tests/live/`)
+- ✅ **Use dados reais** quando possível
+- ✅ Teste interação entre módulos
+- ✅ Use mocks apenas para serviços externos (APIs, DB)
+- ✅ Valide fluxos completos
 
-- Testes que requerem servidor real em execução
-- Excluídos da execução padrão do Jest
+**Exemplo:**
 
-### 5. Testes de Componentes (`tests/components/`)
+```typescript
+// ✅ BOM: Dados reais para integração
+const result = await service.processData(realInput);
 
-- Testes unitários de componentes React
-- Testam renderização, interações e comportamento
-- Organizados para espelhar a estrutura de `components/`
+// ✅ BOM: Mock apenas de serviços externos
+jest.mock('@/lib/api/external-service');
+```
 
-### 6. Testes de Serviços (`tests/lib/`)
+### Testes End-to-End (`e2e/`)
 
-- Testes unitários de serviços e utilitários
-- Testam lógica de negócio e integração com APIs
-- Organizados para espelhar a estrutura de `lib/`
+- ✅ **Evite mocks** para simular mundo real
+- ✅ Use dados reais ou fixtures realistas
+- ✅ Teste fluxos completos do usuário
+- ✅ Valide comportamento real da aplicação
 
-### 7. Páginas de Teste Manual (`app/tests/`)
+**Exemplo:**
 
-- Páginas acessíveis no browser para testes manuais
-- Úteis para debug e validação visual
-- Não são executadas em testes automatizados
+```typescript
+// ✅ BOM: Sem mocks, comportamento real
+await page.goto('/dashboard');
+await page.fill('[name="email"]', 'test@example.com');
 
-## 📝 Convenções de Nomenclatura
+// ❌ EVITE: Mocks em testes E2E
+jest.mock('@/lib/api');
+```
 
-- **Testes de páginas**: `page.test.tsx` (espelha `page.tsx`)
-- **Testes de rotas API**: `route.test.ts` (espelha `route.ts`)
-- **Testes de componentes**: `*.test.tsx` (espelha o nome do componente)
-- **Testes E2E**: `*.spec.ts` (Playwright)
-- **Testes de serviços**: `*.service.test.ts`
-- **Testes live**: `*.live.test.ts`
-- **Páginas de teste manual**: `app/tests/*/page.tsx`
+## 📊 Resultados e Logs
 
-## 🔍 Organização e Estrutura
+Todos os resultados de testes são salvos em `tests/test-results/`:
 
-### Autenticação e Login
-
-Todos os testes relacionados à autenticação estão organizados em:
-
-- **Componentes**: `tests/components/dashboard/login/`
-  - Formulários (passwordless, register, reset-password, forgot-password)
-  - Componentes auxiliares (nickname-availability, password-input, etc.)
-
-- **Integração**: `tests/integration/api/auth.service.test.ts`
-  - Testes de integração do serviço de autenticação
-
-- **Serviços**: `tests/lib/api/services/auth.service.test.ts`
-  - Testes unitários do serviço de autenticação
-
-- **E2E**: `tests/e2e/`
-  - `auth-passwordless.spec.ts` - Testes E2E de autenticação passwordless
-  - `oauth-callback.spec.ts` - Testes E2E de callback OAuth
-  - `social-login.spec.ts` - Testes E2E de login social
-  - `github-signup-flow.spec.ts` - Testes E2E de fluxo GitHub
-  - `google-signup-flow.spec.ts` - Testes E2E de fluxo Google
-
-- **Teste Manual**: `app/tests/passwordless/page.tsx`
-  - Página de teste manual acessível em `/tests/passwordless`
-
-### Consolidação
-
-- ✅ **Consolidado**: Testes de autenticação organizados por tipo (componentes, integração, E2E)
-- ✅ **Separado**: Testes unitários (`tests/lib/`) vs. testes de integração (`tests/integration/`)
-- ✅ **Organizado**: Testes de componentes espelham a estrutura de `components/`
-- ✅ **Criado**: Página de teste manual em `app/tests/passwordless/`
+- **`coverage/`**: Relatórios de cobertura de código (HTML, JSON, LCOV)
+- **`e2e/`**: Screenshots, vídeos e relatórios de testes E2E
+- **`logs/`**: Logs de execução de testes
+- **`*.json`**: Resultados em formato JSON
+- **`*.md`**: Relatórios em Markdown
 
 ## 🚀 Executando Testes
 
-### Testes Unitários e de Integração
-
 ```bash
-# Todos os testes unitários e de integração
+# Todos os testes
 npm test
 
-# Testes de uma pasta específica
-npm test tests/app
-npm test tests/components
-npm test tests/integration
-npm test tests/lib
+# Apenas testes unitários
+npm test -- tests/app tests/components tests/hooks tests/lib
 
-# Testes de autenticação
-npm test tests/components/dashboard/login
-npm test tests/integration/api/auth.service.test.ts
-npm test tests/lib/api/services/auth.service.test.ts
+# Apenas testes de integração
+npm test -- tests/integration
 
-# Testes com watch mode
-npm test -- --watch
-
-# Testes com cobertura
-npm run test:coverage
-```
-
-### Testes E2E
-
-```bash
-# Todos os testes E2E
+# Apenas testes E2E
 npm run test:e2e
 
-# Testes E2E específicos
-npm run test:e2e tests/e2e/auth-passwordless.spec.ts
-npm run test:e2e tests/e2e/oauth-callback.spec.ts
-npm run test:e2e tests/e2e/social-login.spec.ts
+# Com cobertura
+npm test -- --coverage
 
-# Testes E2E em modo headed (com browser visível)
-npm run test:e2e -- --headed
-
-# Testes E2E em modo debug
-npm run test:e2e -- --debug
+# Testes específicos
+npm test -- tests/lib/utils/string.test.ts
 ```
 
-### Testes Manuais
+## 📝 Convenções
 
-```bash
-# Inicie o servidor de desenvolvimento
-npm run dev
+1. **Nomes de arquivos**: `*.test.ts` ou `*.test.tsx`
+2. **Estrutura**: Um arquivo de teste por arquivo de código
+3. **Organização**: Espelhar estrutura de `app/`, `components/`, `lib/`
+4. **Mocks**: Centralizados em `tests/utils/` quando reutilizáveis
+5. **Fixtures**: Em `tests/e2e/fixtures/` para dados de teste
 
-# Acesse a página de teste manual
-# http://localhost:3000/tests/passwordless
-```
+## 🔧 Configuração
 
-## 📊 Status Atual
+- **Jest**: `jest.config.js` (raiz do projeto)
+- **TypeScript**: `tests/tsconfig.json`
+- **Setup**: `jest.setup.js` (raiz do projeto)
+- **Playwright**: `playwright.config.ts` (raiz do projeto)
 
-### Testes Implementados ✅
+## 📈 Cobertura
 
-#### Páginas (`tests/app/`)
+A cobertura mínima esperada é:
 
-- ✅ `tests/app/page.test.tsx` - Página inicial
-- ✅ `tests/app/layout.test.tsx` - Layout principal
-- ✅ `tests/app/not-found.test.tsx` - Página 404
-- ✅ `tests/app/blog/page.test.tsx` - Página de blog
-- ✅ `tests/app/blog/[slug]/page.test.tsx` - Página de post individual
-- ✅ `tests/app/contato/page.test.tsx` - Página de contato
-- ✅ `tests/app/cookies/page.test.tsx` - Página de política de cookies
-- ✅ `tests/app/cookies/settings/page.test.tsx` - Página de configurações de cookies
-- ✅ `tests/app/privacidade/page.test.tsx` - Página de política de privacidade
-- ✅ `tests/app/sobre/page.test.tsx` - Página sobre
-- ✅ `tests/app/termos/page.test.tsx` - Página de termos de uso
-- ✅ `tests/app/dashboard/page.test.tsx` - Página do dashboard
-- ✅ `tests/app/dashboard/settings/page.test.tsx` - Página de configurações
-- ✅ `tests/app/dashboard/login/page.test.tsx` - Página de login
-- ✅ `tests/app/dashboard/login/callback/page.test.tsx` - Callback OAuth
-- ✅ `tests/app/dashboard/login/confirm-email/page.test.tsx` - Confirmação de email
-- ✅ `tests/app/dashboard/login/forgot-password/page.test.tsx` - Recuperação de senha
-- ✅ `tests/app/dashboard/login/register/page.test.tsx` - Registro
-- ✅ `tests/app/dashboard/login/reset-password/page.test.tsx` - Reset de senha
-- ✅ `tests/app/dashboard/login/reset-password/[token]/page.test.tsx` - Reset com token
-- ✅ `tests/app/dashboard/login/verify-email-admin/page.test.tsx` - Verificação admin
-- ✅ `tests/app/api/dashboard/analytics/route.test.ts` - Rota de analytics
-- ✅ `tests/app/api/dashboard/stats/route.test.ts` - Rota de stats
+- **Branches**: 80%
+- **Functions**: 80%
+- **Lines**: 80%
+- **Statements**: 80%
 
-#### Componentes (`tests/components/`)
-
-- ✅ `tests/components/dashboard/login/` - Componentes de autenticação
-  - ✅ `forms/forgot-password-form.test.tsx`
-  - ✅ `forms/register-form.test.tsx`
-  - ✅ `forms/reset-password-form.test.tsx`
-  - ✅ `name-availability.test.tsx`
-  - ✅ `nickname-availability.test.tsx`
-  - ✅ `password-input.test.tsx`
-  - ✅ `status-badge.test.tsx`
-  - ✅ `terms-dialog.test.tsx`
-- ✅ `tests/components/home/*` - Componentes da home
-- ✅ `tests/components/blog/*` - Componentes do blog
-- ✅ `tests/components/ui/*` - Componentes UI
-
-#### Integração (`tests/integration/`)
-
-- ✅ `tests/integration/api/auth.service.test.ts` - Autenticação
-- ✅ `tests/integration/api/bookmarks.service.test.ts` - Bookmarks
-- ✅ `tests/integration/api/categories.service.test.ts` - Categorias
-- ✅ `tests/integration/api/comments.service.test.ts` - Comentários
-- ✅ `tests/integration/api/likes.service.test.ts` - Likes
-- ✅ `tests/integration/api/posts.service.test.ts` - Posts
-- ✅ `tests/integration/api/user.service.test.ts` - Usuário
-- ✅ `tests/integration/api/users.service.test.ts` - Usuários
-
-#### Serviços (`tests/lib/`)
-
-- ✅ `tests/lib/api/services/auth.service.test.ts` - Serviço de autenticação
-
-#### E2E (`tests/e2e/`)
-
-- ✅ `tests/e2e/accessibility.spec.ts` - Acessibilidade
-- ✅ `tests/e2e/api-structure.spec.ts` - Estrutura de API
-- ✅ `tests/e2e/auth-passwordless.spec.ts` - Autenticação passwordless
-- ✅ `tests/e2e/chrome-visual.spec.ts` - Testes visuais
-- ✅ `tests/e2e/cookies.spec.ts` - Cookies
-- ✅ `tests/e2e/cookies-localstorage.spec.ts` - LocalStorage
-- ✅ `tests/e2e/cookies-production.spec.ts` - Cookies em produção
-- ✅ `tests/e2e/create-post-with-image.spec.ts` - Criação de post com imagem
-- ✅ `tests/e2e/dashboard.spec.ts` - Dashboard
-- ✅ `tests/e2e/github-signup-flow.spec.ts` - Fluxo GitHub
-- ✅ `tests/e2e/google-signup-flow.spec.ts` - Fluxo Google
-- ✅ `tests/e2e/oauth-callback.spec.ts` - Callback OAuth
-- ✅ `tests/e2e/preview-imagem-ui.spec.ts` - Preview de imagem
-- ✅ `tests/e2e/social-login.spec.ts` - Login social
-
-#### Testes Manuais (`app/tests/`)
-
-- ✅ `app/tests/passwordless/page.tsx` - Página de teste manual de passwordless
-
-### Testes Pendentes 📝
-
-#### Páginas (`tests/app/`)
-
-- ✅ **TODAS AS PÁGINAS TÊM TESTES!** 🎉
-- 📝 Melhorias futuras: Testes mais detalhados para casos específicos
-- 📝 Testes de integração entre páginas
-- 📝 Testes de acessibilidade mais abrangentes
-
-#### Componentes (`tests/components/`)
-
-- 📝 `tests/components/dashboard/login/forms/passwordless-login-form.test.tsx` - Formulário passwordless
-- 📝 Outros componentes que ainda não têm testes
-
-## 🔧 Próximos Passos
-
-### Prioridade Alta
-
-1. ✅ Criar testes para componentes de autenticação
-2. ✅ Criar testes E2E para autenticação
-3. ✅ Criar página de teste manual
-4. ✅ Criar testes para páginas de login
-5. ✅ Criar testes para todas as páginas do app
-6. 📝 Criar teste para formulário passwordless (componente)
-
-### Prioridade Média
-
-1. ✅ Criar testes para todas as páginas do app
-2. 📝 Aumentar cobertura de código para 80%
-3. 📝 Adicionar testes de acessibilidade mais abrangentes
-4. 📝 Adicionar testes de integração entre páginas
-
-### Prioridade Baixa
-
-1. 📝 Criar testes para rotas API restantes
-2. 📝 Adicionar testes de performance
-3. 📝 Adicionar testes de segurança
-
-## 📚 Documentação Relacionada
-
-- **Documentação de Testes**: Veja `docs/09-TESTES/README.md` para documentação completa de testes
-- **Documentação Geral**: Veja `docs/README.md` para documentação completa do projeto
-
-## 🎯 Cobertura de Testes
-
-### Autenticação e Login
-
-- ✅ Componentes: 100% dos componentes principais testados
-- ✅ Serviços: 100% dos serviços testados
-- ✅ E2E: Fluxos principais testados
-- ✅ Páginas: 100% das páginas de autenticação testadas
-
-### Páginas do App
-
-- ✅ Páginas principais: 100% testadas
-- ✅ Páginas de autenticação: 100% testadas
-- ✅ Páginas de políticas: 100% testadas
-- ✅ Páginas do dashboard: 100% testadas
-- ✅ Rotas API: 100% testadas
-
-### Outras Áreas
-
-- ✅ Componentes UI: Testados
-- ✅ Serviços de API: Testados
-- ✅ E2E: Fluxos principais testados
-
-## 🎉 Resultado Final
-
-**✅ 100% de cobertura de testes para todas as páginas do app!**
-
-A estrutura `tests/app/` está **completamente espelhada** de `app/`.
-
-### Estatísticas Finais
-
-- **19 páginas** (`page.tsx`) em `app/` → **19 testes** (`page.test.tsx`) em `tests/app/`
-- **1 layout** (`layout.tsx`) em `app/` → **1 teste** (`layout.test.tsx`) em `tests/app/`
-- **1 not-found** (`not-found.tsx`) em `app/` → **1 teste** (`not-found.test.tsx`) em `tests/app/`
-- **Total: 21 arquivos de teste** para 21 arquivos do app
-
-### Mapeamento Completo
-
-✅ **Páginas Principais:**
-
-- `app/page.tsx` → `tests/app/page.test.tsx`
-- `app/blog/page.tsx` → `tests/app/blog/page.test.tsx`
-- `app/blog/[slug]/page.tsx` → `tests/app/blog/[slug]/page.test.tsx`
-- `app/contato/page.tsx` → `tests/app/contato/page.test.tsx`
-- `app/sobre/page.tsx` → `tests/app/sobre/page.test.tsx`
-
-✅ **Páginas de Políticas:**
-
-- `app/cookies/page.tsx` → `tests/app/cookies/page.test.tsx`
-- `app/cookies/settings/page.tsx` → `tests/app/cookies/settings/page.test.tsx`
-- `app/privacidade/page.tsx` → `tests/app/privacidade/page.test.tsx`
-- `app/termos/page.tsx` → `tests/app/termos/page.test.tsx`
-
-✅ **Páginas do Dashboard:**
-
-- `app/dashboard/page.tsx` → `tests/app/dashboard/page.test.tsx`
-- `app/dashboard/settings/page.tsx` → `tests/app/dashboard/settings/page.test.tsx`
-
-✅ **Páginas de Autenticação:**
-
-- `app/dashboard/login/page.tsx` → `tests/app/dashboard/login/page.test.tsx`
-- `app/dashboard/login/callback/page.tsx` → `tests/app/dashboard/login/callback/page.test.tsx`
-- `app/dashboard/login/confirm-email/page.tsx` → `tests/app/dashboard/login/confirm-email/page.test.tsx`
-- `app/dashboard/login/forgot-password/page.tsx` → `tests/app/dashboard/login/forgot-password/page.test.tsx`
-- `app/dashboard/login/register/page.tsx` → `tests/app/dashboard/login/register/page.test.tsx`
-- `app/dashboard/login/reset-password/page.tsx` → `tests/app/dashboard/login/reset-password/page.test.tsx`
-- `app/dashboard/login/reset-password/[token]/page.tsx` → `tests/app/dashboard/login/reset-password/[token]/page.test.tsx`
-- `app/dashboard/login/verify-email-admin/page.tsx` → `tests/app/dashboard/login/verify-email-admin/page.test.tsx`
-
-✅ **Arquivos da Raiz:**
-
-- `app/layout.tsx` → `tests/app/layout.test.tsx`
-- `app/not-found.tsx` → `tests/app/not-found.test.tsx`
-
-**Todas as páginas e arquivos principais têm seus respectivos testes implementados!** 🎉
+Verifique relatórios em `tests/test-results/coverage/index.html`

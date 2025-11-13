@@ -2,14 +2,31 @@
  * Testes para hook useAnalytics
  */
 
+/// <reference types="jest" />
+
 import { useAnalytics } from '@/hooks/use-analytics';
 import { renderHook } from '@testing-library/react';
 
 // Mock do analytics
-jest.mock('@/lib/analytics', () => ({
-  trackEvent: jest.fn(),
-  trackPageView: jest.fn(),
-  initialize: jest.fn(),
+jest.mock('@/lib/monitoring/analytics', () => ({
+  analytics: {
+    track: jest.fn(),
+    pageView: jest.fn(),
+    identify: jest.fn(),
+    enable: jest.fn(),
+    disable: jest.fn(),
+  },
+  ANALYTICS_EVENTS: {
+    PAGE_VIEW: jest.fn(() => ({ category: 'page_view', action: 'view' })),
+    BLOG_POST_VIEW: jest.fn(() => ({
+      category: 'user_action',
+      action: 'blog_post_view',
+    })),
+    BLOG_POST_LIKE: jest.fn(() => ({
+      category: 'user_action',
+      action: 'blog_post_like',
+    })),
+  },
 }));
 
 describe('useAnalytics', () => {
@@ -23,10 +40,11 @@ describe('useAnalytics', () => {
   });
 
   it('deve inicializar analytics no mount', () => {
-    const { initialize } = require('@/lib/analytics');
+    const { analytics } = require('@/lib/monitoring/analytics');
     renderHook(() => useAnalytics());
 
-    // Verifica se initialize foi chamado (pode ser chamado no useEffect)
-    expect(initialize).toBeDefined();
+    // Verifica se analytics está disponível
+    expect(analytics).toBeDefined();
+    expect(typeof analytics.track).toBe('function');
   });
 });

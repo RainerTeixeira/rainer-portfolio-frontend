@@ -99,4 +99,3 @@ describe('lib/utils/scroll', () => {
     });
   });
 });
-

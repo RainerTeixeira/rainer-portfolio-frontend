@@ -1,7 +1,3 @@
-// ============================================================================
-// Configuração da API - Centraliza todas as configurações
-// ============================================================================
-
 /**
  * Configurações centralizadas para a API do backend
  *
@@ -50,7 +46,6 @@ export const API_ENDPOINTS = {
     FORGOT_PASSWORD: '/auth/forgot-password',
     RESET_PASSWORD: '/auth/reset-password',
     CHANGE_PASSWORD: '/auth/change-password',
-    // PROFILE removido - usar /users/cognito/{cognitoSub} ao invés
   },
 
   /** Endpoints de posts */

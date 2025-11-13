@@ -1,31 +1,208 @@
 /**
  * Testes para image-optimizer
+ *
+ * Testa suporte para WebP animado (GIF WebP) - formato moderno para animações
  */
 
-import { analyzeImage } from '@/lib/utils/image-optimizer';
+import {
+  analyzeImageCompact,
+  getOptimizationTips,
+} from '@/lib/utils/image-optimizer';
 
 describe('image-optimizer', () => {
   it('deve analisar imagem de arquivo', () => {
     const file = new File([''], 'test.jpg', { type: 'image/jpeg' });
-    const result = analyzeImage(file);
-    expect(result).toHaveProperty('format');
-    expect(result).toHaveProperty('animated');
-    expect(result).toHaveProperty('size');
+    const result = analyzeImageCompact(file);
+    expect(result).toHaveProperty('f'); // format
+    expect(result).toHaveProperty('a'); // animated
+    expect(result).toHaveProperty('s'); // size
   });
 
   it('deve analisar imagem de URL', () => {
-    const result = analyzeImage('https://example.com/image.jpg');
-    expect(result).toHaveProperty('format');
-    expect(result).toHaveProperty('animated');
+    const result = analyzeImageCompact('https://example.com/image.jpg');
+    expect(result).toHaveProperty('f'); // format
+    expect(result).toHaveProperty('a'); // animated
   });
 
   it('deve detectar formato GIF', () => {
-    const result = analyzeImage('https://example.com/image.gif');
-    expect(result.format).toBe('gif');
+    const result = analyzeImageCompact('https://example.com/image.gif');
+    expect(result.f).toBe('gif');
+    expect(result.a).toBe(true); // GIF é sempre animado
   });
 
-  it('deve detectar formato WebP', () => {
-    const result = analyzeImage('https://example.com/image.webp');
-    expect(result.format).toBe('webp');
+  it('deve detectar formato WebP estático', () => {
+    const result = analyzeImageCompact('https://example.com/image.webp');
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(false); // WebP sem indicadores de animação é estático
+  });
+
+  // ========================================================================
+  // Testes para WebP animado (GIF WebP)
+  // ========================================================================
+
+  it('deve detectar WebP animado via URL com palavra-chave "animated"', () => {
+    const result = analyzeImageCompact(
+      'https://example.com/animated-image.webp'
+    );
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true); // WebP animado detectado
+    expect(result.r).toBe('webp'); // WebP animado mantém formato WebP
+  });
+
+  it('deve detectar WebP animado via URL com palavra-chave "anim"', () => {
+    const result = analyzeImageCompact('https://example.com/anim_image.webp');
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true);
+    expect(result.r).toBe('webp');
+  });
+
+  it('deve detectar WebP animado via URL com "_anim"', () => {
+    const result = analyzeImageCompact('https://example.com/image_anim.webp');
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true);
+    expect(result.r).toBe('webp');
+  });
+
+  it('deve detectar WebP animado via URL com "gif" no nome (GIF convertido)', () => {
+    const result = analyzeImageCompact('https://example.com/image-gif.webp');
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true);
+    expect(result.r).toBe('webp');
+  });
+
+  it('deve detectar WebP animado via File com nome indicando animação', () => {
+    const file = new File([''], 'animated-image.webp', { type: 'image/webp' });
+    const result = analyzeImageCompact(file);
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true);
+    expect(result.r).toBe('webp');
+    expect(result.s).toBe(0); // File vazio tem tamanho 0
+  });
+
+  it('deve detectar WebP animado via File com "_anim" no nome', () => {
+    const file = new File([''], 'image_anim.webp', { type: 'image/webp' });
+    const result = analyzeImageCompact(file);
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true);
+    expect(result.r).toBe('webp');
+  });
+
+  it('deve detectar WebP animado via URL com flag Cloudinary "fl_animated"', () => {
+    const result = analyzeImageCompact(
+      'https://res.cloudinary.com/example/image/upload/fl_animated/image.webp'
+    );
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true);
+    expect(result.r).toBe('webp');
+  });
+
+  it('deve detectar WebP animado via URL com flag Cloudinary "fl_awebp"', () => {
+    const result = analyzeImageCompact(
+      'https://res.cloudinary.com/example/image/upload/fl_awebp/image.webp'
+    );
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true);
+    expect(result.r).toBe('webp');
+  });
+
+  // ========================================================================
+  // Testes de recomendações para WebP animado
+  // ========================================================================
+
+  it('deve recomendar WebP para WebP animado (não "original")', () => {
+    const result = analyzeImageCompact('https://example.com/animated.webp');
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true);
+    expect(result.r).toBe('webp'); // WebP animado mantém formato WebP
+    expect(result.c).toBe(false); // Não precisa conversão
+  });
+
+  it('deve recomendar WebP para GIF animado (conversão para WebP animado)', () => {
+    const result = analyzeImageCompact('https://example.com/animated.gif');
+    expect(result.f).toBe('gif');
+    expect(result.a).toBe(true);
+    expect(result.r).toBe('webp'); // GIF animado deve ser convertido para WebP animado
+  });
+
+  it('deve retornar dicas de otimização para WebP animado com compressão lossless', () => {
+    const analysis = analyzeImageCompact('https://example.com/animated.webp');
+    const tips = getOptimizationTips(analysis);
+
+    expect(tips.p).toBe(true); // Preservar animação
+    expect(tips.w).toBe(false); // Já é WebP, não precisa converter
+    expect(tips.l).toBe('lossless'); // Compressão lossless (sem perdas)
+    expect(tips.q).toBe('lossless'); // Qualidade lossless
+    expect(tips.n.some(note => note.includes('WebP animado detectado'))).toBe(
+      true
+    );
+    expect(tips.n.some(note => note.includes('lossless'))).toBe(true);
+  });
+
+  it('deve retornar dicas de otimização para GIF animado com compressão lossless', () => {
+    const analysis = analyzeImageCompact('https://example.com/animated.gif');
+    const tips = getOptimizationTips(analysis);
+
+    expect(tips.p).toBe(true); // Preservar animação
+    expect(tips.w).toBe(true); // Converter para WebP animado
+    expect(tips.l).toBe('lossless'); // Compressão lossless (sem perdas)
+    expect(tips.q).toBe('lossless'); // Qualidade lossless
+    expect(tips.n.some(note => note.includes('GIF animado detectado'))).toBe(
+      true
+    );
+    expect(tips.n.some(note => note.includes('WebP animado'))).toBe(true);
+    expect(tips.n.some(note => note.includes('lossless'))).toBe(true);
+  });
+
+  // ========================================================================
+  // Testes de edge cases
+  // ========================================================================
+
+  it('não deve detectar WebP estático como animado', () => {
+    const result = analyzeImageCompact('https://example.com/photo.webp');
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(false); // WebP sem indicadores é estático
+    expect(result.r).toBe('webp');
+  });
+
+  it('deve recomendar compressão lossless para WebP estático', () => {
+    const analysis = analyzeImageCompact('https://example.com/photo.webp');
+    const tips = getOptimizationTips(analysis);
+
+    expect(tips.l).toBe('lossless'); // Compressão lossless
+    expect(tips.q).toBe('lossless'); // Qualidade lossless
+    expect(tips.w).toBe(false); // Já é WebP, não precisa converter
+    expect(tips.n.some(note => note.includes('lossless'))).toBe(true);
+  });
+
+  it('deve recomendar compressão lossless para PNG convertido para WebP', () => {
+    const analysis = analyzeImageCompact('https://example.com/photo.png');
+    const tips = getOptimizationTips(analysis);
+
+    expect(tips.w).toBe(true); // Converter para WebP
+    expect(tips.l).toBe('lossless'); // Compressão lossless
+    expect(tips.q).toBe('lossless'); // Qualidade lossless
+    expect(tips.n.some(note => note.includes('lossless'))).toBe(true);
+  });
+
+  it('deve recomendar compressão lossless para JPG convertido para WebP', () => {
+    const analysis = analyzeImageCompact('https://example.com/photo.jpg');
+    const tips = getOptimizationTips(analysis);
+
+    expect(tips.w).toBe(true); // Converter para WebP
+    expect(tips.l).toBe('lossless'); // Compressão lossless
+    expect(tips.q).toBe('lossless'); // Qualidade lossless
+    expect(tips.n.some(note => note.includes('lossless'))).toBe(true);
+  });
+
+  it('deve detectar WebP animado com "animation" no nome', () => {
+    const result = analyzeImageCompact('https://example.com/animation.webp');
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true);
+  });
+
+  it('deve detectar WebP animado com "movement" no nome', () => {
+    const result = analyzeImageCompact('https://example.com/movement.webp');
+    expect(result.f).toBe('webp');
+    expect(result.a).toBe(true);
   });
 });

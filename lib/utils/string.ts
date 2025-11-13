@@ -120,7 +120,13 @@ export function translatePostStatus(status: PostStatus | string): string {
     TRASH: 'Lixeira',
   };
 
-  return translations[status as PostStatus] || status;
+  // Normalizar string para uppercase se for string
+  const normalizedStatus =
+    typeof status === 'string'
+      ? (status.toUpperCase() as PostStatus)
+      : (status as PostStatus);
+
+  return translations[normalizedStatus] || status;
 }
 
 /**

@@ -2,19 +2,11 @@
  * Testes para página de Blog
  */
 
+// Mock do CSS primeiro
+jest.mock('@/app/globals.css', () => ({}));
+
 import BlogPage from '@/app/blog/page';
 import { render, screen } from '@testing-library/react';
-
-// Mock do React
-jest.mock('react', () => {
-  const actual = jest.requireActual('react');
-  return {
-    ...actual,
-    useState: jest.fn(initial => [initial, jest.fn()]),
-    useEffect: jest.fn(),
-    useCallback: jest.fn(fn => fn),
-  };
-});
 
 // Mock dos componentes
 jest.mock('@/components/blog', () => ({

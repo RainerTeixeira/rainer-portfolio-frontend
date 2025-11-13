@@ -57,7 +57,8 @@
     "lib/OLD_*",
     "components/**/OLD_*",
     "components/**/lib/OLD_*",
-    "tests/**",
+    "tests/e2e/**",
+    "tests/live/**",
     "scripts/**/*stealth*.ts",
     "scripts/**/*test-*.ts"
   ]
