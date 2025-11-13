@@ -1,28 +1,32 @@
 /**
- * Testes para hook useReadingTime
+ * Testes para função calculateReadingTime
+ *
+ * Nota: O hook useReadingTime não existe, mas a função calculateReadingTime existe em lib/content/reading-time.ts
  */
 
-import { useReadingTime } from '@/components/blog/hooks/use-reading-time';
-import { renderHook } from '@testing-library/react';
+import { calculateReadingTime } from '@/lib/content/reading-time';
 
-describe('useReadingTime', () => {
+describe('calculateReadingTime', () => {
   it('deve calcular tempo de leitura', () => {
-    const { result } = renderHook(() => useReadingTime('Test content here'));
+    const result = calculateReadingTime('Test content here');
 
-    expect(result.current).toBeDefined();
-    expect(typeof result.current).toBe('string');
+    expect(result).toBeDefined();
+    expect(typeof result).toBe('number');
+    expect(result).toBeGreaterThan(0);
   });
 
   it('deve retornar tempo mínimo para texto curto', () => {
-    const { result } = renderHook(() => useReadingTime('Short'));
+    const result = calculateReadingTime('Short');
 
-    expect(result.current).toBeDefined();
+    expect(result).toBeDefined();
+    expect(result).toBeGreaterThanOrEqual(1);
   });
 
   it('deve calcular tempo para texto longo', () => {
     const longText = 'Lorem ipsum '.repeat(100);
-    const { result } = renderHook(() => useReadingTime(longText));
+    const result = calculateReadingTime(longText);
 
-    expect(result.current).toBeDefined();
+    expect(result).toBeDefined();
+    expect(result).toBeGreaterThan(1);
   });
 });

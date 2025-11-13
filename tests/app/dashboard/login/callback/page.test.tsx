@@ -2,9 +2,11 @@
  * Testes para página de Callback OAuth
  */
 
+// Mock do CSS primeiro
+jest.mock('@/app/globals.css', () => ({}));
+
 import OAuthCallbackPage from '@/app/dashboard/login/callback/page';
 import { render, screen, waitFor } from '@testing-library/react';
-import React from 'react';
 
 // Mock do useRouter
 const mockPush = jest.fn();
@@ -27,7 +29,7 @@ const mockUseAuth = {
   isAuthenticated: false,
 };
 
-jest.mock('@/hooks/useAuth', () => ({
+jest.mock('@/components/providers/auth-provider', () => ({
   useAuth: () => mockUseAuth,
 }));
 

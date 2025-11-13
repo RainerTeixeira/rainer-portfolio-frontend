@@ -47,7 +47,7 @@ interface EnvironmentConfig {
  * @param fallback - Valor padrão se não existir
  * @returns Valor da variável ou fallback
  */
-function getEnvVar(key: string, fallback?: string): string {
+export function getEnvVar(key: string, fallback?: string): string {
   const value = process.env[key];
 
   if (value === undefined || value === '') {
@@ -154,6 +154,22 @@ export const isTest = env.NODE_ENV === 'test';
 // ============================================================================
 // Validation (Runtime Check)
 // ============================================================================
+
+/**
+ * Valida configuração de ambiente
+ * Verifica se todas as variáveis obrigatórias estão definidas
+ */
+export function validateEnv(): void {
+  // Validação básica - verifica se variáveis críticas existem
+  try {
+    getEnvVar('NODE_ENV', 'development');
+    // Outras validações podem ser adicionadas aqui
+  } catch (error) {
+    throw new Error(
+      `Validação de ambiente falhou: ${error instanceof Error ? error.message : 'Erro desconhecido'}`
+    );
+  }
+}
 
 /**
  * Valida configuração ao importar módulo

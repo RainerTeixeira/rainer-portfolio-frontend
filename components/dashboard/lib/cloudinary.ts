@@ -32,8 +32,9 @@ export interface CloudinaryUploadOptions {
     width?: number;
     height?: number;
     crop?: 'fill' | 'fit' | 'scale' | 'crop' | 'thumb' | 'pad' | 'limit';
-    quality?: 'auto' | number;
+    quality?: 'auto' | 'best' | 'lossless' | number; // 'lossless' para compressão sem perdas
     fetch_format?: 'auto' | 'webp' | 'jpg' | 'png';
+    lossless?: boolean; // Flag para compressão lossless (sem perdas)
   };
   tags?: readonly string[] | string[];
   context?: Record<string, string>;
@@ -118,15 +119,47 @@ export async function uploadToCloudinary(
 
   // Adiciona transformação
   if (options.transformation) {
-    const { width, height, crop, quality, fetch_format } =
+    const { width, height, crop, quality, fetch_format, lossless } =
       options.transformation;
     const transformations: string[] = [];
 
     if (width) transformations.push(`w_${width}`);
     if (height) transformations.push(`h_${height}`);
     if (crop) transformations.push(`c_${crop}`);
-    if (quality) transformations.push(`q_${quality}`);
-    if (fetch_format) transformations.push(`f_${fetch_format}`);
+
+    // Qualidade: suporta 'lossless', 'best', 'auto' ou número
+    let useLossless = false;
+    if (quality) {
+      if (quality === 'lossless') {
+        // Compressão lossless: usar flag fl_lossless (sem q_)
+        useLossless = true;
+        formData.append('flags', 'lossless');
+        // Lossless não precisa de q_, apenas fl_lossless
+      } else if (quality === 'best') {
+        transformations.push('q_best');
+      } else if (quality === 'auto') {
+        transformations.push('q_auto');
+      } else {
+        transformations.push(`q_${quality}`);
+      }
+    }
+
+    // Flag lossless explícita (sobrescreve quality se necessário)
+    if (lossless) {
+      useLossless = true;
+      formData.append('flags', 'lossless');
+      // Remove q_ se já foi adicionado, pois lossless não precisa
+      const qualityIndex = transformations.findIndex(t => t.startsWith('q_'));
+      if (qualityIndex !== -1) {
+        transformations.splice(qualityIndex, 1);
+      }
+    }
+
+    if (fetch_format) {
+      // Cloudinary usa fl_lossless para compressão lossless, não f_webp:lossless
+      // Para WebP lossless, usar fl_lossless (já adicionado acima) e f_webp
+      transformations.push(`f_${fetch_format}`);
+    }
 
     if (transformations.length > 0) {
       formData.append('transformation', transformations.join(','));
@@ -217,8 +250,9 @@ export function getCloudinaryThumbnail(
     width?: number;
     height?: number;
     crop?: 'fill' | 'fit' | 'scale' | 'crop' | 'thumb' | 'pad' | 'limit';
-    quality?: 'auto' | number;
+    quality?: 'auto' | 'best' | 'lossless' | number;
     format?: 'auto' | 'webp' | 'jpg' | 'png';
+    lossless?: boolean; // Flag para compressão lossless
   } = {}
 ): string {
   // Se não for URL do Cloudinary, retorna original
@@ -232,17 +266,58 @@ export function getCloudinaryThumbnail(
 
   // Constrói transformações
   const transformations: string[] = [];
+  const flags: string[] = [];
+
   if (options.width) transformations.push(`w_${options.width}`);
   if (options.height) transformations.push(`h_${options.height}`);
   if (options.crop) transformations.push(`c_${options.crop}`);
-  if (options.quality) transformations.push(`q_${options.quality}`);
-  if (options.format) transformations.push(`f_${options.format}`);
+
+  // Qualidade: suporta 'lossless', 'best', 'auto' ou número
+  const useLossless = options.quality === 'lossless' || options.lossless;
+
+  if (options.quality) {
+    if (options.quality === 'lossless') {
+      flags.push('lossless');
+      // Lossless não precisa de q_, apenas fl_lossless
+    } else if (options.quality === 'best') {
+      transformations.push('q_best');
+    } else if (options.quality === 'auto') {
+      transformations.push('q_auto');
+    } else {
+      transformations.push(`q_${options.quality}`);
+    }
+  }
+
+  // Flag lossless explícita
+  if (options.lossless && !flags.includes('lossless')) {
+    flags.push('lossless');
+    // Remove q_ se já foi adicionado, pois lossless não precisa
+    const qualityIndex = transformations.findIndex(t => t.startsWith('q_'));
+    if (qualityIndex !== -1) {
+      transformations.splice(qualityIndex, 1);
+    }
+  }
+
+  if (options.format) {
+    // Cloudinary usa fl_lossless para compressão lossless, não f_webp:lossless
+    if (useLossless && options.format === 'webp') {
+      // Para WebP lossless, usar fl_lossless (já adicionado acima) e f_webp
+      transformations.push('f_webp');
+    } else {
+      transformations.push(`f_${options.format}`);
+    }
+  }
 
   // Se não houver transformações, retorna original
-  if (transformations.length === 0) return imageUrl;
+  if (transformations.length === 0 && flags.length === 0) return imageUrl;
+
+  // Constrói URL com transformações e flags
+  let transformStr = transformations.join(',');
+  if (flags.length > 0) {
+    transformStr = `fl_${flags.join(',')}/${transformStr}`;
+  }
 
   // Substitui na URL
-  const transformStr = transformations.join(',');
   return imageUrl.replace(/\/upload\//, `/upload/${transformStr}/`);
 }
 
@@ -300,6 +375,8 @@ export function isCloudinaryUrl(url: string): boolean {
 
 /**
  * Opções padrão para diferentes tipos de imagem
+ *
+ * Presets com compressão lossless para WebP animado e imagens de alta qualidade
  */
 export const CLOUDINARY_PRESETS = {
   blogCover: {
@@ -322,6 +399,26 @@ export const CLOUDINARY_PRESETS = {
     },
     tags: ['blog', 'content'],
   },
+  // Preset para WebP animado com compressão lossless (sem perdas)
+  webpAnimated: {
+    folder: 'blog/animated',
+    transformation: {
+      quality: 'lossless' as const,
+      fetch_format: 'webp' as const,
+      lossless: true,
+    },
+    tags: ['blog', 'animated', 'webp', 'lossless'],
+  },
+  // Preset para imagens estáticas com compressão lossless
+  webpLossless: {
+    folder: 'blog/lossless',
+    transformation: {
+      quality: 'lossless' as const,
+      fetch_format: 'webp' as const,
+      lossless: true,
+    },
+    tags: ['blog', 'lossless', 'webp'],
+  },
   avatar: {
     folder: 'avatars',
     transformation: {
@@ -332,6 +429,19 @@ export const CLOUDINARY_PRESETS = {
       fetch_format: 'auto' as const,
     },
     tags: ['avatar'],
+  },
+  // Avatar com compressão lossless para alta qualidade
+  avatarLossless: {
+    folder: 'avatars',
+    transformation: {
+      width: 400,
+      height: 400,
+      crop: 'fill' as const,
+      quality: 'lossless' as const,
+      fetch_format: 'webp' as const,
+      lossless: true,
+    },
+    tags: ['avatar', 'lossless'],
   },
   thumbnail: {
     folder: 'thumbnails',
@@ -374,4 +484,36 @@ export async function uploadAvatar(
   onProgress?: (progress: number) => void
 ): Promise<string> {
   return uploadToCloudinary(file, CLOUDINARY_PRESETS.avatar, onProgress);
+}
+
+/**
+ * Helper: Upload de WebP animado com compressão lossless
+ *
+ * Usa compressão lossless para preservar qualidade máxima sem perdas
+ *
+ * @param file - Arquivo de imagem (WebP animado ou GIF)
+ * @param onProgress - Callback de progresso (0-100)
+ * @returns URL da imagem no Cloudinary
+ */
+export async function uploadWebPAnimatedLossless(
+  file: File,
+  onProgress?: (progress: number) => void
+): Promise<string> {
+  return uploadToCloudinary(file, CLOUDINARY_PRESETS.webpAnimated, onProgress);
+}
+
+/**
+ * Helper: Upload de imagem com compressão lossless
+ *
+ * Usa compressão lossless para preservar qualidade máxima sem perdas
+ *
+ * @param file - Arquivo de imagem
+ * @param onProgress - Callback de progresso (0-100)
+ * @returns URL da imagem no Cloudinary
+ */
+export async function uploadLossless(
+  file: File,
+  onProgress?: (progress: number) => void
+): Promise<string> {
+  return uploadToCloudinary(file, CLOUDINARY_PRESETS.webpLossless, onProgress);
 }

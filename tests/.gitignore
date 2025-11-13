@@ -1,0 +1,24 @@
+# Logs de testes
+*.log
+logs/
+*.log.*
+
+# Resultados de testes temporários
+test-results/temp/
+test-results/*.tmp
+
+# Arquivos de cache
+.cache/
+*.cache
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Mantém estrutura de resultados mas ignora temporários
+!test-results/coverage/
+!test-results/e2e/
+!test-results/*.json
+!test-results/*.md
+!test-results/*.txt
+

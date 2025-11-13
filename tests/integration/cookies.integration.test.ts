@@ -71,16 +71,33 @@ const mockHead = {
   querySelectorAll: jest.fn(() => []),
 };
 
-Object.defineProperty(window, 'document', {
-  value: {
-    createElement: createElementMock,
-    head: mockHead,
-    cookie: '',
-    querySelectorAll: jest.fn(() => []),
-  },
-  writable: true,
-  configurable: true,
-});
+// Evita redefinir document se já foi definido
+// Usa try-catch para evitar erro se document já foi definido
+try {
+  if (!(window.document as any).__testMocked) {
+    const originalDocument = window.document;
+    Object.defineProperty(window, 'document', {
+      value: {
+        ...originalDocument,
+        createElement: createElementMock,
+        head: mockHead,
+        cookie: '',
+        querySelectorAll: jest.fn(() => []),
+        __testMocked: true,
+      },
+      writable: true,
+      configurable: true,
+    });
+  } else {
+    // Se já foi mockado, apenas atualiza as propriedades necessárias
+    (window.document as any).createElement = createElementMock;
+    (window.document as any).head = mockHead;
+  }
+} catch (e) {
+  // Se falhar, apenas atualiza propriedades diretamente
+  (window.document as any).createElement = createElementMock;
+  (window.document as any).head = mockHead;
+}
 
 // Mock do process.env
 const originalEnv = process.env;

@@ -2,10 +2,12 @@
  * Testes para página de Login
  */
 
+// Mock do CSS primeiro
+jest.mock('@/app/globals.css', () => ({}));
+
 import LoginPage from '@/app/dashboard/login/page';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 
 // Mock do useRouter
 const mockPush = jest.fn();
@@ -30,7 +32,7 @@ const mockUseAuth = {
   loginWithGitHub: jest.fn(),
 };
 
-jest.mock('@/hooks/useAuth', () => ({
+jest.mock('@/components/providers/auth-provider', () => ({
   useAuth: () => mockUseAuth,
 }));
 

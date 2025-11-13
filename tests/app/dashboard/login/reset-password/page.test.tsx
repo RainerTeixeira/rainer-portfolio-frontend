@@ -2,10 +2,12 @@
  * Testes para página de Reset de Senha (com query params)
  */
 
+// Mock do CSS primeiro
+jest.mock('@/app/globals.css', () => ({}));
+
 import ResetPasswordPage from '@/app/dashboard/login/reset-password/page';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 
 // Mock do useRouter
 const mockPush = jest.fn();

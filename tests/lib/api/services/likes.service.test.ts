@@ -19,7 +19,11 @@ describe('likesService', () => {
     expect(typeof likesService.toggleLike).toBe('function');
   });
 
-  it('deve ter método getLikes', () => {
-    expect(typeof likesService.getLikes).toBe('function');
+  it('deve ter método getLikesByPost', () => {
+    expect(typeof likesService.getLikesByPost).toBe('function');
+  });
+
+  it('deve ter método getLikesByUser', () => {
+    expect(typeof likesService.getLikesByUser).toBe('function');
   });
 });

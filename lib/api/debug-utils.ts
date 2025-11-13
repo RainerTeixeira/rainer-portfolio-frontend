@@ -134,22 +134,30 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
   }
 
   // Tratamento de erros da API
-  if (error instanceof ApiError) {
+  // Verifica se é ApiError de forma segura (compatível com testes)
+  if (
+    error &&
+    typeof error === 'object' &&
+    'fullName' in error &&
+    error.fullName === 'ApiError' &&
+    'status' in error
+  ) {
+    const apiError = error as ApiError;
     result.isApiError = true;
-    result.status = error.status;
-    result.message = error.message;
-    result.url = error.url;
-    result.method = error.method;
-    result.endpoint = error.endpoint;
+    result.status = apiError.status;
+    result.message = apiError.message;
+    result.url = apiError.url;
+    result.method = apiError.method;
+    result.endpoint = apiError.endpoint;
 
     // Tratamento de erros de validação (HTTP 400)
-    if (error.status === 400) {
+    if (apiError.status === 400) {
       result.isValidationError = true;
       result.message = 'Erro de validação';
 
       // Extrai erros de validação da resposta da API, se disponível
-      if (error.data && typeof error.data === 'object') {
-        const data = error.data as Record<string, unknown>;
+      if (apiError.data && typeof apiError.data === 'object') {
+        const data = apiError.data as Record<string, unknown>;
         if (
           data.errors &&
           typeof data.errors === 'object' &&
@@ -164,7 +172,11 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
     }
 
     // Tratamento de erros do servidor (5xx)
-    if (error.isServerError()) {
+    if (
+      apiError.isServerError &&
+      typeof apiError.isServerError === 'function' &&
+      apiError.isServerError()
+    ) {
       result.isServerError = true;
       result.suggestions = [
         'O servidor está enfrentando problemas temporários',
@@ -173,7 +185,11 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
         'Verifique o status do serviço',
         'Contate o suporte técnico se o problema persistir',
       ];
-    } else if (error.isClientError()) {
+    } else if (
+      apiError.isClientError &&
+      typeof apiError.isClientError === 'function' &&
+      apiError.isClientError()
+    ) {
       result.suggestions = [
         'Verifique os dados enviados na requisição',
         'Confirme se você tem permissão para esta ação',

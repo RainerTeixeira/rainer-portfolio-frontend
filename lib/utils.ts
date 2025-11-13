@@ -1,17 +1,44 @@
 /**
  * Utilitários Gerais da Aplicação
  *
- * Funções auxiliares reutilizáveis em toda a aplicação.
- * Inclui funções para merge de classes CSS, constantes de estilos
- * e helpers para componentes.
+ * Módulo centralizado com funções auxiliares reutilizáveis em toda a aplicação.
+ * Inclui funções para merge de classes CSS, constantes de estilos padronizados
+ * e helpers para componentes React.
  *
- * @fileoverview Funções utilitárias globais
+ * ## Funcionalidades Principais
+ *
+ * ### Classes CSS Reutilizáveis
+ * - `SECTION_CLASSES` - Classes padronizadas para seções responsivas
+ * - `CARD_CLASSES` - Classes padronizadas para componentes Card
+ *
+ * ### Funções Utilitárias
+ * - `cn()` - Merge inteligente de classes CSS (clsx + tailwind-merge)
+ * - `getIcon()` - Helper para obter ícones com fallback
+ *
+ * ## Uso
+ *
+ * ```typescript
+ * import { cn, SECTION_CLASSES, CARD_CLASSES } from '@/lib/utils'
+ *
+ * // Merge de classes
+ * const className = cn('base-class', condition && 'conditional-class')
+ *
+ * // Usar classes padronizadas
+ * <section className={SECTION_CLASSES.container}>
+ *   <Card className={CARD_CLASSES.full}>
+ *     // conteúdo
+ *   </Card>
+ * </section>
+ * ```
+ *
+ * @module lib/utils
+ * @fileoverview Funções utilitárias globais e constantes de estilos
  * @author Rainer Teixeira
  * @version 1.0.0
  * @since 1.0.0
  */
 
-import { type ClassValue, clsx } from 'clsx';
+import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 // =============================================================================

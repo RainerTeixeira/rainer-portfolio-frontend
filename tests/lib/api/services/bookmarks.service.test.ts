@@ -19,7 +19,7 @@ describe('bookmarksService', () => {
     expect(typeof bookmarksService.toggleBookmark).toBe('function');
   });
 
-  it('deve ter método getBookmarks', () => {
-    expect(typeof bookmarksService.getBookmarks).toBe('function');
+  it('deve ter método getBookmarksByUser', () => {
+    expect(typeof bookmarksService.getBookmarksByUser).toBe('function');
   });
 });

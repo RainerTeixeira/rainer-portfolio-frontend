@@ -5,7 +5,6 @@
 import ConfirmEmailPage from '@/app/dashboard/login/confirm-email/page';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 
 // Mock do useRouter
 const mockPush = jest.fn();
@@ -21,15 +20,10 @@ jest.mock('next/navigation', () => ({
 }));
 
 // Mock do authService
-const mockConfirmEmail = jest.fn().mockResolvedValue({ success: true });
-const mockResendConfirmationCode = jest
-  .fn()
-  .mockResolvedValue({ success: true });
-
 jest.mock('@/lib/api/services/auth.service', () => ({
   authService: {
-    confirmEmail: mockConfirmEmail,
-    resendConfirmationCode: mockResendConfirmationCode,
+    confirmEmail: jest.fn().mockResolvedValue({ success: true }),
+    resendConfirmationCode: jest.fn().mockResolvedValue({ success: true }),
   },
 }));
 

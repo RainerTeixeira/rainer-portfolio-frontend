@@ -1,6 +1,9 @@
 /**
- * Cliente HTTP profissional para consumo de APIs REST
+ * API Client - Cliente HTTP profissional para consumo de APIs REST.
+ * @fileoverview Cliente HTTP profissional para consumo de APIs REST.
  * @module ApiClient
+ * @author Rainer Teixeira
+ * @version 1.0.1
  */
 
 import { API_CONFIG, ERROR_MESSAGES, HTTP_STATUS } from './config';

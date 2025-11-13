@@ -47,14 +47,18 @@ Object.defineProperty(window, 'dispatchEvent', {
   writable: true,
 });
 
-// Mock do document
+// Mock do document - não redefinir, apenas mockar métodos específicos
 const documentMock = {
   cookie: '',
   querySelectorAll: jest.fn(() => []),
 };
-Object.defineProperty(window, 'document', {
-  value: documentMock,
-  writable: true,
+// Usar document global e apenas mockar cookie se necessário
+Object.defineProperty(document, 'cookie', {
+  get: () => documentMock.cookie,
+  set: (value: string) => {
+    documentMock.cookie = value;
+  },
+  configurable: true,
 });
 
 describe('CookieManager', () => {

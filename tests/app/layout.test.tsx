@@ -5,6 +5,9 @@
 import RootLayout from '@/app/layout';
 import { render } from '@testing-library/react';
 
+// Mock do CSS
+jest.mock('@/app/globals.css', () => ({}));
+
 // Mock dos componentes
 jest.mock('@/components/layout/navbar', () => ({
   Navbar: () => <nav>Navbar</nav>,

@@ -2,7 +2,7 @@
  * Testes para usersService
  */
 
-import { usersService } from '@/lib/api';
+import { userService } from '@/lib/api';
 
 // Mock do api client
 jest.mock('@/lib/api/client', () => ({
@@ -10,16 +10,17 @@ jest.mock('@/lib/api/client', () => ({
     get: jest.fn(),
     post: jest.fn(),
     put: jest.fn(),
+    patch: jest.fn(),
     delete: jest.fn(),
   },
 }));
 
-describe('usersService', () => {
-  it('deve ter método getProfile', () => {
-    expect(typeof usersService.getProfile).toBe('function');
+describe('userService', () => {
+  it('deve ter método getUserById', () => {
+    expect(typeof userService.getUserById).toBe('function');
   });
 
   it('deve ter método updateProfile', () => {
-    expect(typeof usersService.updateProfile).toBe('function');
+    expect(typeof userService.updateProfile).toBe('function');
   });
 });
