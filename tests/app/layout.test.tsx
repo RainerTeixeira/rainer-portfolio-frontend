@@ -8,6 +8,22 @@ import { render } from '@testing-library/react';
 // Mock do CSS
 jest.mock('@/app/globals.css', () => ({}));
 
+// Mock do Vercel Analytics
+jest.mock('@vercel/analytics/next', () => ({
+  Analytics: () => null,
+}));
+
+jest.mock('@vercel/speed-insights/next', () => ({
+  SpeedInsights: () => null,
+}));
+
+// Mock das fontes do Next.js
+jest.mock('next/font/google', () => ({
+  Inter: () => ({ variable: '--font-inter' }),
+  Orbitron: () => ({ variable: '--font-orbitron' }),
+  Rajdhani: () => ({ variable: '--font-rajdhani' }),
+}));
+
 // Mock dos componentes
 jest.mock('@/components/layout/navbar', () => ({
   Navbar: () => <nav>Navbar</nav>,

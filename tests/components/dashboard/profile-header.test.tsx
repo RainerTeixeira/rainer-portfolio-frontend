@@ -11,11 +11,28 @@ jest.mock('next/image', () => ({
   default: (props: any) => <img {...props} />,
 }));
 
-// Mock do useAuthContext
-jest.mock('@/components/providers/auth-context-provider', () => ({
-  useAuthContext: jest.fn(() => ({
+// Mock do useAuth
+jest.mock('@/components/providers/auth-provider', () => ({
+  useAuth: jest.fn(() => ({
     user: { id: '1', fullName: 'Test User', avatar: '/avatar.jpg' },
+    isAuthenticated: true,
   })),
+}));
+
+// Mock do next-themes
+jest.mock('next-themes', () => ({
+  useTheme: jest.fn(() => ({
+    theme: 'light',
+    resolvedTheme: 'light',
+    setTheme: jest.fn(),
+  })),
+}));
+
+// Mock do framer-motion
+jest.mock('framer-motion', () => ({
+  motion: {
+    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  },
 }));
 
 // Mock do usersService

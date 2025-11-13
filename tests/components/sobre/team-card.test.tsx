@@ -2,12 +2,15 @@
  * Testes para componente TeamCard
  */
 
+// Mock do CSS primeiro
+jest.mock('@/app/globals.css', () => ({}));
+
 import { TeamCard } from '@/components/sobre/team-card';
 import { render, screen } from '@testing-library/react';
 
 describe('TeamCard', () => {
   const mockMember = {
-    fullName: 'Test Member',
+    name: 'Test Member',
     role: 'Developer',
     description: 'Test bio',
     skills: ['React', 'TypeScript'],

@@ -4,21 +4,18 @@
  * Nota: Componente não existe, teste mockado
  */
 
-// Mock do componente
-jest.mock('@/components/blog/search/search-results', () => ({
-  SearchResults: ({ results }: any) => (
-    <div data-testid="search-results">
-      {results.length > 0 ? (
-        results.map((r: any) => <div key={r.id}>{r.title}</div>)
-      ) : (
-        <div>Nenhum resultado encontrado</div>
-      )}
-    </div>
-  ),
-}));
-
-import { SearchResults } from '@/components/blog/search/search-results';
 import { render, screen } from '@testing-library/react';
+
+// Componente mockado inline
+const SearchResults = ({ results }: any) => (
+  <div data-testid="search-results">
+    {results.length > 0 ? (
+      results.map((r: any) => <div key={r.id}>{r.title}</div>)
+    ) : (
+      <div>Nenhum resultado encontrado</div>
+    )}
+  </div>
+);
 
 const mockResults = [
   {

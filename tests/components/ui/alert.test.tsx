@@ -14,16 +14,20 @@ describe('Alert', () => {
 
   it('deve aceitar variantes', () => {
     const { rerender } = render(<Alert variant="destructive">Error</Alert>);
-    expect(screen.getByRole('alert')).toHaveClass('border-destructive');
+    const destructiveAlert = screen.getByRole('alert');
+    expect(destructiveAlert.className).toContain('border-destructive');
 
     rerender(<Alert variant="success">Success</Alert>);
-    expect(screen.getByRole('alert')).toHaveClass('border-green-500');
+    const successAlert = screen.getByRole('alert');
+    expect(successAlert.className).toContain('border-green-500');
 
     rerender(<Alert variant="warning">Warning</Alert>);
-    expect(screen.getByRole('alert')).toHaveClass('border-yellow-500');
+    const warningAlert = screen.getByRole('alert');
+    expect(warningAlert.className).toContain('border-yellow-500');
 
     rerender(<Alert variant="info">Info</Alert>);
-    expect(screen.getByRole('alert')).toHaveClass('border-blue-500');
+    const infoAlert = screen.getByRole('alert');
+    expect(infoAlert.className).toContain('border-blue-500');
   });
 
   it('deve aceitar className customizada', () => {

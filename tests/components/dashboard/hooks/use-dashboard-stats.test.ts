@@ -5,10 +5,21 @@
 import { useDashboardStats } from '@/components/dashboard/hooks/use-dashboard-stats';
 import { renderHook } from '@testing-library/react';
 
-// Mock do API
-jest.mock('@/lib/api', () => ({
-  postsService: {
-    listPosts: jest.fn(() => Promise.resolve({ posts: [] })),
+// Mock do dashboardService
+jest.mock('@/lib/api/services/dashboard.service', () => ({
+  dashboardService: {
+    getStats: jest.fn(() =>
+      Promise.resolve({
+        totalPosts: 0,
+        totalViews: 0,
+        totalLikes: 0,
+        totalComments: 0,
+        postsChange: 0,
+        viewsChange: 0,
+        likesChange: 0,
+        commentsChange: 0,
+      })
+    ),
   },
 }));
 

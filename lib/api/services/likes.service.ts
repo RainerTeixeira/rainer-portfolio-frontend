@@ -105,6 +105,28 @@ export class LikesService {
   }
 
   /**
+   * Alias para getLikeCount (compatibilidade)
+   */
+  async getLikesCount(postId: string): Promise<number> {
+    const response = await this.getLikeCount(postId);
+    if (response.success && response.data !== undefined) {
+      return response.data;
+    }
+    throw new Error(response.message || 'Erro ao obter contagem de likes');
+  }
+
+  /**
+   * Alias para hasUserLikedPost (compatibilidade)
+   */
+  async hasUserLiked(userId: string, postId: string): Promise<boolean> {
+    const response = await this.hasUserLikedPost(userId, postId);
+    if (response.success && response.data !== undefined) {
+      return response.data;
+    }
+    throw new Error(response.message || 'Erro ao verificar like');
+  }
+
+  /**
    * Toggle like/unlike de um post
    */
   /**

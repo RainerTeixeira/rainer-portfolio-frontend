@@ -142,7 +142,8 @@ export function CommentForm({
     }
   }
 
-  function getInitials(name: string) {
+  function getInitials(name: string | undefined | null) {
+    if (!name) return 'U';
     return name
       .split(' ')
       .map(n => n[0])
