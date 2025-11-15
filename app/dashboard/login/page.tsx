@@ -39,7 +39,6 @@ import { SITE_CONFIG } from '@/constants';
 import { useAuth } from '@/hooks/useAuth';
 import { ApiError } from '@/lib/api/client';
 import { cn } from '@/lib/utils';
-import { ANIMATION_DURATION_MS, TRANSITIONS } from '@rainer/design-tokens';
 import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -282,7 +281,7 @@ export default function LoginPage() {
                   'text-primary hover:text-primary/80 font-normal',
                   'focus:outline-none focus:ring-2 focus:ring-primary/20',
                   'relative inline-block group/link',
-                  TRANSITIONS.COLORS
+                  'transition-colors duration-200 ease-in-out'
                 )}
               >
                 <span className="relative z-10">Criar uma conta</span>
@@ -290,7 +289,7 @@ export default function LoginPage() {
                   className={cn(
                     'absolute bottom-0 left-0 w-0 h-0.5 bg-primary',
                     'group-hover/link:w-full',
-                    TRANSITIONS.ALL_EASE_IN_OUT
+                    'transition-all duration-200 ease-in-out'
                   )}
                 />
               </Link>
@@ -312,7 +311,7 @@ export default function LoginPage() {
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{
             delay: 0.25,
-            duration: ANIMATION_DURATION_MS.NORMAL / 1000,
+            duration: 0.2,
             ease: 'easeOut',
           }}
           className="relative my-4 sm:my-5 md:my-6"

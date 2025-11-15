@@ -16,7 +16,7 @@ import { GRADIENTS } from '@rainer/design-tokens';
 export interface SkillItemData {
   fullName: string;
   category: string;
-  color: string; // Classe Tailwind usando tokens GRADIENTS
+  color: string; // Classe Tailwind usando tokens GRADIENTS da biblioteca
   iconName: string; // Nome do ícone para renderização separada
 }
 
@@ -31,73 +31,73 @@ export const SKILLS_DATA: ReadonlyArray<SkillItemData> = [
   {
     fullName: 'React',
     category: 'Frontend',
-    color: GRADIENTS.CYAN_BLUE ?? '',
+    color: `bg-gradient-to-r ${GRADIENTS.BUTTON_CYAN_BLUE}`,
     iconName: 'React',
   },
   {
     fullName: 'Next.js',
     category: 'Framework',
-    color: GRADIENTS.GRAY ?? '',
+    color: `bg-gradient-to-r from-gray-500 to-gray-700`,
     iconName: 'NextJS',
   },
   {
     fullName: 'TypeScript',
     category: 'Language',
-    color: GRADIENTS.BLUE ?? '',
+    color: `bg-gradient-to-r from-blue-500 to-blue-700`,
     iconName: 'TypeScript',
   },
   {
     fullName: 'Tailwind CSS',
     category: 'Styling',
-    color: GRADIENTS.CYAN_BLUE ?? '',
+    color: `bg-gradient-to-r ${GRADIENTS.BUTTON_CYAN_BLUE}`,
     iconName: 'Tailwind',
   },
   {
     fullName: 'Node.js',
     category: 'Backend',
-    color: GRADIENTS.GREEN_EMERALD ?? '',
+    color: `bg-gradient-to-r ${GRADIENTS.DECORATIVE_GREEN_EMERALD}`,
     iconName: 'NodeJS',
   },
   {
     fullName: 'PostgreSQL',
     category: 'Database',
-    color: GRADIENTS.BLUE_DARK ?? '',
+    color: `bg-gradient-to-r from-blue-600 to-blue-800`,
     iconName: 'PostgreSQL',
   },
   {
     fullName: 'MongoDB',
     category: 'Database',
-    color: GRADIENTS.GREEN_EMERALD ?? '',
+    color: `bg-gradient-to-r ${GRADIENTS.DECORATIVE_GREEN_EMERALD}`,
     iconName: 'MongoDB',
   },
   {
     fullName: 'Docker',
     category: 'DevOps',
-    color: GRADIENTS.BLUE ?? '',
+    color: `bg-gradient-to-r from-blue-500 to-blue-700`,
     iconName: 'Docker',
   },
   {
     fullName: 'AWS',
     category: 'Cloud',
-    color: GRADIENTS.ORANGE_AMBER ?? '',
+    color: `bg-gradient-to-r from-orange-500 to-amber-500`,
     iconName: 'AWS',
   },
   {
     fullName: 'Git',
     category: 'Tools',
-    color: GRADIENTS.RED ?? '',
+    color: `bg-gradient-to-r from-red-500 to-red-700`,
     iconName: 'Git',
   },
   {
     fullName: 'GraphQL',
     category: 'Backend',
-    color: GRADIENTS.PURPLE_PINK ?? '',
+    color: `bg-gradient-to-r ${GRADIENTS.BUTTON_PURPLE_PINK}`,
     iconName: 'GraphQL',
   },
   {
     fullName: 'Prisma',
     category: 'ORM',
-    color: GRADIENTS.PURPLE_PINK ?? '',
+    color: `bg-gradient-to-r ${GRADIENTS.BUTTON_PURPLE_PINK}`,
     iconName: 'Prisma',
   },
 ] as const;

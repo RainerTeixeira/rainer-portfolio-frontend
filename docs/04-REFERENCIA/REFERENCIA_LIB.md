@@ -80,25 +80,25 @@ Módulo completo para integração com o backend.
 #### Cliente HTTP
 
 ```typescript
-import { api, ApiError } from '@/lib/api'
+import { api, ApiError } from '@/lib/api';
 
 // GET
-const data = await api.get<Post[]>('/posts')
+const data = await api.get<Post[]>('/posts');
 
 // POST
-const post = await api.post<Post>('/posts', { title: 'Título' })
+const post = await api.post<Post>('/posts', { title: 'Título' });
 
 // Com autenticação
-api.setAuthToken('token')
-const user = await api.get<User>('/users/me')
-api.clearAuthToken()
+api.setAuthToken('token');
+const user = await api.get<User>('/users/me');
+api.clearAuthToken();
 
 // Error handling
 try {
-  const data = await api.get('/posts')
+  const data = await api.get('/posts');
 } catch (error) {
   if (error instanceof ApiError) {
-    console.log(error.status, error.message)
+    console.log(error.status, error.message);
   }
 }
 ```
@@ -106,34 +106,34 @@ try {
 #### Serviços
 
 ```typescript
-import { postsService, usersService, authService } from '@/lib/api'
+import { postsService, usersService, authService } from '@/lib/api';
 
 // Posts
-const posts = await postsService.listPosts({ status: 'PUBLISHED' })
-const post = await postsService.getPostBySlug('meu-post')
+const posts = await postsService.listPosts({ status: 'PUBLISHED' });
+const post = await postsService.getPostBySlug('meu-post');
 
 // Users
-const user = await usersService.getUserById('123')
+const user = await usersService.getUserById('123');
 
 // Auth
-const response = await authService.login({ email, password })
+const response = await authService.login({ email, password });
 ```
 
 #### Helpers
 
 ```typescript
-import { preparePostForCreate, validatePostData } from '@/lib/api/helpers'
+import { preparePostForCreate, validatePostData } from '@/lib/api/helpers';
 
 // Preparar dados para criar post
 const postData = preparePostForCreate(
   { title: 'Título', content: tiptapJSON },
   userId
-)
+);
 
 // Validar antes de enviar
-const errors = validatePostData(postData)
+const errors = validatePostData(postData);
 if (errors.length > 0) {
-  console.error('Erros:', errors)
+  console.error('Erros:', errors);
 }
 ```
 
@@ -148,11 +148,11 @@ Utilitários para processamento de conteúdo Tiptap e cálculos relacionados.
 #### Reading Time
 
 ```typescript
-import { calculateReadingTime } from '@/lib/content'
+import { calculateReadingTime } from '@/lib/content';
 
 // Calcular tempo de leitura
-const time = calculateReadingTime(tiptapContent) // 5 minutos
-const customTime = calculateReadingTime(htmlContent, 250) // palavras/min customizado
+const time = calculateReadingTime(tiptapContent); // 5 minutos
+const customTime = calculateReadingTime(htmlContent, 250); // palavras/min customizado
 ```
 
 #### Tiptap Utils
@@ -161,18 +161,18 @@ const customTime = calculateReadingTime(htmlContent, 250) // palavras/min custom
 import {
   extractTextFromTiptap,
   generateExcerpt,
-  isContentEmpty
-} from '@/lib/content'
+  isContentEmpty,
+} from '@/lib/content';
 
 // Extrair texto puro
-const text = extractTextFromTiptap(tiptapContent)
+const text = extractTextFromTiptap(tiptapContent);
 
 // Gerar excerpt
-const excerpt = generateExcerpt(tiptapContent, 160)
+const excerpt = generateExcerpt(tiptapContent, 160);
 
 // Verificar se vazio
 if (isContentEmpty(tiptapContent)) {
-  console.log('Conteúdo vazio')
+  console.log('Conteúdo vazio');
 }
 ```
 
@@ -188,8 +188,8 @@ Sistema profissional de gerenciamento de cookies e consentimento (GDPR-compliant
 import {
   getCookieManager,
   isCookieAllowed,
-  saveCookieConsent
-} from '@/lib/cookies'
+  saveCookieConsent,
+} from '@/lib/cookies';
 
 // Verificar permissão
 if (isCookieAllowed('analytics')) {
@@ -201,28 +201,28 @@ saveCookieConsent({
   essential: true,
   analytics: true,
   performance: false,
-  functionality: false
-})
+  functionality: false,
+});
 
 // Gerenciar manualmente
-const manager = getCookieManager()
-manager.updatePreferences({ analytics: false })
-manager.revokeConsent()
+const manager = getCookieManager();
+manager.updatePreferences({ analytics: false });
+manager.revokeConsent();
 ```
 
 #### Analytics Integration
 
 ```typescript
-import { initGoogleAnalytics, trackPageView, trackEvent } from '@/lib/cookies'
+import { initGoogleAnalytics, trackPageView, trackEvent } from '@/lib/cookies';
 
 // Inicializar (se consentido)
-initGoogleAnalytics()
+initGoogleAnalytics();
 
 // Rastrear página
-trackPageView('/blog')
+trackPageView('/blog');
 
 // Rastrear evento
-trackEvent('click', 'button', 'subscribe')
+trackEvent('click', 'button', 'subscribe');
 ```
 
 ---
@@ -234,53 +234,53 @@ Sistema completo de monitoramento: analytics, logging e performance.
 #### Analytics
 
 ```typescript
-import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring'
+import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring';
 
 // Rastrear evento
-analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'))
-analytics.track(ANALYTICS_EVENTS.BLOG_POST_VIEW('123', 'Título'))
+analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'));
+analytics.track(ANALYTICS_EVENTS.BLOG_POST_VIEW('123', 'Título'));
 
 // Page view
-analytics.pageView('/blog')
+analytics.pageView('/blog');
 
 // Identificar usuário
-analytics.identify('user-123', { plan: 'premium' })
+analytics.identify('user-123', { plan: 'premium' });
 ```
 
 #### Logger
 
 ```typescript
-import { logger } from '@/lib/monitoring'
+import { logger } from '@/lib/monitoring';
 
 // Diferentes níveis
-logger.debug('Debug info', { data: 'value' })
-logger.info('Informação', { userId: '123' })
-logger.warn('Aviso', { warning: 'message' })
-logger.error('Erro', error, { context: 'value' })
+logger.debug('Debug info', { data: 'value' });
+logger.info('Informação', { userId: '123' });
+logger.warn('Aviso', { warning: 'message' });
+logger.error('Erro', error, { context: 'value' });
 
 // Logger com contexto
-const contextualLogger = logger.withContext({ component: 'BlogPage' })
-contextualLogger.info('Posts carregados', { count: 10 })
+const contextualLogger = logger.withContext({ component: 'BlogPage' });
+contextualLogger.info('Posts carregados', { count: 10 });
 ```
 
 #### Performance
 
 ```typescript
-import { performanceMonitor } from '@/lib/monitoring'
+import { performanceMonitor } from '@/lib/monitoring';
 
 // Medir operação
-performanceMonitor.start('load-posts')
-await loadPosts()
-const duration = performanceMonitor.end('load-posts')
+performanceMonitor.start('load-posts');
+await loadPosts();
+const duration = performanceMonitor.end('load-posts');
 
 // Medir função
 const result = await performanceMonitor.measure('process-data', async () => {
-  return await processData()
-})
+  return await processData();
+});
 
 // Obter métricas
-const metrics = performanceMonitor.getAllMetrics()
-const webVitals = performanceMonitor.getMetric('LCP')
+const metrics = performanceMonitor.getAllMetrics();
+const webVitals = performanceMonitor.getMetric('LCP');
 ```
 
 ---
@@ -292,7 +292,7 @@ Utilitários para otimização de SEO: metadata, sitemap e structured data.
 #### Metadata
 
 ```typescript
-import { generateMetadata, generatePostMetadata } from '@/lib/seo'
+import { generateMetadata, generatePostMetadata } from '@/lib/seo';
 
 // Metadata genérica
 export const metadata = generateMetadata({
@@ -300,23 +300,23 @@ export const metadata = generateMetadata({
   description: 'Descrição do post',
   type: 'article',
   image: '/og-image.jpg',
-  canonicalUrl: 'https://example.com/post'
-})
+  canonicalUrl: 'https://example.com/post',
+});
 
 // Metadata para post
-export const metadata = generatePostMetadata(post)
+export const metadata = generatePostMetadata(post);
 ```
 
 #### Sitemap
 
 ```typescript
-import { generateSitemap, generateRobotsTxt } from '@/lib/seo'
+import { generateSitemap, generateRobotsTxt } from '@/lib/seo';
 
 // Gerar sitemap
-const sitemap = generateSitemap(posts, categories)
+const sitemap = generateSitemap(posts, categories);
 
 // Gerar robots.txt
-const robots = generateRobotsTxt()
+const robots = generateRobotsTxt();
 ```
 
 #### Structured Data
@@ -324,18 +324,18 @@ const robots = generateRobotsTxt()
 ```typescript
 import {
   generateArticleStructuredData,
-  generateBreadcrumbStructuredData
-} from '@/lib/seo'
+  generateBreadcrumbStructuredData,
+} from '@/lib/seo';
 
 // Schema.org Article
-const schema = generateArticleStructuredData(post)
+const schema = generateArticleStructuredData(post);
 
 // Breadcrumbs
 const breadcrumbs = generateBreadcrumbStructuredData([
   { name: 'Home', url: '/' },
   { name: 'Blog', url: '/blog' },
-  { name: 'Post', url: '/blog/post' }
-])
+  { name: 'Post', url: '/blog/post' },
+]);
 ```
 
 ---
@@ -351,21 +351,21 @@ import {
   validateEmail,
   validatePassword,
   validateUrl,
-  validateWithSchema
-} from '@/lib/utils/validation'
+  validateWithSchema,
+} from '@/lib/utils/validation';
 
 // Validações individuais
-const emailResult = validateEmail('user@example.com')
+const emailResult = validateEmail('user@example.com');
 if (!emailResult.isValid) {
-  console.error(emailResult.errors)
+  console.error(emailResult.errors);
 }
 
 // Validação com schema
 const schema = {
   email: validateEmail,
-  password: validatePassword
-}
-const result = validateWithSchema({ email, password }, schema)
+  password: validatePassword,
+};
+const result = validateWithSchema({ email, password }, schema);
 ```
 
 #### String
@@ -375,18 +375,18 @@ import {
   textToSlug,
   formatDate,
   formatDateTime,
-  translatePostStatus
-} from '@/lib/utils/string'
+  translatePostStatus,
+} from '@/lib/utils/string';
 
 // Slug
-const slug = textToSlug('Meu Post Incrível') // "meu-post-incrivel"
+const slug = textToSlug('Meu Post Incrível'); // "meu-post-incrivel"
 
 // Datas
-const date = formatDate(new Date()) // "15 de janeiro de 2024"
-const datetime = formatDateTime(new Date()) // "15/01/2024 às 14:30"
+const date = formatDate(new Date()); // "15 de janeiro de 2025"
+const datetime = formatDateTime(new Date()); // "15/01/2025 às 14:30"
 
 // Tradução
-const status = translatePostStatus('PUBLISHED') // "Publicado"
+const status = translatePostStatus('PUBLISHED'); // "Publicado"
 ```
 
 #### Scroll
@@ -397,12 +397,12 @@ import {
   scrollToTop,
   prefersReducedMotion,
   disableScroll,
-  enableScroll
-} from '@/lib/utils/scroll'
+  enableScroll,
+} from '@/lib/utils/scroll';
 
 // Scroll suave
-smoothScrollTo('#section-id')
-scrollToTop()
+smoothScrollTo('#section-id');
+scrollToTop();
 
 // Preferência de movimento
 if (prefersReducedMotion()) {
@@ -410,41 +410,44 @@ if (prefersReducedMotion()) {
 }
 
 // Controlar scroll
-disableScroll() // Desabilitar scroll da página
-enableScroll()  // Reabilitar scroll
+disableScroll(); // Desabilitar scroll da página
+enableScroll(); // Reabilitar scroll
 ```
 
 #### Search
 
 ```typescript
-import { searchContent } from '@/lib/utils/search'
+import { searchContent } from '@/lib/utils/search';
 
 // Buscar conteúdo
-const results = await searchContent('query')
+const results = await searchContent('query');
 // Retorna: SearchResult[] com posts, categorias e autores
 ```
 
 #### Design Tokens
 
 ```typescript
-import { hexToHSL, hexToRGB, hexToRGBA } from '@/lib/utils/design-tokens'
+import { hexToHSL, hexToRGB, hexToRGBA } from '@/lib/utils/design-tokens';
 
 // Conversões de cor
-const hsl = hexToHSL('#3b82f6') // "hsl(217, 91%, 60%)"
-const rgb = hexToRGB('#3b82f6') // "rgb(59, 130, 246)"
-const rgba = hexToRGBA('#3b82f6', 0.5) // "rgba(59, 130, 246, 0.5)"
+const hsl = hexToHSL('#3b82f6'); // "hsl(217, 91%, 60%)"
+const rgb = hexToRGB('#3b82f6'); // "rgb(59, 130, 246)"
+const rgba = hexToRGBA('#3b82f6', 0.5); // "rgba(59, 130, 246, 0.5)"
 ```
 
 #### Image Optimizer
 
 ```typescript
-import { analyzeImageCompact, getOptimizationTips } from '@/lib/utils/image-optimizer'
+import {
+  analyzeImageCompact,
+  getOptimizationTips,
+} from '@/lib/utils/image-optimizer';
 
 // Analisar imagem
-const analysis = analyzeImageCompact(imageUrl, { width: 800, height: 600 })
+const analysis = analyzeImageCompact(imageUrl, { width: 800, height: 600 });
 
 // Obter dicas de otimização
-const tips = getOptimizationTips(analysis)
+const tips = getOptimizationTips(analysis);
 ```
 
 #### Post Compressor
@@ -454,20 +457,20 @@ import {
   compressPost,
   decompressPost,
   generateTOC,
-  estimateCompression
-} from '@/lib/utils/post-compressor'
+  estimateCompression,
+} from '@/lib/utils/post-compressor';
 
 // Comprimir conteúdo
-const compressed = compressPost(tiptapContent)
+const compressed = compressPost(tiptapContent);
 
 // Descomprimir
-const decompressed = decompressPost(compressed)
+const decompressed = decompressPost(compressed);
 
 // Gerar TOC
-const toc = generateTOC(compressed)
+const toc = generateTOC(compressed);
 
 // Estimar compressão
-const estimate = estimateCompression(original, compressed)
+const estimate = estimateCompression(original, compressed);
 ```
 
 ---
@@ -478,12 +481,12 @@ const estimate = estimateCompression(original, compressed)
 
 ```typescript
 // Importar do barrel principal (recomendado)
-import { api, logger, validateEmail } from '@/lib'
+import { api, logger, validateEmail } from '@/lib';
 
 // Importar de módulos específicos
-import { postsService } from '@/lib/api'
-import { calculateReadingTime } from '@/lib/content'
-import { analytics } from '@/lib/monitoring'
+import { postsService } from '@/lib/api';
+import { calculateReadingTime } from '@/lib/content';
+import { analytics } from '@/lib/monitoring';
 ```
 
 ### Padrões Recomendados
@@ -504,30 +507,30 @@ import { analytics } from '@/lib/monitoring'
 import {
   postsService,
   preparePostForCreate,
-  validatePostData
-} from '@/lib/api'
-import { logger } from '@/lib/monitoring'
+  validatePostData,
+} from '@/lib/api';
+import { logger } from '@/lib/monitoring';
 
 async function createPost(formData: PostFormData, userId: string) {
   try {
     // Preparar dados
-    const postData = preparePostForCreate(formData, userId)
+    const postData = preparePostForCreate(formData, userId);
 
     // Validar
-    const errors = validatePostData(postData)
+    const errors = validatePostData(postData);
     if (errors.length > 0) {
-      logger.warn('Erros de validação', { errors })
-      return { success: false, errors }
+      logger.warn('Erros de validação', { errors });
+      return { success: false, errors };
     }
 
     // Criar post
-    const post = await postsService.createPost(postData)
-    logger.info('Post criado', { postId: post.id })
+    const post = await postsService.createPost(postData);
+    logger.info('Post criado', { postId: post.id });
 
-    return { success: true, post }
+    return { success: true, post };
   } catch (error) {
-    logger.error('Erro ao criar post', error, { userId })
-    throw error
+    logger.error('Erro ao criar post', error, { userId });
+    throw error;
   }
 }
 ```
@@ -535,22 +538,26 @@ async function createPost(formData: PostFormData, userId: string) {
 ### Exemplo 2: Analytics com Consentimento
 
 ```typescript
-import { isCookieAllowed, initGoogleAnalytics, trackPageView } from '@/lib/cookies'
-import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring'
+import {
+  isCookieAllowed,
+  initGoogleAnalytics,
+  trackPageView,
+} from '@/lib/cookies';
+import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring';
 
 // Inicializar analytics se consentido
 if (isCookieAllowed('analytics')) {
-  initGoogleAnalytics()
-  analytics.enable()
+  initGoogleAnalytics();
+  analytics.enable();
 } else {
-  analytics.disable()
+  analytics.disable();
 }
 
 // Rastrear página
 function onRouteChange(url: string) {
   if (isCookieAllowed('analytics')) {
-    trackPageView(url)
-    analytics.pageView(url)
+    trackPageView(url);
+    analytics.pageView(url);
   }
 }
 ```
@@ -558,20 +565,20 @@ function onRouteChange(url: string) {
 ### Exemplo 3: Performance Monitoring
 
 ```typescript
-import { performanceMonitor } from '@/lib/monitoring'
-import { logger } from '@/lib/monitoring'
+import { performanceMonitor } from '@/lib/monitoring';
+import { logger } from '@/lib/monitoring';
 
 async function loadPosts() {
   const duration = await performanceMonitor.measure('load-posts', async () => {
-    return await postsService.listPosts()
-  })
+    return await postsService.listPosts();
+  });
 
   if (duration > 1000) {
-    logger.warn('Posts carregados lentamente', { duration })
+    logger.warn('Posts carregados lentamente', { duration });
   }
 
   // Reportar Web Vitals
-  performanceMonitor.reportNavigationTiming()
+  performanceMonitor.reportNavigationTiming();
 }
 ```
 
@@ -585,7 +592,6 @@ async function loadPosts() {
 
 ---
 
-**Última atualização**: 2024-01-15  
+**Última atualização**: 2025-01-15  
 **Versão**: 2.0.0  
 **Autor**: Rainer Teixeira
-

@@ -329,4 +329,4 @@ Blog Integration
 
 **Autor:** Rainer Teixeira  
 **Versão:** 1.0.0  
-**Última Atualização:** 2024
+**Última Atualização:** 2025

@@ -26,7 +26,6 @@ import {
 } from '@/components/dashboard/login';
 import { BackToTop } from '@/components/ui';
 import { cn } from '@/lib/utils';
-import { TRANSITIONS } from '@rainer/design-tokens';
 import Link from 'next/link';
 
 export default function RegisterPage() {
@@ -45,7 +44,7 @@ export default function RegisterPage() {
                 href="/dashboard/login"
                 className={cn(
                   'text-primary hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-primary/20',
-                  TRANSITIONS.COLORS
+                  'transition-colors duration-200 ease-in-out'
                 )}
               >
                 Fazer login

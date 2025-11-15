@@ -65,7 +65,7 @@ import { Separator } from '@/components/ui/separator';
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import { BACKGROUND } from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 
 // ============================================================================
 // CONSTANTS
@@ -116,7 +116,7 @@ export default function ContactPage() {
   // ========================================================================
 
   return (
-    <div className={cn('min-h-screen', BACKGROUND.FULL)}>
+    <div className={cn('min-h-screen bg-background dark:bg-black')}>
       {/* ================================================================
           PARTICLES EFFECT
           ================================================================ */}
@@ -136,7 +136,7 @@ export default function ContactPage() {
           <div
             className={cn(
               'absolute inset-0 rounded-full blur-xl opacity-0 dark:opacity-100',
-              BACKGROUND.DECORATIVE_BLUR
+              'bg-gradient-to-br from-cyan-500/20 via-purple-500/15 to-pink-500/20'
             )}
             aria-hidden="true"
           />

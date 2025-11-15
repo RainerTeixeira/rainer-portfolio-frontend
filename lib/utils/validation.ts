@@ -9,41 +9,50 @@
  * @version 1.0.0
  */
 
-import {
-  ERROR_MESSAGES as DESIGN_TOKENS_ERROR_MESSAGES,
-  REGEX_PATTERNS as DESIGN_TOKENS_REGEX_PATTERNS,
-  FORM_CONFIG,
-} from '@rainer/design-tokens';
-
 // ============================================================================
-// Fallback para propriedades faltantes na biblioteca de design tokens
+// Regex Patterns e Error Messages
 // ============================================================================
+// A biblioteca @rainer/design-tokens v4.0.0 não exporta mais REGEX_PATTERNS,
+// ERROR_MESSAGES ou FORM_CONFIG. Definimos localmente conforme necessário.
 
 const REGEX_PATTERNS = {
-  ...DESIGN_TOKENS_REGEX_PATTERNS,
+  EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  PASSWORD:
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
   USERNAME: /^[a-zA-Z0-9_]{3,20}$/,
-  PHONE: DESIGN_TOKENS_REGEX_PATTERNS.PHONE_BR,
-} as typeof DESIGN_TOKENS_REGEX_PATTERNS & {
-  readonly USERNAME: RegExp;
-  readonly PHONE: RegExp;
-};
+  PHONE_BR: /^(\+55\s?)?(\(?\d{2}\)?\s?)?\d{4,5}-?\d{4}$/,
+  PHONE: /^(\+55\s?)?(\(?\d{2}\)?\s?)?\d{4,5}-?\d{4}$/,
+  URL: /^https?:\/\/.+/,
+  SLUG: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+} as const;
 
 const ERROR_MESSAGES = {
-  ...DESIGN_TOKENS_ERROR_MESSAGES,
+  REQUIRED: 'Este campo é obrigatório',
+  REQUIRED_FIELD: 'Este campo é obrigatório',
+  INVALID_EMAIL: 'Email inválido',
+  INVALID_PASSWORD: 'Senha inválida',
   INVALID_USERNAME: 'Nome de usuário inválido',
   INVALID_PHONE: 'Telefone inválido',
   MESSAGE_TOO_SHORT: 'Mensagem muito curta',
   MESSAGE_TOO_LONG: 'Mensagem muito longa',
   INVALID_URL: 'URL inválida',
   INVALID_SLUG: 'Slug inválido',
-} as typeof DESIGN_TOKENS_ERROR_MESSAGES & {
-  readonly INVALID_USERNAME: string;
-  readonly INVALID_PHONE: string;
-  readonly MESSAGE_TOO_SHORT: string;
-  readonly MESSAGE_TOO_LONG: string;
-  readonly INVALID_URL: string;
-  readonly INVALID_SLUG: string;
-};
+  TOO_SHORT: 'Valor muito curto',
+  TOO_LONG: 'Valor muito longo',
+} as const;
+
+const FORM_CONFIG = {
+  MIN_PASSWORD_LENGTH: 8,
+  PASSWORD_MIN_LENGTH: 8,
+  MAX_PASSWORD_LENGTH: 128,
+  MIN_USERNAME_LENGTH: 3,
+  MAX_USERNAME_LENGTH: 20,
+  MIN_MESSAGE_LENGTH: 10,
+  MAX_MESSAGE_LENGTH: 1000,
+} as const;
+
+// Exportar para uso externo se necessário
+export { ERROR_MESSAGES, FORM_CONFIG, REGEX_PATTERNS };
 
 // ============================================================================
 // Types

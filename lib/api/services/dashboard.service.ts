@@ -12,55 +12,11 @@
 
 import { api } from '../client';
 import type { ApiResponse } from '../types';
-
-// ============================================================================
-// Types
-// ============================================================================
-
-/**
- * Estatísticas gerais do dashboard
- */
-export interface DashboardStats {
-  readonly totalPosts: number;
-  readonly totalViews: number;
-  readonly totalLikes: number;
-  readonly totalComments: number;
-  readonly postsChange: number;
-  readonly viewsChange: number;
-  readonly likesChange: number;
-  readonly commentsChange: number;
-}
-
-/**
- * Dados de visualizações por data
- */
-export interface ViewsData {
-  readonly date: string;
-  readonly views: number;
-  readonly uniqueViews: number;
-}
-
-/**
- * Dados de engajamento por data
- */
-export interface EngagementData {
-  readonly date: string;
-  readonly likes: number;
-  readonly comments: number;
-}
-
-/**
- * Dados de analytics do dashboard
- */
-export interface AnalyticsData {
-  readonly views: ViewsData[];
-  readonly engagement: EngagementData[];
-}
-
-/**
- * Período de análise
- */
-export type AnalyticsPeriod = '7d' | '30d' | '90d';
+import type {
+  AnalyticsData,
+  AnalyticsPeriod,
+  DashboardStats,
+} from '../types/dashboard';
 
 // ============================================================================
 // Classe do Serviço

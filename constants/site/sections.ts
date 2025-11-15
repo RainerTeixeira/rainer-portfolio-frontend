@@ -9,7 +9,6 @@
  */
 
 import { cn } from '@/lib/utils';
-import { DIVIDER } from '@rainer/design-tokens';
 
 /**
  * IDs das seções para navegação e scroll
@@ -27,10 +26,22 @@ export const SECTION_IDS = {
 } as const;
 
 /**
- * Classes CSS para divisores de seção (usando tokens)
+ * Classes CSS para divisores de seção (usando tokens via Tailwind)
  */
 export const DIVIDER_CLASSES = {
-  CYAN: cn('relative my-16', DIVIDER.HEIGHT_THIN, DIVIDER.GRADIENT.CYAN),
-  PURPLE: cn('relative my-16', DIVIDER.HEIGHT_THIN, DIVIDER.GRADIENT.PURPLE),
-  PINK: cn('relative my-16', DIVIDER.HEIGHT_THIN, DIVIDER.GRADIENT.PINK),
+  CYAN: cn(
+    'relative my-16',
+    'h-1',
+    'bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent'
+  ),
+  PURPLE: cn(
+    'relative my-16',
+    'h-1',
+    'bg-gradient-to-r from-transparent via-purple-400/30 to-transparent'
+  ),
+  PINK: cn(
+    'relative my-16',
+    'h-1',
+    'bg-gradient-to-r from-transparent via-pink-400/30 to-transparent'
+  ),
 } as const;

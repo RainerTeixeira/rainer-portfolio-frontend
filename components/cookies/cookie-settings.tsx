@@ -77,7 +77,6 @@ import {
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import { BADGE, FONT_WEIGHT, TEXT } from '@rainer/design-tokens';
 
 // ============================================================================
 // Types
@@ -243,14 +242,14 @@ export function CookieSettings({
           <div>
             <h2
               className={cn(
-                TEXT.SIZES.XL,
-                FONT_WEIGHT.BOLD,
+                'text-xl',
+                'font-bold',
                 'dark:text-cyan-200'
               )}
             >
               Configurações de Cookies
             </h2>
-            <p className={cn(TEXT.SIZES.SM, 'text-muted-foreground')}>
+            <p className={cn('text-sm', 'text-muted-foreground')}>
               Gerencie suas preferências de cookies e controle como seus dados
               são utilizados.
             </p>
@@ -301,8 +300,8 @@ export function CookieSettings({
                         <Label
                           htmlFor={category.id}
                           className={cn(
-                            TEXT.SIZES.BASE,
-                            FONT_WEIGHT.SEMIBOLD,
+                            'text-base',
+                            'font-semibold',
                             category.required
                               ? 'cursor-not-allowed'
                               : 'cursor-pointer'
@@ -314,23 +313,23 @@ export function CookieSettings({
                           <span
                             className={cn(
                               'px-2 py-0.5 rounded text-xs',
-                              BADGE.GRADIENTS.PRIMARY,
-                              BADGE.TEXT.PRIMARY,
-                              FONT_WEIGHT.SEMIBOLD
+                              'bg-gradient-to-br from-primary/10 to-primary/20',
+                              'text-primary',
+                              'font-semibold'
                             )}
                           >
                             Obrigatório
                           </span>
                         )}
                       </div>
-                      <p className={cn(TEXT.SIZES.SM, 'text-muted-foreground')}>
+                      <p className={cn('text-sm', 'text-muted-foreground')}>
                         {category.description}
                       </p>
                       {category.cookies && category.cookies.length > 0 && (
                         <div className="mt-2">
                           <p
                             className={cn(
-                              TEXT.SIZES.XS,
+                              'text-xs',
                               'text-muted-foreground mb-1'
                             )}
                           >

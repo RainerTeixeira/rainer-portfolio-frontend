@@ -32,9 +32,9 @@ import { BackToTop } from '@/components/ui';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { authService } from '@/lib/api/services/auth.service';
+import { authService } from '@/lib/api';
 import { cn } from '@/lib/utils';
-import { BORDER_RADIUS, TRANSITIONS } from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -336,8 +336,8 @@ export default function ConfirmEmailPage() {
               disabled={isLoading}
               className={cn(
                 'h-12 sm:h-14 text-center text-2xl sm:text-3xl tracking-widest font-mono',
-                BORDER_RADIUS.MD,
-                TRANSITIONS.ALL_EASE_IN_OUT
+                'rounded-md',
+                'transition-all duration-200 ease-in-out'
               )}
               ref={codeInputRef}
             />

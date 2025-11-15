@@ -35,7 +35,7 @@ import {
   ERROR_MESSAGES,
   FEATURE_FLAGS,
   REGEX_PATTERNS,
-} from '@/constants/design-tokens'
+} from '@/constants/design-tokens';
 ```
 
 ### Animation Duration
@@ -47,10 +47,10 @@ ANIMATION_DURATION_MS = {
   NORMAL: 300,
   SLOW: 500,
   VERY_SLOW: 1000,
-}
+};
 
 // Uso
-const duration = ANIMATION_DURATION_MS.FAST // 150
+const duration = ANIMATION_DURATION_MS.FAST; // 150
 ```
 
 ### Scroll Thresholds
@@ -60,11 +60,11 @@ SCROLL_THRESHOLDS = {
   BACK_TO_TOP: 300,
   NAVBAR_GLASSMORPHISM: 10,
   SECTION_REVEAL: 100,
-}
+};
 
 // Uso
 if (scrollY > SCROLL_THRESHOLDS.BACK_TO_TOP) {
-  showButton()
+  showButton();
 }
 ```
 
@@ -107,10 +107,10 @@ TIMING = {
   TOAST_DURATION: 3000,
   SAVE_DELAY: 500,
   SLIDE_DURATION: 6000,
-}
+};
 
 // Uso
-setTimeout(save, TIMING.SAVE_DELAY)
+setTimeout(save, TIMING.SAVE_DELAY);
 ```
 
 ### Storage Keys
@@ -120,10 +120,10 @@ STORAGE_KEYS = {
   AUTH_USER: 'auth_user',
   THEME: 'theme',
   BLOG_POSTS: 'blog_posts',
-}
+};
 
 // Uso
-localStorage.setItem(STORAGE_KEYS.AUTH_USER, data)
+localStorage.setItem(STORAGE_KEYS.AUTH_USER, data);
 ```
 
 ### Error Messages
@@ -133,10 +133,10 @@ ERROR_MESSAGES = {
   REQUIRED_FIELD: 'Este campo é obrigatório',
   INVALID_EMAIL: 'Email inválido',
   LOGIN_FAILED: 'Credenciais inválidas',
-}
+};
 
 // Uso
-showError(ERROR_MESSAGES.INVALID_EMAIL)
+showError(ERROR_MESSAGES.INVALID_EMAIL);
 ```
 
 ### Feature Flags
@@ -163,7 +163,7 @@ REGEX_PATTERNS = {
   PHONE_BR: /^\+?55\s?\(?[1-9]{2}\)?\s?9?\d{4}-?\d{4}$/,
   URL: /^https?:\/\/.+/,
   SLUG: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-}
+};
 
 // Uso
 if (REGEX_PATTERNS.EMAIL.test(email)) {
@@ -183,7 +183,7 @@ if (REGEX_PATTERNS.EMAIL.test(email)) {
 #### `logger.debug(message, context?)`
 
 ```typescript
-logger.debug('User data loaded', { userId: '123', count: 10 })
+logger.debug('User data loaded', { userId: '123', count: 10 });
 ```
 
 **Características**:
@@ -195,7 +195,7 @@ logger.debug('User data loaded', { userId: '123', count: 10 })
 #### `logger.info(message, context?)`
 
 ```typescript
-logger.info('User logged in', { userId: user.id })
+logger.info('User logged in', { userId: user.id });
 ```
 
 **Características**:
@@ -207,7 +207,7 @@ logger.info('User logged in', { userId: user.id })
 #### `logger.warn(message, context?)`
 
 ```typescript
-logger.warn('Cache expired', { cacheKey: 'posts' })
+logger.warn('Cache expired', { cacheKey: 'posts' });
 ```
 
 **Características**:
@@ -219,7 +219,7 @@ logger.warn('Cache expired', { cacheKey: 'posts' })
 #### `logger.error(message, error?, context?)`
 
 ```typescript
-logger.error('Failed to save post', error, { postId: '123' })
+logger.error('Failed to save post', error, { postId: '123' });
 ```
 
 **Características**:
@@ -232,12 +232,12 @@ logger.error('Failed to save post', error, { postId: '123' })
 #### `logger.withContext(defaultContext)`
 
 ```typescript
-const componentLogger = logger.withContext({ 
+const componentLogger = logger.withContext({
   component: 'BlogPage',
-  route: '/blog'
-})
+  route: '/blog',
+});
 
-componentLogger.info('Mounted') 
+componentLogger.info('Mounted');
 // Output: { component: 'BlogPage', route: '/blog' }
 ```
 
@@ -255,12 +255,12 @@ componentLogger.info('Mounted')
 #### `analytics.track(event)`
 
 ```typescript
-import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring/analytics'
+import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring/analytics';
 // ou via barrel export:
-import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring'
+import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring';
 
-analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'))
-analytics.track(ANALYTICS_EVENTS.BLOG_POST_LIKE('post-123'))
+analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'));
+analytics.track(ANALYTICS_EVENTS.BLOG_POST_LIKE('post-123'));
 ```
 
 **Eventos Predefinidos**:
@@ -283,24 +283,24 @@ ANALYTICS_EVENTS = {
 #### `analytics.pageView(page)`
 
 ```typescript
-analytics.pageView('/blog')
+analytics.pageView('/blog');
 ```
 
 #### `analytics.identify(userId, properties?)`
 
 ```typescript
-analytics.identify('user-123', { 
+analytics.identify('user-123', {
   fullName: 'João',
-  plan: 'premium'
-})
+  plan: 'premium',
+});
 ```
 
 #### `analytics.enable()` / `analytics.disable()`
 
 ```typescript
 // GDPR compliance
-analytics.disable()
-analytics.enable()
+analytics.disable();
+analytics.enable();
 ```
 
 ---
@@ -315,7 +315,7 @@ analytics.enable()
 #### `performanceMonitor.start(fullName)`
 
 ```typescript
-performanceMonitor.start('fetch_posts')
+performanceMonitor.start('fetch_posts');
 ```
 
 **Marca início de medição**
@@ -323,8 +323,8 @@ performanceMonitor.start('fetch_posts')
 #### `performanceMonitor.end(fullName)` → `number | null`
 
 ```typescript
-const duration = performanceMonitor.end('fetch_posts')
-console.log(duration) // 245 (ms)
+const duration = performanceMonitor.end('fetch_posts');
+console.log(duration); // 245 (ms)
 ```
 
 **Retorna duração em milissegundos**
@@ -333,8 +333,8 @@ console.log(duration) // 245 (ms)
 
 ```typescript
 const data = await performanceMonitor.measure('load_data', async () => {
-  return await fetchData()
-})
+  return await fetchData();
+});
 
 // Automatically starts, executes fn, ends, returns result
 ```
@@ -344,33 +344,33 @@ const data = await performanceMonitor.measure('load_data', async () => {
 #### `performanceMonitor.getMetric(fullName)` → `PerformanceMetric | undefined`
 
 ```typescript
-const metric = performanceMonitor.getMetric('fetch_posts')
-console.log(metric?.value)  // 245
-console.log(metric?.rating) // 'good'
+const metric = performanceMonitor.getMetric('fetch_posts');
+console.log(metric?.value); // 245
+console.log(metric?.rating); // 'good'
 ```
 
 **Returns**:
 
 ```typescript
 interface PerformanceMetric {
-  readonly fullName: string
-  readonly value: number
-  readonly rating: 'good' | 'needs-improvement' | 'poor'
-  readonly timestamp: number
+  readonly fullName: string;
+  readonly value: number;
+  readonly rating: 'good' | 'needs-improvement' | 'poor';
+  readonly timestamp: number;
 }
 ```
 
 #### `performanceMonitor.getAllMetrics()` → `PerformanceMetric[]`
 
 ```typescript
-const allMetrics = performanceMonitor.getAllMetrics()
-allMetrics.forEach(m => console.log(m.fullName, m.value, m.rating))
+const allMetrics = performanceMonitor.getAllMetrics();
+allMetrics.forEach(m => console.log(m.fullName, m.value, m.rating));
 ```
 
 #### `performanceMonitor.clearMetrics()`
 
 ```typescript
-performanceMonitor.clearMetrics()
+performanceMonitor.clearMetrics();
 ```
 
 **Limpa todas as métricas armazenadas**
@@ -378,7 +378,7 @@ performanceMonitor.clearMetrics()
 #### `performanceMonitor.reportNavigationTiming()`
 
 ```typescript
-performanceMonitor.reportNavigationTiming()
+performanceMonitor.reportNavigationTiming();
 ```
 
 **Reporta métricas de navegação (DNS, TCP, TTFB, etc)**
@@ -395,51 +395,51 @@ performanceMonitor.reportNavigationTiming()
 #### `validateEmail(email)` → `ValidationResult`
 
 ```typescript
-const result = validateEmail('test@example.com')
+const result = validateEmail('test@example.com');
 if (!result.isValid) {
-  console.error(result.errors) // ['Email inválido']
+  console.error(result.errors); // ['Email inválido']
 }
 ```
 
 #### `validatePassword(password)` → `ValidationResult`
 
 ```typescript
-const result = validatePassword('12345678')
+const result = validatePassword('12345678');
 // Checks: required, min length (8)
 ```
 
 #### `validateUsername(username)` → `ValidationResult`
 
 ```typescript
-const result = validateUsername('johndoe')
+const result = validateUsername('johndoe');
 // Checks: required, min (3), max (30)
 ```
 
 #### `validatePhone(phone)` → `ValidationResult`
 
 ```typescript
-const result = validatePhone('(24) 99999-9999')
+const result = validatePhone('(24) 99999-9999');
 // Validates Brazilian phone format
 ```
 
 #### `validateMessage(message)` → `ValidationResult`
 
 ```typescript
-const result = validateMessage('Hello world')
+const result = validateMessage('Hello world');
 // Checks: required, min (10), max (1000)
 ```
 
 #### `validateUrl(url)` → `ValidationResult`
 
 ```typescript
-const result = validateUrl('https://example.com')
+const result = validateUrl('https://example.com');
 // Checks: required, valid URL format
 ```
 
 #### `validateSlug(slug)` → `ValidationResult`
 
 ```typescript
-const result = validateSlug('my-blog-post')
+const result = validateSlug('my-blog-post');
 // Checks: required, lowercase, hyphens only
 ```
 
@@ -447,8 +447,8 @@ const result = validateSlug('my-blog-post')
 
 ```typescript
 interface ValidationResult {
-  readonly isValid: boolean
-  readonly errors: string[]
+  readonly isValid: boolean;
+  readonly errors: string[];
 }
 ```
 
@@ -457,12 +457,12 @@ interface ValidationResult {
 #### `loginFormSchema`
 
 ```typescript
-import { loginFormSchema, validateWithSchema } from '@/lib/utils/validation'
+import { loginFormSchema, validateWithSchema } from '@/lib/utils/validation';
 // ou via barrel export:
-import { loginFormSchema, validateWithSchema } from '@/lib/utils'
+import { loginFormSchema, validateWithSchema } from '@/lib/utils';
 
-const data = { username: 'john', password: '12345678' }
-const result = validateWithSchema(data, loginFormSchema)
+const data = { username: 'john', password: '12345678' };
+const result = validateWithSchema(data, loginFormSchema);
 ```
 
 **Fields**:
@@ -497,15 +497,15 @@ const result = validateWithSchema(data, loginFormSchema)
 ### `validateWithSchema(data, schema)` → `ValidationResult`
 
 ```typescript
-const formData = { 
-  email: 'test@example.com', 
-  password: '12345678' 
-}
+const formData = {
+  email: 'test@example.com',
+  password: '12345678',
+};
 
-const result = validateWithSchema(formData, loginFormSchema)
+const result = validateWithSchema(formData, loginFormSchema);
 
 if (!result.isValid) {
-  result.errors.forEach(error => showError(error))
+  result.errors.forEach(error => showError(error));
 }
 ```
 
@@ -520,13 +520,13 @@ if (!result.isValid) {
 #### `env` object
 
 ```typescript
-import { env } from '@/lib/env'
+import { env } from '@/lib/env';
 
-env.NODE_ENV                      // 'development' | 'production' | 'test'
-env.NEXT_PUBLIC_APP_URL          // string
-env.NEXT_PUBLIC_APP_NAME         // string
-env.NEXT_PUBLIC_ENABLE_ANALYTICS // boolean
-env.NEXT_PUBLIC_ENABLE_PWA       // boolean
+env.NODE_ENV; // 'development' | 'production' | 'test'
+env.NEXT_PUBLIC_APP_URL; // string
+env.NEXT_PUBLIC_APP_NAME; // string
+env.NEXT_PUBLIC_ENABLE_ANALYTICS; // boolean
+env.NEXT_PUBLIC_ENABLE_PWA; // boolean
 ```
 
 **Todos os acessos são type-safe**
@@ -534,14 +534,14 @@ env.NEXT_PUBLIC_ENABLE_PWA       // boolean
 #### Helper functions
 
 ```typescript
-import { isDevelopment, isProduction, isTest } from '@/lib/env'
+import { isDevelopment, isProduction, isTest } from '@/lib/env';
 
 if (isDevelopment) {
-  console.log('Dev mode')
+  console.log('Dev mode');
 }
 
 if (isProduction) {
-  initAnalytics()
+  initAnalytics();
 }
 ```
 
@@ -556,11 +556,11 @@ if (isProduction) {
 **Combina classes Tailwind**:
 
 ```typescript
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
-cn('px-2 py-1', 'px-3') // 'py-1 px-3'
-cn('text-red-500', condition && 'text-blue-500')
-cn({ 'bg-red-500': isError })
+cn('px-2 py-1', 'px-3'); // 'py-1 px-3'
+cn('text-red-500', condition && 'text-blue-500');
+cn({ 'bg-red-500': isError });
 ```
 
 **Usa**: clsx + tailwind-merge
@@ -573,21 +573,21 @@ cn({ 'bg-red-500': isError })
 ### `scrollToElement(elementId, options?)`
 
 ```typescript
-import { scrollToElement } from '@/lib/utils/scroll'
+import { scrollToElement } from '@/lib/utils/scroll';
 // ou via barrel export:
-import { scrollToElement } from '@/lib/utils'
+import { scrollToElement } from '@/lib/utils';
 
 scrollToElement('section-id', {
   behavior: 'smooth',
   block: 'start',
-  offset: 80 // Header height
-})
+  offset: 80, // Header height
+});
 ```
 
 ### `getScrollProgress()` → `number`
 
 ```typescript
-const progress = getScrollProgress() // 0-100
+const progress = getScrollProgress(); // 0-100
 ```
 
 **Retorna**: Percentual de scroll (0 a 100)
@@ -614,9 +614,9 @@ function Component() {
     trackNewsletterSubscribe,
     trackExternalLink,
   } = useAnalytics()
-  
+
   // Auto-tracks page views on route change
-  
+
   return <button onClick={() => trackBlogPostLike('123')}>Like</button>
 }
 ```
@@ -638,7 +638,7 @@ import { useMobile } from '@/hooks/use-mobile'
 
 function Component() {
   const isMobile = useMobile()
-  
+
   return (
     <div>
       {isMobile ? <MobileView /> : <DesktopView />}
@@ -661,7 +661,7 @@ import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
 
 function Component() {
   const { scrollToSection, scrollToTop } = useSmoothScroll()
-  
+
   return (
     <button onClick={() => scrollToSection('about')}>
       Sobre
@@ -703,9 +703,9 @@ function Component() {
     handleInstall,
     handleDismiss,
   } = usePWA()
-  
+
   if (!isInstallable) return null
-  
+
   return (
     <button onClick={handleInstall}>
       Instalar App
@@ -737,7 +737,7 @@ import { usePasswordStrength } from '@/hooks/use-password-strength'
 function Component() {
   const [password, setPassword] = useState('')
   const { strength, label, color } = usePasswordStrength(password)
-  
+
   return (
     <div>
       <input value={password} onChange={e => setPassword(e.target.value)} />
@@ -751,9 +751,9 @@ function Component() {
 
 ```typescript
 {
-  strength: number // 0-4
-  label: 'Muito Fraca' | 'Fraca' | 'Média' | 'Forte' | 'Muito Forte'
-  color: string // Tailwind color class
+  strength: number; // 0-4
+  label: 'Muito Fraca' | 'Fraca' | 'Média' | 'Forte' | 'Muito Forte';
+  color: string; // Tailwind color class
 }
 ```
 
@@ -800,12 +800,12 @@ import { Button, buttonVariants } from '@/components/ui/button'
 **Arquivo**: `components/ui/card.tsx`
 
 ```typescript
-import { 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardDescription, 
-  CardContent 
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent
 } from '@/components/ui/card'
 
 <Card>
@@ -826,7 +826,7 @@ import {
 **Arquivo**: `components/ui/loading-states.tsx`
 
 ```typescript
-import { 
+import {
   FullPageLoader,
   InlineLoader,
   SkeletonGrid,
@@ -844,7 +844,7 @@ import {
 <SkeletonGrid count={6} columns={3} />
 
 // Empty state
-<EmptyState 
+<EmptyState
   icon={FileText}
   title="Nenhum item"
   description="Descrição"
@@ -901,8 +901,8 @@ textToSlug('Café & Pão'); // "cafe-pao"
 Formata data para exibição em português.
 
 ```typescript
-formatDate(new Date()); // "15 de janeiro de 2024"
-formatDate('2024-01-15T00:00:00Z'); // "15 de janeiro de 2024"
+formatDate(new Date()); // "15 de janeiro de 2025"
+formatDate('2025-01-15T00:00:00Z'); // "15 de janeiro de 2025"
 ```
 
 #### `formatDateTime(date: Date | string): string`
@@ -910,7 +910,7 @@ formatDate('2024-01-15T00:00:00Z'); // "15 de janeiro de 2024"
 Formata data e hora para exibição em português.
 
 ```typescript
-formatDateTime(new Date()); // "15 de janeiro de 2024, 14:30"
+formatDateTime(new Date()); // "15 de janeiro de 2025, 14:30"
 ```
 
 #### `translatePostStatus(status: PostStatus | string): string`
@@ -1049,7 +1049,7 @@ const metadata = generateMetadata({
   title: 'Meu Post',
   description: 'Descrição do post',
   type: 'article',
-  publishedTime: '2024-01-15T00:00:00Z',
+  publishedTime: '2025-01-15T00:00:00Z',
 });
 ```
 
@@ -1070,7 +1070,7 @@ const metadata = generatePostMetadata(post);
 
 ```typescript
 // Single import
-import { 
+import {
   logger,
   analytics,
   performanceMonitor,
@@ -1090,19 +1090,19 @@ import {
   // SEO Utils
   generateMetadata,
   generatePostMetadata,
-} from '@/lib'
+} from '@/lib';
 ```
 
 ### `@/hooks`
 
 ```typescript
-import { 
+import {
   useAnalytics,
   useMobile,
   usePWA,
   useSmoothScroll,
-  usePasswordStrength
-} from '@/hooks'
+  usePasswordStrength,
+} from '@/hooks';
 ```
 
 ### `@/components/ui`
@@ -1117,7 +1117,7 @@ import {
   EmptyState,
   Skeleton,
   // ... 40+ components
-} from '@/components/ui'
+} from '@/components/ui';
 ```
 
 ---
@@ -1129,36 +1129,36 @@ import {
 ```typescript
 // User
 interface User {
-  readonly id: string
-  readonly fullName: string
-  readonly email: string
-  readonly role: 'admin' | 'editor' | 'viewer'
+  readonly id: string;
+  readonly fullName: string;
+  readonly email: string;
+  readonly role: 'admin' | 'editor' | 'viewer';
 }
 
 // Blog Post
 interface BlogPost {
-  readonly id: string
-  readonly title: string
-  readonly slug: string
-  readonly content: string
-  readonly category: string
-  readonly published: boolean
-  readonly createdAt: Date
-  readonly updatedAt: Date
+  readonly id: string;
+  readonly title: string;
+  readonly slug: string;
+  readonly content: string;
+  readonly category: string;
+  readonly published: boolean;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
 }
 
 // Validation Result
 interface ValidationResult {
-  readonly isValid: boolean
-  readonly errors: string[]
+  readonly isValid: boolean;
+  readonly errors: string[];
 }
 
 // Performance Metric
 interface PerformanceMetric {
-  readonly fullName: string
-  readonly value: number
-  readonly rating: 'good' | 'needs-improvement' | 'poor'
-  readonly timestamp: number
+  readonly fullName: string;
+  readonly value: number;
+  readonly rating: 'good' | 'needs-improvement' | 'poor';
+  readonly timestamp: number;
 }
 ```
 
@@ -1170,46 +1170,46 @@ interface PerformanceMetric {
 
 ```typescript
 // ✅ SEMPRE
-import { Z_INDEX, TIMING } from '@/constants/design-tokens'
-const zIndex = Z_INDEX.NAVBAR
-const delay = TIMING.SAVE_DELAY
+import { Z_INDEX, TIMING } from '@/constants/design-tokens';
+const zIndex = Z_INDEX.NAVBAR;
+const delay = TIMING.SAVE_DELAY;
 
 // ❌ NUNCA
-const zIndex = 50
-const delay = 500
+const zIndex = 50;
+const delay = 500;
 ```
 
 ### Using Logger
 
 ```typescript
 // ✅ SEMPRE
-import { logger } from '@/lib'
-logger.info('User logged in', { userId })
+import { logger } from '@/lib';
+logger.info('User logged in', { userId });
 
 // ❌ NUNCA
-console.log('User logged in', userId)
+console.log('User logged in', userId);
 ```
 
 ### Using Validators
 
 ```typescript
 // ✅ SEMPRE
-import { validateEmail } from '@/lib/utils/validation'
+import { validateEmail } from '@/lib/utils/validation';
 // ou via barrel export:
-import { validateEmail } from '@/lib/utils'
-const result = validateEmail(email)
+import { validateEmail } from '@/lib/utils';
+const result = validateEmail(email);
 
 // ❌ NUNCA
-const isValid = email.includes('@')
+const isValid = email.includes('@');
 ```
 
 ### Using Analytics
 
 ```typescript
 // ✅ SEMPRE
-import { useAnalytics } from '@/hooks'
-const { trackPageView } = useAnalytics()
-trackPageView('/blog')
+import { useAnalytics } from '@/hooks';
+const { trackPageView } = useAnalytics();
+trackPageView('/blog');
 
 // ❌ NUNCA
 // Tracking manual sem structure
@@ -1223,31 +1223,31 @@ trackPageView('/blog')
 
 ```typescript
 // Em desenvolvimento
-logger.debug('Detailed info', { data })
+logger.debug('Detailed info', { data });
 
 // Forçar log em produção (emergency)
-console.error('CRITICAL:', error)
+console.error('CRITICAL:', error);
 ```
 
 ### Performance Debugging
 
 ```typescript
 // Ver todas métricas
-console.table(performanceMonitor.getAllMetrics())
+console.table(performanceMonitor.getAllMetrics());
 
 // Ver métrica específica
-const metric = performanceMonitor.getMetric('load_posts')
-console.log(metric)
+const metric = performanceMonitor.getMetric('load_posts');
+console.log(metric);
 ```
 
 ### Analytics Debugging
 
 ```typescript
 // Desabilitar analytics temporariamente
-analytics.disable()
+analytics.disable();
 
 // Ver eventos no console
-logger.debug('Analytics event', { event })
+logger.debug('Analytics event', { event });
 ```
 
 ---

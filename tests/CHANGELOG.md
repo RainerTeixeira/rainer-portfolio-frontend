@@ -1,6 +1,6 @@
 # Changelog - Organização de Testes
 
-## 2024-11-13 - Organização Completa de Testes
+## 2025-11-13 - Organização Completa de Testes
 
 ### ✅ Mudanças Implementadas
 

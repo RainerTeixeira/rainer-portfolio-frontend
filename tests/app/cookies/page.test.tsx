@@ -34,7 +34,7 @@ jest.mock('next/link', () => ({
 }));
 
 jest.mock('@/constants', () => ({
-  POLICIES_LAST_UPDATED: '2024-01-01',
+  POLICIES_LAST_UPDATED: '2025-01-01',
   SITE_CONFIG: {
     contact: {
       email: {

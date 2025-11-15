@@ -31,27 +31,10 @@ export interface PaginatedResponse<T> {
   readonly pagination: PaginationMeta;
 }
 
-export interface HealthCheckResponse {
-  readonly status: 'ok' | 'error';
-  readonly timestamp: string;
-  readonly uptime: number;
-  readonly memory: {
-    readonly used: number;
-    readonly total: number;
-    readonly percentage: number;
-  };
-}
-
-export interface DetailedHealthCheckResponse extends HealthCheckResponse {
-  readonly database: {
-    readonly provider: 'PRISMA' | 'DYNAMODB';
-    readonly status: 'connected' | 'disconnected' | 'error';
-    readonly description: string;
-    readonly endpoint?: string;
-  };
-  readonly environment: string;
-  readonly version: string;
-}
+// ============================================================================
+// Note: HealthCheckResponse and DetailedHealthCheckResponse moved to health.ts
+// Import from '@/lib/api/types/health' instead
+// ============================================================================
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Tiptap Types

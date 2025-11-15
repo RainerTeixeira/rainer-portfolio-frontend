@@ -42,7 +42,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { userService } from '@/lib/api/services/user.service';
+import { userService } from '@/lib/api';
 import { Mail } from 'lucide-react';
 import { useState } from 'react';
 

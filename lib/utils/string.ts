@@ -49,12 +49,12 @@ export function textToSlug(text: string): string {
  * Formata data no padrão brasileiro (dia de mês de ano).
  *
  * @param date - Data a formatar (Date ou string ISO)
- * @returns Data formatada (ex: "15 de janeiro de 2024")
+ * @returns Data formatada (ex: "15 de janeiro de 2025")
  *
  * @example
  * ```ts
- * formatDate(new Date()) // "15 de janeiro de 2024"
- * formatDate("2024-01-15T00:00:00Z") // "15 de janeiro de 2024"
+ * formatDate(new Date()) // "15 de janeiro de 2025"
+ * formatDate("2025-01-15T00:00:00Z") // "15 de janeiro de 2025"
  * ```
  */
 export function formatDate(date: Date | string): string {
@@ -73,12 +73,12 @@ export function formatDate(date: Date | string): string {
  * Formata data e hora no padrão brasileiro.
  *
  * @param date - Data a formatar (Date ou string ISO)
- * @returns Data e hora formatadas (ex: "15 de janeiro de 2024, 14:30")
+ * @returns Data e hora formatadas (ex: "15 de janeiro de 2025, 14:30")
  *
  * @example
  * ```ts
- * formatDateTime(new Date()) // "15 de janeiro de 2024, 14:30"
- * formatDateTime("2024-01-15T14:30:00Z") // "15 de janeiro de 2024, 14:30"
+ * formatDateTime(new Date()) // "15 de janeiro de 2025, 14:30"
+ * formatDateTime("2025-01-15T14:30:00Z") // "15 de janeiro de 2025, 14:30"
  * ```
  */
 export function formatDateTime(date: Date | string): string {

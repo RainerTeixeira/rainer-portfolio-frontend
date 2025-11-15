@@ -38,22 +38,7 @@ import {
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import {
-  BACKGROUND,
-  BADGE,
-  BORDER_RADIUS,
-  DIVIDER,
-  FONT_WEIGHT,
-  GRADIENT_DIRECTIONS,
-  ICON,
-  LINK,
-  OPACITY,
-  PARTICLE,
-  TEXT,
-  TRANSITIONS,
-} from '@rainer/design-tokens';
 import Link from 'next/link';
-
 // ============================================================================
 // Main Component
 // ============================================================================
@@ -66,9 +51,8 @@ export function Footer() {
     <footer
       className={cn(
         'relative w-full overflow-hidden border-t',
-        BACKGROUND.BORDER_TOP,
-        BACKGROUND.BASE,
-        BACKGROUND.DARK_GRADIENT
+        'bg-background dark:bg-black',
+        'border-border dark:border-cyan-400/20'
       )}
       role="contentinfo"
     >
@@ -76,33 +60,39 @@ export function Footer() {
       <div
         className={cn(
           'absolute inset-0 blur-2xl pointer-events-none opacity-20 dark:opacity-10',
-          GRADIENT_DIRECTIONS.TO_RIGHT,
-          BACKGROUND.GRADIENT_OVERLAY
+          'bg-gradient-to-r',
+          'from-cyan-500/5 via-purple-500/5 to-pink-500/5',
+          'dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5'
         )}
         aria-hidden="true"
       />
 
       {/* Partículas decorativas sutis (reduzidas) */}
-      <div className={cn(PARTICLE.CONTAINER)} aria-hidden="true">
+      <div
+        className={cn(
+          'fixed inset-0 -z-10 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-1000'
+        )}
+        aria-hidden="true"
+      >
         <div
           className={cn(
             'absolute top-1/3 left-1/4 animate-pulse',
-            PARTICLE.SIZES.SMALL,
-            PARTICLE.COLORS.CYAN,
-            PARTICLE.OPACITY.LOW,
-            BORDER_RADIUS.FULL,
-            PARTICLE.SHADOWS.CYAN
+            'w-1.5 h-1.5',
+            'bg-cyan-400',
+            'opacity-40',
+            'rounded-full',
+            'shadow-lg shadow-cyan-400/50'
           )}
           style={{ animationDelay: '2s' }}
         />
         <div
           className={cn(
             'absolute bottom-1/3 right-1/4 animate-pulse',
-            PARTICLE.SIZES.SMALL,
-            PARTICLE.COLORS.PURPLE,
-            PARTICLE.OPACITY.LOW,
-            BORDER_RADIUS.FULL,
-            PARTICLE.SHADOWS.PURPLE
+            'w-1.5 h-1.5',
+            'bg-purple-400',
+            'opacity-40',
+            'rounded-full',
+            'shadow-lg shadow-purple-400/50'
           )}
           style={{ animationDelay: '3s' }}
         />
@@ -118,10 +108,10 @@ export function Footer() {
             <div className="flex flex-col space-y-4">
               <h3
                 className={cn(
-                  TEXT.SIZES.LG,
-                  FONT_WEIGHT.BOLD,
-                  TEXT.COLORS.FOREGROUND,
-                  TEXT.COLORS.DARK_CYAN_300,
+                  'text-lg',
+                  'font-bold',
+                  'text-foreground',
+                  'dark:text-cyan-300',
                   'dark:font-mono'
                 )}
               >
@@ -129,9 +119,9 @@ export function Footer() {
               </h3>
               <p
                 className={cn(
-                  TEXT.SIZES.SM,
-                  TEXT.COLORS.MUTED,
-                  TEXT.COLORS.DARK_GRAY_300,
+                  'text-sm',
+                  'text-muted-foreground',
+                  'dark:text-gray-300',
                   'leading-relaxed'
                 )}
                 style={{
@@ -149,29 +139,29 @@ export function Footer() {
                 <span
                   className={cn(
                     'inline-flex items-center gap-1.5 px-3 py-1',
-                    BORDER_RADIUS.FULL,
-                    BADGE.GRADIENTS.PRIMARY,
-                    BADGE.TEXT.PRIMARY,
-                    BADGE.BORDERS.PRIMARY,
-                    FONT_WEIGHT.SEMIBOLD,
-                    TEXT.SIZES.XS
+                    'rounded-full',
+                    'bg-gradient-to-br from-primary/10 to-primary/20',
+                    'text-primary',
+                    'border border-primary/30',
+                    'font-semibold',
+                    'text-xs'
                   )}
                 >
-                  <CheckCircle2 className={cn(ICON.SIZES.TINY)} />
+                  <CheckCircle2 className={cn('h-3 w-3')} />
                   {SITE_CONFIG.experience} Anos
                 </span>
                 <span
                   className={cn(
                     'inline-flex items-center gap-1.5 px-3 py-1',
-                    BORDER_RADIUS.FULL,
-                    BADGE.GRADIENTS.SUCCESS,
-                    BADGE.TEXT.SUCCESS,
-                    BADGE.BORDERS.SUCCESS,
-                    FONT_WEIGHT.SEMIBOLD,
-                    TEXT.SIZES.XS
+                    'rounded-full',
+                    'bg-gradient-to-br from-green-500/10 to-green-600/20',
+                    'text-green-600 dark:text-green-400',
+                    'border border-green-500/30',
+                    'font-semibold',
+                    'text-xs'
                   )}
                 >
-                  <Shield className={cn(ICON.SIZES.TINY)} />
+                  <Shield className={cn('h-3 w-3')} />
                   LGPD
                 </span>
               </div>
@@ -181,10 +171,10 @@ export function Footer() {
             <div className="flex flex-col space-y-4">
               <h4
                 className={cn(
-                  TEXT.SIZES.BASE,
-                  FONT_WEIGHT.SEMIBOLD,
-                  TEXT.COLORS.FOREGROUND,
-                  TEXT.COLORS.DARK_CYAN_300
+                  'text-base',
+                  'font-semibold',
+                  'text-foreground',
+                  'dark:text-cyan-300'
                 )}
               >
                 Navegação
@@ -197,21 +187,21 @@ export function Footer() {
                         href={item.href}
                         className={cn(
                           'inline-flex items-center gap-2 group',
-                          TEXT.SIZES.SM,
-                          TEXT.COLORS.MUTED,
-                          TEXT.COLORS.DARK_GRAY_300,
-                          TEXT.COLORS.HOVER_PRIMARY,
-                          TEXT.COLORS.HOVER_CYAN,
-                          TRANSITIONS.COLORS
+                          'text-sm',
+                          'text-muted-foreground',
+                          'dark:text-gray-300',
+                          'hover:text-primary',
+                          'dark:hover:text-cyan-400',
+                          'transition-colors duration-200 ease-in-out'
                         )}
                       >
                         <ArrowRight
                           className={cn(
-                            ICON.SIZES.TINY,
-                            OPACITY.NONE,
+                            'h-3 w-3',
+                            'opacity-0',
                             'group-hover:opacity-100 group-hover:translate-x-1',
-                            TRANSITIONS.TRANSFORM,
-                            TRANSITIONS.OPACITY
+                            'transition-transform duration-200 ease-in-out',
+                            'transition-opacity duration-200 ease-in-out'
                           )}
                         />
                         {item.fullName}
@@ -226,10 +216,10 @@ export function Footer() {
             <div className="flex flex-col space-y-4">
               <h4
                 className={cn(
-                  TEXT.SIZES.BASE,
-                  FONT_WEIGHT.SEMIBOLD,
-                  TEXT.COLORS.FOREGROUND,
-                  TEXT.COLORS.DARK_CYAN_300
+                  'text-base',
+                  'font-semibold',
+                  'text-foreground',
+                  'dark:text-cyan-300'
                 )}
               >
                 Serviços
@@ -239,12 +229,12 @@ export function Footer() {
                   <li key={service.fullName}>
                     <div
                       className={cn(
-                        TEXT.SIZES.SM,
-                        TEXT.COLORS.MUTED,
-                        TEXT.COLORS.DARK_GRAY_300,
-                        TEXT.COLORS.HOVER_FOREGROUND,
-                        TEXT.COLORS.HOVER_CYAN,
-                        TRANSITIONS.COLORS,
+                        'text-sm',
+                        'text-muted-foreground',
+                        'dark:text-gray-300',
+                        'hover:text-foreground',
+                        'dark:hover:text-cyan-400',
+                        'transition-colors duration-200 ease-in-out',
                         'cursor-default leading-relaxed'
                       )}
                     >
@@ -259,10 +249,10 @@ export function Footer() {
             <div className="flex flex-col space-y-4">
               <h4
                 className={cn(
-                  TEXT.SIZES.BASE,
-                  FONT_WEIGHT.SEMIBOLD,
-                  TEXT.COLORS.FOREGROUND,
-                  TEXT.COLORS.DARK_CYAN_300
+                  'text-base',
+                  'font-semibold',
+                  'text-foreground',
+                  'dark:text-cyan-300'
                 )}
               >
                 Contato
@@ -273,16 +263,18 @@ export function Footer() {
                   href={`mailto:${SITE_CONFIG.contact.email.address}`}
                   className={cn(
                     'flex items-center gap-2 group',
-                    TEXT.SIZES.SM,
-                    TEXT.COLORS.MUTED,
-                    TEXT.COLORS.DARK_GRAY_300,
-                    TEXT.COLORS.HOVER_PRIMARY,
-                    TEXT.COLORS.HOVER_CYAN,
-                    TRANSITIONS.COLORS
+                    'text-sm',
+                    'text-muted-foreground',
+                    'dark:text-gray-300',
+                    'hover:text-primary',
+                    'dark:hover:text-cyan-400',
+                    'transition-colors duration-200 ease-in-out'
                   )}
                   aria-label={`Enviar email para ${SITE_CONFIG.contact.email.address}`}
                 >
-                  <Mail className={cn(ICON.SIZES.SMALL, ICON.COLORS.PRIMARY)} />
+                  <Mail
+                    className={cn('h-4 w-4', 'text-primary dark:text-cyan-400')}
+                  />
                   <span className="break-all text-xs">
                     {SITE_CONFIG.contact.email.address}
                   </span>
@@ -293,17 +285,17 @@ export function Footer() {
                   href={`tel:${SITE_CONFIG.contact.phone.number.replace(/\s/g, '')}`}
                   className={cn(
                     'flex items-center gap-2 group',
-                    TEXT.SIZES.SM,
-                    TEXT.COLORS.MUTED,
-                    TEXT.COLORS.DARK_GRAY_300,
-                    TEXT.COLORS.HOVER_PRIMARY,
-                    TEXT.COLORS.HOVER_CYAN,
-                    TRANSITIONS.COLORS
+                    'text-sm',
+                    'text-muted-foreground',
+                    'dark:text-gray-300',
+                    'hover:text-primary',
+                    'dark:hover:text-cyan-400',
+                    'transition-colors duration-200 ease-in-out'
                   )}
                   aria-label={`Ligar para ${SITE_CONFIG.contact.phone.number}`}
                 >
                   <Phone
-                    className={cn(ICON.SIZES.SMALL, ICON.COLORS.PRIMARY)}
+                    className={cn('h-4 w-4', 'text-primary dark:text-cyan-400')}
                   />
                   <span>{SITE_CONFIG.contact.phone.number}</span>
                 </a>
@@ -312,13 +304,13 @@ export function Footer() {
                 <div
                   className={cn(
                     'flex items-center gap-2',
-                    TEXT.SIZES.SM,
-                    TEXT.COLORS.MUTED,
-                    TEXT.COLORS.DARK_GRAY_300
+                    'text-sm',
+                    'text-muted-foreground',
+                    'dark:text-gray-300'
                   )}
                 >
                   <MapPin
-                    className={cn(ICON.SIZES.SMALL, ICON.COLORS.PRIMARY)}
+                    className={cn('h-4 w-4', 'text-primary dark:text-cyan-400')}
                   />
                   <span>{SITE_CONFIG.contact.location.city}</span>
                 </div>
@@ -331,17 +323,17 @@ export function Footer() {
                     rel="noopener noreferrer"
                     className={cn(
                       'p-2 rounded-lg transition-all',
-                      TEXT.COLORS.MUTED,
-                      TEXT.COLORS.HOVER_PRIMARY,
-                      TEXT.COLORS.HOVER_CYAN,
-                      LINK.HOVER_BG,
+                      'text-muted-foreground',
+                      'hover:text-primary',
+                      'dark:hover:text-cyan-400',
+                      'hover:bg-accent/50',
                       'hover:scale-110',
-                      TRANSITIONS.COLORS,
-                      TRANSITIONS.TRANSFORM
+                      'transition-colors duration-200 ease-in-out',
+                      'transition-transform duration-200 ease-in-out'
                     )}
                     aria-label="Visitar GitHub"
                   >
-                    <GitHubIcon className={cn(ICON.SIZES.DEFAULT)} />
+                    <GitHubIcon className={cn('h-5 w-5')} />
                   </a>
                   <a
                     href={SITE_CONFIG.linkedin}
@@ -349,17 +341,17 @@ export function Footer() {
                     rel="noopener noreferrer"
                     className={cn(
                       'p-2 rounded-lg transition-all',
-                      TEXT.COLORS.MUTED,
-                      TEXT.COLORS.HOVER_PRIMARY,
-                      TEXT.COLORS.HOVER_CYAN,
-                      LINK.HOVER_BG,
+                      'text-muted-foreground',
+                      'hover:text-primary',
+                      'dark:hover:text-cyan-400',
+                      'hover:bg-accent/50',
                       'hover:scale-110',
-                      TRANSITIONS.COLORS,
-                      TRANSITIONS.TRANSFORM
+                      'transition-colors duration-200 ease-in-out',
+                      'transition-transform duration-200 ease-in-out'
                     )}
                     aria-label="Visitar LinkedIn"
                   >
-                    <Linkedin className={cn(ICON.SIZES.DEFAULT)} />
+                    <Linkedin className={cn('h-5 w-5')} />
                   </a>
                 </div>
               </div>
@@ -369,7 +361,10 @@ export function Footer() {
 
         {/* Divisor sutil full-width */}
         <div
-          className={cn('w-full border-t', DIVIDER.BORDER)}
+          className={cn(
+            'w-full border-t',
+            'border-border/50 dark:border-cyan-400/20'
+          )}
           aria-hidden="true"
         />
 
@@ -380,9 +375,9 @@ export function Footer() {
             <div className="text-center lg:text-left">
               <p
                 className={cn(
-                  TEXT.SIZES.SM,
-                  TEXT.COLORS.MUTED,
-                  TEXT.COLORS.DARK_GRAY_400
+                  'text-sm',
+                  'text-muted-foreground',
+                  'dark:text-gray-400'
                 )}
               >
                 &copy; {new Date().getFullYear()} {SITE_CONFIG.fullName}. Todos
@@ -395,11 +390,11 @@ export function Footer() {
               <Link
                 href="/privacidade"
                 className={cn(
-                  TEXT.SIZES.XS,
-                  TEXT.COLORS.MUTED,
-                  TEXT.COLORS.HOVER_PRIMARY,
-                  TEXT.COLORS.HOVER_CYAN,
-                  TRANSITIONS.COLORS
+                  'text-xs',
+                  'text-muted-foreground',
+                  'hover:text-primary',
+                  'dark:hover:text-cyan-400',
+                  'transition-colors duration-200 ease-in-out'
                 )}
               >
                 Privacidade
@@ -407,11 +402,11 @@ export function Footer() {
               <Link
                 href="/termos"
                 className={cn(
-                  TEXT.SIZES.XS,
-                  TEXT.COLORS.MUTED,
-                  TEXT.COLORS.HOVER_PRIMARY,
-                  TEXT.COLORS.HOVER_CYAN,
-                  TRANSITIONS.COLORS
+                  'text-xs',
+                  'text-muted-foreground',
+                  'hover:text-primary',
+                  'dark:hover:text-cyan-400',
+                  'transition-colors duration-200 ease-in-out'
                 )}
               >
                 Termos
@@ -419,11 +414,11 @@ export function Footer() {
               <Link
                 href="/cookies"
                 className={cn(
-                  TEXT.SIZES.XS,
-                  TEXT.COLORS.MUTED,
-                  TEXT.COLORS.HOVER_PRIMARY,
-                  TEXT.COLORS.HOVER_CYAN,
-                  TRANSITIONS.COLORS
+                  'text-xs',
+                  'text-muted-foreground',
+                  'hover:text-primary',
+                  'dark:hover:text-cyan-400',
+                  'transition-colors duration-200 ease-in-out'
                 )}
               >
                 Cookies
@@ -431,11 +426,11 @@ export function Footer() {
               <Link
                 href="/cookies/settings"
                 className={cn(
-                  TEXT.SIZES.XS,
-                  TEXT.COLORS.MUTED,
-                  TEXT.COLORS.HOVER_PRIMARY,
-                  TEXT.COLORS.HOVER_CYAN,
-                  TRANSITIONS.COLORS
+                  'text-xs',
+                  'text-muted-foreground',
+                  'hover:text-primary',
+                  'dark:hover:text-cyan-400',
+                  'transition-colors duration-200 ease-in-out'
                 )}
               >
                 Gerenciar Cookies

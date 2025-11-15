@@ -2,6 +2,7 @@
  * Testes para lib/utils/string.ts
  */
 
+import { PostStatus } from '@/lib/api/types/posts';
 import {
   formatDate,
   formatDateTime,
@@ -9,13 +10,14 @@ import {
   translatePostStatus,
   translateStatus,
 } from '@/lib/utils/string';
-import { PostStatus } from '@/lib/api/types/posts';
 
 describe('lib/utils/string', () => {
   describe('textToSlug', () => {
     it('deve converter texto para slug', () => {
       expect(textToSlug('Meu Primeiro Post!')).toBe('meu-primeiro-post');
-      expect(textToSlug('Teste com Acentos áéíóú')).toBe('teste-com-acentos-aeiou');
+      expect(textToSlug('Teste com Acentos áéíóú')).toBe(
+        'teste-com-acentos-aeiou'
+      );
     });
 
     it('deve remover caracteres especiais', () => {
@@ -34,28 +36,28 @@ describe('lib/utils/string', () => {
 
   describe('formatDate', () => {
     it('deve formatar data em português', () => {
-      const date = new Date('2024-01-15T00:00:00Z');
+      const date = new Date('2025-01-15T00:00:00Z');
       const formatted = formatDate(date);
 
       expect(formatted).toContain('janeiro');
-      expect(formatted).toContain('2024');
+      expect(formatted).toContain('2025');
     });
 
     it('deve formatar data a partir de string ISO', () => {
-      const formatted = formatDate('2024-01-15T00:00:00Z');
+      const formatted = formatDate('2025-01-15T00:00:00Z');
 
       expect(formatted).toContain('janeiro');
-      expect(formatted).toContain('2024');
+      expect(formatted).toContain('2025');
     });
   });
 
   describe('formatDateTime', () => {
     it('deve formatar data e hora em português', () => {
-      const date = new Date('2024-01-15T14:30:00Z');
+      const date = new Date('2025-01-15T14:30:00Z');
       const formatted = formatDateTime(date);
 
       expect(formatted).toContain('janeiro');
-      expect(formatted).toContain('2024');
+      expect(formatted).toContain('2025');
     });
   });
 
@@ -79,4 +81,3 @@ describe('lib/utils/string', () => {
     });
   });
 });
-

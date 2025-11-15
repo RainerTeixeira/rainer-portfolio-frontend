@@ -1,7 +1,6 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { SHADOWS } from '@rainer/design-tokens';
 import {
   CircleCheck,
   Info,
@@ -31,8 +30,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast: cn(
-            'group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border',
-            SHADOWS.LARGE,
+            'group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border shadow-lg',
             'dark:group-[.toaster]:bg-gray-900 dark:group-[.toaster]:border-cyan-400/20'
           ),
           title: 'dark:text-gray-100',
@@ -52,3 +50,4 @@ const Toaster = ({ ...props }: ToasterProps) => {
 };
 
 export { Toaster };
+

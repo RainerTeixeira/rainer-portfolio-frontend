@@ -8,7 +8,7 @@
  * @version 2.0.0
  */
 
-import { GRADIENTS, GRADIENT_DIRECTIONS } from '@rainer/design-tokens';
+import { GRADIENTS } from '@rainer/design-tokens';
 import { Code2, Monitor, Zap } from 'lucide-react';
 import React from 'react';
 import { SITE_CONFIG } from '../site/config';
@@ -28,34 +28,35 @@ export interface ProfessionalMetric {
 
 /**
  * Dados das métricas profissionais (usado na página sobre)
+ * Usando recursos da biblioteca @rainer/design-tokens
  */
 export const PROFESSIONAL_METRICS: ReadonlyArray<ProfessionalMetric> = [
   {
     icon: Monitor,
     value: SITE_CONFIG.projects,
     label: 'Projetos Completos',
-    gradient: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.CYAN_BLUE} dark:${GRADIENTS.CYAN_BLUE_DARK}`,
-    iconColor: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.CYAN_BLUE} dark:${GRADIENTS.CYAN_BLUE_DARK}`,
+    gradient: `bg-gradient-to-r from-cyan-500 to-blue-500`,
+    iconColor: `bg-gradient-to-r from-cyan-500 to-blue-500`,
   },
   {
     icon: Code2,
     value: '50K+',
     label: 'Linhas de Código',
-    gradient: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.GREEN_EMERALD} dark:${GRADIENTS.GREEN_EMERALD_DARK}`,
-    iconColor: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.GREEN_EMERALD} dark:${GRADIENTS.GREEN_EMERALD_DARK}`,
+    gradient: `bg-gradient-to-r ${GRADIENTS.DECORATIVE_GREEN_EMERALD}`,
+    iconColor: `bg-gradient-to-r ${GRADIENTS.DECORATIVE_GREEN_EMERALD}`,
   },
   {
     icon: Zap,
     value: '20+',
     label: 'Tecnologias',
-    gradient: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.ORANGE_AMBER} dark:${GRADIENTS.ORANGE_AMBER_DARK}`,
-    iconColor: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.ORANGE_AMBER} dark:${GRADIENTS.ORANGE_AMBER_DARK}`,
+    gradient: `bg-gradient-to-r from-orange-500 to-amber-500`,
+    iconColor: `bg-gradient-to-r from-orange-500 to-amber-500`,
   },
   {
     icon: Zap,
     value: '95+',
     label: 'Lighthouse Score',
-    gradient: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.PURPLE_PINK} dark:${GRADIENTS.PURPLE_PINK_DARK}`,
-    iconColor: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.PURPLE_PINK} dark:${GRADIENTS.PURPLE_PINK_DARK}`,
+    gradient: `bg-gradient-to-r ${GRADIENTS.BUTTON_PURPLE_PINK}`,
+    iconColor: `bg-gradient-to-r ${GRADIENTS.BUTTON_PURPLE_PINK}`,
   },
 ] as const;

@@ -68,11 +68,7 @@ import { Card, CardContent, CardTitle } from '@/components/ui/card';
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import {
-  BACKGROUND,
-  GRADIENTS,
-  GRADIENT_DIRECTIONS,
-} from '@rainer/design-tokens';
+import { BACKGROUND, GRADIENTS } from '@rainer/design-tokens';
 
 // ============================================================================
 // Constants & Config
@@ -155,7 +151,7 @@ export default function AboutPage() {
             <div
               className={cn(
                 'absolute inset-0 dark:opacity-40 opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-500',
-                GRADIENT_DIRECTIONS.TO_BR,
+                'bg-gradient-to-br',
                 'from-cyan-400/20 via-purple-400/20 to-pink-400/20'
               )}
             ></div>
@@ -224,7 +220,7 @@ export default function AboutPage() {
               <div
                 className={cn(
                   'h-1 w-12 rounded-full',
-                  GRADIENT_DIRECTIONS.TO_RIGHT,
+                  'bg-gradient-to-r',
                   GRADIENTS.DECORATIVE_CYAN_PURPLE
                 )}
               />
@@ -539,7 +535,7 @@ export default function AboutPage() {
                   size="icon"
                   className={cn(
                     'flex-1 h-12 border border-gray-700/50 shadow-lg',
-                    GRADIENT_DIRECTIONS.TO_BR,
+                    'bg-gradient-to-br',
                     'from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800'
                   )}
                 >
@@ -557,7 +553,7 @@ export default function AboutPage() {
                   size="icon"
                   className={cn(
                     'flex-1 h-12 border border-blue-500/50 shadow-lg',
-                    GRADIENT_DIRECTIONS.TO_BR,
+                    'bg-gradient-to-br',
                     'from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600'
                   )}
                 >
@@ -575,7 +571,7 @@ export default function AboutPage() {
                   size="icon"
                   className={cn(
                     'flex-1 h-12 border border-pink-400/50 shadow-lg',
-                    GRADIENT_DIRECTIONS.TO_BR,
+                    'bg-gradient-to-br',
                     'from-pink-500 to-rose-600 hover:from-pink-400 hover:to-rose-500'
                   )}
                 >

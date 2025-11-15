@@ -1,111 +1,83 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Configuração profissional do Playwright para testes E2E
+ * Playwright Configuration
  *
- * Recursos avançados:
- * - Captura automática de logs do console (F12)
- * - Tratamento de erros JavaScript
- * - Monitoramento de requisições de rede
- * - Traces e vídeos para debugging
- * - Timeouts configuráveis
- *
- * Monitoramento de Console:
- * - Todos os logs do console são capturados automaticamente
- * - Erros JavaScript são detectados e reportados
- * - Requisições HTTP que falham são monitoradas
- * - Use os fixtures em tests/e2e/fixtures/index.ts para monitoramento automático
- * - Veja docs/09-TESTES/README_CONSOLE_MONITORING.md para mais detalhes
+ * Configuração para testes E2E de design tokens e UI.
+ * Valida aplicação correta de cores, tipografia, espaçamento e temas.
  *
  * @see https://playwright.dev/docs/test-configuration
- * @see docs/09-TESTES/README_CONSOLE_MONITORING.md
  */
-const config: PlaywrightTestConfig = {
-  testDir: './tests/e2e',
+export default defineConfig({
+  testDir: './tests/e2e/design-tokens',
 
-  /* Executar testes em paralelo */
+  /* Run tests in files in parallel */
   fullyParallel: true,
 
-  /* Falhar o build no CI se você deixar test.only no código */
+  /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
 
-  /* Tentar novamente no CI apenas */
+  /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
 
-  /* Limitar workers no CI */
+  /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
 
-  /* Timeout global para cada teste */
-  timeout: 30 * 1000,
-
-  /* Timeout para expectativas */
-  expect: {
-    timeout: 10 * 1000,
-  },
-
-  /* Reporters - todos os resultados em tests/test-results/ */
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html', { outputFolder: 'tests/test-results/e2e/playwright-report' }],
+    ['html', { outputFolder: 'playwright-report/design-tokens' }],
     ['list'],
-    ['json', { outputFile: 'tests/test-results/e2e/results.json' }],
-    ['junit', { outputFile: 'tests/test-results/e2e/junit.xml' }],
+    ['json', { outputFile: 'test-results/design-tokens-results.json' }],
   ],
 
-  /* Output directory para screenshots, vídeos e traces */
-  outputDir: 'tests/test-results/e2e/artifacts',
-
-  /* Configurações compartilhadas para todos os projetos */
+  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* URL base a usar em ações como `await page.goto('/')`. */
-    baseURL: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+    /* Base URL to use in actions like `await page.goto('/')`. */
+    baseURL: 'http://localhost:3000',
 
-    /* Coletar trace sempre para debugging avançado */
-    trace: 'on',
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    trace: 'on-first-retry',
 
-    /* Screenshot apenas quando falhar */
+    /* Screenshot on failure */
     screenshot: 'only-on-failure',
 
-    /* Gravar vídeo quando falhar */
+    /* Video on failure */
     video: 'retain-on-failure',
-
-    /* Configurações de contexto do navegador */
-    viewport: { width: 1920, height: 1080 },
-
-    /* Ignorar HTTPS errors (útil para desenvolvimento) */
-    ignoreHTTPSErrors: true,
-
-    /* Configurações de ação */
-    actionTimeout: 15 * 1000,
-    navigationTimeout: 30 * 1000,
   },
 
-  /* Configurar projeto para usar Chrome */
+  /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chrome',
-      use: {
-        ...devices['Desktop Chrome'],
-        // Usar Chrome instalado no sistema
-        channel: 'chrome',
-        // Headless false para ver o navegador
-        headless: false,
-        // Configurações avançadas do Chrome
-        launchOptions: {
-          args: [
-            '--disable-blink-features=AutomationControlled',
-            '--disable-dev-shm-usage',
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-          ],
-        },
-      },
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+
+    /* Test against mobile viewports. */
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 12'] },
     },
   ],
 
-  /* Global setup e teardown */
-  globalSetup: undefined, // Pode ser configurado se necessário
-  globalTeardown: undefined, // Pode ser configurado se necessário
-};
-
-export default defineConfig(config);
+  /* Run your local dev server before starting the tests */
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:3000',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120 * 1000,
+  },
+});

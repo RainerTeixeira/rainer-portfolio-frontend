@@ -11,18 +11,26 @@ Cole este JSON no modo JSON do editor:
     {
       "type": "heading",
       "attrs": { "level": 1 },
-      "content": [{ "type": "text", "text": "A Revolução Tecnológica e o Futuro da Inteligência Artificial em 2025" }]
+      "content": [
+        {
+          "type": "text",
+          "text": "A Revolução Tecnológica e o Futuro da Inteligência Artificial em 2025"
+        }
+      ]
     },
     {
       "type": "paragraph",
       "content": [
-        { "type": "text", "text": "A tecnologia avança em um ritmo sem precedentes. Em 2025, a Inteligência Artificial (IA) está em todos os lugares — nas empresas, nas escolas, nos lares e até mesmo nas artes." }
+        {
+          "type": "text",
+          "text": "A tecnologia avança em um ritmo sem precedentes. Em 2025, a Inteligência Artificial (IA) está em todos os lugares — nas empresas, nas escolas, nos lares e até mesmo nas artes."
+        }
       ]
     },
     {
       "type": "image",
       "attrs": {
-        "src": "https://fernandogiannini.com.br/wp-content/uploads/2024/09/historia.jpg",
+        "src": "https://fernandogiannini.com.br/wp-content/uploads/2025/09/historia.jpg",
         "alt": "A história da tecnologia e a revolução digital",
         "title": "História da tecnologia"
       }
@@ -30,32 +38,54 @@ Cole este JSON no modo JSON do editor:
     {
       "type": "blockquote",
       "content": [
-        { "type": "text", "text": "\"A tecnologia é melhor quando conecta as pessoas.\" – Matt Mullenweg" }
+        {
+          "type": "text",
+          "text": "\"A tecnologia é melhor quando conecta as pessoas.\" – Matt Mullenweg"
+        }
       ]
     },
     {
       "type": "heading",
       "attrs": { "level": 2 },
-      "content": [{ "type": "text", "text": "📈 Tendências de IA e Tecnologia em 2025" }]
+      "content": [
+        { "type": "text", "text": "📈 Tendências de IA e Tecnologia em 2025" }
+      ]
     },
     {
       "type": "bulletList",
       "content": [
         {
           "type": "listItem",
-          "content": [{ "type": "text", "text": "IA generativa em larga escala" }]
+          "content": [
+            { "type": "text", "text": "IA generativa em larga escala" }
+          ]
         },
         {
           "type": "listItem",
-          "content": [{ "type": "text", "text": "Computação quântica aplicada a modelos de aprendizado" }]
+          "content": [
+            {
+              "type": "text",
+              "text": "Computação quântica aplicada a modelos de aprendizado"
+            }
+          ]
         },
         {
           "type": "listItem",
-          "content": [{ "type": "text", "text": "Interfaces cérebro-máquina integradas ao cotidiano" }]
+          "content": [
+            {
+              "type": "text",
+              "text": "Interfaces cérebro-máquina integradas ao cotidiano"
+            }
+          ]
         },
         {
           "type": "listItem",
-          "content": [{ "type": "text", "text": "Automação total de tarefas cognitivas e criativas" }]
+          "content": [
+            {
+              "type": "text",
+              "text": "Automação total de tarefas cognitivas e criativas"
+            }
+          ]
         }
       ]
     },
@@ -70,33 +100,93 @@ Cole este JSON no modo JSON do editor:
         {
           "type": "tableRow",
           "content": [
-            { "type": "tableHeader", "content": [{ "type": "text", "text": "Setor" }] },
-            { "type": "tableHeader", "content": [{ "type": "text", "text": "Avanço Tecnológico" }] },
-            { "type": "tableHeader", "content": [{ "type": "text", "text": "Impacto Real" }] }
+            {
+              "type": "tableHeader",
+              "content": [{ "type": "text", "text": "Setor" }]
+            },
+            {
+              "type": "tableHeader",
+              "content": [{ "type": "text", "text": "Avanço Tecnológico" }]
+            },
+            {
+              "type": "tableHeader",
+              "content": [{ "type": "text", "text": "Impacto Real" }]
+            }
           ]
         },
         {
           "type": "tableRow",
           "content": [
-            { "type": "tableCell", "content": [{ "type": "text", "text": "Saúde" }] },
-            { "type": "tableCell", "content": [{ "type": "text", "text": "IA diagnóstica com precisão superior a 99%" }] },
-            { "type": "tableCell", "content": [{ "type": "text", "text": "Diagnósticos mais rápidos e personalizados" }] }
+            {
+              "type": "tableCell",
+              "content": [{ "type": "text", "text": "Saúde" }]
+            },
+            {
+              "type": "tableCell",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "IA diagnóstica com precisão superior a 99%"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Diagnósticos mais rápidos e personalizados"
+                }
+              ]
+            }
           ]
         },
         {
           "type": "tableRow",
           "content": [
-            { "type": "tableCell", "content": [{ "type": "text", "text": "Educação" }] },
-            { "type": "tableCell", "content": [{ "type": "text", "text": "Plataformas de ensino com tutores de IA" }] },
-            { "type": "tableCell", "content": [{ "type": "text", "text": "Aprendizado adaptativo e inclusivo" }] }
+            {
+              "type": "tableCell",
+              "content": [{ "type": "text", "text": "Educação" }]
+            },
+            {
+              "type": "tableCell",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Plataformas de ensino com tutores de IA"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "content": [
+                { "type": "text", "text": "Aprendizado adaptativo e inclusivo" }
+              ]
+            }
           ]
         },
         {
           "type": "tableRow",
           "content": [
-            { "type": "tableCell", "content": [{ "type": "text", "text": "Indústria" }] },
-            { "type": "tableCell", "content": [{ "type": "text", "text": "Robôs autônomos e IA preditiva" }] },
-            { "type": "tableCell", "content": [{ "type": "text", "text": "Produtividade e segurança ampliadas" }] }
+            {
+              "type": "tableCell",
+              "content": [{ "type": "text", "text": "Indústria" }]
+            },
+            {
+              "type": "tableCell",
+              "content": [
+                { "type": "text", "text": "Robôs autônomos e IA preditiva" }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Produtividade e segurança ampliadas"
+                }
+              ]
+            }
           ]
         }
       ]
@@ -104,7 +194,12 @@ Cole este JSON no modo JSON do editor:
     {
       "type": "heading",
       "attrs": { "level": 2 },
-      "content": [{ "type": "text", "text": "💻 Exemplo de Código: IA Simples com Python" }]
+      "content": [
+        {
+          "type": "text",
+          "text": "💻 Exemplo de Código: IA Simples com Python"
+        }
+      ]
     },
     {
       "type": "codeBlock",
@@ -124,10 +219,39 @@ Cole este JSON no modo JSON do editor:
     {
       "type": "orderedList",
       "content": [
-        { "type": "listItem", "content": [{ "type": "text", "text": "Privacidade e segurança de dados" }] },
-        { "type": "listItem", "content": [{ "type": "text", "text": "Transparência e explicabilidade dos algoritmos" }] },
-        { "type": "listItem", "content": [{ "type": "text", "text": "Redução de desigualdades no acesso à tecnologia" }] },
-        { "type": "listItem", "content": [{ "type": "text", "text": "Impacto no mercado de trabalho e automação" }] }
+        {
+          "type": "listItem",
+          "content": [
+            { "type": "text", "text": "Privacidade e segurança de dados" }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "text",
+              "text": "Transparência e explicabilidade dos algoritmos"
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "text",
+              "text": "Redução de desigualdades no acesso à tecnologia"
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "text",
+              "text": "Impacto no mercado de trabalho e automação"
+            }
+          ]
+        }
       ]
     },
     {
@@ -138,7 +262,10 @@ Cole este JSON no modo JSON do editor:
     {
       "type": "paragraph",
       "content": [
-        { "type": "text", "text": "A tecnologia e a inteligência artificial estão redefinindo o conceito de humanidade digital. Mais do que nunca, precisamos equilibrar inovação com responsabilidade." }
+        {
+          "type": "text",
+          "text": "A tecnologia e a inteligência artificial estão redefinindo o conceito de humanidade digital. Mais do que nunca, precisamos equilibrar inovação com responsabilidade."
+        }
       ]
     },
     {
@@ -172,7 +299,7 @@ Cole este JSON no modo JSON do editor:
 - [ ] 12. Clique em **"JSON"** mais uma vez
 - [ ] 13. **VERIFIQUE**: O JSON editado deve estar preservado
 
-## ⚠️  Observações
+## ⚠️ Observações
 
 - Nós não suportados (`callout`, `video`, `accordion`) serão **ignorados** na visualização
 - Mas o **JSON original completo** será **preservado** para edição futura

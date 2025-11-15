@@ -14,39 +14,13 @@
 
 'use client';
 
-import {
-  dashboardService,
-  type AnalyticsPeriod,
-} from '@/lib/api/services/dashboard.service';
+import { dashboardService } from '@/lib/api';
+import type {
+  AnalyticsPeriod,
+  EngagementData,
+  ViewsData,
+} from '@/lib/api/types';
 import { useCallback, useEffect, useState } from 'react';
-
-/**
- * Dados de visualizações por data
- *
- * @interface ViewsData
- * @property {string} date - Data no formato YYYY-MM-DD
- * @property {number} views - Total de visualizações na data
- * @property {number} [uniqueViews] - Visualizações únicas (opcional)
- */
-interface ViewsData {
-  date: string;
-  views: number;
-  uniqueViews?: number;
-}
-
-/**
- * Dados de engajamento por data
- *
- * @interface EngagementData
- * @property {string} date - Data no formato YYYY-MM-DD
- * @property {number} likes - Total de curtidas na data
- * @property {number} comments - Total de comentários na data
- */
-interface EngagementData {
-  date: string;
-  likes: number;
-  comments: number;
-}
 
 // Re-export do tipo do serviço
 export type Period = AnalyticsPeriod;

@@ -8,8 +8,7 @@
 
 'use client';
 
-import { hexToRGBA } from '@/lib/utils/design-tokens';
-import { COLOR_CYAN } from '@rainer/design-tokens';
+import { COLOR_HEX, hexToRGBA } from '@/lib/utils/design-tokens';
 import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 
@@ -63,8 +62,8 @@ export function FloatingGrid({
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Cores do grid para modo dark usando cores da biblioteca
-      const strokeColor = hexToRGBA(COLOR_CYAN[400], intensity * 1.2);
-      const fillColor = hexToRGBA(COLOR_CYAN[400], intensity * 0.6);
+      const strokeColor = hexToRGBA(COLOR_HEX.cyan[400], intensity * 1.2);
+      const fillColor = hexToRGBA(COLOR_HEX.cyan[400], intensity * 0.6);
 
       ctx.strokeStyle = strokeColor;
       ctx.lineWidth = config.lineWidth;

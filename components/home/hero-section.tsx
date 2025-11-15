@@ -31,14 +31,7 @@
 
 import { cn } from '@/lib/utils';
 import { hexToRGBA } from '@/lib/utils/design-tokens';
-import {
-  COLOR_BLUE,
-  COLOR_CYAN,
-  COLOR_EMERALD,
-  COLOR_GREEN,
-  GRADIENTS,
-  GRADIENT_DIRECTIONS,
-} from '@rainer/design-tokens';
+import { GRADIENTS } from '@rainer/design-tokens';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
@@ -197,16 +190,16 @@ function HeroContentOverlay({
   const titleStyle: CSSProperties = {
     fontSize: 'clamp(1.75rem, 7vw + 0.5rem, 5rem)',
     textShadow: safeIsDarkTheme
-      ? `0 0 30px ${hexToRGBA(COLOR_CYAN[300], 0.7)}, 0 0 50px ${hexToRGBA(COLOR_CYAN[400], 0.5)}`
-      : `0 0 30px ${hexToRGBA(COLOR_BLUE[500], 0.6)}, 0 0 50px ${hexToRGBA(COLOR_BLUE[600], 0.4)}`,
+      ? `0 0 30px ${hexToRGBA('#22d3ee', 0.7)}, 0 0 50px ${hexToRGBA('#06b6d4', 0.5)}`
+      : `0 0 30px ${hexToRGBA('#3b82f6', 0.6)}, 0 0 50px ${hexToRGBA('#2563eb', 0.4)}`,
     lineHeight: 1.05,
   };
 
   const subtitleStyle: CSSProperties = {
     fontSize: 'clamp(1rem, 3.5vw + 0.3rem, 2rem)',
     textShadow: safeIsDarkTheme
-      ? `0 0 20px ${hexToRGBA(COLOR_EMERALD[400], 0.6)}`
-      : `0 0 20px ${hexToRGBA(COLOR_GREEN[500], 0.5)}`,
+      ? `0 0 20px ${hexToRGBA('#34d399', 0.6)}`
+      : `0 0 20px ${hexToRGBA('#10b981', 0.5)}`,
     lineHeight: 1.3,
   };
 
@@ -344,7 +337,7 @@ export function HeroSection() {
       <div
         className={cn(
           'absolute inset-0 z-5 pointer-events-none',
-          GRADIENT_DIRECTIONS.TO_BOTTOM,
+          'bg-gradient-to-b',
           'from-black/50 via-transparent to-black/60'
         )}
         aria-hidden="true"
@@ -360,7 +353,7 @@ export function HeroSection() {
       <div
         className={cn(
           'absolute bottom-0 left-0 right-0 h-32 z-15 pointer-events-none',
-          GRADIENT_DIRECTIONS.TO_TOP,
+          'bg-gradient-to-t',
           'from-black/80 via-black/40 to-transparent'
         )}
         aria-hidden="true"

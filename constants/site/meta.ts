@@ -12,7 +12,7 @@
  * Data da última atualização das políticas do site
  * (Cookies, Privacidade, Termos)
  */
-export const POLICIES_LAST_UPDATED = '2024-01-15' as const;
+export const POLICIES_LAST_UPDATED = '2025-01-15' as const;
 
 // =============================================================================
 // RE-EXPORTS (para manter compatibilidade)

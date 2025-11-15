@@ -5,7 +5,7 @@
  * validação de dados e integração com a API
  */
 
-import { COLOR_RED } from '@rainer/design-tokens';
+import { COLOR_HEX } from '../utils/design-tokens';
 import {
   validateEmail,
   validatePassword,
@@ -292,7 +292,7 @@ export function logApiError(
   if (process.env.NODE_ENV === 'development') {
     console.groupCollapsed(
       `%c[${context}] ${errorAnalysis.message}`,
-      `color: ${COLOR_RED[500]}`
+      `color: ${COLOR_HEX.red[500]}`
     );
     console.error('Detalhes do erro:', error);
     console.error('Análise do erro:', errorAnalysis);

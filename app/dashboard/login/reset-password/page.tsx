@@ -28,7 +28,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { BORDER_RADIUS, TRANSITIONS } from '@rainer/design-tokens';
 import { AlertCircle, ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -162,8 +161,8 @@ export default function ResetPasswordPage() {
               disabled={isLoading}
               className={cn(
                 'h-9 sm:h-10 text-center text-lg tracking-widest font-mono',
-                BORDER_RADIUS.MD,
-                TRANSITIONS.ALL_EASE_IN_OUT
+                'rounded-md',
+                'transition-all duration-200 ease-in-out'
               )}
               maxLength={6}
               autoFocus

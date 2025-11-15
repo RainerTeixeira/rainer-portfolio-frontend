@@ -33,7 +33,6 @@
 
 import { usePWA } from '@/hooks/use-pwa';
 import { cn } from '@/lib/utils';
-import { ANIMATIONS, BADGE, GRADIENTS } from '@rainer/design-tokens';
 import { Download, X } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
@@ -132,7 +131,7 @@ export function InstallPrompt() {
     <div
       className={cn(
         'fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6 pointer-events-none',
-        ANIMATIONS.SLIDE_UP_FADE
+        'animate-in slide-in-from-bottom-5 fade-in duration-300'
       )}
     >
       {/**
@@ -162,8 +161,7 @@ export function InstallPrompt() {
              */}
             <div
               className={cn(
-                'shrink-0 p-3 rounded-full border',
-                BADGE.GRADIENTS.BRAND,
+                'shrink-0 p-3 rounded-full border bg-gradient-to-br',
                 'from-cyan-500/20 via-purple-500/15 to-pink-500/20',
                 'dark:border-cyan-400/30'
               )}
@@ -219,8 +217,7 @@ export function InstallPrompt() {
                   onClick={handleInstall}
                   size="sm"
                   className={cn(
-                    'text-white font-mono font-bold',
-                    GRADIENTS.BUTTON_CYAN_BLUE,
+                    'text-white font-mono font-bold bg-gradient-to-r',
                     isDark
                       ? 'from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600'
                       : 'from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'

@@ -11,6 +11,7 @@ Verificar se a funcionalidade de listagem de todos os posts do usuário no dashb
 **URL**: `http://localhost:3000/dashboard`
 
 **Verificar:**
+
 - ✅ Aparece seção "Posts Recentes" (últimos 5 posts)
 - ✅ Mostra total de posts no `QuickStats`
 - ✅ Botão "Ver Todos os Posts" funciona
@@ -20,6 +21,7 @@ Verificar se a funcionalidade de listagem de todos os posts do usuário no dashb
 **URL**: `http://localhost:3000/dashboard?view=all`
 
 **Verificar:**
+
 - ✅ Lista TODOS os posts do usuário logado
 - ✅ Mostra posts com diferentes status:
   - `PUBLISHED` (badge verde "Publicado")
@@ -36,16 +38,19 @@ Verificar se a funcionalidade de listagem de todos os posts do usuário no dashb
 ### 3. **Funcionalidades**
 
 #### A. Carregamento Inicial
+
 - ✅ Estado de loading aparece durante busca
 - ✅ Loading desaparece quando posts são carregados
 - ✅ Se não houver posts, mostra mensagem: "Nenhum post criado ainda"
 
 #### B. Integração com API
+
 - ✅ Faz requisição: `GET /api/posts` (sem filtros)
 - ✅ Backend retorna apenas posts do usuário logado
 - ✅ Token de autenticação é enviado corretamente
 
 #### C. Ações nos Posts
+
 - ✅ **Editar**: Abre editor com dados do post
 - ✅ **Deletar**: Remove post após confirmação
 - ✅ Após criar/editar/deletar, lista é atualizada
@@ -53,6 +58,7 @@ Verificar se a funcionalidade de listagem de todos os posts do usuário no dashb
 ## 🔍 Como Testar
 
 ### Passo 1: Preparação
+
 ```bash
 # 1. Inicie o servidor
 npm run dev
@@ -63,6 +69,7 @@ npm run dev
 ```
 
 ### Passo 2: Executar Script de Teste
+
 ```bash
 npm run test:posts
 ```
@@ -70,6 +77,7 @@ npm run test:posts
 ### Passo 3: Teste Manual
 
 1. **Acesse o Dashboard**
+
    ```
    http://localhost:3000/dashboard
    ```
@@ -99,12 +107,14 @@ npm run test:posts
 ## 📊 O que Esperar
 
 ### Requisição de API
+
 ```http
 GET /api/posts HTTP/1.1
 Authorization: Bearer <token>
 ```
 
 ### Resposta Esperada
+
 ```json
 {
   "success": true,
@@ -115,8 +125,8 @@ Authorization: Bearer <token>
       "excerpt": "Descrição...",
       "status": "PUBLISHED",
       "authorId": "<user-id>",
-      "createdAt": "2024-01-01T00:00:00Z",
-      "publishedAt": "2024-01-01T00:00:00Z",
+      "createdAt": "2025-01-01T00:00:00Z",
+      "publishedAt": "2025-01-01T00:00:00Z",
       "coverImage": "https://...",
       "subcategory": {
         "id": "subcat-1",
@@ -134,6 +144,7 @@ Authorization: Bearer <token>
 ```
 
 ### Componente React
+
 ```typescript
 // Hook usado no dashboard
 const { posts: allPosts = [], loading: isLoadingPosts } = usePosts();
@@ -149,11 +160,13 @@ const { posts: allPosts = [], loading: isLoadingPosts } = usePosts();
 ### 1. Posts não aparecem
 
 **Sintomas:**
+
 - Lista vazia mesmo tendo posts
 - Loading infinito
 - Erro no console
 
 **Soluções:**
+
 - ✅ Verificar autenticação (token válido)
 - ✅ Verificar se backend está rodando
 - ✅ Verificar console (F12) por erros
@@ -163,10 +176,12 @@ const { posts: allPosts = [], loading: isLoadingPosts } = usePosts();
 ### 2. Erro 401 (Unauthorized)
 
 **Sintomas:**
+
 - Requisição falha com status 401
 - Mensagem: "Unauthorized"
 
 **Soluções:**
+
 - ✅ Fazer login novamente
 - ✅ Verificar se token não expirou
 - ✅ Verificar se token é enviado no header
@@ -174,10 +189,12 @@ const { posts: allPosts = [], loading: isLoadingPosts } = usePosts();
 ### 3. Erro 500 (Server Error)
 
 **Sintomas:**
+
 - Requisição falha com status 500
 - Erro genérico no console
 
 **Soluções:**
+
 - ✅ Verificar logs do backend
 - ✅ Verificar se há erro na query do banco
 - ✅ Verificar se modelo de dados está correto
@@ -185,10 +202,12 @@ const { posts: allPosts = [], loading: isLoadingPosts } = usePosts();
 ### 4. Apenas alguns posts aparecem
 
 **Sintomas:**
+
 - Lista mostra menos posts do que esperado
 - Paginação pode estar ativa
 
 **Soluções:**
+
 - ✅ Verificar se há filtro de paginação
 - ✅ Verificar se `limit` está correto
 - ✅ Verificar se há filtro de status ativo
@@ -223,8 +242,8 @@ const { posts: allPosts = [], loading: isLoadingPosts } = usePosts();
 ## 🚀 Próximos Passos
 
 Após validar que tudo funciona:
+
 1. Testar com muitos posts (paginação)
 2. Testar filtros (se implementados)
 3. Testar ordenação (se implementada)
 4. Testar busca (se implementada)
-
