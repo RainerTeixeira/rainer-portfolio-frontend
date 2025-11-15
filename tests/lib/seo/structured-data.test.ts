@@ -2,11 +2,11 @@
  * Testes para lib/seo/structured-data.ts
  */
 
+import type { Post } from '@/lib/api/types';
 import {
   generateArticleStructuredData,
   generateBreadcrumbStructuredData,
 } from '@/lib/seo/structured-data';
-import type { Post } from '@/lib/api/types';
 
 describe('lib/seo/structured-data', () => {
   describe('generateArticleStructuredData', () => {
@@ -24,8 +24,8 @@ describe('lib/seo/structured-data', () => {
             },
           ],
         },
-        publishedAt: '2024-01-15T00:00:00Z',
-        updatedAt: '2024-01-15T00:00:00Z',
+        publishedAt: '2025-01-15T00:00:00Z',
+        updatedAt: '2025-01-15T00:00:00Z',
       };
 
       const structuredData = generateArticleStructuredData(post as Post);
@@ -52,4 +52,3 @@ describe('lib/seo/structured-data', () => {
     });
   });
 });
-

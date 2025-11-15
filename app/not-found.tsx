@@ -90,7 +90,7 @@ const WORLDS = [
     icon: Star,
     colors: {
       bg: 'from-blue-400 via-green-300 to-blue-500',
-      platform: '#8B4513', // Brown específico do Mario (mantido para autenticidade)
+      platform: 'var(--color-status-warning)', // Brown específico do Mario (usando token)
       enemy: COLOR_HEX.red[500],
       coin: COLOR_HEX.amber[400],
     },
@@ -104,7 +104,7 @@ const WORLDS = [
     icon: Flame,
     colors: {
       bg: 'from-red-950 via-black to-orange-950',
-      platform: '#8B0000', // Dark red específico (mantido para autenticidade)
+      platform: 'var(--color-status-error)', // Dark red usando token
       enemy: COLOR_HEX.red[600],
       coin: COLOR_HEX.orange[500],
     },
@@ -1935,11 +1935,11 @@ export default function NotFound() {
                             </p>
                             <Badge
                               variant="outline"
-                              className="text-[10px] mb-2"
+                              className="text-xs mb-2"
                             >
                               {world.difficulty}
                             </Badge>
-                            <div className="flex items-center justify-center gap-2 text-[10px] text-muted-foreground">
+                            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                               <span>👾 {enemyCount}</span>
                               <span>•</span>
                               <span>💰 {coinCount}</span>
@@ -2059,7 +2059,7 @@ export default function NotFound() {
               <Card>
                 <CardContent className="pt-4 space-y-3">
                   <div>
-                    <div className="text-[10px] text-muted-foreground mb-1">
+                    <div className="text-xs text-muted-foreground mb-1">
                       MUNDO
                     </div>
                     <Badge variant="outline" className="text-xs">
@@ -2068,14 +2068,14 @@ export default function NotFound() {
                   </div>
 
                   <div>
-                    <div className="text-[10px] text-muted-foreground mb-1">
+                    <div className="text-xs text-muted-foreground mb-1">
                       PONTOS
                     </div>
                     <div className="text-2xl font-black">{score}</div>
                   </div>
 
                   <div>
-                    <div className="text-[10px] text-muted-foreground mb-1">
+                    <div className="text-xs text-muted-foreground mb-1">
                       VIDAS
                     </div>
                     <div className="flex gap-1">

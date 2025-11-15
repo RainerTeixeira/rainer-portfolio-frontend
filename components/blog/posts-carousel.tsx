@@ -42,15 +42,6 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
-import {
-  ANIMATION_DURATION,
-  BACKDROP_BLUR,
-  FONT_WEIGHT,
-  GRADIENT_DIRECTIONS,
-  SHADOWS,
-  TRANSITIONS,
-  Z_INDEX_CLASSES,
-} from '@rainer/design-tokens';
 
 // ============================================================================
 // Types
@@ -96,11 +87,7 @@ export function PostsCarousel({
   return (
     <section
       aria-label="Posts em destaque"
-      className={cn(
-        'relative max-w-7xl mx-auto px-6 mb-16',
-        Z_INDEX_CLASSES.CONTENT,
-        className
-      )}
+      className={cn('relative max-w-7xl mx-auto px-6 mb-16', className)}
     >
       <motion.div
         initial={{ opacity: 0 }}
@@ -111,7 +98,7 @@ export function PostsCarousel({
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-2">
             <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-            <h2 className={cn('text-2xl dark:text-cyan-200', FONT_WEIGHT.BOLD)}>
+            <h2 className={cn('text-2xl dark:text-cyan-200', 'font-bold')}>
               Posts em Destaque
             </h2>
           </div>
@@ -132,7 +119,7 @@ export function PostsCarousel({
                   <Card
                     className={cn(
                       'group overflow-hidden border-border/50 dark:border-gray-800/50 hover:border-primary/50 dark:hover:border-cyan-400/30',
-                      TRANSITIONS.NORMAL,
+                      'transition-all duration-200 ease-in-out',
                       'hover:shadow-xl'
                     )}
                   >
@@ -146,32 +133,29 @@ export function PostsCarousel({
                             fill
                             className={cn(
                               'object-cover group-hover:scale-110',
-                              TRANSITIONS.TRANSFORM,
-                              ANIMATION_DURATION.SLOW
+                              'transition-transform duration-500 ease-in-out'
                             )}
                             priority={index === 0}
                           />
                           <div
                             className={cn(
-                              'absolute inset-0 md:from-black/50 md:via-black/20 md:to-transparent',
-                              GRADIENT_DIRECTIONS.TO_RIGHT,
+                              'absolute inset-0',
+                              'bg-gradient-to-r',
+                              'md:from-black/50 md:via-black/20 md:to-transparent',
                               'from-black/40 via-transparent to-transparent'
                             )}
                           />
                           {/* Badge sobre a imagem */}
                           {post.subcategory && (
                             <div
-                              className={cn(
-                                'absolute top-6 left-6',
-                                Z_INDEX_CLASSES.CONTENT
-                              )}
+                              className={cn('absolute top-6 left-6', 'z-10')}
                             >
                               <Badge
                                 variant="secondary"
                                 className={cn(
                                   'bg-black/70 border-cyan-400/40 text-cyan-200',
-                                  BACKDROP_BLUR.SM,
-                                  SHADOWS.LARGE
+                                  'backdrop-blur-sm',
+                                  'shadow-2xl'
                                 )}
                               >
                                 {post.subcategory.name}
@@ -183,15 +167,15 @@ export function PostsCarousel({
                         {/* Conteúdo */}
                         <div
                           className={cn(
-                            'p-8 md:p-10 flex flex-col justify-center order-1 md:order-2 from-background to-muted/20',
-                            GRADIENT_DIRECTIONS.TO_BR
+                            'p-8 md:p-10 flex flex-col justify-center order-1 md:order-2',
+                            'bg-gradient-to-br from-background to-muted/20'
                           )}
                         >
                           <h3
                             className={cn(
                               'text-3xl sm:text-4xl mb-4 group-hover:text-primary dark:group-hover:text-cyan-300 line-clamp-2',
-                              FONT_WEIGHT.BOLD,
-                              TRANSITIONS.COLORS
+                              'font-bold',
+                              'transition-colors duration-200 ease-in-out'
                             )}
                           >
                             {post.title}
@@ -223,15 +207,15 @@ export function PostsCarousel({
                           <div
                             className={cn(
                               'flex items-center gap-2 text-primary dark:text-cyan-400 text-lg group-hover:gap-3',
-                              FONT_WEIGHT.SEMIBOLD,
-                              TRANSITIONS.ALL_EASE_IN_OUT
+                              'font-semibold',
+                              'transition-all duration-200 ease-in-out'
                             )}
                           >
                             Ler mais
                             <ArrowRight
                               className={cn(
                                 'h-5 w-5 group-hover:translate-x-1',
-                                TRANSITIONS.TRANSFORM
+                                'transition-transform duration-200 ease-in-out'
                               )}
                             />
                           </div>
@@ -244,8 +228,9 @@ export function PostsCarousel({
                           <Badge
                             variant="secondary"
                             className={cn(
-                              'w-fit mb-4 from-cyan-500/10 to-purple-500/10 border-cyan-400/20 text-cyan-600 dark:text-cyan-400',
-                              GRADIENT_DIRECTIONS.TO_RIGHT
+                              'w-fit mb-4',
+                              'bg-gradient-to-r from-cyan-500/10 to-purple-500/10',
+                              'border-cyan-400/20 text-cyan-600 dark:text-cyan-400'
                             )}
                           >
                             {post.subcategory.name}
@@ -254,8 +239,8 @@ export function PostsCarousel({
                         <h3
                           className={cn(
                             'text-3xl sm:text-4xl mb-4 group-hover:text-primary dark:group-hover:text-cyan-300 line-clamp-2',
-                            FONT_WEIGHT.BOLD,
-                            TRANSITIONS.COLORS
+                            'font-bold',
+                            'transition-colors duration-200 ease-in-out'
                           )}
                         >
                           {post.title}
@@ -280,15 +265,15 @@ export function PostsCarousel({
                         <div
                           className={cn(
                             'flex items-center gap-2 text-primary dark:text-cyan-400 text-lg group-hover:gap-3',
-                            FONT_WEIGHT.SEMIBOLD,
-                            TRANSITIONS.ALL_EASE_IN_OUT
+                            'font-semibold',
+                            'transition-all duration-200 ease-in-out'
                           )}
                         >
                           Ler mais
                           <ArrowRight
                             className={cn(
                               'h-5 w-5 group-hover:translate-x-1',
-                              TRANSITIONS.TRANSFORM
+                              'transition-transform duration-200 ease-in-out'
                             )}
                           />
                         </div>

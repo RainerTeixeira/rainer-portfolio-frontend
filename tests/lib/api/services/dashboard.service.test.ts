@@ -61,8 +61,8 @@ describe('DashboardService', () => {
 
     it('deve retornar analytics do backend quando disponível', async () => {
       const mockAnalytics = {
-        views: [{ date: '2024-01-01', views: 100, uniqueViews: 70 }],
-        engagement: [{ date: '2024-01-01', likes: 10, comments: 5 }],
+        views: [{ date: '2025-01-01', views: 100, uniqueViews: 70 }],
+        engagement: [{ date: '2025-01-01', likes: 10, comments: 5 }],
       };
 
       (api.get as jest.Mock).mockResolvedValue({

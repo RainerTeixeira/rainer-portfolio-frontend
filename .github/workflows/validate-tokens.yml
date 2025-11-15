@@ -1,0 +1,36 @@
+name: Validate Design Tokens
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  validate-tokens:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate Design Tokens Usage
+        run: npm run validate:tokens
+
+      - name: Report Results
+        if: failure()
+        run: |
+          echo "❌ Valores hardcoded encontrados!"
+          echo "Por favor, use design tokens da biblioteca @rainer/design-tokens"
+          exit 1
+

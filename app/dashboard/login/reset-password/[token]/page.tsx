@@ -22,7 +22,6 @@
 import { AuthLayout, ResetPasswordForm } from '@/components/dashboard/login';
 import { BackToTop } from '@/components/ui';
 import { cn } from '@/lib/utils';
-import { TRANSITIONS } from '@rainer/design-tokens';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -46,7 +45,7 @@ export default function ResetPasswordPage({ params }: ResetPasswordPageProps) {
               href="/dashboard/login"
               className={cn(
                 'inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20',
-                TRANSITIONS.COLORS
+                'transition-colors duration-200 ease-in-out'
               )}
             >
               <ArrowLeft className="h-4 w-4" />

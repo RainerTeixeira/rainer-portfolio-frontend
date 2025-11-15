@@ -19,7 +19,7 @@ import type {
   User,
 } from '@/lib/api/types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 /**
  * Classe de erro customizada para API

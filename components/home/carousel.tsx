@@ -36,15 +36,6 @@
 'use client';
 
 import { hexToRGB, hexToRGBA } from '@/lib/utils/design-tokens';
-import {
-  COLOR_BLUE,
-  COLOR_CYAN,
-  COLOR_EMERALD,
-  COLOR_GREEN,
-  COLOR_ORANGE,
-  COLOR_PINK,
-  COLOR_PURPLE,
-} from '@rainer/design-tokens';
 import { useTheme } from 'next-themes';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 
@@ -179,7 +170,9 @@ const MatrixCharacterSet = memo(function MatrixCharacterSet({
 }: MatrixCharacterSetProps) {
   const charColor = isDarkTheme ? 'text-green-400' : 'text-green-600';
   // Using green primitive tokens for glow effect - convert to RGB for textShadow
-  const glowColorHex = isDarkTheme ? COLOR_EMERALD[400] : COLOR_GREEN[600];
+  const glowColorHex = isDarkTheme
+    ? '#34d399' // emerald[400]
+    : '#16a34a'; // green[600]
   const glowColor = `rgb(${hexToRGB(glowColorHex)})`;
 
   return (
@@ -518,47 +511,47 @@ const Carousel = memo(function Carousel() {
     // Usando cores primitivas da biblioteca @rainer/design-tokens
     const darkPalette = {
       energy: [
-        hexToRGBA(COLOR_EMERALD[400], 0.9),
-        hexToRGBA(COLOR_CYAN[400], 0.85),
-        hexToRGBA(COLOR_PURPLE[400], 0.9),
+        hexToRGBA('#34d399', 0.9), // emerald[400]
+        hexToRGBA('#22d3ee', 0.85), // cyan[400]
+        hexToRGBA('#c084fc', 0.9), // purple[400]
       ],
       data: [
-        hexToRGBA(COLOR_PINK[500], 0.8),
-        hexToRGBA(COLOR_ORANGE[400], 0.8),
-        hexToRGBA(COLOR_CYAN[400], 0.8),
+        hexToRGBA('#ec4899', 0.8), // pink[500]
+        hexToRGBA('#fb923c', 0.8), // orange[400]
+        hexToRGBA('#22d3ee', 0.8), // cyan[400]
       ],
       quantum: [
-        hexToRGBA(COLOR_EMERALD[400], 0.7),
-        hexToRGBA(COLOR_PINK[400], 0.7),
-        hexToRGBA(COLOR_CYAN[300], 0.7),
+        hexToRGBA('#34d399', 0.7), // emerald[400]
+        hexToRGBA('#f472b6', 0.7), // pink[400]
+        hexToRGBA('#67e8f9', 0.7), // cyan[300]
       ],
       neural: [
-        hexToRGBA(COLOR_PINK[400], 0.8),
-        hexToRGBA(COLOR_CYAN[400], 0.8),
-        hexToRGBA(COLOR_ORANGE[300], 0.8),
+        hexToRGBA('#f472b6', 0.8), // pink[400]
+        hexToRGBA('#22d3ee', 0.8), // cyan[400]
+        hexToRGBA('#fdba74', 0.8), // orange[300]
       ],
     };
 
     const lightPalette = {
       energy: [
-        hexToRGBA(COLOR_BLUE[600], 0.8),
-        hexToRGBA(COLOR_PURPLE[600], 0.8),
-        hexToRGBA(COLOR_CYAN[600], 0.8),
+        hexToRGBA('#2563eb', 0.8), // blue[600]
+        hexToRGBA('#9333ea', 0.8), // purple[600]
+        hexToRGBA('#0891b2', 0.8), // cyan[600]
       ],
       data: [
-        hexToRGBA(COLOR_PINK[600], 0.8),
-        hexToRGBA(COLOR_ORANGE[600], 0.8),
-        hexToRGBA(COLOR_BLUE[600], 0.8),
+        hexToRGBA('#db2777', 0.8), // pink[600]
+        hexToRGBA('#ea580c', 0.8), // orange[600]
+        hexToRGBA('#2563eb', 0.8), // blue[600]
       ],
       quantum: [
-        hexToRGBA(COLOR_EMERALD[600], 0.7),
-        hexToRGBA(COLOR_PINK[600], 0.7),
-        hexToRGBA(COLOR_BLUE[600], 0.7),
+        hexToRGBA('#059669', 0.7), // emerald[600]
+        hexToRGBA('#db2777', 0.7), // pink[600]
+        hexToRGBA('#2563eb', 0.7), // blue[600]
       ],
       neural: [
-        hexToRGBA(COLOR_PURPLE[600], 0.8),
-        hexToRGBA(COLOR_CYAN[600], 0.8),
-        hexToRGBA(COLOR_ORANGE[500], 0.8),
+        hexToRGBA('#9333ea', 0.8), // purple[600]
+        hexToRGBA('#0891b2', 0.8), // cyan[600]
+        hexToRGBA('#f97316', 0.8), // orange[500]
       ],
     };
 
@@ -573,9 +566,7 @@ const Carousel = memo(function Carousel() {
         const colorArray = palette[type];
         const randomIndex = Math.floor(Math.random() * colorArray.length);
         const color: string =
-          colorArray[randomIndex] ??
-          colorArray[0] ??
-          hexToRGBA(COLOR_EMERALD[400], 0.9);
+          colorArray[randomIndex] ?? colorArray[0] ?? hexToRGBA('#34d399', 0.9); // emerald[400]
 
         return {
           id: `p-${idx}-${Math.round(Math.random() * 10000)}`,
@@ -738,27 +729,15 @@ const Carousel = memo(function Carousel() {
           <div className="text-center space-y-4">
             <h1
               className={`font-mono font-bold text-4xl sm:text-5xl md:text-6xl tracking-wider ${
-                isDarkTheme
-                  ? 'text-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.8)]'
-                  : 'text-blue-600 drop-shadow-[0_0_20px_rgba(37,99,235,0.8)]'
+                isDarkTheme ? 'neon-text text-primary' : 'text-primary'
               }`}
-              style={{
-                textShadow: isDarkTheme
-                  ? '0 0 20px rgba(34,211,238,0.8), 0 0 40px rgba(34,211,238,0.5)'
-                  : '0 0 20px rgba(37,99,235,0.8), 0 0 40px rgba(37,99,235,0.5)',
-              }}
             >
               RAINER.SOFT
             </h1>
             <div
               className={`h-px w-64 mx-auto ${
-                isDarkTheme ? 'bg-cyan-400' : 'bg-blue-600'
+                isDarkTheme ? 'bg-primary neon-box' : 'bg-primary'
               }`}
-              style={{
-                boxShadow: isDarkTheme
-                  ? '0 0 10px rgba(34,211,238,0.8)'
-                  : '0 0 10px rgba(37,99,235,0.8)',
-              }}
             />
           </div>
 
@@ -914,8 +893,8 @@ const Carousel = memo(function Carousel() {
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: `
-              linear-gradient(${isDarkTheme ? hexToRGBA(COLOR_CYAN[400], 0.12) : hexToRGBA(COLOR_BLUE[500], 0.15)} 1px, transparent 1px),
-              linear-gradient(90deg, ${isDarkTheme ? hexToRGBA(COLOR_CYAN[400], 0.12) : hexToRGBA(COLOR_BLUE[500], 0.15)} 1px, transparent 1px)
+              linear-gradient(${isDarkTheme ? hexToRGBA('#22d3ee', 0.12) : hexToRGBA('#3b82f6', 0.15)} 1px, transparent 1px),
+              linear-gradient(90deg, ${isDarkTheme ? hexToRGBA('#22d3ee', 0.12) : hexToRGBA('#3b82f6', 0.15)} 1px, transparent 1px)
             `,
             backgroundSize: '50px 50px',
           }}
@@ -991,8 +970,8 @@ const Carousel = memo(function Carousel() {
                 top: `${(i / 3) * 100}%`,
                 background: `linear-gradient(90deg, transparent, ${
                   isDarkTheme
-                    ? hexToRGBA(COLOR_CYAN[300], 0.6)
-                    : hexToRGBA(COLOR_BLUE[500], 0.6)
+                    ? hexToRGBA('#67e8f9', 0.6) // cyan[300]
+                    : hexToRGBA('#3b82f6', 0.6) // blue[500]
                 }, transparent)`,
                 animationName: 'hologramScan',
                 animationDuration: `${4 + i * 1}s`,

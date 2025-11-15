@@ -31,7 +31,7 @@ const testJSON = {
     {
       type: 'image',
       attrs: {
-        src: 'https://fernandogiannini.com.br/wp-content/uploads/2024/09/historia.jpg',
+        src: 'https://fernandogiannini.com.br/wp-content/uploads/2025/09/historia.jpg',
         alt: 'A história da tecnologia e a revolução digital',
         title: 'História da tecnologia',
       },

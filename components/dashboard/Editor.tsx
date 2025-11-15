@@ -859,7 +859,7 @@ export function Editor({
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth="2"
                       d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
@@ -920,7 +920,7 @@ export function Editor({
           .ProseMirror p.is-editor-empty:first-child::before {
             content: attr(data-placeholder);
             float: left;
-            color: rgb(156, 163, 175); /* neutral-400 - placeholder text */
+            color: var(--color-text-secondary);
             pointer-events: none;
             height: 0;
           }
@@ -950,18 +950,18 @@ export function Editor({
 
           /* Código inline */
           .ProseMirror code {
-            background-color: rgb(243, 244, 246); /* neutral-100 */
-            color: rgb(225, 29, 72); /* rose-600 */
+            background-color: var(--color-background-secondary);
+            color: var(--color-status-error);
             padding: 0.2em 0.5em;
-            border-radius: 0.375rem;
+            border-radius: var(--radius-md);
             font-size: 0.9em;
-            font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+            font-family: var(--font-mono);
             font-weight: 500;
           }
 
           .dark .ProseMirror code {
-            background-color: rgb(31, 41, 55); /* neutral-800 */
-            color: rgb(251, 113, 133); /* rose-400 */
+            background-color: var(--color-background-tertiary);
+            color: var(--color-status-error);
           }
 
           /* Bloco de código */
@@ -971,15 +971,15 @@ export function Editor({
           }
 
           .ProseMirror pre {
-            background: rgb(15, 23, 42); /* slate-900 */
-            color: rgb(226, 232, 240); /* slate-200 */
-            font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+            background: var(--color-surface-tertiary);
+            color: var(--color-text-primary);
+            font-family: var(--font-mono);
             padding: 1.25rem;
-            border-radius: 0.75rem;
+            border-radius: var(--radius-lg);
             overflow-x: auto;
             line-height: 1.6;
             font-size: 0.9em;
-            border: 1px solid rgb(30, 41, 59); /* slate-800 */
+            border: 1px solid var(--color-border-primary);
             position: relative;
           }
 
@@ -990,7 +990,7 @@ export function Editor({
             right: 0.75rem;
             font-size: 0.7rem;
             text-transform: uppercase;
-            color: rgb(100, 116, 139); /* slate-500 */
+            color: var(--color-text-tertiary);
             font-weight: 600;
             letter-spacing: 0.05em;
           }
@@ -1004,17 +1004,17 @@ export function Editor({
             font-weight: normal;
           }
 
-          /* Syntax Highlighting - GitHub Dark Theme */
+          /* Syntax Highlighting */
           .ProseMirror pre .hljs-comment,
           .ProseMirror pre .hljs-quote {
-            color: rgb(139, 148, 158); /* neutral-500 variant */
+            color: var(--color-text-tertiary);
             font-style: italic;
           }
 
           .ProseMirror pre .hljs-keyword,
           .ProseMirror pre .hljs-selector-tag,
           .ProseMirror pre .hljs-subst {
-            color: rgb(255, 123, 114); /* red-400 variant */
+            color: var(--color-status-error);
           }
 
           .ProseMirror pre .hljs-number,
@@ -1022,59 +1022,59 @@ export function Editor({
           .ProseMirror pre .hljs-variable,
           .ProseMirror pre .hljs-template-variable,
           .ProseMirror pre .hljs-tag .hljs-attr {
-            color: rgb(121, 192, 255); /* blue-400 variant */
+            color: var(--color-brand-secondary);
           }
 
           .ProseMirror pre .hljs-string,
           .ProseMirror pre .hljs-doctag {
-            color: rgb(165, 214, 255); /* blue-300 variant */
+            color: var(--color-status-info);
           }
 
           .ProseMirror pre .hljs-title,
           .ProseMirror pre .hljs-section,
           .ProseMirror pre .hljs-selector-id {
-            color: rgb(210, 168, 255); /* purple-300 variant */
+            color: var(--color-brand-accent);
             font-weight: bold;
           }
 
           .ProseMirror pre .hljs-type,
           .ProseMirror pre .hljs-class .hljs-title {
-            color: rgb(255, 166, 87); /* orange-400 variant */
+            color: var(--color-status-warning);
           }
 
           .ProseMirror pre .hljs-tag,
           .ProseMirror pre .hljs-name,
           .ProseMirror pre .hljs-attribute {
-            color: rgb(126, 231, 135); /* green-400 variant */
+            color: var(--color-status-success);
           }
 
           .ProseMirror pre .hljs-regexp,
           .ProseMirror pre .hljs-link {
-            color: rgb(165, 214, 255); /* blue-300 variant */
+            color: var(--color-status-info);
           }
 
           .ProseMirror pre .hljs-symbol,
           .ProseMirror pre .hljs-bullet {
-            color: rgb(121, 192, 255); /* blue-400 variant */
+            color: var(--color-brand-secondary);
           }
 
           .ProseMirror pre .hljs-built_in,
           .ProseMirror pre .hljs-builtin-name {
-            color: rgb(255, 166, 87); /* orange-400 variant */
+            color: var(--color-status-warning);
           }
 
           .ProseMirror pre .hljs-meta {
-            color: rgb(139, 148, 158); /* neutral-500 variant */
+            color: var(--color-text-tertiary);
           }
 
           .ProseMirror pre .hljs-deletion {
-            background: rgb(73, 2, 2); /* red-950 variant */
-            color: rgb(255, 220, 215); /* red-100 variant */
+            background: var(--color-surface-error);
+            color: var(--color-status-error);
           }
 
           .ProseMirror pre .hljs-addition {
-            background: rgb(14, 75, 32); /* green-950 variant */
-            color: rgb(175, 245, 180); /* green-200 variant */
+            background: var(--color-surface-success);
+            color: var(--color-status-success);
           }
 
           .ProseMirror pre .hljs-emphasis {
@@ -1091,10 +1091,10 @@ export function Editor({
             top: 0.75rem;
             right: 0.75rem;
             padding: 0.5rem;
-            background: rgba(30, 41, 59, 0.8); /* slate-800 with opacity */
-            border: 1px solid rgb(51, 65, 85); /* slate-700 */
-            border-radius: 0.375rem;
-            color: rgb(148, 163, 184); /* slate-400 */
+            background: var(--color-surface-glass);
+            border: 1px solid var(--color-border-primary);
+            border-radius: var(--radius-md);
+            color: var(--color-text-secondary);
             cursor: pointer;
             opacity: 0;
             transition: all 0.2s;
@@ -1106,28 +1106,28 @@ export function Editor({
           }
 
           .code-copy-btn:hover {
-            background: rgba(51, 65, 85, 0.9); /* slate-700 with opacity */
-            color: rgb(6, 182, 212); /* cyan-600 - primary brand */
-            border-color: rgb(6, 182, 212); /* cyan-600 */
+            background: var(--color-surface-secondary);
+            color: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
           }
 
           .code-copy-btn.copied {
-            color: rgb(16, 185, 129); /* green-600 - success */
-            border-color: rgb(16, 185, 129); /* green-600 */
+            color: var(--color-status-success);
+            border-color: var(--color-status-success);
           }
 
           /* Citações */
           .ProseMirror blockquote {
-            border-left: 4px solid rgb(6, 182, 212); /* cyan-600 - primary brand */
+            border-left: 4px solid var(--color-brand-primary);
             padding-left: 1.25rem;
             font-style: italic;
-            color: rgb(100, 116, 139); /* slate-500 */
+            color: var(--color-text-secondary);
             margin: 1.5rem 0;
           }
 
           .dark .ProseMirror blockquote {
-            color: rgb(148, 163, 184); /* slate-400 */
-            border-left-color: rgb(6, 182, 212); /* cyan-600 */
+            color: var(--color-text-secondary);
+            border-left-color: var(--color-brand-primary);
           }
         `}</style>
       </div>
@@ -1146,7 +1146,7 @@ export function Editor({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
+                strokeWidth="2"
                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
               />
             </svg>
@@ -1171,7 +1171,7 @@ export function Editor({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
+                strokeWidth="2"
                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
               />
             </svg>
@@ -1196,7 +1196,7 @@ export function Editor({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
+                strokeWidth="2"
                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
@@ -1225,7 +1225,7 @@ export function Editor({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
+                strokeWidth="2"
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>

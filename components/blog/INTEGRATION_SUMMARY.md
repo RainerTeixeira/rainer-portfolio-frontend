@@ -373,5 +373,5 @@ Você pode começar a usar os hooks imediatamente em suas páginas Next.js. Todo
 ---
 
 **Autor:** Rainer Teixeira  
-**Data:** 2024  
+**Data:** 2025  
 **Versão:** 1.0.0

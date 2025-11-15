@@ -32,7 +32,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { GRADIENTS } from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
@@ -69,7 +69,7 @@ export function ReadingProgress({
       <motion.div
         className={cn(
           'fixed top-0 left-0 right-0 z-50 origin-left',
-          GRADIENTS.TEXT_PRIMARY,
+          'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400',
           className
         )}
         style={{
@@ -88,7 +88,7 @@ export function ReadingProgress({
           <span
             className={cn(
               'text-xs font-bold bg-clip-text text-transparent',
-              GRADIENTS.TEXT_PRIMARY
+              'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400'
             )}
           >
             {progress}%

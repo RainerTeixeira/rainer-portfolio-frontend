@@ -47,7 +47,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import { BACKGROUND } from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 
 // ============================================================================
 // Constants
@@ -61,7 +61,7 @@ import { POLICIES_LAST_UPDATED, SITE_CONFIG } from '@/constants';
 
 export default function CookiePolicyPage() {
   return (
-    <div className={cn('min-h-screen', BACKGROUND.FULL)}>
+    <div className={cn('min-h-screen bg-background dark:bg-black')}>
       <ParticlesEffect variant="alt1" />
 
       <PageHeader

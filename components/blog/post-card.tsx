@@ -16,7 +16,7 @@
  * <PostCard
  *   title="Como usar Next.js 14"
  *   description="Aprenda os fundamentos do App Router..."
- *   date="15 de março, 2024"
+ *   date="15 de março, 2025"
  *   category="Tutorial"
  *   image="/posts/nextjs.jpg"
  *   link="/blog/nextjs-14"

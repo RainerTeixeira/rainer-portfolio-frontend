@@ -57,8 +57,8 @@ describe('lib/seo/metadata', () => {
             },
           ],
         },
-        publishedAt: '2024-01-15T00:00:00Z',
-        updatedAt: '2024-01-15T00:00:00Z',
+        publishedAt: '2025-01-15T00:00:00Z',
+        updatedAt: '2025-01-15T00:00:00Z',
       };
 
       const metadata = generatePostMetadata(post as Post);
@@ -76,8 +76,8 @@ describe('lib/seo/metadata', () => {
           type: 'doc',
           content: [],
         },
-        publishedAt: '2024-01-15T00:00:00Z',
-        updatedAt: '2024-01-15T00:00:00Z',
+        publishedAt: '2025-01-15T00:00:00Z',
+        updatedAt: '2025-01-15T00:00:00Z',
       };
 
       const metadata = generatePostMetadata(post as Post);

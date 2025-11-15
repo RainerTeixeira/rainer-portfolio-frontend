@@ -15,13 +15,7 @@
 
 import { SITE_CONFIG } from '@/constants';
 import { cn } from '@/lib/utils';
-import {
-  ANIMATION_DURATION_MS,
-  BORDER_RADIUS,
-  GRADIENTS,
-  SHADOWS,
-  TRANSITIONS,
-} from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 import { motion } from 'framer-motion';
 import { ReactNode, useEffect, useState } from 'react';
 import { AuthBranding } from './auth-branding';
@@ -155,7 +149,7 @@ export function AuthLayout({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: ANIMATION_DURATION_MS.NORMAL / 1000,
+            duration: 0.2,
             ease: 'easeOut',
           }}
           className={cn('w-full space-y-6', maxWidthClasses[maxWidth])}
@@ -171,7 +165,8 @@ export function AuthLayout({
                 <h1
                   className={cn(
                     'text-2xl sm:text-3xl font-semibold tracking-tight mb-2',
-                    GRADIENTS.TEXT_CYAN_PURPLE
+                    'bg-gradient-to-r bg-clip-text text-transparent',
+                    'from-cyan-400 via-purple-400 to-pink-400'
                   )}
                 >
                   {SITE_CONFIG.fullName}
@@ -189,7 +184,7 @@ export function AuthLayout({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{
               delay: 0.2,
-              duration: ANIMATION_DURATION_MS.NORMAL / 1000,
+              duration: 0.2,
               ease: 'easeOut',
             }}
             whileHover={{
@@ -200,14 +195,14 @@ export function AuthLayout({
               // Glassmorphism effect
               'bg-card/80 backdrop-blur-xl',
               'border border-border/50',
-              BORDER_RADIUS.LG,
-              SHADOWS.LARGE,
+              'rounded-lg',
+              'shadow-2xl',
               // Glow effect sutil
               'shadow-cyan-500/5 dark:shadow-cyan-400/10',
               // Padding responsivo
               'p-6 sm:p-7 md:p-8',
               // Transições suaves
-              TRANSITIONS.ALL_EASE_IN_OUT,
+              'transition-all duration-200 ease-in-out',
               // Hover effect
               'hover:shadow-xl hover:shadow-cyan-500/10 dark:hover:shadow-cyan-400/20',
               'hover:border-primary/30'
@@ -266,7 +261,7 @@ export function AuthLayout({
                 'text-sm text-muted-foreground hover:text-foreground',
                 'focus:outline-none focus:ring-2 focus:ring-primary/20',
                 'relative inline-block',
-                TRANSITIONS.COLORS
+                'transition-colors duration-150'
               )}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

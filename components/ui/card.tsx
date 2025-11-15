@@ -20,7 +20,6 @@
  */
 
 import { cn } from '@/lib/utils';
-import { BORDER_RADIUS, FONT_WEIGHT, SHADOWS } from '@rainer/design-tokens';
 import * as React from 'react';
 
 /**
@@ -50,7 +49,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      `${BORDER_RADIUS.LG} border bg-card text-card-foreground ${SHADOWS.SMALL}`,
+      'rounded-lg border bg-card text-card-foreground shadow-sm',
       className
     )}
     {...props}
@@ -106,7 +105,7 @@ const CardTitle = React.forwardRef<
   <h3
     ref={ref}
     className={cn(
-      `text-2xl ${FONT_WEIGHT.SEMIBOLD} leading-none tracking-tight`,
+      'text-2xl font-semibold leading-none tracking-tight',
       className
     )}
     {...props}

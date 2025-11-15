@@ -15,17 +15,11 @@
 
 import { SITE_CONFIG } from '@/constants';
 import { cn } from '@/lib/utils';
-import {
-  ANIMATION_DURATION_MS,
-  BACKDROP_BLUR,
-  BORDER_RADIUS,
-  GRADIENT_DIRECTIONS,
-  SHADOWS,
-  TRANSITIONS,
-} from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 import { motion } from 'framer-motion';
 import { Shield, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { JSX } from 'react';
 
 interface AuthBrandingProps {
   /** Classes customizadas */
@@ -41,7 +35,7 @@ interface AuthBrandingProps {
  * @param {AuthBrandingProps} props - Propriedades do componente
  * @returns {JSX.Element} Componente de branding
  */
-export function AuthBranding({ className }: AuthBrandingProps) {
+export function AuthBranding({ className }: AuthBrandingProps): JSX.Element {
   return (
     <div
       className={cn(
@@ -50,7 +44,7 @@ export function AuthBranding({ className }: AuthBrandingProps) {
         'p-8 xl:p-10 2xl:p-12',
         'text-white',
         // Gradiente animado
-        GRADIENT_DIRECTIONS.TO_BR,
+        'bg-gradient-to-br',
         'from-cyan-500 via-blue-600 to-purple-700',
         'bg-size-[200%_200%]',
         'animate-gradient-shift',
@@ -83,12 +77,9 @@ export function AuthBranding({ className }: AuthBrandingProps) {
               scale: [0, 1.5, 0],
             }}
             transition={{
-              duration:
-                (ANIMATION_DURATION_MS.SLOW +
-                  Math.random() * ANIMATION_DURATION_MS.NORMAL) /
-                1000,
+              duration: 0.5 + Math.random() * 0.2,
               repeat: Infinity,
-              delay: (Math.random() * ANIMATION_DURATION_MS.NORMAL) / 1000,
+              delay: Math.random() * 0.2,
               ease: 'easeInOut',
             }}
           />
@@ -102,14 +93,14 @@ export function AuthBranding({ className }: AuthBrandingProps) {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: ANIMATION_DURATION_MS.NORMAL / 1000,
+            duration: 0.2,
             ease: 'easeOut',
           }}
         >
           <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{
-              duration: ANIMATION_DURATION_MS.FAST / 1000,
+              duration: 0.15,
             }}
           >
             <Link
@@ -117,7 +108,7 @@ export function AuthBranding({ className }: AuthBrandingProps) {
               className={cn(
                 'inline-block mb-5 xl:mb-7 2xl:mb-8',
                 'group',
-                TRANSITIONS.ALL_EASE_IN_OUT
+                'transition-all duration-200 ease-in-out'
               )}
             >
               <h1 className="text-3xl xl:text-4xl 2xl:text-5xl font-bold tracking-tight drop-shadow-2xl">
@@ -129,7 +120,7 @@ export function AuthBranding({ className }: AuthBrandingProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{
-              delay: ANIMATION_DURATION_MS.FAST / 1000,
+              delay: 0.15,
             }}
             className="text-cyan-100/90 text-lg xl:text-xl 2xl:text-2xl drop-shadow-lg font-medium"
           >
@@ -143,15 +134,15 @@ export function AuthBranding({ className }: AuthBrandingProps) {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{
-              delay: ANIMATION_DURATION_MS.NORMAL / 1000,
-              duration: ANIMATION_DURATION_MS.NORMAL / 1000,
+              delay: 0.2,
+              duration: 0.2,
               ease: 'easeOut',
             }}
             whileHover={{
               scale: 1.02,
               x: 5,
               transition: {
-                duration: ANIMATION_DURATION_MS.FAST / 1000,
+                duration: 0.15,
               },
             }}
           >
@@ -160,12 +151,12 @@ export function AuthBranding({ className }: AuthBrandingProps) {
                 'flex items-start gap-4',
                 'p-5 xl:p-6',
                 'bg-white/10',
-                BACKDROP_BLUR.MD,
-                BORDER_RADIUS.LG,
+                'backdrop-blur-md',
+                'rounded-lg',
                 'border border-white/20',
-                SHADOWS.LARGE,
+                'shadow-2xl',
                 'shadow-black/10',
-                TRANSITIONS.ALL_EASE_IN_OUT,
+                'transition-all duration-200 ease-in-out',
                 'hover:bg-white/15 hover:border-white/30',
                 'hover:shadow-black/20'
               )}
@@ -174,15 +165,15 @@ export function AuthBranding({ className }: AuthBrandingProps) {
                 className={cn(
                   'p-2.5',
                   'bg-white/10',
-                  BACKDROP_BLUR.SM,
-                  BORDER_RADIUS.MD,
+                  'backdrop-blur-sm',
+                  'rounded-md',
                   'border border-white/20'
                 )}
                 animate={{
                   rotate: [0, 10, -10, 0],
                 }}
                 transition={{
-                  duration: ANIMATION_DURATION_MS.SLOW / 1000,
+                  duration: 0.5,
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
@@ -205,15 +196,15 @@ export function AuthBranding({ className }: AuthBrandingProps) {
             initial={{ opacity: 0, x: -20, scale: 0.95 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{
-              delay: (ANIMATION_DURATION_MS.NORMAL * 1.33) / 1000,
-              duration: ANIMATION_DURATION_MS.NORMAL / 1000,
+              delay: 0.266,
+              duration: 0.2,
               ease: 'easeOut',
             }}
             whileHover={{
               scale: 1.03,
               x: 8,
               transition: {
-                duration: ANIMATION_DURATION_MS.NORMAL / 1000,
+                duration: 0.2,
               },
             }}
             className="relative group/card"
@@ -222,12 +213,12 @@ export function AuthBranding({ className }: AuthBrandingProps) {
             <div
               className={cn(
                 'absolute -inset-1',
-                BORDER_RADIUS.XL,
+                'rounded-xl',
                 'opacity-0 group-hover/card:opacity-100',
-                GRADIENT_DIRECTIONS.TO_RIGHT,
+                'bg-gradient-to-r',
                 'from-cyan-400/30 via-purple-400/30 to-pink-400/30',
-                BACKDROP_BLUR.XL,
-                TRANSITIONS.NORMAL,
+                'backdrop-blur-xl',
+                'transition-all duration-200 ease-in-out',
                 '-z-10'
               )}
             />
@@ -237,12 +228,12 @@ export function AuthBranding({ className }: AuthBrandingProps) {
                 'relative flex flex-col gap-4 xl:gap-5',
                 'p-6 xl:p-8 2xl:p-10',
                 'bg-white/15',
-                BACKDROP_BLUR.XL,
-                BORDER_RADIUS.XL,
+                'backdrop-blur-xl',
+                'rounded-xl',
                 'border-2 border-white/30',
-                SHADOWS.XXLARGE,
+                'shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]',
                 'shadow-black/20',
-                TRANSITIONS.ALL_EASE_IN_OUT,
+                'transition-all duration-200 ease-in-out',
                 'hover:bg-white/20 hover:border-white/40',
                 'hover:shadow-cyan-500/30'
               )}
@@ -253,17 +244,17 @@ export function AuthBranding({ className }: AuthBrandingProps) {
                   className={cn(
                     'p-3 xl:p-4',
                     'bg-white/20',
-                    BACKDROP_BLUR.SM,
-                    BORDER_RADIUS.LG,
+                    'backdrop-blur-sm',
+                    'rounded-lg',
                     'border border-white/30',
-                    SHADOWS.LARGE
+                    'shadow-2xl'
                   )}
                   animate={{
                     scale: [1, 1.1, 1],
                     rotate: [0, 5, -5, 0],
                   }}
                   transition={{
-                    duration: ANIMATION_DURATION_MS.VERY_SLOW / 1000,
+                    duration: 1.0,
                     repeat: Infinity,
                     ease: 'easeInOut',
                   }}
@@ -292,8 +283,8 @@ export function AuthBranding({ className }: AuthBrandingProps) {
                     className={cn(
                       'p-3 xl:p-4',
                       'bg-white/10',
-                      BACKDROP_BLUR.SM,
-                      BORDER_RADIUS.MD,
+                      'backdrop-blur-sm',
+                      'rounded-md',
                       'border border-white/20'
                     )}
                   >
@@ -308,8 +299,8 @@ export function AuthBranding({ className }: AuthBrandingProps) {
                     className={cn(
                       'p-3 xl:p-4',
                       'bg-white/10',
-                      BACKDROP_BLUR.SM,
-                      BORDER_RADIUS.MD,
+                      'backdrop-blur-sm',
+                      'rounded-md',
                       'border border-white/20'
                     )}
                   >
@@ -327,12 +318,12 @@ export function AuthBranding({ className }: AuthBrandingProps) {
                   className={cn(
                     'inline-flex items-center gap-2',
                     'px-4 py-2',
-                    GRADIENT_DIRECTIONS.TO_RIGHT,
+                    'bg-gradient-to-r',
                     'from-cyan-400/30 to-purple-400/30',
-                    BACKDROP_BLUR.SM,
-                    BORDER_RADIUS.FULL,
+                    'backdrop-blur-sm',
+                    'rounded-full',
                     'border border-white/30',
-                    SHADOWS.LARGE
+                    'shadow-2xl'
                   )}
                 >
                   <span className="text-xs xl:text-sm font-bold text-white">

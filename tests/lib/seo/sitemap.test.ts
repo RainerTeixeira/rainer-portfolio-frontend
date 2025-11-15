@@ -2,8 +2,8 @@
  * Testes para lib/seo/sitemap.ts
  */
 
-import { generateSitemap, generateRobotsTxt } from '@/lib/seo/sitemap';
 import type { Category, Post } from '@/lib/api/types';
+import { generateRobotsTxt, generateSitemap } from '@/lib/seo/sitemap';
 
 describe('lib/seo/sitemap', () => {
   describe('generateSitemap', () => {
@@ -34,7 +34,7 @@ describe('lib/seo/sitemap', () => {
           id: '1',
           title: 'Meu Post',
           slug: 'meu-post',
-          updatedAt: '2024-01-15T00:00:00Z',
+          updatedAt: '2025-01-15T00:00:00Z',
         } as Post,
       ];
       const categories: Category[] = [];
@@ -54,4 +54,3 @@ describe('lib/seo/sitemap', () => {
     });
   });
 });
-

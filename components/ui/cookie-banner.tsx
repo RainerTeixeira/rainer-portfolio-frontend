@@ -53,7 +53,6 @@ import { Switch } from '@/components/ui/switch';
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import { BADGE, FONT_WEIGHT, TEXT } from '@rainer/design-tokens';
 
 // ============================================================================
 // Cookie Manager
@@ -287,8 +286,8 @@ export function CookieBanner() {
                     <CardTitle
                       id="cookie-banner-title"
                       className={cn(
-                        TEXT.SIZES.LG,
-                        FONT_WEIGHT.BOLD,
+                        'text-lg',
+                        'font-bold',
                         'dark:text-cyan-200'
                       )}
                     >
@@ -296,7 +295,7 @@ export function CookieBanner() {
                     </CardTitle>
                     <CardDescription
                       id="cookie-banner-description"
-                      className={cn(TEXT.SIZES.SM, 'text-muted-foreground')}
+                      className={cn('text-sm', 'text-muted-foreground')}
                     >
                       Utilizamos cookies para melhorar sua experiência de
                       navegação, analisar o tráfego do site e personalizar
@@ -373,14 +372,14 @@ export function CookieBanner() {
                   <div className="flex-1 space-y-2">
                     <CardTitle
                       className={cn(
-                        TEXT.SIZES.LG,
-                        FONT_WEIGHT.BOLD,
+                        'text-lg',
+                        'font-bold',
                         'dark:text-cyan-200'
                       )}
                     >
                       Personalizar Cookies
                     </CardTitle>
-                    <CardDescription className={cn(TEXT.SIZES.SM)}>
+                    <CardDescription className={cn('text-sm')}>
                       Escolha quais tipos de cookies você deseja permitir. Os
                       cookies essenciais são necessários para o funcionamento do
                       site.
@@ -407,8 +406,8 @@ export function CookieBanner() {
                     <Label
                       htmlFor="essential"
                       className={cn(
-                        TEXT.SIZES.BASE,
-                        FONT_WEIGHT.SEMIBOLD,
+                        'text-base',
+                        'font-semibold',
                         'cursor-not-allowed'
                       )}
                     >
@@ -417,15 +416,14 @@ export function CookieBanner() {
                     <span
                       className={cn(
                         'px-2 py-0.5 rounded text-xs',
-                        BADGE.GRADIENTS.PRIMARY,
-                        BADGE.TEXT.PRIMARY,
-                        FONT_WEIGHT.SEMIBOLD
+                        'bg-primary text-primary-foreground',
+                        'font-semibold'
                       )}
                     >
                       Obrigatório
                     </span>
                   </div>
-                  <p className={cn(TEXT.SIZES.SM, 'text-muted-foreground')}>
+                  <p className={cn('text-sm', 'text-muted-foreground')}>
                     Necessários para o funcionamento básico do site. Não podem
                     ser desativados.
                   </p>
@@ -444,14 +442,14 @@ export function CookieBanner() {
                   <Label
                     htmlFor="performance"
                     className={cn(
-                      TEXT.SIZES.BASE,
-                      FONT_WEIGHT.SEMIBOLD,
+                      'text-base',
+                      'font-semibold',
                       'cursor-pointer'
                     )}
                   >
                     Cookies de Performance
                   </Label>
-                  <p className={cn(TEXT.SIZES.SM, 'text-muted-foreground')}>
+                  <p className={cn('text-sm', 'text-muted-foreground')}>
                     Nos ajudam a entender como você utiliza o site para
                     melhorarmos a performance.
                   </p>
@@ -470,14 +468,14 @@ export function CookieBanner() {
                   <Label
                     htmlFor="functionality"
                     className={cn(
-                      TEXT.SIZES.BASE,
-                      FONT_WEIGHT.SEMIBOLD,
+                      'text-base',
+                      'font-semibold',
                       'cursor-pointer'
                     )}
                   >
                     Cookies de Funcionalidade
                   </Label>
-                  <p className={cn(TEXT.SIZES.SM, 'text-muted-foreground')}>
+                  <p className={cn('text-sm', 'text-muted-foreground')}>
                     Permitem que o site se lembre de suas preferências e ofereça
                     funcionalidades aprimoradas.
                   </p>
@@ -496,14 +494,14 @@ export function CookieBanner() {
                   <Label
                     htmlFor="analytics"
                     className={cn(
-                      TEXT.SIZES.BASE,
-                      FONT_WEIGHT.SEMIBOLD,
+                      'text-base',
+                      'font-semibold',
                       'cursor-pointer'
                     )}
                   >
                     Cookies de Analytics
                   </Label>
-                  <p className={cn(TEXT.SIZES.SM, 'text-muted-foreground')}>
+                  <p className={cn('text-sm', 'text-muted-foreground')}>
                     Coletam informações sobre como você utiliza o site para
                     análise e melhorias.
                   </p>
@@ -518,7 +516,7 @@ export function CookieBanner() {
 
               {/* Links de informação */}
               <div className="pt-2">
-                <p className={cn(TEXT.SIZES.XS, 'text-muted-foreground')}>
+                <p className={cn('text-xs', 'text-muted-foreground')}>
                   Para mais informações, consulte nossa{' '}
                   <Link
                     href="/cookies"

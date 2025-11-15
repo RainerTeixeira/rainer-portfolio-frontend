@@ -70,8 +70,7 @@ import { PostStatus } from '@/lib/api/types';
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import { hexToRGBA } from '@/lib/utils/design-tokens';
-import { BACKGROUND, COLOR_CYAN } from '@rainer/design-tokens';
+import { COLOR_HEX, hexToRGBA } from '@/lib/utils/design-tokens';
 
 // ============================================================================
 // TYPES & INTERFACES
@@ -375,7 +374,7 @@ export default function BlogPage() {
 
   return (
     <div
-      className={cn('min-h-screen relative overflow-hidden', BACKGROUND.FULL)}
+      className={cn('min-h-screen relative overflow-hidden bg-background dark:bg-black')}
     >
       {/* ================================================================
           PARTICLES EFFECT
@@ -388,12 +387,12 @@ export default function BlogPage() {
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(${hexToRGBA(COLOR_CYAN[600], 0.03)} 1px, transparent 1px),
-            linear-gradient(90deg, ${hexToRGBA(COLOR_CYAN[600], 0.03)} 1px, transparent 1px)
+            linear-gradient(${hexToRGBA(COLOR_HEX.cyan[600], 0.03)} 1px, transparent 1px),
+            linear-gradient(90deg, ${hexToRGBA(COLOR_HEX.cyan[600], 0.03)} 1px, transparent 1px)
           `,
           backgroundSize: '4rem 4rem',
           maskImage:
-            'radial-gradient(ellipse 80% 50% at 50% 50%, rgb(0,0,0), transparent)',
+            'radial-gradient(ellipse 80% 50% at 50% 50%, black, transparent)',
         }}
         aria-hidden="true"
       />

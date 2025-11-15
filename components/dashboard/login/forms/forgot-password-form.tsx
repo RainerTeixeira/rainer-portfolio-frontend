@@ -41,7 +41,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TRANSITIONS } from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 import { ArrowLeft, CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -116,7 +116,7 @@ export function ForgotPasswordForm() {
           href="/dashboard/login"
           className={cn(
             'flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20',
-            TRANSITIONS.COLORS
+            'transition-colors duration-200 ease-in-out'
           )}
         >
           <ArrowLeft className="h-4 w-4" />

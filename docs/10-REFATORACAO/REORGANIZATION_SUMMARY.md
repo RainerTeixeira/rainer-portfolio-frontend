@@ -56,11 +56,11 @@ components/dashboard/lib/
 **Uso:**
 
 ```typescript
-import { blogPublicApi } from '@/lib/blog-public-api'
+import { blogPublicApi } from '@/lib/blog-public-api';
 
 // Páginas públicas do blog
-const posts = await blogPublicApi.getPublishedPosts()
-const post = await blogPublicApi.getPostBySlug('meu-post')
+const posts = await blogPublicApi.getPublishedPosts();
+const post = await blogPublicApi.getPostBySlug('meu-post');
 ```
 
 ---
@@ -80,13 +80,13 @@ const post = await blogPublicApi.getPostBySlug('meu-post')
 **Uso:**
 
 ```typescript
-import { blogAdminApi } from '@/components/dashboard/lib/blog-admin-api'
+import { blogAdminApi } from '@/components/dashboard/lib/blog-admin-api';
 
 // Dashboard admin
-const allPosts = await blogAdminApi.getPosts()
-const newPost = await blogAdminApi.createPost(data)
-await blogAdminApi.updatePost(id, updates)
-await blogAdminApi.deletePost(id)
+const allPosts = await blogAdminApi.getPosts();
+const newPost = await blogAdminApi.createPost(data);
+await blogAdminApi.updatePost(id, updates);
+await blogAdminApi.deletePost(id);
 ```
 
 ---
@@ -104,10 +104,10 @@ await blogAdminApi.deletePost(id)
 **Uso:**
 
 ```typescript
-import { blogStore, type BlogPost } from '@/lib/blog-store'
+import { blogStore, type BlogPost } from '@/lib/blog-store';
 
 // Uso interno (não recomendado diretamente)
-const posts = blogStore.getPosts()
+const posts = blogStore.getPosts();
 ```
 
 ## 📋 Migração
@@ -116,21 +116,24 @@ const posts = blogStore.getPosts()
 
 ```typescript
 // Misturava público e privado
-import { blogPublicApi, blogAdminApi } from '@/components/blog/lib/blog-fake-api'
-import { blogStore } from '@/components/blog/lib/blog-local-store'
+import {
+  blogPublicApi,
+  blogAdminApi,
+} from '@/components/blog/lib/blog-fake-api';
+import { blogStore } from '@/components/blog/lib/blog-local-store';
 ```
 
 ### ✅ Depois (Código Novo)
 
 ```typescript
 // Blog público (páginas /blog)
-import { blogPublicApi } from '@/lib/blog-public-api'
+import { blogPublicApi } from '@/lib/blog-public-api';
 
 // Dashboard admin (páginas /dashboard)
-import { blogAdminApi } from '@/components/dashboard/lib/blog-admin-api'
+import { blogAdminApi } from '@/components/dashboard/lib/blog-admin-api';
 
 // Store (se necessário)
-import { blogStore, type BlogPost } from '@/lib/blog-store'
+import { blogStore, type BlogPost } from '@/lib/blog-store';
 ```
 
 ## 🔄 Compatibilidade
@@ -139,11 +142,11 @@ Os arquivos antigos foram mantidos como **re-exports** para compatibilidade:
 
 ```typescript
 // components/blog/lib/blog-fake-api.ts
-export { blogPublicApi } from '@/lib/blog-public-api'
-export { blogAdminApi } from '@/components/dashboard/lib/blog-admin-api'
+export { blogPublicApi } from '@/lib/blog-public-api';
+export { blogAdminApi } from '@/components/dashboard/lib/blog-admin-api';
 
 // components/blog/lib/blog-local-store.ts
-export { blogStore, type BlogPost } from '@/lib/blog-store'
+export { blogStore, type BlogPost } from '@/lib/blog-store';
 ```
 
 **Status:** ⚠️ DEPRECATED - Serão removidos em versão futura
@@ -159,14 +162,14 @@ export { blogStore, type BlogPost } from '@/lib/blog-store'
 
 ### Exemplos
 
-| Funcionalidade | Público? | Localização |
-|----------------|----------|-------------|
-| Listar posts publicados | ✅ Sim | `lib/blog-public-api.ts` |
-| Criar/editar posts | ❌ Não | `components/dashboard/lib/blog-admin-api.ts` |
-| Upload de imagens | ❌ Não | `components/dashboard/lib/cloudinary.ts` |
-| Editor de texto | ❌ Não | `components/dashboard/lib/tiptap-utils.ts` |
-| Autenticação mock | ❌ Não | `components/dashboard/lib/auth-local.ts` |
-| API real backend | ✅ Sim | `lib/api/` |
+| Funcionalidade          | Público? | Localização                                  |
+| ----------------------- | -------- | -------------------------------------------- |
+| Listar posts publicados | ✅ Sim   | `lib/blog-public-api.ts`                     |
+| Criar/editar posts      | ❌ Não   | `components/dashboard/lib/blog-admin-api.ts` |
+| Upload de imagens       | ❌ Não   | `components/dashboard/lib/cloudinary.ts`     |
+| Editor de texto         | ❌ Não   | `components/dashboard/lib/tiptap-utils.ts`   |
+| Autenticação mock       | ❌ Não   | `components/dashboard/lib/auth-local.ts`     |
+| API real backend        | ✅ Sim   | `lib/api/`                                   |
 
 ## ✅ Benefícios
 
@@ -186,5 +189,5 @@ export { blogStore, type BlogPost } from '@/lib/blog-store'
 ---
 
 **Autor:** Rainer Teixeira  
-**Data:** 2024  
+**Data:** 2025  
 **Status:** ✅ COMPLETO
