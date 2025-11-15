@@ -15,7 +15,6 @@
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { BORDER_RADIUS, TRANSITIONS } from '@rainer/design-tokens';
 import { motion } from 'framer-motion';
 
 interface OAuthButtonsProps {

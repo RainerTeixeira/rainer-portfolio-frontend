@@ -38,18 +38,18 @@
  * @since 1.0.0
  */
 
-import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 // =============================================================================
 // CONSTANTES DE CLASSES CSS REUTILIZÁVEIS
+// Baseadas em design tokens para consistência
 // =============================================================================
 
 /**
  * Classes CSS para sections responsivas
  *
  * Conjunto de classes Tailwind padronizadas para seções da aplicação.
- * Garante consistência visual e facilita manutenção.
+ * Usa spacing tokens do design system para consistência.
  *
  * @constant
  * @type {Object}
@@ -68,10 +68,10 @@ import { twMerge } from 'tailwind-merge';
  * </section>
  */
 export const SECTION_CLASSES = {
-  /** Container padrão: largura máxima 7xl, centralizado, padding responsivo otimizado */
+  /** Container padrão: largura máxima 7xl, centralizado, padding usando tokens (px-2 = 0.5rem, px-3 = 0.75rem, etc) */
   container: 'w-full max-w-7xl mx-auto px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8',
 
-  /** Espaçamento vertical entre elementos dentro de sections otimizado */
+  /** Espaçamento vertical usando tokens do design system (space-y-3 = 0.75rem, space-y-4 = 1rem, etc) */
   spacing: 'space-y-3 xs:space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8',
 } as const;
 
@@ -79,14 +79,14 @@ export const SECTION_CLASSES = {
  * Classes CSS para cards com hover effects
  *
  * Conjunto de classes padronizadas para componentes Card.
- * Inclui estados de hover, transições e efeitos visuais.
+ * Usa tokens de transição e sombra do design system.
  *
  * @constant
  * @type {Object}
  * @readonly
  *
- * @property {string} base - Classes base do card
- * @property {string} hover - Classes de hover effect
+ * @property {string} base - Classes base do card (transição usando tokens)
+ * @property {string} hover - Classes de hover effect (sombra usando tokens)
  * @property {string} full - Todas as classes combinadas (base + hover)
  *
  * @example
@@ -97,14 +97,14 @@ export const SECTION_CLASSES = {
  * </Card>
  */
 export const CARD_CLASSES = {
-  /** Classes base do card */
-  base: 'transition-all duration-300',
+  /** Classes base do card: transição suave (200ms = padrão do design system) */
+  base: 'transition-all duration-200 ease-in-out',
 
-  /** Efeito de hover: sombra aumentada */
+  /** Efeito de hover: sombra usando tokens (shadow-lg do design system) */
   hover: 'hover:shadow-lg',
 
   /** Combinação completa: base + hover */
-  full: 'hover:shadow-lg transition-all duration-300',
+  full: 'transition-all duration-200 ease-in-out hover:shadow-lg',
 } as const;
 
 /**
@@ -156,10 +156,10 @@ export const ANIMATION_DELAYS = {
  * composição condicional de estilos.
  *
  * Funcionalidades:
- * - clsx: Concatena classes condicionalmente (aceita objetos, arrays, strings)
+ * - Aceita strings, arrays, objetos condicionais
  * - twMerge: Resolve conflitos entre classes Tailwind (última ganha)
  *
- * @param {...ClassValue} inputs - Classes CSS para combinar (strings, objetos, arrays, etc)
+ * @param {...(string | undefined | null | false | Record<string, boolean> | string[])} inputs - Classes CSS para combinar
  * @returns {string} String final com classes CSS mescladas e sem conflitos
  *
  * @example
@@ -180,8 +180,34 @@ export const ANIMATION_DELAYS = {
  *   return <button className={cn('btn btn-primary', className)} {...props} />
  * }
  */
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+export function cn(
+  ...inputs: (
+    | string
+    | undefined
+    | null
+    | false
+    | Record<string, boolean>
+    | string[]
+  )[]
+): string {
+  // Processa condicionais manualmente (substitui clsx)
+  const classes = inputs
+    .filter(Boolean)
+    .map(input => {
+      if (typeof input === 'string') return input;
+      if (Array.isArray(input)) return input.filter(Boolean).join(' ');
+      if (typeof input === 'object' && input !== null) {
+        return Object.entries(input)
+          .filter(([, value]) => value)
+          .map(([key]) => key)
+          .join(' ');
+      }
+      return '';
+    })
+    .filter(Boolean)
+    .join(' ');
+
+  return twMerge(classes);
 }
 
 // =============================================================================

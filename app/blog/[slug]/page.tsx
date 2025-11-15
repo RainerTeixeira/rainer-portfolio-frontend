@@ -79,7 +79,7 @@ import { Separator } from '@/components/ui/separator';
 // DESIGN TOKENS
 // ============================================================================
 
-import { BACKGROUND, BADGE, BORDER_RADIUS } from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 
 // ============================================================================
 // UTILS
@@ -271,8 +271,7 @@ export default function PostPage() {
     return (
       <div
         className={cn(
-          'min-h-screen flex items-center justify-center',
-          BACKGROUND.FULL
+          'min-h-screen flex items-center justify-center bg-background dark:bg-black'
         )}
       >
         <ParticlesEffect variant="default" />
@@ -285,9 +284,9 @@ export default function PostPage() {
           <div
             className={cn(
               'inline-flex items-center justify-center w-20 h-20 mb-6',
-              BORDER_RADIUS.FULL,
-              BADGE.GRADIENTS.ERROR,
-              BADGE.BORDERS.ERROR
+              'rounded-full',
+              'bg-gradient-to-br from-red-500/20 to-red-600/20',
+              'border-2 border-red-500/30'
             )}
           >
             <svg
@@ -329,7 +328,7 @@ export default function PostPage() {
   // ========================================================================
 
   return (
-    <div className={cn('min-h-screen relative', BACKGROUND.FULL)}>
+    <div className={cn('min-h-screen relative bg-background dark:bg-black')}>
       {/* ================================================================
           PARTICLES EFFECT
           ================================================================ */}
@@ -384,7 +383,9 @@ export default function PostPage() {
             />
             {/* Overlay gradient */}
             <div
-              className={cn('absolute inset-0', BACKGROUND.OVERLAY_IMAGE)}
+              className={cn(
+                'absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent'
+              )}
               aria-hidden="true"
             />
 
@@ -400,9 +401,9 @@ export default function PostPage() {
                     <Badge
                       className={cn(
                         'mb-4',
-                        BADGE.GRADIENTS.BRAND_OVERLAY,
-                        BADGE.BORDERS.BRAND_OVERLAY,
-                        BADGE.TEXT.BRAND_OVERLAY
+                        'bg-gradient-to-br from-cyan-500/20 to-purple-500/20',
+                        'border border-cyan-400/30',
+                        'text-white'
                       )}
                     >
                       <Tag className="w-3 h-3 mr-1" aria-hidden="true" />
@@ -440,9 +441,9 @@ export default function PostPage() {
                   <Badge
                     className={cn(
                       'mb-4',
-                      BADGE.GRADIENTS.BRAND_LIGHT,
-                      BADGE.BORDERS.BRAND,
-                      BADGE.TEXT.BRAND
+                      'bg-gradient-to-br from-cyan-500/10 to-purple-500/10',
+                      'border border-cyan-400/30',
+                      'text-cyan-600 dark:text-cyan-400'
                     )}
                   >
                     <Tag className="w-3 h-3 mr-1" aria-hidden="true" />

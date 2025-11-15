@@ -33,7 +33,7 @@
 
 'use client';
 
-import { authService } from '@/lib/api/services/auth.service';
+import { authService } from '@/lib/api';
 import { useEffect, useState } from 'react';
 import { StatusBadge } from './status-badge';
 

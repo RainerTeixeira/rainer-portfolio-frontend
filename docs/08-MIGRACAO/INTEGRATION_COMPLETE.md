@@ -50,14 +50,14 @@ NEXT_PUBLIC_API_URL=http://localhost:4000
 ### 2. Importar Hooks (copiar e colar)
 
 ```typescript
-import { 
-  usePosts, 
-  usePost, 
+import {
+  usePosts,
+  usePost,
   useComments,
   useCategories,
   useLike,
-  useBookmark 
-} from '@/components/blog/hooks'
+  useBookmark,
+} from '@/components/blog/hooks';
 ```
 
 ### 3. Usar em Componentes
@@ -116,26 +116,26 @@ function BlogPage() {
 ✅ Filtrar por status, categoria, autor  
 ✅ Buscar por ID ou slug  
 ✅ Criar, atualizar, deletar  
-✅ Publicar/despublicar  
+✅ Publicar/despublicar
 
 ### Categorias
 
 ✅ Listar todas  
 ✅ Hierarquia (principais + subcategorias)  
-✅ Buscar por ID ou slug  
+✅ Buscar por ID ou slug
 
 ### Comentários
 
 ✅ Listar por post  
 ✅ Criar, atualizar, deletar  
-✅ Aprovar/reprovar (moderação)  
+✅ Aprovar/reprovar (moderação)
 
 ### Curtidas
 
 ✅ Curtir/descurtir  
 ✅ Contar likes  
 ✅ Verificar se curtiu  
-✅ Optimistic updates  
+✅ Optimistic updates
 
 ### Favoritos
 
@@ -143,7 +143,7 @@ function BlogPage() {
 ✅ Organizar em coleções  
 ✅ Listar por usuário  
 ✅ Optimistic updates  
-✅ Notificações toast  
+✅ Notificações toast
 
 ## 📊 Estatísticas
 
@@ -182,11 +182,11 @@ function BlogPage() {
 
 ```typescript
 // Substituir em use-like.ts e use-bookmark.ts
-const userId = "current-user-id"
+const userId = 'current-user-id';
 
 // Por:
-const { user } = useAuth()
-const userId = user?.id
+const { user } = useAuth();
+const userId = user?.id;
 ```
 
 ### 2. Implementar Páginas (Prioridade Alta)
@@ -240,13 +240,13 @@ function PostPage({ slug }) {
   return (
     <article>
       <h1>{post.title}</h1>
-      
+
       <button onClick={handleLike}>
         {isLiked ? '❤️' : '🤍'} {likes}
       </button>
-      
+
       <div dangerouslySetInnerHTML={{ __html: post.content }} />
-      
+
       <CommentsSection
         comments={comments}
         onAdd={addComment}
@@ -267,7 +267,7 @@ function PostCard({ post }) {
       <img src={post.coverImage} alt={post.title} />
       <h3>{post.title}</h3>
       <p>{post.excerpt}</p>
-      
+
       <button onClick={handleLike}>
         {isLiked ? '❤️' : '🤍'} {likes}
       </button>
@@ -309,7 +309,7 @@ npm run dev              # Iniciar Next.js
 ---
 
 **Autor:** Rainer Teixeira  
-**Data:** 2024  
+**Data:** 2025  
 **Versão:** 1.0.0  
 **Status:** ✅ COMPLETO
 

@@ -41,7 +41,7 @@ import {
 } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TRANSITIONS } from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -189,7 +189,10 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
 
         <Button
           type="submit"
-          className={cn('w-full h-9 sm:h-10', TRANSITIONS.ALL_EASE_IN_OUT)}
+          className={cn(
+            'w-full h-9 sm:h-10',
+            'transition-all duration-200 ease-in-out'
+          )}
           disabled={isLoading}
         >
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

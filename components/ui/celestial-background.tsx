@@ -129,7 +129,7 @@ export function CelestialBackground({
 
   return (
     <div
-      className="fixed inset-0 pointer-events-none {OPACITY.NONE} dark:opacity-100 {TRANSITIONS.OPACITY_VERY_SLOW}"
+      className="fixed inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-1000"
       style={{
         zIndex: 0,
         position: 'fixed',
@@ -143,7 +143,7 @@ export function CelestialBackground({
       aria-hidden="true"
     >
       {/* Camada de gradiente base - Nebulosa escura cyberpunk */}
-      <div className="absolute inset-0 {GRADIENT_DIRECTIONS.TO_BOTTOM} from-black via-purple-950/35 to-black" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/35 to-black" />
 
       {/* Camada de nebulosas coloridas cyberpunk mais intensas */}
       <div className="absolute inset-0 overflow-hidden">
@@ -182,7 +182,7 @@ export function CelestialBackground({
             {stars.slice(0, Math.floor(config.count * 0.3)).map((star, idx) => (
               <div
                 key={`star-large-${idx}`}
-                className="absolute {BORDER_RADIUS.FULL} bg-white animate-pulse"
+                className="absolute rounded-full bg-white animate-pulse"
                 style={{
                   top: star.top,
                   left: star.left,
@@ -206,7 +206,7 @@ export function CelestialBackground({
               .map((star, idx) => (
                 <div
                   key={`star-medium-${idx}`}
-                  className="absolute {BORDER_RADIUS.FULL} bg-white animate-pulse"
+                  className="absolute rounded-full bg-white animate-pulse"
                   style={{
                     top: star.top,
                     left: star.left,
@@ -225,7 +225,7 @@ export function CelestialBackground({
             {stars.slice(Math.floor(config.count * 0.7)).map((star, idx) => (
               <div
                 key={`star-small-${idx}`}
-                className="absolute {BORDER_RADIUS.FULL} bg-white"
+                className="absolute rounded-full bg-white"
                 style={{
                   top: star.top,
                   left: star.left,
@@ -246,21 +246,21 @@ export function CelestialBackground({
       {/* Partículas grandes decorativas (planetas/asteroides distantes) */}
       <div className="absolute inset-0">
         <div
-          className="absolute top-1/4 right-1/4 w-32 h-32 {BORDER_RADIUS.FULL} bg-gradient-radial from-cyan-400/10 via-transparent to-transparent blur-2xl animate-pulse"
+          className="absolute top-1/4 right-1/4 w-32 h-32 rounded-full bg-gradient-radial from-cyan-400/10 via-transparent to-transparent blur-2xl animate-pulse"
           style={{
             animationDuration: '8s',
             animationDelay: '0s',
           }}
         />
         <div
-          className="absolute bottom-1/3 left-1/3 w-24 h-24 {BORDER_RADIUS.FULL} bg-gradient-radial from-purple-400/10 via-transparent to-transparent blur-2xl animate-pulse"
+          className="absolute bottom-1/3 left-1/3 w-24 h-24 rounded-full bg-gradient-radial from-purple-400/10 via-transparent to-transparent blur-2xl animate-pulse"
           style={{
             animationDuration: '10s',
             animationDelay: '2s',
           }}
         />
         <div
-          className="absolute top-2/3 right-1/5 w-20 h-20 {BORDER_RADIUS.FULL} bg-gradient-radial from-pink-400/10 via-transparent to-transparent blur-2xl animate-pulse"
+          className="absolute top-2/3 right-1/5 w-20 h-20 rounded-full bg-gradient-radial from-pink-400/10 via-transparent to-transparent blur-2xl animate-pulse"
           style={{
             animationDuration: '12s',
             animationDelay: '4s',

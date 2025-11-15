@@ -32,7 +32,6 @@
 
 import { usePWA } from '@/hooks/use-pwa';
 import { cn } from '@/lib/utils';
-import { ANIMATIONS, GRADIENTS } from '@rainer/design-tokens';
 import { RefreshCw } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
@@ -80,7 +79,7 @@ export function UpdateNotification() {
     <div
       className={cn(
         'fixed top-20 right-4 z-50 max-w-sm',
-        ANIMATIONS.SLIDE_DOWN_FADE
+        'animate-in slide-in-from-top-5 fade-in duration-300'
       )}
     >
       {/**
@@ -109,8 +108,7 @@ export function UpdateNotification() {
              */}
             <div
               className={cn(
-                'shrink-0 p-2 rounded-full border',
-                GRADIENTS.PURPLE_PINK,
+                'shrink-0 p-2 rounded-full border bg-gradient-to-br',
                 'from-purple-500/20 via-pink-500/15 to-cyan-500/20',
                 isDark ? 'border-purple-400/30' : 'border-purple-500/30'
               )}
@@ -153,8 +151,7 @@ export function UpdateNotification() {
                 onClick={updateServiceWorker}
                 size="sm"
                 className={cn(
-                  'w-full text-white font-mono font-bold',
-                  GRADIENTS.BUTTON_PURPLE_PINK,
+                  'w-full text-white font-mono font-bold bg-gradient-to-r',
                   isDark
                     ? 'from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
                     : 'from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'

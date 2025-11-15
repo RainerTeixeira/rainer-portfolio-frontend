@@ -293,9 +293,9 @@ test('deve formatar data', async () => {
 ```typescript
 // ✅ CORRETO: Dados mockados
 test('deve formatar data', () => {
-  const mockDate = '2024-01-15T10:30:00Z'; // Dado controlado
+  const mockDate = '2025-01-15T10:30:00Z'; // Dado controlado
   const formatted = formatDate(mockDate);
-  expect(formatted).toBe('15/01/2024');
+  expect(formatted).toBe('15/01/2025');
 });
 ```
 
@@ -323,4 +323,4 @@ Antes de escrever um teste, pergunte:
 
 ---
 
-**Última atualização**: 2024-11-13
+**Última atualização**: 2025-11-13

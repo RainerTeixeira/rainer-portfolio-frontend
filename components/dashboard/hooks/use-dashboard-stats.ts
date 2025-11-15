@@ -14,32 +14,9 @@
 
 'use client';
 
-import { dashboardService } from '@/lib/api/services/dashboard.service';
+import { dashboardService } from '@/lib/api';
+import type { DashboardStats } from '@/lib/api/types';
 import { useEffect, useState } from 'react';
-
-/**
- * Interface das estatísticas do dashboard
- *
- * @interface DashboardStats
- * @property {number} totalPosts - Total de posts publicados
- * @property {number} totalViews - Total de visualizações de todos os posts
- * @property {number} totalLikes - Total de curtidas recebidas
- * @property {number} totalComments - Total de comentários recebidos
- * @property {number} [postsChange] - Variação % de posts (comparado ao período anterior)
- * @property {number} [viewsChange] - Variação % de views (comparado ao período anterior)
- * @property {number} [likesChange] - Variação % de likes (comparado ao período anterior)
- * @property {number} [commentsChange] - Variação % de comentários (comparado ao período anterior)
- */
-interface DashboardStats {
-  totalPosts: number;
-  totalViews: number;
-  totalLikes: number;
-  totalComments: number;
-  postsChange?: number;
-  viewsChange?: number;
-  likesChange?: number;
-  commentsChange?: number;
-}
 
 /**
  * Hook useDashboardStats

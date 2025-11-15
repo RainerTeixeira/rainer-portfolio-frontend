@@ -1,292 +1,288 @@
 /**
- * Global Styles with Tailwind CSS v4 + Design Tokens
- *
- * Arquivo de estilos globais da aplicação integrado com @rainer/design-tokens.
- * Contém importação do Tailwind CSS, variáveis CSS de tema baseadas em tokens
- * profissionais e configurações base essenciais.
- *
- * @module app/globals.css
- * @fileoverview Estilos globais otimizados com Tailwind CSS v4 e Design Tokens
- * @author Rainer Teixeira
- * @version 3.0.0
- * @since 1.0.0
- *
- * @remarks
- * Estrutura do arquivo:
- * 1. Importação do Tailwind CSS
- * 2. Variáveis CSS de tema baseadas em design tokens
- * 3. Configurações base essenciais
- * 4. Animações e utilitários
- *
- * Todas as cores e espaçamentos agora vêm de @rainer/design-tokens
+ * @file globals.css
+ * @description
+ * Estilos globais do frontend do portfólio Rainer.
+ * Integrado com @rainer/design-tokens v4.0.0, suportando totalmente
+ * temas light e dark (cyberpunk) utilizando tokens universais.
+ * Inclui utilitários personalizados, compatibilidade com Shadcn UI,
+ * animações neon, glassmorphism e acessibilidade avançada.
+ * 
+ * @version 4.0.0
  */
 
+/**
+ * @import
+ * Importa as variáveis CSS baseadas nos design tokens (cores, espaçamentos, etc).
+ */
+@import '@rainer/design-tokens/formats/css-vars.css';
+
+/**
+ * @import
+ * Importa utilitários e reset do Tailwind CSS.
+ */
 @import 'tailwindcss';
 
-/* Variant customizada para dark mode */
+/**
+ * @custom-variant
+ * Cria uma variante customizada para dark mode utilizando a classe .dark.
+ */
 @custom-variant dark (&:is(.dark *));
 
-/* =============================================================================
-   VARIÁVEIS DE TEMA - LIGHT MODE
-   Baseadas em @rainer/design-tokens - Tokens Semânticos
-   ============================================================================= */
-:root {
-  /* Fontes */
-  --font-inter: var(--font-inter);
-  --font-orbitron: var(--font-orbitron);
-  --font-rajdhani: var(--font-rajdhani);
+/**
+ * ==============================
+ * CONFIGURAÇÕES BASE
+ * ==============================
+ */
 
-  /* Cores do sistema - Baseadas em tokens semânticos */
-  /* Background: neutral-50 (#fafafa) = 0 0% 98% */
-  --color-background: 0 0% 98%;
-  /* Foreground: neutral-900 (#171717) = 0 0% 9.0% */
-  --color-foreground: 0 0% 9%;
-
-  /* Card: surface-primary (#ffffff) = 0 0% 100% */
-  --color-card: 0 0% 100%;
-  --color-card-foreground: 0 0% 9%;
-
-  /* Popover: surface-primary (#ffffff) = 0 0% 100% */
-  --color-popover: 0 0% 100%;
-  --color-popover-foreground: 0 0% 9%;
-
-  /* Primary: brand-primary (cyan-600 #0891b2) = 188 85.7% 53.3% */
-  --color-primary: 188 85.7% 53.3%;
-  /* Primary foreground: neutral-50 (#fafafa) = 0 0% 98% */
-  --color-primary-foreground: 0 0% 98%;
-
-  /* Secondary: neutral-100 (#f5f5f5) = 0 0% 96.1% */
-  --color-secondary: 0 0% 96.1%;
-  --color-secondary-foreground: 0 0% 9%;
-
-  /* Muted: neutral-100 (#f5f5f5) = 0 0% 96.1% */
-  --color-muted: 0 0% 96.1%;
-  /* Muted foreground: neutral-500 (#737373) = 0 0% 45.1% */
-  --color-muted-foreground: 0 0% 45.1%;
-
-  /* Accent: cyan-50 (#ecfeff) = 186.7 100% 96.7% */
-  --color-accent: 186.7 100% 96.7%;
-  /* Accent foreground: cyan-900 (#164e63) = 192.9 73.8% 24.3% */
-  --color-accent-foreground: 192.9 73.8% 24.3%;
-
-  /* Destructive: red-500 (#ef4444) = 0 84.2% 60.2% */
-  --color-destructive: 0 84.2% 60.2%;
-  --color-destructive-foreground: 0 0% 98%;
-
-  /* Border: neutral-200 (#e5e5e5) = 0 0% 89.8% */
-  --color-border: 0 0% 89.8%;
-  --color-input: 0 0% 89.8%;
-
-  /* Ring: cyan-500 (#06b6d4) = 186.7 94.5% 42.7% */
-  --color-ring: 186.7 94.5% 42.7%;
-
-  /* Radius de bordas - Design token semântico */
-  --radius: 0.5rem;
-
-  /* Sidebar - Tema claro */
-  --sidebar: 0 0% 98%;
-  --sidebar-foreground: 0 0% 20%;
-  --sidebar-primary: 188 85.7% 53.3%;
-  --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 0 0% 96.1%;
-  --sidebar-accent-foreground: 0 0% 9%;
-  --sidebar-border: 0 0% 89.8%;
-  --sidebar-ring: 186.7 94.5% 42.7%;
+/**
+ * Define a cor da borda padrão em todos os elementos,
+ * utilizando a variável CSS do design token.
+ */
+* {
+  border-color: var(--border, var(--color-border-primary));
 }
 
-/* =============================================================================
-   VARIÁVEIS DE TEMA - DARK MODE
-   Baseadas em @rainer/design-tokens - Tokens Semânticos Dark
-   ============================================================================= */
-.dark {
-  /* Cores do sistema - Baseadas em tokens semânticos dark */
-  /* Background: neutral-950 (#0a0a0a) = 0 0% 3.9% */
-  --color-background: 0 0% 3.9%;
-  /* Foreground: neutral-50 (#fafafa) = 0 0% 98% */
-  --color-foreground: 0 0% 98%;
-
-  /* Card: neutral-900 (#171717) = 0 0% 9.0% */
-  --color-card: 0 0% 9%;
-  --color-card-foreground: 0 0% 98%;
-
-  /* Popover: neutral-900 (#171717) = 0 0% 9.0% */
-  --color-popover: 0 0% 9%;
-  --color-popover-foreground: 0 0% 98%;
-
-  /* Primary: brand-primary dark (cyan-400 #22d3ee) = 186.7 94.0% 53.3% */
-  --color-primary: 186.7 94% 53.3%;
-  /* Primary foreground: neutral-900 (#171717) = 0 0% 9.0% */
-  --color-primary-foreground: 0 0% 9%;
-
-  /* Secondary: neutral-800 (#262626) = 0 0% 14.9% */
-  --color-secondary: 0 0% 14.9%;
-  --color-secondary-foreground: 0 0% 98%;
-
-  /* Muted: neutral-800 (#262626) = 0 0% 14.9% */
-  --color-muted: 0 0% 14.9%;
-  /* Muted foreground: neutral-300 (#d4d4d4) = 0 0% 83.1% */
-  --color-muted-foreground: 0 0% 83.1%;
-
-  /* Accent: cyan-950 (#083344) = 192.9 81.8% 15.3% */
-  --color-accent: 192.9 81.8% 15.3%;
-  /* Accent foreground: cyan-50 (#ecfeff) = 186.7 100% 96.7% */
-  --color-accent-foreground: 186.7 100% 96.7%;
-
-  /* Destructive: red-400 (#f87171) = 0 84.6% 71.2% */
-  --color-destructive: 0 84.6% 71.2%;
-  --color-destructive-foreground: 0 0% 98%;
-
-  /* Border: neutral-800 (#262626) = 0 0% 14.9% */
-  --color-border: 0 0% 14.9%;
-  --color-input: 0 0% 14.9%;
-
-  /* Ring: cyan-400 (#22d3ee) = 186.7 94.0% 53.3% */
-  --color-ring: 186.7 94% 53.3%;
-
-  /* Sidebar - Tema escuro */
-  --sidebar: 0 0% 9%;
-  --sidebar-foreground: 0 0% 98%;
-  --sidebar-primary: 186.7 94% 53.3%;
-  --sidebar-primary-foreground: 0 0% 9%;
-  --sidebar-accent: 0 0% 14.9%;
-  --sidebar-accent-foreground: 0 0% 98%;
-  --sidebar-border: 0 0% 14.9%;
-  --sidebar-ring: 186.7 94% 53.3%;
+/**
+ * Habilita o scroll suave na navegação da página.
+ */
+html {
+  scroll-behavior: smooth;
 }
 
-/* =============================================================================
-   THEME INLINE - Compatibilidade sidebar
-   ============================================================================= */
-@theme inline {
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+/**
+ * Configurações básicas do body, incluindo cor de fundo e texto (via tokens),
+ * além de ativar recursos tipográficos avançados (ligações contextuais/calts).
+ */
+body {
+  background-color: var(--color-background-primary, #ffffff);
+  color: var(--color-text-primary, #171717);
+  font-feature-settings:
+    'rlig' 1,
+    'calt' 1;
 }
 
-/* =============================================================================
-   LAYER BASE - Estilos fundamentais
-   ============================================================================= */
-@layer base {
-  /* Reset de bordas globais */
-  * {
-    border-color: hsl(var(--color-border));
-  }
+/**
+ * ==============================
+ * UTILITÁRIOS CYBERPUNK
+ * Complementares aos tokens
+ * ==============================
+ */
 
-  /* Configurações HTML/Body */
-  html,
-  body,
-  #__next {
-    min-height: 100%;
-  }
+/**
+ * Animações neon e efeitos cyberpunk reutilizáveis.
+ * Utilizam tokens de cor/glow para manter consistência de design.
+ */
 
-  /* Ocultar scrollbar mantendo funcionalidade */
-  html {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
-  }
-
-  html::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
-  }
-
-  /* Body - Estilos base universais */
-  body {
-    background-color: hsl(var(--color-background));
-    color: hsl(var(--color-foreground));
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    /* Otimizações de renderização */
-    text-rendering: optimizeSpeed;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    /* Scroll suave - iOS e Android */
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain; /* Previne scroll bounce no Android */
-
-    /* Safe Area Insets - iOS (notch/Dynamic Island) e Android (bordas) */
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
-
-    /* Previne seleção de texto em toque longo (melhor UX mobile) */
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-
-    /* Android - Previne zoom ao tocar em inputs */
-    touch-action: manipulation;
-  }
-
-  /* Dark mode: tornar body transparente para permitir gradientes nas páginas */
-  .dark body {
-    background-color: transparent;
-  }
-
-  /* Lazy loading de imagens */
-  img {
-    content-visibility: auto;
-  }
-
-  /* Otimizar elementos que animam frequentemente */
-  button,
-  a {
-    backface-visibility: hidden;
-    transform: translateZ(0);
-  }
-
-  /* Prevenção de zoom automático em inputs (iOS e Android) */
-  @media screen and (max-width: 767px) {
-    input[type='text'],
-    input[type='email'],
-    input[type='password'],
-    input[type='tel'],
-    input[type='number'],
-    input[type='search'],
-    input[type='url'],
-    textarea,
-    select {
-      font-size: 16px; /* 16px previne zoom automático no iOS e Android */
-    }
-  }
-
-  /* Otimizações PWA - Comportamento nativo */
-  @media (display-mode: standalone) {
-    body {
-      /* Remove o bounce do scroll em PWAs */
-      overscroll-behavior: none;
-    }
-
-    /* Remove seleção de texto em modo PWA */
-    * {
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    /* Permite seleção em inputs e conteúdo */
-    input,
-    textarea,
-    [contenteditable],
-    p,
-    span,
-    div {
-      -webkit-user-select: text;
-      user-select: text;
-    }
-  }
+/**
+ * Texto com efeito neon animado.
+ */
+.neon-text {
+  animation: neon-glow 2s ease-in-out infinite;
 }
 
-/* =============================================================================
-   ACESSIBILIDADE - Movimento reduzido
-   ============================================================================= */
+/**
+ * Caixa com efeito de brilho neon.
+ */
+.neon-box {
+  animation: box-glow 2s ease-in-out infinite;
+}
+
+/**
+ * Pulsações luminosas em elementos.
+ */
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/**
+ * Efeito de entrada deslizando.
+ */
+.slide-in {
+  animation: slide-in 0.3s ease-out forwards;
+}
+
+/**
+ * Efeito fade-in sutil.
+ */
+.fade-in {
+  animation: fade-in 0.5s ease-in forwards;
+}
+
+/**
+ * Efeito glassmorphism utilizando tokens de superfície e blur.
+ */
+.glass {
+  background: var(--color-surface-glass, rgba(15, 15, 26, 0.7));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/**
+ * Transição suave para efeito de glassmorphism ao passar o mouse.
+ */
+.glass-hover {
+  transition: background 0.3s ease;
+}
+
+.glass-hover:hover {
+  background: var(--color-surface-glass-hover, rgba(15, 15, 26, 0.85));
+}
+
+/**
+ * Bordas neon com tokens e efeito de glow.
+ */
+.neon-border {
+  border: 1px solid var(--color-border-neon-glow, rgba(0, 230, 255, 0.3));
+  box-shadow:
+    0 0 10px var(--color-border-neon-glow, rgba(0, 230, 255, 0.2)),
+    inset 0 0 10px var(--color-border-neon-glow, rgba(0, 230, 255, 0.1));
+}
+
+.neon-border:hover {
+  border-color: var(--color-border-focus, rgba(0, 230, 255, 0.6));
+  box-shadow:
+    0 0 20px var(--color-border-neon-glow, rgba(0, 230, 255, 0.4)),
+    inset 0 0 20px var(--color-border-neon-glow, rgba(0, 230, 255, 0.2));
+}
+
+/**
+ * Texto gradiente utilizando tokens de gradiente principal/secundário.
+ */
+.gradient-text {
+  background: var(
+    --gradient-primary,
+    linear-gradient(135deg, #00e6ff 0%, #7d00ff 100%)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-pink {
+  background: var(
+    --gradient-secondary,
+    linear-gradient(135deg, #ff00ff 0%, #00e6ff 100%)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/**
+ * Card com efeito glow animado ao hover.
+ */
+.card-glow {
+  position: relative;
+  overflow: hidden;
+}
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(
+    --gradient-primary,
+    linear-gradient(135deg, #00e6ff, #7d00ff)
+  );
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+.card-glow:hover::before {
+  opacity: 0.5;
+}
+
+/**
+ * Utilitários para sombras glow de várias cores usando tokens.
+ */
+.shadow-glow-cyan {
+  box-shadow: var(--shadow-glow-cyan, 0 0 20px rgba(0, 230, 255, 0.5));
+}
+.shadow-glow-pink {
+  box-shadow: var(--shadow-glow-pink, 0 0 20px rgba(255, 0, 255, 0.5));
+}
+.shadow-glow-purple {
+  box-shadow: var(--shadow-glow-purple, 0 0 20px rgba(125, 0, 255, 0.5));
+}
+.shadow-glow-green {
+  box-shadow: var(--shadow-glow-green, 0 0 20px rgba(0, 255, 0, 0.5));
+}
+
+/**
+ * Scroll suave e aprimorado para dispositivos móveis.
+ */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/**
+ * Scrollbar customizada para dark mode, utilizando tokens para as cores.
+ */
+.dark ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.dark ::-webkit-scrollbar-track {
+  background: var(--color-background-secondary, rgba(15, 15, 26, 0.5));
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: var(
+    --gradient-primary,
+    linear-gradient(180deg, #00e6ff, #7d00ff)
+  );
+  border-radius: var(--radius-md, 0.375rem);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00ccff, #6b00e6);
+}
+
+/**
+ * ==============================
+ * TIPOGRAFIA MELHORADA (tokens)
+ * ==============================
+ */
+
+/**
+ * Heading tags com peso, altura e spacing otimizados.
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/**
+ * Headings responsivos usando utilitários Tailwind vinculados aos tokens.
+ */
+h1 {
+  @apply text-4xl md:text-5xl lg:text-6xl;
+}
+h2 {
+  @apply text-3xl md:text-4xl lg:text-5xl;
+}
+h3 {
+  @apply text-2xl md:text-3xl lg:text-4xl;
+}
+
+p {
+  line-height: 1.7;
+}
+
+/**
+ * ==============================
+ * RESPONSIVIDADE E ACESSIBILIDADE
+ * ==============================
+ */
+
+/**
+ * Reduz animações e transições para usuários que preferem menos movimento (acessibilidade).
+ */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -294,92 +290,87 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
 
-/* =============================================================================
-   ANIMAÇÕES PWA
-   ============================================================================= */
+/**
+ * Estilo de foco para acessibilidade, usando tokens e color highlight.
+ */
+:focus-visible {
+  outline: 2px solid var(--color-border-focus, #0891b2);
+  outline-offset: 2px;
+}
 
-/* Animação de slide up para install prompt */
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+/**
+ * Foco especial para dark mode, utilizando efeitos neon.
+ */
+.dark :focus-visible {
+  outline-color: var(--color-brand-primary, #00e6ff);
+  box-shadow: 0 0 0 4px var(--color-border-neon-glow, rgba(0, 230, 255, 0.2));
+}
+
+/**
+ * Suporte a modo de contraste alto acessível (WCAG).
+ */
+@media (prefers-contrast: high) {
+  .dark {
+    --color-background-primary: #000000;
+    --color-text-primary: #ffffff;
+    --color-brand-primary: #00e6ff;
   }
 }
 
-/* Animação de slide down para update notification */
-@keyframes slideDown {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+/**
+ * ==============================
+ * COMPATIBILIDADE COM SHADCN/UI
+ * ==============================
+ */
+
+/**
+ * Mapeamento das variáveis do Shadcn UI para os design tokens,
+ * garantindo total integração de temas e consistência visual.
+ */
+:root {
+  --background: var(--color-background-primary);
+  --foreground: var(--color-text-primary);
+  --card: var(--color-surface-primary);
+  --card-foreground: var(--color-text-primary);
+  --popover: var(--color-surface-primary);
+  --popover-foreground: var(--color-text-primary);
+  --primary: var(--color-brand-primary);
+  --primary-foreground: var(--color-text-inverse);
+  --secondary: var(--color-background-secondary);
+  --secondary-foreground: var(--color-text-primary);
+  --muted: var(--color-background-secondary);
+  --muted-foreground: var(--color-text-secondary);
+  --accent: var(--color-background-tertiary);
+  --accent-foreground: var(--color-text-primary);
+  --destructive: var(--color-status-error);
+  --destructive-foreground: var(--color-text-inverse);
+  --border: var(--color-border-primary);
+  --input: var(--color-border-primary);
+  --ring: var(--color-border-focus);
+  --radius: var(--radius-lg);
 }
 
-/* =============================================================================
-   ANIMAÇÕES DE LOGIN - Efeitos visuais únicos
-   ============================================================================= */
-
-/* Animação de gradiente deslizante */
-@keyframes gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-/* Animação de partículas flutuantes */
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0) translateX(0);
-  }
-  33% {
-    transform: translateY(-20px) translateX(10px);
-  }
-  66% {
-    transform: translateY(-10px) translateX(-10px);
-  }
-}
-
-/* Animação de pulso suave */
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
-
-/* Animação de brilho deslizante */
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-/* Classe utilitária para animação de gradiente */
-.animate-gradient-shift {
-  background-size: 200% 200%;
-  animation: gradient-shift 15s ease infinite;
+.dark {
+  --background: var(--color-background-primary);
+  --foreground: var(--color-text-primary);
+  --card: var(--color-surface-primary);
+  --card-foreground: var(--color-text-primary);
+  --popover: var(--color-surface-primary);
+  --popover-foreground: var(--color-text-primary);
+  --primary: var(--color-brand-primary);
+  --primary-foreground: var(--color-text-inverse);
+  --secondary: var(--color-background-secondary);
+  --secondary-foreground: var(--color-text-primary);
+  --muted: var(--color-background-secondary);
+  --muted-foreground: var(--color-text-secondary);
+  --accent: var(--color-background-tertiary);
+  --accent-foreground: var(--color-text-primary);
+  --destructive: var(--color-status-error);
+  --destructive-foreground: var(--color-text-inverse);
+  --border: var(--color-border-primary);
+  --input: var(--color-border-primary);
+  --ring: var(--color-border-focus);
 }

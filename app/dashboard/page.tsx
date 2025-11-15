@@ -135,15 +135,7 @@ import { textToSlug } from '@/lib/utils/string';
 // Design Tokens
 // ============================================================================
 
-import {
-  BACKGROUND,
-  BORDER_RADIUS,
-  DIVIDER,
-  DOT,
-  GRADIENT_DIRECTIONS,
-  PARTICLE,
-  TRANSITIONS,
-} from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 
 // ==========================================================================
 // Constantes
@@ -511,8 +503,9 @@ function DashboardPageContent() {
       <div
         className={cn(
           'fixed inset-0 -z-10',
-          GRADIENT_DIRECTIONS.TO_RIGHT,
-          BACKGROUND.GRADIENT_OVERLAY,
+          'bg-gradient-to-r',
+          'from-cyan-500/5 via-purple-500/5 to-pink-500/5',
+          'dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5',
           'blur-3xl pointer-events-none'
         )}
         aria-hidden="true"
@@ -522,76 +515,76 @@ function DashboardPageContent() {
       <div
         className={cn(
           'fixed inset-0 -z-10 pointer-events-none',
-          PARTICLE.CONTAINER,
-          TRANSITIONS.OPACITY_VERY_SLOW
+          'opacity-0 dark:opacity-100',
+          'transition-opacity duration-1000'
         )}
         aria-hidden="true"
       >
         <div
           className={cn(
             'absolute top-[20%] left-[25%]',
-            PARTICLE.SIZES.MEDIUM,
-            PARTICLE.COLORS.CYAN,
-            PARTICLE.OPACITY.HIGH,
+            'w-2 h-2',
+            'bg-cyan-400',
+            'opacity-60',
             'animate-pulse',
-            BORDER_RADIUS.FULL,
-            PARTICLE.SHADOWS.CYAN
+            'rounded-full',
+            'shadow-lg shadow-cyan-400/50'
           )}
         />
         <div
           className={cn(
             'absolute top-[40%] right-[33%]',
-            PARTICLE.SIZES.SMALL,
-            PARTICLE.COLORS.PURPLE,
-            PARTICLE.OPACITY.LOW,
+            'w-1.5 h-1.5',
+            'bg-purple-400',
+            'opacity-40',
             'animate-pulse',
-            BORDER_RADIUS.FULL,
-            PARTICLE.SHADOWS.PURPLE
+            'rounded-full',
+            'shadow-lg shadow-purple-400/50'
           )}
           style={{ animationDelay: '1s' }}
         />
         <div
           className={cn(
             'absolute bottom-[40%] left-1/2',
-            PARTICLE.SIZES.SMALL,
-            PARTICLE.COLORS.PINK,
-            PARTICLE.OPACITY.MEDIUM,
+            'w-1.5 h-1.5',
+            'bg-pink-400',
+            'opacity-50',
             'animate-pulse',
-            BORDER_RADIUS.FULL,
-            PARTICLE.SHADOWS.PINK
+            'rounded-full',
+            'shadow-lg shadow-pink-400/50'
           )}
           style={{ animationDelay: '2s' }}
         />
         <div
           className={cn(
             'absolute top-1/2 right-1/4',
-            DOT.SIZES.TINY,
-            PARTICLE.COLORS.CYAN,
+            'w-1 h-1',
+            'bg-cyan-300',
             'opacity-30 animate-pulse',
-            BORDER_RADIUS.FULL,
-            PARTICLE.SHADOWS.CYAN
+            'rounded-full',
+            'shadow-lg shadow-cyan-300/50'
           )}
           style={{ animationDelay: '0.5s' }}
         />
         <div
           className={cn(
             'absolute top-1/3 left-1/3',
-            PARTICLE.SIZES.SMALL,
-            PARTICLE.COLORS.PURPLE,
+            'w-1.5 h-1.5',
+            'bg-purple-400',
             'opacity-35 animate-pulse',
-            BORDER_RADIUS.FULL,
-            PARTICLE.SHADOWS.PURPLE
+            'rounded-full',
+            'shadow-lg shadow-purple-400/50'
           )}
           style={{ animationDelay: '1.5s' }}
         />
         <div
           className={cn(
             'absolute bottom-1/3 right-1/3',
-            DOT.SIZES.TINY,
-            PARTICLE.COLORS.PINK,
+            'w-1 h-1',
+            'bg-pink-400',
             'opacity-25 animate-pulse',
-            BORDER_RADIUS.FULL,
-            PARTICLE.SHADOWS.PINK
+            'rounded-full',
+            'shadow-lg shadow-pink-400/50'
           )}
           style={{ animationDelay: '2.5s' }}
         />
@@ -601,14 +594,14 @@ function DashboardPageContent() {
       <div
         className={cn(
           'fixed top-0 left-0 right-0 z-20',
-          DIVIDER.HEIGHT_THICK,
-          GRADIENT_DIRECTIONS.TO_RIGHT,
-          DIVIDER.GRADIENT.THICK
+          'h-1',
+          'bg-gradient-to-r',
+          'from-transparent via-primary/30 dark:via-cyan-400/30 to-transparent'
         )}
         aria-hidden="true"
       />
 
-      <div className={cn('relative w-full', BACKGROUND.BACKDROP)}>
+      <div className={cn('relative w-full bg-background/80 dark:bg-black/50 backdrop-blur-sm')}>
         <div className="w-full mx-auto px-3 xs:px-4 sm:px-6 lg:px-8 py-12 xs:py-14 sm:py-16 md:py-20 lg:py-24 space-y-12 xs:space-y-14 sm:space-y-16 md:space-y-20 lg:space-y-24">
           <AnimatePresence mode="wait">
             {shouldShowHome ? (

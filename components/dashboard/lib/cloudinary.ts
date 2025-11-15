@@ -128,11 +128,9 @@ export async function uploadToCloudinary(
     if (crop) transformations.push(`c_${crop}`);
 
     // Qualidade: suporta 'lossless', 'best', 'auto' ou número
-    let useLossless = false;
     if (quality) {
       if (quality === 'lossless') {
         // Compressão lossless: usar flag fl_lossless (sem q_)
-        useLossless = true;
         formData.append('flags', 'lossless');
         // Lossless não precisa de q_, apenas fl_lossless
       } else if (quality === 'best') {
@@ -146,7 +144,6 @@ export async function uploadToCloudinary(
 
     // Flag lossless explícita (sobrescreve quality se necessário)
     if (lossless) {
-      useLossless = true;
       formData.append('flags', 'lossless');
       // Remove q_ se já foi adicionado, pois lossless não precisa
       const qualityIndex = transformations.findIndex(t => t.startsWith('q_'));

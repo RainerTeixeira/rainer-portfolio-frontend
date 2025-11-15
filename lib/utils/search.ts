@@ -83,6 +83,7 @@ export async function searchContent(query: string): Promise<SearchResult[]> {
  * @param _query - Termo de busca (não utilizado)
  * @returns Array vazio
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function searchContentSync(_query: string): SearchResult[] {
   console.warn(
     'searchContentSync está depreciado. Use searchContent() assíncrona.'

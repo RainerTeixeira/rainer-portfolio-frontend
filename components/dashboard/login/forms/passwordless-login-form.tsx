@@ -33,7 +33,7 @@ import { toast } from 'sonner';
 import type {
   PasswordlessInitResponse,
   PasswordlessVerifyResponse,
-} from '@/lib/api/services/auth.service';
+} from '@/lib/api/types';
 
 interface PasswordlessLoginFormProps {
   onSuccess?: () => void;

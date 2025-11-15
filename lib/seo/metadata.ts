@@ -64,7 +64,7 @@ interface GenerateMetadataProps {
  *   title: 'Meu Post',
  *   description: 'Descrição do post',
  *   type: 'article',
- *   publishedTime: '2024-01-15T00:00:00Z'
+ *   publishedTime: '2025-01-15T00:00:00Z'
  * });
  * ```
  */

@@ -89,12 +89,12 @@ A senha deve ter:
 - ✅ Pelo menos 1 letra maiúscula
 - ✅ Pelo menos 1 letra minúscula
 - ✅ Pelo menos 1 número
-- ✅ Pelo menos 1 caractere especial (!@#$%^&*)
+- ✅ Pelo menos 1 caractere especial (!@#$%^&\*)
 
 **Exemplos válidos**:
 
 - `Admin123!`
-- `SenhaForte@2024`
+- `SenhaForte@2025`
 - `MyP@ssw0rd`
 
 ---

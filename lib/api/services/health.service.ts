@@ -11,11 +11,11 @@
  */
 
 import { api } from '../client';
+import type { ApiResponse } from '../types';
 import type {
-  ApiResponse,
   DetailedHealthCheckResponse,
   HealthCheckResponse,
-} from '../types';
+} from '../types/health';
 
 // ============================================================================
 // Classe do Serviço

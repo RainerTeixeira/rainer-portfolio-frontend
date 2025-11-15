@@ -18,7 +18,7 @@
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import { BACKGROUND } from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 
 // ============================================================================
 // UI Components
@@ -33,7 +33,7 @@ import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
 
 export default function CookieSettingsPage() {
   return (
-    <div className={cn('min-h-screen', BACKGROUND.FULL)}>
+    <div className={cn('min-h-screen bg-background dark:bg-black')}>
       <ParticlesEffect variant="alt1" />
 
       <PageHeader

@@ -33,16 +33,7 @@ import { ProfileForm } from '@/components/dashboard/profile-form';
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import {
-  BACKDROP_BLUR,
-  BORDER_RADIUS,
-  GRADIENT_DIRECTIONS,
-  ICON_SIZES,
-  OPACITY,
-  SHADOWS,
-  TRANSITIONS,
-  Z_INDEX_CLASSES,
-} from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 import { ArrowLeft, Loader2, Settings as SettingsIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { JSX, Suspense } from 'react';
@@ -77,13 +68,13 @@ function SettingsPageContent(): JSX.Element {
         <div
           className={cn(
             'absolute inset-0',
-            GRADIENT_DIRECTIONS.TO_BR,
+            'bg-gradient-to-br',
             'from-primary/5 via-transparent to-primary/5 dark:from-cyan-400/5 dark:via-transparent dark:to-purple-400/5 blur-3xl pointer-events-none'
           )}
           aria-hidden="true"
         />
         {/* Loading spinner */}
-        <div className={cn('relative', Z_INDEX_CLASSES.CONTENT)}>
+        <div className={cn('relative z-10')}>
           <Loader2
             className="w-8 h-8 animate-spin text-primary dark:text-cyan-400"
             aria-label="Carregando..."
@@ -111,7 +102,7 @@ function SettingsPageContent(): JSX.Element {
       <div
         className={cn(
           'absolute inset-0',
-          GRADIENT_DIRECTIONS.TO_RIGHT,
+          'bg-gradient-to-r',
           'from-cyan-500/5 via-purple-500/5 to-pink-500/5 dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5 blur-3xl pointer-events-none'
         )}
         aria-hidden="true"
@@ -121,44 +112,39 @@ function SettingsPageContent(): JSX.Element {
       <div
         className={cn(
           'absolute inset-0 pointer-events-none',
-          OPACITY.NONE,
-          'dark:opacity-100',
-          TRANSITIONS.OPACITY_VERY_SLOW
+          'opacity-0 dark:opacity-100',
+          'transition-opacity duration-1000'
         )}
         aria-hidden="true"
       >
         <div
           className={cn(
             'absolute top-20 left-1/4 w-2 h-2 bg-cyan-400 animate-pulse opacity-60',
-            BORDER_RADIUS.FULL,
-            SHADOWS.LARGE,
-            'shadow-cyan-400/50'
+            'rounded-full',
+            'shadow-lg shadow-cyan-400/50'
           )}
         />
         <div
           className={cn(
             'absolute top-40 right-1/3 w-1.5 h-1.5 bg-purple-400 animate-pulse opacity-40',
-            BORDER_RADIUS.FULL,
-            SHADOWS.LARGE,
-            'shadow-purple-400/50'
+            'rounded-full',
+            'shadow-lg shadow-purple-400/50'
           )}
           style={{ animationDelay: '1s' }}
         />
         <div
           className={cn(
             'absolute bottom-40 left-1/2 w-1.5 h-1.5 bg-pink-400 animate-pulse opacity-50',
-            BORDER_RADIUS.FULL,
-            SHADOWS.LARGE,
-            'shadow-pink-400/50'
+            'rounded-full',
+            'shadow-lg shadow-pink-400/50'
           )}
           style={{ animationDelay: '2s' }}
         />
         <div
           className={cn(
             'absolute top-1/2 right-1/4 w-1 h-1 bg-cyan-300 animate-pulse opacity-30',
-            BORDER_RADIUS.FULL,
-            SHADOWS.LARGE,
-            'shadow-cyan-300/50'
+            'rounded-full',
+            'shadow-lg shadow-cyan-300/50'
           )}
           style={{ animationDelay: '0.5s' }}
         />
@@ -168,7 +154,7 @@ function SettingsPageContent(): JSX.Element {
       <div
         className={cn(
           'relative h-1',
-          GRADIENT_DIRECTIONS.TO_RIGHT,
+          'bg-gradient-to-r',
           'from-transparent via-primary/30 dark:via-cyan-400/30 to-transparent'
         )}
         aria-hidden="true"
@@ -193,12 +179,12 @@ function SettingsPageContent(): JSX.Element {
               className={cn(
                 'h-9 xs:h-10 w-9 xs:w-10',
                 'bg-card/60 dark:bg-black/50',
-                BACKDROP_BLUR.XL,
+                'backdrop-blur-xl',
                 'border border-border/50 dark:border-cyan-400/20',
                 'hover:bg-card/80 dark:hover:bg-black/70',
                 'hover:border-primary/40 dark:hover:border-cyan-400/50',
                 'hover:shadow-lg hover:shadow-primary/10 dark:hover:shadow-cyan-500/20',
-                TRANSITIONS.NORMAL,
+                'transition-all duration-200 ease-in-out',
                 'group',
                 'dark:text-cyan-300 dark:hover:text-cyan-200'
               )}
@@ -206,10 +192,10 @@ function SettingsPageContent(): JSX.Element {
             >
               <ArrowLeft
                 className={cn(
-                  ICON_SIZES.SM,
+                  'h-4 w-4',
                   'xs:h-5 xs:w-5',
                   'group-hover:-translate-x-1',
-                  TRANSITIONS.TRANSFORM
+                  'transition-transform duration-200 ease-in-out'
                 )}
                 aria-hidden="true"
               />
@@ -219,16 +205,16 @@ function SettingsPageContent(): JSX.Element {
             <div
               className={cn(
                 'flex-1 bg-card/60 dark:bg-black/50',
-                BACKDROP_BLUR.XL,
+                'backdrop-blur-xl',
                 'border border-border/50 dark:border-cyan-400/20',
-                BORDER_RADIUS['2XL'],
+                'rounded-2xl',
                 'p-4 xs:p-5 sm:p-6',
                 'hover:bg-card/80 dark:hover:bg-black/70',
                 'hover:shadow-xl hover:shadow-primary/10 dark:hover:shadow-cyan-500/20',
-                TRANSITIONS.SLOW,
+                'transition-all duration-500 ease-in-out',
                 'relative overflow-hidden',
                 'before:absolute before:inset-0',
-                GRADIENT_DIRECTIONS.TO_BR,
+                'bg-gradient-to-br',
                 'before:from-primary/0 before:via-primary/0 before:to-primary/0',
                 'hover:before:from-primary/5 hover:before:via-transparent hover:before:to-primary/5',
                 'dark:hover:before:from-cyan-400/5 dark:hover:before:via-transparent dark:hover:before:to-purple-400/5',
@@ -238,25 +224,21 @@ function SettingsPageContent(): JSX.Element {
               <div
                 className={cn(
                   'relative',
-                  Z_INDEX_CLASSES.CONTENT,
+                  'z-10',
                   'flex items-center gap-3 xs:gap-4 mb-2'
                 )}
               >
                 <div
                   className={cn(
                     'p-2 xs:p-2.5',
-                    BORDER_RADIUS.XL,
+                    'rounded-xl',
                     'bg-primary/10 dark:bg-cyan-400/10',
                     'border border-primary/20 dark:border-cyan-400/20',
                     'text-primary dark:text-cyan-400'
                   )}
                 >
                   <SettingsIcon
-                    className={cn(
-                      ICON_SIZES.SM,
-                      'xs:h-5 xs:w-5',
-                      'sm:h-6 sm:w-6'
-                    )}
+                    className={cn('h-4 w-4', 'xs:h-5 xs:w-5', 'sm:h-6 sm:w-6')}
                   />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -302,13 +284,13 @@ export default function SettingsPage() {
           <div
             className={cn(
               'absolute inset-0',
-              GRADIENT_DIRECTIONS.TO_BR,
+              'bg-gradient-to-br',
               'from-primary/5 via-transparent to-primary/5 dark:from-cyan-400/5 dark:via-transparent dark:to-purple-400/5 blur-3xl pointer-events-none'
             )}
             aria-hidden="true"
           />
           {/* Loading spinner */}
-          <div className={cn('relative', Z_INDEX_CLASSES.CONTENT)}>
+          <div className={cn('relative z-10')}>
             <Loader2
               className="h-8 w-8 animate-spin text-primary dark:text-cyan-400"
               aria-label="Carregando configurações..."

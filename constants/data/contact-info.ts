@@ -8,12 +8,8 @@
  * @version 2.0.0
  */
 
-import {
-  COLOR_CYAN,
-  COLOR_ORANGE,
-  COLOR_PINK,
-  COLOR_PURPLE,
-} from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
+// Usando valores hex diretos baseados nos tokens da biblioteca
 import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 import React from 'react';
 import { CONTACT_CONFIG } from '../site/meta';
@@ -54,7 +50,7 @@ export const CONTACT_INFO_CARDS: ReadonlyArray<ContactInfoCardConfig> = [
     color: 'cyan',
     borderColor: 'border-cyan-400/20',
     textColor: 'text-cyan-200',
-    iconColor: COLOR_CYAN[400],
+    iconColor: '#22d3ee', // cyan-400 (baseado nos tokens)
   },
   {
     icon: MapPin,
@@ -66,7 +62,7 @@ export const CONTACT_INFO_CARDS: ReadonlyArray<ContactInfoCardConfig> = [
     color: 'purple',
     borderColor: 'border-purple-400/20',
     textColor: 'text-purple-200',
-    iconColor: COLOR_PURPLE[400],
+    iconColor: '#a855f7', // purple-400 (baseado nos tokens)
   },
   {
     icon: Phone,
@@ -81,7 +77,7 @@ export const CONTACT_INFO_CARDS: ReadonlyArray<ContactInfoCardConfig> = [
     hoverBorder: 'hover:border-pink-400/40',
     textColor: 'text-pink-200',
     hoverText: 'hover:text-pink-300',
-    iconColor: COLOR_PINK[400],
+    iconColor: '#f472b6', // pink-400 (baseado nos tokens)
   },
   {
     icon: Mail,
@@ -96,6 +92,6 @@ export const CONTACT_INFO_CARDS: ReadonlyArray<ContactInfoCardConfig> = [
     textColor: 'text-orange-200',
     hoverBorder: 'hover:border-orange-400/40',
     hoverText: 'hover:text-orange-300',
-    iconColor: COLOR_ORANGE[400],
+    iconColor: '#fb923c', // orange-400 (baseado nos tokens)
   },
 ] as const;

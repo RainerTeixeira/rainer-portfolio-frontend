@@ -1,95 +1,66 @@
 /**
- * Configuração avançada do Next.js
- *
- * Este arquivo define configurações personalizadas para otimização,
- * segurança e funcionalidades específicas do projeto.
- *
+ * @file next.config.js
+ * @description Configuração avançada do Next.js para performance, segurança
+ * e integração com Vercel. Define otimizações de bundle, manipulação de imports,
+ * transpile de workspaces, configurações de imagens, headers de segurança,
+ * redirecionamentos e fallback de Webpack.
  * @type {import('next').NextConfig}
- * @author Rainer Teixeira
- * @since 1.0.0
+ * @author Rainer
  */
 const nextConfig = {
   /**
-   * Configurações experimentais de performance
-   *
-   * Otimiza imports de pacotes específicos para reduzir
-   * o tamanho do bundle e melhorar a performance.
-   *
-   * NOTA IMPORTANTE SOBRE TURBOPACK:
-   * O Turbopack no Next.js 15 ainda tem limitações conhecidas com pacotes locais
-   * instalados via `file:` protocol. Se você encontrar erros como:
-   * "Module not found: Can't resolve '@rainer/design-tokens'"
-   * ao usar `--turbo`, use `npm run dev` (webpack) ao invés de `npm run dev:turbo`.
-   *
-   * O webpack resolve corretamente pacotes locais instalados via file: protocol.
+   * Opções experimentais do Next.js:
+   * - optimizePackageImports: Reduz o bundle transferindo apenas ícones realmente usados.
    */
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
 
   /**
-   * Pacotes que devem ser transpilados pelo Next.js
-   *
-   * Necessário para pacotes locais ou pacotes que não são
-   * pré-compilados para ESM/CommonJS.
+   * Lista de workspaces a serem transpilados (monorepo support).
    */
   transpilePackages: ['@rainer/design-tokens'],
 
   /**
-   * Configurações de otimização de imagens
-   *
-   * Define domínios permitidos, formatos suportados e
-   * tamanhos responsivos para otimização automática.
+   * Configurações avançadas de imagens (domínios autorizados, formatos, tamanhos).
    */
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'rainersoft.com.br',
-        port: '',
-        pathname: '/**',
-      },
+      { protocol: 'https', hostname: 'rainersoft.com.br', pathname: '/**' },
       {
         protocol: 'https',
         hostname: 'rainer-portfolio.vercel.app',
-        port: '',
         pathname: '/**',
       },
       {
         protocol: 'https',
         hostname:
           'rainer-portfolio-i4pf4a37z-rainerteixeiras-projects.vercel.app',
-        port: '',
         pathname: '/**',
       },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'via.placeholder.com',
-        port: '',
-        pathname: '/**',
-      },
+      { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'via.placeholder.com', pathname: '/**' },
     ],
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
-  // Configurações de compilação
+  /**
+   * Opções do compilador Next.js.
+   * - removeConsole: Remove todos os consoles na build production.
+   */
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
 
-  // Headers de segurança
+  /**
+   * Headers HTTP para reforçar segurança e cache.
+   * @returns {Promise<Array<{source: string, headers: Array<{key: string, value: string}>}>>}
+   */
   async headers() {
     return [
       {
-        // Segurança básica para todas as rotas
         source: '/(.*)',
         headers: [
           { key: 'X-Frame-Options', value: 'DENY' },
@@ -98,7 +69,6 @@ const nextConfig = {
         ],
       },
       {
-        // Cache agressivo para assets gerados pelo Next
         source: '/_next/static/:path*',
         headers: [
           {
@@ -108,7 +78,6 @@ const nextConfig = {
         ],
       },
       {
-        // Cache agressivo para arquivos estáticos comuns
         source:
           '/:all*(svg|jpg|jpeg|png|gif|webp|ico|ttf|otf|woff|woff2|mp4|webm|json)',
         headers: [
@@ -121,45 +90,33 @@ const nextConfig = {
     ];
   },
 
-  // Configurações de redirecionamento
+  /**
+   * Redirecionamentos permanentes customizados.
+   * @returns {Promise<Array<{source: string, destination: string, permanent: boolean}>>}
+   */
   async redirects() {
-    return [
-      {
-        source: '/home',
-        destination: '/',
-        permanent: true,
-      },
-    ];
+    return [{ source: '/home', destination: '/', permanent: true }];
   },
 
   /**
-   * Webpack configuration
-   *
-   * NOTA: Quando usando --turbo, o Turbopack substitui o webpack.
-   * Esta configuração só é usada quando não está usando Turbopack.
-   *
-   * Next.js 15 usa webpack por padrão (ou Turbopack com --turbo).
-   * Esta configuração garante que o webpack resolve corretamente:
-   * - Pacotes locais (file: protocol)
-   * - Symlinks
-   * - Módulos do node_modules
+   * Customização do Webpack.
+   * - Garante resolução de symlinks correta (workspaces).
+   * - Fornece fallback seguro para fs, net, tls no client-side.
    */
   webpack: (config, { isServer }) => {
-    // Garante resolução correta de pacotes locais e symlinks
     config.resolve.symlinks = true;
-
-    // Garante resolução correta de módulos ES
     if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
+      config.resolve.fallback = { fs: false, net: false, tls: false };
     }
-
     return config;
   },
+
+  /**
+   * Configuração do Turbopack (vazio para silenciar erro quando webpack está configurado).
+   * Next.js 16 usa Turbopack por padrão, mas temos configuração webpack customizada.
+   * Esta configuração vazia permite usar --webpack explicitamente.
+   */
+  turbopack: {},
 };
 
 export default nextConfig;

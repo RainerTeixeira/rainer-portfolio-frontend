@@ -10,15 +10,11 @@
  *
  * @fileoverview Serviço de upload de imagens otimizadas
  * @author Rainer Teixeira
+ * @version 1.0.0
  */
 
 import { api } from '../client';
-
-interface UploadImageResponse {
-  success: boolean;
-  url: string; // URL curta: /blog/nome_arquivo
-  fullUrl?: string; // URL completa do Cloudinary (opcional)
-}
+import type { UploadImageResponse } from '../types/cloudinary';
 
 /**
  * Serviço para upload de imagens do blog para Cloudinary

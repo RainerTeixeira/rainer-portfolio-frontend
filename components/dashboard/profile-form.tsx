@@ -42,15 +42,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { cloudinaryService } from '@/lib/api/services/cloudinary.service';
+import { cloudinaryService } from '@/lib/api';
 import { cn } from '@/lib/utils';
-import {
-  BACKDROP_BLUR,
-  BORDER_RADIUS,
-  GRADIENT_DIRECTIONS,
-  SHADOWS,
-  TRANSITIONS,
-} from '@rainer/design-tokens';
 import {
   Camera,
   CheckCircle2,
@@ -71,21 +64,21 @@ const FORM_STYLES = {
   /** Card premium com glassmorphism */
   card: cn(
     'text-left bg-card/60 dark:bg-black/50',
-    BACKDROP_BLUR.XL,
-    BORDER_RADIUS['2XL'],
+    'backdrop-blur-xl',
+    'rounded-2xl',
     'p-4 xs:p-5 sm:p-6 md:p-8',
     'border border-border/50 dark:border-cyan-400/20',
     'hover:border-primary/40 dark:hover:border-cyan-400/50',
     'hover:bg-card/80 dark:hover:bg-black/70',
-    `hover:${SHADOWS.XXLARGE} hover:shadow-primary/10 dark:hover:shadow-cyan-500/20`,
-    TRANSITIONS.SLOW,
+    'hover:shadow-2xl hover:shadow-primary/10 dark:hover:shadow-cyan-500/20',
+    'transition-all duration-500 ease-in-out',
     'h-full flex flex-col group',
     'relative overflow-hidden',
-    `before:absolute before:inset-0 ${GRADIENT_DIRECTIONS.TO_BR}`,
+    'before:absolute before:inset-0 before:bg-gradient-to-br',
     'before:from-primary/0 before:via-primary/0 before:to-primary/0',
     'hover:before:from-primary/5 hover:before:via-transparent hover:before:to-primary/5',
     'dark:hover:before:from-cyan-400/5 dark:hover:before:via-transparent dark:hover:before:to-purple-400/5',
-    `before:${TRANSITIONS.SLOW} before:pointer-events-none`
+    'before:transition-all before:duration-500 before:ease-in-out before:pointer-events-none'
   ),
 
   /** Título de seção */
@@ -93,7 +86,7 @@ const FORM_STYLES = {
     'text-base sm:text-lg md:text-xl font-semibold',
     'text-foreground dark:text-cyan-200 dark:font-mono dark:tracking-wider',
     'mb-2 sm:mb-3 group-hover:text-primary dark:group-hover:text-cyan-100',
-    TRANSITIONS.COLORS
+    'transition-colors duration-200 ease-in-out'
   ),
 
   /** Descrição de seção */

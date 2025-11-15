@@ -28,8 +28,8 @@ Formata data para exibição em português.
 ```typescript
 import { formatDate } from '@/lib/utils/string';
 
-formatDate(new Date()); // "15 de janeiro de 2024"
-formatDate('2024-01-15T00:00:00Z'); // "15 de janeiro de 2024"
+formatDate(new Date()); // "15 de janeiro de 2025"
+formatDate('2025-01-15T00:00:00Z'); // "15 de janeiro de 2025"
 ```
 
 ##### `formatDateTime(date: Date | string): string`
@@ -39,7 +39,7 @@ Formata data e hora para exibição em português.
 ```typescript
 import { formatDateTime } from '@/lib/utils/string';
 
-formatDateTime(new Date()); // "15 de janeiro de 2024, 14:30"
+formatDateTime(new Date()); // "15 de janeiro de 2025, 14:30"
 ```
 
 ##### `translatePostStatus(status: PostStatus | string): string`
@@ -198,7 +198,7 @@ const metadata = generateMetadata({
   title: 'Meu Post',
   description: 'Descrição do post',
   type: 'article',
-  publishedTime: '2024-01-15T00:00:00Z',
+  publishedTime: '2025-01-15T00:00:00Z',
 });
 ```
 
@@ -315,18 +315,18 @@ Se você está migrando de `@/lib/api-helpers`, consulte o [Guia de Migração](
 
 ### Mapeamento Rápido
 
-| Função Antiga | Nova Localização |
-|--------------|------------------|
-| `textToSlug` | `@/lib/utils/string` |
-| `formatDate` | `@/lib/utils/string` |
-| `formatDateTime` | `@/lib/utils/string` |
-| `translateStatus` | `@/lib/utils/string` |
-| `extractTextFromTiptap` | `@/lib/content` |
-| `generateExcerpt` | `@/lib/content` |
-| `calculateReadingTime` | `@/lib/content` |
-| `preparePostForCreate` | `@/lib/api/helpers` |
-| `preparePostForUpdate` | `@/lib/api/helpers` |
-| `validatePostData` | `@/lib/api/helpers` |
+| Função Antiga           | Nova Localização     |
+| ----------------------- | -------------------- |
+| `textToSlug`            | `@/lib/utils/string` |
+| `formatDate`            | `@/lib/utils/string` |
+| `formatDateTime`        | `@/lib/utils/string` |
+| `translateStatus`       | `@/lib/utils/string` |
+| `extractTextFromTiptap` | `@/lib/content`      |
+| `generateExcerpt`       | `@/lib/content`      |
+| `calculateReadingTime`  | `@/lib/content`      |
+| `preparePostForCreate`  | `@/lib/api/helpers`  |
+| `preparePostForUpdate`  | `@/lib/api/helpers`  |
+| `validatePostData`      | `@/lib/api/helpers`  |
 
 ---
 
@@ -336,4 +336,3 @@ Se você está migrando de `@/lib/api-helpers`, consulte o [Guia de Migração](
 - [Guia de API](../../lib/api/README.md)
 - [Guia de Content Utils](../../docs/03-GUIAS/GUIA_CONTENT_UTILS.md)
 - [Guia de SEO Utils](../../docs/03-GUIAS/GUIA_SEO_UTILS.md)
-

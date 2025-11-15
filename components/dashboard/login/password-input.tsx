@@ -36,7 +36,7 @@
 import { usePasswordStrength } from '@/components/dashboard/hooks';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { BORDER_RADIUS, TRANSITIONS } from '@rainer/design-tokens';
+// Design tokens via CSS variables (imported in globals.css)
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 
@@ -99,7 +99,7 @@ export function PasswordInput({
           onClick={() => setShowPassword(!showPassword)}
           className={cn(
             'absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20',
-            TRANSITIONS.COLORS
+            'transition-colors duration-200 ease-in-out'
           )}
           disabled={disabled}
           tabIndex={-1}
@@ -122,8 +122,8 @@ export function PasswordInput({
                 key={i}
                 className={cn(
                   'h-1 flex-1',
-                  BORDER_RADIUS.FULL,
-                  TRANSITIONS.COLORS,
+                  'rounded-full',
+                  'transition-colors duration-200 ease-in-out',
                   i < passwordStrength.strength
                     ? passwordStrength.color
                     : 'bg-muted'

@@ -310,6 +310,6 @@ Todos os hooks estão criados, documentados e prontos para uso. Os services est�
 ---
 
 **Autor:** Rainer Teixeira  
-**Data:** 2024  
+**Data:** 2025  
 **Versão:** 1.0.0  
 **Status:** ✅ COMPLETO
