@@ -52,7 +52,7 @@ const STATS_DATA = [
   {
     icon: Users,
     value: '10+',
-    label: 'Projetos Completos',
+    label: 'Projetos Full-Stack',
     gradient: 'from-purple-500 to-pink-600',
     iconBg: 'from-purple-400 to-pink-500',
     glowColor: 'purple-500',
@@ -68,7 +68,7 @@ const STATS_DATA = [
   {
     icon: Trophy,
     value: '200+',
-    label: 'Componentes Criados',
+    label: 'Componentes',
     gradient: 'from-green-500 to-emerald-600',
     iconBg: 'from-green-400 to-emerald-500',
     glowColor: 'green-500',
@@ -76,7 +76,7 @@ const STATS_DATA = [
   {
     icon: Zap,
     value: '< 2s',
-    label: 'Tempo de Carregamento',
+    label: 'Load Time',
     gradient: 'from-orange-500 to-red-600',
     iconBg: 'from-orange-400 to-red-500',
     glowColor: 'orange-500',
@@ -84,7 +84,7 @@ const STATS_DATA = [
   {
     icon: Globe,
     value: '20+',
-    label: 'Tecnologias Dominadas',
+    label: 'Tecnologias',
     gradient: 'from-pink-500 to-purple-600',
     iconBg: 'from-pink-400 to-purple-500',
     glowColor: 'pink-500',
@@ -118,8 +118,8 @@ export function StatsShowcase() {
             className={cn(
               'inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-white font-bold text-sm mb-8 shadow-xl',
               isDark
-                ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400'
-                : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'
+                ? 'bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400'
+                : 'bg-linear-to-r from-blue-500 via-purple-500 to-pink-500'
             )}
           >
             <Trophy className="w-5 h-5" />
@@ -130,7 +130,7 @@ export function StatsShowcase() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
+            className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
           >
             Números que Falam
           </motion.h2>
@@ -172,7 +172,7 @@ export function StatsShowcase() {
                   {/* Brilho de fundo */}
                   <div
                     className={cn(
-                      'absolute inset-0 bg-gradient-to-br rounded-3xl blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500',
+                      'absolute inset-0 bg-linear-to-br rounded-3xl blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500',
                       stat.iconBg
                     )}
                   ></div>
@@ -191,7 +191,7 @@ export function StatsShowcase() {
                     {/* Brilho interno */}
                     <div
                       className={cn(
-                        'absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500',
+                        'absolute inset-0 bg-linear-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500',
                         stat.gradient
                       )}
                     ></div>
@@ -201,13 +201,13 @@ export function StatsShowcase() {
                       <div className="relative mb-6">
                         <div
                           className={cn(
-                            'absolute inset-0 bg-gradient-to-br rounded-2xl blur-md opacity-40',
+                            'absolute inset-0 bg-linear-to-br rounded-2xl blur-md opacity-40',
                             stat.iconBg
                           )}
                         ></div>
                         <div
                           className={cn(
-                            'relative inline-flex p-4 rounded-2xl bg-gradient-to-br shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300',
+                            'relative inline-flex p-4 rounded-2xl bg-linear-to-br shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300',
                             stat.iconBg
                           )}
                         >
@@ -218,7 +218,7 @@ export function StatsShowcase() {
                       {/* Valor */}
                       <div
                         className={cn(
-                          'text-4xl sm:text-5xl font-black mb-3 bg-gradient-to-r bg-clip-text text-transparent',
+                          'text-4xl sm:text-5xl font-black mb-3 bg-linear-to-r bg-clip-text text-transparent',
                           stat.gradient
                         )}
                       >

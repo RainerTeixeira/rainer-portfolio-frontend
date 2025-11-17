@@ -1,6 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite';
-import { mergeConfig } from 'vite';
 import path from 'path';
+import { mergeConfig } from 'vite';
 
 const config: StorybookConfig = {
   stories: ['../components/**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)'],
@@ -18,7 +18,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
-  viteFinal: async (config) => {
+  viteFinal: async config => {
     return mergeConfig(config, {
       resolve: {
         alias: {

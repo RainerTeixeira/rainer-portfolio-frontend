@@ -36,6 +36,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
 import { useEffect, useState, type CSSProperties } from 'react';
+// HeroLoadingState removido - não é mais necessário
 import { useCarouselKeyboard } from './hooks';
 
 // ============================================================================
@@ -44,7 +45,7 @@ import { useCarouselKeyboard } from './hooks';
 
 const Carousel = dynamic(() => import('./carousel'), {
   ssr: false,
-  loading: () => <HeroLoadingState />,
+  // Loading removido - loading acontece apenas no loading-screen
 });
 
 // ============================================================================
@@ -111,50 +112,7 @@ interface HeroContentOverlayProps {
 // Components
 // ============================================================================
 
-/**
- * Estado de carregamento exibido enquanto o carousel é carregado
- */
-function HeroLoadingState() {
-  const { resolvedTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const isDarkTheme = isMounted && resolvedTheme === 'dark';
-
-  return (
-    <div
-      className={`relative w-full h-svh flex items-center justify-center overflow-hidden ${isDarkTheme ? 'bg-black' : 'bg-white'}`}
-      role="status"
-      aria-label="Carregando conteúdo principal"
-    >
-      <div className="text-center space-y-6">
-        {/* Spinner animado com duplo anel */}
-        <div className="relative" aria-hidden="true">
-          <div
-            className={`w-20 h-20 border-4 ${isDarkTheme ? 'border-cyan-400' : 'border-blue-500'} border-t-transparent rounded-full animate-spin mx-auto`}
-          />
-          <div
-            className={cn(
-              'absolute inset-0 w-20 h-20 border-4 border-b-transparent rounded-full animate-spin mx-auto',
-              '[animation-direction:reverse]',
-              isDarkTheme ? 'border-pink-400' : 'border-purple-600'
-            )}
-          />
-        </div>
-
-        {/* Texto de carregamento */}
-        <p
-          className={`${isDarkTheme ? 'text-cyan-300' : 'text-blue-600'} font-mono text-sm tracking-wider animate-pulse`}
-        >
-          INICIALIZANDO SISTEMA...
-        </p>
-      </div>
-    </div>
-  );
-}
+// HeroLoadingState removido - loading acontece apenas no loading-screen
 
 /**
  * Overlay de conteúdo do hero com animações
@@ -329,6 +287,7 @@ export function HeroSection() {
       onMouseLeave={resumeAutoplay}
     >
       {/* Layer 1: Carousel de fundo (z-0) */}
+      {/* Carousel renderiza diretamente - loading acontece apenas no loading-screen */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <Carousel />
       </div>

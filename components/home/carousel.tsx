@@ -35,6 +35,7 @@
 
 'use client';
 
+import { useMatrix } from '@/components/providers';
 import { hexToRGB, hexToRGBA } from '@/lib/utils/design-tokens';
 import { useTheme } from 'next-themes';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
@@ -241,11 +242,11 @@ const MatrixCharacterSet = memo(function MatrixCharacterSet({
 // Componente memoizado para melhor performance
 const Carousel = memo(function Carousel() {
   const { resolvedTheme } = useTheme();
+  const {
+    matrixColumns: contextMatrixColumns,
+    isInitialized: matrixInitialized,
+  } = useMatrix();
   const [mounted, setMounted] = useState(false);
-  const [isReady, setIsReady] = useState(false);
-  const [isBooting, setIsBooting] = useState(true);
-  const [bootProgress, setBootProgress] = useState(0);
-  const [bootText, setBootText] = useState('');
   const [matrixColumns, setMatrixColumns] = useState<MatrixColumn[]>([]);
   const [particles, setParticles] = useState<Particle[]>([]);
   const [isMobile, setIsMobile] = useState(false);
@@ -300,127 +301,17 @@ const Carousel = memo(function Carousel() {
   useEffect(() => {
     setMounted(true);
 
-    // Inicializar Matrix Rain imediatamente para aparecer no boot
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      const mobileBreakpoint = 640;
-      const tabletBreakpoint = 1024;
-      const currentIsMobile = width < mobileBreakpoint;
-      const currentIsTablet =
-        width >= mobileBreakpoint && width < tabletBreakpoint;
-
-      const columnCount = currentIsMobile
-        ? Math.min(12, Math.max(6, Math.floor(width / 40)))
-        : currentIsTablet
-          ? Math.min(18, Math.max(10, Math.floor(width / 45)))
-          : Math.min(25, Math.max(15, Math.floor(width / 50)));
-
-      // Criar colunas iniciais para o boot
-      const initialColumns: MatrixColumn[] = Array.from({
-        length: columnCount,
-      }).map((_, i) => {
-        const randomId = Math.round(Math.random() * 10000);
-        const charactersCount = currentIsMobile
-          ? 8 + Math.floor(Math.random() * 6)
-          : 10 + Math.floor(Math.random() * 8);
-        const intensity = 0.6 + Math.random() * 0.3;
-
-        const characters: string[] = Array.from({
-          length: charactersCount,
-        }).map((_, idx) => {
-          if (idx === 0) return '1';
-          const pattern =
-            BINARY_PATTERNS[
-              Math.floor(Math.random() * BINARY_PATTERNS.length)
-            ] || '0101';
-          return pattern[idx % pattern.length] || '0';
-        });
-
-        return {
-          id: `col-${i}-${randomId}`,
-          leftPct: (i / columnCount) * 100,
-          fontSize: currentIsMobile
-            ? 12 + Math.random() * 4
-            : currentIsTablet
-              ? 14 + Math.random() * 6
-              : 16 + Math.random() * 6,
-          animationDuration: 3 + Math.random() * 2,
-          animationDelay: (i / columnCount) * 8,
-          characters,
-          intensity,
-          type: 'binary' as const,
-          speed: 1.2,
-        };
-      });
-
-      setMatrixColumns(initialColumns);
+    // Usar matrix do contexto se disponível (já inicializada no loading-screen)
+    if (matrixInitialized && contextMatrixColumns.length > 0) {
+      setMatrixColumns(contextMatrixColumns);
     }
-  }, []);
+  }, [matrixInitialized, contextMatrixColumns]);
 
   /* ==========================================================
-     SISTEMA DE BOOT HACKER CYBERPUNK 🚀
+     SISTEMA DE BOOT REMOVIDO
      ========================================================== */
-  useEffect(() => {
-    if (!mounted) return;
-
-    const bootMessages = [
-      'INITIALIZING SYSTEM...',
-      'LOADING NEURAL NETWORKS...',
-      'CONNECTING TO MATRIX...',
-      'SYNCHRONIZING DATA STREAMS...',
-      'ACTIVATING QUANTUM PROCESSORS...',
-      'ESTABLISHING SECURE CONNECTION...',
-      'SYSTEM READY',
-    ];
-
-    let currentMessageIndex = 0;
-    let progress = 0;
-    const bootDuration = 3500; // 3.5 segundos de boot
-    const progressInterval = 50; // Atualizar progresso a cada 50ms
-    const messageInterval = bootDuration / bootMessages.length;
-
-    const progressTimer = setInterval(() => {
-      progress += 100 / (bootDuration / progressInterval);
-      if (progress >= 100) {
-        progress = 100;
-        setBootProgress(progress);
-        clearInterval(progressTimer);
-      } else {
-        setBootProgress(Math.min(100, progress));
-      }
-    }, progressInterval);
-
-    const messageTimer = setInterval(() => {
-      if (currentMessageIndex < bootMessages.length) {
-        const message = bootMessages[currentMessageIndex];
-        if (message) {
-          setBootText(message);
-        }
-        currentMessageIndex++;
-      } else {
-        clearInterval(messageTimer);
-      }
-    }, messageInterval);
-
-    // Iniciar primeira mensagem
-    const firstMessage = bootMessages[0];
-    if (firstMessage) {
-      setBootText(firstMessage);
-    }
-
-    // Finalizar boot após duração completa
-    const bootCompleteTimer = setTimeout(() => {
-      setIsBooting(false);
-      clearInterval(progressTimer);
-      clearInterval(messageTimer);
-    }, bootDuration);
-
-    return () => {
-      clearTimeout(bootCompleteTimer);
-      clearInterval(progressTimer);
-      clearInterval(messageTimer);
-    };
-  }, [mounted]);
+  // Boot movido para loading-screen.tsx
+  // O carousel agora inicia diretamente com a matrix já pronta
 
   /* ==========================================================
      SISTEMA DE DIMENSÕES RESPONSIVAS AVANÇADO
@@ -649,7 +540,7 @@ const Carousel = memo(function Carousel() {
       } else {
         updateResponsiveDimensions();
       }
-      setIsReady(true);
+      // setIsReady removido - não é mais necessário
     });
 
     let resizeRafId: number | null = null;
@@ -675,194 +566,7 @@ const Carousel = memo(function Carousel() {
    */
   const isDarkTheme = mounted ? resolvedTheme === 'dark' : false;
 
-  // Tela de boot hacker cyberpunk
-  if (isBooting && mounted) {
-    return (
-      <div
-        className={`absolute inset-0 w-full h-full overflow-hidden transition-opacity duration-1000 ${isDarkTheme ? 'bg-black' : 'bg-white'}`}
-      >
-        {/* Matrix Rain em tela cheia durante boot */}
-        <div className="matrix-grid absolute inset-0 z-0 overflow-hidden">
-          {matrixColumns.length > 0 &&
-            matrixColumns.map(column => (
-              <div
-                key={column.id}
-                className="matrix-column-wrapper absolute pointer-events-none"
-                style={{
-                  left: `${column.leftPct}%`,
-                  top: 0,
-                  height: '200vh',
-                  animationName: 'matrixBinaryFall',
-                  animationDuration: `${column.animationDuration}s`,
-                  animationTimingFunction: 'linear',
-                  animationIterationCount: 'infinite',
-                  animationDelay: `${column.animationDelay}s`,
-                  transform: `scaleY(${column.speed})`,
-                }}
-              >
-                <MatrixCharacterSet
-                  characters={column.characters}
-                  columnId={column.id}
-                  fontSize={column.fontSize}
-                  intensity={column.intensity}
-                  isDarkTheme={isDarkTheme}
-                  setIndex={1}
-                />
-                <MatrixCharacterSet
-                  characters={column.characters}
-                  columnId={column.id}
-                  fontSize={column.fontSize}
-                  intensity={column.intensity}
-                  isDarkTheme={isDarkTheme}
-                  setIndex={2}
-                />
-              </div>
-            ))}
-        </div>
-
-        {/* Overlay escuro para melhor contraste */}
-        <div className="absolute inset-0 bg-black/60 z-10" />
-
-        {/* Conteúdo de boot centralizado */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 space-y-8">
-          {/* Logo/Título do sistema */}
-          <div className="text-center space-y-4">
-            <h1
-              className={`font-mono font-bold text-4xl sm:text-5xl md:text-6xl tracking-wider ${
-                isDarkTheme ? 'neon-text text-primary' : 'text-primary'
-              }`}
-            >
-              RAINER.SOFT
-            </h1>
-            <div
-              className={`h-px w-64 mx-auto ${
-                isDarkTheme ? 'bg-primary neon-box' : 'bg-primary'
-              }`}
-            />
-          </div>
-
-          {/* Mensagem de boot */}
-          <div className="text-center space-y-6">
-            <p
-              className={`font-mono text-lg sm:text-xl md:text-2xl tracking-wider ${
-                isDarkTheme
-                  ? 'text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.6)]'
-                  : 'text-blue-600 drop-shadow-[0_0_10px_rgba(37,99,235,0.6)]'
-              }`}
-              style={{
-                minHeight: '2rem',
-                animation: 'glitch 2s infinite',
-              }}
-            >
-              {bootText || 'INITIALIZING SYSTEM...'}
-              <span className="animate-pulse">_</span>
-            </p>
-
-            {/* Barra de progresso */}
-            <div className="w-80 max-w-full mx-auto space-y-2">
-              <div
-                className={`h-1 bg-black/50 rounded-full overflow-hidden border ${
-                  isDarkTheme ? 'border-cyan-400/30' : 'border-blue-600/30'
-                }`}
-              >
-                <div
-                  className={`h-full transition-all duration-300 ${
-                    isDarkTheme
-                      ? 'bg-linear-to-r from-cyan-400 to-cyan-600'
-                      : 'bg-linear-to-r from-blue-600 to-blue-800'
-                  }`}
-                  style={{
-                    width: `${bootProgress}%`,
-                    boxShadow: isDarkTheme
-                      ? '0 0 10px rgba(34,211,238,0.8)'
-                      : '0 0 10px rgba(37,99,235,0.8)',
-                  }}
-                />
-              </div>
-              <p
-                className={`font-mono text-xs sm:text-sm ${
-                  isDarkTheme ? 'text-cyan-400/70' : 'text-blue-600/70'
-                }`}
-              >
-                {Math.round(bootProgress)}%
-              </p>
-            </div>
-          </div>
-
-          {/* Efeitos de scanline */}
-          <div
-            className="absolute inset-0 pointer-events-none opacity-10"
-            style={{
-              background: `repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                ${isDarkTheme ? 'rgba(34,211,238,0.1)' : 'rgba(37,99,235,0.1)'} 2px,
-                ${isDarkTheme ? 'rgba(34,211,238,0.1)' : 'rgba(37,99,235,0.1)'} 4px
-              )`,
-              animation: 'scanline 8s linear infinite',
-            }}
-          />
-        </div>
-
-        {/* CSS para animações */}
-        <style jsx>{`
-          @keyframes glitch {
-            0%,
-            100% {
-              transform: translate(0);
-            }
-            20% {
-              transform: translate(-2px, 2px);
-            }
-            40% {
-              transform: translate(-2px, -2px);
-            }
-            60% {
-              transform: translate(2px, 2px);
-            }
-            80% {
-              transform: translate(2px, -2px);
-            }
-          }
-
-          @keyframes scanline {
-            0% {
-              transform: translateY(0);
-            }
-            100% {
-              transform: translateY(100vh);
-            }
-          }
-        `}</style>
-      </div>
-    );
-  }
-
-  if (!isReady) {
-    return (
-      <div
-        className={`absolute inset-0 w-full h-full flex items-center justify-center ${isDarkTheme ? 'bg-black' : 'bg-white'}`}
-      >
-        <div className="text-center space-y-6">
-          <div className="relative">
-            <div
-              className={`w-20 h-20 border-4 ${isDarkTheme ? 'border-cyan-400' : 'border-blue-500'} border-t-transparent rounded-full animate-spin mx-auto`}
-            ></div>
-            <div
-              className={`absolute inset-0 w-20 h-20 border-4 ${isDarkTheme ? 'border-pink-400' : 'border-purple-600'} border-b-transparent rounded-full animate-spin mx-auto`}
-              style={{ animationDirection: 'reverse' }}
-            ></div>
-          </div>
-          <p
-            className={`font-mono ${isDarkTheme ? 'text-cyan-400' : 'text-blue-600'} text-lg animate-pulse tracking-wider`}
-          >
-            LOADING...
-          </p>
-        </div>
-      </div>
-    );
-  }
+  // Boot removido - carousel inicia diretamente com matrix já pronta do loading-screen
 
   return (
     <div

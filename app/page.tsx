@@ -66,7 +66,7 @@ import { BACKGROUND } from '@rainer/design-tokens';
 // Constants
 // ============================================================================
 
-import { DIVIDER_CLASSES, SECTION_IDS } from '@/constants';
+import { SECTION_IDS } from '@/constants';
 
 // ============================================================================
 // Main Component
@@ -77,15 +77,15 @@ import { DIVIDER_CLASSES, SECTION_IDS } from '@/constants';
  *
  * Componente principal da página inicial que renderiza todas as seções
  * do portfólio em ordem vertical. Cada seção possui background gradient
- * sutil e divisores visuais para melhor organização visual.
+ * sutil com transições fluidas entre seções para uma experiência contínua.
  *
  * @component
  * @returns {JSX.Element} Página inicial completa do portfólio
  *
  * @remarks
  * Layout responsivo com:
- * - Background gradients por seção
- * - Divisores decorativos entre seções
+ * - Background gradients por seção com transições suaves
+ * - Design fluido sem divisores visíveis entre seções
  * - Botão Back to Top flutuante
  * - Acessibilidade WCAG AA compliant
  */
@@ -104,135 +104,151 @@ export default function HomePage() {
         <HeroSection />
       </div>
 
-      {/* Divisor decorativo premium */}
-      <div
-        className={cn(
-          'relative h-24 overflow-hidden',
-          BACKGROUND.PREMIUM_DIVIDER_CONTAINER
-        )}
-        aria-hidden="true"
-      >
-        <div
-          className={cn(
-            'absolute inset-0 blur-3xl',
-            BACKGROUND.GRADIENT_OVERLAY
-          )}
-        />
-        <div
-          className={cn(
-            'absolute bottom-0 left-0 right-0 h-px',
-            BACKGROUND.PREMIUM_DIVIDER_LINE
-          )}
-        />
-      </div>
+      {/* Transição suave após Hero */}
+      <div className="relative h-0" aria-hidden="true" />
 
       {/* Conteúdo principal */}
       <div className={cn('relative z-10', BACKGROUND.FULL)}>
         <div className="w-full mx-auto">
           {/* 1. Stats Showcase */}
-          <section id={SECTION_IDS.STATS} className="relative overflow-hidden">
+          <section
+            id={SECTION_IDS.STATS}
+            className="relative overflow-hidden transition-all duration-1000"
+          >
             <div
-              className={cn('absolute inset-0', BACKGROUND.SECTION_CYAN)}
+              className={cn(
+                'absolute inset-0',
+                BACKGROUND.SECTION_CYAN,
+                'transition-opacity duration-1000'
+              )}
               aria-hidden="true"
             />
             <StatsShowcase />
           </section>
 
-          <div className={DIVIDER_CLASSES.CYAN} aria-hidden="true" />
-
           {/* 2. Highlights */}
           <section
             id={SECTION_IDS.HIGHLIGHTS}
             aria-labelledby="highlights-heading"
-            className="relative"
+            className="relative transition-all duration-1000"
           >
             <div
-              className={cn('absolute inset-0', BACKGROUND.SECTION_PURPLE_VIA)}
+              className={cn(
+                'absolute inset-0',
+                BACKGROUND.SECTION_PURPLE_VIA,
+                'transition-opacity duration-1000'
+              )}
               aria-hidden="true"
             />
             <Highlights />
           </section>
 
-          <div className={DIVIDER_CLASSES.PURPLE} aria-hidden="true" />
-
           {/* 3. Portfolio Showcase */}
-          <section id={SECTION_IDS.PORTFOLIO} className="relative">
+          <section
+            id={SECTION_IDS.PORTFOLIO}
+            className="relative transition-all duration-1000"
+          >
             <div
-              className={cn('absolute inset-0', BACKGROUND.SECTION_PINK_VIA)}
+              className={cn(
+                'absolute inset-0',
+                BACKGROUND.SECTION_PINK_VIA,
+                'transition-opacity duration-1000'
+              )}
               aria-hidden="true"
             />
             <PortfolioShowcase />
           </section>
 
-          <div className={DIVIDER_CLASSES.PINK} aria-hidden="true" />
-
           {/* 4. Tech Stack */}
-          <section id={SECTION_IDS.TECH} className="relative">
+          <section
+            id={SECTION_IDS.TECH}
+            className="relative transition-all duration-1000"
+          >
             <div
-              className={cn('absolute inset-0', BACKGROUND.SECTION_CYAN_VIA)}
+              className={cn(
+                'absolute inset-0',
+                BACKGROUND.SECTION_CYAN_VIA,
+                'transition-opacity duration-1000'
+              )}
               aria-hidden="true"
             />
             <TechStackShowcase />
           </section>
 
-          <div className={DIVIDER_CLASSES.CYAN} aria-hidden="true" />
-
           {/* 5. About Section */}
           <section
             id={SECTION_IDS.ABOUT}
             aria-labelledby="about-heading"
-            className="relative"
+            className="relative transition-all duration-1000"
           >
             <div
-              className={cn('absolute inset-0', BACKGROUND.SECTION_PURPLE_VIA)}
+              className={cn(
+                'absolute inset-0',
+                BACKGROUND.SECTION_PURPLE_VIA,
+                'transition-opacity duration-1000'
+              )}
               aria-hidden="true"
             />
             <AboutSection />
           </section>
 
-          <div className={DIVIDER_CLASSES.PURPLE} aria-hidden="true" />
-
           {/* 6. Testimonials */}
-          <section id={SECTION_IDS.TESTIMONIALS} className="relative">
+          <section
+            id={SECTION_IDS.TESTIMONIALS}
+            className="relative transition-all duration-1000"
+          >
             <div
-              className={cn('absolute inset-0', BACKGROUND.SECTION_PINK_VIA)}
+              className={cn(
+                'absolute inset-0',
+                BACKGROUND.SECTION_PINK_VIA,
+                'transition-opacity duration-1000'
+              )}
               aria-hidden="true"
             />
             <Testimonials />
           </section>
 
-          <div className={DIVIDER_CLASSES.PINK} aria-hidden="true" />
-
           {/* 7. Newsletter */}
           <section
             id={SECTION_IDS.NEWSLETTER}
             aria-labelledby="newsletter-heading"
-            className="relative"
+            className="relative transition-all duration-1000"
           >
             <div
-              className={cn('absolute inset-0', BACKGROUND.SECTION_CYAN_VIA)}
+              className={cn(
+                'absolute inset-0',
+                BACKGROUND.SECTION_CYAN_VIA,
+                'transition-opacity duration-1000'
+              )}
               aria-hidden="true"
             />
             <NewsletterSection />
           </section>
 
-          <div className={DIVIDER_CLASSES.CYAN} aria-hidden="true" />
-
           {/* 8. CTA Section */}
-          <section id={SECTION_IDS.CTA} className="relative">
+          <section
+            id={SECTION_IDS.CTA}
+            className="relative transition-all duration-1000"
+          >
             <div
-              className={cn('absolute inset-0', BACKGROUND.SECTION_PURPLE_VIA)}
+              className={cn(
+                'absolute inset-0',
+                BACKGROUND.SECTION_PURPLE_VIA,
+                'transition-opacity duration-1000'
+              )}
               aria-hidden="true"
             />
             <CTASection />
           </section>
 
-          <div className={DIVIDER_CLASSES.PINK} aria-hidden="true" />
-
           {/* 9. Contact Section */}
-          <section className="relative pb-20">
+          <section className="relative pb-20 transition-all duration-1000">
             <div
-              className={cn('absolute inset-0', BACKGROUND.SECTION_PINK_VIA)}
+              className={cn(
+                'absolute inset-0',
+                BACKGROUND.SECTION_PINK_VIA,
+                'transition-opacity duration-1000'
+              )}
               aria-hidden="true"
             />
             <ContactSection />

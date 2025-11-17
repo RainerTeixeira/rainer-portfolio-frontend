@@ -32,31 +32,31 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
 } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { COLOR_HEX, hexToRGBA } from '@/lib/utils/design-tokens';
 import {
-  Crown,
-  Flame,
-  Gamepad2,
-  Gem,
-  Ghost,
-  Heart,
-  Home,
-  Pause,
-  Play,
-  RotateCcw,
-  Skull,
-  Sparkles,
-  Star,
-  Trophy,
-  Zap,
+    Crown,
+    Flame,
+    Gamepad2,
+    Gem,
+    Ghost,
+    Heart,
+    Home,
+    Pause,
+    Play,
+    RotateCcw,
+    Skull,
+    Sparkles,
+    Star,
+    Trophy,
+    Zap,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -1836,9 +1836,6 @@ export default function NotFound() {
 
   return (
     <div className="min-h-screen w-full bg-linear-to-br from-background via-background to-muted flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Efeitos de fundo */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.05]" />
-
       <div className="relative z-10 w-full max-w-7xl">
         {/* Header - 404 Easter Egg */}
         <div className="text-center mb-6">
@@ -2297,12 +2294,7 @@ export default function NotFound() {
       </div>
 
       <style jsx>{`
-        .bg-grid-pattern {
-          background-image:
-            linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-          background-size: 50px 50px;
-        }
+        /* Grid pattern removido - fundo limpo */
       `}</style>
     </div>
   );
