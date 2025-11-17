@@ -30,96 +30,271 @@ const config: Config = {
         ...designTokensConfig.theme?.extend?.colors,
 
         // ===== SHADCN/UI SEMANTIC COLORS =====
-        background: tokens.colors.light.background.primary,
-        foreground: tokens.colors.light.text.primary,
+        background: tokens.colors.light.background?.primary || '#ffffff',
+        foreground: tokens.colors.light.text?.primary || '#171717',
         card: {
-          DEFAULT: tokens.colors.light.surface.primary,
-          foreground: tokens.colors.light.text.primary,
+          DEFAULT: tokens.colors.light.surface?.primary || '#ffffff',
+          foreground: tokens.colors.light.text?.primary || '#171717',
         },
         primary: {
-          DEFAULT: tokens.colors.light.brand.primary,
-          foreground: '#ffffff',
+          DEFAULT: tokens.colors.light.primary?.base || '#0891b2',
+          foreground: tokens.colors.light.primary?.text || '#ffffff',
         },
         secondary: {
-          DEFAULT: tokens.colors.light.surface.secondary,
-          foreground: tokens.colors.light.text.primary,
+          DEFAULT: tokens.colors.light.secondary?.base || '#9333ea',
+          foreground: tokens.colors.light.secondary?.text || '#ffffff',
         },
         muted: {
-          DEFAULT: tokens.colors.light.surface.secondary,
-          foreground: tokens.colors.light.text.tertiary,
+          DEFAULT: tokens.colors.light.surface?.secondary || '#fafafa',
+          foreground: tokens.colors.light.text?.tertiary || '#737373',
         },
         accent: {
-          DEFAULT: tokens.colors.light.surface.tertiary,
-          foreground: tokens.colors.light.text.primary,
+          DEFAULT: tokens.colors.light.accent?.base || '#db2777',
+          foreground: tokens.colors.light.accent?.text || '#ffffff',
         },
         destructive: {
-          DEFAULT: tokens.colors.light.status.error,
-          foreground: '#ffffff',
+          DEFAULT: tokens.colors.light.status?.error?.base || '#ef4444',
+          foreground: tokens.colors.light.status?.error?.text || '#ffffff',
         },
-        border: tokens.colors.light.border.primary,
-        input: tokens.colors.light.border.primary,
-        ring: tokens.colors.light.border.focus,
+        border: tokens.colors.light.border?.primary || '#e5e5e5',
+        input: tokens.colors.light.border?.primary || '#e5e5e5',
+        ring:
+          tokens.colors.light.primary?.focus ||
+          tokens.colors.light.primary?.base ||
+          '#0891b2',
 
         // ===== TODAS AS CORES DOS TOKENS (PARA USO AVANÇADO) =====
         // Background completo
-        'background-primary': tokens.colors.light.background.primary,
-        'background-secondary': tokens.colors.light.background.secondary,
-        'background-tertiary': tokens.colors.light.background.tertiary,
-        'background-inverse': tokens.colors.light.background.inverse,
+        'background-primary':
+          tokens.colors.light.background?.primary || '#ffffff',
+        'background-secondary':
+          tokens.colors.light.background?.secondary || '#fafafa',
+        'background-tertiary':
+          tokens.colors.light.background?.tertiary || '#f5f5f5',
+        'background-inverse':
+          tokens.colors.light.background?.inverse || '#0a0a0f',
 
         // Surface completo
-        'surface-primary': tokens.colors.light.surface.primary,
-        'surface-secondary': tokens.colors.light.surface.secondary,
-        'surface-tertiary': tokens.colors.light.surface.tertiary,
-        'surface-elevated': tokens.colors.light.surface.elevated,
+        'surface-primary': tokens.colors.light.surface?.primary || '#ffffff',
+        'surface-secondary':
+          tokens.colors.light.surface?.secondary || '#fafafa',
+        'surface-tertiary': tokens.colors.light.surface?.tertiary || '#f5f5f5',
+        'surface-elevated': tokens.colors.light.surface?.elevated || '#ffffff',
 
         // Text completo
-        'text-primary': tokens.colors.light.text.primary,
-        'text-secondary': tokens.colors.light.text.secondary,
-        'text-tertiary': tokens.colors.light.text.tertiary,
-        'text-inverse': tokens.colors.light.text.inverse,
-        'text-disabled': tokens.colors.light.text.disabled,
-        'text-link': tokens.colors.light.text.link,
-        'text-link-hover': tokens.colors.light.text.linkHover,
+        'text-primary': tokens.colors.light.text?.primary || '#171717',
+        'text-secondary': tokens.colors.light.text?.secondary || '#404040',
+        'text-tertiary': tokens.colors.light.text?.tertiary || '#737373',
+        'text-inverse': tokens.colors.light.text?.inverse || '#ffffff',
+        'text-disabled': tokens.colors.light.text?.disabled || '#a3a3a3',
+        'text-link': tokens.colors.light.text?.link || '#0891b2',
+        'text-link-hover': tokens.colors.light.text?.linkHover || '#0e7490',
 
         // Border completo
-        'border-primary': tokens.colors.light.border.primary,
-        'border-secondary': tokens.colors.light.border.secondary,
-        'border-tertiary': tokens.colors.light.border.tertiary,
-        'border-focus': tokens.colors.light.border.focus,
+        'border-primary': tokens.colors.light.border?.primary || '#e5e5e5',
+        'border-secondary': tokens.colors.light.border?.secondary || '#d4d4d4',
+        'border-tertiary': tokens.colors.light.border?.tertiary || '#a3a3a3',
+        'border-focus': tokens.colors.light.border?.focus || '#0891b2',
 
-        // Brand completo
-        'brand-primary': tokens.colors.light.brand.primary,
-        'brand-primary-hover': tokens.colors.light.brand.primaryHover,
-        'brand-primary-active': tokens.colors.light.brand.primaryActive,
-        'brand-secondary': tokens.colors.light.brand.secondary,
-        'brand-secondary-hover': tokens.colors.light.brand.secondaryHover,
-        'brand-secondary-active': tokens.colors.light.brand.secondaryActive,
-        'brand-accent': tokens.colors.light.brand.accent,
-        'brand-accent-hover': tokens.colors.light.brand.accentHover,
-        'brand-accent-active': tokens.colors.light.brand.accentActive,
+        // Primary completo (nova estrutura)
+        'primary-base': tokens.colors.light.primary?.base || '#0891b2',
+        'primary-hover': tokens.colors.light.primary?.hover || '#0e7490',
+        'primary-active': tokens.colors.light.primary?.active || '#155e75',
+        'primary-disabled': tokens.colors.light.primary?.disabled || '#d4d4d4',
+        'primary-focus': tokens.colors.light.primary?.focus || '#0891b2',
+        'primary-background':
+          tokens.colors.light.primary?.background || '#ecfeff',
+        'primary-background-hover':
+          tokens.colors.light.primary?.backgroundHover || '#cffafe',
+        'primary-background-active':
+          tokens.colors.light.primary?.backgroundActive || '#a5f3fc',
+        'primary-border': tokens.colors.light.primary?.border || '#0891b2',
+        'primary-border-hover':
+          tokens.colors.light.primary?.borderHover || '#0e7490',
+        'primary-border-focus':
+          tokens.colors.light.primary?.borderFocus || '#06b6d4',
+        'primary-text': tokens.colors.light.primary?.text || '#ffffff',
+        'primary-text-hover':
+          tokens.colors.light.primary?.textHover || '#ffffff',
+        'primary-text-disabled':
+          tokens.colors.light.primary?.textDisabled || '#a3a3a3',
 
-        // Status completo
-        'status-success': tokens.colors.light.status.success,
-        'status-success-bg': tokens.colors.light.status.successBackground,
-        'status-success-border': tokens.colors.light.status.successBorder,
-        'status-warning': tokens.colors.light.status.warning,
-        'status-warning-bg': tokens.colors.light.status.warningBackground,
-        'status-warning-border': tokens.colors.light.status.warningBorder,
-        'status-error': tokens.colors.light.status.error,
-        'status-error-bg': tokens.colors.light.status.errorBackground,
-        'status-error-border': tokens.colors.light.status.errorBorder,
-        'status-info': tokens.colors.light.status.info,
-        'status-info-bg': tokens.colors.light.status.infoBackground,
-        'status-info-border': tokens.colors.light.status.infoBorder,
+        // Secondary completo (nova estrutura)
+        'secondary-base': tokens.colors.light.secondary?.base || '#9333ea',
+        'secondary-hover': tokens.colors.light.secondary?.hover || '#7e22ce',
+        'secondary-active': tokens.colors.light.secondary?.active || '#6b21a8',
+        'secondary-disabled':
+          tokens.colors.light.secondary?.disabled || '#d4d4d4',
+        'secondary-focus': tokens.colors.light.secondary?.focus || '#9333ea',
+        'secondary-background':
+          tokens.colors.light.secondary?.background || '#faf5ff',
+        'secondary-background-hover':
+          tokens.colors.light.secondary?.backgroundHover || '#f3e8ff',
+        'secondary-background-active':
+          tokens.colors.light.secondary?.backgroundActive || '#e9d5ff',
+        'secondary-border': tokens.colors.light.secondary?.border || '#9333ea',
+        'secondary-border-hover':
+          tokens.colors.light.secondary?.borderHover || '#7e22ce',
+        'secondary-border-focus':
+          tokens.colors.light.secondary?.borderFocus || '#a855f7',
+        'secondary-text': tokens.colors.light.secondary?.text || '#ffffff',
+        'secondary-text-hover':
+          tokens.colors.light.secondary?.textHover || '#ffffff',
+        'secondary-text-disabled':
+          tokens.colors.light.secondary?.textDisabled || '#a3a3a3',
 
-        // Interactive completo
-        'interactive-default': tokens.colors.light.interactive.default,
-        'interactive-hover': tokens.colors.light.interactive.hover,
-        'interactive-active': tokens.colors.light.interactive.active,
-        'interactive-disabled': tokens.colors.light.interactive.disabled,
-        'interactive-disabled-text':
-          tokens.colors.light.interactive.disabledText,
+        // Accent completo (nova estrutura)
+        'accent-base': tokens.colors.light.accent?.base || '#db2777',
+        'accent-hover': tokens.colors.light.accent?.hover || '#be185d',
+        'accent-active': tokens.colors.light.accent?.active || '#9f1239',
+        'accent-disabled': tokens.colors.light.accent?.disabled || '#d4d4d4',
+        'accent-focus': tokens.colors.light.accent?.focus || '#db2777',
+        'accent-background':
+          tokens.colors.light.accent?.background || '#fdf2f8',
+        'accent-background-hover':
+          tokens.colors.light.accent?.backgroundHover || '#fce7f3',
+        'accent-background-active':
+          tokens.colors.light.accent?.backgroundActive || '#fbcfe8',
+        'accent-border': tokens.colors.light.accent?.border || '#db2777',
+        'accent-border-hover':
+          tokens.colors.light.accent?.borderHover || '#be185d',
+        'accent-border-focus':
+          tokens.colors.light.accent?.borderFocus || '#ec4899',
+        'accent-text': tokens.colors.light.accent?.text || '#ffffff',
+        'accent-text-hover': tokens.colors.light.accent?.textHover || '#ffffff',
+        'accent-text-disabled':
+          tokens.colors.light.accent?.textDisabled || '#a3a3a3',
+
+        // Status completo (nova estrutura expandida)
+        'status-success-base':
+          tokens.colors.light.status?.success?.base || '#22c55e',
+        'status-success-hover':
+          tokens.colors.light.status?.success?.hover || '#16a34a',
+        'status-success-active':
+          tokens.colors.light.status?.success?.active || '#15803d',
+        'status-success-background':
+          tokens.colors.light.status?.success?.background || '#f0fdf4',
+        'status-success-background-hover':
+          tokens.colors.light.status?.success?.backgroundHover || '#dcfce7',
+        'status-success-background-active':
+          tokens.colors.light.status?.success?.backgroundActive || '#bbf7d0',
+        'status-success-border':
+          tokens.colors.light.status?.success?.border || '#86efac',
+        'status-success-border-hover':
+          tokens.colors.light.status?.success?.borderHover || '#4ade80',
+        'status-success-border-focus':
+          tokens.colors.light.status?.success?.borderFocus || '#22c55e',
+        'status-success-text':
+          tokens.colors.light.status?.success?.text || '#ffffff',
+        'status-success-text-hover':
+          tokens.colors.light.status?.success?.textHover || '#ffffff',
+        'status-success-text-disabled':
+          tokens.colors.light.status?.success?.textDisabled || '#a3a3a3',
+        'status-success-text-on-background':
+          tokens.colors.light.status?.success?.textOnBackground || '#166534',
+
+        'status-warning-base':
+          tokens.colors.light.status?.warning?.base || '#f59e0b',
+        'status-warning-hover':
+          tokens.colors.light.status?.warning?.hover || '#d97706',
+        'status-warning-active':
+          tokens.colors.light.status?.warning?.active || '#b45309',
+        'status-warning-background':
+          tokens.colors.light.status?.warning?.background || '#fffbeb',
+        'status-warning-background-hover':
+          tokens.colors.light.status?.warning?.backgroundHover || '#fef3c7',
+        'status-warning-background-active':
+          tokens.colors.light.status?.warning?.backgroundActive || '#fde68a',
+        'status-warning-border':
+          tokens.colors.light.status?.warning?.border || '#fcd34d',
+        'status-warning-border-hover':
+          tokens.colors.light.status?.warning?.borderHover || '#fbbf24',
+        'status-warning-border-focus':
+          tokens.colors.light.status?.warning?.borderFocus || '#f59e0b',
+        'status-warning-text':
+          tokens.colors.light.status?.warning?.text || '#ffffff',
+        'status-warning-text-hover':
+          tokens.colors.light.status?.warning?.textHover || '#ffffff',
+        'status-warning-text-disabled':
+          tokens.colors.light.status?.warning?.textDisabled || '#a3a3a3',
+        'status-warning-text-on-background':
+          tokens.colors.light.status?.warning?.textOnBackground || '#92400e',
+
+        'status-error-base':
+          tokens.colors.light.status?.error?.base || '#ef4444',
+        'status-error-hover':
+          tokens.colors.light.status?.error?.hover || '#dc2626',
+        'status-error-active':
+          tokens.colors.light.status?.error?.active || '#b91c1c',
+        'status-error-background':
+          tokens.colors.light.status?.error?.background || '#fef2f2',
+        'status-error-background-hover':
+          tokens.colors.light.status?.error?.backgroundHover || '#fee2e2',
+        'status-error-background-active':
+          tokens.colors.light.status?.error?.backgroundActive || '#fecaca',
+        'status-error-border':
+          tokens.colors.light.status?.error?.border || '#fca5a5',
+        'status-error-border-hover':
+          tokens.colors.light.status?.error?.borderHover || '#f87171',
+        'status-error-border-focus':
+          tokens.colors.light.status?.error?.borderFocus || '#ef4444',
+        'status-error-text':
+          tokens.colors.light.status?.error?.text || '#ffffff',
+        'status-error-text-hover':
+          tokens.colors.light.status?.error?.textHover || '#ffffff',
+        'status-error-text-disabled':
+          tokens.colors.light.status?.error?.textDisabled || '#a3a3a3',
+        'status-error-text-on-background':
+          tokens.colors.light.status?.error?.textOnBackground || '#991b1b',
+
+        'status-info-base': tokens.colors.light.status?.info?.base || '#3b82f6',
+        'status-info-hover':
+          tokens.colors.light.status?.info?.hover || '#2563eb',
+        'status-info-active':
+          tokens.colors.light.status?.info?.active || '#1d4ed8',
+        'status-info-background':
+          tokens.colors.light.status?.info?.background || '#eff6ff',
+        'status-info-background-hover':
+          tokens.colors.light.status?.info?.backgroundHover || '#dbeafe',
+        'status-info-background-active':
+          tokens.colors.light.status?.info?.backgroundActive || '#bfdbfe',
+        'status-info-border':
+          tokens.colors.light.status?.info?.border || '#93c5fd',
+        'status-info-border-hover':
+          tokens.colors.light.status?.info?.borderHover || '#60a5fa',
+        'status-info-border-focus':
+          tokens.colors.light.status?.info?.borderFocus || '#3b82f6',
+        'status-info-text': tokens.colors.light.status?.info?.text || '#ffffff',
+        'status-info-text-hover':
+          tokens.colors.light.status?.info?.textHover || '#ffffff',
+        'status-info-text-disabled':
+          tokens.colors.light.status?.info?.textDisabled || '#a3a3a3',
+        'status-info-text-on-background':
+          tokens.colors.light.status?.info?.textOnBackground || '#1e40af',
+      },
+
+      // ============================================
+      // TIPOGRAFIA - TOKENS DE TIPOGRAFIA
+      // ============================================
+      fontFamily: {
+        ...designTokensConfig.theme?.extend?.fontFamily,
+        ...tokens.typography.fontFamily,
+      },
+      fontSize: {
+        ...designTokensConfig.theme?.extend?.fontSize,
+        ...tokens.typography.fontSize,
+      },
+      fontWeight: {
+        ...designTokensConfig.theme?.extend?.fontWeight,
+        ...tokens.typography.fontWeight,
+      },
+      lineHeight: {
+        ...designTokensConfig.theme?.extend?.lineHeight,
+        ...tokens.typography.lineHeight,
+      },
+      letterSpacing: {
+        ...designTokensConfig.theme?.extend?.letterSpacing,
+        ...tokens.typography.letterSpacing,
       },
 
       // ============================================
