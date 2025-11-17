@@ -54,6 +54,9 @@ export { ParticlesEffect } from './particles-effect';
 /** Componente FloatingGrid: grid futurista cyberpunk para dark mode */
 export { FloatingGrid } from './floating-grid';
 
+/** Componente StarsBackground: céu estrelado para dark mode */
+export { StarsBackground } from './stars-background';
+
 /** Componente PageHeader: header padronizado para páginas internas */
 export { PageHeader } from './page-header';
 
@@ -305,3 +308,6 @@ export {
   LoadingSpinner,
   SkeletonGrid,
 } from './loading-states';
+
+/** Loading Screen: tela de carregamento inicial da aplicação */
+export { LoadingScreen } from './loading-screen';

@@ -110,11 +110,7 @@ export function CTASection() {
                 className="text-4xl sm:text-5xl lg:text-7xl font-black mb-6 leading-tight"
               >
                 <span className="bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-                  Pronto para Entregar
-                </span>
-                <br />
-                <span className="bg-linear-to-r from-pink-600 via-purple-600 to-cyan-600 dark:from-pink-400 dark:via-purple-400 dark:to-cyan-400 bg-clip-text text-transparent">
-                  Resultados Reais
+                  Pronto para Entregar Resultados
                 </span>
               </motion.h2>
 

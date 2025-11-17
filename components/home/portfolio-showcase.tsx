@@ -54,32 +54,37 @@ export function PortfolioShowcase() {
 
   const projects = [
     {
-      title: 'Portfólio Enterprise',
+      title: 'Design Tokens',
+      subtitle: '@rainer/design-tokens',
       description:
-        'Este site! Sistema completo com blog, dashboard admin, PWA, autenticação, editor Tiptap e Lighthouse 95+',
+        'Biblioteca enterprise-grade de design tokens com temas Light & Dark, múltiplos formatos de exportação (Tailwind, CSS Vars, JSON), TypeScript type-safe, Storybook para documentação visual e zero dependencies.',
       image: '/images/b1.png',
-      tags: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind'],
+      tags: ['TypeScript', 'Design System', 'Storybook', 'NPM'],
       featured: true,
-      github: `${SITE_CONFIG.github}/rainer-portfolio-frontend`,
-      demo: SITE_CONFIG.url,
+      github: `${SITE_CONFIG.github}/@rainer-design-tokens`,
+      demo: undefined,
     },
     {
-      title: 'Dashboard Crypto',
+      title: 'Crypto Dashboard',
+      subtitle: 'Real-time Market Analytics',
       description:
-        'Dashboard de criptomoedas com backend NestJS, PostgreSQL + Prisma, gráficos em tempo real e autenticação JWT',
+        'Dashboard de criptomoedas em tempo real com pipeline ETL completo, backend FastAPI, PostgreSQL, cache Redis, gráficos interativos e comunicação via WebSockets para atualizações instantâneas.',
       image: '/images/b2.png',
-      tags: ['NestJS', 'PostgreSQL', 'Prisma', 'Docker'],
+      tags: ['Next.js 14', 'FastAPI', 'PostgreSQL', 'Redis'],
       featured: true,
-      github: '#',
+      github: `${SITE_CONFIG.github}/crypto-dash`,
+      demo: undefined,
     },
     {
-      title: 'Planejador Financeiro',
+      title: 'Financial Planner',
+      subtitle: 'Multi Family Office System',
       description:
-        'Sistema completo de planejamento financeiro pessoal com frontend React e backend Node.js robusto',
+        'Sistema completo de planejamento financeiro para Multi Family Office com projeções patrimoniais até 2060, gestão de ativos financeiros e imobiliários, movimentações e seguros de vida.',
       image: '/images/b3.png',
-      tags: ['React', 'Node.js', 'MongoDB', 'Charts'],
+      tags: ['Next.js 14', 'Fastify', 'Prisma', 'PostgreSQL'],
       featured: true,
-      github: '#',
+      github: `${SITE_CONFIG.github}/financial-planner-case`,
+      demo: undefined,
     },
   ];
 
@@ -109,7 +114,7 @@ export function PortfolioShowcase() {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {projects.map((project, index) => (
             <motion.div
               key={index}
@@ -117,8 +122,9 @@ export function PortfolioShowcase() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
+              className="h-full"
             >
-              <Card className="h-full dark:bg-black/40 dark:border-cyan-400/20 hover:shadow-xl transition-all overflow-hidden group">
+              <Card className="h-full dark:bg-black/40 dark:border-cyan-400/20 hover:shadow-xl hover:shadow-cyan-500/10 dark:hover:border-cyan-400/40 transition-all duration-300 overflow-hidden group flex flex-col">
                 {/* Image */}
                 <div className="relative h-48 w-full overflow-hidden">
                   <Image
@@ -140,21 +146,37 @@ export function PortfolioShowcase() {
                 </div>
 
                 {/* Content */}
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg mb-2 dark:text-gray-100 group-hover:text-cyan-400 transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground dark:text-gray-400 mb-4 line-clamp-2">
+                <CardContent className="p-6 flex flex-col h-full">
+                  {/* Title Section */}
+                  <div className="mb-3 min-h-14">
+                    <h3
+                      className="font-bold text-base sm:text-lg mb-1 dark:text-gray-100 group-hover:text-cyan-400 transition-colors leading-tight"
+                      title={project.title}
+                    >
+                      {project.title}
+                    </h3>
+                    {project.subtitle && (
+                      <p
+                        className="text-xs font-mono text-muted-foreground dark:text-gray-500 mb-2"
+                        title={project.subtitle}
+                      >
+                        {project.subtitle}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground dark:text-gray-400 mb-5 leading-relaxed grow">
                     {project.description}
                   </p>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-2 mb-5">
                     {project.tags.map(tag => (
                       <Badge
                         key={tag}
                         variant="outline"
-                        className="text-xs dark:border-cyan-400/30"
+                        className="text-xs px-2 py-0.5 dark:border-cyan-400/30 dark:text-cyan-300/80 hover:dark:border-cyan-400/50 transition-colors"
                       >
                         {tag}
                       </Badge>
@@ -163,16 +185,41 @@ export function PortfolioShowcase() {
 
                   {/* Actions */}
                   <div className="flex gap-2">
+                    {project.demo && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 dark:border-cyan-400/30"
+                        asChild
+                      >
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ExternalLink className="h-4 w-4 mr-2" />
+                          Ver Projeto
+                        </a>
+                      </Button>
+                    )}
                     <Button
                       size="sm"
-                      variant="outline"
-                      className="flex-1 dark:border-cyan-400/30"
+                      variant={project.demo ? 'ghost' : 'outline'}
+                      className={
+                        project.demo ? '' : 'flex-1 dark:border-cyan-400/30'
+                      }
+                      asChild
                     >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Ver Projeto
-                    </Button>
-                    <Button size="sm" variant="ghost">
-                      <GithubIcon className="h-4 w-4" />
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <GithubIcon className="h-4 w-4" />
+                        {!project.demo && (
+                          <span className="ml-2">Ver no GitHub</span>
+                        )}
+                      </a>
                     </Button>
                   </div>
                 </CardContent>
