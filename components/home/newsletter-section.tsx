@@ -448,11 +448,7 @@ export const NewsletterSection = memo(function NewsletterSection() {
                   className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight"
                 >
                   <span className="bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-                    Fique por Dentro
-                  </span>
-                  <br />
-                  <span className="text-foreground dark:text-white">
-                    das Novidades
+                    Fique por Dentro das Novidades
                   </span>
                 </motion.h2>
 
@@ -490,7 +486,7 @@ export const NewsletterSection = memo(function NewsletterSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
-                className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto"
+                className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto items-stretch"
               >
                 {[
                   {
@@ -516,7 +512,7 @@ export const NewsletterSection = memo(function NewsletterSection() {
                   return (
                     <div
                       key={index}
-                      className="group/benefit relative bg-card/60 dark:bg-black/40 backdrop-blur-sm rounded-2xl p-6 border border-border/50 dark:border-cyan-400/20 hover:border-primary dark:hover:border-cyan-400/60 transition-all duration-300 hover:shadow-xl overflow-hidden text-center"
+                      className="group/benefit relative h-full flex flex-col bg-card/60 dark:bg-black/40 backdrop-blur-sm rounded-2xl p-6 border border-border/50 dark:border-cyan-400/20 hover:border-primary dark:hover:border-cyan-400/60 transition-all duration-300 hover:shadow-xl overflow-hidden text-center"
                     >
                       {/* Brilho de fundo */}
                       <div
@@ -537,7 +533,10 @@ export const NewsletterSection = memo(function NewsletterSection() {
                         </div>
 
                         {/* Texto */}
-                        <span className="text-sm font-bold text-foreground dark:text-gray-200 group-hover/benefit:text-foreground dark:group-hover/benefit:text-white transition-colors">
+                        <span
+                          className="text-xs sm:text-sm font-bold text-foreground dark:text-gray-200 group-hover/benefit:text-foreground dark:group-hover/benefit:text-white transition-colors leading-tight whitespace-nowrap"
+                          title={benefit.text}
+                        >
                           {benefit.text}
                         </span>
                       </div>

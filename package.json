@@ -34,7 +34,9 @@
     "test:all": "pnpm run test && pnpm run test:e2e && pnpm run validate:tokens",
     "clean": "pnpm exec rimraf .next out dist coverage .turbo node_modules/.cache",
     "clean:all": "pnpm run clean && pnpm exec rimraf node_modules",
-    "prepare": "husky || true"
+    "prepare": "husky || true",
+    "storybook": "node node_modules/storybook/bin/index.js dev -p 6007",
+    "build-storybook": "npx storybook build"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -93,6 +95,7 @@
     "react-day-picker": "^9.11.1",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.66.0",
+    "react-loading-indicators": "^1.0.1",
     "recharts": "^3.4.1",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
@@ -125,7 +128,15 @@
     "tailwindcss-animate": "^1.0.7",
     "ts-jest": "^29.4.5",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "@storybook/react-vite": "^7.6.0",
+    "@storybook/addon-essentials": "^7.6.0",
+    "@storybook/addon-interactions": "^7.6.0",
+    "@storybook/addon-controls": "^7.6.0",
+    "@storybook/addon-backgrounds": "^7.6.0",
+    "@storybook/addon-docs": "^7.6.0",
+    "storybook": "^7.6.0",
+    "vite": "^5.0.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,scss,md}": [

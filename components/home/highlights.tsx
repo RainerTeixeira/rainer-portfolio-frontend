@@ -100,9 +100,9 @@ export const Highlights = memo(function Highlights() {
   const services: Service[] = [
     {
       /** Sistemas full-stack completos */
-      title: 'Sistemas Web Full-Stack Completos',
+      title: 'Full-Stack Web Systems',
       description:
-        'Desenvolvo aplicações web profissionais end-to-end: frontend com React 19 + Next.js 15 + TypeScript + Tailwind CSS, backend com Node.js + NestJS + Express, banco de dados PostgreSQL/MongoDB com Prisma ORM, autenticação JWT segura, editor WYSIWYG, upload de imagens, PWA instalável, temas dark/light e animações customizadas. Arquitetura escalável, código limpo e documentado. Projetos comprovados no portfolio.',
+        'Aplicações web profissionais end-to-end: frontend React 19 + Next.js 15 + TypeScript, backend Node.js + NestJS, PostgreSQL/MongoDB com Prisma, autenticação JWT, editor WYSIWYG, PWA instalável, temas dark/light. Arquitetura escalável e código documentado.',
       icon: Code,
       badge: 'Especialidade Core',
       features: [
@@ -114,9 +114,9 @@ export const Highlights = memo(function Highlights() {
     },
     {
       /** Dashboards e painéis administrativos */
-      title: 'Dashboards Administrativos Profissionais',
+      title: 'Admin Dashboards',
       description:
-        'Painéis de gestão e controle com interface moderna e responsiva: gráficos interativos em tempo real (Recharts), tabelas com filtros e ordenação, CRUD completo de dados, sistema de autenticação com perfis de usuário, editor de conteúdo rico, upload de arquivos, estatísticas e métricas visuais, notificações toast e estado global otimizado. Performance garantida e experiência profissional.',
+        'Painéis de gestão com interface moderna: gráficos interativos em tempo real, tabelas com filtros, CRUD completo, autenticação com perfis, editor de conteúdo rico, upload de arquivos, métricas visuais e notificações toast. Performance garantida.',
       icon: Cloud,
       badge: 'Portfolio Comprovado',
       features: [
@@ -128,9 +128,9 @@ export const Highlights = memo(function Highlights() {
     },
     {
       /** PWAs e aplicações offline */
-      title: 'PWAs & Aplicações de Alta Performance',
+      title: 'PWAs & Performance',
       description:
-        'Progressive Web Apps instaláveis em qualquer dispositivo: service workers para cache inteligente e modo offline, manifest configurado, animações fluidas 60 FPS, lazy loading estratégico, code splitting otimizado, Core Web Vitals excelentes (Lighthouse 95+), SEO avançado com meta tags e structured data, acessibilidade WCAG AA e experiência nativa em Android, iOS e Desktop.',
+        'Progressive Web Apps instaláveis: service workers para cache e modo offline, animações 60 FPS, lazy loading, code splitting, Core Web Vitals excelentes (Lighthouse 95+), SEO avançado e acessibilidade WCAG AA. Experiência nativa em todos os dispositivos.',
       icon: Zap,
       badge: 'Lighthouse 95+',
       features: [
@@ -142,9 +142,9 @@ export const Highlights = memo(function Highlights() {
     },
     {
       /** APIs e integração */
-      title: 'APIs REST & Integração de Sistemas',
+      title: 'REST APIs & Integration',
       description:
-        'Desenvolvimento de APIs RESTful robustas e bem documentadas com Node.js, NestJS e Express. Autenticação JWT com refresh tokens, validação de dados com Zod, tratamento de erros profissional, integração com bancos PostgreSQL e MongoDB via Prisma ORM, endpoints documentados, testes automatizados e deploy com Docker. Integração com APIs externas, webhooks e processamento assíncrono de tarefas.',
+        'APIs RESTful robustas e documentadas: Node.js + NestJS, autenticação JWT com refresh tokens, validação Zod, tratamento de erros profissional, Prisma ORM, endpoints documentados, testes automatizados e deploy Docker. Integração com APIs externas e webhooks.',
       icon: Briefcase,
       badge: 'Backend Sólido',
       features: ['Node.js + NestJS', 'APIs RESTful', 'JWT Auth', 'Prisma ORM'],
@@ -227,10 +227,11 @@ export const Highlights = memo(function Highlights() {
        * - Mobile: 1 coluna (stack vertical)
        * - md+: 2 colunas
        * - gap responsivo: aumenta com tamanho da tela
+       * - items-stretch: garante altura uniforme
        * - role="list": semântica de lista
        */}
       <div
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6 sm:gap-8"
+        className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6 sm:gap-8 items-stretch"
         role="list"
       >
         {/**
@@ -301,6 +302,7 @@ const ServiceCard = memo(function ServiceCard({ service }: ServiceCardProps) {
         CARD_CLASSES.full,
         'group/service',
         'relative overflow-hidden',
+        'h-full flex flex-col',
         'bg-linear-to-br from-muted/20 via-background to-background',
         'hover:from-muted/40 hover:via-muted/10',
         'border-2 border-border/50 hover:border-primary/40',
@@ -376,9 +378,10 @@ const ServiceCard = memo(function ServiceCard({ service }: ServiceCardProps) {
               {/** Título do serviço com leading tight e hover effect */}
               <CardTitle
                 className={cn(
-                  'text-base xs:text-lg sm:text-xl font-semibold leading-tight',
+                  'text-xs xs:text-sm sm:text-base font-bold leading-tight whitespace-nowrap',
                   'group-hover/service:text-primary transition-colors duration-300'
                 )}
+                title={service.title}
               >
                 {service.title}
               </CardTitle>
@@ -422,9 +425,10 @@ const ServiceCard = memo(function ServiceCard({ service }: ServiceCardProps) {
        * - space-y: espaçamento vertical
        * - p responsivo: padding que cresce
        * - pt-0: remove padding superior (já tem no header)
+       * - mt-auto: empurra para baixo
        * - relative: para ficar acima do gradiente
        */}
-      <CardContent className="space-y-1 xs:space-y-2 p-1.5 xs:p-2 sm:p-3 md:p-4 pt-0 relative">
+      <CardContent className="space-y-1 xs:space-y-2 p-1.5 xs:p-2 sm:p-3 md:p-4 pt-0 mt-auto relative">
         {/** Separador visual com gradiente entre header e features */}
         <div className="relative">
           <Separator className="bg-linear-to-r from-transparent via-border to-transparent" />

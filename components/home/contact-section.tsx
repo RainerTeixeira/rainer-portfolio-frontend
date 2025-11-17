@@ -265,10 +265,8 @@ export const ContactSection = memo(function ContactSection() {
               className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight"
             >
               <span className="bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-                Vamos Trabalhar
+                Vamos Trabalhar Juntos
               </span>
-              <br />
-              <span className="text-foreground dark:text-white">Juntos</span>
             </motion.h2>
 
             {/* Primary Description */}
@@ -309,7 +307,7 @@ export const ContactSection = memo(function ContactSection() {
               CONTACT CARDS GRID
               ================================================================ */}
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 items-stretch">
             {contactInfo.map((item, index) => {
               const Icon = item.icon;
 
@@ -341,7 +339,7 @@ export const ContactSection = memo(function ContactSection() {
                     {/* Card Container */}
                     <div
                       className={cn(
-                        'relative h-full',
+                        'relative h-full flex flex-col',
                         'bg-card/80 dark:bg-black/60 backdrop-blur-xl',
                         'border border-border/50 dark:border-cyan-400/20',
                         'hover:border-primary dark:hover:border-cyan-400/60',
@@ -389,7 +387,10 @@ export const ContactSection = memo(function ContactSection() {
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-lg font-black mb-3 text-foreground dark:text-white">
+                        <h3
+                          className="text-sm sm:text-base font-black mb-3 text-foreground dark:text-white leading-tight whitespace-nowrap"
+                          title={item.title}
+                        >
                           {item.title}
                         </h3>
 

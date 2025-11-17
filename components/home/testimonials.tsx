@@ -60,16 +60,16 @@ export function Testimonials() {
   const differentials = [
     {
       icon: Code,
-      title: 'Código Limpo & Profissional',
+      title: 'Clean Code',
       description:
-        'TypeScript strict mode, ESLint configurado, documentação JSDoc completa e padrões de código consistentes. Código que outros desenvolvedores querem trabalhar.',
+        'TypeScript strict mode, ESLint configurado, documentação JSDoc completa e padrões consistentes. Código que outros desenvolvedores querem trabalhar.',
       gradient: 'from-cyan-500 to-blue-600',
       iconBg: 'from-cyan-400 to-blue-500',
       badge: 'Clean Code',
     },
     {
       icon: Zap,
-      title: 'Performance Otimizada',
+      title: 'Performance 95+',
       description:
         'Lighthouse Score 95+, Core Web Vitals excelentes, lazy loading estratégico, code splitting e cache inteligente. Aplicações rápidas que convertem.',
       gradient: 'from-purple-500 to-pink-600',
@@ -78,16 +78,16 @@ export function Testimonials() {
     },
     {
       icon: Shield,
-      title: 'Segurança Implementada',
+      title: 'Security First',
       description:
-        'Autenticação JWT robusta, validações em backend e frontend, sanitização de dados, proteção contra XSS/CSRF e boas práticas OWASP.',
+        'Autenticação JWT robusta, validações em backend e frontend, sanitização de dados, proteção XSS/CSRF e boas práticas OWASP.',
       gradient: 'from-green-500 to-emerald-600',
       iconBg: 'from-green-400 to-emerald-500',
       badge: 'Security First',
     },
     {
       icon: BookOpen,
-      title: 'Documentação Completa',
+      title: '100% Documentado',
       description:
         'JSDoc em todo código, README detalhado, comentários explicativos e arquitetura bem documentada. Facilita manutenção e colaboração.',
       gradient: 'from-orange-500 to-amber-600',
@@ -96,7 +96,7 @@ export function Testimonials() {
     },
     {
       icon: Layers,
-      title: 'Arquitetura Escalável',
+      title: 'Arquitetura Modular',
       description:
         'Componentização modular, separação de responsabilidades, padrões de design aplicados e código preparado para crescer sem refatoração.',
       gradient: 'from-blue-500 to-indigo-600',
@@ -105,7 +105,7 @@ export function Testimonials() {
     },
     {
       icon: GitBranch,
-      title: 'Git Flow Profissional',
+      title: 'Git Expert',
       description:
         'Commits semânticos, feature branches, pull requests documentados, versionamento organizado e histórico limpo. Trabalho em equipe facilitado.',
       gradient: 'from-red-500 to-rose-600',
@@ -156,7 +156,7 @@ export function Testimonials() {
         </div>
 
         {/* Diferenciais Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           {differentials.map((item, index) => {
             const Icon = item.icon;
             return (
@@ -181,7 +181,7 @@ export function Testimonials() {
                   {/* Card */}
                   <Card
                     className={cn(
-                      'relative h-full bg-card/80 dark:bg-black/60 backdrop-blur-xl',
+                      'relative h-full flex flex-col bg-card/80 dark:bg-black/60 backdrop-blur-xl',
                       'border border-border/50 dark:border-cyan-400/20',
                       'hover:border-primary dark:hover:border-cyan-400/60',
                       'transition-all duration-500',
@@ -194,7 +194,7 @@ export function Testimonials() {
                       className={`absolute inset-0 bg-linear-to-br ${item.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
                     ></div>
 
-                    <CardContent className="p-8 relative z-10">
+                    <CardContent className="p-8 relative z-10 flex flex-col">
                       {/* Badge pequeno */}
                       <div className="absolute top-4 right-4">
                         <div className="px-3 py-1 rounded-full bg-linear-to-r from-cyan-500/10 to-purple-500/10 dark:from-cyan-400/20 dark:to-purple-400/20 border border-cyan-400/30 text-xs font-bold text-cyan-700 dark:text-cyan-300">
@@ -215,12 +215,15 @@ export function Testimonials() {
                       </div>
 
                       {/* Título */}
-                      <h3 className="text-xl font-black mb-3 text-foreground dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
+                      <h3
+                        className="text-sm sm:text-base font-black mb-3 text-foreground dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors leading-tight whitespace-nowrap"
+                        title={item.title}
+                      >
                         {item.title}
                       </h3>
 
                       {/* Descrição */}
-                      <p className="text-sm text-muted-foreground dark:text-gray-300 leading-relaxed">
+                      <p className="text-sm text-muted-foreground dark:text-gray-300 leading-relaxed grow">
                         {item.description}
                       </p>
                     </CardContent>

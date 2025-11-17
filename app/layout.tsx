@@ -43,12 +43,14 @@ import { Inter, Orbitron, Rajdhani } from 'next/font/google';
 // ============================================================================
 
 import { AuthProvider } from '@/components/providers/auth-provider';
+import { MatrixProvider } from '@/components/providers/matrix-context';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 
 // ============================================================================
 // Layout Components
 // ============================================================================
 
+import { AppWrapper } from '@/components/layout/app-wrapper';
 import { Footer } from '@/components/layout/footer';
 import { Navbar } from '@/components/layout/navbar';
 
@@ -59,8 +61,8 @@ import { Navbar } from '@/components/layout/navbar';
 import { CookieInitializer } from '@/components/cookies/cookie-initializer';
 import {
   CookieBanner,
-  FloatingGrid,
   InstallPrompt,
+  StarsBackground,
   Toaster,
   UpdateNotification,
 } from '@/components/ui';
@@ -431,91 +433,101 @@ export default function RootLayout({ children }: RootLayoutProps) {
          * - enableSystem: Permite detecção automática de preferência do SO
          */}
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <AuthProvider>
-            {/**
-             * Floating Grid Background
-             *
-             * Grid futurista cyberpunk que aparece APENAS no modo dark.
-             * Cria profundidade e atmosfera futurista no fundo do site.
-             * - fixed inset-0: Cobre toda a tela
-             * - z-0: Fica atrás de todo conteúdo
-             * - pointer-events-none: Não interfere com interações
-             */}
-            <FloatingGrid />
-
-            {/* Layout otimizado: Flexbox apenas no wrapper interno */}
-            {/**
-             * Container principal com Flexbox
-             * - flex flex-col: Layout vertical
-             * - min-h-screen: Altura mínima de 100vh para footer sempre no final
-             * - visible: Garantia explícita de visibilidade (previne ocultação acidental)
-             */}
-            <div className="flex flex-col min-h-screen visible">
+          <MatrixProvider>
+            <AuthProvider>
               {/**
-               * Header fixo com navbar
-               * - sticky top-0: Fixa no topo ao rolar
-               * - z-50: Sobreposição alta para ficar acima de outros elementos
-               * - will-change-transform: Otimização de performance para animações
+               * AppWrapper
+               *
+               * Gerencia a inicialização da aplicação e exibe loading screen
+               * durante o carregamento dos sistemas antes de mostrar o conteúdo.
                */}
-              <header className="sticky top-0 z-50 will-change-transform">
-                <Navbar />
-              </header>
+              <AppWrapper>
+                {/**
+                 * Stars Background
+                 *
+                 * Céu estrelado que aparece APENAS no modo dark.
+                 * Cria atmosfera espacial no fundo do site.
+                 * - fixed inset-0: Cobre toda a tela
+                 * - z-0: Fica atrás de todo conteúdo
+                 * - pointer-events-none: Não interfere com interações
+                 */}
+                <StarsBackground />
 
-              {/**
-               * Área de conteúdo principal
-               * - flex-1: Ocupa todo espaço disponível entre header e footer
-               * - relative: Contexto de posicionamento para elementos filhos
-               * - role="main": Indica que é o conteúdo principal da página
-               */}
-              <main className="flex-1 relative" role="main">
-                {/* Renderiza o conteúdo específico de cada página */}
-                {children}
-              </main>
+                {/* Layout otimizado: Flexbox apenas no wrapper interno */}
+                {/**
+                 * Container principal com Flexbox
+                 * - flex flex-col: Layout vertical
+                 * - min-h-screen: Altura mínima de 100vh para footer sempre no final
+                 * - visible: Garantia explícita de visibilidade (previne ocultação acidental)
+                 */}
+                <div className="flex flex-col min-h-screen visible">
+                  {/**
+                   * Header fixo com navbar
+                   * - sticky top-0: Fixa no topo ao rolar
+                   * - z-50: Sobreposição alta para ficar acima de outros elementos
+                   * - will-change-transform: Otimização de performance para animações
+                   */}
+                  <header className="sticky top-0 z-50 will-change-transform">
+                    <Navbar />
+                  </header>
 
-              {/**
-               * Footer da aplicação
-               * Fica sempre no final da página devido ao flex-1 no main
-               */}
-              <Footer />
-            </div>
+                  {/**
+                   * Área de conteúdo principal
+                   * - flex-1: Ocupa todo espaço disponível entre header e footer
+                   * - relative: Contexto de posicionamento para elementos filhos
+                   * - role="main": Indica que é o conteúdo principal da página
+                   */}
+                  <main className="flex-1 relative" role="main">
+                    {/* Renderiza o conteúdo específico de cada página */}
+                    {children}
+                  </main>
 
-            {/**
-             * Cookie Banner
-             *
-             * Banner de consentimento de cookies conforme LGPD/GDPR.
-             * Aparece quando o usuário visita o site pela primeira vez.
-             * Permite aceitar, rejeitar ou personalizar cookies.
-             */}
-            <CookieBanner />
+                  {/**
+                   * Footer da aplicação
+                   * Fica sempre no final da página devido ao flex-1 no main
+                   */}
+                  <Footer />
+                </div>
 
-            {/**
-             * Cookie Initializer
-             *
-             * Inicializa scripts de analytics e outros serviços baseado
-             * no consentimento de cookies do usuário.
-             */}
-            <CookieInitializer />
+                {/**
+                 * Cookie Banner
+                 *
+                 * Banner de consentimento de cookies conforme LGPD/GDPR.
+                 * Aparece quando o usuário visita o site pela primeira vez.
+                 * Permite aceitar, rejeitar ou personalizar cookies.
+                 */}
+                <CookieBanner />
 
-            {/**
-             * Install Prompt PWA
-             *
-             * Banner fixo que aparece no rodapé convidando o usuário
-             * a instalar o aplicativo como PWA.
-             *
-             * - Aparece apenas se app é instalável
-             * - Pode ser fechado pelo usuário
-             * - Persiste escolha no localStorage
-             */}
-            <InstallPrompt />
+                {/**
+                 * Cookie Initializer
+                 *
+                 * Inicializa scripts de analytics e outros serviços baseado
+                 * no consentimento de cookies do usuário.
+                 */}
+                <CookieInitializer />
 
-            {/**
-             * Update Notification PWA
-             *
-             * Toast no topo que notifica sobre atualizações disponíveis.
-             * Permite atualizar o service worker com um clique.
-             */}
-            <UpdateNotification />
-          </AuthProvider>
+                {/**
+                 * Install Prompt PWA
+                 *
+                 * Banner fixo que aparece no rodapé convidando o usuário
+                 * a instalar o aplicativo como PWA.
+                 *
+                 * - Aparece apenas se app é instalável
+                 * - Pode ser fechado pelo usuário
+                 * - Persiste escolha no localStorage
+                 */}
+                <InstallPrompt />
+
+                {/**
+                 * Update Notification PWA
+                 *
+                 * Toast no topo que notifica sobre atualizações disponíveis.
+                 * Permite atualizar o service worker com um clique.
+                 */}
+                <UpdateNotification />
+              </AppWrapper>
+            </AuthProvider>
+          </MatrixProvider>
         </ThemeProvider>
 
         {/**
