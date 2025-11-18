@@ -1,63 +1,57 @@
 /**
- * Root Layout Component
- *
- * Layout raiz que envolve todas as páginas da aplicação Next.js.
- * Define estrutura HTML base, metadados, providers globais e layout fixo.
- *
  * @module app/layout
- * @fileoverview Layout raiz da aplicação Next.js com estrutura completa
+ * @fileoverview
+ * RootLayout - Layout Raiz da Aplicação Next.js
+ *
+ * Este componente define o layout global de toda a aplicação Next.js,
+ * envolvendo todas as páginas e providenciando:
+ *   - Estrutura básica HTML (<html> e <body>)
+ *   - Configuração global de fontes otimizadas (next/font)
+ *   - Metadados para SEO, redes sociais e PWA (via `metadata`)
+ *   - Configuração de viewport universal (via `viewport`)
+ *   - Providers de contexto (ThemeProvider, MatrixProvider, AuthProvider)
+ *   - Layout fixo com Navbar (sticky), Footer (fixo) e área principal responsiva
+ *   - Banner e inicializador de cookies para LGPD/GDPR
+ *   - Prompts e notificações PWA (instalação, atualização)
+ *   - Toast global para notificações do usuário
+ *   - Integração com Analytics e Speed Insights Vercel
+ *
  * @author Rainer Teixeira
  * @version 2.0.0
  * @since 1.0.0
  *
  * @example
- * ```tsx
- * // Renderizado automaticamente pelo Next.js App Router
- * // Estrutura: <html> → <body> → <ThemeProvider> → <AuthProvider> → {children}
- * ```
- *
- * @remarks
- * Características principais:
- * - Metadados completos para SEO e redes sociais
- * - Providers de tema e autenticação
- * - Navbar sticky e Footer fixo
- * - Fontes otimizadas com next/font
- * - PWA completo com manifesto
- * - Analytics e Speed Insights da Vercel
+ * Renderização automática pelo Next.js App Router:
+ * <html>
+ *   <body>
+ *     <ThemeProvider>
+ *       <MatrixProvider>
+ *         <AuthProvider>
+ *           <AppWrapper>
+ *              ...UI & children...
+ *           </AppWrapper>
+ *         </AuthProvider>
+ *       </MatrixProvider>
+ *     </ThemeProvider>
+ *     <Toaster />
+ *     <Analytics />
+ *     <SpeedInsights />
+ *   </body>
+ * </html>
  */
 
-// ============================================================================
-// Styles
-// ============================================================================
+import type { Metadata, Viewport } from 'next';
 
 import './globals.css';
 
-// ============================================================================
-// Next.js Fonts
-// ============================================================================
-
 import { Inter, Orbitron, Rajdhani } from 'next/font/google';
-
-// ============================================================================
-// Providers
-// ============================================================================
 
 import { AuthProvider } from '@/components/providers/auth-provider';
 import { MatrixProvider } from '@/components/providers/matrix-context';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-
-// ============================================================================
-// Layout Components
-// ============================================================================
-
 import { AppWrapper } from '@/components/layout/app-wrapper';
 import { Footer } from '@/components/layout/footer';
 import { Navbar } from '@/components/layout/navbar';
-
-// ============================================================================
-// UI Components
-// ============================================================================
-
 import { CookieInitializer } from '@/components/cookies/cookie-initializer';
 import {
   CookieBanner,
@@ -66,40 +60,19 @@ import {
   Toaster,
   UpdateNotification,
 } from '@/components/ui';
-
-// ============================================================================
-// Constants & Config
-// ============================================================================
-
 import { SEO_KEYWORDS, SITE_CONFIG } from '@/constants';
-import { COLOR_HEX } from '@/lib/utils';
-
-// ============================================================================
-// Analytics
-// ============================================================================
-
+import { darkThemeColors, lightThemeColors } from '@rainersoft/design-tokens';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-// ============================================================================
-// Font Configuration
-// ============================================================================
-
 /**
- * Configuração de fontes otimizadas com next/font
+ * Configuração da fonte principal Inter.
+ * Fonte sans-serif moderna utilizada no corpo de texto da aplicação.
  *
- * Fontes auto-hospedadas para performance máxima:
- * - Zero requisições externas
- * - Subset latino reduzido
- * - Display swap (evita FOIT)
- * - Preload automático
- * - Zero layout shift
- * - Core Web Vitals otimizados
- */
-
-/**
- * Inter - Fonte principal (corpo de texto)
- * Sans-serif moderna e altamente legível
+ * @constant {NextFont}
+ * @property {string[]} subsets - Subconjuntos de caracteres (latino)
+ * @property {string} display - Estratégia de exibição (swap para evitar FOIT)
+ * @property {string} variable - Variável CSS customizada (--font-inter)
  */
 const fontInter = Inter({
   subsets: ['latin'],
@@ -108,8 +81,14 @@ const fontInter = Inter({
 });
 
 /**
- * Orbitron - Fonte futurista (títulos holográficos)
- * Design cyberpunk e sci-fi
+ * Configuração da fonte Orbitron.
+ * Fonte secundária com estilo futurista/cyberpunk para títulos e elementos destacados.
+ *
+ * @constant {NextFont}
+ * @property {string[]} subsets - Subconjuntos de caracteres (latino)
+ * @property {string} display - Estratégia de exibição (swap)
+ * @property {string} variable - Variável CSS customizada (--font-orbitron)
+ * @property {string[]} weight - Pesos de fonte disponíveis (400-900)
  */
 const fontOrbitron = Orbitron({
   subsets: ['latin'],
@@ -119,8 +98,14 @@ const fontOrbitron = Orbitron({
 });
 
 /**
- * Rajdhani - Fonte complementar (subtítulos)
- * Estilo tech com boa legibilidade
+ * Configuração da fonte Rajdhani.
+ * Fonte técnica complementar para subtítulos e elementos secundários.
+ *
+ * @constant {NextFont}
+ * @property {string[]} subsets - Subconjuntos de caracteres (latino)
+ * @property {string} display - Estratégia de exibição (swap)
+ * @property {string} variable - Variável CSS customizada (--font-rajdhani)
+ * @property {string[]} weight - Pesos de fonte disponíveis (300-700)
  */
 const fontRajdhani = Rajdhani({
   subsets: ['latin'],
@@ -129,26 +114,15 @@ const fontRajdhani = Rajdhani({
   weight: ['300', '400', '500', '600', '700'],
 });
 
-// ============================================================================
-// Metadata Configuration
-// ============================================================================
-
 /**
- * Metadados da aplicação
+ * Metadados globais da aplicação.
+ * Configurações de SEO, OpenGraph, Twitter Cards, PWA e otimizações de compartilhamento.
+ * Utilizados diretamente pelo Next.js para geração automática de meta tags.
  *
- * Objeto exportado que define metadados HTML para SEO e compartilhamento social.
- * O Next.js utiliza esta exportação para gerar tags <title> e <meta> automaticamente.
- *
- * Inclui:
- * - Título e descrição básicos
- * - Open Graph para redes sociais
- * - Twitter Cards
- * - Informações do autor
- * - Keywords para SEO
- *
- * @type {import('next').Metadata}
+ * @type {Metadata}
+ * @see https://nextjs.org/docs/app/api-reference/functions/generate-metadata
  */
-export const metadata: import('next').Metadata = {
+export const metadata: Metadata = {
   title: {
     default: `${SITE_CONFIG.name} - ${SITE_CONFIG.title} | Empresa de Desenvolvimento`,
     template: `%s | ${SITE_CONFIG.name}`,
@@ -193,7 +167,7 @@ export const metadata: import('next').Metadata = {
     },
   },
   verification: {
-    // google: 'seu-codigo-aqui', // Adicionar depois
+    // google: 'seu-codigo-aqui',
     // yandex: 'seu-codigo-aqui',
     // bing: 'seu-codigo-aqui',
   },
@@ -210,90 +184,20 @@ export const metadata: import('next').Metadata = {
     statusBarStyle: 'black-translucent',
     title: `${SITE_CONFIG.name}`,
     startupImage: [
-      // iPhone SE (1st gen), 5s, 5c, 5
-      {
-        url: '/splash-screens/iphone5.png',
-        media:
-          '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
-      },
-      // iPhone 6, 6s, 7, 8, SE (2nd/3rd gen)
-      {
-        url: '/splash-screens/iphone6.png',
-        media:
-          '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)',
-      },
-      // iPhone 6 Plus, 6s Plus, 7 Plus, 8 Plus
-      {
-        url: '/splash-screens/iphone6plus.png',
-        media:
-          '(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)',
-      },
-      // iPhone X, XS, 11 Pro, 12 Mini, 13 Mini
-      {
-        url: '/splash-screens/iphonex.png',
-        media:
-          '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)',
-      },
-      // iPhone XR, 11
-      {
-        url: '/splash-screens/iphonexr.png',
-        media:
-          '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)',
-      },
-      // iPhone XS Max, 11 Pro Max
-      {
-        url: '/splash-screens/iphonexsmax.png',
-        media:
-          '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)',
-      },
-      // iPhone 12, 12 Pro, 13, 13 Pro, 14
-      {
-        url: '/splash-screens/iphone12.png',
-        media:
-          '(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)',
-      },
-      // iPhone 12 Pro Max, 13 Pro Max, 14 Plus
-      {
-        url: '/splash-screens/iphone12promax.png',
-        media:
-          '(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)',
-      },
-      // iPhone 14 Pro
-      {
-        url: '/splash-screens/iphone14pro.png',
-        media:
-          '(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)',
-      },
-      // iPhone 14 Pro Max
-      {
-        url: '/splash-screens/iphone14promax.png',
-        media:
-          '(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)',
-      },
-      // iPad Mini, Air
-      {
-        url: '/splash-screens/ipad.png',
-        media:
-          '(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)',
-      },
-      // iPad Pro 10.5"
-      {
-        url: '/splash-screens/ipadpro10.png',
-        media:
-          '(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)',
-      },
-      // iPad Pro 11"
-      {
-        url: '/splash-screens/ipadpro11.png',
-        media:
-          '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)',
-      },
-      // iPad Pro 12.9"
-      {
-        url: '/splash-screens/ipadpro12.png',
-        media:
-          '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)',
-      },
+      { url: '/splash-screens/iphone5.png', media: '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)' },
+      { url: '/splash-screens/iphone6.png', media: '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)' },
+      { url: '/splash-screens/iphone6plus.png', media: '(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)' },
+      { url: '/splash-screens/iphonex.png', media: '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)' },
+      { url: '/splash-screens/iphonexr.png', media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)' },
+      { url: '/splash-screens/iphonexsmax.png', media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)' },
+      { url: '/splash-screens/iphone12.png', media: '(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)' },
+      { url: '/splash-screens/iphone12promax.png', media: '(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)' },
+      { url: '/splash-screens/iphone14pro.png', media: '(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)' },
+      { url: '/splash-screens/iphone14promax.png', media: '(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)' },
+      { url: '/splash-screens/ipad.png', media: '(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)' },
+      { url: '/splash-screens/ipadpro10.png', media: '(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)' },
+      { url: '/splash-screens/ipadpro11.png', media: '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)' },
+      { url: '/splash-screens/ipadpro12.png', media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)' },
     ],
   },
   formatDetection: {
@@ -312,107 +216,74 @@ export const metadata: import('next').Metadata = {
     ],
   },
   other: {
-    // ========== PWA Universal ==========
     'mobile-web-app-capable': 'yes',
     'application-name': SITE_CONFIG.name,
-
-    // ========== iOS (Apple) ==========
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'black-translucent',
     'apple-mobile-web-app-title': SITE_CONFIG.name,
     'format-detection': 'telephone=no, date=no, email=no, address=no',
-
-    // ========== Android (Chrome/Samsung) ==========
-    // Theme color para barra de status Android - Using neutral-950 (dark background)
-    'theme-color': COLOR_HEX.neutral[950],
+    'theme-color': lightThemeColors.primitive.neutral[950],
     'mobile-web-app-status-bar-style': 'black-translucent',
-
-    // ========== Microsoft (Windows/Edge) ==========
-    // Using neutral-950 for dark theme consistency
-    'msapplication-TileColor': COLOR_HEX.neutral[950],
-    'msapplication-navbutton-color': COLOR_HEX.neutral[950],
+    'msapplication-TileColor': lightThemeColors.primitive.neutral[950],
+    'msapplication-navbutton-color': lightThemeColors.primitive.neutral[950],
     'msapplication-starturl': '/',
     'msapplication-tap-highlight': 'no',
-
-    // ========== Performance & SEO ==========
     HandheldFriendly: 'true',
     MobileOptimized: '375',
-
-    // ========== Security ==========
     referrer: 'origin-when-cross-origin',
   },
 };
 
 /**
- * Configuração de Viewport Universal
+ * Configuração universal da viewport.
+ * Otimizações para máxima compatibilidade cross-device, suporte a notch,
+ * zoom controlado, fullscreen PWA e adaptação automática da barra de status
+ * conforme o tema do sistema operacional.
  *
- * Movido do metadata export conforme recomendação Next.js 15+
- * Define como a página deve ser renderizada em TODOS os dispositivos
- *
- * Configurações otimizadas para:
- * - iOS: viewportFit 'cover' para notch/Dynamic Island
- * - Android: theme-color adaptativo para barra de status
- * - Desktop: zoom controlado para melhor UX
- * - PWA: experiência fullscreen em todos os dispositivos
- *
- * @type {import('next').Viewport}
+ * @type {Viewport}
+ * @see https://nextjs.org/docs/app/api-reference/functions/generate-viewport
  */
-export const viewport: import('next').Viewport = {
-  // Dimensões responsivas
+export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   minimumScale: 1,
   maximumScale: 5,
   userScalable: true,
-
-  // iOS - Estende até as bordas (notch, Dynamic Island)
   viewportFit: 'cover',
-
-  // Theme Color adaptativo (Android + iOS 15+)
-  // Using semantic background tokens: white (light) / neutral-950 (dark)
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: COLOR_HEX.neutral[50] }, // white (neutral-50)
-    { media: '(prefers-color-scheme: dark)', color: COLOR_HEX.neutral[950] }, // neutral-950
+    { media: '(prefers-color-scheme: light)', color: lightThemeColors.primitive.neutral[50] },
+    { media: '(prefers-color-scheme: dark)', color: darkThemeColors.primitive.neutral[950] },
   ],
 };
 
-// ============================================================================
-// Types
-// ============================================================================
-
 /**
- * Props do Root Layout
+ * Propriedades do componente RootLayout.
+ *
+ * @interface RootLayoutProps
  */
 interface RootLayoutProps {
+  /** Conteúdo das páginas filhas renderizadas pelo Next.js App Router */
   readonly children: React.ReactNode;
 }
 
-// ============================================================================
-// Main Component
-// ============================================================================
-
 /**
- * RootLayout Component
+ * Componente raiz do layout da aplicação Next.js.
  *
- * Componente principal do layout raiz que define a estrutura HTML base
- * de todas as páginas da aplicação. Envolve o conteúdo com providers
- * necessários e componentes globais.
+ * Estrutura toda a aplicação na camada mais alta, englobando:
+ * - Providers de contexto (Theme, Matrix, Auth)
+ * - Layout fixo com Navbar, Main e Footer
+ * - Componentes globais (Cookies, PWA, Background)
+ * - Integrações de Analytics e Performance
  *
- * @component
- * @param {RootLayoutProps} props - Propriedades do layout
- * @param {React.ReactNode} props.children - Conteúdo das páginas filhas
- * @returns {JSX.Element} Estrutura HTML completa da aplicação
+ * @param {RootLayoutProps} props - Propriedades do layout raiz
+ * @returns {JSX.Element} Estrutura HTML global da aplicação
  *
- * @remarks
- * Estrutura renderizada:
- * - HTML com lang="pt-BR" e classes de fontes
- * - ThemeProvider para tema claro/escuro
- * - AuthProvider para autenticação
- * - Navbar sticky (z-50)
- * - Main content area (flex-1)
- * - Footer fixo no fim
- * - PWA prompts e notificações
- * - Analytics da Vercel
+ * @example
+ * ```tsx
+ * <RootLayout>
+ *   <PageContent />
+ * </RootLayout>
+ * ```
  */
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
@@ -425,132 +296,37 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className={`${fontInter.variable} text-foreground antialiased min-h-screen smooth-scroll font-sans`}
         suppressHydrationWarning
       >
-        {/**
-         * ThemeProvider
-         * Contexto para gerenciamento de tema (claro/escuro/sistema)
-         * - attribute="class": Alterna tema via classe CSS
-         * - defaultTheme="system": Usa preferência do SO por padrão
-         * - enableSystem: Permite detecção automática de preferência do SO
-         */}
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <MatrixProvider>
             <AuthProvider>
-              {/**
-               * AppWrapper
-               *
-               * Gerencia a inicialização da aplicação e exibe loading screen
-               * durante o carregamento dos sistemas antes de mostrar o conteúdo.
-               */}
               <AppWrapper>
-                {/**
-                 * Stars Background
-                 *
-                 * Céu estrelado que aparece APENAS no modo dark.
-                 * Cria atmosfera espacial no fundo do site.
-                 * - fixed inset-0: Cobre toda a tela
-                 * - z-0: Fica atrás de todo conteúdo
-                 * - pointer-events-none: Não interfere com interações
-                 */}
                 <StarsBackground />
 
-                {/* Layout otimizado: Flexbox apenas no wrapper interno */}
-                {/**
-                 * Container principal com Flexbox
-                 * - flex flex-col: Layout vertical
-                 * - min-h-screen: Altura mínima de 100vh para footer sempre no final
-                 * - visible: Garantia explícita de visibilidade (previne ocultação acidental)
-                 */}
+                {/* Layout principal da aplicação */}
+                {/* Estrutura com header fixo, área de conteúdo e footer */}
                 <div className="flex flex-col min-h-screen visible">
-                  {/**
-                   * Header fixo com navbar
-                   * - sticky top-0: Fixa no topo ao rolar
-                   * - z-50: Sobreposição alta para ficar acima de outros elementos
-                   * - will-change-transform: Otimização de performance para animações
-                   */}
+                  {/* Cabeçalho fixo no topo com navbar */}
                   <header className="sticky top-0 z-50 will-change-transform">
                     <Navbar />
                   </header>
-
-                  {/**
-                   * Área de conteúdo principal
-                   * - flex-1: Ocupa todo espaço disponível entre header e footer
-                   * - relative: Contexto de posicionamento para elementos filhos
-                   * - role="main": Indica que é o conteúdo principal da página
-                   */}
+                  {/* Área principal de conteúdo das páginas */}
                   <main className="flex-1 relative" role="main">
-                    {/* Renderiza o conteúdo específico de cada página */}
                     {children}
                   </main>
-
-                  {/**
-                   * Footer da aplicação
-                   * Fica sempre no final da página devido ao flex-1 no main
-                   */}
+                  {/* Rodapé da aplicação */}
                   <Footer />
                 </div>
 
-                {/**
-                 * Cookie Banner
-                 *
-                 * Banner de consentimento de cookies conforme LGPD/GDPR.
-                 * Aparece quando o usuário visita o site pela primeira vez.
-                 * Permite aceitar, rejeitar ou personalizar cookies.
-                 */}
                 <CookieBanner />
-
-                {/**
-                 * Cookie Initializer
-                 *
-                 * Inicializa scripts de analytics e outros serviços baseado
-                 * no consentimento de cookies do usuário.
-                 */}
                 <CookieInitializer />
-
-                {/**
-                 * Install Prompt PWA
-                 *
-                 * Banner fixo que aparece no rodapé convidando o usuário
-                 * a instalar o aplicativo como PWA.
-                 *
-                 * - Aparece apenas se app é instalável
-                 * - Pode ser fechado pelo usuário
-                 * - Persiste escolha no localStorage
-                 */}
                 <InstallPrompt />
-
-                {/**
-                 * Update Notification PWA
-                 *
-                 * Toast no topo que notifica sobre atualizações disponíveis.
-                 * Permite atualizar o service worker com um clique.
-                 */}
                 <UpdateNotification />
               </AppWrapper>
             </AuthProvider>
           </MatrixProvider>
         </ThemeProvider>
 
-        {/**
-         * Toaster (Sonner) - Notificações Toast
-         *
-         * Sistema de notificações toast moderno e acessível.
-         * Use toast() do sonner para exibir notificações.
-         *
-         * @example
-         * import { toast } from 'sonner'
-         * toast.success('Operação realizada com sucesso!')
-         * toast.error('Erro ao processar')
-         */}
         <Toaster />
-
-        {/**
-         * Vercel Analytics & Speed Insights
-         *
-         * - Analytics: Rastreia métricas de performance e analytics do site
-         * - SpeedInsights: Monitora Core Web Vitals em tempo real
-         * Não afeta performance e respeita privacidade.
-         * Componentes já lidam com renderização SSR/CSR internamente.
-         */}
         <Analytics />
         <SpeedInsights />
       </body>

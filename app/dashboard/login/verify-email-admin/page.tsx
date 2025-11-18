@@ -1,3 +1,23 @@
+/**
+ * Verify Email Admin Page Component
+ *
+ * Página de verificação administrativa de email. Permite verificar
+ * email e confirmar signup administrativamente, útil para resolver
+ * problemas quando usuários não conseguem verificar email normalmente.
+ *
+ * @module app/dashboard/login/verify-email-admin/page
+ * @fileoverview Página de verificação administrativa de email
+ * @author Rainer Teixeira
+ * @version 2.0.0
+ * @since 1.0.0
+ *
+ * @example
+ * ```tsx
+ * // Rota: /dashboard/login/verify-email-admin
+ * // Uso administrativo para verificar emails manualmente
+ * ```
+ */
+
 'use client';
 
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -26,23 +46,22 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 /**
- * Verify Email Admin Page Component
+ * VerifyEmailAdminPage Component
  *
- * Página de verificação administrativa de email. Permite verificar
- * email e confirmar signup administrativamente, útil para resolver
- * problemas quando usuários não conseguem verificar email normalmente.
+ * Componente da página de verificação administrativa de email.
+ * Permite verificar email e confirmar signup de usuários manualmente,
+ * útil para resolver problemas quando usuários não conseguem verificar
+ * email normalmente através do fluxo padrão.
  *
- * @module app/dashboard/login/verify-email-admin/page
- * @fileoverview Página de verificação administrativa de email
- * @author Rainer Teixeira
- * @version 2.0.0
- * @since 1.0.0
+ * @component
+ * @returns {JSX.Element} Página de verificação administrativa
  *
- * @example
- * ```tsx
- * // Rota: /dashboard/login/verify-email-admin
- * // Uso administrativo para verificar emails manualmente
- * ```
+ * @remarks
+ * Funcionalidades:
+ * - Aceita email, username ou cognitoSub como identificador
+ * - Verifica e confirma email administrativamente
+ * - Exibe feedback de sucesso/erro
+ * - Redireciona para login após sucesso
  */
 export default function VerifyEmailAdminPage() {
   const router = useRouter();
@@ -55,12 +74,17 @@ export default function VerifyEmailAdminPage() {
     email: string;
   } | null>(null);
 
+  /**
+   * Handler de submit do formulário de verificação administrativa.
+   * Verifica email e confirma signup de usuário usando identificador (email, username ou cognitoSub).
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess(false);
     setResult(null);
 
+    // Validação de identificador obrigatório
     if (!identifier.trim()) {
       setError(
         'Digite o identificador do usuário (email, username ou cognitoSub)'
@@ -122,6 +146,8 @@ export default function VerifyEmailAdminPage() {
           </CardHeader>
 
           <CardContent>
+            {/* Estado de sucesso após verificação */}
+            {/* Exibe informações do usuário verificado */}
             {success && result ? (
               <div className="space-y-4">
                 <Alert className="border-green-500 bg-green-500/10">
@@ -141,6 +167,8 @@ export default function VerifyEmailAdminPage() {
                 </Alert>
               </div>
             ) : (
+              /* Formulário de verificação administrativa */
+              /* Permite inserir identificador e verificar email manualmente */
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="identifier">Identificador do Usuário</Label>
@@ -160,6 +188,7 @@ export default function VerifyEmailAdminPage() {
                   </p>
                 </div>
 
+                {/* Mensagem de erro */}
                 {error && (
                   <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
@@ -167,6 +196,7 @@ export default function VerifyEmailAdminPage() {
                   </Alert>
                 )}
 
+                {/* Botão de submit */}
                 <Button
                   type="submit"
                   disabled={isLoading || !identifier.trim()}

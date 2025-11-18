@@ -46,6 +46,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 // Design tokens via CSS variables (imported in globals.css)
 import { AlertCircle, CheckCircle2, Loader2, User } from 'lucide-react';
 import { useState } from 'react';
@@ -380,7 +381,7 @@ export function ChangeUsernameDialog({
                 disabled={!canSubmit}
                 className={cn(
                   required ? 'w-full' : 'flex-1',
-                  'bg-gradient-to-r from-cyan-500 to-blue-600',
+                  `${GRADIENT_DIRECTIONS.TO_RIGHT} from-cyan-500 to-blue-600`,
                   'dark:from-cyan-600 dark:to-cyan-700 dark:hover:from-cyan-700 dark:hover:to-cyan-800',
                   'text-white'
                 )}

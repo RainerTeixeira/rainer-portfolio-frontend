@@ -33,7 +33,7 @@ import { ProfileForm } from '@/components/dashboard/profile-form';
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-// Design tokens via CSS variables (imported in globals.css)
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import { ArrowLeft, Loader2, Settings as SettingsIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { JSX, Suspense } from 'react';
@@ -68,7 +68,7 @@ function SettingsPageContent(): JSX.Element {
         <div
           className={cn(
             'absolute inset-0',
-            'bg-gradient-to-br',
+            GRADIENT_DIRECTIONS.TO_BR,
             'from-primary/5 via-transparent to-primary/5 dark:from-cyan-400/5 dark:via-transparent dark:to-purple-400/5 blur-3xl pointer-events-none'
           )}
           aria-hidden="true"
@@ -102,7 +102,7 @@ function SettingsPageContent(): JSX.Element {
       <div
         className={cn(
           'absolute inset-0',
-          'bg-gradient-to-r',
+          GRADIENT_DIRECTIONS.TO_RIGHT,
           'from-cyan-500/5 via-purple-500/5 to-pink-500/5 dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5 blur-3xl pointer-events-none'
         )}
         aria-hidden="true"
@@ -154,7 +154,7 @@ function SettingsPageContent(): JSX.Element {
       <div
         className={cn(
           'relative h-1',
-          'bg-gradient-to-r',
+          GRADIENT_DIRECTIONS.TO_RIGHT,
           'from-transparent via-primary/30 dark:via-cyan-400/30 to-transparent'
         )}
         aria-hidden="true"
@@ -163,8 +163,7 @@ function SettingsPageContent(): JSX.Element {
       {/* Container principal */}
       <div
         className={cn(
-          'relative',
-          Z_INDEX_CLASSES.CONTENT,
+          'relative z-10',
           'w-full max-w-7xl mx-auto px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8 py-6 xs:py-8 sm:py-10 md:py-12 lg:py-16'
         )}
       >
@@ -214,7 +213,7 @@ function SettingsPageContent(): JSX.Element {
                 'transition-all duration-500 ease-in-out',
                 'relative overflow-hidden',
                 'before:absolute before:inset-0',
-                'bg-gradient-to-br',
+                GRADIENT_DIRECTIONS.TO_BR,
                 'before:from-primary/0 before:via-primary/0 before:to-primary/0',
                 'hover:before:from-primary/5 hover:before:via-transparent hover:before:to-primary/5',
                 'dark:hover:before:from-cyan-400/5 dark:hover:before:via-transparent dark:hover:before:to-purple-400/5',
@@ -284,7 +283,7 @@ export default function SettingsPage() {
           <div
             className={cn(
               'absolute inset-0',
-              'bg-gradient-to-br',
+              GRADIENT_DIRECTIONS.TO_BR,
               'from-primary/5 via-transparent to-primary/5 dark:from-cyan-400/5 dark:via-transparent dark:to-purple-400/5 blur-3xl pointer-events-none'
             )}
             aria-hidden="true"

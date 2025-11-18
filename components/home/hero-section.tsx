@@ -31,7 +31,11 @@
 
 import { cn } from '@/lib/utils';
 import { hexToRGBA } from '@/lib/utils/design-tokens';
-import { GRADIENTS } from '@rainersoft/design-tokens';
+import {
+  GRADIENTS,
+  GRADIENT_DIRECTIONS,
+  tokens,
+} from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
@@ -43,10 +47,17 @@ import { useCarouselKeyboard } from './hooks';
 // Dynamic Imports
 // ============================================================================
 
-const Carousel = dynamic(() => import('./carousel'), {
-  ssr: false,
-  // Loading removido - loading acontece apenas no loading-screen
-});
+const Carousel = dynamic(
+  () => import('./carousel').catch((error) => {
+    console.error('Erro ao carregar Carousel:', error);
+    // Retorna um componente fallback em caso de erro
+    return { default: () => <div className="h-full w-full flex items-center justify-center text-muted-foreground">Erro ao carregar carousel</div> };
+  }),
+  {
+    ssr: false,
+    loading: () => <div className="h-full w-full" />,
+  }
+);
 
 // ============================================================================
 // Constants
@@ -148,16 +159,16 @@ function HeroContentOverlay({
   const titleStyle: CSSProperties = {
     fontSize: 'clamp(1.75rem, 7vw + 0.5rem, 5rem)',
     textShadow: safeIsDarkTheme
-      ? `0 0 30px ${hexToRGBA('#22d3ee', 0.7)}, 0 0 50px ${hexToRGBA('#06b6d4', 0.5)}`
-      : `0 0 30px ${hexToRGBA('#3b82f6', 0.6)}, 0 0 50px ${hexToRGBA('#2563eb', 0.4)}`,
+      ? `0 0 30px ${hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.7)}, 0 0 50px ${hexToRGBA(tokens.colors.dark.primitive.cyan[500], 0.5)}`
+      : `0 0 30px ${hexToRGBA(tokens.colors.light.primitive.blue[500], 0.6)}, 0 0 50px ${hexToRGBA(tokens.colors.light.primitive.blue[600], 0.4)}`,
     lineHeight: 1.05,
   };
 
   const subtitleStyle: CSSProperties = {
     fontSize: 'clamp(1rem, 3.5vw + 0.3rem, 2rem)',
     textShadow: safeIsDarkTheme
-      ? `0 0 20px ${hexToRGBA('#34d399', 0.6)}`
-      : `0 0 20px ${hexToRGBA('#10b981', 0.5)}`,
+      ? `0 0 20px ${hexToRGBA(tokens.colors.dark.primitive.emerald[400], 0.6)}`
+      : `0 0 20px ${hexToRGBA(tokens.colors.light.primitive.emerald[500], 0.5)}`,
     lineHeight: 1.3,
   };
 
@@ -296,7 +307,7 @@ export function HeroSection() {
       <div
         className={cn(
           'absolute inset-0 z-5 pointer-events-none',
-          'bg-gradient-to-b',
+          GRADIENT_DIRECTIONS.TO_BOTTOM,
           'from-black/50 via-transparent to-black/60'
         )}
         aria-hidden="true"
@@ -312,7 +323,7 @@ export function HeroSection() {
       <div
         className={cn(
           'absolute bottom-0 left-0 right-0 h-32 z-15 pointer-events-none',
-          'bg-gradient-to-t',
+          GRADIENT_DIRECTIONS.TO_TOP,
           'from-black/80 via-black/40 to-transparent'
         )}
         aria-hidden="true"

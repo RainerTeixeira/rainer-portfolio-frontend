@@ -1,48 +1,49 @@
-# ✅ Relatório de Validação - Design Tokens + pnpm
+# ✅ Relatório de Validação - Tokens de Design + pnpm
 
-## 🎯 Validação de Design Tokens
+## 🎯 Validação de Tokens de Design
 
 ### 1. Integração CSS (globals.css)
 
 ✅ **Status**: Integrado corretamente
 
-- `@import '@rainer/rainer-design-tokens/formats/css-vars.css';` ✅
-- Variáveis CSS disponíveis: `--color-*`, `--spacing-*`, `--radius-*`, `--shadow-*`, `--font-*` ✅
-- Fallbacks configurados para compatibilidade ✅
+- `@import 'tailwindcss';` ✅ (arquivo mínimo)
+- Todos os valores de design vêm via `tailwind.config.ts` que usa os tokens ✅
+- Sem variáveis CSS customizadas (tudo via Tailwind config) ✅
 
 ### 2. Integração Tailwind (tailwind.config.ts)
 
 ✅ **Status**: Configurado corretamente
 
-- Importa `tailwindConfig` de `@rainer/rainer-design-tokens/formats/tailwind.config` ✅
+- Importa `tailwindConfig` de `@rainersoft/design-tokens/formats/tailwind.config` ✅
+- Importa `tokens` de `@rainersoft/design-tokens` ✅
+- Plugin `darkModeTokensPlugin` configurado ✅
 - Herda todos os tokens via spread operator ✅
-- Extende com customizações específicas do frontend ✅
+- Mapeamento shadcn/ui usando HSL (`hsl(var(--primary))`) ✅
+- Extende apenas com animações e container (sem valores de design) ✅
 
-### 3. Componentes UI
+### 3. Plugin de Modo Escuro
 
-✅ **Status**: Usando design tokens
+✅ **Status**: Configurado corretamente
 
-#### button.tsx
+- Plugin `lib/tailwind-dark-mode-plugin.ts` criado ✅
+- Aplica tokens escuros automaticamente quando `.dark` está presente ✅
+- Mapeia variáveis CSS HSL para shadcn/ui ✅
+- Garante consistência entre temas claro e escuro ✅
 
-- ✅ `BORDER_RADIUS.MD` do `@rainer/rainer-design-tokens`
-- ✅ `FONT_WEIGHT.MEDIUM` do `@rainer/rainer-design-tokens`
-- ✅ `OPACITY.MEDIUM` do `@rainer/rainer-design-tokens`
-- ✅ `TRANSITIONS.ALL_EASE_IN_OUT` do `@rainer/rainer-design-tokens`
-- ✅ Classes Tailwind usam variáveis CSS dos tokens (bg-primary, text-primary-foreground, etc.)
+### 4. Componentes da Interface
+
+✅ **Status**: Usando tokens de design
+
+- ✅ Classes Tailwind usam tokens (bg-primary, text-primary-foreground, etc.)
+- ✅ Variáveis HSL para shadcn/ui (`hsl(var(--background))`)
+- ✅ Modo escuro automático via plugin
+- ✅ Cores semânticas adaptam ao tema
 
 #### globals.css
 
-- ✅ Importa variáveis CSS dos tokens
-- ✅ Utilitários usam `var(--color-*)`, `var(--spacing-*)`, `var(--radius-*)`
-- ✅ Fallbacks apenas para compatibilidade (não valores hardcoded)
-
-### 4. Valores Hardcoded
-
-⚠️ **Nota**: Alguns valores hardcoded são aceitáveis:
-
-- Fallbacks em `var()` para compatibilidade
-- Valores em animações keyframes (necessários para animações)
-- Scrollbar customizada (usa tokens com fallbacks)
+- ✅ Arquivo mínimo (apenas `@import 'tailwindcss'`)
+- ✅ Sem variáveis CSS customizadas
+- ✅ Tudo via Tailwind config que usa tokens
 
 ## 🚀 Validação pnpm
 
@@ -68,15 +69,15 @@
 
 ✅ **Status**: Configurado
 
-- `@rainer/rainer-design-tokens` via workspace ✅
-- `pnpm-workspace.yaml` inclui ambos os pacotes ✅
+- `@rainersoft/design-tokens` via workspace ✅
+- `pnpm-workspace.yaml` inclui `../rainer-design-tokens` ✅
 
 ## 📊 Resumo de Validação
 
 | Item                       | Status | Detalhes                 |
 | -------------------------- | ------ | ------------------------ |
-| **Design Tokens CSS**      | ✅     | Importado corretamente   |
-| **Design Tokens Tailwind** | ✅     | Configurado corretamente |
+| **Tokens de Design CSS**      | ✅     | Importado corretamente   |
+| **Tokens de Design Tailwind** | ✅     | Configurado corretamente |
 | **Componentes UI**         | ✅     | Usando tokens            |
 | **pnpm Config**            | ✅     | Configurado              |
 | **Scripts pnpm**           | ✅     | Migrados                 |
@@ -115,8 +116,10 @@
 
 ## ✅ Conclusão
 
-- ✅ Design tokens integrados corretamente
-- ✅ UI depende exclusivamente de `@rainer/rainer-design-tokens`
+- ✅ Tokens de design integrados corretamente
+- ✅ Interface depende exclusivamente de `@rainersoft/design-tokens`
+- ✅ Plugin de modo escuro implementado e funcionando
+- ✅ Arquivo globals.css mínimo (apenas Tailwind import)
 - ✅ pnpm configurado e pronto para uso
 - ✅ Scripts migrados e funcionais
 - ✅ Workspace configurado

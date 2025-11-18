@@ -9,6 +9,7 @@
  */
 
 import { cn } from '@/lib/utils';
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
 /**
  * IDs das seções para navegação e scroll
@@ -32,16 +33,16 @@ export const DIVIDER_CLASSES = {
   CYAN: cn(
     'relative my-16',
     'h-1',
-    'bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent'
+    `${GRADIENT_DIRECTIONS.TO_RIGHT} from-transparent via-cyan-400/30 to-transparent`
   ),
   PURPLE: cn(
     'relative my-16',
     'h-1',
-    'bg-gradient-to-r from-transparent via-purple-400/30 to-transparent'
+    `${GRADIENT_DIRECTIONS.TO_RIGHT} from-transparent via-purple-400/30 to-transparent`
   ),
   PINK: cn(
     'relative my-16',
     'h-1',
-    'bg-gradient-to-r from-transparent via-pink-400/30 to-transparent'
+    `${GRADIENT_DIRECTIONS.TO_RIGHT} from-transparent via-pink-400/30 to-transparent`
   ),
 } as const;

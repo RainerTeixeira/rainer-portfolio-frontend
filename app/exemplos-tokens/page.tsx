@@ -29,17 +29,35 @@ import { useEffect, useState } from 'react';
 
 export default function ExemplosTokensPage() {
   const { resolvedTheme } = useTheme();
+
+  /**
+   * Estado de montagem do componente.
+   * Previne hidratação incorreta ao acessar window/theme no servidor.
+   */
   const [mounted, setMounted] = useState(false);
+
+  /**
+   * Informações de contraste WCAG calculadas.
+   * Valida contraste entre cores primárias, secundárias e accent com background.
+   */
   const [contrastInfo, setContrastInfo] = useState<{
     primary: ReturnType<typeof validateContrast>;
     secondary: ReturnType<typeof validateContrast>;
     accent: ReturnType<typeof validateContrast>;
   } | null>(null);
 
+  /**
+   * Marca componente como montado após renderização no cliente.
+   * Necessário para evitar erros de hidratação com useTheme.
+   */
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  /**
+   * Calcula informações de contraste WCAG baseado no tema atual.
+   * Executa sempre que tema ou estado de montagem mudam.
+   */
   useEffect(() => {
     if (!mounted) return;
 
@@ -67,8 +85,16 @@ export default function ExemplosTokensPage() {
     });
   }, [mounted, resolvedTheme]);
 
+  /**
+   * Retorna null durante SSR para evitar hidratação incorreta.
+   * Componente só renderiza após montagem no cliente.
+   */
   if (!mounted) return null;
 
+  /**
+   * Obtém cores e tipografia baseados no tema atual.
+   * Usado para aplicar tokens dinamicamente conforme tema do sistema.
+   */
   const isDark = resolvedTheme === 'dark';
   const colors = isDark ? tokens.colors.dark : tokens.colors.light;
   const typography = tokens.typography;

@@ -43,8 +43,7 @@ import { Atom } from 'react-loading-indicators';
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import { hexToRGB } from '@/lib/utils/design-tokens';
-import { getDarkColors, getLightColors } from '@/lib/utils/tokens';
+import { tokens, GRADIENT_COMPOSITES } from '@rainersoft/design-tokens';
 import { useTheme } from 'next-themes';
 
 // ============================================================================
@@ -103,15 +102,26 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
   // Hooks
   // ============================================================================
 
-  const { theme } = useTheme();
+  const { theme, systemTheme } = useTheme();
   const { matrixColumns, isInitialized: matrixInitialized } = useMatrix();
+  const [mounted, setMounted] = useState(false);
 
   // ============================================================================
   // Theme Colors
   // ============================================================================
 
-  const isDark = theme === 'dark';
-  const colors = isDark ? getDarkColors() : getLightColors();
+  // Previne erro de hidratação: só determina tema após montagem no cliente
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Usa light theme como padrão até que o tema seja determinado no cliente
+  // Isso garante consistência entre servidor e cliente na primeira renderização
+  const currentTheme = mounted ? (theme === 'system' ? systemTheme : theme) : 'light';
+  const isDark = currentTheme === 'dark';
+  
+  // Usa EXCLUSIVAMENTE tokens da biblioteca @rainersoft/design-tokens
+  const colors = isDark ? tokens.colors.dark : tokens.colors.light;
 
   // ============================================================================
   // Effects
@@ -183,7 +193,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
     <div
       className={cn(
         'fixed inset-0 z-9999 flex flex-col items-center justify-center',
-        'bg-[var(--color-background-primary)]',
+        'bg-background',
         'backdrop-blur-sm',
         'transition-opacity duration-500'
       )}
@@ -217,14 +227,14 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
         <div
           className={cn(
             'absolute top-1/4 left-1/4 w-96 h-96',
-            'bg-[var(--color-primary-base)]/20 rounded-full blur-3xl',
+            'bg-primary/20 rounded-full blur-3xl',
             'animate-pulse'
           )}
         />
         <div
           className={cn(
             'absolute bottom-1/4 right-1/4 w-96 h-96',
-            'bg-[var(--color-secondary-base)]/20 rounded-full blur-3xl',
+            'bg-secondary/20 rounded-full blur-3xl',
             'animate-pulse'
           )}
           style={{ animationDelay: '1s' }}
@@ -234,8 +244,14 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
         {matrixInitialized && matrixColumns.length > 0 && (
           <div className="matrix-grid absolute inset-0 z-0 overflow-hidden">
             {matrixColumns.map(column => {
+              // Usa cor accent dos tokens diretamente
               const glowColorHex = colors.accent.base;
-              const glowColor = `rgb(${hexToRGB(glowColorHex)})`;
+              // Converte hex para rgb manualmente
+              const hex = glowColorHex.replace('#', '');
+              const r = parseInt(hex.substring(0, 2), 16);
+              const g = parseInt(hex.substring(2, 4), 16);
+              const b = parseInt(hex.substring(4, 6), 16);
+              const glowColor = `rgb(${r}, ${g}, ${b})`;
 
               return (
                 <div
@@ -272,7 +288,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
                       return (
                         <span
                           key={`${column.id}-ch-${index}-1`}
-                          className="font-mono font-bold tracking-wider text-[var(--color-accent-base)]"
+                          className="font-mono font-bold tracking-wider text-accent"
                           style={{
                             fontSize: `${column.fontSize}px`,
                             opacity: finalOpacity,
@@ -316,7 +332,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
                       return (
                         <span
                           key={`${column.id}-ch-${index}-2`}
-                          className="font-mono font-bold tracking-wider text-[var(--color-accent-base)]"
+                          className="font-mono font-bold tracking-wider text-accent"
                           style={{
                             fontSize: `${column.fontSize}px`,
                             opacity: finalOpacity,
@@ -355,8 +371,10 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
         <div
           className="relative flex items-center justify-center"
           aria-hidden="true"
+          suppressHydrationWarning
         >
           {/* Atom Component - Identidade Visual */}
+          {/* Cores mudam após detecção do tema no cliente (prevenido via mounted state) */}
           <Atom
             color={[
               colors.primary.base,
@@ -364,6 +382,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
               colors.accent.base,
               colors.primary.base,
             ]}
+            // Cores vêm EXCLUSIVAMENTE dos design tokens
             size="large"
             text=""
             textColor=""
@@ -376,7 +395,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
           <p
             className={cn(
               'text-lg sm:text-xl font-mono font-semibold',
-              'text-[var(--color-primary-base)] tracking-wider',
+              'text-primary tracking-wider',
               'animate-pulse'
             )}
             aria-live="polite"
@@ -389,16 +408,15 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
             <div className="w-64 sm:w-80 space-y-2">
               <div
                 className={cn(
-                  'h-1 bg-[var(--color-background-secondary)] rounded-full overflow-hidden',
-                  'border border-[var(--color-primary-base)]/20'
+                  'h-1 bg-muted rounded-full overflow-hidden',
+                  'border border-primary/20'
                 )}
               >
                 <div
                   className={cn(
-                    'h-full bg-linear-to-r',
-                    'from-[var(--color-primary-base)] to-[var(--color-secondary-base)]',
-                    'transition-all duration-300 ease-out',
-                    'shadow-[0_0_10px_var(--color-primary-base)]'
+                    GRADIENT_COMPOSITES.HORIZONTAL_PRIMARY,
+                    'h-full transition-all duration-300 ease-out',
+                    'shadow-[0_0_10px_hsl(var(--primary))]'
                   )}
                   style={{ width: `${progressValue}%` }}
                   aria-valuenow={progressValue}
@@ -408,7 +426,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
                 />
               </div>
               <p
-                className="text-xs text-[var(--color-primary-base)]/70 font-mono text-right"
+                className="text-xs text-primary/70 font-mono text-right"
                 aria-hidden="true"
               >
                 {Math.round(progressValue)}%
@@ -425,17 +443,17 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
           )}
           aria-hidden="true"
         >
-          <div className="absolute top-0 left-1/4 text-[var(--color-primary-base)]/30 font-mono text-xs animate-pulse">
+          <div className="absolute top-0 left-1/4 text-primary/30 font-mono text-xs animate-pulse">
             01001001
           </div>
           <div
-            className="absolute top-1/4 left-3/4 text-[var(--color-secondary-base)]/30 font-mono text-xs animate-pulse"
+            className="absolute top-1/4 left-3/4 text-secondary/30 font-mono text-xs animate-pulse"
             style={{ animationDelay: '0.5s' }}
           >
             11001100
           </div>
           <div
-            className="absolute bottom-1/4 left-1/2 text-[var(--color-primary-base)]/30 font-mono text-xs animate-pulse"
+            className="absolute bottom-1/4 left-1/2 text-primary/30 font-mono text-xs animate-pulse"
             style={{ animationDelay: '1s' }}
           >
             10101010

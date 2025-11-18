@@ -37,6 +37,7 @@
 
 import { useMatrix } from '@/components/providers';
 import { hexToRGB, hexToRGBA } from '@/lib/utils/design-tokens';
+import { tokens } from '@rainersoft/design-tokens';
 import { useTheme } from 'next-themes';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 
@@ -172,8 +173,8 @@ const MatrixCharacterSet = memo(function MatrixCharacterSet({
   const charColor = isDarkTheme ? 'text-green-400' : 'text-green-600';
   // Using green primitive tokens for glow effect - convert to RGB for textShadow
   const glowColorHex = isDarkTheme
-    ? '#34d399' // emerald[400]
-    : '#16a34a'; // green[600]
+    ? tokens.colors.dark.primitive.emerald[400] // emerald[400]
+    : tokens.colors.light.primitive.green[600]; // green[600]
   const glowColor = `rgb(${hexToRGB(glowColorHex)})`;
 
   return (
@@ -402,47 +403,47 @@ const Carousel = memo(function Carousel() {
     // Usando cores primitivas da biblioteca @rainersoft/design-tokens
     const darkPalette = {
       energy: [
-        hexToRGBA('#34d399', 0.9), // emerald[400]
-        hexToRGBA('#22d3ee', 0.85), // cyan[400]
-        hexToRGBA('#c084fc', 0.9), // purple[400]
+        hexToRGBA(tokens.colors.dark.primitive.emerald[400], 0.9), // emerald[400]
+        hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.85), // cyan[400]
+        hexToRGBA(tokens.colors.dark.primitive.purple[400], 0.9), // purple[400]
       ],
       data: [
-        hexToRGBA('#ec4899', 0.8), // pink[500]
-        hexToRGBA('#fb923c', 0.8), // orange[400]
-        hexToRGBA('#22d3ee', 0.8), // cyan[400]
+        hexToRGBA(tokens.colors.dark.primitive.pink[500], 0.8), // pink[500]
+        hexToRGBA(tokens.colors.dark.primitive.orange[400], 0.8), // orange[400]
+        hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.8), // cyan[400]
       ],
       quantum: [
-        hexToRGBA('#34d399', 0.7), // emerald[400]
-        hexToRGBA('#f472b6', 0.7), // pink[400]
-        hexToRGBA('#67e8f9', 0.7), // cyan[300]
+        hexToRGBA(tokens.colors.dark.primitive.emerald[400], 0.7), // emerald[400]
+        hexToRGBA(tokens.colors.dark.primitive.pink[400], 0.7), // pink[400]
+        hexToRGBA(tokens.colors.dark.primitive.cyan[300], 0.7), // cyan[300]
       ],
       neural: [
-        hexToRGBA('#f472b6', 0.8), // pink[400]
-        hexToRGBA('#22d3ee', 0.8), // cyan[400]
-        hexToRGBA('#fdba74', 0.8), // orange[300]
+        hexToRGBA(tokens.colors.dark.primitive.pink[400], 0.8), // pink[400]
+        hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.8), // cyan[400]
+        hexToRGBA(tokens.colors.dark.primitive.orange[300], 0.8), // orange[300]
       ],
     };
 
     const lightPalette = {
       energy: [
-        hexToRGBA('#2563eb', 0.8), // blue[600]
-        hexToRGBA('#9333ea', 0.8), // purple[600]
-        hexToRGBA('#0891b2', 0.8), // cyan[600]
+        hexToRGBA(tokens.colors.light.primitive.blue[600], 0.8), // blue[600]
+        hexToRGBA(tokens.colors.light.primitive.purple[600], 0.8), // purple[600]
+        hexToRGBA(tokens.colors.light.primitive.cyan[600], 0.8), // cyan[600]
       ],
       data: [
-        hexToRGBA('#db2777', 0.8), // pink[600]
-        hexToRGBA('#ea580c', 0.8), // orange[600]
-        hexToRGBA('#2563eb', 0.8), // blue[600]
+        hexToRGBA(tokens.colors.light.primitive.pink[600], 0.8), // pink[600]
+        hexToRGBA(tokens.colors.light.primitive.orange[600], 0.8), // orange[600]
+        hexToRGBA(tokens.colors.light.primitive.blue[600], 0.8), // blue[600]
       ],
       quantum: [
-        hexToRGBA('#059669', 0.7), // emerald[600]
-        hexToRGBA('#db2777', 0.7), // pink[600]
-        hexToRGBA('#2563eb', 0.7), // blue[600]
+        hexToRGBA(tokens.colors.light.primitive.emerald[600], 0.7), // emerald[600]
+        hexToRGBA(tokens.colors.light.primitive.pink[600], 0.7), // pink[600]
+        hexToRGBA(tokens.colors.light.primitive.blue[600], 0.7), // blue[600]
       ],
       neural: [
-        hexToRGBA('#9333ea', 0.8), // purple[600]
-        hexToRGBA('#0891b2', 0.8), // cyan[600]
-        hexToRGBA('#f97316', 0.8), // orange[500]
+        hexToRGBA(tokens.colors.light.primitive.purple[600], 0.8), // purple[600]
+        hexToRGBA(tokens.colors.light.primitive.cyan[600], 0.8), // cyan[600]
+        hexToRGBA(tokens.colors.light.primitive.orange[500], 0.8), // orange[500]
       ],
     };
 
@@ -457,7 +458,7 @@ const Carousel = memo(function Carousel() {
         const colorArray = palette[type];
         const randomIndex = Math.floor(Math.random() * colorArray.length);
         const color: string =
-          colorArray[randomIndex] ?? colorArray[0] ?? hexToRGBA('#34d399', 0.9); // emerald[400]
+          colorArray[randomIndex] ?? colorArray[0] ?? hexToRGBA(tokens.colors.dark.primitive.emerald[400], 0.9); // emerald[400]
 
         return {
           id: `p-${idx}-${Math.round(Math.random() * 10000)}`,
@@ -597,8 +598,8 @@ const Carousel = memo(function Carousel() {
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: `
-              linear-gradient(${isDarkTheme ? hexToRGBA('#22d3ee', 0.12) : hexToRGBA('#3b82f6', 0.15)} 1px, transparent 1px),
-              linear-gradient(90deg, ${isDarkTheme ? hexToRGBA('#22d3ee', 0.12) : hexToRGBA('#3b82f6', 0.15)} 1px, transparent 1px)
+              linear-gradient(${isDarkTheme ? hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.12) : hexToRGBA(tokens.colors.light.primitive.blue[500], 0.15)} 1px, transparent 1px),
+              linear-gradient(90deg, ${isDarkTheme ? hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.12) : hexToRGBA(tokens.colors.light.primitive.blue[500], 0.15)} 1px, transparent 1px)
             `,
             backgroundSize: '50px 50px',
           }}
@@ -674,8 +675,8 @@ const Carousel = memo(function Carousel() {
                 top: `${(i / 3) * 100}%`,
                 background: `linear-gradient(90deg, transparent, ${
                   isDarkTheme
-                    ? hexToRGBA('#67e8f9', 0.6) // cyan[300]
-                    : hexToRGBA('#3b82f6', 0.6) // blue[500]
+                    ? hexToRGBA(tokens.colors.dark.primitive.cyan[300], 0.6) // cyan[300]
+                    : hexToRGBA(tokens.colors.light.primitive.blue[500], 0.6) // blue[500]
                 }, transparent)`,
                 animationName: 'hologramScan',
                 animationDuration: `${4 + i * 1}s`,

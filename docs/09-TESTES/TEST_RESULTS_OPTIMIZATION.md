@@ -39,7 +39,7 @@
 
 ## ✅ Otimizações Aplicadas (100%)
 
-1. ✅ Dependências: 72 → 63 (-9, -12.5%)
+1. ✅ Dependências: 72 → 62 (-10, -14%)
 2. ✅ DevDependencies: 28 → 25 (-3, -11%)
 3. ✅ Scripts: 20 → 18 (-2, -10%)
 4. ✅ Ícones: 4 → 1 (100%)
@@ -49,10 +49,11 @@
 
 ## 🎯 Próximos Passos
 
-1. Executar `npm run build` completo para validação final
-2. Executar `npm run test:all` para validar todos os testes
+1. Executar `pnpm run build` completo para validação final
+2. Executar `pnpm run test:all` para validar todos os testes
 3. Verificar se não há regressões
 
 ---
 
 **Status**: ✅ Projeto testado e validado após otimizações
+

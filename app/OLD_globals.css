@@ -1,0 +1,387 @@
+/**
+ * @file globals.css
+ * @description
+ * Estilos globais do frontend do portfólio Rainer.
+ * 
+ * FONTE ÚNICA DE VERDADE: @rainersoft/design-tokens
+ * 
+ * Este arquivo importa e expõe EXCLUSIVAMENTE os design tokens da biblioteca
+ * @rainersoft/design-tokens como variáveis CSS globais. Todos os valores de
+ * design (cores, tipografia, espaçamento, raios, sombras) vêm dos tokens.
+ * 
+ * Suporta temas light e dark (cyberpunk) através das variáveis CSS dos tokens.
+ * Inclui utilitários personalizados, compatibilidade com Shadcn UI,
+ * animações neon, glassmorphism e acessibilidade avançada.
+ * 
+ * @version 4.0.0
+ */
+
+/**
+ * @import
+ * Importa as variáveis CSS baseadas nos design tokens (cores, espaçamentos, etc).
+ * Esta é a FONTE ÚNICA de verdade para todos os valores de design.
+ */
+@import '@rainersoft/design-tokens/formats/css-vars.css';
+
+/**
+ * @import
+ * Importa utilitários e reset do Tailwind CSS.
+ */
+@import 'tailwindcss';
+
+/**
+ * @custom-variant
+ * Cria uma variante customizada para dark mode utilizando a classe .dark.
+ */
+@custom-variant dark (&:is(.dark *));
+
+/**
+ * ==============================
+ * CONFIGURAÇÕES BASE
+ * ==============================
+ */
+
+/**
+ * Define a cor da borda padrão em todos os elementos,
+ * utilizando EXCLUSIVAMENTE a variável CSS do design token.
+ */
+* {
+  border-color: var(--color-border-primary);
+}
+
+/**
+ * Habilita o scroll suave na navegação da página.
+ */
+html {
+  scroll-behavior: smooth;
+}
+
+/**
+ * Configurações básicas do body, usando EXCLUSIVAMENTE tokens.
+ * Cor de fundo e texto vêm das variáveis CSS dos design tokens.
+ * Ativa recursos tipográficos avançados (ligações contextuais/calts).
+ */
+body {
+  background-color: var(--color-background-primary);
+  color: var(--color-text-primary);
+  font-feature-settings:
+    'rlig' 1,
+    'calt' 1;
+}
+
+/**
+ * ==============================
+ * UTILITÁRIOS CYBERPUNK
+ * Complementares aos tokens
+ * ==============================
+ */
+
+/**
+ * Animações neon e efeitos cyberpunk reutilizáveis.
+ * Utilizam tokens de cor/glow para manter consistência de design.
+ */
+
+/**
+ * Texto com efeito neon animado.
+ */
+.neon-text {
+  animation: neon-glow 2s ease-in-out infinite;
+}
+
+/**
+ * Caixa com efeito de brilho neon.
+ */
+.neon-box {
+  animation: box-glow 2s ease-in-out infinite;
+}
+
+/**
+ * Pulsações luminosas em elementos.
+ */
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/**
+ * Efeito de entrada deslizando.
+ */
+.slide-in {
+  animation: slide-in 0.3s ease-out forwards;
+}
+
+/**
+ * Efeito fade-in sutil.
+ */
+.fade-in {
+  animation: fade-in 0.5s ease-in forwards;
+}
+
+/**
+ * Efeito glassmorphism utilizando EXCLUSIVAMENTE tokens de superfície.
+ */
+.glass {
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/**
+ * Transição suave para efeito de glassmorphism ao passar o mouse.
+ */
+.glass-hover {
+  transition: background 0.3s ease;
+}
+
+.glass-hover:hover {
+  background: var(--color-surface-glass-hover);
+}
+
+/**
+ * Bordas neon usando EXCLUSIVAMENTE tokens.
+ */
+.neon-border {
+  border: 1px solid var(--color-border-neon-glow);
+  box-shadow:
+    0 0 10px var(--color-border-neon-glow),
+    inset 0 0 10px var(--color-border-neon-glow);
+}
+
+.neon-border:hover {
+  border-color: var(--color-border-focus);
+  box-shadow:
+    0 0 20px var(--color-border-neon-glow),
+    inset 0 0 20px var(--color-border-neon-glow);
+}
+
+/**
+ * Texto gradiente utilizando EXCLUSIVAMENTE tokens de gradiente.
+ */
+.gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-pink {
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/**
+ * Card com efeito glow animado ao hover usando EXCLUSIVAMENTE tokens.
+ */
+.card-glow {
+  position: relative;
+  overflow: hidden;
+}
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(--gradient-primary);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+.card-glow:hover::before {
+  opacity: 0.5;
+}
+
+/**
+ * Utilitários para sombras glow usando EXCLUSIVAMENTE tokens.
+ */
+.shadow-glow-cyan {
+  box-shadow: var(--shadow-glow-cyan);
+}
+.shadow-glow-pink {
+  box-shadow: var(--shadow-glow-pink);
+}
+.shadow-glow-purple {
+  box-shadow: var(--shadow-glow-purple);
+}
+.shadow-glow-green {
+  box-shadow: var(--shadow-glow-green);
+}
+
+/**
+ * Scroll suave e aprimorado para dispositivos móveis.
+ */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/**
+ * Scrollbar customizada para dark mode, usando EXCLUSIVAMENTE tokens.
+ */
+.dark ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.dark ::-webkit-scrollbar-track {
+  background: var(--color-background-secondary);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--gradient-primary);
+  border-radius: var(--radius-md);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--gradient-primary);
+  opacity: 0.8;
+}
+
+/**
+ * ==============================
+ * TIPOGRAFIA MELHORADA (tokens)
+ * ==============================
+ */
+
+/**
+ * Heading tags com peso, altura e spacing otimizados.
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/**
+ * Headings responsivos usando utilitários Tailwind vinculados aos tokens.
+ */
+h1 {
+  @apply text-4xl md:text-5xl lg:text-6xl;
+}
+h2 {
+  @apply text-3xl md:text-4xl lg:text-5xl;
+}
+h3 {
+  @apply text-2xl md:text-3xl lg:text-4xl;
+}
+
+p {
+  line-height: 1.7;
+}
+
+/**
+ * ==============================
+ * RESPONSIVIDADE E ACESSIBILIDADE
+ * ==============================
+ */
+
+/**
+ * Reduz animações e transições para usuários que preferem menos movimento (acessibilidade).
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/**
+ * Estilo de foco para acessibilidade, usando EXCLUSIVAMENTE tokens.
+ */
+:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/**
+ * Foco especial para dark mode, utilizando EXCLUSIVAMENTE tokens.
+ */
+.dark :focus-visible {
+  outline-color: var(--color-border-focus);
+  box-shadow: 0 0 0 4px var(--color-border-neon-glow);
+}
+
+/**
+ * ==============================
+ * COMPATIBILIDADE COM SHADCN/UI
+ * ==============================
+ */
+
+/**
+ * Mapeamento das variáveis do Shadcn UI para os design tokens,
+ * garantindo total integração de temas e consistência visual.
+ * 
+ * TODAS as variáveis mapeiam EXCLUSIVAMENTE para tokens da biblioteca.
+ * Nenhum valor fixo é usado - tudo vem dos design tokens.
+ */
+:root {
+  /* Mapeamento Shadcn UI → Design Tokens (Light Theme) */
+  /* Todas as variáveis mapeiam EXCLUSIVAMENTE para tokens da biblioteca */
+  --background: var(--color-background-primary);
+  --foreground: var(--color-text-primary);
+  --card: var(--color-surface-primary);
+  --card-foreground: var(--color-text-primary);
+  --popover: var(--color-surface-primary);
+  --popover-foreground: var(--color-text-primary);
+  
+  /* Primary: usa text-link (mesma cor do token primary.base) */
+  --primary: var(--color-text-link);
+  --primary-foreground: var(--color-text-on-primary);
+  
+  /* Secondary: usa text-link-visited (mesma cor do token secondary.base) */
+  --secondary: var(--color-text-link-visited);
+  --secondary-foreground: var(--color-text-on-secondary);
+  
+  --muted: var(--color-surface-secondary);
+  --muted-foreground: var(--color-text-tertiary);
+  
+  /* Accent: usa border-focus (mesma cor do token accent.base no light) */
+  /* Nota: accent não tem variável CSS direta, usando border-focus como fallback */
+  /* Os componentes devem usar classes Tailwind (bg-accent-base) diretamente */
+  --accent: var(--color-border-focus);
+  --accent-foreground: var(--color-text-on-accent);
+  
+  --destructive: var(--color-status-error-base);
+  --destructive-foreground: var(--color-status-error-text);
+  --border: var(--color-border-primary);
+  --input: var(--color-border-primary);
+  --ring: var(--color-border-focus);
+  --radius: var(--radius-lg);
+}
+
+.dark {
+  /* Mapeamento Shadcn UI → Design Tokens (Dark Theme) */
+  /* Todas as variáveis mapeiam EXCLUSIVAMENTE para tokens da biblioteca */
+  --background: var(--color-background-primary);
+  --foreground: var(--color-text-primary);
+  --card: var(--color-surface-primary);
+  --card-foreground: var(--color-text-primary);
+  --popover: var(--color-surface-primary);
+  --popover-foreground: var(--color-text-primary);
+  
+  /* Primary: usa text-link (neon cyan no dark) */
+  --primary: var(--color-text-link);
+  --primary-foreground: var(--color-text-on-primary);
+  
+  /* Secondary: usa text-link-visited (neon purple no dark) */
+  --secondary: var(--color-text-link-visited);
+  --secondary-foreground: var(--color-text-on-secondary);
+  
+  --muted: var(--color-surface-secondary);
+  --muted-foreground: var(--color-text-tertiary);
+  
+  /* Accent: usa border-focus (neon no dark) */
+  --accent: var(--color-border-focus);
+  --accent-foreground: var(--color-text-on-accent);
+  
+  --destructive: var(--color-status-error-base);
+  --destructive-foreground: var(--color-status-error-text);
+  --border: var(--color-border-primary);
+  --input: var(--color-border-primary);
+  --ring: var(--color-border-focus);
+}

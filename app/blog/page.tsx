@@ -20,23 +20,23 @@
 
 'use client';
 
-// ============================================================================
-// REACT & HOOKS
-// ============================================================================
-
+/**
+ * Imports de React e hooks essenciais.
+ * useState para gerenciamento de estado local e useEffect para efeitos colaterais.
+ */
 import { useEffect, useState } from 'react';
 
-// ============================================================================
-// THIRD-PARTY LIBRARIES
-// ============================================================================
-
+/**
+ * Imports de bibliotecas de terceiros.
+ * Framer Motion para animações suaves e Lucide React para ícones.
+ */
 import { motion } from 'framer-motion';
 import { BookOpen, Eye, Heart, TrendingUp } from 'lucide-react';
 
-// ============================================================================
-// BLOG COMPONENTS
-// ============================================================================
-
+/**
+ * Imports de componentes do blog.
+ * Componentes especializados para funcionalidades específicas da página de blog.
+ */
 import {
   BlogStatCard,
   CategoryFilter,
@@ -48,97 +48,66 @@ import {
   SortControls,
   type SortOption,
 } from '@/components/blog';
-
-// ============================================================================
-// UI COMPONENTS
-// ============================================================================
-
 import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-
-// ============================================================================
-// API SERVICES & TYPES
-// ============================================================================
-
 import { postsService } from '@/lib/api/services';
 import type { Post } from '@/lib/api/types';
 import { PostStatus } from '@/lib/api/types';
-
-// ============================================================================
-// DESIGN TOKENS
-// ============================================================================
-
 import { cn } from '@/lib/utils';
 
-// ============================================================================
-// TYPES & INTERFACES
-// ============================================================================
-
-// SortOption type is now exported from SortControls component
-
 /**
- * Configuração de estatística do blog
+ * Configuração de estatística do blog.
  *
  * @interface BlogStat
- * @property {React.ComponentType} icon - Componente de ícone do Lucide React
- * @property {string | number} value - Valor da estatística
- * @property {string} label - Label descritivo
- * @property {string} borderColor - Classe CSS para cor da borda
- * @property {string} iconColor - Classe CSS para cor do ícone
  */
 interface BlogStat {
+  /** Componente de ícone do Lucide React */
   icon: React.ComponentType<{ className?: string }>;
+  /** Valor da estatística */
   value: string | number;
+  /** Label descritivo */
   label: string;
+  /** Classe CSS para cor da borda */
   borderColor: string;
+  /** Classe CSS para cor do ícone */
   iconColor: string;
 }
 
-// ============================================================================
-// CONSTANTS
-// ============================================================================
-
 /**
- * Número máximo de posts em destaque a exibir
- * @type {number}
- * @constant
+ * Número máximo de posts em destaque a exibir.
+ *
+ * @constant {number}
  */
 const MAX_FEATURED_POSTS = 3;
 
 /**
- * Número de skeleton loaders a exibir durante carregamento
- * @type {number}
- * @constant
+ * Número de skeleton loaders a exibir durante carregamento.
+ *
+ * @constant {number}
  */
 const SKELETON_COUNT = 4;
 
 /**
- * Delay entre animações de entrada de posts (em segundos)
- * @type {number}
- * @constant
+ * Delay entre animações de entrada de posts (em segundos).
+ *
+ * @constant {number}
  */
 const STAGGER_DELAY_SECONDS = 0.1;
 
 /**
- * Delay inicial antes de animar posts (em segundos)
- * @type {number}
- * @constant
+ * Delay inicial antes de animar posts (em segundos).
+ *
+ * @constant {number}
  */
 const ANIMATION_INITIAL_DELAY = 0.2;
 
-// ============================================================================
-// ANIMATION VARIANTS
-// ============================================================================
-
 /**
- * Variantes de animação para container de posts
- *
+ * Variantes de animação para container de posts.
  * Configuração do Framer Motion para animação staggered dos posts.
  * Posts aparecem sequencialmente com delay entre cada um.
  *
- * @type {Object}
- * @constant
+ * @constant {Object}
  */
 const POSTS_CONTAINER_VARIANTS = {
   hidden: { opacity: 0 },
@@ -150,10 +119,6 @@ const POSTS_CONTAINER_VARIANTS = {
     },
   },
 } as const;
-
-// ============================================================================
-// MAIN COMPONENT
-// ============================================================================
 
 /**
  * BlogPage Component
@@ -183,43 +148,28 @@ const POSTS_CONTAINER_VARIANTS = {
  * @see {@link PostCard} Componente de card de post
  */
 export default function BlogPage() {
-  // ========================================================================
-  // STATE
-  // ========================================================================
-
   /**
-   * Todos os posts publicados
-   * @type {Post[]}
+   * Estado de gerenciamento de posts.
+   * allPosts: Todos os posts carregados da API.
+   * displayedPosts: Posts filtrados e ordenados para exibição.
+   * isLoadingPosts: Flag de carregamento para mostrar skeleton loaders.
    */
   const [allPosts, setAllPosts] = useState<Post[]>([]);
-
-  /**
-   * Posts filtrados e ordenados para exibição
-   * @type {Post[]}
-   */
   const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
-
-  /**
-   * Estado de carregamento dos posts
-   * @type {boolean}
-   */
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
 
   /**
-   * Categoria selecionada para filtro (null = todas)
-   * @type {string | null}
+   * Estado de filtros e ordenação.
+   * selectedCategory: Categoria selecionada para filtro (null = todas).
+   * currentSortOption: Opção de ordenação atual (recent, popular, trending).
    */
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
-  /**
-   * Opção de ordenação atual
-   * @type {SortOption}
-   */
   const [currentSortOption, setCurrentSortOption] =
     useState<SortOption>('recent');
 
   /**
-   * Conta posts por categoria
+   * Conta posts por categoria.
+   *
    * @param {string} category - Categoria para contar
    * @returns {number} Número de posts na categoria
    */
@@ -227,15 +177,9 @@ export default function BlogPage() {
     return allPosts.filter(p => p.subcategory?.name === category).length;
   };
 
-  // ========================================================================
-  // EFFECTS
-  // ========================================================================
-
   /**
-   * Carrega posts publicados ao montar componente
-   *
-   * Busca todos os posts publicados da API e inicializa
-   * os estados de posts.
+   * Carrega posts publicados ao montar componente.
+   * Busca todos os posts publicados da API e inicializa os estados de posts.
    */
   useEffect(() => {
     const loadPosts = async () => {
@@ -261,8 +205,7 @@ export default function BlogPage() {
   }, []);
 
   /**
-   * Filtra e ordena posts quando filtros mudam
-   *
+   * Filtra e ordena posts quando filtros mudam.
    * Aplica filtro de categoria e ordenação conforme seleção do usuário.
    * Executa sempre que selectedCategory, currentSortOption ou allPosts mudam.
    */
@@ -295,35 +238,16 @@ export default function BlogPage() {
     setDisplayedPosts(processedPosts);
   }, [selectedCategory, currentSortOption, allPosts]);
 
-  // ========================================================================
-  // COMPUTED VALUES
-  // ========================================================================
-
   /**
-   * Total de visualizações de todos os posts
-   * @type {number}
+   * Valores computados para estatísticas e dados derivados.
+   * Calculados a partir de allPosts para exibição em cards e filtros.
    */
   const totalViews = allPosts.reduce((sum, post) => sum + (post.views || 0), 0);
-
-  /**
-   * Total de curtidas de todos os posts
-   * @type {number}
-   */
   const totalLikes = allPosts.reduce(
     (sum, post) => sum + (post.likesCount || 0),
     0
   );
-
-  /**
-   * Posts marcados como em destaque
-   * @type {Post[]}
-   */
   const featuredPosts = allPosts.filter(post => post.featured);
-
-  /**
-   * Categorias únicas de todos os posts
-   * @type {string[]}
-   */
   const uniqueCategories = Array.from(
     new Set(
       allPosts
@@ -333,8 +257,8 @@ export default function BlogPage() {
   );
 
   /**
-   * Configuração dos cards de estatísticas
-   * @type {BlogStat[]}
+   * Configuração de cards de estatísticas do blog.
+   * Array de objetos contendo ícones, valores e estilos para cada métrica.
    */
   const blogStats: BlogStat[] = [
     {
@@ -367,35 +291,23 @@ export default function BlogPage() {
     },
   ];
 
-  // ========================================================================
-  // MAIN RENDER
-  // ========================================================================
-
   return (
     <div
       className={cn(
         'min-h-screen relative overflow-hidden bg-background dark:bg-black'
       )}
     >
-      {/* ================================================================
-          PARTICLES EFFECT
-          ================================================================ */}
-
+      {/* Efeito de partículas decorativo no background */}
       <ParticlesEffect variant="default" />
 
-      {/* ================================================================
-          PAGE HEADER
-          ================================================================ */}
-
+      {/* Cabeçalho da página com título e descrição */}
       <PageHeader
         title="Blog de Desenvolvimento"
         description="Artigos técnicos sobre React, Next.js, TypeScript e desenvolvimento web moderno. Compartilho aprendizados práticos, tutoriais detalhados, soluções para problemas reais e insights sobre as tecnologias que uso nos meus projetos. Conteúdo direto ao ponto, sem enrolação."
       />
 
-      {/* ================================================================
-          BLOG STATISTICS CARDS
-          ================================================================ */}
-
+      {/* Seção de estatísticas do blog */}
+      {/* Exibe cards com métricas: total de artigos, visualizações, curtidas e posts em destaque */}
       {!isLoadingPosts && allPosts.length > 0 && (
         <motion.section
           initial={{ opacity: 0, y: -10 }}
@@ -421,10 +333,8 @@ export default function BlogPage() {
         </motion.section>
       )}
 
-      {/* ================================================================
-          SEARCH BAR
-          ================================================================ */}
-
+      {/* Seção de busca de artigos */}
+      {/* Barra de pesquisa para filtrar posts por texto */}
       <section
         aria-label="Buscar artigos"
         className="max-w-4xl mx-auto px-6 py-8 relative z-10"
@@ -432,10 +342,8 @@ export default function BlogPage() {
         <SearchBar variant="default" placeholder="Buscar artigos..." />
       </section>
 
-      {/* ================================================================
-          FILTERS & SORTING
-          ================================================================ */}
-
+      {/* Seção de filtros e ordenação */}
+      {/* Controles para filtrar por categoria e ordenar posts (recentes, populares, trending) */}
       {!isLoadingPosts && allPosts.length > 0 && (
         <motion.section
           initial={{ opacity: 0, y: -10 }}
@@ -464,7 +372,8 @@ export default function BlogPage() {
             </CardContent>
           </Card>
 
-          {/* Featured Posts Section */}
+          {/* Seção de posts em destaque */}
+          {/* Exibe até MAX_FEATURED_POSTS posts marcados como featured, apenas quando nenhuma categoria está selecionada */}
           {featuredPosts.length > 0 && !selectedCategory && (
             <FeaturedPostsSection
               posts={featuredPosts}
@@ -474,15 +383,13 @@ export default function BlogPage() {
         </motion.section>
       )}
 
-      {/* ================================================================
-          POSTS GRID
-          ================================================================ */}
-
+      {/* Seção principal de listagem de posts */}
+      {/* Grid responsivo com todos os posts filtrados e ordenados, com animações staggered */}
       <section
         aria-labelledby="posts-heading"
         className="max-w-7xl mx-auto px-6 pb-16 relative z-10"
       >
-        {/* Section Header */}
+        {/* Cabeçalho da seção com contador e informações de ordenação */}
         {!isLoadingPosts && displayedPosts.length > 0 && (
           <Card className="dark:bg-black/30 dark:border-cyan-400/20 mb-8">
             <CardContent className="p-6">
@@ -514,7 +421,8 @@ export default function BlogPage() {
           </Card>
         )}
 
-        {/* Loading State */}
+        {/* Estado de carregamento */}
+        {/* Exibe skeleton loaders enquanto posts estão sendo carregados da API */}
         {isLoadingPosts ? (
           <div
             className="grid grid-cols-1 md:grid-cols-2 gap-8"
@@ -531,7 +439,7 @@ export default function BlogPage() {
             ))}
           </div>
         ) : displayedPosts.length === 0 ? (
-          /* Empty State */
+          /* Estado vazio - Exibido quando não há posts para mostrar (filtro sem resultados ou nenhum post publicado) */
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -556,7 +464,7 @@ export default function BlogPage() {
             />
           </motion.div>
         ) : (
-          /* Posts Grid with Staggered Animation */
+          /* Grid de posts com animação staggered - Renderiza todos os posts filtrados em grid responsivo com animação sequencial */
           <motion.div
             variants={POSTS_CONTAINER_VARIANTS}
             initial="hidden"
@@ -566,6 +474,7 @@ export default function BlogPage() {
             aria-label="Lista de posts do blog"
           >
             {displayedPosts.map(post => (
+      {/* Artigo principal com conteúdo renderizado */}
               <article key={post.id} role="listitem">
                 <PostCard
                   title={post.title}
@@ -593,10 +502,8 @@ export default function BlogPage() {
         )}
       </section>
 
-      {/* ================================================================
-          NEWSLETTER SIGNUP
-          ================================================================ */}
-
+      {/* Seção de newsletter */}
+      {/* Box de inscrição na newsletter, exibido apenas quando há posts publicados */}
       {!isLoadingPosts && allPosts.length > 0 && (
         <motion.section
           initial={{ opacity: 0 }}
@@ -612,10 +519,7 @@ export default function BlogPage() {
         </motion.section>
       )}
 
-      {/* ================================================================
-          BACK TO TOP BUTTON
-          ================================================================ */}
-
+      {/* Botão de voltar ao topo */}
       <BackToTop />
     </div>
   );

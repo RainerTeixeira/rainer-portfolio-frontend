@@ -40,7 +40,8 @@ import {
 } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { COLOR_HEX, hexToRGBA } from '@/lib/utils';
+import { hexToRGBA } from '@/lib/utils';
+import { darkThemeColors, lightThemeColors, tokens } from '@rainersoft/design-tokens';
 import {
     Crown,
     Flame,
@@ -76,9 +77,9 @@ const WORLDS = [
     icon: Zap,
     colors: {
       bg: 'from-purple-900 via-black to-cyan-900',
-      platform: COLOR_HEX.cyan[500],
-      enemy: COLOR_HEX.purple[500],
-      coin: COLOR_HEX.amber[400],
+      platform: lightThemeColors.primitive.cyan[500],
+      enemy: lightThemeColors.primitive.purple[500],
+      coin: lightThemeColors.primitive.amber[400],
     },
     description: 'Cidade neon futurística',
     difficulty: '⭐ Fácil',
@@ -91,8 +92,8 @@ const WORLDS = [
     colors: {
       bg: 'from-blue-400 via-green-300 to-blue-500',
       platform: 'var(--color-status-warning)', // Brown específico do Mario (usando token)
-      enemy: COLOR_HEX.red[500],
-      coin: COLOR_HEX.amber[400],
+      enemy: lightThemeColors.primitive.red[500],
+      coin: lightThemeColors.primitive.amber[400],
     },
     description: 'Reino dos cogumelos',
     difficulty: '⭐ Fácil/Médio',
@@ -105,8 +106,8 @@ const WORLDS = [
     colors: {
       bg: 'from-red-950 via-black to-orange-950',
       platform: 'var(--color-status-error)', // Dark red usando token
-      enemy: COLOR_HEX.red[600],
-      coin: COLOR_HEX.orange[500],
+      enemy: lightThemeColors.primitive.red[600],
+      coin: lightThemeColors.primitive.orange[500],
     },
     description: 'Inferno demoníaco',
     difficulty: '⭐⭐ Médio',
@@ -118,9 +119,9 @@ const WORLDS = [
     icon: Skull,
     colors: {
       bg: 'from-gray-800 via-green-900 to-gray-700',
-      platform: COLOR_HEX.neutral[600],
-      enemy: COLOR_HEX.green[500],
-      coin: COLOR_HEX.blue[400],
+      platform: lightThemeColors.primitive.neutral[600],
+      enemy: lightThemeColors.primitive.green[500],
+      coin: lightThemeColors.primitive.blue[400],
     },
     description: 'Base militar',
     difficulty: '⭐⭐ Médio/Difícil',
@@ -132,9 +133,9 @@ const WORLDS = [
     icon: Ghost,
     colors: {
       bg: 'from-blue-900 via-black to-purple-900',
-      platform: COLOR_HEX.blue[800],
-      enemy: COLOR_HEX.pink[500],
-      coin: COLOR_HEX.amber[300],
+      platform: lightThemeColors.primitive.blue[800],
+      enemy: lightThemeColors.primitive.pink[500],
+      coin: lightThemeColors.primitive.amber[300],
     },
     description: 'Labirinto fantasma',
     difficulty: '⭐⭐⭐ Difícil',
@@ -146,9 +147,9 @@ const WORLDS = [
     icon: Gem,
     colors: {
       bg: 'from-indigo-900 via-purple-800 to-pink-900',
-      platform: COLOR_HEX.purple[300],
-      enemy: COLOR_HEX.purple[400],
-      coin: COLOR_HEX.pink[300],
+      platform: lightThemeColors.primitive.purple[300],
+      enemy: lightThemeColors.primitive.purple[400],
+      coin: lightThemeColors.primitive.pink[300],
     },
     description: 'Caverna de cristais',
     difficulty: '⭐⭐⭐ Difícil',
@@ -160,9 +161,9 @@ const WORLDS = [
     icon: Sparkles,
     colors: {
       bg: 'from-gray-900 via-blue-950 to-black',
-      platform: COLOR_HEX.neutral[600],
-      enemy: COLOR_HEX.blue[500],
-      coin: COLOR_HEX.amber[400],
+      platform: lightThemeColors.primitive.neutral[600],
+      enemy: lightThemeColors.primitive.blue[500],
+      coin: lightThemeColors.primitive.amber[400],
     },
     description: 'Estação espacial',
     difficulty: '⭐⭐⭐⭐ Muito Difícil',
@@ -174,9 +175,9 @@ const WORLDS = [
     icon: Zap,
     colors: {
       bg: 'from-green-900 via-emerald-800 to-teal-900',
-      platform: COLOR_HEX.green[500],
-      enemy: COLOR_HEX.amber[500],
-      coin: COLOR_HEX.amber[400],
+      platform: lightThemeColors.primitive.green[500],
+      enemy: lightThemeColors.primitive.amber[500],
+      coin: lightThemeColors.primitive.amber[400],
     },
     description: 'Selva bioluminescente',
     difficulty: '⭐⭐⭐⭐ Muito Difícil',
@@ -188,9 +189,9 @@ const WORLDS = [
     icon: Crown,
     colors: {
       bg: 'from-slate-900 via-gray-900 to-stone-900',
-      platform: COLOR_HEX.neutral[500],
-      enemy: COLOR_HEX.purple[600],
-      coin: COLOR_HEX.amber[400],
+      platform: lightThemeColors.primitive.neutral[500],
+      enemy: lightThemeColors.primitive.purple[600],
+      coin: lightThemeColors.primitive.amber[400],
     },
     description: 'Castelo sombrio',
     difficulty: '⭐⭐⭐⭐⭐ Extremo',
@@ -202,9 +203,9 @@ const WORLDS = [
     icon: Zap,
     colors: {
       bg: 'from-black via-green-950 to-black',
-      platform: COLOR_HEX.green[500],
-      enemy: COLOR_HEX.red[500],
-      coin: COLOR_HEX.green[500],
+      platform: lightThemeColors.primitive.green[500],
+      enemy: lightThemeColors.primitive.red[500],
+      coin: lightThemeColors.primitive.green[500],
     },
     description: 'Mundo digital',
     difficulty: '⭐⭐⭐⭐⭐ MASTER',
@@ -219,10 +220,31 @@ const MOVE_SPEED = 5;
 const PLAYER_SIZE = 28;
 
 export default function NotFound() {
+  /**
+   * Estado de montagem do componente.
+   * Previne hidratação incorreta ao acessar localStorage no servidor.
+   */
   const [mounted, setMounted] = useState(false);
+
+  /**
+   * Estado do jogo.
+   * Controla em qual fase o jogo está: menu, jogando, pausado ou game over.
+   */
   const [gameState, setGameState] = useState<
     'menu' | 'playing' | 'paused' | 'gameover'
   >('menu');
+
+  /**
+   * Estados do jogo.
+   * selectedWorld: Mundo atualmente selecionado/iniciado (1-10).
+   * score: Pontuação atual do jogador.
+   * highScore: Maior pontuação alcançada (salva em localStorage).
+   * lives: Vidas restantes do jogador (inicia com 3).
+   * coinsCollected: Moedas coletadas no mundo atual.
+   * totalCoins: Total de moedas disponíveis no mundo atual.
+   * worldsCompleted: Array com IDs dos mundos completados.
+   * showFocusHint: Flag para exibir dica de foco no canvas.
+   */
   const [selectedWorld, setSelectedWorld] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
@@ -232,6 +254,13 @@ export default function NotFound() {
   const [worldsCompleted, setWorldsCompleted] = useState<number[]>([]);
   const [showFocusHint, setShowFocusHint] = useState(true);
 
+  /**
+   * Referências do jogo.
+   * canvasRef: Referência ao elemento canvas HTML.
+   * animationRef: ID do requestAnimationFrame para cancelar animação.
+   * playerRef: Estado do player (posição, velocidade, pulo).
+   * keysRef: Estado das teclas pressionadas (controles).
+   */
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
 
@@ -254,7 +283,19 @@ export default function NotFound() {
   const enemiesRef = useRef<Enemy[]>([]);
   const coinsRef = useRef<Coin[]>([]);
 
-  // Função para desenhar ícone no canvas
+  /**
+   * Desenha ícones no canvas usando SVG paths.
+   * Suporta diferentes tipos de ícones (player, inimigo, moeda) com efeito de glow opcional.
+   *
+   * @param ctx - Contexto 2D do canvas
+   * @param iconType - Tipo de ícone a desenhar ('player', 'enemy', 'coin')
+   * @param x - Posição X no canvas
+   * @param y - Posição Y no canvas
+   * @param size - Tamanho do ícone
+   * @param color - Cor do ícone
+   * @param glow - Se true, adiciona efeito de brilho ao redor do ícone
+   */
+  // @ts-expect-error - TypeScript não reconhece tipos DOM corretamente neste contexto
   const drawIcon = useCallback(
     (
       ctx: CanvasRenderingContext2D,
@@ -306,14 +347,14 @@ export default function NotFound() {
           ctx.stroke();
 
           // Olhos brilhantes
-          ctx.fillStyle = '#fff';
-          ctx.shadowColor = '#fff';
+          ctx.fillStyle = tokens.colors.light.text.inverse;
+          ctx.shadowColor = tokens.colors.light.text.inverse;
           ctx.shadowBlur = 5;
           ctx.fillRect(-size / 4, -size / 2 + size / 6, size / 5, size / 5);
           ctx.fillRect(size / 10, -size / 2 + size / 6, size / 5, size / 5);
 
           // Boca (linha)
-          ctx.strokeStyle = '#fff';
+          ctx.strokeStyle = tokens.colors.light.text.inverse;
           ctx.lineWidth = 2;
           ctx.beginPath();
           ctx.moveTo(-size / 4, -size / 6);
@@ -346,7 +387,7 @@ export default function NotFound() {
           ctx.beginPath();
           ctx.arc(0, size / 8, size / 2, 0, Math.PI * 2);
           ctx.fill();
-          ctx.fillStyle = '#fff';
+          ctx.fillStyle = tokens.colors.light.text.inverse;
           ctx.beginPath();
           ctx.arc(-size / 4, 0, size / 6, 0, Math.PI * 2);
           ctx.arc(size / 4, 0, size / 6, 0, Math.PI * 2);
@@ -385,7 +426,7 @@ export default function NotFound() {
           ctx.closePath();
           ctx.fill();
           // Olhos
-          ctx.fillStyle = '#fff';
+          ctx.fillStyle = tokens.colors.light.text.inverse;
           ctx.beginPath();
           ctx.arc(-size / 6, -size / 4, size / 8, 0, Math.PI * 2);
           ctx.arc(size / 6, -size / 4, size / 8, 0, Math.PI * 2);
@@ -460,7 +501,7 @@ export default function NotFound() {
         case 'enemy-matrix':
           // Agente (quadrado com óculos)
           ctx.fillRect(-size / 2, -size / 2, size, size);
-          ctx.fillStyle = '#000';
+          ctx.fillStyle = tokens.colors.light.background.inverse;
           ctx.fillRect(-size / 3, -size / 4, (size / 3) * 2, size / 6);
           break;
 
@@ -469,7 +510,7 @@ export default function NotFound() {
           ctx.beginPath();
           ctx.arc(0, 0, size / 2, 0, Math.PI * 2);
           ctx.fill();
-          ctx.fillStyle = '#000';
+          ctx.fillStyle = tokens.colors.light.background.inverse;
           ctx.font = `bold ${size * 0.7}px Arial`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
@@ -488,14 +529,20 @@ export default function NotFound() {
     []
   );
 
-  // Inicializar mundo
+  /**
+   * Inicializa mundo do jogo com configurações específicas.
+   * Define cores de plataformas, inimigos e moedas baseado no tema do mundo.
+   *
+   * @param worldId - ID do mundo a ser inicializado (1-10)
+   */
+  // @ts-expect-error - TypeScript não reconhece tipos DOM corretamente neste contexto
   const initWorld = useCallback((worldId: number) => {
     const world = WORLDS.find(w => w.id === worldId);
     if (!world) return;
 
     const platformColor = world.colors.platform;
     const enemyColor = world.colors.enemy;
-    // const difficulty = worldId // Dificuldade baseada no ID do mundo (pode ser usado futuramente)
+    // Dificuldade baseada no ID do mundo (pode ser usado futuramente para ajustar velocidade/quantidade de inimigos)
 
     // Layouts únicos por mundo com dificuldade progressiva
     let platforms: Platform[] = [];
@@ -1382,7 +1429,7 @@ export default function NotFound() {
     platformsRef.current = platforms;
     enemiesRef.current = enemies;
 
-    coinsRef.current = coinPositions.map(pos => ({
+    coinsRef.current = coinPositions.map((pos: { x: number; y: number }) => ({
       ...pos,
       width: 18,
       height: 18,
@@ -1401,7 +1448,14 @@ export default function NotFound() {
     };
   }, []);
 
-  // Verificar colisão
+  /**
+   * Verifica colisão entre dois objetos do jogo.
+   * Usa algoritmo AABB (Axis-Aligned Bounding Box) para detecção de colisão.
+   *
+   * @param obj1 - Primeiro objeto (player, inimigo, moeda, etc.)
+   * @param obj2 - Segundo objeto (plataforma, inimigo, moeda, etc.)
+   * @returns {boolean} True se houver colisão, false caso contrário
+   */
   const checkCollision = (obj1: GameObject, obj2: GameObject): boolean => {
     return (
       obj1.x < obj2.x + obj2.width &&
@@ -1411,7 +1465,11 @@ export default function NotFound() {
     );
   };
 
-  // Atualizar jogo
+  /**
+   * Atualiza estado do jogo a cada frame.
+   * Processa física, colisões, coleta de moedas e detecção de game over.
+   */
+  // @ts-expect-error - TypeScript não reconhece tipos DOM corretamente neste contexto
   const updateGame = useCallback(() => {
     if (gameState !== 'playing') return;
 
@@ -1435,7 +1493,7 @@ export default function NotFound() {
     if (player.x > CANVAS_WIDTH - PLAYER_SIZE)
       player.x = CANVAS_WIDTH - PLAYER_SIZE;
 
-    platformsRef.current.forEach(platform => {
+    platformsRef.current.forEach((platform: Platform) => {
       if (
         player.y + PLAYER_SIZE >= platform.y &&
         player.y + PLAYER_SIZE <= platform.y + platform.height &&
@@ -1449,7 +1507,7 @@ export default function NotFound() {
       }
     });
 
-    enemiesRef.current.forEach(enemy => {
+    enemiesRef.current.forEach((enemy: Enemy) => {
       const playerObj = {
         x: player.x,
         y: player.y,
@@ -1463,7 +1521,7 @@ export default function NotFound() {
             setGameState('gameover');
             if (score > highScore) {
               setHighScore(score);
-              localStorage.setItem('cyberworlds-highscore', score.toString());
+              localStorage.setItem('cyberworlds-highscore', String(score));
             }
           }
           return newLives;
@@ -1474,7 +1532,7 @@ export default function NotFound() {
       }
     });
 
-    coinsRef.current.forEach(coin => {
+    coinsRef.current.forEach((coin: Coin) => {
       if (!coin.collected) {
         const playerObj = {
           x: player.x,
@@ -1501,9 +1559,10 @@ export default function NotFound() {
       }
     });
 
-    // Atualizar inimigos (velocidade aumenta com o mundo)
+    // Atualizar posição e movimento dos inimigos
+    // Velocidade aumenta progressivamente conforme o ID do mundo (dificuldade crescente)
     const enemySpeed = 1.5 + (selectedWorld || 1) * 0.3;
-    enemiesRef.current.forEach(enemy => {
+    enemiesRef.current.forEach((enemy: Enemy) => {
       enemy.x += enemy.direction * enemySpeed;
       if (enemy.x <= 0 || enemy.x >= CANVAS_WIDTH - enemy.width) {
         enemy.direction *= -1;
@@ -1517,7 +1576,7 @@ export default function NotFound() {
           setGameState('gameover');
           if (score > highScore) {
             setHighScore(score);
-            localStorage.setItem('cyberworlds-highscore', score.toString());
+            localStorage.setItem('cyberworlds-highscore', String(score));
           }
         }
         return newLives;
@@ -1528,12 +1587,16 @@ export default function NotFound() {
     }
   }, [gameState, score, highScore, totalCoins, selectedWorld]);
 
-  // Renderizar
+  /**
+   * Renderiza frame do jogo no canvas.
+   * Desenha background, plataformas, player, inimigos, moedas e UI.
+   */
+  // @ts-expect-error - TypeScript não reconhece tipos DOM corretamente neste contexto
   const render = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D | null;
     if (!ctx) return;
 
     const player = playerRef.current;
@@ -1550,56 +1613,56 @@ export default function NotFound() {
 
     switch (world.theme) {
       case 'cyberpunk':
-        gradient.addColorStop(0, isDark ? '#1e1b4b' : '#ddd6fe');
-        gradient.addColorStop(0.5, isDark ? '#0a0015' : '#c7d2fe');
-        gradient.addColorStop(1, isDark ? '#083344' : '#a5f3fc');
+        gradient.addColorStop(0, isDark ? tokens.colors.dark.primitive.purple[900] : tokens.colors.light.primitive.purple[100]);
+        gradient.addColorStop(0.5, isDark ? tokens.colors.dark.background.primary : tokens.colors.light.primitive.blue[100]);
+        gradient.addColorStop(1, isDark ? tokens.colors.dark.primitive.cyan[900] : tokens.colors.light.primitive.cyan[200]);
         break;
       case 'mario':
-        gradient.addColorStop(0, isDark ? '#1e3a8a' : '#87CEEB');
-        gradient.addColorStop(1, isDark ? '#14532d' : '#90EE90');
+        gradient.addColorStop(0, isDark ? tokens.colors.dark.primitive.blue[800] : tokens.colors.light.primitive.blue[300]);
+        gradient.addColorStop(1, isDark ? tokens.colors.dark.primitive.green[700] : tokens.colors.light.primitive.green[400]);
         break;
       case 'doom':
-        gradient.addColorStop(0, '#4a0000');
-        gradient.addColorStop(0.5, '#1a0000');
-        gradient.addColorStop(1, '#2a0a00');
+        gradient.addColorStop(0, tokens.colors.light.primitive.red[900]);
+        gradient.addColorStop(0.5, tokens.colors.light.primitive.red[800]);
+        gradient.addColorStop(1, tokens.colors.light.primitive.red[800]);
         break;
       case 'contra':
-        gradient.addColorStop(0, isDark ? '#1f2937' : '#9ca3af');
-        gradient.addColorStop(1, isDark ? '#14532d' : '#6ee7b7');
+        gradient.addColorStop(0, isDark ? tokens.colors.dark.surface.tertiary : tokens.colors.light.primitive.neutral[400]);
+        gradient.addColorStop(1, isDark ? tokens.colors.dark.primitive.green[700] : tokens.colors.light.primitive.emerald[300]);
         break;
       case 'pacman':
-        gradient.addColorStop(0, isDark ? '#1e3a8a' : '#3b82f6');
-        gradient.addColorStop(1, isDark ? '#581c87' : '#a78bfa');
+        gradient.addColorStop(0, isDark ? tokens.colors.dark.primitive.blue[800] : tokens.colors.light.primitive.blue[500]);
+        gradient.addColorStop(1, isDark ? tokens.colors.dark.primitive.purple[800] : tokens.colors.light.primitive.purple[300]);
         break;
       case 'crystal':
-        gradient.addColorStop(0, isDark ? '#4c1d95' : '#c4b5fd');
-        gradient.addColorStop(0.5, isDark ? '#701a75' : '#e9d5ff');
-        gradient.addColorStop(1, isDark ? '#831843' : '#fbcfe8');
+        gradient.addColorStop(0, isDark ? tokens.colors.dark.primitive.purple[800] : tokens.colors.light.primitive.purple[200]);
+        gradient.addColorStop(0.5, isDark ? tokens.colors.dark.primitive.pink[800] : tokens.colors.light.primitive.purple[100]);
+        gradient.addColorStop(1, isDark ? tokens.colors.dark.primitive.pink[900] : tokens.colors.light.primitive.pink[200]);
         break;
       case 'space':
-        gradient.addColorStop(0, isDark ? '#0f172a' : '#475569');
-        gradient.addColorStop(0.5, isDark ? '#1e3a8a' : '#7dd3fc');
-        gradient.addColorStop(1, isDark ? '#000000' : '#1e293b');
+        gradient.addColorStop(0, isDark ? tokens.colors.dark.background.primary : tokens.colors.light.primitive.neutral[600]);
+        gradient.addColorStop(0.5, isDark ? tokens.colors.dark.primitive.blue[800] : tokens.colors.light.primitive.cyan[300]);
+        gradient.addColorStop(1, isDark ? tokens.colors.dark.background.primary : tokens.colors.light.primitive.neutral[800]);
         break;
       case 'jungle':
-        gradient.addColorStop(0, isDark ? '#14532d' : '#86efac');
-        gradient.addColorStop(0.5, isDark ? '#064e3b' : '#6ee7b7');
-        gradient.addColorStop(1, isDark ? '#134e4a' : '#5eead4');
+        gradient.addColorStop(0, isDark ? tokens.colors.dark.primitive.green[700] : tokens.colors.light.primitive.emerald[300]);
+        gradient.addColorStop(0.5, isDark ? tokens.colors.dark.primitive.green[800] : tokens.colors.light.primitive.emerald[200]);
+        gradient.addColorStop(1, isDark ? tokens.colors.dark.primitive.green[700] : tokens.colors.light.primitive.cyan[200]);
         break;
       case 'castle':
-        gradient.addColorStop(0, isDark ? '#1e293b' : '#64748b');
-        gradient.addColorStop(0.5, isDark ? '#374151' : '#94a3b8');
-        gradient.addColorStop(1, isDark ? '#1c1917' : '#78716c');
+        gradient.addColorStop(0, isDark ? tokens.colors.dark.surface.secondary : tokens.colors.light.primitive.neutral[500]);
+        gradient.addColorStop(0.5, isDark ? tokens.colors.dark.surface.tertiary : tokens.colors.light.primitive.neutral[400]);
+        gradient.addColorStop(1, isDark ? tokens.colors.dark.surface.primary : tokens.colors.light.primitive.neutral[600]);
         break;
       case 'matrix':
-        gradient.addColorStop(0, '#000000');
-        gradient.addColorStop(0.5, '#001100');
-        gradient.addColorStop(1, '#000000');
+        gradient.addColorStop(0, tokens.colors.dark.background.primary);
+        gradient.addColorStop(0.5, tokens.colors.dark.primitive.green[900]);
+        gradient.addColorStop(1, tokens.colors.dark.background.primary);
         // Adicionar "chuva" de código - usando cor verde da biblioteca
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         // Usar hexToRGBA para converter cor da biblioteca para rgba
-        ctx.fillStyle = hexToRGBA(COLOR_HEX.green[500], 0.1);
+        ctx.fillStyle = hexToRGBA(lightThemeColors.primitive.green[500], 0.1);
         for (let i = 0; i < 20; i++) {
           const x = (i * 40) % CANVAS_WIDTH;
           const offset = (Date.now() / 50 + i * 100) % CANVAS_HEIGHT;
@@ -1607,8 +1670,8 @@ export default function NotFound() {
         }
         break;
       default:
-        gradient.addColorStop(0, isDark ? '#0a0015' : '#e0e7ff');
-        gradient.addColorStop(1, isDark ? '#001520' : '#c7d2fe');
+        gradient.addColorStop(0, isDark ? tokens.colors.dark.background.primary : tokens.colors.light.primitive.blue[50]);
+        gradient.addColorStop(1, isDark ? tokens.colors.dark.background.secondary : tokens.colors.light.primitive.blue[100]);
     }
 
     if (world.theme !== 'matrix') {
@@ -1617,14 +1680,14 @@ export default function NotFound() {
     }
 
     // Plataformas
-    platformsRef.current.forEach(platform => {
+    platformsRef.current.forEach((platform: Platform) => {
       ctx.fillStyle = isDark ? platform.color : platform.color;
       ctx.shadowColor = platform.color;
       ctx.shadowBlur = isDark ? 10 : 5;
       ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
       ctx.shadowBlur = 0;
 
-      ctx.strokeStyle = isDark ? '#fff' : '#000';
+      ctx.strokeStyle = isDark ? tokens.colors.dark.text.inverse : tokens.colors.light.background.inverse;
       ctx.globalAlpha = isDark ? 0.5 : 0.3;
       ctx.lineWidth = 2;
       ctx.strokeRect(platform.x, platform.y, platform.width, platform.height);
@@ -1632,7 +1695,7 @@ export default function NotFound() {
     });
 
     // Moedas
-    coinsRef.current.forEach(coin => {
+    coinsRef.current.forEach((coin: Coin) => {
       if (!coin.collected) {
         const pulse = Math.sin(Date.now() / 200) * 3;
         drawIcon(
@@ -1648,7 +1711,7 @@ export default function NotFound() {
     });
 
     // Inimigos
-    enemiesRef.current.forEach(enemy => {
+    enemiesRef.current.forEach((enemy: Enemy) => {
       const enemyIconType = `enemy-${enemy.type}`;
       drawIcon(
         ctx,
@@ -1662,7 +1725,7 @@ export default function NotFound() {
     });
 
     // Jogador - usando cores primitivas da biblioteca
-    const playerColor = isDark ? COLOR_HEX.cyan[300] : COLOR_HEX.cyan[500];
+    const playerColor = isDark ? darkThemeColors.primitive.cyan[300] : lightThemeColors.primitive.cyan[500];
     drawIcon(
       ctx,
       'player',
@@ -1674,7 +1737,10 @@ export default function NotFound() {
     );
   }, [selectedWorld, drawIcon]);
 
-  // Game loop
+  /**
+   * Loop principal de animação do jogo.
+   * Executa updateGame e render a cada frame usando requestAnimationFrame.
+   */
   useEffect(() => {
     if (gameState !== 'playing') return;
 
@@ -1691,7 +1757,10 @@ export default function NotFound() {
     };
   }, [gameState, updateGame, render]);
 
-  // Auto-focus no canvas quando o jogo inicia
+  /**
+   * Auto-focus no canvas quando o jogo inicia.
+   * Garante que teclado funcione imediatamente após iniciar jogo.
+   */
   useEffect(() => {
     if (gameState === 'playing' && canvasRef.current) {
       canvasRef.current.focus();
@@ -1699,7 +1768,10 @@ export default function NotFound() {
     }
   }, [gameState]);
 
-  // Prevenir scroll da página durante o jogo
+  /**
+   * Previne scroll da página durante o jogo.
+   * Evita que scroll da página interfira nos controles do jogo.
+   */
   useEffect(() => {
     if (gameState !== 'playing') return;
 
@@ -1727,7 +1799,10 @@ export default function NotFound() {
     };
   }, [gameState]);
 
-  // Controles
+  /**
+   * Gerencia controles de teclado do jogo.
+   * Captura eventos de teclas (setas, WASD, espaço, Escape) e atualiza estado de movimento.
+   */
   useEffect(() => {
     if (gameState !== 'playing') return;
 
@@ -1786,6 +1861,10 @@ export default function NotFound() {
     };
   }, [gameState]);
 
+  /**
+   * Inicializa componente e carrega dados salvos.
+   * Atualiza título da página e restaura highscore e mundos completados do localStorage.
+   */
   useEffect(() => {
     setMounted(true);
 
@@ -1798,6 +1877,10 @@ export default function NotFound() {
     if (completed) setWorldsCompleted(JSON.parse(completed));
   }, []);
 
+  /**
+   * Salva mundos completados no localStorage.
+   * Persiste progresso do jogador entre sessões.
+   */
   useEffect(() => {
     if (worldsCompleted.length > 0) {
       localStorage.setItem(
@@ -1807,6 +1890,12 @@ export default function NotFound() {
     }
   }, [worldsCompleted]);
 
+  /**
+   * Inicia um mundo específico do jogo.
+   * Reseta estado do jogo e inicializa mundo selecionado.
+   *
+   * @param worldId - ID do mundo a ser iniciado (1-10)
+   */
   const startWorld = (worldId: number) => {
     setSelectedWorld(worldId);
     initWorld(worldId);
@@ -1815,6 +1904,10 @@ export default function NotFound() {
     setShowFocusHint(true); // Mostrar dica ao iniciar novo mundo
   };
 
+  /**
+   * Reseta jogo atual mantendo o mundo selecionado.
+   * Reinicia vidas, estado e mostra dica de foco novamente.
+   */
   const resetGame = () => {
     if (selectedWorld) {
       initWorld(selectedWorld);
@@ -1824,7 +1917,10 @@ export default function NotFound() {
     }
   };
 
-  // Click no canvas para garantir foco
+  /**
+   * Handler de clique no canvas.
+   * Garante que canvas tenha foco para capturar eventos de teclado.
+   */
   const handleCanvasClick = () => {
     if (canvasRef.current && gameState === 'playing') {
       canvasRef.current.focus();
@@ -1886,7 +1982,7 @@ export default function NotFound() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-                    {WORLDS.map(world => {
+                    {WORLDS.map((world: typeof WORLDS[0]) => {
                       const Icon = world.icon;
                       const isCompleted = worldsCompleted.includes(world.id);
 
@@ -2076,7 +2172,7 @@ export default function NotFound() {
                       VIDAS
                     </div>
                     <div className="flex gap-1">
-                      {Array.from({ length: lives }).map((_, i) => (
+                      {Array.from({ length: lives }).map((_: unknown, i: number) => (
                         <Heart
                           key={i}
                           className="w-5 h-5 fill-red-500 text-red-500"

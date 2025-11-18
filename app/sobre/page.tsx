@@ -30,17 +30,8 @@
 
 'use client';
 
-// ============================================================================
-// Next.js Imports
-// ============================================================================
-
 import Image from 'next/image';
 import Link from 'next/link';
-
-// ============================================================================
-// Icons
-// ============================================================================
-
 import {
   Code2,
   Database,
@@ -54,25 +45,12 @@ import {
   Zap,
 } from 'lucide-react';
 
-// ============================================================================
-// UI Components
-// ============================================================================
-
 import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
-
-// ============================================================================
-// DESIGN TOKENS
-// ============================================================================
-
 import { cn } from '@/lib/utils';
-import { BACKGROUND, GRADIENTS } from '@rainersoft/design-tokens';
-
-// ============================================================================
-// Constants & Config
-// ============================================================================
+import { BACKGROUND, GRADIENTS, GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
 import { SKILLS } from '@/components/icons/skills/skills-with-icons';
 import {
@@ -82,21 +60,11 @@ import {
   TECH_BY_LAYER,
 } from '@/constants';
 
-// ============================================================================
-// About Components
-// ============================================================================
-
 import { CTACard } from '@/components/sobre/cta-card';
 import { ExperienceCard } from '@/components/sobre/experience-card';
 import { MetricCard } from '@/components/sobre/metric-card';
 import { SkillLayerCard } from '@/components/sobre/skill-layer-card';
 import { TechStackCard } from '@/components/sobre/tech-stack-card';
-
-// Constants são importados de @/constants
-
-// ============================================================================
-// Main Component
-// ============================================================================
 
 /**
  * AboutPage Component
@@ -128,15 +96,15 @@ import { TechStackCard } from '@/components/sobre/tech-stack-card';
 export default function AboutPage() {
   return (
     <div className={cn('min-h-screen', BACKGROUND.FULL)}>
-      {/** Efeito de partículas decorativas (dark mode) */}
+      {/* Efeito de partículas decorativas no background (visível apenas no dark mode) */}
       <ParticlesEffect variant="alt1" />
 
-      {/** Header da página com avatar */}
+      {/* Cabeçalho da página com avatar profissional */}
       <PageHeader
         title="Rainer Teixeira"
         description="Desenvolvedor Full-Stack especializado em criar aplicações web completas e profissionais. Domínio técnico em React, Next.js, TypeScript, Node.js e bancos de dados. Do planejamento ao deploy, transformo ideias em soluções digitais modernas, escaláveis e de alta performance que resolvem problemas reais."
       >
-        {/** Avatar com efeitos modernos e animados */}
+        {/* Avatar profissional com efeitos modernos e animados */}
         <div className="relative w-36 h-36 sm:w-40 sm:h-40 mx-auto group/avatar">
           {/* Círculo externo animado */}
           <div
@@ -151,7 +119,7 @@ export default function AboutPage() {
             <div
               className={cn(
                 'absolute inset-0 dark:opacity-40 opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-500',
-                'bg-gradient-to-br',
+                GRADIENT_DIRECTIONS.TO_BR,
                 'from-cyan-400/20 via-purple-400/20 to-pink-400/20'
               )}
             ></div>
@@ -220,7 +188,7 @@ export default function AboutPage() {
               <div
                 className={cn(
                   'h-1 w-12 rounded-full',
-                  'bg-gradient-to-r',
+                  GRADIENT_DIRECTIONS.TO_RIGHT,
                   GRADIENTS.DECORATIVE_CYAN_PURPLE
                 )}
               />
@@ -535,7 +503,7 @@ export default function AboutPage() {
                   size="icon"
                   className={cn(
                     'flex-1 h-12 border border-gray-700/50 shadow-lg',
-                    'bg-gradient-to-br',
+                    GRADIENT_DIRECTIONS.TO_BR,
                     'from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800'
                   )}
                 >
@@ -553,7 +521,7 @@ export default function AboutPage() {
                   size="icon"
                   className={cn(
                     'flex-1 h-12 border border-blue-500/50 shadow-lg',
-                    'bg-gradient-to-br',
+                    GRADIENT_DIRECTIONS.TO_BR,
                     'from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600'
                   )}
                 >
@@ -571,7 +539,7 @@ export default function AboutPage() {
                   size="icon"
                   className={cn(
                     'flex-1 h-12 border border-pink-400/50 shadow-lg',
-                    'bg-gradient-to-br',
+                    GRADIENT_DIRECTIONS.TO_BR,
                     'from-pink-500 to-rose-600 hover:from-pink-400 hover:to-rose-500'
                   )}
                 >
