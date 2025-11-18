@@ -1,68 +1,77 @@
-import { defineConfig, devices } from '@playwright/test';
-
 /**
- * Playwright Configuration
- *
- * Configuração para testes E2E de design tokens e UI.
+ * @file playwright.config.ts
+ * @description Configuração do Playwright para testes E2E de design tokens e UI.
+ * 
  * Valida aplicação correta de cores, tipografia, espaçamento e temas.
- *
+ * Configurado para rodar em múltiplos navegadores e dispositivos.
+ * 
+ * @module playwright.config
+ * @version 2.0.0
+ * @author Rainer Teixeira
+ * @since 1.0.0
  * @see https://playwright.dev/docs/test-configuration
  */
+
+import { defineConfig, devices } from '@playwright/test';
+
+// Verifica se está rodando em CI/CD
+const isCI = Boolean(
+  // @ts-expect-error - process.env é disponível em runtime Node.js
+  typeof process !== 'undefined' && process.env?.['CI'],
+);
+
 export default defineConfig({
+  // Diretório de testes
   testDir: './tests/e2e/rainer-design-tokens',
 
-  /* Run tests in files in parallel */
+  // Executar testes em paralelo
   fullyParallel: true,
 
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
+  // Falhar build no CI se test.only for deixado no código
+  forbidOnly: isCI,
 
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  // Tentativas de retry (apenas no CI)
+  retries: isCI ? 2 : 0,
 
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  // Workers (desabilitar paralelismo no CI para estabilidade)
+  workers: isCI ? 1 : undefined,
 
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  // Reporters
   reporter: [
     ['html', { outputFolder: 'playwright-report/rainer-design-tokens' }],
     ['list'],
     ['json', { outputFile: 'test-results/rainer-design-tokens-results.json' }],
   ],
 
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  // Configurações compartilhadas para todos os projetos
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
+    // Base URL para ações como `await page.goto('/')`
     baseURL: 'http://localhost:3000',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    // Coletar trace quando retentar teste falho
     trace: 'on-first-retry',
 
-    /* Screenshot on failure */
+    // Screenshot apenas em falhas
     screenshot: 'only-on-failure',
 
-    /* Video on failure */
+    // Video apenas em falhas
     video: 'retain-on-failure',
   },
 
-  /* Configure projects for major browsers */
+  // Projetos de teste (navegadores e dispositivos)
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-
-    /* Test against mobile viewports. */
     {
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
@@ -73,11 +82,11 @@ export default defineConfig({
     },
   ],
 
-  /* Run your local dev server before starting the tests */
+  // Servidor web local antes de iniciar os testes
   webServer: {
-    command: 'npm run dev',
+    command: 'pnpm run dev',
     url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !isCI,
     timeout: 120 * 1000,
   },
 });

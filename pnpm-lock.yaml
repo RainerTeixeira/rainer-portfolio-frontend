@@ -103,8 +103,8 @@ importers:
         specifier: ^1.2.8
         version: 1.2.8(@types/react-dom@19.2.3(@types/react@19.2.5))(@types/react@19.2.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@rainersoft/design-tokens':
-        specifier: ^1.0.2
-        version: 1.0.2(react@19.2.0)
+        specifier: ^1.0.5
+        version: 1.0.5(react@19.2.0)
       '@tailwindcss/postcss':
         specifier: ^4.1.17
         version: 4.1.17
@@ -247,6 +247,9 @@ importers:
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
+      '@types/minimatch':
+        specifier: ^6.0.0
+        version: 6.0.0
       '@types/node':
         specifier: ^24.10.1
         version: 24.10.1
@@ -3117,8 +3120,8 @@ packages:
   '@radix-ui/rect@1.1.1':
     resolution: {integrity: sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==}
 
-  '@rainersoft/design-tokens@1.0.2':
-    resolution: {integrity: sha512-N6TdptMGI4Kbo909rOR9xTV2pnHH8gQHmVB1TO+GZi7Ysm/+Dgo7JWuk2ta4Hh+1KRB8OTIvUcWFlYd8H/WtGw==}
+  '@rainersoft/design-tokens@1.0.5':
+    resolution: {integrity: sha512-oaDTojigfQAvbvSXCWIeTpicLWcDVYUTch89z67EcTcPqMZvnRFz6TcyXKIvYMr5j9kSWlxamPQaDgMFssENCg==}
     peerDependencies:
       react: '>=18.0.0'
 
@@ -11269,7 +11272,7 @@ snapshots:
 
   '@radix-ui/rect@1.1.1': {}
 
-  '@rainersoft/design-tokens@1.0.2(react@19.2.0)':
+  '@rainersoft/design-tokens@1.0.5(react@19.2.0)':
     dependencies:
       react: 19.2.0
 

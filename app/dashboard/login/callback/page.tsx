@@ -45,9 +45,16 @@ export default function OAuthCallbackPage() {
   );
   const [error, setError] = useState<string>('');
 
-  // Prevenir chamadas duplicadas (React StrictMode executa useEffect 2x em dev)
+  /**
+   * Flag para prevenir chamadas duplicadas.
+   * React StrictMode executa useEffect 2x em desenvolvimento.
+   */
   const hasProcessed = useRef(false);
 
+  /**
+   * Processa callback OAuth ao montar componente.
+   * Extrai código de autorização da URL, troca por tokens e autentica usuário.
+   */
   useEffect(() => {
     // Prevenir execução duplicada
     if (hasProcessed.current) {
@@ -180,13 +187,20 @@ export default function OAuthCallbackPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, loginWithOAuthCode, router]); // Dependências necessárias, mas protegido por hasProcessed
 
-  // Se já estiver autenticado, redirecionar
+  /**
+   * Redireciona para dashboard se já estiver autenticado.
+   * Evita processamento desnecessário quando usuário já está logado.
+   */
   useEffect(() => {
     if (isAuthenticated && status === 'loading') {
       router.push('/dashboard');
     }
   }, [isAuthenticated, status, router]);
 
+  /**
+   * Estado de carregamento.
+   * Exibe spinner enquanto processa callback OAuth.
+   */
   if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -198,6 +212,10 @@ export default function OAuthCallbackPage() {
     );
   }
 
+  /**
+   * Estado de sucesso.
+   * Exibe mensagem de sucesso e redireciona para dashboard.
+   */
   if (status === 'success') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">

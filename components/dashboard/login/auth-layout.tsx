@@ -15,7 +15,7 @@
 
 import { SITE_CONFIG } from '@/constants';
 import { cn } from '@/lib/utils';
-// Design tokens via CSS variables (imported in globals.css)
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { ReactNode, useEffect, useState } from 'react';
 import { AuthBranding } from './auth-branding';
@@ -165,7 +165,7 @@ export function AuthLayout({
                 <h1
                   className={cn(
                     'text-2xl sm:text-3xl font-semibold tracking-tight mb-2',
-                    'bg-gradient-to-r bg-clip-text text-transparent',
+                    `${GRADIENT_DIRECTIONS.TO_RIGHT} bg-clip-text text-transparent`,
                     'from-cyan-400 via-purple-400 to-pink-400'
                   )}
                 >

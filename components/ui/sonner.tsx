@@ -31,17 +31,17 @@ const Toaster = ({ ...props }: ToasterProps) => {
         classNames: {
           toast: cn(
             'group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border shadow-lg',
-            'dark:group-[.toaster]:bg-gray-900 dark:group-[.toaster]:border-cyan-400/20'
+            'dark:group-[.toaster]:bg-background dark:group-[.toaster]:border-border'
           ),
-          title: 'dark:text-gray-100',
+          title: 'dark:text-foreground',
           description:
-            'group-[.toast]:text-muted-foreground dark:text-gray-400',
+            'group-[.toast]:text-muted-foreground dark:text-muted-foreground',
           actionButton:
             'group-[.toast]:bg-primary group-[.toast]:text-primary-foreground',
           cancelButton:
             'group-[.toast]:bg-muted group-[.toast]:text-muted-foreground',
-          error: 'dark:bg-red-900/20 dark:border-red-400/30',
-          success: 'dark:bg-green-900/20 dark:border-green-400/30',
+          error: 'dark:bg-status-error-background dark:border-status-error-border',
+          success: 'dark:bg-status-success-background dark:border-status-success-border',
         },
       }}
       {...props}

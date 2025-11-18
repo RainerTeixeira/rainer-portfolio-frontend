@@ -38,6 +38,7 @@ import {
 // ============================================================================
 
 import { cn } from '@/lib/utils';
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import Link from 'next/link';
 // ============================================================================
 // Main Component
@@ -60,7 +61,7 @@ export function Footer() {
       <div
         className={cn(
           'absolute inset-0 blur-2xl pointer-events-none opacity-20 dark:opacity-10',
-          'bg-gradient-to-r',
+          GRADIENT_DIRECTIONS.TO_RIGHT,
           'from-cyan-500/5 via-purple-500/5 to-pink-500/5',
           'dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5'
         )}
@@ -140,7 +141,7 @@ export function Footer() {
                   className={cn(
                     'inline-flex items-center gap-1.5 px-3 py-1',
                     'rounded-full',
-                    'bg-gradient-to-br from-primary/10 to-primary/20',
+                    `${GRADIENT_DIRECTIONS.TO_BR} from-primary/10 to-primary/20`,
                     'text-primary',
                     'border border-primary/30',
                     'font-semibold',
@@ -154,7 +155,7 @@ export function Footer() {
                   className={cn(
                     'inline-flex items-center gap-1.5 px-3 py-1',
                     'rounded-full',
-                    'bg-gradient-to-br from-green-500/10 to-green-600/20',
+                    `${GRADIENT_DIRECTIONS.TO_BR} from-green-500/10 to-green-600/20`,
                     'text-green-600 dark:text-green-400',
                     'border border-green-500/30',
                     'font-semibold',

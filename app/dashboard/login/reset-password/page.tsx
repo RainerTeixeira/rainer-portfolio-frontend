@@ -47,10 +47,15 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
+  /**
+   * Handler de submit do formulário de reset de senha.
+   * Valida campos e redefine senha usando código de verificação.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
+    // Validação de campos obrigatórios
     if (!verificationCode.trim()) {
       setError('Digite o código de verificação');
       return;
@@ -61,11 +66,13 @@ export default function ResetPasswordPage() {
       return;
     }
 
+    // Validação de requisitos de senha
     if (newPassword.length < 8) {
       setError('A senha deve ter no mínimo 8 caracteres');
       return;
     }
 
+    // Validação de confirmação de senha
     if (newPassword !== confirmPassword) {
       setError('As senhas não coincidem');
       return;
@@ -139,7 +146,7 @@ export default function ResetPasswordPage() {
               href="/dashboard/login"
               className={cn(
                 'inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20',
-                TRANSITIONS.COLORS
+                'transition-colors duration-200 ease-in-out'
               )}
             >
               <ArrowLeft className="h-4 w-4" />
@@ -149,7 +156,8 @@ export default function ResetPasswordPage() {
         }
       >
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
-          {/* Campo de Código */}
+          {/* Campo de código de verificação */}
+          {/* Código de 6 dígitos recebido por email */}
           <div className="space-y-2">
             <Label htmlFor="code">Código de Verificação</Label>
             <Input
@@ -169,7 +177,8 @@ export default function ResetPasswordPage() {
             />
           </div>
 
-          {/* Campo de Nova Senha */}
+          {/* Campo de nova senha */}
+          {/* Senha deve ter no mínimo 8 caracteres com indicador de força */}
           <div className="space-y-2">
             <Label htmlFor="newPassword">Nova Senha</Label>
             <PasswordInput
@@ -183,7 +192,8 @@ export default function ResetPasswordPage() {
             />
           </div>
 
-          {/* Campo de Confirmar Senha */}
+          {/* Campo de confirmação de senha */}
+          {/* Deve coincidir com a nova senha */}
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirmar Senha</Label>
             <PasswordInput
@@ -196,7 +206,8 @@ export default function ResetPasswordPage() {
             />
           </div>
 
-          {/* Mensagens de Erro/Sucesso */}
+          {/* Mensagens de feedback */}
+          {/* Exibe erros de validação ou confirmação */}
           {error && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
@@ -206,6 +217,7 @@ export default function ResetPasswordPage() {
             </Alert>
           )}
 
+          {/* Mensagem de sucesso após redefinição */}
           {success && (
             <Alert className="border-green-500 bg-green-50 dark:bg-green-950/20">
               <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
@@ -215,7 +227,8 @@ export default function ResetPasswordPage() {
             </Alert>
           )}
 
-          {/* Botão de Submit */}
+          {/* Botão de submit */}
+          {/* Redefine senha após validação bem-sucedida */}
           <Button
             type="submit"
             disabled={isLoading}

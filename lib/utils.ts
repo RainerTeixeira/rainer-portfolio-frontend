@@ -172,7 +172,7 @@ export const ANIMATION_DELAYS = {
  *
  * @example
  * // Resolvendo conflitos Tailwind (último ganha)
- * cn('px-4 px-2') // "px-2" (twMerge remove duplicatas)
+ * cn('px-4', 'px-2') // "px-2" (twMerge remove duplicatas)
  *
  * @example
  * // Em componentes

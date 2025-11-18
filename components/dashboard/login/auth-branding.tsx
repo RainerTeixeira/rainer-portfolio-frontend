@@ -15,7 +15,7 @@
 
 import { SITE_CONFIG } from '@/constants';
 import { cn } from '@/lib/utils';
-// Design tokens via CSS variables (imported in globals.css)
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { Shield, Sparkles } from 'lucide-react';
 import Link from 'next/link';
@@ -44,7 +44,7 @@ export function AuthBranding({ className }: AuthBrandingProps): JSX.Element {
         'p-8 xl:p-10 2xl:p-12',
         'text-white',
         // Gradiente animado
-        'bg-gradient-to-br',
+        GRADIENT_DIRECTIONS.TO_BR,
         'from-cyan-500 via-blue-600 to-purple-700',
         'bg-size-[200%_200%]',
         'animate-gradient-shift',
@@ -215,7 +215,7 @@ export function AuthBranding({ className }: AuthBrandingProps): JSX.Element {
                 'absolute -inset-1',
                 'rounded-xl',
                 'opacity-0 group-hover/card:opacity-100',
-                'bg-gradient-to-r',
+                GRADIENT_DIRECTIONS.TO_RIGHT,
                 'from-cyan-400/30 via-purple-400/30 to-pink-400/30',
                 'backdrop-blur-xl',
                 'transition-all duration-200 ease-in-out',
@@ -318,7 +318,7 @@ export function AuthBranding({ className }: AuthBrandingProps): JSX.Element {
                   className={cn(
                     'inline-flex items-center gap-2',
                     'px-4 py-2',
-                    'bg-gradient-to-r',
+                    GRADIENT_DIRECTIONS.TO_RIGHT,
                     'from-cyan-400/30 to-purple-400/30',
                     'backdrop-blur-sm',
                     'rounded-full',

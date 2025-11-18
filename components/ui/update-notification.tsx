@@ -93,8 +93,8 @@ export function UpdateNotification() {
         className={cn(
           'backdrop-blur-xl border-2 shadow-2xl',
           isDark
-            ? cn('bg-black/90', 'border-purple-400/50', 'shadow-purple-500/30')
-            : cn('bg-white/90', 'border-purple-500/50', 'shadow-purple-600/30')
+            ? cn('bg-background/90', 'border-secondary-base/50', 'shadow-glow-purple')
+            : cn('bg-background/90', 'border-secondary-base/50', 'shadow-lg')
         )}
       >
         <div className="p-4">
@@ -108,16 +108,15 @@ export function UpdateNotification() {
              */}
             <div
               className={cn(
-                'shrink-0 p-2 rounded-full border bg-gradient-to-br',
-                'from-purple-500/20 via-pink-500/15 to-cyan-500/20',
-                isDark ? 'border-purple-400/30' : 'border-purple-500/30'
+                'shrink-0 p-2 rounded-full border',
+                'bg-secondary-background',
+                isDark ? 'border-secondary-base/30' : 'border-secondary-base/30'
               )}
             >
               <RefreshCw
                 className={cn(
-                  'h-5 w-5 animate-spin',
-                  '[animation-duration:3s]',
-                  isDark ? 'text-purple-400' : 'text-purple-600'
+                  'h-5 w-5 animate-spin text-secondary-base',
+                  '[animation-duration:3s]'
                 )}
               />
             </div>
@@ -130,7 +129,7 @@ export function UpdateNotification() {
               <h4
                 className={cn(
                   'text-sm font-bold font-mono',
-                  isDark ? 'text-purple-200' : 'text-purple-800'
+                  'text-foreground'
                 )}
               >
                 Nova Versão Disponível
@@ -140,7 +139,7 @@ export function UpdateNotification() {
               <p
                 className={cn(
                   'text-xs',
-                  isDark ? 'text-gray-300' : 'text-gray-700'
+                  'text-muted-foreground'
                 )}
               >
                 Atualize para obter as últimas melhorias e correções.
@@ -151,10 +150,8 @@ export function UpdateNotification() {
                 onClick={updateServiceWorker}
                 size="sm"
                 className={cn(
-                  'w-full text-white font-mono font-bold bg-gradient-to-r',
-                  isDark
-                    ? 'from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
-                    : 'from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'
+                  'w-full font-mono font-bold',
+                  'bg-secondary text-secondary-foreground hover:bg-secondary-hover'
                 )}
               >
                 <RefreshCw className="h-3 w-3 mr-2" />

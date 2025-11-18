@@ -37,20 +37,8 @@
 
 'use client';
 
-// ============================================================================
-// React & Next.js
-// ============================================================================
-
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
-
-// Type aliases para eventos
-type ChangeEvent<T = HTMLInputElement> = React.ChangeEvent<T>;
-
-// ============================================================================
-// Third-party Libraries
-// ============================================================================
-
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ArrowLeft,
@@ -65,16 +53,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-// ============================================================================
-// Providers & Auth
-// ============================================================================
-
 import { useAuth } from '@/components/providers/auth-provider';
-
-// ============================================================================
-// API Services & Types
-// ============================================================================
-
 import { postsService } from '@/lib/api/services';
 import type {
   CreatePostData,
@@ -83,11 +62,6 @@ import type {
   TiptapJSON,
   UpdatePostData,
 } from '@/lib/api/types';
-
-// ============================================================================
-// UI Components
-// ============================================================================
-
 import { BackToTop } from '@/components/ui';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -101,11 +75,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-
-// ============================================================================
-// Dashboard Components
-// ============================================================================
-
 import {
   AnalyticsOverview,
   HelpCenter,
@@ -114,51 +83,34 @@ import {
   QuickStats,
   RecentPostsList,
 } from '@/components/dashboard';
-
-// ============================================================================
-// Blog Components
-// ============================================================================
-
 import { PostCard } from '@/components/blog/post-card';
 import { Editor } from '@/components/dashboard/Editor';
-
-// ============================================================================
-// Utils
-// ============================================================================
-
 import { tiptapJSONtoHTML } from '@/components/dashboard/lib/tiptap-utils';
 import { createEmptyTiptapContent } from '@/lib/content';
 import { cn } from '@/lib/utils';
 import { textToSlug } from '@/lib/utils/string';
+import { GRADIENT_DIRECTIONS, BACKGROUND } from '@rainersoft/design-tokens';
 
-// ============================================================================
-// Design Tokens
-// ============================================================================
-
-// Design tokens via CSS variables (imported in globals.css)
-
-// ==========================================================================
-// Constantes
-// ==========================================================================
-// Fim do bloco de importação de design tokens, início dos valores globais do Dashboard
-/* 
-  ⚠️ Ajuste importante:
-  - Usa design tokens da biblioteca '@rainersoft/design-tokens' via workspace.
-  - Importar diretamente: import { ... } from '@rainersoft/design-tokens'
-*/
+type ChangeEvent<T = HTMLInputElement> = React.ChangeEvent<T>;
 
 /**
- * Duração de exibição do sucesso de salvamento em ms
+ * Duração de exibição do sucesso de salvamento em milissegundos.
+ *
+ * @constant {number}
  */
 const SAVE_SUCCESS_DISPLAY_MS = 2000;
 
 /**
- * Máximo de posts recentes a exibir na home
+ * Máximo de posts recentes a exibir na home do dashboard.
+ *
+ * @constant {number}
  */
 const MAX_RECENT_POSTS = 5;
 
 /**
- * Post padrão vazio para novo post
+ * Template padrão para criação de novo post.
+ *
+ * @constant {Partial<CreatePostData>}
  */
 const EMPTY_POST_TEMPLATE: Partial<CreatePostData> = {
   title: '',
@@ -172,10 +124,6 @@ const EMPTY_POST_TEMPLATE: Partial<CreatePostData> = {
   pinned: false,
   priority: 0,
 } as const;
-
-// ============================================================================
-// Sub-component (Dashboard Content)
-// ============================================================================
 
 /**
  * DashboardPageContent Component
@@ -198,17 +146,9 @@ const EMPTY_POST_TEMPLATE: Partial<CreatePostData> = {
  * para lidar com useSearchParams() do Next.js.
  */
 function DashboardPageContent() {
-  // ============================================================================
-  // Hooks
-  // ============================================================================
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, isAuthenticated, isLoading: isAuthLoading } = useAuth();
-
-  // ============================================================================
-  // State
-  // ============================================================================
 
   const [allPosts, setAllPosts] = React.useState<Post[]>([]);
   const [isEditMode, setIsEditMode] = React.useState(false);
@@ -219,22 +159,14 @@ function DashboardPageContent() {
     Partial<CreatePostData> | Post
   >(EMPTY_POST_TEMPLATE);
 
-  // ============================================================================
-  // URL Parameters
-  // ============================================================================
-
   const urlMode = searchParams.get('mode');
   const urlEditId = searchParams.get('edit');
   const urlViewAll = searchParams.get('view');
 
   const shouldShowHome = !urlMode && !urlEditId && !urlViewAll;
 
-  // ============================================================================
-  // Effects
-  // ============================================================================
-
   /**
-   * Redireciona para login se não autenticado
+   * Redireciona para login se não autenticado.
    */
   React.useEffect(() => {
     if (!isAuthLoading && !isAuthenticated) {
@@ -243,7 +175,7 @@ function DashboardPageContent() {
   }, [isAuthenticated, isAuthLoading, router]);
 
   /**
-   * Carrega posts e verifica parâmetros de URL
+   * Carrega posts e verifica parâmetros de URL.
    */
   React.useEffect(() => {
     if (isAuthenticated) {
@@ -268,12 +200,8 @@ function DashboardPageContent() {
     }
   }, [isAuthenticated, urlEditId, urlMode]);
 
-  // ============================================================================
-  // Handler Functions
-  // ============================================================================
-
   /**
-   * Carrega todos os posts da API
+   * Carrega todos os posts da API.
    */
   const loadAllPosts = async () => {
     try {
@@ -291,7 +219,7 @@ function DashboardPageContent() {
   };
 
   /**
-   * Reseta dados - removido (não aplicável com API real)
+   * Reseta dados - removido (não aplicável com API real).
    */
   const handleDataReset = () => {
     toast.info(
@@ -300,7 +228,7 @@ function DashboardPageContent() {
   };
 
   /**
-   * Inicia criação de novo post
+   * Inicia criação de novo post.
    */
   const startCreatingNewPost = () => {
     setCurrentEditingPost(EMPTY_POST_TEMPLATE);
@@ -308,7 +236,7 @@ function DashboardPageContent() {
   };
 
   /**
-   * Inicia edição de post existente
+   * Inicia edição de post existente.
    */
   const startEditingPost = (post: Post) => {
     setCurrentEditingPost(post);
@@ -316,7 +244,7 @@ function DashboardPageContent() {
   };
 
   /**
-   * Salva post (criar ou atualizar)
+   * Salva post (criar ou atualizar).
    */
   const saveCurrentPost = async () => {
     if (!user?.username) {
@@ -469,11 +397,11 @@ function DashboardPageContent() {
     }
   };
 
-  // ============================================================================
-  // Render Guards
-  // ============================================================================
-
-  // Estado de carregamento
+  /**
+   * Renderização condicional baseada no estado de autenticação.
+   * Exibe spinner de carregamento enquanto verifica autenticação.
+   * Retorna null se não autenticado (redirecionamento é feito no useEffect).
+   */
   if (isAuthLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background dark:bg-black">
@@ -485,33 +413,28 @@ function DashboardPageContent() {
     );
   }
 
-  // Não autenticado
   if (!isAuthenticated) {
     return null;
   }
-
-  // ============================================================================
-  // Render
-  // ============================================================================
 
   return (
     <main
       className="relative w-full min-h-screen overflow-hidden"
       aria-label="Dashboard Principal"
     >
-      {/* Background gradient layer - Cyberpunk */}
+      {/* Camada de gradiente de fundo com efeito blur */}
+      {/* Gradiente cyberpunk que cria atmosfera visual no background */}
       <div
         className={cn(
           'fixed inset-0 -z-10',
-          'bg-gradient-to-r',
-          'from-cyan-500/5 via-purple-500/5 to-pink-500/5',
-          'dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5',
+          BACKGROUND.GRADIENT_OVERLAY,
           'blur-3xl pointer-events-none'
         )}
         aria-hidden="true"
       />
 
-      {/* Partículas decorativas animadas (apenas dark mode) - Cyberpunk */}
+      {/* Partículas decorativas animadas */}
+      {/* Efeito visual cyberpunk com partículas pulsantes, visível apenas no dark mode */}
       <div
         className={cn(
           'fixed inset-0 -z-10 pointer-events-none',
@@ -595,8 +518,7 @@ function DashboardPageContent() {
         className={cn(
           'fixed top-0 left-0 right-0 z-20',
           'h-1',
-          'bg-gradient-to-r',
-          'from-transparent via-primary/30 dark:via-cyan-400/30 to-transparent'
+          BACKGROUND.PREMIUM_DIVIDER_LINE
         )}
         aria-hidden="true"
       />
@@ -1160,10 +1082,6 @@ function DashboardPageContent() {
     </main>
   );
 }
-
-// ============================================================================
-// Wrapper Component (with Suspense)
-// ============================================================================
 
 /**
  * DashboardPage Component (Wrapper)

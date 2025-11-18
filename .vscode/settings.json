@@ -5,10 +5,11 @@
     ["className\\s*[:=]\\s*['\"`]([^'\"`]*)['\"`]"]
   ],
   
-  // Desabilitar sugestões incorretas de classes canônicas
-  // O Tailwind CSS usa bg-gradient-to-* (não bg-linear-to-*)
-  "tailwindCSS.suggestions": true,
-  "tailwindCSS.validate": true,
+      // Desabilitar sugestões incorretas de classes canônicas
+      // O Tailwind CSS usa bg-gradient-to-* (não bg-linear-to-*)
+      "tailwindCSS.suggestions": true,
+      "tailwindCSS.validate": true,
+      "tailwindCSS.lint.suggestCanonicalClasses": false,
   
   // Configurações do TypeScript
   "typescript.tsdk": "node_modules/typescript/lib",

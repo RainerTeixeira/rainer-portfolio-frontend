@@ -44,6 +44,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { cloudinaryService } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import {
   Camera,
   CheckCircle2,
@@ -74,7 +75,7 @@ const FORM_STYLES = {
     'transition-all duration-500 ease-in-out',
     'h-full flex flex-col group',
     'relative overflow-hidden',
-    'before:absolute before:inset-0 before:bg-gradient-to-br',
+    `before:absolute before:inset-0 before:${GRADIENT_DIRECTIONS.TO_BR}`,
     'before:from-primary/0 before:via-primary/0 before:to-primary/0',
     'hover:before:from-primary/5 hover:before:via-transparent hover:before:to-primary/5',
     'dark:hover:before:from-cyan-400/5 dark:hover:before:via-transparent dark:hover:before:to-purple-400/5',

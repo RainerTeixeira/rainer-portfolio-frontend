@@ -7,7 +7,7 @@
 - ✅ **Migrado de npm para pnpm 9.0.0**
 - ✅ Adicionado `packageManager: "pnpm@9.0.0"` no package.json
 - ✅ Atualizado `engines` para requerer `pnpm >= 9.0.0`
-- ✅ Criado `pnpm-workspace.yaml` para workspace com `@rainer-design-tokens`
+- ✅ Criado `pnpm-workspace.yaml` para workspace com `rainer-design-tokens`
 - ✅ Criado `.npmrc` com configurações otimizadas
 
 ### 2. Scripts Atualizados
@@ -38,7 +38,7 @@ Todos os scripts agora usam `pnpm` em vez de `npm`:
 # pnpm-workspace.yaml
 packages:
   - '.'
-  - '../@rainer-design-tokens'
+  - '../rainer-design-tokens'
 ```
 
 ### 6. Configuração pnpm (.npmrc)
@@ -62,7 +62,7 @@ auto-install-peers=true
 
 1. **Performance**: pnpm é mais rápido que npm/yarn
 2. **Espaço em Disco**: Links simbólicos reduzem uso de disco
-3. **Workspace**: Integração nativa com `@rainer-design-tokens`
+3. **Workspace**: Integração nativa com `@rainersoft/design-tokens` via workspace
 4. **Segurança**: Melhor resolução de dependências
 5. **CI/CD**: Builds mais rápidos e confiáveis
 
