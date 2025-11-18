@@ -31,6 +31,5 @@ jobs:
         if: failure()
         run: |
           echo "❌ Valores hardcoded encontrados!"
-          echo "Por favor, use design tokens da biblioteca @rainer/design-tokens"
+          echo "Por favor, use design tokens da biblioteca @rainer/rainer-design-tokens"
           exit 1
-

@@ -35,7 +35,7 @@ Este guia documenta a suite completa de testes E2E para validação dos design t
 ### Estrutura de Diretórios
 
 ```
-tests/e2e/design-tokens/
+tests/e2e/rainer-design-tokens/
 │
 ├── helpers/
 │   └── token-utils.ts          # Funções helper reutilizáveis
@@ -52,9 +52,10 @@ tests/e2e/design-tokens/
 ### Configuração
 
 **playwright.config.ts:**
+
 ```typescript
 {
-  testDir: './tests/e2e/design-tokens',
+  testDir: './tests/e2e/rainer-design-tokens',
   baseURL: 'http://localhost:3000',
   projects: ['chromium', 'firefox', 'webkit', 'Mobile Chrome', 'Mobile Safari'],
   webServer: {
@@ -151,16 +152,23 @@ setTheme(page: Page, theme: 'light' | 'dark'): Promise<void>
 
 ```typescript
 // Exemplo de teste
-test('should apply primary brand color to primary buttons', async ({ page }) => {
+test('should apply primary brand color to primary buttons', async ({
+  page,
+}) => {
   const button = page.getByTestId('primary-button');
-  const bgColor = await getComputedStyle(page, '[data-testid="primary-button"]', 'background-color');
-  
+  const bgColor = await getComputedStyle(
+    page,
+    '[data-testid="primary-button"]',
+    'background-color'
+  );
+
   expect(bgColor).toBeTruthy();
   expect(bgColor).toContain('rgb');
 });
 ```
 
 **Validações:**
+
 - ✅ Cor brand primary em botões
 - ✅ CSS variable `--color-brand-primary` definida
 - ✅ Todas as variáveis de cor necessárias
@@ -179,7 +187,7 @@ test('should switch from light to dark theme correctly', async ({ page }) => {
   await setTheme(page, 'light');
   const lightBg = await getCSSVariable(page, '--color-background-primary');
   expect(lightBg).toBe('#ffffff');
-  
+
   await setTheme(page, 'dark');
   const darkBg = await getCSSVariable(page, '--color-background-primary');
   expect(darkBg).toBe('#0a0a0f'); // Void Black
@@ -187,6 +195,7 @@ test('should switch from light to dark theme correctly', async ({ page }) => {
 ```
 
 **Validações:**
+
 - ✅ Switching light → dark
 - ✅ Cores cyberpunk no dark mode (neon cyan, pink, purple)
 - ✅ Efeitos glow
@@ -205,15 +214,24 @@ test('should switch from light to dark theme correctly', async ({ page }) => {
 ```typescript
 // Exemplo de teste
 test('should apply correct font sizes', async ({ page }) => {
-  const baseFontSize = await getComputedStyle(page, '[data-testid="text-base"]', 'font-size');
+  const baseFontSize = await getComputedStyle(
+    page,
+    '[data-testid="text-base"]',
+    'font-size'
+  );
   expect(baseFontSize).toBe('16px');
-  
-  const xlFontSize = await getComputedStyle(page, '[data-testid="text-xl"]', 'font-size');
+
+  const xlFontSize = await getComputedStyle(
+    page,
+    '[data-testid="text-xl"]',
+    'font-size'
+  );
   expect(parseFloat(xlFontSize)).toBeGreaterThan(16);
 });
 ```
 
 **Validações:**
+
 - ✅ Font families (sans, serif, mono)
 - ✅ Font sizes (xs → 4xl)
 - ✅ Font weights (light → bold)
@@ -230,11 +248,15 @@ test('should apply correct font sizes', async ({ page }) => {
 // Exemplo de teste
 test('should follow 8pt grid system', async ({ page }) => {
   const spacings = [1, 2, 3, 4, 6, 8, 12, 16];
-  
+
   for (const spacing of spacings) {
-    const padding = await getComputedStyle(page, `[data-testid="spacing-${spacing}"]`, 'padding');
+    const padding = await getComputedStyle(
+      page,
+      `[data-testid="spacing-${spacing}"]`,
+      'padding'
+    );
     const paddingValue = parseFloat(padding);
-    
+
     // Check if it's a multiple of 4px
     const isMultipleOf4 = paddingValue % 4 <= 1;
     expect(isMultipleOf4).toBe(true);
@@ -243,6 +265,7 @@ test('should follow 8pt grid system', async ({ page }) => {
 ```
 
 **Validações:**
+
 - ✅ Padding (p-0, p-2, p-4, p-8)
 - ✅ Margin (m-0, m-2, m-4, m-8)
 - ✅ Gap em flex/grid
@@ -262,16 +285,16 @@ test('should not have broken CSS variable references', async ({ page }) => {
   const brokenVars = await page.evaluate(() => {
     const elements = document.querySelectorAll('*');
     const broken: string[] = [];
-    
-    elements.forEach((el) => {
+
+    elements.forEach(el => {
       const styles = window.getComputedStyle(el);
       const color = styles.getPropertyValue('color');
-      
+
       if (color && color.includes('var(--')) {
         broken.push(`${el.tagName} has unresolved color`);
       }
     });
-    
+
     return broken;
   });
 
@@ -280,6 +303,7 @@ test('should not have broken CSS variable references', async ({ page }) => {
 ```
 
 **Validações:**
+
 - ✅ Todas as variáveis de cor definidas
 - ✅ Todas as variáveis de spacing definidas
 - ✅ Todas as variáveis de radius definidas
@@ -350,7 +374,7 @@ npx playwright test --project=webkit
 
 ### HTML Report
 
-Gerado automaticamente em `playwright-report/design-tokens/`:
+Gerado automaticamente em `playwright-report/rainer-design-tokens/`:
 
 - ✅ Resumo geral (passed/failed)
 - ✅ Detalhes de cada teste
@@ -359,13 +383,14 @@ Gerado automaticamente em `playwright-report/design-tokens/`:
 - ✅ Trace viewer para debug
 
 **Abrir relatório:**
+
 ```bash
-npx playwright show-report playwright-report/design-tokens
+npx playwright show-report playwright-report/rainer-design-tokens
 ```
 
 ### JSON Report
 
-Gerado em `test-results/design-tokens-results.json`:
+Gerado em `test-results/rainer-design-tokens-results.json`:
 
 ```json
 {
@@ -385,6 +410,7 @@ Gerado em `test-results/design-tokens-results.json`:
 ## ✅ Checklist de Cobertura
 
 ### Cores (8/8) ✅
+
 - [x] Primary brand color
 - [x] CSS variable defined
 - [x] All required color vars
@@ -395,6 +421,7 @@ Gerado em `test-results/design-tokens-results.json`:
 - [x] All color variables
 
 ### Temas (11/11) ✅
+
 - [x] Light to dark switching
 - [x] Cyberpunk neon colors
 - [x] Glow effects
@@ -408,6 +435,7 @@ Gerado em `test-results/design-tokens-results.json`:
 - [x] Theme switching works
 
 ### Tipografia (7/7) ✅
+
 - [x] Font families
 - [x] Font sizes
 - [x] Font weights
@@ -417,6 +445,7 @@ Gerado em `test-results/design-tokens-results.json`:
 - [x] Typography hierarchy
 
 ### Espaçamento (8/8) ✅
+
 - [x] Padding scales
 - [x] Margin scales
 - [x] Gap in flex/grid
@@ -427,6 +456,7 @@ Gerado em `test-results/design-tokens-results.json`:
 - [x] Container padding
 
 ### CSS Variables (12/12) ✅
+
 - [x] Color vars defined
 - [x] Spacing vars defined
 - [x] Radius vars defined
@@ -465,9 +495,9 @@ page.locator('.btn-primary')
 const color = await getComputedStyle(page, '[data-testid="text"]', 'color');
 
 // ❌ Evitar
-const color = await page.locator('[data-testid="text"]').evaluate(
-  el => el.style.color
-);
+const color = await page
+  .locator('[data-testid="text"]')
+  .evaluate(el => el.style.color);
 ```
 
 ### 3. Testar Valores Resolvidos
@@ -510,6 +540,7 @@ await setTheme(page, 'dark');
 ### Problema: Testes falhando aleatoriamente
 
 **Solução:**
+
 ```typescript
 // Adicionar wait após mudanças de tema
 await setTheme(page, 'dark');
@@ -519,9 +550,10 @@ await page.waitForTimeout(300);
 ### Problema: CSS variable não encontrada
 
 **Solução:**
+
 ```typescript
 // Verificar se está no :root
-const value = await page.evaluate((varName) => {
+const value = await page.evaluate(varName => {
   return getComputedStyle(document.documentElement)
     .getPropertyValue(varName)
     .trim();
@@ -531,6 +563,7 @@ const value = await page.evaluate((varName) => {
 ### Problema: Cores não correspondem
 
 **Solução:**
+
 ```typescript
 // Usar tolerância e normalizar formato
 const isMatch = isColorClose(
@@ -546,14 +579,14 @@ const isMatch = isColorClose(
 
 ### Coverage Atual
 
-| Categoria | Test Cases | Assertions | Status |
-|-----------|------------|------------|--------|
-| Colors | 8 | ~30 | ✅ 100% |
-| Themes | 11 | ~45 | ✅ 100% |
-| Typography | 7 | ~35 | ✅ 100% |
-| Spacing | 8 | ~40 | ✅ 100% |
-| CSS Vars | 12 | ~50 | ✅ 100% |
-| **TOTAL** | **46** | **~200** | **✅ 100%** |
+| Categoria  | Test Cases | Assertions | Status      |
+| ---------- | ---------- | ---------- | ----------- |
+| Colors     | 8          | ~30        | ✅ 100%     |
+| Themes     | 11         | ~45        | ✅ 100%     |
+| Typography | 7          | ~35        | ✅ 100%     |
+| Spacing    | 8          | ~40        | ✅ 100%     |
+| CSS Vars   | 12         | ~50        | ✅ 100%     |
+| **TOTAL**  | **46**     | **~200**   | **✅ 100%** |
 
 ### Browsers Testados
 
@@ -593,4 +626,3 @@ const isMatch = isColorClose(
 5. **Multi-browser:** Compatibilidade garantida
 
 **Suite completa de testes E2E para design tokens implementada com sucesso!** 🎊
-

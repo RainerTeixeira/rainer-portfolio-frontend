@@ -10,17 +10,22 @@ Esta aplicação agora possui **nível enterprise global** com 20+ features prof
 
 ### **1. 🎨 Design Tokens Centralizados**
 
-**Arquivo**: `constants/design-tokens.ts`
+**Arquivo**: `constants/rainer-design-tokens.ts`
 
 Sistema completo de design tokens com 15+ categorias:
 
 ```typescript
 // Exemplo de uso
-import { Z_INDEX, TYPOGRAPHY, GRADIENTS, TIMING } from '@/constants/design-tokens'
+import {
+  Z_INDEX,
+  TYPOGRAPHY,
+  GRADIENTS,
+  TIMING,
+} from '@/constants/rainer-design-tokens';
 
-const navbar = { zIndex: Z_INDEX.NAVBAR } // 50
-const heading = TYPOGRAPHY.HEADING_1 // 'text-4xl...'
-const slideTime = TIMING.SLIDE_DURATION // 6000ms
+const navbar = { zIndex: Z_INDEX.NAVBAR }; // 50
+const heading = TYPOGRAPHY.HEADING_1; // 'text-4xl...'
+const slideTime = TIMING.SLIDE_DURATION; // 6000ms
 ```
 
 **Benefícios:**
@@ -75,7 +80,7 @@ import { FullPageLoader, InlineLoader, SkeletonGrid, EmptyState } from '@/compon
 <SkeletonGrid count={6} columns={3} />
 
 // Empty state
-<EmptyState 
+<EmptyState
   title="Nenhum item"
   action={<Button>Criar</Button>}
 />
@@ -97,9 +102,9 @@ import { FullPageLoader, InlineLoader, SkeletonGrid, EmptyState } from '@/compon
 Sistema type-safe para variáveis de ambiente:
 
 ```typescript
-import { env, isDevelopment, isProduction } from '@/lib/env'
+import { env, isDevelopment, isProduction } from '@/lib/env';
 
-const url = env.NEXT_PUBLIC_APP_URL // Type-safe!
+const url = env.NEXT_PUBLIC_APP_URL; // Type-safe!
 if (env.NEXT_PUBLIC_ENABLE_ANALYTICS) {
   // Feature flag via env
 }
@@ -122,16 +127,16 @@ if (env.NEXT_PUBLIC_ENABLE_ANALYTICS) {
 Sistema profissional de logging:
 
 ```typescript
-import { logger } from '@/lib/logger'
+import { logger } from '@/lib/logger';
 
-logger.debug('Info de debug', { data })
-logger.info('Operação completa')
-logger.warn('Aviso importante', { context })
-logger.error('Erro crítico', error, { details })
+logger.debug('Info de debug', { data });
+logger.info('Operação completa');
+logger.warn('Aviso importante', { context });
+logger.error('Erro crítico', error, { details });
 
 // Logger com contexto
-const log = logger.withContext({ component: 'BlogPage' })
-log.info('Mounted') // Inclui contexto automaticamente
+const log = logger.withContext({ component: 'BlogPage' });
+log.info('Mounted'); // Inclui contexto automaticamente
 ```
 
 **Features:**
@@ -152,12 +157,12 @@ log.info('Mounted') // Inclui contexto automaticamente
 Tracking estruturado de eventos:
 
 ```typescript
-import { analytics, ANALYTICS_EVENTS } from '@/lib/analytics'
+import { analytics, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 // Eventos predefinidos
-analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'))
-analytics.track(ANALYTICS_EVENTS.BLOG_POST_VIEW('123', 'Título'))
-analytics.track(ANALYTICS_EVENTS.DOWNLOAD_CV())
+analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'));
+analytics.track(ANALYTICS_EVENTS.BLOG_POST_VIEW('123', 'Título'));
+analytics.track(ANALYTICS_EVENTS.DOWNLOAD_CV());
 
 // Evento customizado
 analytics.track({
@@ -165,7 +170,7 @@ analytics.track({
   action: 'custom_event',
   label: 'Label',
   value: 100,
-})
+});
 ```
 
 **Eventos Pré-definidos:**
@@ -193,21 +198,21 @@ analytics.track({
 Monitoramento de performance:
 
 ```typescript
-import { performanceMonitor } from '@/lib/performance-monitor'
+import { performanceMonitor } from '@/lib/performance-monitor';
 
 // Método 1: Manual
-performanceMonitor.start('load_posts')
-await loadPosts()
-performanceMonitor.end('load_posts')
+performanceMonitor.start('load_posts');
+await loadPosts();
+performanceMonitor.end('load_posts');
 
 // Método 2: Helper (recomendado)
 await performanceMonitor.measure('load_posts', async () => {
-  return await loadPosts()
-})
+  return await loadPosts();
+});
 
 // Obter métricas
-const metric = performanceMonitor.getMetric('load_posts')
-console.log(metric?.value, metric?.rating) // 245ms, 'good'
+const metric = performanceMonitor.getMetric('load_posts');
+console.log(metric?.value, metric?.rating); // 245ms, 'good'
 ```
 
 **Core Web Vitals:**
@@ -234,21 +239,21 @@ console.log(metric?.value, metric?.rating) // 245ms, 'good'
 Validações centralizadas:
 
 ```typescript
-import { 
-  validateEmail, 
+import {
+  validateEmail,
   validatePassword,
   contactFormSchema,
-  validateWithSchema 
-} from '@/lib/validation-schemas'
+  validateWithSchema,
+} from '@/lib/validation-schemas';
 
 // Validação individual
-const result = validateEmail('test@example.com')
+const result = validateEmail('test@example.com');
 if (!result.isValid) {
-  showErrors(result.errors)
+  showErrors(result.errors);
 }
 
 // Validação de form completo
-const formResult = validateWithSchema(formData, contactFormSchema)
+const formResult = validateWithSchema(formData, contactFormSchema);
 ```
 
 **Validators:**
@@ -281,11 +286,11 @@ import { useAnalytics } from '@/hooks/use-analytics'
 
 function BlogPost() {
   const { trackBlogPostView, trackBlogPostLike } = useAnalytics()
-  
+
   useEffect(() => {
     trackBlogPostView(post.id, post.title)
   }, [])
-  
+
   return <button onClick={() => trackBlogPostLike(post.id)}>Curtir</button>
 }
 ```
@@ -306,12 +311,12 @@ Imports simplificados:
 
 ```typescript
 // Antes
-import { logger } from '@/lib/logger'
-import { analytics } from '@/lib/analytics'
-import { env } from '@/lib/env'
+import { logger } from '@/lib/logger';
+import { analytics } from '@/lib/analytics';
+import { env } from '@/lib/env';
 
 // Depois
-import { logger, analytics, env } from '@/lib'
+import { logger, analytics, env } from '@/lib';
 ```
 
 ---
@@ -342,22 +347,21 @@ try { ... } catch (e) { console.error(e) }
 
 ```typescript
 // ✅ Design tokens
-import { SCROLL_THRESHOLDS, TIMING } from '@/constants/design-tokens'
-const threshold = SCROLL_THRESHOLDS.BACK_TO_TOP
-const delay = TIMING.SAVE_DELAY
+import { SCROLL_THRESHOLDS, TIMING } from '@/constants/rainer-design-tokens';
+const threshold = SCROLL_THRESHOLDS.BACK_TO_TOP;
+const delay = TIMING.SAVE_DELAY;
 
 // ✅ Validation schema
-import { validateEmail } from '@/lib/validation-schemas'
-const result = validateEmail(email)
+import { validateEmail } from '@/lib/validation-schemas';
+const result = validateEmail(email);
 
 // ✅ Structured logging
-import { logger } from '@/lib/logger'
-logger.info('User logged in', { userId: user.id })
+import { logger } from '@/lib/logger';
+logger.info('User logged in', { userId: user.id });
 
 // ✅ Analytics tracking
-import { useAnalytics } from '@/hooks/use-analytics'
-const { trackPageView } = useAnalytics()
-
+import { useAnalytics } from '@/hooks/use-analytics';
+const { trackPageView } = useAnalytics();
 ```
 
 ---
@@ -389,20 +393,20 @@ const { trackPageView } = useAnalytics()
 
 ## 🏆 Comparativo com Mercado
 
-| Feature | Startup | Empresa Média | Fortune 500 | **Esta App** |
-|---------|---------|---------------|-------------|--------------|
-| Design Tokens | ❌ | Parcial | ✅ | ✅ |
-| Error Boundaries | ❌ | Básico | ✅ | ✅ |
-| Logging Estruturado | ❌ | console.log | ✅ | ✅ |
-| Analytics System | ❌ | Google Tag | ✅ | ✅ |
-| Performance Monitor | ❌ | Básico | ✅ | ✅ |
-| Validation Schemas | ❌ | Inline | ✅ | ✅ |
-| Type-Safe Env | ❌ | ❌ | ✅ | ✅ |
-| Loading States | Básico | Básico | Padronizado | ✅ |
-| Accessibility | Parcial | Parcial | WCAG AA | ✅ |
-| Documentation | ❌ | README | Completa | ✅ |
-| Code Quality | Variável | Lint básico | Enterprise | ✅ |
-| **TOTAL** | **1/11** | **3/11** | **11/11** | **11/11** |
+| Feature             | Startup  | Empresa Média | Fortune 500 | **Esta App** |
+| ------------------- | -------- | ------------- | ----------- | ------------ |
+| Design Tokens       | ❌       | Parcial       | ✅          | ✅           |
+| Error Boundaries    | ❌       | Básico        | ✅          | ✅           |
+| Logging Estruturado | ❌       | console.log   | ✅          | ✅           |
+| Analytics System    | ❌       | Google Tag    | ✅          | ✅           |
+| Performance Monitor | ❌       | Básico        | ✅          | ✅           |
+| Validation Schemas  | ❌       | Inline        | ✅          | ✅           |
+| Type-Safe Env       | ❌       | ❌            | ✅          | ✅           |
+| Loading States      | Básico   | Básico        | Padronizado | ✅           |
+| Accessibility       | Parcial  | Parcial       | WCAG AA     | ✅           |
+| Documentation       | ❌       | README        | Completa    | ✅           |
+| Code Quality        | Variável | Lint básico   | Enterprise  | ✅           |
+| **TOTAL**           | **1/11** | **3/11**      | **11/11**   | **11/11**    |
 
 ---
 
@@ -410,7 +414,7 @@ const { trackPageView } = useAnalytics()
 
 ### **Utilitários Enterprise**
 
-1. ✅ `constants/design-tokens.ts` (450 linhas)
+1. ✅ `constants/rainer-design-tokens.ts` (450 linhas)
 2. ✅ `lib/env.ts` (120 linhas)
 3. ✅ `lib/logger.ts` (200 linhas)
 4. ✅ `lib/analytics.ts` (180 linhas)
@@ -444,7 +448,7 @@ const { trackPageView } = useAnalytics()
 ```typescript
 /**
  * My Feature Component
- * 
+ *
  * @fileoverview Feature description
  */
 
@@ -480,12 +484,12 @@ import { useAnalytics } from '@/hooks/use-analytics'
 // ============================================================================
 
 import { logger, performanceMonitor, env } from '@/lib'
-import { 
-  ANIMATION_DURATION_MS, 
-  Z_INDEX, 
+import {
+  ANIMATION_DURATION_MS,
+  Z_INDEX,
   FEATURE_FLAGS,
-  TIMING 
-} from '@/constants/design-tokens'
+  TIMING
+} from '@/constants/rainer-design-tokens'
 import { validateEmail } from '@/lib/validation-schemas'
 
 // ============================================================================
@@ -511,37 +515,37 @@ export function MyFeature({ title, items = MAX_ITEMS }: MyFeatureProps) {
   // ============================================================================
   // Hooks
   // ============================================================================
-  
+
   const { trackPageView } = useAnalytics()
-  
+
   // ============================================================================
   // State
   // ============================================================================
-  
+
   const [isLoadingData, setIsLoadingData] = useState(true)
   const [hasError, setHasError] = useState(false)
-  
+
   // ============================================================================
   // Effects
   // ============================================================================
-  
+
   useEffect(() => {
     trackPageView('/my-feature')
     loadData()
   }, [])
-  
+
   // ============================================================================
   // Handler Functions
   // ============================================================================
-  
+
   const loadData = async () => {
     try {
       setIsLoadingData(true)
-      
+
       const data = await performanceMonitor.measure('load_feature_data', async () => {
         return await fetchData()
       })
-      
+
       logger.info('Data loaded', { count: data.length })
       setIsLoadingData(false)
     } catch (error) {
@@ -550,23 +554,23 @@ export function MyFeature({ title, items = MAX_ITEMS }: MyFeatureProps) {
       setIsLoadingData(false)
     }
   }
-  
+
   // ============================================================================
   // Render Guards
   // ============================================================================
-  
+
   if (isLoadingData) {
     return <FullPageLoader message="Carregando dados..." />
   }
-  
+
   if (hasError) {
     return <EmptyState title="Erro" action={<Button onClick={loadData}>Tentar Novamente</Button>} />
   }
-  
+
   // ============================================================================
   // Render
   // ============================================================================
-  
+
   return (
     <div className="min-h-screen">
       <h1>{title}</h1>
@@ -619,17 +623,17 @@ export function MyFeature({ title, items = MAX_ITEMS }: MyFeatureProps) {
 ```typescript
 // Configurado em performance-monitor.ts
 const THRESHOLDS = {
-  API_RESPONSE: { good: 500, poor: 2000 },    // API deve responder < 500ms
+  API_RESPONSE: { good: 500, poor: 2000 }, // API deve responder < 500ms
   COMPONENT_RENDER: { good: 100, poor: 500 }, // Render < 100ms
-  DATA_FETCH: { good: 1000, poor: 3000 },     // Fetch < 1s
-}
+  DATA_FETCH: { good: 1000, poor: 3000 }, // Fetch < 1s
+};
 ```
 
 ### **2. Feature Flags**
 
 ```typescript
 // Habilitar/desabilitar features sem deploy
-import { FEATURE_FLAGS } from '@/constants/design-tokens'
+import { FEATURE_FLAGS } from '@/constants/rainer-design-tokens'
 
 if (FEATURE_FLAGS.ENABLE_BLOG_COMMENTS) {
   return <CommentsSection />
@@ -639,19 +643,19 @@ if (FEATURE_FLAGS.ENABLE_BLOG_COMMENTS) {
 ### **3. Regex Patterns Centralizados**
 
 ```typescript
-import { REGEX_PATTERNS } from '@/constants/design-tokens'
+import { REGEX_PATTERNS } from '@/constants/rainer-design-tokens';
 
-const isValid = REGEX_PATTERNS.EMAIL.test(email)
-const isValidPhone = REGEX_PATTERNS.PHONE_BR.test(phone)
+const isValid = REGEX_PATTERNS.EMAIL.test(email);
+const isValidPhone = REGEX_PATTERNS.PHONE_BR.test(phone);
 ```
 
 ### **4. Storage Keys Organizadas**
 
 ```typescript
-import { STORAGE_KEYS } from '@/constants/design-tokens'
+import { STORAGE_KEYS } from '@/constants/rainer-design-tokens';
 
-localStorage.setItem(STORAGE_KEYS.AUTH_USER, data)
-localStorage.getItem(STORAGE_KEYS.THEME)
+localStorage.setItem(STORAGE_KEYS.AUTH_USER, data);
+localStorage.getItem(STORAGE_KEYS.THEME);
 ```
 
 ---

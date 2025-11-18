@@ -68,7 +68,7 @@ import { Card, CardContent, CardTitle } from '@/components/ui/card';
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import { BACKGROUND, GRADIENTS } from '@rainer/design-tokens';
+import { BACKGROUND, GRADIENTS } from '@rainersoft/design-tokens';
 
 // ============================================================================
 // Constants & Config

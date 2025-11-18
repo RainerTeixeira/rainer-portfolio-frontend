@@ -27,7 +27,7 @@ Transformação completa da biblioteca de design tokens (v3.0.0 → v4.0.0) e in
 
 ---
 
-## 📦 BIBLIOTECA @rainer/design-tokens v4.0.0
+## 📦 BIBLIOTECA @rainer/rainer-design-tokens v4.0.0
 
 ### Estrutura Final
 
@@ -82,7 +82,7 @@ Transformação completa da biblioteca de design tokens (v3.0.0 → v4.0.0) e in
 **ANTES:**
 
 ```typescript
-import * as DesignTokens from '@rainer/design-tokens';
+import * as DesignTokens from '@rainer/rainer-design-tokens';
 const COLOR_PRIMITIVES = (DesignTokens as any).COLOR_PRIMITIVES ?? {};
 // Imports confusos, casting any, acoplado
 ```
@@ -90,7 +90,7 @@ const COLOR_PRIMITIVES = (DesignTokens as any).COLOR_PRIMITIVES ?? {};
 **DEPOIS:**
 
 ```typescript
-import { tailwindConfig as designTokensConfig } from '@rainer/design-tokens/formats/tailwind.config';
+import { tailwindConfig as designTokensConfig } from '@rainer/rainer-design-tokens/formats/tailwind.config';
 
 const config: Config = {
   ...designTokensConfig, // Herda tudo da biblioteca
@@ -120,7 +120,7 @@ const config: Config = {
 
 ```css
 /* NOVO: Import direto das CSS vars */
-@import '@rainer/design-tokens/formats/css-vars.css';
+@import '@rainer/rainer-design-tokens/formats/css-vars.css';
 
 /* NOVO: Uso das variáveis de tokens */
 .glass {
@@ -190,7 +190,7 @@ const config: Config = {
 ### 3. TypeScript
 
 ```typescript
-import { tokens } from '@rainer/design-tokens';
+import { tokens } from '@rainer/rainer-design-tokens';
 
 const style = {
   color: tokens.colors.light.brand.primary,
@@ -417,7 +417,7 @@ const style = {
 
 ## 🎉 RESULTADO FINAL
 
-### Biblioteca @rainer/design-tokens
+### Biblioteca @rainer/rainer-design-tokens
 
 ```
 Status: ✅ v4.0.0 ENTERPRISE-GRADE
@@ -500,7 +500,7 @@ Docs: ✅ 858 linhas
 
 - **Repo**: `C:\Desenvolvimento\@rainer-design-tokens`
 - **Docs**: `docs/guidelines.md`, `docs/roadmap.md`
-- **Package**: `@rainer/design-tokens@4.0.0`
+- **Package**: `@rainer/rainer-design-tokens@4.0.0`
 
 ### Frontend
 

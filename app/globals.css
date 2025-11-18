@@ -2,7 +2,7 @@
  * @file globals.css
  * @description
  * Estilos globais do frontend do portfólio Rainer.
- * Integrado com @rainer/design-tokens v4.0.0, suportando totalmente
+ * Integrado com @rainersoft/design-tokens v4.0.0, suportando totalmente
  * temas light e dark (cyberpunk) utilizando tokens universais.
  * Inclui utilitários personalizados, compatibilidade com Shadcn UI,
  * animações neon, glassmorphism e acessibilidade avançada.
@@ -14,7 +14,7 @@
  * @import
  * Importa as variáveis CSS baseadas nos design tokens (cores, espaçamentos, etc).
  */
-@import '@rainer/design-tokens/formats/css-vars.css';
+@import '@rainersoft/design-tokens/formats/css-vars.css';
 
 /**
  * @import

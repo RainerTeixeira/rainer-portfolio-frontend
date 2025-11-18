@@ -1,5 +1,5 @@
-import { tailwindConfig as designTokensConfig } from '@rainer/design-tokens/formats/tailwind.config';
-import { tokens } from '@rainer/design-tokens/tokens';
+import { tailwindConfig as designTokensConfig } from '@rainersoft/design-tokens/formats/tailwind.config';
+import { tokens } from '@rainersoft/design-tokens/tokens';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {

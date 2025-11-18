@@ -8,7 +8,7 @@
  * @version 2.0.0
  */
 
-import { GRADIENTS } from '@rainer/design-tokens';
+import { GRADIENTS } from '@rainersoft/design-tokens';
 
 /**
  * Item de tecnologia (dados puros, ícones devem ser renderizados no componente)

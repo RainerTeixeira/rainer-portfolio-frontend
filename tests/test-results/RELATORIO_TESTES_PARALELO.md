@@ -559,7 +559,7 @@
 **Arquivos de Teste:**
 - `lib\seo\structured-data.test.ts`
 - `lib\utils.test.ts`
-- `lib\utils\design-tokens.test.ts`
+- `lib\utils\rainer-design-tokens.test.ts`
 - `lib\utils\image-optimizer.test.ts`
 - `lib\utils\post-compressor.test.ts`
 - `lib\utils\scroll.test.ts`

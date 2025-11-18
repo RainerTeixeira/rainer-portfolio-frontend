@@ -47,16 +47,16 @@ Obrigado pelo interesse em contribuir com o projeto! Este guia fornece todas as 
 
 ### Tipos de Contribuição
 
-| Tipo | Descrição | Dificuldade |
-|------|-----------|-------------|
-| **🐛 Bug Reports** | Reportar problemas encontrados | Fácil |
-| **💡 Feature Requests** | Sugerir novas funcionalidades | Fácil |
-| **📝 Documentação** | Melhorar docs e comentários | Fácil |
-| **🎨 Design** | Melhorias visuais e UX | Média |
-| **⚡ Performance** | Otimizações | Média |
-| **🔧 Bug Fixes** | Corrigir bugs existentes | Média |
-| **✨ Features** | Implementar novas features | Difícil |
-| **🏗️ Refactoring** | Melhorias arquiteturais | Difícil |
+| Tipo                    | Descrição                      | Dificuldade |
+| ----------------------- | ------------------------------ | ----------- |
+| **🐛 Bug Reports**      | Reportar problemas encontrados | Fácil       |
+| **💡 Feature Requests** | Sugerir novas funcionalidades  | Fácil       |
+| **📝 Documentação**     | Melhorar docs e comentários    | Fácil       |
+| **🎨 Design**           | Melhorias visuais e UX         | Média       |
+| **⚡ Performance**      | Otimizações                    | Média       |
+| **🔧 Bug Fixes**        | Corrigir bugs existentes       | Média       |
+| **✨ Features**         | Implementar novas features     | Difícil     |
+| **🏗️ Refactoring**      | Melhorias arquiteturais        | Difícil     |
 
 ---
 
@@ -161,9 +161,9 @@ git push origin feature/nome-descritivo
 ```typescript
 /**
  * Component Name
- * 
+ *
  * Descrição do componente
- * 
+ *
  * @fileoverview Descrição curta
  * @author Seu Nome
  * @version 1.0.0
@@ -201,7 +201,7 @@ import { cn } from '@/lib/utils'
 // Constants
 // ============================================================================
 
-import { FEATURE_FLAGS } from '@/constants/design-tokens'
+import { FEATURE_FLAGS } from '@/constants/rainer-design-tokens'
 
 const LOCAL_CONSTANT = 10 as const
 
@@ -225,7 +225,7 @@ export function Component({ prop }: ComponentProps) {
   // Computed Values
   // Render Guards
   // Render
-  
+
   return <div>{prop}</div>
 }
 ```
@@ -236,49 +236,49 @@ export function Component({ prop }: ComponentProps) {
 
 ```typescript
 // ✅ Boolean
-const isLoading = true
-const hasError = false
-const shouldShow = true
-const canEdit = false
+const isLoading = true;
+const hasError = false;
+const shouldShow = true;
+const canEdit = false;
 
 // ✅ Arrays
-const allPosts = []
-const filteredItems = []
-const sortedData = []
+const allPosts = [];
+const filteredItems = [];
+const sortedData = [];
 
 // ✅ Objetos
-const currentUser = {}
-const selectedItem = {}
-const activePost = {}
+const currentUser = {};
+const selectedItem = {};
+const activePost = {};
 ```
 
 #### Funções
 
 ```typescript
 // ✅ Event handlers
-const handleClick = () => {}
-const handleSubmit = () => {}
+const handleClick = () => {};
+const handleSubmit = () => {};
 
 // ✅ Async operations
-const loadData = async () => {}
-const fetchPosts = async () => {}
+const loadData = async () => {};
+const fetchPosts = async () => {};
 
 // ✅ Pure functions
-const calculateTotal = () => {}
-const formatDate = () => {}
+const calculateTotal = () => {};
+const formatDate = () => {};
 
 // ✅ State changers
-const startLoading = () => {}
-const stopEditing = () => {}
+const startLoading = () => {};
+const stopEditing = () => {};
 ```
 
 #### Constantes
 
 ```typescript
 // ✅ UPPERCASE_SNAKE_CASE
-const MAX_ITEMS = 10
-const API_ENDPOINT = '/api/data'
-const DEFAULT_THEME = 'dark'
+const MAX_ITEMS = 10;
+const API_ENDPOINT = '/api/data';
+const DEFAULT_THEME = 'dark';
 ```
 
 ### TypeScript
@@ -286,21 +286,21 @@ const DEFAULT_THEME = 'dark'
 ```typescript
 // ✅ Sempre usar interfaces com readonly
 interface Props {
-  readonly id: string
-  readonly optional?: number
+  readonly id: string;
+  readonly optional?: number;
 }
 
 // ✅ Usar types para unions
-type Status = 'idle' | 'loading' | 'success' | 'error'
+type Status = 'idle' | 'loading' | 'success' | 'error';
 
 // ✅ Usar as const
-const OPTIONS = ['a', 'b', 'c'] as const
+const OPTIONS = ['a', 'b', 'c'] as const;
 
 // ❌ Nunca usar any
-const data: any = {}  // NUNCA FAZER ISSO
+const data: any = {}; // NUNCA FAZER ISSO
 
 // ✅ Usar unknown + type guard
-const data: unknown = {}
+const data: unknown = {};
 if (isValidData(data)) {
   // TypeScript sabe que é válido
 }
@@ -310,11 +310,11 @@ if (isValidData(data)) {
 
 ```typescript
 // ✅ SEMPRE usar design tokens
-import { SCROLL_THRESHOLDS, Z_INDEX } from '@/constants/design-tokens'
-const threshold = SCROLL_THRESHOLDS.BACK_TO_TOP
+import { SCROLL_THRESHOLDS, Z_INDEX } from '@/constants/rainer-design-tokens';
+const threshold = SCROLL_THRESHOLDS.BACK_TO_TOP;
 
 // ❌ NUNCA hardcode
-const threshold = 300  // NÃO FAZER
+const threshold = 300; // NÃO FAZER
 ```
 
 ---
@@ -327,16 +327,16 @@ const threshold = 300  // NÃO FAZER
 
 #### Tipos
 
-| Tipo | Descrição | Exemplo |
-|------|-----------|---------|
-| `feat` | Nova funcionalidade | `feat(blog): adiciona sistema de likes` |
-| `fix` | Correção de bug | `fix(navbar): corrige menu mobile` |
-| `docs` | Documentação | `docs(readme): atualiza instruções` |
-| `style` | Formatação | `style(button): ajusta espaçamento` |
-| `refactor` | Refatoração | `refactor(auth): extrai constantes` |
-| `perf` | Performance | `perf(images): otimiza lazy loading` |
-| `test` | Testes | `test(utils): adiciona testes unitários` |
-| `chore` | Manutenção | `chore(deps): atualiza dependências` |
+| Tipo       | Descrição           | Exemplo                                  |
+| ---------- | ------------------- | ---------------------------------------- |
+| `feat`     | Nova funcionalidade | `feat(blog): adiciona sistema de likes`  |
+| `fix`      | Correção de bug     | `fix(navbar): corrige menu mobile`       |
+| `docs`     | Documentação        | `docs(readme): atualiza instruções`      |
+| `style`    | Formatação          | `style(button): ajusta espaçamento`      |
+| `refactor` | Refatoração         | `refactor(auth): extrai constantes`      |
+| `perf`     | Performance         | `perf(images): otimiza lazy loading`     |
+| `test`     | Testes              | `test(utils): adiciona testes unitários` |
+| `chore`    | Manutenção          | `chore(deps): atualiza dependências`     |
 
 #### Exemplos de Commits
 
@@ -461,19 +461,19 @@ npm run sonar:local
 
 **Para componentes**:
 
-```typescript
+````typescript
 /**
  * My Component
- * 
+ *
  * Descrição do que o componente faz.
- * 
+ *
  * Características:
  * - Feature 1
  * - Feature 2
- * 
+ *
  * @param {Props} props - Propriedades do componente
  * @returns {JSX.Element} Componente renderizado
- * 
+ *
  * @example
  * ```tsx
  * <MyComponent prop="value" />
@@ -482,17 +482,17 @@ npm run sonar:local
 export function MyComponent({ prop }: Props) {
   // ...
 }
-```
+````
 
 **Para hooks**:
 
-```typescript
+````typescript
 /**
  * Hook customizado para [propósito]
- * 
+ *
  * @param {string} param - Descrição do parâmetro
  * @returns {Object} Estado e funções
- * 
+ *
  * @example
  * ```tsx
  * const { state, action } = useMyHook('value')
@@ -501,20 +501,20 @@ export function MyComponent({ prop }: Props) {
 export function useMyHook(param: string) {
   // ...
 }
-```
+````
 
 **Para funções**:
 
 ```typescript
 /**
  * Calcula algo importante
- * 
+ *
  * @param {number} a - Primeiro número
  * @param {number} b - Segundo número
  * @returns {number} Resultado do cálculo
  */
 export function calculate(a: number, b: number): number {
-  return a + b
+  return a + b;
 }
 ```
 
@@ -554,6 +554,7 @@ Descrição clara e concisa do que é o bug.
 
 **Como Reproduzir**
 Passos para reproduzir:
+
 1. Vá para '...'
 2. Clique em '...'
 3. Scroll até '...'
@@ -566,9 +567,10 @@ Descrição do que deveria acontecer.
 Se aplicável, adicione screenshots.
 
 **Ambiente**
- - OS: [e.g. Windows 11]
- - Browser: [e.g. Chrome 120]
- - Versão: [e.g. 1.0.0]
+
+- OS: [e.g. Windows 11]
+- Browser: [e.g. Chrome 120]
+- Versão: [e.g. 1.0.0]
 
 **Contexto Adicional**
 Qualquer outra informação relevante.
@@ -636,22 +638,22 @@ Screenshots, mockups, referências.
 
 ### Documentação do Projeto
 
-| Documento | Propósito |
-|-----------|-----------|
-| [ARCHITECTURE.md](./ARCHITECTURE.md) | Entender arquitetura |
-| [DEVELOPER-GUIDE.md](./DEVELOPER-GUIDE.md) | Como desenvolver |
-| [TECH-STACK.md](./TECH-STACK.md) | Tecnologias usadas |
-| [ENTERPRISE-FEATURES.md](./ENTERPRISE-FEATURES.md) | Features avançadas |
+| Documento                                          | Propósito            |
+| -------------------------------------------------- | -------------------- |
+| [ARCHITECTURE.md](./ARCHITECTURE.md)               | Entender arquitetura |
+| [DEVELOPER-GUIDE.md](./DEVELOPER-GUIDE.md)         | Como desenvolver     |
+| [TECH-STACK.md](./TECH-STACK.md)                   | Tecnologias usadas   |
+| [ENTERPRISE-FEATURES.md](./ENTERPRISE-FEATURES.md) | Features avançadas   |
 
 ### External Resources
 
-| Recurso | Link |
-|---------|------|
-| Next.js Docs | <https://nextjs.org/docs> |
-| React Docs | <https://react.dev/learn> |
-| TypeScript Handbook | <https://www.typescriptlang.org/docs/handbook/> |
-| Tailwind Docs | <https://tailwindcss.com/docs> |
-| Conventional Commits | <https://www.conventionalcommits.org/> |
+| Recurso              | Link                                            |
+| -------------------- | ----------------------------------------------- |
+| Next.js Docs         | <https://nextjs.org/docs>                       |
+| React Docs           | <https://react.dev/learn>                       |
+| TypeScript Handbook  | <https://www.typescriptlang.org/docs/handbook/> |
+| Tailwind Docs        | <https://tailwindcss.com/docs>                  |
+| Conventional Commits | <https://www.conventionalcommits.org/>          |
 
 ---
 

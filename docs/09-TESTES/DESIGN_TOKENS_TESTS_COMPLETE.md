@@ -39,7 +39,7 @@ Suite completa de testes automatizados E2E usando Playwright para validar 100% d
 ## 📁 ESTRUTURA DE ARQUIVOS
 
 ```
-tests/e2e/design-tokens/
+tests/e2e/rainer-design-tokens/
 │
 ├── helpers/
 │   └── token-utils.ts                    [312 linhas] ✅
@@ -315,7 +315,7 @@ npx playwright test --project="Mobile Safari"
 
 ### 1. README dos Testes (490 linhas)
 
-**Localização:** `tests/e2e/design-tokens/README.md`
+**Localização:** `tests/e2e/rainer-design-tokens/README.md`
 
 **Conteúdo:**
 

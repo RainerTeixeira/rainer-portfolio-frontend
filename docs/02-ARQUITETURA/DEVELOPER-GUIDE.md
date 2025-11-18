@@ -8,13 +8,13 @@ Este guia mostra como usar todos os recursos enterprise implementados na aplica�
 
 ## 📦 1. Design Tokens
 
-**Onde**: `constants/design-tokens.ts`
+**Onde**: `constants/rainer-design-tokens.ts`
 
 ### ✅ O QUE FAZER
 
 ```typescript
 // ✅ BOM - Usar design tokens
-import { SCROLL_THRESHOLDS, Z_INDEX, TYPOGRAPHY } from '@/constants/design-tokens'
+import { SCROLL_THRESHOLDS, Z_INDEX, TYPOGRAPHY } from '@/constants/rainer-design-tokens'
 
 const threshold = SCROLL_THRESHOLDS.BACK_TO_TOP // 300
 className={TYPOGRAPHY.HEADING_1}
@@ -53,23 +53,23 @@ style={{ zIndex: 50 }}
 ### ✅ Uso Correto
 
 ```typescript
-import { logger } from '@/lib/logger'
+import { logger } from '@/lib/logger';
 
 // Debug (apenas desenvolvimento)
-logger.debug('Dados carregados', { count: posts.length })
+logger.debug('Dados carregados', { count: posts.length });
 
 // Info
-logger.info('Usuário logado', { userId: user.id })
+logger.info('Usuário logado', { userId: user.id });
 
 // Warning
-logger.warn('Cache expirado', { cacheKey: 'posts' })
+logger.warn('Cache expirado', { cacheKey: 'posts' });
 
 // Error (com stack trace)
-logger.error('Falha ao salvar', error, { postId: '123' })
+logger.error('Falha ao salvar', error, { postId: '123' });
 
 // Logger com contexto
-const componentLogger = logger.withContext({ component: 'BlogPage' })
-componentLogger.info('Posts renderizados', { count: 10 })
+const componentLogger = logger.withContext({ component: 'BlogPage' });
+componentLogger.info('Posts renderizados', { count: 10 });
 ```
 
 ### 📊 Output no Console
@@ -101,17 +101,17 @@ import { useAnalytics } from '@/hooks/use-analytics'
 
 function BlogPost() {
   const { trackBlogPostView, trackBlogPostLike } = useAnalytics()
-  
+
   useEffect(() => {
     // Auto-track page view ao carregar
     trackBlogPostView(post.id, post.title)
   }, [post.id, post.title])
-  
+
   const handleLike = () => {
     trackBlogPostLike(post.id)
     // ... lógica de like
   }
-  
+
   return <button onClick={handleLike}>Curtir</button>
 }
 ```
@@ -119,7 +119,7 @@ function BlogPost() {
 ### 📋 Eventos Disponíveis
 
 ```typescript
-const { 
+const {
   trackPageView,
   trackBlogPostView,
   trackBlogPostLike,
@@ -128,21 +128,21 @@ const {
   trackContactForm,
   trackNewsletterSubscribe,
   trackExternalLink,
-} = useAnalytics()
+} = useAnalytics();
 ```
 
 ### 🎯 Eventos Customizados
 
 ```typescript
-import { analytics } from '@/lib/analytics'
+import { analytics } from '@/lib/analytics';
 
 analytics.track({
   category: 'user_action',
   action: 'custom_event',
   label: 'Descrição',
   value: 42,
-  properties: { custom: 'data' }
-})
+  properties: { custom: 'data' },
+});
 ```
 
 ---
@@ -154,21 +154,21 @@ analytics.track({
 ### ✅ Medindo Performance
 
 ```typescript
-import { performanceMonitor } from '@/lib/performance-monitor'
+import { performanceMonitor } from '@/lib/performance-monitor';
 
 // Método 1: Start/End manual
-performanceMonitor.start('fetch_posts')
-const posts = await fetchPosts()
-performanceMonitor.end('fetch_posts')
+performanceMonitor.start('fetch_posts');
+const posts = await fetchPosts();
+performanceMonitor.end('fetch_posts');
 
 // Método 2: Helper measure (recomendado)
 const posts = await performanceMonitor.measure('fetch_posts', async () => {
-  return await fetchPosts()
-})
+  return await fetchPosts();
+});
 
 // Obter métricas
-const metric = performanceMonitor.getMetric('fetch_posts')
-console.log(metric?.value, metric?.rating) // 245ms, 'good'
+const metric = performanceMonitor.getMetric('fetch_posts');
+console.log(metric?.value, metric?.rating); // 245ms, 'good'
 ```
 
 ### 📊 Core Web Vitals
@@ -233,11 +233,11 @@ if (!result.isValid) {
 ### ✅ Componentes Disponíveis
 
 ```typescript
-import { 
-  FullPageLoader, 
-  InlineLoader, 
+import {
+  FullPageLoader,
+  InlineLoader,
   SkeletonGrid,
-  EmptyState 
+  EmptyState
 } from '@/components/ui/loading-states'
 
 // Loading full-page
@@ -250,7 +250,7 @@ import {
 <SkeletonGrid count={6} columns={3} />
 
 // Empty state
-<EmptyState 
+<EmptyState
   icon={FileText}
   title="Nenhum post encontrado"
   description="Crie seu primeiro post"
@@ -267,19 +267,19 @@ import {
 ### ✅ Uso Type-Safe
 
 ```typescript
-import { env, isDevelopment, isProduction } from '@/lib/env'
+import { env, isDevelopment, isProduction } from '@/lib/env';
 
 // Acessar variáveis tipadas
-const appUrl = env.NEXT_PUBLIC_APP_URL
-const appName = env.NEXT_PUBLIC_APP_NAME
+const appUrl = env.NEXT_PUBLIC_APP_URL;
+const appName = env.NEXT_PUBLIC_APP_NAME;
 
 // Checks de ambiente
 if (isDevelopment) {
-  console.log('Dev mode')
+  console.log('Dev mode');
 }
 
 if (env.NEXT_PUBLIC_ENABLE_ANALYTICS) {
-  initAnalytics()
+  initAnalytics();
 }
 ```
 
@@ -296,7 +296,7 @@ NEXT_PUBLIC_MY_NEW_VAR=value
 ```typescript
 interface EnvironmentConfig {
   // ... existing
-  readonly NEXT_PUBLIC_MY_NEW_VAR: string
+  readonly NEXT_PUBLIC_MY_NEW_VAR: string;
 }
 ```
 
@@ -306,19 +306,19 @@ interface EnvironmentConfig {
 export const env: EnvironmentConfig = {
   // ... existing
   NEXT_PUBLIC_MY_NEW_VAR: getEnvVar('NEXT_PUBLIC_MY_NEW_VAR'),
-}
+};
 ```
 
 ---
 
 ## 🎯 9. Feature Flags
 
-**Onde**: `constants/design-tokens.ts`
+**Onde**: `constants/rainer-design-tokens.ts`
 
 ### ✅ Uso
 
 ```typescript
-import { FEATURE_FLAGS } from '@/constants/design-tokens'
+import { FEATURE_FLAGS } from '@/constants/rainer-design-tokens'
 
 // Condicional por feature
 if (FEATURE_FLAGS.ENABLE_BLOG_COMMENTS) {
@@ -337,52 +337,52 @@ if (FEATURE_FLAGS.ENABLE_BLOG_COMMENTS) {
 
 ```typescript
 // Variáveis boolean
-const isLoading = true
-const hasError = false
-const shouldShow = true
-const canEdit = true
+const isLoading = true;
+const hasError = false;
+const shouldShow = true;
+const canEdit = true;
 
 // Variáveis de estado
-const currentUser = user
-const selectedItem = item
-const activeTab = 'home'
+const currentUser = user;
+const selectedItem = item;
+const activeTab = 'home';
 
 // Arrays
-const allPosts = []
-const filteredData = []
-const sortedItems = []
+const allPosts = [];
+const filteredData = [];
+const sortedItems = [];
 
 // Funções
-const handleClick = () => {}
-const loadData = async () => {}
-const calculateTotal = () => {}
-const startEditing = () => {}
+const handleClick = () => {};
+const loadData = async () => {};
+const calculateTotal = () => {};
+const startEditing = () => {};
 
 // Constantes
-const API_ENDPOINT = '/api/data'
-const MAX_ITEMS = 10
-const DEFAULT_THEME = 'dark'
+const API_ENDPOINT = '/api/data';
+const MAX_ITEMS = 10;
+const DEFAULT_THEME = 'dark';
 ```
 
 ### ✅ Organização de Imports
 
 ```typescript
 // 1. React & Next.js
-import { useState } from 'react'
-import Link from 'next/link'
+import { useState } from 'react';
+import Link from 'next/link';
 
 // 2. Third-party
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 
 // 3. Components
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 
 // 4. Hooks & Utils
-import { useAnalytics } from '@/hooks/use-analytics'
-import { cn } from '@/lib/utils'
+import { useAnalytics } from '@/hooks/use-analytics';
+import { cn } from '@/lib/utils';
 
 // 5. Constants & Types
-import { FEATURE_FLAGS } from '@/constants/design-tokens'
+import { FEATURE_FLAGS } from '@/constants/rainer-design-tokens';
 ```
 
 ---
@@ -393,13 +393,13 @@ import { FEATURE_FLAGS } from '@/constants/design-tokens'
 
 ```typescript
 // Ver todas as métricas de performance
-performanceMonitor.getAllMetrics()
+performanceMonitor.getAllMetrics();
 
 // Ver contexto de analytics
-analytics // inspecionar no console
+analytics; // inspecionar no console
 
 // Forçar log em produção
-logger.error('Debug em prod', null, { debug: true })
+logger.error('Debug em prod', null, { debug: true });
 ```
 
 ### React DevTools
@@ -422,14 +422,14 @@ logger.error('Debug em prod', null, { debug: true })
 
 Todos os componentes têm exemplos de uso no JSDoc:
 
-```typescript
+````typescript
 /**
  * @example
  * ```tsx
  * <Component prop="value" />
  * ```
  */
-```
+````
 
 ---
 
@@ -501,9 +501,9 @@ npm run type-check
 ```typescript
 /**
  * My Page Component
- * 
+ *
  * Descrição da página
- * 
+ *
  * @fileoverview My page
  * @author Seu Nome
  * @version 1.0.0
@@ -527,7 +527,7 @@ import { PageHeader, BackToTop } from '@/components/ui'
 // Constants
 // ============================================================================
 
-import { FEATURE_FLAGS } from '@/constants/design-tokens'
+import { FEATURE_FLAGS } from '@/constants/rainer-design-tokens'
 
 // ============================================================================
 // Hooks
@@ -549,11 +549,11 @@ interface MyPageProps {
 
 export default function MyPage({ params }: MyPageProps) {
   const { trackPageView } = useAnalytics()
-  
+
   useEffect(() => {
     trackPageView('/my-page')
   }, [])
-  
+
   return (
     <div className="min-h-screen">
       <PageHeader title="Minha Página" description="Descrição" />
@@ -569,7 +569,7 @@ export default function MyPage({ params }: MyPageProps) {
 ```typescript
 /**
  * My Component
- * 
+ *
  * @fileoverview Componente reutilizável
  */
 
@@ -597,13 +597,13 @@ interface MyComponentProps {
 // Main Component
 // ============================================================================
 
-export function MyComponent({ 
-  title, 
+export function MyComponent({
+  title,
   count = DEFAULT_COUNT,
-  onAction 
+  onAction
 }: MyComponentProps) {
   // State e lógica...
-  
+
   return (
     <div>
       <h2>{title}</h2>
@@ -642,7 +642,7 @@ Antes de criar PR, verifique:
 ### 1. Autocomplete de Tokens
 
 ```typescript
-import { ANIMATION_DURATION_MS } from '@/constants/design-tokens'
+import { ANIMATION_DURATION_MS } from '@/constants/rainer-design-tokens';
 
 // TypeScript autocomplete mostra:
 // - INSTANT
@@ -651,33 +651,35 @@ import { ANIMATION_DURATION_MS } from '@/constants/design-tokens'
 // - SLOW
 // - VERY_SLOW
 
-const duration = ANIMATION_DURATION_MS.FAST // 150ms
+const duration = ANIMATION_DURATION_MS.FAST; // 150ms
 ```
 
 ### 2. Type-Safe Events
 
 ```typescript
-import { ANALYTICS_EVENTS } from '@/lib/analytics'
+import { ANALYTICS_EVENTS } from '@/lib/analytics';
 
 // Autocomplete mostra todos os eventos disponíveis
 // com params corretos
-analytics.track(ANALYTICS_EVENTS.BLOG_POST_VIEW(
-  'post-123',  // TypeScript valida os parâmetros
-  'Título'
-))
+analytics.track(
+  ANALYTICS_EVENTS.BLOG_POST_VIEW(
+    'post-123', // TypeScript valida os parâmetros
+    'Título'
+  )
+);
 ```
 
 ### 3. Logger Contextual
 
 ```typescript
 // Criar logger para componente específico
-const logger = logger.withContext({ 
+const logger = logger.withContext({
   component: 'BlogPage',
-  route: '/blog' 
-})
+  route: '/blog',
+});
 
 // Todos os logs vão incluir esse contexto
-logger.info('Carregado') // { component: 'BlogPage', route: '/blog' }
+logger.info('Carregado'); // { component: 'BlogPage', route: '/blog' }
 ```
 
 ---

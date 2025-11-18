@@ -45,7 +45,7 @@ jest.mock('sonner', () => ({
 }));
 
 // Mock Design Tokens
-jest.mock('@rainer/design-tokens', () => ({
+jest.mock('@rainer/rainer-design-tokens', () => ({
   ANIMATION_DURATION_MS: {
     FAST: 150,
     NORMAL: 300,
@@ -125,9 +125,7 @@ describe('LoginPage OAuth', () => {
 
   beforeAll(async () => {
     // Importar componente dinamicamente após mocks
-    const module = await import(
-      '@/app/dashboard/login/page'
-    );
+    const module = await import('@/app/dashboard/login/page');
     LoginPage = module.default;
   });
 
@@ -295,7 +293,10 @@ describe('LoginPage OAuth', () => {
       mockLogin.mockImplementation(
         () =>
           new Promise(resolve => {
-            setTimeout(() => resolve({ id: '1', email: 'test@example.com' }), 100);
+            setTimeout(
+              () => resolve({ id: '1', email: 'test@example.com' }),
+              100
+            );
           })
       );
 
@@ -419,12 +420,8 @@ describe('LoginPage OAuth', () => {
     it('deve ter textos descritivos nos botões OAuth', () => {
       render(<LoginPage />);
 
-      expect(
-        screen.getByText('Continuar com Google')
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText('Continuar com GitHub')
-      ).toBeInTheDocument();
+      expect(screen.getByText('Continuar com Google')).toBeInTheDocument();
+      expect(screen.getByText('Continuar com GitHub')).toBeInTheDocument();
     });
 
     it('deve ter link para registro visível', () => {
@@ -435,4 +432,3 @@ describe('LoginPage OAuth', () => {
     });
   });
 });
-

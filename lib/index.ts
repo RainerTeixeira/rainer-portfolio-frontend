@@ -31,7 +31,7 @@
  * - `utils/string` - Manipulação de strings (slug, formatação de datas)
  * - `utils/scroll` - Utilitários de scroll e navegação
  * - `utils/search` - Sistema de busca de conteúdo
- * - `utils/design-tokens` - Conversão e manipulação de design tokens
+ * - `utils/rainer-design-tokens` - Conversão e manipulação de design tokens
  * - `utils/image-optimizer` - Otimização e análise de imagens
  * - `utils/post-compressor` - Compressão de conteúdo de posts
  *
@@ -113,7 +113,7 @@ export * from './utils/string';
 // Design Tokens Utils
 // ============================================================================
 
-export * from './utils/design-tokens';
+export * from './utils';
 
 // ============================================================================
 // Scroll Utils

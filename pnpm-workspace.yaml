@@ -1,4 +1,3 @@
 packages:
   - '.'
-  - '../@rainer-design-tokens'
-
+  - '../rainer-design-tokens'

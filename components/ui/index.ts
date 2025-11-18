@@ -36,7 +36,7 @@ export {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from './card';
 
 /** Componente Separator: linha divisória horizontal/vertical */
@@ -66,6 +66,9 @@ export { InstallPrompt } from './install-prompt';
 /** Componente UpdateNotification: notificação de atualização PWA */
 export { UpdateNotification } from './update-notification';
 
+/** Componente TokensDemo: demonstração dos design tokens */
+export { TokensDemo } from './tokens-demo';
+
 /** Componentes de formulário */
 export { Input } from './input';
 export { Label } from './label';
@@ -80,7 +83,7 @@ export {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from './dialog';
 
 /**
@@ -102,7 +105,7 @@ export {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
+  TooltipTrigger
 } from './tooltip';
 
 /** Componente Sheet: drawer lateral */
@@ -114,7 +117,7 @@ export {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
+  SheetTrigger
 } from './sheet';
 
 // ══════════════════════════════════════════════════════════════
@@ -132,7 +135,7 @@ export {
   SelectScrollUpButton,
   SelectSeparator,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from './select';
 
 /** Componente Tabs: navegação em abas */
@@ -160,7 +163,7 @@ export {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from './dropdown-menu';
 
 /** Componente Checkbox: checkbox para seleção */
@@ -175,7 +178,7 @@ export {
   FormItem,
   FormLabel,
   FormMessage,
-  useFormField,
+  useFormField
 } from './form';
 
 /** Componente Alert: alertas e mensagens */
@@ -193,7 +196,7 @@ export {
   AlertDialogOverlay,
   AlertDialogPortal,
   AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogTrigger
 } from './alert-dialog';
 
 /** Componente Command: command palette (Ctrl+K) */
@@ -206,7 +209,7 @@ export {
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
+  CommandShortcut
 } from './command';
 
 /** Componente ScrollArea: área de scroll customizada */
@@ -220,7 +223,7 @@ export {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
+  AccordionTrigger
 } from './accordion';
 
 /** Componente Carousel: carrosséis de imagens/conteúdo */
@@ -230,7 +233,7 @@ export {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
+  type CarouselApi
 } from './carousel';
 
 /** Componente Navigation Menu: menu de navegação avançado */
@@ -243,7 +246,7 @@ export {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-  navigationMenuTriggerStyle,
+  navigationMenuTriggerStyle
 } from './navigation-menu';
 
 /** Componente Table: tabelas responsivas */
@@ -255,7 +258,7 @@ export {
   TableFooter,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from './table';
 
 /** Componente Toggle: botões toggle */
@@ -271,7 +274,7 @@ export { AspectRatio } from './aspect-ratio';
 export {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
+  CollapsibleTrigger
 } from './collapsible';
 
 /** Componente Slider: controles deslizantes */
@@ -293,7 +296,7 @@ export {
   ContextMenuSub,
   ContextMenuSubContent,
   ContextMenuSubTrigger,
-  ContextMenuTrigger,
+  ContextMenuTrigger
 } from './context-menu';
 
 // ============================================================================
@@ -306,7 +309,7 @@ export {
   FullPageLoader,
   InlineLoader,
   LoadingSpinner,
-  SkeletonGrid,
+  SkeletonGrid
 } from './loading-states';
 
 /** Loading Screen: tela de carregamento inicial da aplicação */

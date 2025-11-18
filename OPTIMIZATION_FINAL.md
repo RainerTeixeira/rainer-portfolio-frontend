@@ -2,19 +2,20 @@
 
 ## 📊 Tabela de Otimização
 
-| Métrica | Antes | Depois | Redução | Status |
-|---------|-------|--------|---------|--------|
-| **Dependências** | 72 | 63 | **-9 (-12.5%)** | ✅ 100% |
-| **DevDependencies** | 28 | 25 | **-3 (-11%)** | ✅ 100% |
-| **Scripts** | 20 | 18 | **-2 (-10%)** | ✅ 100% |
-| **Libs de Ícones** | 4 | 1 | **-75%** | ✅ 100% |
-| **Libs de Animação** | 2 | 1 | **-50%** | ✅ 100% |
-| **Libs de Carousel** | 2 | 1 | **-50%** | ✅ 100% |
-| **Libs de Tabela** | 1 | 0 | **-100%** | ✅ 100% |
+| Métrica              | Antes | Depois | Redução         | Status  |
+| -------------------- | ----- | ------ | --------------- | ------- |
+| **Dependências**     | 72    | 63     | **-9 (-12.5%)** | ✅ 100% |
+| **DevDependencies**  | 28    | 25     | **-3 (-11%)**   | ✅ 100% |
+| **Scripts**          | 20    | 18     | **-2 (-10%)**   | ✅ 100% |
+| **Libs de Ícones**   | 4     | 1      | **-75%**        | ✅ 100% |
+| **Libs de Animação** | 2     | 1      | **-50%**        | ✅ 100% |
+| **Libs de Carousel** | 2     | 1      | **-50%**        | ✅ 100% |
+| **Libs de Tabela**   | 1     | 0      | **-100%**       | ✅ 100% |
 
 ## ✅ Dependências Removidas (10 total)
 
 ### Não Utilizadas
+
 1. ❌ `@radix-ui/react-icons` → Substituído por `lucide-react`
 2. ❌ `react-icons` → Não utilizado (0 arquivos)
 3. ❌ `@tabler/icons-react` → Não utilizado (0 arquivos)
@@ -41,11 +42,13 @@
 ## 📈 Resultados Finais
 
 ### Redução Total
+
 - **-12.5%** dependências (72 → 63)
 - **-11%** devDependencies (28 → 25)
 - **-10%** scripts (20 → 18)
 
 ### Consolidação 100%
+
 - ✅ **Ícones**: 4 → 1 (100%)
 - ✅ **Animações**: 2 → 1 (100%)
 - ✅ **Carousels**: 2 → 1 (100%)
@@ -53,7 +56,7 @@
 
 ## 🎯 Single Source of Truth
 
-- ✅ **Design Tokens**: `@rainer/design-tokens`
+- ✅ **Design Tokens**: `@rainersoft/design-tokens`
 - ✅ **Ícones**: `lucide-react`
 - ✅ **Animações**: `framer-motion`
 - ✅ **Carousels**: `embla-carousel-react`
@@ -69,4 +72,3 @@
 ---
 
 **Status**: ✅ **100% OTIMIZADO - ENTERPRISE GRADE**
-

@@ -85,4 +85,5 @@ export * from './post-compressor';
 export * from './scroll';
 export * from './search';
 export * from './string';
+export * from './tokens';
 export * from './validation';

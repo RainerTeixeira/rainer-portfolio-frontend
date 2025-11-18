@@ -1,6 +1,6 @@
 # Guia de Uso dos Design Tokens no Frontend
 
-Este documento explica como usar os design tokens da biblioteca `@rainer/design-tokens` no frontend do portfólio.
+Este documento explica como usar os design tokens da biblioteca `@rainer/rainer-design-tokens` no frontend do portfólio.
 
 ## 📦 Instalação
 
@@ -66,7 +66,7 @@ As variáveis CSS estão disponíveis globalmente:
 Importe os tokens diretamente:
 
 ```typescript
-import { tokens } from '@rainer/design-tokens';
+import { tokens } from '@rainer/rainer-design-tokens';
 
 const primaryColor = tokens.colors.light.primary.base;
 const fontSize = tokens.typography.fontSize.lg;
@@ -176,7 +176,7 @@ As variáveis CSS também mudam automaticamente quando a classe `.dark` está pr
 Os tokens incluem utilitários para validação de contraste:
 
 ```typescript
-import { validateContrast, meetsWCAGAA } from '@rainer/design-tokens';
+import { validateContrast, meetsWCAGAA } from '@rainer/rainer-design-tokens';
 
 const isValid = validateContrast('#0891b2', '#ffffff');
 const meetsAA = meetsWCAGAA('#0891b2', '#ffffff');

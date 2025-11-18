@@ -247,3 +247,17 @@ export function getIcon<T>(
 ): T {
   return iconMap[iconName] || fallback;
 }
+
+// =============================================================================
+// Design Tokens Exports (Re-export from design-tokens.ts)
+// =============================================================================
+
+export {
+  COLOR_HEX,
+  COLOR_RGB,
+  hexToHSL,
+  hexToRGB,
+  hexToRGBA,
+  hexColorsToHSL,
+  getThemeColors,
+} from './utils/design-tokens';

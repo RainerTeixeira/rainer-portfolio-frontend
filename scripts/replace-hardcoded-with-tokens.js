@@ -207,9 +207,9 @@ function analyzeFile(filePath) {
 
   // Verificar se já importa design tokens
   const hasDesignTokensImport =
-    content.includes("from '@/constants/design-tokens'") ||
-    content.includes('from "./design-tokens"') ||
-    content.includes("from '../constants/design-tokens'");
+    content.includes("from '@/constants/rainer-design-tokens'") ||
+    content.includes('from "./rainer-design-tokens"') ||
+    content.includes("from '../constants/rainer-design-tokens'");
 
   // Procurar por padrões hardcoded
   Object.entries(HARDCODE_PATTERNS).forEach(([patternName, regex]) => {
@@ -276,7 +276,7 @@ function applyReplacements(filePath, issues, dryRun = true) {
 
   // Verificar se precisa adicionar import
   const hasDesignTokensImport = content.includes(
-    "from '@/constants/design-tokens'"
+    "from '@/constants/rainer-design-tokens'"
   );
   if (!hasDesignTokensImport && issues.length > 0) {
     needsImport = true;
@@ -314,7 +314,7 @@ function applyReplacements(filePath, issues, dryRun = true) {
 
       // Extrair tokens únicos necessários
       const neededTokens = [...new Set(issues.map(i => i.token.split('.')[0]))];
-      const importStatement = `import { ${neededTokens.join(', ')} } from '@/constants/design-tokens';`;
+      const importStatement = `import { ${neededTokens.join(', ')} } from '@/constants/rainer-design-tokens';`;
 
       content =
         content.substring(0, lastImportIndex + lastImport.length) +
@@ -380,7 +380,7 @@ if (filesWithMostIssues.length > 0) {
       `   ${index + 1}. ${relativePath} (${result.issues.length} issues)`
     );
     if (!result.hasDesignTokensImport) {
-      console.log(`      ⚠️  Precisa adicionar import de design-tokens`);
+      console.log(`      ⚠️  Precisa adicionar import de rainer-design-tokens`);
     }
   });
   console.log('');

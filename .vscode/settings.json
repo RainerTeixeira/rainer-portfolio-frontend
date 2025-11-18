@@ -1,81 +1,51 @@
 {
-  "jsdoc.author": "Rainer Teixeira",
-  "jsdoc.email": "suporte@rainersoft.com.br",
-  "jsdoc.version": "1.0.0",
-  "jsdoc.description": "Documentação do Portfólio Rainer Teixeira",
-  "jsdoc.tags": {
-    "allowUnknownTags": true,
-    "dictionaries": ["jsdoc", "closure"]
+  // Tailwind CSS IntelliSense Configuration
+  "tailwindCSS.experimental.classRegex": [
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)"],
+    ["className\\s*[:=]\\s*['\"`]([^'\"`]*)['\"`]"]
+  ],
+  
+  // Desabilitar sugestões incorretas de classes canônicas
+  // O Tailwind CSS usa bg-gradient-to-* (não bg-linear-to-*)
+  "tailwindCSS.suggestions": true,
+  "tailwindCSS.validate": true,
+  
+  // Configurações do TypeScript
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  
+  // Configurações do editor
+  "editor.quickSuggestions": {
+    "strings": true
   },
-  "jsdoc.templates": {
-    "cleverLinks": false,
-    "monospaceLinks": false
-  },
-  "files.associations": {
-    "*.js": "javascript",
-    "*.ts": "typescript",
-    "*.tsx": "typescriptreact",
-    "*.jsx": "javascriptreact"
-  },
-  "typescript.preferences.includePackageJsonAutoImports": "auto",
-  "typescript.suggest.autoImports": true,
-  "emmet.includeLanguages": {
-    "javascript": "javascriptreact",
-    "typescript": "typescriptreact"
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "explicit"
-  },
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "javascript.format.enable": false,
-  "typescript.format.enable": false,
-  "javascript.suggest.autoImports": true,
-  "prettier.requireConfig": true,
-  "prettier.useEditorConfig": false,
-  "css.customData": [".vscode/css_custom_data.json"],
+  
+  // CSS IntelliSense
+  "css.validate": true,
   "css.lint.unknownAtRules": "ignore",
-  "scss.lint.unknownAtRules": "ignore",
-  "less.lint.unknownAtRules": "ignore"
+  
+  // Tailwind CSS - Configurações de lint
+  "tailwindCSS.lint.cssConflict": "warning",
+  "tailwindCSS.lint.invalidApply": "error",
+  "tailwindCSS.lint.invalidConfigPath": "error",
+  "tailwindCSS.lint.invalidScreen": "error",
+  "tailwindCSS.lint.invalidTailwindDirective": "error",
+  "tailwindCSS.lint.invalidVariant": "error",
+  "tailwindCSS.lint.recommendedVariantOrder": "warning",
+  "tailwindCSS.lint.invalidColorFormat": "error",
+  
+  // Configurar arquivo de configuração do Tailwind
+  // Aponta para o arquivo TypeScript que é o principal
+  "tailwindCSS.experimental.configFile": "./tailwind.config.ts",
+  
+  // Ignorar avisos específicos sobre sugestões canônicas
+  "tailwindCSS.emmetCompletions": true,
+  
+  // Desabilitar sugestões de classes canônicas incorretas
+  // O IntelliSense às vezes sugere bg-linear-to-* ao invés de bg-gradient-to-*
+  // Esta configuração força o uso do arquivo de config correto
+  "tailwindCSS.files.exclude": [
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/.next/**"
+  ]
 }

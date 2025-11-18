@@ -2,7 +2,7 @@
 
 ## ✅ MIGRAÇÃO COMPLETA
 
-Migração do frontend para usar @rainer/design-tokens v4.0.0 (JSON universal enterprise-grade).
+Migração do frontend para usar @rainer/rainer-design-tokens v4.0.0 (JSON universal enterprise-grade).
 
 ---
 
@@ -11,19 +11,23 @@ Migração do frontend para usar @rainer/design-tokens v4.0.0 (JSON universal en
 ### 1. **tailwind.config.ts** ✅ (Reescrito Completo)
 
 #### ANTES (v3.0.0)
+
 ```typescript
-import * as DesignTokens from '@rainer/design-tokens';
+import * as DesignTokens from '@rainer/rainer-design-tokens';
 const COLOR_PRIMITIVES = (DesignTokens as any).COLOR_PRIMITIVES ?? {};
 // Imports confusos e acoplados
 ```
 
 #### DEPOIS (v4.0.0)
+
 ```typescript
-import { tailwindConfig as designTokensConfig } from '@rainer/design-tokens/formats/tailwind.config';
+import { tailwindConfig as designTokensConfig } from '@rainer/rainer-design-tokens/formats/tailwind.config';
 
 const config: Config = {
-  ...designTokensConfig,  // Herda config completo da biblioteca
-  content: [/* paths do frontend */],
+  ...designTokensConfig, // Herda config completo da biblioteca
+  content: [
+    /* paths do frontend */
+  ],
   theme: {
     ...designTokensConfig.theme,
     extend: {
@@ -35,6 +39,7 @@ const config: Config = {
 ```
 
 **Benefícios:**
+
 - ✅ Import limpo e direto
 - ✅ Herda todos os tokens automaticamente
 - ✅ Mantém extensões específicas do frontend
@@ -47,15 +52,17 @@ const config: Config = {
 #### Mudanças Principais
 
 **Import dos tokens:**
+
 ```css
 /* NOVO: Import direto das CSS vars da biblioteca */
-@import '@rainer/design-tokens/formats/css-vars.css';
+@import '@rainer/rainer-design-tokens/formats/css-vars.css';
 
 /* Import Tailwind */
 @import 'tailwindcss';
 ```
 
 **Uso das variáveis:**
+
 ```css
 /* ANTES: Variáveis hardcoded */
 .glass {
@@ -69,6 +76,7 @@ const config: Config = {
 ```
 
 **Compatibilidade Shadcn/UI:**
+
 ```css
 :root {
   --background: var(--color-background-primary);
@@ -79,6 +87,7 @@ const config: Config = {
 ```
 
 **Benefícios:**
+
 - ✅ 100% baseado em tokens
 - ✅ Compatível com shadcn/ui
 - ✅ Theme switching automático
@@ -91,21 +100,23 @@ const config: Config = {
 ### Imports Recomendados (v4.0.0)
 
 #### TypeScript/JavaScript
+
 ```typescript
 // Tokens completos
-import { tokens } from '@rainer/design-tokens';
+import { tokens } from '@rainer/rainer-design-tokens';
 
 // Temas
-import { lightTheme, darkTheme } from '@rainer/design-tokens/themes';
+import { lightTheme, darkTheme } from '@rainer/rainer-design-tokens/themes';
 
 // Tailwind config
-import { tailwindConfig } from '@rainer/design-tokens/formats/tailwind.config';
+import { tailwindConfig } from '@rainer/rainer-design-tokens/formats/tailwind.config';
 ```
 
 #### CSS
+
 ```css
 /* CSS Variables */
-@import '@rainer/design-tokens/formats/css-vars.css';
+@import '@rainer/rainer-design-tokens/formats/css-vars.css';
 ```
 
 ---
@@ -155,7 +166,7 @@ import { tailwindConfig } from '@rainer/design-tokens/formats/tailwind.config';
 ### 3. TypeScript/JavaScript
 
 ```typescript
-import { tokens } from '@rainer/design-tokens';
+import { tokens } from '@rainer/rainer-design-tokens';
 
 const styles = {
   color: tokens.colors.light.brand.primary,
@@ -193,8 +204,10 @@ export function useTheme() {
   useEffect(() => {
     // Check localStorage or system preference
     const stored = localStorage.getItem('theme');
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+    const systemDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+
     setTheme(stored === 'dark' || (!stored && systemDark) ? 'dark' : 'light');
   }, []);
 
@@ -272,42 +285,33 @@ function ThemeToggle() {
 
 ```css
 /* Light Theme */
---color-background-primary: #ffffff
---color-text-primary: #171717
---color-brand-primary: #0891b2
-
-/* Dark Theme (Cyberpunk) */
---color-background-primary: #0a0a0f
---color-text-neon-cyan: #00e6ff
---color-brand-primary: #00e6ff
---shadow-glow-cyan: 0 0 20px rgba(0, 230, 255, 0.5)
---gradient-primary: linear-gradient(135deg, #00e6ff 0%, #7d00ff 100%)
+--color-background-primary: #ffffff --color-text-primary: #171717
+  --color-brand-primary: #0891b2 /* Dark Theme (Cyberpunk) */
+  --color-background-primary: #0a0a0f --color-text-neon-cyan: #00e6ff
+  --color-brand-primary: #00e6ff --shadow-glow-cyan: 0 0 20px
+  rgba(0, 230, 255, 0.5)
+  --gradient-primary: linear-gradient(135deg, #00e6ff 0%, #7d00ff 100%);
 ```
 
 ### Spacing
 
 ```css
---spacing-0: 0px
---spacing-4: 1rem    /* 16px */
---spacing-8: 2rem    /* 32px */
---spacing-16: 4rem   /* 64px */
+--spacing-0: 0px --spacing-4: 1rem /* 16px */ --spacing-8: 2rem /* 32px */
+  --spacing-16: 4rem /* 64px */;
 ```
 
 ### Radius
 
 ```css
---radius-sm: 0.125rem
---radius-md: 0.375rem
---radius-lg: 0.5rem
---radius-full: 9999px
+--radius-sm: 0.125rem --radius-md: 0.375rem --radius-lg: 0.5rem
+  --radius-full: 9999px;
 ```
 
 ### Shadows
 
 ```css
---shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1)
---shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1)
---shadow-glow-cyan: 0 0 20px rgba(0, 230, 255, 0.5)
+--shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1) --shadow-md: 0 10px 15px -3px
+  rgba(0, 0, 0, 0.1) --shadow-glow-cyan: 0 0 20px rgba(0, 230, 255, 0.5);
 ```
 
 ---
@@ -353,21 +357,25 @@ Agora essas variantes usam automaticamente os tokens v4.0.0 via CSS vars.
 ## 📈 BENEFÍCIOS DA MIGRAÇÃO
 
 ### Performance
+
 - ✅ **Build mais rápido** (tokens pré-compilados)
 - ✅ **Bundle menor** (CSS vars otimizadas)
 - ✅ **Runtime eficiente** (sem JavaScript extra)
 
 ### Manutenibilidade
+
 - ✅ **Uma fonte de verdade** (biblioteca de tokens)
 - ✅ **Fácil atualização** (atualizar biblioteca = atualizar frontend)
 - ✅ **Consistência** (mesmos tokens em todo projeto)
 
 ### Escalabilidade
+
 - ✅ **Adicionar tokens** (só na biblioteca)
 - ✅ **Novos temas** (automático no frontend)
 - ✅ **Multi-projeto** (reusar biblioteca)
 
 ### Developer Experience
+
 - ✅ **Imports limpos** (sem any/as)
 - ✅ **Type-safe** (TypeScript completo)
 - ✅ **Auto-complete** (IDE support)
@@ -378,6 +386,7 @@ Agora essas variantes usam automaticamente os tokens v4.0.0 via CSS vars.
 ## 🔄 COMPATIBILIDADE
 
 ### Mantida
+
 - ✅ **Shadcn/ui** - 100% compatível
 - ✅ **Tailwind classes** - Todas funcionando
 - ✅ **CSS vars** - Melhoradas
@@ -385,6 +394,7 @@ Agora essas variantes usam automaticamente os tokens v4.0.0 via CSS vars.
 - ✅ **Animações** - Todas preservadas
 
 ### Melhorada
+
 - ✅ **Tokens centralizados** na biblioteca
 - ✅ **Theme switching** mais robusto
 - ✅ **Gradientes** pré-configurados
@@ -428,7 +438,6 @@ Agora essas variantes usam automaticamente os tokens v4.0.0 via CSS vars.
 **Versão:** 4.0.0  
 **Status:** ✅ MIGRAÇÃO COMPLETA  
 **Frontend:** ✅ ATUALIZADO  
-**Compatibilidade:** ✅ 100%  
+**Compatibilidade:** ✅ 100%
 
 **🎊 Frontend totalmente integrado com design tokens enterprise-grade!** 🚀
-

@@ -1,11 +1,11 @@
 #!/usr/bin/env ts-node
 /**
  * Script de Validação de Design Tokens
- * 
+ *
  * Valida que nenhum valor hardcoded (cores, spacing, etc.) está sendo usado
  * no código, exceto em arquivos permitidos (como not-found.tsx).
- * 
- * Uso: tsx scripts/validate-design-tokens.ts
+ *
+ * Uso: tsx scripts/validate-rainer-design-tokens.ts
  * Exit code: 0 = sucesso, 1 = falha (valores hardcoded encontrados)
  */
 
@@ -25,7 +25,8 @@ const ALLOWED_FILES = [
 // Padrões de valores hardcoded
 const PATTERNS = {
   colors: {
-    regex: /(rgba?\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+|\#[0-9a-fA-F]{3,6}|hsl\s*\(\s*\d+)/g,
+    regex:
+      /(rgba?\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+|\#[0-9a-fA-F]{3,6}|hsl\s*\(\s*\d+)/g,
     message: 'Cor hardcoded encontrada',
   },
   spacing: {
@@ -70,7 +71,8 @@ function scanFile(filePath: string): void {
         while ((match = pattern.regex.exec(line)) !== null) {
           // Skip se estiver em comentário
           const beforeMatch = line.substring(0, match.index);
-          if (beforeMatch.includes('//') || beforeMatch.includes('/*')) continue;
+          if (beforeMatch.includes('//') || beforeMatch.includes('/*'))
+            continue;
 
           // Skip se for import ou var(--
           if (line.includes('import') || line.includes('var(--')) continue;
@@ -104,7 +106,11 @@ function scanDirectory(dir: string): void {
       if (stat.isDirectory()) {
         scanDirectory(fullPath);
       } else if (file.endsWith('.tsx') || file.endsWith('.ts')) {
-        if (!file.endsWith('.d.ts') && !file.includes('.test.') && !file.includes('.spec.')) {
+        if (
+          !file.endsWith('.d.ts') &&
+          !file.includes('.test.') &&
+          !file.includes('.spec.')
+        ) {
           scanFile(fullPath);
         }
       }
@@ -136,11 +142,14 @@ if (issues.length === 0) {
   console.error(`❌ ${issues.length} valores hardcoded encontrados:\n`);
 
   // Agrupar por tipo
-  const byType = issues.reduce((acc, issue) => {
-    if (!acc[issue.type]) acc[issue.type] = [];
-    acc[issue.type].push(issue);
-    return acc;
-  }, {} as Record<string, Issue[]>);
+  const byType = issues.reduce(
+    (acc, issue) => {
+      if (!acc[issue.type]) acc[issue.type] = [];
+      acc[issue.type].push(issue);
+      return acc;
+    },
+    {} as Record<string, Issue[]>
+  );
 
   Object.entries(byType).forEach(([type, typeIssues]) => {
     console.error(`\n${type.toUpperCase()} (${typeIssues.length}):`);
@@ -153,8 +162,11 @@ if (issues.length === 0) {
     }
   });
 
-  console.error('\n❌ Use design tokens da biblioteca @rainer/design-tokens');
-  console.error('   Exemplo: var(--color-primary) ou classes Tailwind baseadas em tokens\n');
+  console.error(
+    '\n❌ Use design tokens da biblioteca @rainersoft/design-tokens'
+  );
+  console.error(
+    '   Exemplo: var(--color-primary) ou classes Tailwind baseadas em tokens\n'
+  );
   process.exit(1);
 }
-

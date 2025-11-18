@@ -1,5 +1,5 @@
 /**
- * Testes para lib/utils/design-tokens.ts
+ * Testes para lib/utils/rainer-design-tokens.ts
  */
 
 import {
@@ -7,7 +7,7 @@ import {
   hexToHSL,
   hexToRGB,
   hexToRGBA,
-} from '@/lib/utils/design-tokens';
+} from '@/lib/utils';
 
 describe('lib/utils/design-tokens', () => {
   describe('hexToHSL', () => {
