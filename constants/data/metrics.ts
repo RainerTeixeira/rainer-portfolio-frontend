@@ -8,7 +8,7 @@
  * @version 2.0.0
  */
 
-import { GRADIENTS } from '@rainer/design-tokens';
+import { GRADIENTS } from '@rainersoft/design-tokens';
 import { Code2, Monitor, Zap } from 'lucide-react';
 import React from 'react';
 import { SITE_CONFIG } from '../site/config';
@@ -28,7 +28,7 @@ export interface ProfessionalMetric {
 
 /**
  * Dados das métricas profissionais (usado na página sobre)
- * Usando recursos da biblioteca @rainer/design-tokens
+ * Usando recursos da biblioteca @rainersoft/design-tokens
  */
 export const PROFESSIONAL_METRICS: ReadonlyArray<ProfessionalMetric> = [
   {

@@ -44,6 +44,8 @@ import { Atom } from 'react-loading-indicators';
 
 import { cn } from '@/lib/utils';
 import { hexToRGB } from '@/lib/utils/design-tokens';
+import { getDarkColors, getLightColors } from '@/lib/utils/tokens';
+import { useTheme } from 'next-themes';
 
 // ============================================================================
 // Providers
@@ -101,7 +103,15 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
   // Hooks
   // ============================================================================
 
+  const { theme } = useTheme();
   const { matrixColumns, isInitialized: matrixInitialized } = useMatrix();
+
+  // ============================================================================
+  // Theme Colors
+  // ============================================================================
+
+  const isDark = theme === 'dark';
+  const colors = isDark ? getDarkColors() : getLightColors();
 
   // ============================================================================
   // Effects
@@ -173,7 +183,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
     <div
       className={cn(
         'fixed inset-0 z-9999 flex flex-col items-center justify-center',
-        'bg-linear-to-br from-neutral-950 via-neutral-900 to-neutral-950',
+        'bg-[var(--color-background-primary)]',
         'backdrop-blur-sm',
         'transition-opacity duration-500'
       )}
@@ -207,14 +217,14 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
         <div
           className={cn(
             'absolute top-1/4 left-1/4 w-96 h-96',
-            'bg-cyan-500/20 rounded-full blur-3xl',
+            'bg-[var(--color-primary-base)]/20 rounded-full blur-3xl',
             'animate-pulse'
           )}
         />
         <div
           className={cn(
             'absolute bottom-1/4 right-1/4 w-96 h-96',
-            'bg-purple-500/20 rounded-full blur-3xl',
+            'bg-[var(--color-secondary-base)]/20 rounded-full blur-3xl',
             'animate-pulse'
           )}
           style={{ animationDelay: '1s' }}
@@ -224,7 +234,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
         {matrixInitialized && matrixColumns.length > 0 && (
           <div className="matrix-grid absolute inset-0 z-0 overflow-hidden">
             {matrixColumns.map(column => {
-              const glowColorHex = '#34d399'; // emerald[400]
+              const glowColorHex = colors.accent.base;
               const glowColor = `rgb(${hexToRGB(glowColorHex)})`;
 
               return (
@@ -262,7 +272,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
                       return (
                         <span
                           key={`${column.id}-ch-${index}-1`}
-                          className="font-mono font-bold tracking-wider text-green-400"
+                          className="font-mono font-bold tracking-wider text-[var(--color-accent-base)]"
                           style={{
                             fontSize: `${column.fontSize}px`,
                             opacity: finalOpacity,
@@ -306,7 +316,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
                       return (
                         <span
                           key={`${column.id}-ch-${index}-2`}
-                          className="font-mono font-bold tracking-wider text-green-400"
+                          className="font-mono font-bold tracking-wider text-[var(--color-accent-base)]"
                           style={{
                             fontSize: `${column.fontSize}px`,
                             opacity: finalOpacity,
@@ -348,7 +358,12 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
         >
           {/* Atom Component - Identidade Visual */}
           <Atom
-            color={['#22d3ee', '#a855f7', '#34d399', '#22d3ee']} // cyan -> purple -> emerald -> cyan
+            color={[
+              colors.primary.base,
+              colors.secondary.base,
+              colors.accent.base,
+              colors.primary.base,
+            ]}
             size="large"
             text=""
             textColor=""
@@ -361,7 +376,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
           <p
             className={cn(
               'text-lg sm:text-xl font-mono font-semibold',
-              'text-cyan-400 tracking-wider',
+              'text-[var(--color-primary-base)] tracking-wider',
               'animate-pulse'
             )}
             aria-live="polite"
@@ -374,15 +389,16 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
             <div className="w-64 sm:w-80 space-y-2">
               <div
                 className={cn(
-                  'h-1 bg-neutral-800 rounded-full overflow-hidden',
-                  'border border-cyan-400/20'
+                  'h-1 bg-[var(--color-background-secondary)] rounded-full overflow-hidden',
+                  'border border-[var(--color-primary-base)]/20'
                 )}
               >
                 <div
                   className={cn(
-                    'h-full bg-linear-to-r from-cyan-400 to-purple-400',
+                    'h-full bg-linear-to-r',
+                    'from-[var(--color-primary-base)] to-[var(--color-secondary-base)]',
                     'transition-all duration-300 ease-out',
-                    'shadow-[0_0_10px_rgba(6,182,212,0.5)]'
+                    'shadow-[0_0_10px_var(--color-primary-base)]'
                   )}
                   style={{ width: `${progressValue}%` }}
                   aria-valuenow={progressValue}
@@ -392,7 +408,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
                 />
               </div>
               <p
-                className="text-xs text-cyan-400/70 font-mono text-right"
+                className="text-xs text-[var(--color-primary-base)]/70 font-mono text-right"
                 aria-hidden="true"
               >
                 {Math.round(progressValue)}%
@@ -409,17 +425,17 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
           )}
           aria-hidden="true"
         >
-          <div className="absolute top-0 left-1/4 text-cyan-400/30 font-mono text-xs animate-pulse">
+          <div className="absolute top-0 left-1/4 text-[var(--color-primary-base)]/30 font-mono text-xs animate-pulse">
             01001001
           </div>
           <div
-            className="absolute top-1/4 left-3/4 text-purple-400/30 font-mono text-xs animate-pulse"
+            className="absolute top-1/4 left-3/4 text-[var(--color-secondary-base)]/30 font-mono text-xs animate-pulse"
             style={{ animationDelay: '0.5s' }}
           >
             11001100
           </div>
           <div
-            className="absolute bottom-1/4 left-1/2 text-cyan-400/30 font-mono text-xs animate-pulse"
+            className="absolute bottom-1/4 left-1/2 text-[var(--color-primary-base)]/30 font-mono text-xs animate-pulse"
             style={{ animationDelay: '1s' }}
           >
             10101010

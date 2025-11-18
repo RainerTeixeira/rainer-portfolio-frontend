@@ -31,7 +31,7 @@
 
 import { cn } from '@/lib/utils';
 import { hexToRGBA } from '@/lib/utils/design-tokens';
-import { GRADIENTS } from '@rainer/design-tokens';
+import { GRADIENTS } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';

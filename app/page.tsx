@@ -60,7 +60,7 @@ import { BackToTop } from '@/components/ui';
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import { BACKGROUND } from '@rainer/design-tokens';
+import { BACKGROUND } from '@rainersoft/design-tokens';
 
 // ============================================================================
 // Constants

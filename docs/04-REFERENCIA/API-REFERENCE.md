@@ -2,7 +2,7 @@
 
 ## 📋 Índice
 
-1. [Design Tokens](#design-tokens)
+1. [Design Tokens](#rainer-design-tokens)
 2. [Logger](#logger)
 3. [Analytics](#analytics)
 4. [Performance Monitor](#performance-monitor)
@@ -19,7 +19,7 @@
 
 ## 🎨 Design Tokens
 
-**Arquivo**: `constants/design-tokens.ts`
+**Arquivo**: `constants/rainer-design-tokens.ts`
 
 ### Importação
 
@@ -35,7 +35,7 @@ import {
   ERROR_MESSAGES,
   FEATURE_FLAGS,
   REGEX_PATTERNS,
-} from '@/constants/design-tokens';
+} from '@/constants/rainer-design-tokens';
 ```
 
 ### Animation Duration
@@ -1170,7 +1170,7 @@ interface PerformanceMetric {
 
 ```typescript
 // ✅ SEMPRE
-import { Z_INDEX, TIMING } from '@/constants/design-tokens';
+import { Z_INDEX, TIMING } from '@/constants/rainer-design-tokens';
 const zIndex = Z_INDEX.NAVBAR;
 const delay = TIMING.SAVE_DELAY;
 

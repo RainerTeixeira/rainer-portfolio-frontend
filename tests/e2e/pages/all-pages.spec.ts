@@ -1,11 +1,14 @@
 /**
  * E2E Tests - All Pages
- * 
+ *
  * Valida que TODAS as páginas do site usam design tokens corretamente.
  */
 
 import { expect, test } from '@playwright/test';
-import { getCSSVariable, setTheme } from '../design-tokens/helpers/token-utils';
+import {
+  getCSSVariable,
+  setTheme,
+} from '../rainer-design-tokens/helpers/token-utils';
 
 const pages = [
   { path: '/', name: 'Home' },
@@ -34,7 +37,7 @@ test.describe('All Pages - Design Tokens Validation', () => {
 
           elements.forEach(el => {
             const style = el.getAttribute('style') || '';
-            
+
             // Check for hardcoded colors (excluding opacity and safe values)
             if (
               /#[0-9a-f]{3,6}/i.test(style) ||
@@ -51,7 +54,9 @@ test.describe('All Pages - Design Tokens Validation', () => {
         });
 
         if (elementsWithInlineColors.length > 0) {
-          console.warn(`Found ${elementsWithInlineColors.length} elements with inline hardcoded colors in ${page.name}`);
+          console.warn(
+            `Found ${elementsWithInlineColors.length} elements with inline hardcoded colors in ${page.name}`
+          );
           console.warn(elementsWithInlineColors.slice(0, 5));
         }
 
@@ -84,8 +89,8 @@ test.describe('All Pages - Design Tokens Validation', () => {
       test('should use token-based spacing', async ({ page: p }) => {
         // Check main container spacing
         const mainElement = p.locator('main').first();
-        
-        if (await mainElement.count() > 0) {
+
+        if ((await mainElement.count()) > 0) {
           const spacing = await mainElement.evaluate(el => {
             const style = window.getComputedStyle(el);
             return {
@@ -110,7 +115,10 @@ test.describe('All Pages - Design Tokens Validation', () => {
           const elements = Array.from(document.querySelectorAll('[style]'));
           return elements.filter(el => {
             const style = el.getAttribute('style') || '';
-            return /font-size:\s*\d+px/i.test(style) || /font-size:\s*\d+rem/i.test(style);
+            return (
+              /font-size:\s*\d+px/i.test(style) ||
+              /font-size:\s*\d+rem/i.test(style)
+            );
           }).length;
         });
 
@@ -119,4 +127,3 @@ test.describe('All Pages - Design Tokens Validation', () => {
     });
   }
 });
-

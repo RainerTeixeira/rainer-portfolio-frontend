@@ -5,7 +5,7 @@
  * validação de dados e integração com a API
  */
 
-import { COLOR_HEX } from '../utils/design-tokens';
+import { COLOR_HEX } from '../utils';
 import {
   validateEmail,
   validatePassword,

@@ -154,6 +154,6 @@ Para adicionar novos dados:
 
 ## 📝 Notas
 
-- Design tokens devem ser importados diretamente de `@rainer/design-tokens`
+- Design tokens devem ser importados diretamente de `@rainer/rainer-design-tokens`
 - Ícones React estão em `components/icons/skills/`
 - `SKILLS` com ícones está em `components/icons/skills/skills-with-icons.tsx`

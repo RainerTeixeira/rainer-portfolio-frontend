@@ -52,8 +52,10 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { CARD_CLASSES, cn } from '@/lib/utils';
+import { getDarkColors, getLightColors } from '@/lib/utils/tokens';
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Tag } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -150,6 +152,19 @@ export function PostCard({
   showSocialActions = false,
 }: PostCardProps) {
   // ========================================================================
+  // DESIGN TOKENS
+  // ========================================================================
+
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  const colors = isDark ? getDarkColors() : getLightColors();
+
+  // Cores do tema atual
+  const accentCyan = isDark ? colors.accent.cyan : colors.brand.primary;
+  const accentPurple = isDark ? colors.accent.purple : colors.brand.secondary;
+  const accentPink = isDark ? colors.accent.pink : colors.brand.tertiary;
+
+  // ========================================================================
   // COMPUTED VALUES
   // ========================================================================
 
@@ -199,7 +214,10 @@ export function PostCard({
               ================================================================ */}
 
           <div
-            className="absolute inset-0 bg-linear-to-br from-cyan-500/0 via-purple-500/0 to-pink-500/0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
+            className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
+            style={{
+              background: `linear-gradient(to bottom right, ${accentCyan}00, ${accentPurple}00, ${accentPink}00)`,
+            }}
             aria-hidden="true"
           />
 
@@ -225,7 +243,10 @@ export function PostCard({
 
               {/* Borda neon superior */}
               <div
-                className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: `linear-gradient(to right, ${accentCyan}, ${accentPurple}, ${accentPink})`,
+                }}
                 aria-hidden="true"
               />
             </div>
@@ -279,9 +300,16 @@ export function PostCard({
               className={cn(
                 'text-xl leading-tight transition-all duration-300',
                 'group-hover:text-transparent group-hover:bg-clip-text',
-                'group-hover:bg-linear-to-r group-hover:from-cyan-400 group-hover:via-purple-400 group-hover:to-pink-400',
                 'dark:text-gray-100'
               )}
+              style={
+                {
+                  // @ts-expect-error - CSS custom property
+                  '--gradient-from': accentCyan,
+                  '--gradient-via': accentPurple,
+                  '--gradient-to': accentPink,
+                } as React.CSSProperties
+              }
             >
               {title}
             </CardTitle>
@@ -377,7 +405,10 @@ export function PostCard({
               ================================================================ */}
 
           <div
-            className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="absolute bottom-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{
+              background: `linear-gradient(to right, ${accentCyan}, ${accentPurple}, ${accentPink})`,
+            }}
             aria-hidden="true"
           />
         </Card>

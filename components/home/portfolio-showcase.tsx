@@ -55,13 +55,13 @@ export function PortfolioShowcase() {
   const projects = [
     {
       title: 'Design Tokens',
-      subtitle: '@rainer/design-tokens',
+      subtitle: '@rainersoft/design-tokens',
       description:
         'Biblioteca enterprise-grade de design tokens com temas Light & Dark, múltiplos formatos de exportação (Tailwind, CSS Vars, JSON), TypeScript type-safe, Storybook para documentação visual e zero dependencies.',
       image: '/images/b1.png',
       tags: ['TypeScript', 'Design System', 'Storybook', 'NPM'],
       featured: true,
-      github: `${SITE_CONFIG.github}/@rainer-design-tokens`,
+      github: `${SITE_CONFIG.github}/rainer-design-tokens`,
       demo: undefined,
     },
     {

@@ -12,7 +12,7 @@
 // ============================================================================
 // Regex Patterns e Error Messages
 // ============================================================================
-// A biblioteca @rainer/design-tokens v4.0.0 não exporta mais REGEX_PATTERNS,
+// A biblioteca @rainersoft/design-tokens v4.0.0 não exporta mais REGEX_PATTERNS,
 // ERROR_MESSAGES ou FORM_CONFIG. Definimos localmente conforme necessário.
 
 const REGEX_PATTERNS = {

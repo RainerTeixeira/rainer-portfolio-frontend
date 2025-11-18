@@ -399,7 +399,7 @@ const Carousel = memo(function Carousel() {
       'neural',
     ];
 
-    // Usando cores primitivas da biblioteca @rainer/design-tokens
+    // Usando cores primitivas da biblioteca @rainersoft/design-tokens
     const darkPalette = {
       energy: [
         hexToRGBA('#34d399', 0.9), // emerald[400]

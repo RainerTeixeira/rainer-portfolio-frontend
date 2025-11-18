@@ -7,6 +7,7 @@ Testes end-to-end automatizados usando Playwright para validar a aplicação cor
 ## 📋 O que é testado?
 
 ### 1. **Cores** (`colors.spec.ts`)
+
 - ✅ Aplicação de cores brand (primary, secondary)
 - ✅ Cores de texto (primary, secondary)
 - ✅ Cores de status (success, warning, error, info)
@@ -15,6 +16,7 @@ Testes end-to-end automatizados usando Playwright para validar a aplicação cor
 - ✅ Validação de todas as CSS variables de cores
 
 ### 2. **Temas** (`themes.spec.ts`)
+
 - ✅ Switching entre tema light e dark
 - ✅ Aplicação de cores cyberpunk no dark mode (neon cyan, pink, purple)
 - ✅ Efeitos glow no dark mode
@@ -26,6 +28,7 @@ Testes end-to-end automatizados usando Playwright para validar a aplicação cor
 - ✅ Shadows específicos por tema
 
 ### 3. **Tipografia** (`typography.spec.ts`)
+
 - ✅ Font families (sans, serif, mono)
 - ✅ Font sizes (xs, sm, base, lg, xl, 2xl, 4xl)
 - ✅ Font weights (light, normal, medium, semibold, bold)
@@ -35,6 +38,7 @@ Testes end-to-end automatizados usando Playwright para validar a aplicação cor
 - ✅ Hierarquia de tipografia
 
 ### 4. **Espaçamento** (`spacing.spec.ts`)
+
 - ✅ Padding (p-0, p-2, p-4, p-8)
 - ✅ Margin (m-0, m-2, m-4, m-8)
 - ✅ Gap em containers flex/grid
@@ -45,6 +49,7 @@ Testes end-to-end automatizados usando Playwright para validar a aplicação cor
 - ✅ Container padding consistente
 
 ### 5. **CSS Variables** (`css-vars.spec.ts`)
+
 - ✅ Todas as variáveis de cor definidas
 - ✅ Todas as variáveis de spacing definidas
 - ✅ Todas as variáveis de radius definidas
@@ -91,19 +96,19 @@ npm run test:tokens:debug
 
 ```bash
 # Apenas testes de cores
-npx playwright test tests/e2e/design-tokens/colors.spec.ts
+npx playwright test tests/e2e/rainer-design-tokens/colors.spec.ts
 
 # Apenas testes de temas
-npx playwright test tests/e2e/design-tokens/themes.spec.ts
+npx playwright test tests/e2e/rainer-design-tokens/themes.spec.ts
 
 # Apenas testes de tipografia
-npx playwright test tests/e2e/design-tokens/typography.spec.ts
+npx playwright test tests/e2e/rainer-design-tokens/typography.spec.ts
 
 # Apenas testes de espaçamento
-npx playwright test tests/e2e/design-tokens/spacing.spec.ts
+npx playwright test tests/e2e/rainer-design-tokens/spacing.spec.ts
 
 # Apenas testes de CSS vars
-npx playwright test tests/e2e/design-tokens/css-vars.spec.ts
+npx playwright test tests/e2e/rainer-design-tokens/css-vars.spec.ts
 ```
 
 ### Executar em browsers específicos
@@ -135,10 +140,11 @@ Após executar os testes, um relatório HTML é gerado automaticamente:
 
 ```bash
 # Abrir o relatório
-npx playwright show-report playwright-report/design-tokens
+npx playwright show-report playwright-report/rainer-design-tokens
 ```
 
 O relatório inclui:
+
 - ✅ Resumo de todos os testes
 - ✅ Detalhes de falhas
 - ✅ Screenshots de erros
@@ -148,8 +154,9 @@ O relatório inclui:
 ### JSON Report
 
 Um relatório JSON também é gerado em:
+
 ```
-test-results/design-tokens-results.json
+test-results/rainer-design-tokens-results.json
 ```
 
 ---
@@ -157,7 +164,7 @@ test-results/design-tokens-results.json
 ## 🛠️ Estrutura dos Testes
 
 ```
-tests/e2e/design-tokens/
+tests/e2e/rainer-design-tokens/
 ├── helpers/
 │   └── token-utils.ts          # Utilitários para testes
 │
@@ -180,31 +187,31 @@ Fornece funções helper para facilitar os testes:
 #### Conversão de Cores
 
 ```typescript
-hslToRgb(h, s, l)     // Converte HSL para RGB
-hexToRgb(hex)         // Converte HEX para RGB
-isColorClose(actual, expected, tolerance) // Compara cores com tolerância
+hslToRgb(h, s, l); // Converte HSL para RGB
+hexToRgb(hex); // Converte HEX para RGB
+isColorClose(actual, expected, tolerance); // Compara cores com tolerância
 ```
 
 #### Estilos Computados
 
 ```typescript
-getComputedStyle(page, selector, property) // Pega estilo computado
-getCSSVariable(page, variableName)         // Pega valor de CSS var
-getCSSVariablesWithPrefix(page, prefix)    // Pega todas vars com prefixo
+getComputedStyle(page, selector, property); // Pega estilo computado
+getCSSVariable(page, variableName); // Pega valor de CSS var
+getCSSVariablesWithPrefix(page, prefix); // Pega todas vars com prefixo
 ```
 
 #### Validação
 
 ```typescript
-validateCSSVariables(page, variables)  // Valida múltiplas vars
-validateSpacing(actual, expected)      // Valida espaçamento
+validateCSSVariables(page, variables); // Valida múltiplas vars
+validateSpacing(actual, expected); // Valida espaçamento
 ```
 
 #### Theme Management
 
 ```typescript
-toggleDarkMode(page)           // Alterna dark mode
-setTheme(page, 'light'|'dark') // Define tema específico
+toggleDarkMode(page); // Alterna dark mode
+setTheme(page, 'light' | 'dark'); // Define tema específico
 ```
 
 ---
@@ -212,6 +219,7 @@ setTheme(page, 'light'|'dark') // Define tema específico
 ## ✅ Checklist de Cobertura
 
 ### Cores
+
 - [x] Primary brand color
 - [x] Secondary colors
 - [x] Text colors (primary, secondary)
@@ -221,6 +229,7 @@ setTheme(page, 'light'|'dark') // Define tema específico
 - [x] All color CSS variables
 
 ### Temas
+
 - [x] Light to dark switching
 - [x] Dark to light switching
 - [x] Cyberpunk neon colors (dark mode)
@@ -233,6 +242,7 @@ setTheme(page, 'light'|'dark') // Define tema específico
 - [x] Theme-specific shadows
 
 ### Tipografia
+
 - [x] Font families (sans, serif, mono)
 - [x] Font sizes (all scales)
 - [x] Font weights (all weights)
@@ -242,6 +252,7 @@ setTheme(page, 'light'|'dark') // Define tema específico
 - [x] Typography hierarchy
 
 ### Espaçamento
+
 - [x] Padding (all scales)
 - [x] Margin (all scales)
 - [x] Gap (flex/grid)
@@ -252,6 +263,7 @@ setTheme(page, 'light'|'dark') // Define tema específico
 - [x] Container padding
 
 ### CSS Variables
+
 - [x] All color vars defined
 - [x] All spacing vars defined
 - [x] All radius vars defined
@@ -298,11 +310,13 @@ npx playwright test --project=chromium --project=firefox --project=webkit
 ## 📈 Estatísticas
 
 ### Testes Criados
+
 - **5 arquivos** de teste
 - **~50 test cases**
 - **~200 assertions**
 
 ### Cobertura
+
 - ✅ **Cores:** 100%
 - ✅ **Temas:** 100%
 - ✅ **Tipografia:** 100%
@@ -310,6 +324,7 @@ npx playwright test --project=chromium --project=firefox --project=webkit
 - ✅ **CSS Vars:** 100%
 
 ### Browsers Testados
+
 - ✅ Chromium (Desktop)
 - ✅ Firefox (Desktop)
 - ✅ Webkit/Safari (Desktop)
@@ -323,21 +338,25 @@ npx playwright test --project=chromium --project=firefox --project=webkit
 ### Testes falhando?
 
 1. **Verifique se o servidor está rodando:**
+
    ```bash
    npm run dev
    ```
 
 2. **Limpe o cache do Playwright:**
+
    ```bash
    npx playwright cache clear
    ```
 
 3. **Reinstale os browsers:**
+
    ```bash
    npx playwright install --with-deps
    ```
 
 4. **Execute em modo debug:**
+
    ```bash
    npm run test:tokens:debug
    ```
@@ -345,23 +364,25 @@ npx playwright test --project=chromium --project=firefox --project=webkit
 5. **Verifique os screenshots e vídeos:**
    - Screenshots: `test-results/`
    - Vídeos: `test-results/`
-   - Relatório: `playwright-report/design-tokens/`
+   - Relatório: `playwright-report/rainer-design-tokens/`
 
 ### Variáveis CSS não encontradas?
 
-1. Verifique se `@rainer/design-tokens` está instalado:
+1. Verifique se `@rainer/rainer-design-tokens` está instalado:
+
    ```bash
-   npm list @rainer/design-tokens
+   npm list @rainer/rainer-design-tokens
    ```
 
 2. Verifique se `globals.css` importa as CSS vars:
+
    ```css
-   @import '@rainer/design-tokens/formats/css-vars.css';
+   @import '@rainer/rainer-design-tokens/formats/css-vars.css';
    ```
 
 3. Verifique se `tailwind.config.ts` importa a config:
    ```typescript
-   import { tailwindConfig } from '@rainer/design-tokens/formats/tailwind.config';
+   import { tailwindConfig } from '@rainer/rainer-design-tokens/formats/tailwind.config';
    ```
 
 ---
@@ -369,7 +390,7 @@ npx playwright test --project=chromium --project=firefox --project=webkit
 ## 📚 Recursos
 
 - **Playwright Docs:** https://playwright.dev
-- **Design Tokens Library:** `@rainer/design-tokens`
+- **Design Tokens Library:** `@rainer/rainer-design-tokens`
 - **Frontend Config:** `tailwind.config.ts`, `app/globals.css`
 - **Token Guidelines:** `@rainer-design-tokens/docs/guidelines.md`
 
@@ -389,4 +410,3 @@ npx playwright test --project=chromium --project=firefox --project=webkit
 - Helpers reutilizáveis
 
 **Validação completa dos design tokens na UI!** 🚀
-

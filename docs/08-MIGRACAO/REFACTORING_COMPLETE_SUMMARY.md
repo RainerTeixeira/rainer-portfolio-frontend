@@ -722,7 +722,7 @@ import {
   NEON_PINK,
   CYBERPUNK_GRADIENTS,
   CYBERPUNK_EFFECTS,
-} from '@rainer/design-tokens';
+} from '@rainer/rainer-design-tokens';
 
 // Usar
 const style = {

@@ -8,7 +8,7 @@
 
 'use client';
 
-import { COLOR_HEX, hexToRGBA } from '@/lib/utils/design-tokens';
+import { COLOR_HEX, hexToRGBA } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 

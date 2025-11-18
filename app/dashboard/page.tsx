@@ -143,8 +143,8 @@ import { textToSlug } from '@/lib/utils/string';
 // Fim do bloco de importação de design tokens, início dos valores globais do Dashboard
 /* 
   ⚠️ Ajuste importante:
-  - Modificado o import de '@rainer/design-tokens' para '@/constants/design-tokens' conforme estrutura local.
-  - Corrige erro de "Cannot find module '@rainer/design-tokens'".
+  - Usa design tokens da biblioteca '@rainersoft/design-tokens' via workspace.
+  - Importar diretamente: import { ... } from '@rainersoft/design-tokens'
 */
 
 /**
@@ -601,7 +601,11 @@ function DashboardPageContent() {
         aria-hidden="true"
       />
 
-      <div className={cn('relative w-full bg-background/80 dark:bg-black/50 backdrop-blur-sm')}>
+      <div
+        className={cn(
+          'relative w-full bg-background/80 dark:bg-black/50 backdrop-blur-sm'
+        )}
+      >
         <div className="w-full mx-auto px-3 xs:px-4 sm:px-6 lg:px-8 py-12 xs:py-14 sm:py-16 md:py-20 lg:py-24 space-y-12 xs:space-y-14 sm:space-y-16 md:space-y-20 lg:space-y-24">
           <AnimatePresence mode="wait">
             {shouldShowHome ? (
