@@ -8,7 +8,7 @@
  * @version 2.0.0
  */
 
-import { GRADIENTS } from '@rainersoft/design-tokens';
+import { GRADIENTS, GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import { Code2, Monitor, Zap } from 'lucide-react';
 import React from 'react';
 import { SITE_CONFIG } from '../site/config';
@@ -35,28 +35,28 @@ export const PROFESSIONAL_METRICS: ReadonlyArray<ProfessionalMetric> = [
     icon: Monitor,
     value: SITE_CONFIG.projects,
     label: 'Projetos Completos',
-    gradient: `bg-gradient-to-r from-cyan-500 to-blue-500`,
-    iconColor: `bg-gradient-to-r from-cyan-500 to-blue-500`,
+    gradient: `${GRADIENT_DIRECTIONS.TO_RIGHT} from-cyan-500 to-blue-500`,
+    iconColor: `${GRADIENT_DIRECTIONS.TO_RIGHT} from-cyan-500 to-blue-500`,
   },
   {
     icon: Code2,
     value: '50K+',
     label: 'Linhas de Código',
-    gradient: `bg-gradient-to-r ${GRADIENTS.DECORATIVE_GREEN_EMERALD}`,
-    iconColor: `bg-gradient-to-r ${GRADIENTS.DECORATIVE_GREEN_EMERALD}`,
+    gradient: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.DECORATIVE_GREEN_EMERALD}`,
+    iconColor: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.DECORATIVE_GREEN_EMERALD}`,
   },
   {
     icon: Zap,
     value: '20+',
     label: 'Tecnologias',
-    gradient: `bg-gradient-to-r from-orange-500 to-amber-500`,
-    iconColor: `bg-gradient-to-r from-orange-500 to-amber-500`,
+    gradient: `${GRADIENT_DIRECTIONS.TO_RIGHT} from-orange-500 to-amber-500`,
+    iconColor: `${GRADIENT_DIRECTIONS.TO_RIGHT} from-orange-500 to-amber-500`,
   },
   {
     icon: Zap,
     value: '95+',
     label: 'Lighthouse Score',
-    gradient: `bg-gradient-to-r ${GRADIENTS.BUTTON_PURPLE_PINK}`,
-    iconColor: `bg-gradient-to-r ${GRADIENTS.BUTTON_PURPLE_PINK}`,
+    gradient: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.BUTTON_PURPLE_PINK}`,
+    iconColor: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${GRADIENTS.BUTTON_PURPLE_PINK}`,
   },
 ] as const;

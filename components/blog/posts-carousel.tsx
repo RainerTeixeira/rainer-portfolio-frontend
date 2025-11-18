@@ -42,6 +42,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
 // ============================================================================
 // Types
@@ -140,7 +141,7 @@ export function PostsCarousel({
                           <div
                             className={cn(
                               'absolute inset-0',
-                              'bg-gradient-to-r',
+                              GRADIENT_DIRECTIONS.TO_RIGHT,
                               'md:from-black/50 md:via-black/20 md:to-transparent',
                               'from-black/40 via-transparent to-transparent'
                             )}
@@ -168,7 +169,7 @@ export function PostsCarousel({
                         <div
                           className={cn(
                             'p-8 md:p-10 flex flex-col justify-center order-1 md:order-2',
-                            'bg-gradient-to-br from-background to-muted/20'
+                            `${GRADIENT_DIRECTIONS.TO_BR} from-background to-muted/20`
                           )}
                         >
                           <h3
@@ -229,7 +230,7 @@ export function PostsCarousel({
                             variant="secondary"
                             className={cn(
                               'w-fit mb-4',
-                              'bg-gradient-to-r from-cyan-500/10 to-purple-500/10',
+                              `${GRADIENT_DIRECTIONS.TO_RIGHT} from-cyan-500/10 to-purple-500/10`,
                               'border-cyan-400/20 text-cyan-600 dark:text-cyan-400'
                             )}
                           >

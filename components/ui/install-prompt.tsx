@@ -146,8 +146,8 @@ export function InstallPrompt() {
         className={cn(
           'max-w-2xl mx-auto pointer-events-auto backdrop-blur-xl border-2 shadow-2xl',
           isDark
-            ? cn('bg-black/90', 'dark:border-cyan-400/50', 'shadow-cyan-500/30')
-            : cn('bg-white/90', 'border-blue-500/50', 'shadow-blue-500/30')
+            ? cn('bg-background/90', 'border-primary-base/50', 'shadow-glow-cyan')
+            : cn('bg-background/90', 'border-primary-base/50', 'shadow-lg')
         )}
       >
         <div className="p-4 sm:p-6">
@@ -161,12 +161,12 @@ export function InstallPrompt() {
              */}
             <div
               className={cn(
-                'shrink-0 p-3 rounded-full border bg-gradient-to-br',
-                'from-cyan-500/20 via-purple-500/15 to-pink-500/20',
-                'dark:border-cyan-400/30'
+                'shrink-0 p-3 rounded-full border',
+                'bg-primary-background',
+                'border-primary-base/30'
               )}
             >
-              <Download className={cn('h-6 w-6', 'dark:text-cyan-400')} />
+              <Download className={cn('h-6 w-6', 'text-primary-base')} />
             </div>
 
             {/**
@@ -178,7 +178,7 @@ export function InstallPrompt() {
                 <h3
                   className={cn(
                     'text-lg font-bold font-mono',
-                    isDark ? 'dark:text-cyan-200' : 'text-blue-700'
+                    'text-foreground'
                   )}
                 >
                   📱 Instalar no seu Dispositivo
@@ -189,9 +189,7 @@ export function InstallPrompt() {
                   onClick={handleDismiss}
                   className={cn(
                     'transition-colors p-1 rounded',
-                    isDark
-                      ? 'text-gray-400 hover:text-white hover:bg-white/10'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200/50'
+                    'text-muted-foreground hover:text-foreground hover:bg-muted'
                   )}
                   aria-label="Fechar"
                 >
@@ -203,7 +201,7 @@ export function InstallPrompt() {
               <p
                 className={cn(
                   'text-sm',
-                  isDark ? 'text-gray-300' : 'text-gray-700'
+                  'text-muted-foreground'
                 )}
               >
                 Instale como app nativo para acesso rápido sem navegador e
@@ -217,10 +215,8 @@ export function InstallPrompt() {
                   onClick={handleInstall}
                   size="sm"
                   className={cn(
-                    'text-white font-mono font-bold bg-gradient-to-r',
-                    isDark
-                      ? 'from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600'
-                      : 'from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'
+                    'font-mono font-bold',
+                    'bg-primary text-primary-foreground hover:bg-primary-hover'
                   )}
                 >
                   <Download className="h-4 w-4 mr-2" />
@@ -233,9 +229,7 @@ export function InstallPrompt() {
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    isDark
-                      ? 'text-gray-400 hover:text-white hover:bg-white/5'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200/50'
+                    'text-muted-foreground hover:text-foreground hover:bg-muted'
                   )}
                 >
                   Talvez Depois

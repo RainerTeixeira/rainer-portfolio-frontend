@@ -25,6 +25,7 @@ import { useEffect, useState } from 'react';
 // ============================================================================
 
 import Link from 'next/link';
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
 // ============================================================================
 // Icons
@@ -313,7 +314,7 @@ export function CookieSettings({
                           <span
                             className={cn(
                               'px-2 py-0.5 rounded text-xs',
-                              'bg-gradient-to-br from-primary/10 to-primary/20',
+                              `${GRADIENT_DIRECTIONS.TO_BR} from-primary/10 to-primary/20`,
                               'text-primary',
                               'font-semibold'
                             )}

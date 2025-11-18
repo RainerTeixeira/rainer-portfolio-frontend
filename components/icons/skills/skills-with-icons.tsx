@@ -11,7 +11,7 @@
 
 import type { SkillItemData } from '@/constants/data/skills';
 import { SKILLS_DATA } from '@/constants/data/skills';
-// Design tokens via CSS variables (imported in globals.css)
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import React from 'react';
 import { SKILL_ICONS } from './index';
 
@@ -45,7 +45,7 @@ export const SKILLS: ReadonlyArray<SkillItem> = SKILLS_DATA.map(
     return {
       fullName: skill.fullName,
       category: skill.category,
-      color: `bg-gradient-to-r ${skill.color}`,
+      color: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${skill.color}`,
       icon,
     };
   }

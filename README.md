@@ -6,8 +6,8 @@
 >
 > Aplicação web enterprise-grade com qualidade Fortune 500
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.5.5-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.0.0-blue?logo=react)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.0.3-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2.0-blue?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.14-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
@@ -98,7 +98,7 @@ Servir como:
 
 | Aspecto           | Status           | Detalhes              |
 | ----------------- | ---------------- | --------------------- |
-| **Versão**        | 2.0.0 Enterprise | Release Outubro 2025  |
+| **Versão**        | 2.1.0 Enterprise | Release Janeiro 2025  |
 | **Code Quality**  | ⭐⭐⭐⭐⭐       | Rating A (SonarQube)  |
 | **Performance**   | 95+              | Lighthouse Score      |
 | **Accessibility** | WCAG 2.1 AA      | 100% Compliant        |
@@ -267,6 +267,9 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador.
 |                     | `npm run docs:serve`  | Gera e disponibiliza documentação                |
 |                     | `npm run docs:clean`  | Remove arquivos de documentação                  |
 |                     | `npm run docs:watch`  | Gera documentação em modo observação             |
+| **Memórias**        | `npm run version:update` | Atualiza versão e sincroniza memórias automaticamente |
+|                     | `npm run memory:update` | Atualiza informações gerais das memórias        |
+|                     | `npm run memory:sync` | Sincroniza versão + memórias completas           |
 | **Utilitários**     | `npm run clean`       | Remove arquivos de build (.next, out, dist)      |
 
 ### Notas Importantes
@@ -548,9 +551,8 @@ rainer-portfolio-frontend/
 │   ├── dashboard/                    # Dashboard administrativo
 │   │   └── login/                    # Autenticação
 │   ├── sobre/                        # Página Sobre
-│   ├── layout.tsx                    # Layout raiz
-│   ├── page.tsx                      # Página inicial
-│   └── globals.css                   # Estilos globais
+│   ├── globals.tsx                   # Layout raiz
+│   └── page.tsx                      # Página inicial
 ├── components/                       # Componentes React (documentados)
 │   ├── accessibility/                # Componentes de acessibilidade
 │   ├── blog/                         # Componentes do blog
@@ -1944,7 +1946,7 @@ Quando instalado, o app apresenta:
 | Splash screens      | `/public/splash-screens/`   | Telas de inicialização iOS            |
 | Service Worker      | `/public/sw.js`             | Cache e funcionalidade offline        |
 | Layout              | `/app/layout.tsx`           | Metatags e viewport                   |
-| Estilos globais     | `/app/globals.css`          | Safe area e otimizações CSS           |
+| Estilos             | `tailwind.config.ts`         | Design tokens via Tailwind            |
 
 ---
 
@@ -2001,8 +2003,8 @@ Sistema de temas dinâmico com suporte a modo claro/escuro, implementado com `ne
 
 **Arquivos de configuração:**
 
-- `tailwind.config.js` - Definição de cores e variantes
-- `app/globals.css` - CSS customizado e variáveis CSS
+- `tailwind.config.ts` - Configuração do Tailwind usando design tokens
+- `lib/tailwind-dark-mode-plugin.ts` - Plugin para dark mode usando tokens
 
 ## 📈 Métricas de Performance
 
@@ -2162,6 +2164,49 @@ Para questões e suporte:
 ---
 
 ## 📝 Histórico de Versões
+
+### [2.1.0] - Janeiro 2025 - Sistema de Atualização Automática 🚀
+
+#### 🎯 Sistema de Gerenciamento de Versão e Memórias
+
+**Resumo**: Implementação de sistema automatizado para sincronização de versão entre `package.json` e arquivos de memória do projeto.
+
+**Novos Recursos**:
+
+- ✅ **Atualização Automática de Versão** (`scripts/08-memoria/update-version.ts`)
+  - Detecta mudanças de versão no `package.json`
+  - Atualiza automaticamente todas as memórias quando versão muda
+  - Mantém cache da última versão processada (`.version-cache.json`)
+  - Atualiza `lastModified` em todos os arquivos de memória
+
+- ✅ **Scripts NPM Integrados**
+  - `npm run version:update` - Atualiza versão e memórias automaticamente
+  - `npm run memory:update` - Atualiza informações gerais das memórias
+  - `npm run memory:sync` - Sincronização completa (versão + memórias)
+
+- ✅ **Arquivos Atualizados Automaticamente**
+  - `docs/.memories/initial-memory.json`
+  - `docs/.memories/technical-details.json`
+  - `docs/.memories/code-analysis.json`
+  - `docs/.memories/consolidated-memory.json`
+
+**Fluxo de Trabalho**:
+
+1. Desenvolvedor atualiza versão no `package.json`
+2. Executa `npm run version:update`
+3. Sistema detecta mudança e atualiza todas as memórias
+4. Cache é atualizado para evitar processamento desnecessário
+
+**Benefícios**:
+
+- 🔄 Sincronização automática entre versão e documentação
+- ⚡ Processamento inteligente (só atualiza quando necessário)
+- 📊 Rastreamento de histórico de versões
+- 🎯 Zero redundância manual
+
+**Documentação**: Ver `scripts/08-memoria/README.md` para detalhes completos.
+
+---
 
 ### [2.0.0] - Outubro 2025 - ENTERPRISE EDITION 🌟
 
@@ -2483,7 +2528,7 @@ Esta seção documenta todas as melhorias realizadas no README.md para torná-lo
 
 **Desenvolvido com ❤️ por [Rainer Teixeira](https://github.com/rainerteixeira)**
 
-**Última atualização:** Janeiro de 2025 | **Versão:** 2.0.0 Enterprise Edition
+**Última atualização:** Janeiro de 2025 | **Versão:** 2.1.0 Enterprise Edition
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin)](https://linkedin.com/in/rainer-teixeira)
 [![Email](https://img.shields.io/badge/Email-Contact-red?logo=gmail)](mailto:suporte@rainersoft.com.br)
@@ -3448,7 +3493,26 @@ export function useAuth() {
 
 ## 📈 Histórico de Versões
 
-### v2.0.0 - Enterprise Edition (Atual)
+### v2.1.0 - Sistema de Atualização Automática (Atual)
+
+**🎯 Lançamento:** Janeiro 2025
+
+#### ✨ Novos Recursos
+
+- 🔄 **Sistema de Atualização Automática de Versão**
+  - Sincronização automática entre `package.json` e memórias
+  - Cache inteligente para evitar processamento desnecessário
+  - Scripts NPM integrados (`version:update`, `memory:update`, `memory:sync`)
+
+#### 🛠️ Melhorias Técnicas
+
+- ✅ Scripts de gerenciamento de memórias automatizados
+- ✅ Rastreamento de histórico de versões
+- ✅ Documentação completa em `scripts/08-memoria/README.md`
+
+---
+
+### v2.0.0 - Enterprise Edition
 
 **🎯 Lançamento:** Outubro 2025
 

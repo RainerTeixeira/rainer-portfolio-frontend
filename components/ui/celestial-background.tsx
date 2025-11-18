@@ -20,6 +20,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
 // ============================================================================
 // Types
@@ -143,7 +144,7 @@ export function CelestialBackground({
       aria-hidden="true"
     >
       {/* Camada de gradiente base - Nebulosa escura cyberpunk */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/35 to-black" />
+      <div className={`absolute inset-0 ${GRADIENT_DIRECTIONS.TO_BOTTOM} from-black via-purple-950/35 to-black`} />
 
       {/* Camada de nebulosas coloridas cyberpunk mais intensas */}
       <div className="absolute inset-0 overflow-hidden">

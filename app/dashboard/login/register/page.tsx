@@ -56,7 +56,7 @@ export default function RegisterPage() {
                 <button
                   className={cn(
                     'text-primary hover:underline font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20',
-                    TRANSITIONS.COLORS
+                    'transition-colors duration-200 ease-in-out'
                   )}
                 >
                   Termos de Uso
@@ -67,7 +67,7 @@ export default function RegisterPage() {
                 <button
                   className={cn(
                     'text-primary hover:underline font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20',
-                    TRANSITIONS.COLORS
+                    'transition-colors duration-200 ease-in-out'
                   )}
                 >
                   Política de Privacidade

@@ -21,30 +21,12 @@
 
 'use client';
 
-// ============================================================================
-// NEXT.JS IMPORTS
-// ============================================================================
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-
-// ============================================================================
-// REACT & HOOKS
-// ============================================================================
-
 import { useEffect, useState } from 'react';
-
-// ============================================================================
-// THIRD-PARTY LIBRARIES
-// ============================================================================
-
 import { motion } from 'framer-motion';
 import { ArrowLeft, Tag } from 'lucide-react';
-
-// ============================================================================
-// BLOG COMPONENTS
-// ============================================================================
 
 import {
   AuthorCard,
@@ -56,52 +38,24 @@ import {
   ReadingProgress,
   TableOfContents,
 } from '@/components/blog';
-
-// ============================================================================
-// API SERVICES & TYPES
-// ============================================================================
-
-import { postsService } from '@/lib/api/services';
-import type { Post } from '@/lib/api/types';
-import { PostStatus } from '@/lib/api/types';
-
-// ============================================================================
-// UI COMPONENTS
-// ============================================================================
-
 import { BackToTop, ParticlesEffect } from '@/components/ui';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-
-// ============================================================================
-// DESIGN TOKENS
-// ============================================================================
-
-// Design tokens via CSS variables (imported in globals.css)
-
-// ============================================================================
-// UTILS
-// ============================================================================
-
 import { tiptapJSONtoHTML } from '@/components/dashboard/lib/tiptap-utils';
+import { postsService } from '@/lib/api/services';
+import type { Post } from '@/lib/api/types';
+import { PostStatus } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
-
-// ============================================================================
-// CONSTANTS
-// ============================================================================
+import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
 /**
- * Número máximo de posts relacionados a exibir
- * @type {number}
- * @constant
+ * Número máximo de posts relacionados a exibir.
+ *
+ * @constant {number}
  */
 const MAX_RELATED_POSTS = 3;
-
-// ============================================================================
-// MAIN COMPONENT
-// ============================================================================
 
 /**
  * PostPage Component
@@ -135,55 +89,18 @@ const MAX_RELATED_POSTS = 3;
  * @see {@link tiptapJSONtoHTML} Utilitário de conversão Tiptap JSON para HTML
  */
 export default function PostPage() {
-  // ========================================================================
-  // HOOKS
-  // ========================================================================
-
   const params = useParams();
   const router = useRouter();
   const postSlug = params.slug as string;
 
-  // ========================================================================
-  // STATE
-  // ========================================================================
-
-  /**
-   * Post atual sendo visualizado
-   * @type {Post | null}
-   */
   const [post, setPost] = useState<Post | null>(null);
-
-  /**
-   * Posts relacionados (mesma categoria)
-   * @type {Post[]}
-   */
   const [relatedPosts, setRelatedPosts] = useState<Post[]>([]);
-
-  /**
-   * Estado de carregamento
-   * @type {boolean}
-   */
   const [isLoading, setIsLoading] = useState(true);
-
-  /**
-   * Post anterior na sequência
-   * @type {Post | null}
-   */
   const [previousPost, setPreviousPost] = useState<Post | null>(null);
-
-  /**
-   * Próximo post na sequência
-   * @type {Post | null}
-   */
   const [nextPost, setNextPost] = useState<Post | null>(null);
 
-  // ========================================================================
-  // EFFECTS
-  // ========================================================================
-
   /**
-   * Carrega post e posts relacionados por SLUG
-   *
+   * Carrega post e posts relacionados por SLUG.
    * Busca o post pelo slug, posts relacionados da mesma categoria,
    * e configura navegação entre posts (anterior/próximo).
    */
@@ -245,11 +162,10 @@ export default function PostPage() {
     loadPost();
   }, [postSlug]);
 
-  // ========================================================================
-  // RENDER STATES
-  // ========================================================================
-
-  // Loading state
+  /**
+   * Estado de carregamento.
+   * Exibe spinner enquanto busca o post da API.
+   */
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background dark:bg-black">
@@ -266,7 +182,10 @@ export default function PostPage() {
     );
   }
 
-  // Post não encontrado
+  /**
+   * Post não encontrado.
+   * Exibe mensagem de erro e botão para voltar ao blog.
+   */
   if (!post) {
     return (
       <div
@@ -285,7 +204,7 @@ export default function PostPage() {
             className={cn(
               'inline-flex items-center justify-center w-20 h-20 mb-6',
               'rounded-full',
-              'bg-gradient-to-br from-red-500/20 to-red-600/20',
+              `${GRADIENT_DIRECTIONS.TO_BR} from-red-500/20 to-red-600/20`,
               'border-2 border-red-500/30'
             )}
           >
@@ -323,28 +242,15 @@ export default function PostPage() {
     );
   }
 
-  // ========================================================================
-  // MAIN RENDER
-  // ========================================================================
-
   return (
     <div className={cn('min-h-screen relative bg-background dark:bg-black')}>
-      {/* ================================================================
-          PARTICLES EFFECT
-          ================================================================ */}
-
+      {/* Efeito de partículas decorativo no background */}
       <ParticlesEffect variant="default" />
 
-      {/* ================================================================
-          READING PROGRESS
-          ================================================================ */}
-
+      {/* Barra de progresso de leitura */}
       <ReadingProgress />
 
-      {/* ================================================================
-          FIXED BACK BUTTON (Desktop)
-          ================================================================ */}
-
+      {/* Botão fixo de voltar ao blog (visível apenas em desktop) */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -362,10 +268,8 @@ export default function PostPage() {
         </Button>
       </motion.div>
 
-      {/* ================================================================
-          POST HEADER
-          ================================================================ */}
-
+      {/* Cabeçalho do post com imagem de capa e título */}
+      {/* Exibe imagem de capa (se disponível) ou apenas título com animação */}
       <motion.header
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -384,7 +288,7 @@ export default function PostPage() {
             {/* Overlay gradient */}
             <div
               className={cn(
-                'absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent'
+                `absolute inset-0 ${GRADIENT_DIRECTIONS.TO_TOP} from-black/60 via-black/20 to-transparent`
               )}
               aria-hidden="true"
             />
@@ -401,7 +305,7 @@ export default function PostPage() {
                     <Badge
                       className={cn(
                         'mb-4',
-                        'bg-gradient-to-br from-cyan-500/20 to-purple-500/20',
+                        `${GRADIENT_DIRECTIONS.TO_BR} from-cyan-500/20 to-purple-500/20`,
                         'border border-cyan-400/30',
                         'text-white'
                       )}
@@ -441,7 +345,7 @@ export default function PostPage() {
                   <Badge
                     className={cn(
                       'mb-4',
-                      'bg-gradient-to-br from-cyan-500/10 to-purple-500/10',
+                      `${GRADIENT_DIRECTIONS.TO_BR} from-cyan-500/10 to-purple-500/10`,
                       'border border-cyan-400/30',
                       'text-cyan-600 dark:text-cyan-400'
                     )}
@@ -459,10 +363,8 @@ export default function PostPage() {
         )}
       </motion.header>
 
-      {/* ================================================================
-          BREADCRUMBS
-          ================================================================ */}
-
+      {/* Navegação breadcrumb */}
+      {/* Links de navegação hierárquica: Home > Blog > Categoria */}
       <motion.nav
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -501,10 +403,8 @@ export default function PostPage() {
         </ol>
       </motion.nav>
 
-      {/* ================================================================
-          POST METADATA
-          ================================================================ */}
-
+      {/* Seção de metadados do post */}
+      {/* Exibe informações: autor, data de publicação, categoria, tags, visualizações e curtidas */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -538,10 +438,8 @@ export default function PostPage() {
         />
       </motion.section>
 
-      {/* ================================================================
-          TABLE OF CONTENTS
-          ================================================================ */}
-
+      {/* Seção de sumário (Table of Contents) */}
+      {/* Índice navegável do conteúdo do post, gerado automaticamente dos headings */}
       {post.content && typeof post.content === 'object' && (
         <motion.section
           initial={{ opacity: 0 }}
@@ -557,10 +455,8 @@ export default function PostPage() {
         </motion.section>
       )}
 
-      {/* ================================================================
-          POST CONTENT
-          ================================================================ */}
-
+      {/* Artigo principal com conteúdo do post */}
+      {/* Conteúdo rico renderizado do JSON Tiptap com estilos de tipografia personalizados */}
       <motion.article
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -591,10 +487,8 @@ export default function PostPage() {
         />
       </motion.article>
 
-      {/* ================================================================
-          POST ACTIONS
-          ================================================================ */}
-
+      {/* Seção de ações do post */}
+      {/* Botões para curtir, favoritar e compartilhar o post nas redes sociais */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -614,10 +508,8 @@ export default function PostPage() {
         />
       </motion.section>
 
-      {/* ================================================================
-          AUTHOR CARD
-          ================================================================ */}
-
+      {/* Seção de informações do autor */}
+      {/* Card com informações e biografia do autor do post */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -633,10 +525,8 @@ export default function PostPage() {
 
       <Separator className="max-w-4xl mx-auto dark:bg-cyan-400/20" />
 
-      {/* ================================================================
-          COMMENTS SECTION
-          ================================================================ */}
-
+      {/* Seção de comentários */}
+      {/* Área para leitores comentarem e discutirem o conteúdo do post */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -652,10 +542,8 @@ export default function PostPage() {
 
       <Separator className="max-w-4xl mx-auto dark:bg-cyan-400/20" />
 
-      {/* ================================================================
-          NEWSLETTER
-          ================================================================ */}
-
+      {/* Seção de newsletter */}
+      {/* Box de inscrição na newsletter para receber notificações de novos posts */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -671,10 +559,8 @@ export default function PostPage() {
 
       <Separator className="max-w-4xl mx-auto dark:bg-cyan-400/20" />
 
-      {/* ================================================================
-          RELATED POSTS
-          ================================================================ */}
-
+      {/* Seção de posts relacionados */}
+      {/* Grid com posts da mesma categoria para continuar a leitura */}
       {relatedPosts.length > 0 && (
         <motion.section
           initial={{ opacity: 0 }}
@@ -727,10 +613,8 @@ export default function PostPage() {
         </motion.section>
       )}
 
-      {/* ================================================================
-          POST NAVIGATION
-          ================================================================ */}
-
+      {/* Navegação entre posts */}
+      {/* Links para post anterior e próximo na sequência de publicação */}
       {(previousPost || nextPost) && (
         <motion.section
           initial={{ opacity: 0 }}
@@ -752,10 +636,8 @@ export default function PostPage() {
         </motion.section>
       )}
 
-      {/* ================================================================
-          BACK TO BLOG BUTTON
-          ================================================================ */}
-
+      {/* Botão de voltar ao blog */}
+      {/* Link para retornar à página de listagem de todos os posts */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -776,10 +658,7 @@ export default function PostPage() {
         </div>
       </motion.section>
 
-      {/* ================================================================
-          BACK TO TOP BUTTON
-          ================================================================ */}
-
+      {/* Botão de voltar ao topo da página */}
       <BackToTop />
     </div>
   );

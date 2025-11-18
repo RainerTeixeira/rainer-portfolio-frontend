@@ -13,23 +13,9 @@
 
 'use client';
 
-// ============================================================================
-// DESIGN TOKENS
-// ============================================================================
-
-import { cn } from '@/lib/utils';
-// Design tokens via CSS variables (imported in globals.css)
-
-// ============================================================================
-// UI Components
-// ============================================================================
-
 import { CookieSettings } from '@/components/cookies/cookie-settings';
 import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
-
-// ============================================================================
-// Main Component
-// ============================================================================
+import { cn } from '@/lib/utils';
 
 export default function CookieSettingsPage() {
   return (

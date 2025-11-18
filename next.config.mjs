@@ -1,20 +1,31 @@
 /**
- * @file next.config.js
- * @description Configuração avançada do Next.js para performance, segurança
+ * @file next.config.mjs
+ * @description Configuração avançada do Next.js 16 para performance, segurança
  * e integração com Vercel. Define otimizações de bundle, manipulação de imports,
  * transpile de workspaces, configurações de imagens, headers de segurança,
  * redirecionamentos e fallback de Webpack.
- * @type {import('next').NextConfig}
- * @author Rainer
+ * 
+ * @module next.config
+ * @version 2.0.0
+ * @author Rainer Teixeira
+ * @since 1.0.0
  */
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   /**
-   * Opções experimentais do Next.js:
+   * Opções experimentais do Next.js 16:
    * - optimizePackageImports: Reduz o bundle transferindo apenas ícones realmente usados.
    */
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
+
+  /**
+   * Origens permitidas para desenvolvimento (resolve warning de CORS).
+   * Permite acesso de outras interfaces de rede durante desenvolvimento.
+   */
+  allowedDevOrigins: ['192.168.56.1'],
 
   /**
    * Lista de workspaces a serem transpilados (monorepo support).
@@ -120,3 +131,4 @@ const nextConfig = {
 };
 
 export default nextConfig;
+

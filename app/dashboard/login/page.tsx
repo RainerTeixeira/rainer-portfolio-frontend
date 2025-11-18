@@ -74,13 +74,19 @@ export default function LoginPage() {
     loginWithGitHub,
   } = useAuth();
 
-  // UI states
+  /**
+   * Estados da interface de login.
+   * isLoading: Flag de carregamento durante autenticação.
+   * error: Mensagem de erro a ser exibida.
+   * success: Flag de sucesso no login.
+   */
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
   /**
-   * Redireciona se já estiver autenticado
+   * Redireciona para dashboard se já estiver autenticado.
+   * Evita exibir página de login quando usuário já está logado.
    */
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
@@ -89,9 +95,10 @@ export default function LoginPage() {
   }, [isAuthenticated, authLoading, router]);
 
   /**
-   * Handler de submit do formulário
+   * Handler de submit do formulário de login.
+   * Autentica usuário com email/username e senha.
    *
-   * @param username - Email ou usuário
+   * @param username - Email ou nome de usuário
    * @param password - Senha do usuário
    */
   const handleLoginSubmit = async (username: string, password: string) => {
@@ -197,7 +204,8 @@ export default function LoginPage() {
   };
 
   /**
-   * Handler de login social com OAuth
+   * Handler de login social com Google OAuth.
+   * Inicia fluxo de autenticação via Google.
    */
   const handleGoogleLogin = () => {
     try {
@@ -208,6 +216,10 @@ export default function LoginPage() {
     }
   };
 
+  /**
+   * Handler de login social com GitHub OAuth.
+   * Inicia fluxo de autenticação via GitHub.
+   */
   const handleGitHubLogin = () => {
     try {
       loginWithGitHub();
@@ -217,7 +229,10 @@ export default function LoginPage() {
     }
   };
 
-  // Loading state
+  /**
+   * Estado de carregamento inicial.
+   * Exibe spinner enquanto verifica estado de autenticação.
+   */
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background/80 backdrop-blur-sm">
@@ -250,7 +265,10 @@ export default function LoginPage() {
     );
   }
 
-  // Já autenticado
+  /**
+   * Se já estiver autenticado, não renderiza nada.
+   * O redirecionamento é feito no useEffect acima.
+   */
   if (isAuthenticated) {
     return null;
   }
@@ -297,7 +315,8 @@ export default function LoginPage() {
           </motion.div>
         }
       >
-        {/* Formulário de Login (Email/Usuário e Senha) */}
+        {/* Formulário de login tradicional */}
+        {/* Campos de email/usuário e senha com validação */}
         <LoginForm
           onSubmit={handleLoginSubmit}
           isLoading={isLoading}
@@ -305,7 +324,8 @@ export default function LoginPage() {
           success={success}
         />
 
-        {/* Separador com Animação */}
+        {/* Separador visual entre login tradicional e OAuth */}
+        {/* Divisor animado com texto "ou" no centro */}
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
@@ -336,7 +356,8 @@ export default function LoginPage() {
           </div>
         </motion.div>
 
-        {/* Botões OAuth (Google e GitHub) */}
+        {/* Botões de login social (OAuth) */}
+        {/* Autenticação via Google e GitHub */}
         <OAuthButtons
           onGoogleLogin={handleGoogleLogin}
           onGitHubLogin={handleGitHubLogin}
@@ -344,7 +365,7 @@ export default function LoginPage() {
         />
       </AuthLayout>
 
-      {/* Back to Top */}
+      {/* Botão de voltar ao topo */}
       <BackToTop />
     </>
   );

@@ -34,7 +34,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { authService } from '@/lib/api';
 import { cn } from '@/lib/utils';
-// Design tokens via CSS variables (imported in globals.css)
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -50,13 +49,20 @@ export default function ConfirmEmailPage() {
   const [resendSuccess, setResendSuccess] = useState(false);
   const codeInputRef = useRef<HTMLInputElement | null>(null);
 
+  /**
+   * Extrai email da query string e username do localStorage.
+   * Username é usado como fallback caso email não esteja disponível.
+   */
   const email = searchParams.get('email') || '';
   const username =
     typeof window !== 'undefined'
       ? localStorage.getItem('pendingNickname') || ''
       : '';
 
-  // Autofocus no campo de código
+  /**
+   * Foca automaticamente no campo de código ao montar componente.
+   * Melhora UX permitindo digitação imediata do código.
+   */
   useEffect(() => {
     codeInputRef.current?.focus();
   }, []);
@@ -198,6 +204,10 @@ export default function ConfirmEmailPage() {
     }
   }
 
+  /**
+   * Reenvia código de confirmação por email.
+   * Útil quando código expira ou não foi recebido.
+   */
   async function handleResend() {
     if (!email) return;
     setIsResending(true);
@@ -271,6 +281,10 @@ export default function ConfirmEmailPage() {
     }
   }
 
+  /**
+   * Estado de sucesso após confirmação.
+   * Exibe mensagem de sucesso e redireciona para login após 2 segundos.
+   */
   if (success) {
     return (
       <>
@@ -293,6 +307,10 @@ export default function ConfirmEmailPage() {
     );
   }
 
+  /**
+   * Formulário de confirmação de email.
+   * Permite inserir código de 6 dígitos e reenviar código se necessário.
+   */
   return (
     <>
       <AuthLayout
@@ -306,7 +324,8 @@ export default function ConfirmEmailPage() {
         maxWidth="md"
       >
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
-          {/* Mensagens de Erro/Sucesso */}
+          {/* Mensagens de feedback */}
+          {/* Exibe erros de validação ou confirmação */}
           {error && (
             <Alert variant="destructive">
               <XCircle className="h-4 w-4" />
@@ -316,6 +335,7 @@ export default function ConfirmEmailPage() {
             </Alert>
           )}
 
+          {/* Mensagem de sucesso ao reenviar código */}
           {resendSuccess && (
             <Alert className="border-green-500 bg-green-50 dark:bg-green-950/20">
               <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
@@ -325,7 +345,8 @@ export default function ConfirmEmailPage() {
             </Alert>
           )}
 
-          {/* Campo de Código */}
+          {/* Campo de código de verificação */}
+          {/* Input centralizado com fonte monoespaçada para melhor legibilidade */}
           <div className="space-y-2">
             <Input
               type="text"
@@ -343,7 +364,8 @@ export default function ConfirmEmailPage() {
             />
           </div>
 
-          {/* Botões */}
+          {/* Botões de ação */}
+          {/* Confirmar email e reenviar código */}
           <div className="space-y-3">
             <Button
               type="submit"
