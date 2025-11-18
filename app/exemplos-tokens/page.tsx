@@ -23,7 +23,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { tokens, validateContrast } from '@rainer/design-tokens';
+import { tokens, validateContrast } from '@rainersoft/design-tokens';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 

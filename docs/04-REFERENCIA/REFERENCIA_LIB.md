@@ -61,7 +61,7 @@ lib/
 │   ├── string.ts
 │   ├── scroll.ts
 │   ├── search.ts
-│   ├── design-tokens.ts
+│   ├── rainer-design-tokens.ts
 │   ├── image-optimizer.ts
 │   └── post-compressor.ts
 ├── env.ts            # Variáveis de ambiente
@@ -427,7 +427,11 @@ const results = await searchContent('query');
 #### Design Tokens
 
 ```typescript
-import { hexToHSL, hexToRGB, hexToRGBA } from '@/lib/utils/design-tokens';
+import {
+  hexToHSL,
+  hexToRGB,
+  hexToRGBA,
+} from '@/lib/utils/rainer-design-tokens';
 
 // Conversões de cor
 const hsl = hexToHSL('#3b82f6'); // "hsl(217, 91%, 60%)"

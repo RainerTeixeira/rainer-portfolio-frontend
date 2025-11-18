@@ -204,7 +204,9 @@ function processFile(filePath, dryRun = false) {
   let totalReplacements = 0;
 
   // Verificar se já tem import
-  const hasImport = /from ['"]@\/constants\/design-tokens['"]/.test(content);
+  const hasImport = /from ['"]@\/constants\/rainer-design-tokens['"]/.test(
+    content
+  );
 
   // Encontrar todas as className strings
   const classNameRegex = /className\s*=\s*{?["'`]([^"'`]+)["'`]}?/g;
@@ -249,7 +251,7 @@ function processFile(filePath, dryRun = false) {
   // Adicionar import se necessário
   if (usedTokens.size > 0 && !hasImport && !dryRun) {
     const tokensArray = Array.from(usedTokens).sort();
-    const importStatement = `import { ${tokensArray.join(', ')} } from '@/constants/design-tokens';`;
+    const importStatement = `import { ${tokensArray.join(', ')} } from '@/constants/rainer-design-tokens';`;
 
     // Encontrar última linha de import
     const importLines = content.match(/^import .+ from .+;?$/gm);

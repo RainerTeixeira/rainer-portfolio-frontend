@@ -176,7 +176,7 @@ O projeto mantém um sistema de memórias estruturado em `docs/.memories/` que f
 - Use TypeScript strict mode
 - Componentes organizados por domínio (accessibility, blog, dashboard, etc.)
 - Custom hooks para lógica reutilizável
-- Design tokens centralizados em `constants/design-tokens.ts`
+- Design tokens centralizados em `@rainersoft/design-tokens`
 - Error boundaries para tratamento de erros
 - Loading states padronizados
 - Documentação JSDoc em português

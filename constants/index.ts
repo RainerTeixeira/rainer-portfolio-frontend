@@ -30,11 +30,11 @@ export * from './data';
 
 // Types são re-exportados automaticamente via barrel exports acima
 
-// NOTA: Design tokens devem ser importados diretamente de '@rainer/design-tokens'
+// NOTA: Design tokens devem ser importados diretamente de '@rainersoft/design-tokens'
 // conforme a documentação da biblioteca. Não re-exportamos aqui para evitar
 // problemas com resolução de módulos.
 //
-// Use: import { GRADIENTS, SHADOWS } from '@rainer/design-tokens'
+// Use: import { GRADIENTS, SHADOWS } from '@rainersoft/design-tokens'
 //
 // Estrutura DDD (Domain-Driven Design):
 // - constants/site/ - Configurações do site (config, meta, navigation, social)

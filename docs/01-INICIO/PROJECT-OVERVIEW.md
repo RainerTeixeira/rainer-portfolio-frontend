@@ -45,33 +45,33 @@ Evoluir de um portfolio pessoal para uma **plataforma completa de presença digi
 
 ### 1. Design Moderno e Profissional
 
-| Aspecto | Descrição |
-|---------|-----------|
-| **Estética** | Design futurista com elementos cyberpunk e neon |
+| Aspecto            | Descrição                                              |
+| ------------------ | ------------------------------------------------------ |
+| **Estética**       | Design futurista com elementos cyberpunk e neon        |
 | **Responsividade** | Layout mobile-first adaptativo para todos dispositivos |
-| **Animações** | Transições fluidas com Framer Motion |
-| **Temas** | Modo claro/escuro com transição suave |
-| **Tipografia** | Fontes Google (Inter, Orbitron, Rajdhani) |
+| **Animações**      | Transições fluidas com Framer Motion                   |
+| **Temas**          | Modo claro/escuro com transição suave                  |
+| **Tipografia**     | Fontes Google (Inter, Orbitron, Rajdhani)              |
 
 ### 2. Performance Enterprise
 
-| Métrica | Target | Atual |
-|---------|--------|-------|
-| Lighthouse Score | >90 | **95+** ✅ |
-| LCP (Largest Contentful Paint) | <2.5s | **<2s** ✅ |
-| FID (First Input Delay) | <100ms | **<50ms** ✅ |
-| CLS (Cumulative Layout Shift) | <0.1 | **<0.05** ✅ |
-| Bundle Size | Otimizado | **Tree-shaken** ✅ |
+| Métrica                        | Target    | Atual              |
+| ------------------------------ | --------- | ------------------ |
+| Lighthouse Score               | >90       | **95+** ✅         |
+| LCP (Largest Contentful Paint) | <2.5s     | **<2s** ✅         |
+| FID (First Input Delay)        | <100ms    | **<50ms** ✅       |
+| CLS (Cumulative Layout Shift)  | <0.1      | **<0.05** ✅       |
+| Bundle Size                    | Otimizado | **Tree-shaken** ✅ |
 
 ### 3. Acessibilidade Total
 
-| Padrão | Nível | Status |
-|--------|-------|--------|
-| WCAG 2.1 | AA | ✅ Compliant |
-| Navegação por Teclado | Completa | ✅ Implementada |
-| Screen Readers | Compatível | ✅ ARIA completo |
-| Contraste de Cores | 4.5:1+ | ✅ Aprovado |
-| Skip Links | Implementados | ✅ Funcionais |
+| Padrão                | Nível         | Status           |
+| --------------------- | ------------- | ---------------- |
+| WCAG 2.1              | AA            | ✅ Compliant     |
+| Navegação por Teclado | Completa      | ✅ Implementada  |
+| Screen Readers        | Compatível    | ✅ ARIA completo |
+| Contraste de Cores    | 4.5:1+        | ✅ Aprovado      |
+| Skip Links            | Implementados | ✅ Funcionais    |
 
 ---
 
@@ -106,7 +106,7 @@ Evoluir de um portfolio pessoal para uma **plataforma completa de presença digi
 │  └─ SEO Utils (lib/seo/)                               │
 ├─────────────────────────────────────────────────────────┤
 │                 INFRASTRUCTURE LAYER                     │
-│  ├─ Design Tokens (@rainer/design-tokens)              │
+│  ├─ Design Tokens (@rainer/rainer-design-tokens)              │
 │  ├─ Environment (lib/env.ts)                           │
 │  ├─ Logger (lib/monitoring/logger.ts)                 │
 └─────────────────────────────────────────────────────────┘
@@ -126,63 +126,63 @@ User Input → Component → Hook → API/Store → State Update → Re-render
 
 ### Frontend Core
 
-| Tecnologia | Versão | Propósito |
-|------------|--------|-----------|
-| **Next.js** | 15.1.6 | Framework React com SSR/SSG |
-| **React** | 19.0.0 | Biblioteca UI |
-| **TypeScript** | 5.x | Type safety |
-| **Tailwind CSS** | 4.1.14 | Styling utility-first |
+| Tecnologia       | Versão | Propósito                   |
+| ---------------- | ------ | --------------------------- |
+| **Next.js**      | 15.1.6 | Framework React com SSR/SSG |
+| **React**        | 19.0.0 | Biblioteca UI               |
+| **TypeScript**   | 5.x    | Type safety                 |
+| **Tailwind CSS** | 4.1.14 | Styling utility-first       |
 
 ### UI Components & Libraries
 
-| Biblioteca | Propósito |
-|------------|-----------|
-| **Radix UI** | Componentes acessíveis headless |
-| **Framer Motion** | Animações declarativas |
-| **Lucide React** | Ícones modernos |
-| **next-themes** | Gerenciamento de temas |
-| **Sonner** | Toast notifications |
-| **cmdk** | Command palette |
+| Biblioteca        | Propósito                       |
+| ----------------- | ------------------------------- |
+| **Radix UI**      | Componentes acessíveis headless |
+| **Framer Motion** | Animações declarativas          |
+| **Lucide React**  | Ícones modernos                 |
+| **next-themes**   | Gerenciamento de temas          |
+| **Sonner**        | Toast notifications             |
+| **cmdk**          | Command palette                 |
 
 ### Forms & Validation
 
-| Biblioteca | Propósito |
-|------------|-----------|
+| Biblioteca          | Propósito                    |
+| ------------------- | ---------------------------- |
 | **React Hook Form** | Gerenciamento de formulários |
-| **Zod** | Schema validation |
+| **Zod**             | Schema validation            |
 
 ### Rich Text Editing
 
-| Biblioteca | Propósito |
-|------------|-----------|
-| **TipTap** | Editor WYSIWYG |
-| **Lowlight** | Syntax highlighting |
-| **Highlight.js** | Code highlighting |
+| Biblioteca       | Propósito           |
+| ---------------- | ------------------- |
+| **TipTap**       | Editor WYSIWYG      |
+| **Lowlight**     | Syntax highlighting |
+| **Highlight.js** | Code highlighting   |
 
 ### Data Management
 
-| Biblioteca | Propósito |
-|------------|-----------|
+| Biblioteca         | Propósito                      |
+| ------------------ | ------------------------------ |
 | **TanStack Query** | Cache e sincronização de dados |
-| **Zustand** | State management (implícito) |
+| **Zustand**        | State management (implícito)   |
 
 ### Cloud Services
 
-| Serviço | Propósito |
-|---------|-----------|
-| **Cloudinary** | Upload e otimização de imagens |
-| **Vercel** | Hosting e deploy |
-| **Vercel Analytics** | Web analytics |
-| **Vercel Speed Insights** | Performance monitoring |
+| Serviço                   | Propósito                      |
+| ------------------------- | ------------------------------ |
+| **Cloudinary**            | Upload e otimização de imagens |
+| **Vercel**                | Hosting e deploy               |
+| **Vercel Analytics**      | Web analytics                  |
+| **Vercel Speed Insights** | Performance monitoring         |
 
 ### Developer Tools
 
-| Ferramenta | Propósito |
-|------------|-----------|
-| **ESLint** | Linting |
-| **Prettier** | Code formatting |
+| Ferramenta    | Propósito             |
+| ------------- | --------------------- |
+| **ESLint**    | Linting               |
+| **Prettier**  | Code formatting       |
 | **SonarQube** | Code quality analysis |
-| **JSDoc** | Documentation |
+| **JSDoc**     | Documentation         |
 
 ---
 
@@ -348,7 +348,7 @@ lib/
 ├── utils/                     # Utilitários organizados
 │   ├── index.ts              # Barrel exports
 │   ├── string.ts             # String utils (slug, date, status)
-│   ├── design-tokens.ts      # Design tokens helpers
+│   ├── rainer-design-tokens.ts      # Design tokens helpers
 │   ├── scroll.ts             # Scroll utils (a11y)
 │   ├── search.ts             # Search utilities
 │   ├── validation.ts         # Validation schemas
@@ -378,7 +378,7 @@ lib/
 ├── search.ts                  # ⚠️ DEPRECATED - usar lib/utils/search
 ├── scroll-utils.ts            # ⚠️ DEPRECATED - usar lib/utils/scroll
 ├── validation-schemas.ts     # ⚠️ DEPRECATED - usar lib/utils/validation
-└── design-tokens-helpers.ts  # ⚠️ DEPRECATED - usar lib/utils/design-tokens
+└── rainer-design-tokens-helpers.ts  # ⚠️ DEPRECATED - usar lib/utils/rainer-design-tokens
 ```
 
 ### Diretório `/hooks`
@@ -394,6 +394,7 @@ hooks/
 ```
 
 **Nota**: Hooks são organizados por domínio:
+
 - **Hooks globais** em `hooks/` (use-analytics, use-mobile, use-pwa, etc.)
 - **Hooks por domínio** em `components/*/hooks/`:
   - `components/dashboard/hooks/` - Hooks do dashboard (use-password-strength, use-upload, etc.)
@@ -404,12 +405,12 @@ hooks/
 
 ```
 constants/
-├── index.ts               # Re-exports de @rainer/design-tokens
+├── index.ts               # Re-exports de @rainer/rainer-design-tokens
 └── [outros arquivos de configuração]
 ```
 
-**Nota**: Design tokens migrados para biblioteca `@rainer/design-tokens`.
-O arquivo `constants/design-tokens.ts` não existe mais.
+**Nota**: Design tokens migrados para biblioteca `@rainer/rainer-design-tokens`.
+O arquivo `constants/rainer-design-tokens.ts` não existe mais.
 Backup disponível em `constants/OLD_design-tokens.ts` (se existir).
 
 ---
@@ -418,38 +419,38 @@ Backup disponível em `constants/OLD_design-tokens.ts` (se existir).
 
 ### Páginas Públicas
 
-| Página | URL | Descrição | Status |
-|--------|-----|-----------|--------|
-| **Home** | `/` | Landing page com seções principais | ✅ |
-| **Blog** | `/blog` | Lista de posts com filtros | ✅ |
-| **Post** | `/blog/[slug]` | Post individual | ✅ |
-| **Sobre** | `/sobre` | Informações da empresa | ✅ |
-| **Contato** | `/contato` | Formulário de contato | ✅ |
-| **404** | `/not-found` | Página de erro customizada | ✅ |
+| Página      | URL            | Descrição                          | Status |
+| ----------- | -------------- | ---------------------------------- | ------ |
+| **Home**    | `/`            | Landing page com seções principais | ✅     |
+| **Blog**    | `/blog`        | Lista de posts com filtros         | ✅     |
+| **Post**    | `/blog/[slug]` | Post individual                    | ✅     |
+| **Sobre**   | `/sobre`       | Informações da empresa             | ✅     |
+| **Contato** | `/contato`     | Formulário de contato              | ✅     |
+| **404**     | `/not-found`   | Página de erro customizada         | ✅     |
 
 ### Dashboard Administrativo
 
-| Página | URL | Descrição | Status |
-|--------|-----|-----------|--------|
-| **Login** | `/dashboard/login` | Autenticação | ✅ |
-| **Dashboard** | `/dashboard` | Painel principal | ✅ |
-| **Criar Post** | `/dashboard?mode=create` | Novo post | ✅ |
-| **Editar Post** | `/dashboard?mode=edit&id=X` | Editar post | ✅ |
-| **Analytics** | `/dashboard` | Métricas e gráficos | ✅ |
+| Página          | URL                         | Descrição           | Status |
+| --------------- | --------------------------- | ------------------- | ------ |
+| **Login**       | `/dashboard/login`          | Autenticação        | ✅     |
+| **Dashboard**   | `/dashboard`                | Painel principal    | ✅     |
+| **Criar Post**  | `/dashboard?mode=create`    | Novo post           | ✅     |
+| **Editar Post** | `/dashboard?mode=edit&id=X` | Editar post         | ✅     |
+| **Analytics**   | `/dashboard`                | Métricas e gráficos | ✅     |
 
 ### Features Técnicas
 
-| Feature | Descrição | Status |
-|---------|-----------|--------|
-| **SSR/SSG** | Server-Side Rendering | ✅ |
-| **PWA** | Progressive Web App | ✅ |
-| **Offline** | Service Worker | ✅ |
-| **SEO** | Meta tags completas | ✅ |
-| **Analytics** | Vercel Analytics | ✅ |
-| **Error Tracking** | Error Boundary | ✅ |
-| **Performance** | Monitoring | ✅ |
-| **Logging** | Structured logs | ✅ |
-| **Validation** | Centralized | ✅ |
+| Feature            | Descrição             | Status |
+| ------------------ | --------------------- | ------ |
+| **SSR/SSG**        | Server-Side Rendering | ✅     |
+| **PWA**            | Progressive Web App   | ✅     |
+| **Offline**        | Service Worker        | ✅     |
+| **SEO**            | Meta tags completas   | ✅     |
+| **Analytics**      | Vercel Analytics      | ✅     |
+| **Error Tracking** | Error Boundary        | ✅     |
+| **Performance**    | Monitoring            | ✅     |
+| **Logging**        | Structured logs       | ✅     |
+| **Validation**     | Centralized           | ✅     |
 
 ---
 
@@ -457,25 +458,25 @@ Backup disponível em `constants/OLD_design-tokens.ts` (se existir).
 
 ### Performance Atual
 
-| Métrica | Valor | Status |
-|---------|-------|--------|
-| Lighthouse Performance | 95+ | 🟢 Excelente |
-| Lighthouse Accessibility | 100 | 🟢 Perfeito |
-| Lighthouse Best Practices | 100 | 🟢 Perfeito |
-| Lighthouse SEO | 100 | 🟢 Perfeito |
-| First Contentful Paint | <1.5s | 🟢 Rápido |
-| Time to Interactive | <3s | 🟢 Rápido |
-| Total Bundle Size | <500KB | 🟢 Otimizado |
+| Métrica                   | Valor  | Status       |
+| ------------------------- | ------ | ------------ |
+| Lighthouse Performance    | 95+    | 🟢 Excelente |
+| Lighthouse Accessibility  | 100    | 🟢 Perfeito  |
+| Lighthouse Best Practices | 100    | 🟢 Perfeito  |
+| Lighthouse SEO            | 100    | 🟢 Perfeito  |
+| First Contentful Paint    | <1.5s  | 🟢 Rápido    |
+| Time to Interactive       | <3s    | 🟢 Rápido    |
+| Total Bundle Size         | <500KB | 🟢 Otimizado |
 
 ### Code Quality
 
-| Métrica | Valor | Status |
-|---------|-------|--------|
-| TypeScript Coverage | 100% | 🟢 Total |
-| ESLint Errors | 0 | 🟢 Zero |
-| SonarQube Rating | A | 🟢 Excelente |
-| Code Duplication | <3% | 🟢 Baixo |
-| Documentation | 100% | 🟢 Completa |
+| Métrica             | Valor | Status       |
+| ------------------- | ----- | ------------ |
+| TypeScript Coverage | 100%  | 🟢 Total     |
+| ESLint Errors       | 0     | 🟢 Zero      |
+| SonarQube Rating    | A     | 🟢 Excelente |
+| Code Duplication    | <3%   | 🟢 Baixo     |
+| Documentation       | 100%  | 🟢 Completa  |
 
 ---
 
@@ -563,18 +564,18 @@ Backup disponível em `constants/OLD_design-tokens.ts` (se existir).
 
 ### vs Portfolio Comum
 
-| Aspecto | Portfolio Comum | Este Projeto |
-|---------|----------------|--------------|
-| Qualidade de Código | Básica | **Enterprise** ✨ |
-| TypeScript | Parcial | **100%** ✨ |
-| Documentação | README | **Completa (5 docs)** ✨ |
-| Design Tokens | ❌ | **200+ tokens** ✨ |
-| Error Handling | Try/catch | **Error Boundary** ✨ |
-| Logging | console.log | **Structured Logger** ✨ |
-| Analytics | ❌ | **Completo** ✨ |
-| Performance | Básico | **Monitored** ✨ |
-| Validation | Inline | **Centralized** ✨ |
-| Acessibilidade | Parcial | **WCAG 2.1 AA** ✨ |
+| Aspecto             | Portfolio Comum | Este Projeto             |
+| ------------------- | --------------- | ------------------------ |
+| Qualidade de Código | Básica          | **Enterprise** ✨        |
+| TypeScript          | Parcial         | **100%** ✨              |
+| Documentação        | README          | **Completa (5 docs)** ✨ |
+| Design Tokens       | ❌              | **200+ tokens** ✨       |
+| Error Handling      | Try/catch       | **Error Boundary** ✨    |
+| Logging             | console.log     | **Structured Logger** ✨ |
+| Analytics           | ❌              | **Completo** ✨          |
+| Performance         | Básico          | **Monitored** ✨         |
+| Validation          | Inline          | **Centralized** ✨       |
+| Acessibilidade      | Parcial         | **WCAG 2.1 AA** ✨       |
 
 ### Padrões de Empresas Fortune 500
 

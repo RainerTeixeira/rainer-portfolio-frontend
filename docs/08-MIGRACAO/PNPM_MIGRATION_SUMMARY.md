@@ -3,6 +3,7 @@
 ## ✅ Mudanças Aplicadas
 
 ### 1. Gerenciador de Pacotes
+
 - ✅ **Migrado de npm para pnpm 9.0.0**
 - ✅ Adicionado `packageManager: "pnpm@9.0.0"` no package.json
 - ✅ Atualizado `engines` para requerer `pnpm >= 9.0.0`
@@ -10,6 +11,7 @@
 - ✅ Criado `.npmrc` com configurações otimizadas
 
 ### 2. Scripts Atualizados
+
 Todos os scripts agora usam `pnpm` em vez de `npm`:
 
 ```json
@@ -23,12 +25,15 @@ Todos os scripts agora usam `pnpm` em vez de `npm`:
 ```
 
 ### 3. Dependências Removidas
+
 - ❌ `@aws-sdk/client-cognito-identity-provider` - Não utilizado (backend gerencia Cognito)
 
 ### 4. Dependências Adicionadas (Dev)
+
 - ✅ `rimraf` - Para limpeza multiplataforma de diretórios
 
 ### 5. Configuração Workspace
+
 ```yaml
 # pnpm-workspace.yaml
 packages:
@@ -37,6 +42,7 @@ packages:
 ```
 
 ### 6. Configuração pnpm (.npmrc)
+
 ```ini
 shamefully-hoist=true
 strict-peer-dependencies=false
@@ -45,12 +51,12 @@ auto-install-peers=true
 
 ## 📊 Estatísticas Finais
 
-| Métrica | Antes | Depois | Status |
-|---------|-------|--------|--------|
-| **Gerenciador** | npm | pnpm 9.0.0 | ✅ |
-| **Dependências** | 63 | 62 | ✅ -1 |
-| **Scripts** | 18 | 19 | ✅ +1 (clean:all) |
-| **Workspace** | Não | Sim | ✅ |
+| Métrica          | Antes | Depois     | Status            |
+| ---------------- | ----- | ---------- | ----------------- |
+| **Gerenciador**  | npm   | pnpm 9.0.0 | ✅                |
+| **Dependências** | 63    | 62         | ✅ -1             |
+| **Scripts**      | 18    | 19         | ✅ +1 (clean:all) |
+| **Workspace**    | Não   | Sim        | ✅                |
 
 ## 🎯 Benefícios
 
@@ -100,4 +106,3 @@ pnpm run test:all
 ---
 
 **Status**: ✅ **MIGRAÇÃO COMPLETA - PRONTO PARA USO**
-

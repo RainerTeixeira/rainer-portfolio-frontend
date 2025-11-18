@@ -1,4 +1,4 @@
-# 🎉 @rainer/design-tokens v4.0.0 - Refatoração Enterprise Completa
+# 🎉 @rainer/rainer-design-tokens v4.0.0 - Refatoração Enterprise Completa
 
 ## ✅ STATUS: 100% CONCLUÍDO
 
@@ -8,7 +8,7 @@ Refatoração completa da biblioteca de design tokens para seguir padrões enter
 
 ## 🚀 RESUMO EXECUTIVO
 
-A biblioteca @rainer/design-tokens foi **completamente reestruturada** de uma abordagem TypeScript-first para uma arquitetura **agnóstica de tecnologia** baseada em JSON, seguindo especificações W3C Design Tokens.
+A biblioteca @rainer/rainer-design-tokens foi **completamente reestruturada** de uma abordagem TypeScript-first para uma arquitetura **agnóstica de tecnologia** baseada em JSON, seguindo especificações W3C Design Tokens.
 
 ### Transformação Realizada
 
@@ -277,8 +277,8 @@ export const tailwindConfig = {
 
 ```json
 {
-  "$schema": "https://json.schemastore.org/design-tokens.json",
-  "name": "@rainer/design-tokens",
+  "$schema": "https://json.schemastore.org/rainer-design-tokens.json",
+  "name": "@rainer/rainer-design-tokens",
   "version": "4.0.0",
   "colors": { "$type": "color" },
   "typography": { "$type": "typography" },
@@ -345,7 +345,7 @@ export const tailwindConfig = {
 ### 1. Importação TypeScript
 
 ```typescript
-import { tokens, lightTheme, darkTheme } from '@rainer/design-tokens';
+import { tokens, lightTheme, darkTheme } from '@rainer/rainer-design-tokens';
 
 // Tokens diretos
 const primary = tokens.colors.light.brand.primary; // #0891b2
@@ -360,7 +360,7 @@ console.log(theme.colors.background.primary); // #ffffff
 
 ```typescript
 // tailwind.config.ts
-import { tailwindConfig } from '@rainer/design-tokens/formats/tailwind.config';
+import { tailwindConfig } from '@rainer/rainer-design-tokens/formats/tailwind.config';
 
 export default {
   ...tailwindConfig,
@@ -376,7 +376,7 @@ export default {
 ### 3. CSS Variables
 
 ```css
-@import '@rainer/design-tokens/formats/css-vars.css';
+@import '@rainer/rainer-design-tokens/formats/css-vars.css';
 
 .button {
   background: var(--color-brand-primary);
@@ -536,7 +536,7 @@ export default {
 
 ## 🎉 CONCLUSÃO
 
-A biblioteca @rainer/design-tokens foi **completamente transformada** de uma abordagem TypeScript-first para uma arquitetura **enterprise-grade** agnóstica de tecnologia, seguindo as melhores práticas de empresas como Google (Material Design), Apple (HIG), Microsoft (Fluent) e Airbnb.
+A biblioteca @rainer/rainer-design-tokens foi **completamente transformada** de uma abordagem TypeScript-first para uma arquitetura **enterprise-grade** agnóstica de tecnologia, seguindo as melhores práticas de empresas como Google (Material Design), Apple (HIG), Microsoft (Fluent) e Airbnb.
 
 ### Conquistas
 

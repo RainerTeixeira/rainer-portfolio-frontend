@@ -40,7 +40,7 @@ import {
 } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { COLOR_HEX, hexToRGBA } from '@/lib/utils/design-tokens';
+import { COLOR_HEX, hexToRGBA } from '@/lib/utils';
 import {
     Crown,
     Flame,

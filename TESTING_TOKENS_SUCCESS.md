@@ -63,7 +63,7 @@ Suite completa de testes E2E automatizados usando **Playwright** para validar a 
 ### ✅ Testes (7 arquivos - 1,374 linhas)
 
 ```
-tests/e2e/design-tokens/
+tests/e2e/rainer-design-tokens/
 ├── helpers/
 │   └── token-utils.ts              ✅ [312 linhas] - Helpers reutilizáveis
 │
@@ -247,7 +247,7 @@ npm run test:tokens:report
 
 ### README dos Testes (490 linhas)
 
-**Localização:** `tests/e2e/design-tokens/README.md`
+**Localização:** `tests/e2e/rainer-design-tokens/README.md`
 
 **Seções:**
 
@@ -351,7 +351,7 @@ npx playwright test --project=chromium
 ### 4. CI/CD Integration
 
 ```yaml
-# .github/workflows/design-tokens-tests.yml
+# .github/workflows/rainer-design-tokens-tests.yml
 name: Design Tokens Tests
 
 on: [push, pull_request]

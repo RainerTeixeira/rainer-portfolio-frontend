@@ -3,6 +3,7 @@
 ## ✅ Dependências Removidas (100% Redundâncias Eliminadas)
 
 ### Ícones
+
 - ❌ `@radix-ui/react-icons` → Substituído por `lucide-react` (única lib de ícones)
 - ❌ `react-icons` → Não utilizado (0 arquivos)
 - ❌ `@tabler/icons-react` → Não utilizado (0 arquivos)
@@ -10,6 +11,7 @@
 **Resultado**: Apenas `lucide-react` (163 arquivos) como única fonte de ícones.
 
 ### Animações
+
 - ❌ `aos` → Não utilizado (0 arquivos)
 - ✅ `framer-motion` → Mantido (61 arquivos - essencial)
 - ✅ `tailwindcss-animate` → Mantido (utilitário Tailwind)
@@ -17,6 +19,7 @@
 **Resultado**: Apenas `framer-motion` para animações complexas.
 
 ### Carousels
+
 - ❌ `react-multi-carousel` → Não utilizado (0 arquivos)
 - ✅ `embla-carousel-react` → Mantido (carousel principal)
 
@@ -25,26 +28,31 @@
 ## ✅ Dependências Mantidas (Essenciais)
 
 ### Core
+
 - ✅ `next` + `react` + `react-dom` → Framework base
 - ✅ `typescript` → Type safety
 - ✅ `tailwindcss` + `tailwind-merge` → Estilização
-- ✅ `@rainer/design-tokens` → **Única fonte de verdade para design**
+- ✅ `@rainersoft/design-tokens` → **Única fonte de verdade para design**
 
 ### UI Components
+
 - ✅ `@radix-ui/*` → Componentes acessíveis (sem ícones próprios)
 - ✅ `lucide-react` → **Única lib de ícones**
 - ✅ `framer-motion` → Animações essenciais
 - ✅ `sonner` → Toasts/notifications
 
 ### Forms & Validation
+
 - ✅ `react-hook-form` + `zod` → Formulários
 - ✅ `@hookform/resolvers` → Integração
 
 ### State & Data
+
 - ✅ `@tanstack/react-query` → Server state
 - ✅ `@tanstack/react-table` → Tabelas
 
 ### Utils
+
 - ✅ `clsx` + `tailwind-merge` → Merge de classes (via `cn()`)
 - ✅ `class-variance-authority` → Variantes de componentes
 - ✅ `date-fns` → Manipulação de datas
@@ -52,6 +60,7 @@
 ## 📊 Estatísticas - 100% Otimizado
 
 ### Antes
+
 - **Dependências**: 72
 - **DevDependencies**: 28
 - **Scripts**: 20 (com redundâncias)
@@ -60,6 +69,7 @@
 - **Carousels**: 2 libs (redundantes)
 
 ### Depois (100% Otimizado)
+
 - **Dependências**: 64 (-8, -11%)
 - **DevDependencies**: 25 (-3, -11%)
 - **Scripts**: 18 (-2, -10%)
@@ -70,12 +80,14 @@
 ## 🎯 Arquitetura Final
 
 ### Single Source of Truth
-- **Design Tokens**: `@rainer/design-tokens` → Cores, tipografia, spacing, radius, shadows
+
+- **Design Tokens**: `@rainersoft/design-tokens` → Cores, tipografia, spacing, radius, shadows
 - **Ícones**: `lucide-react` → Todos os ícones
 - **Classes**: `cn()` (clsx + tailwind-merge) → Merge de classes
 - **Animações**: `framer-motion` → Animações complexas
 
 ### Padrão Enterprise
+
 - ✅ Dependências enxutas
 - ✅ Sem redundâncias
 - ✅ Bibliotecas consolidadas
@@ -94,6 +106,7 @@ Todos os testes (unit, e2e, tokens) centralizados em um único comando.
 ## 📝 Mudanças Aplicadas (100% Otimização)
 
 ### Dependências Removidas
+
 1. ✅ `@radix-ui/react-icons` → Substituído por `lucide-react` em `command.tsx`
 2. ✅ `react-icons` → Não utilizado (0 arquivos)
 3. ✅ `@tabler/icons-react` → Não utilizado (0 arquivos)
@@ -105,13 +118,16 @@ Todos os testes (unit, e2e, tokens) centralizados em um único comando.
 9. ✅ `whatwg-fetch` → Next.js já inclui fetch nativo
 
 ### DevDependencies Removidas
+
 1. ✅ `@types/aos` → Não necessário
 
 ### Scripts Removidos (Redundantes)
+
 1. ✅ `dev:turbo` → Redundante (apenas flag)
 2. ✅ `dev:webpack` → Redundante (igual ao `dev`)
 
 ### Scripts Adicionados
+
 1. ✅ `test:all` → Script consolidado de testes
 
 ## ✅ Validação
@@ -124,4 +140,3 @@ Todos os testes (unit, e2e, tokens) centralizados em um único comando.
 ---
 
 **Status**: ✅ Projeto otimizado e profissional, seguindo padrões de grandes empresas.
-

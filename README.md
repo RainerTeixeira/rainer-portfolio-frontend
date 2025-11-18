@@ -124,18 +124,18 @@ Servir como:
 
 Esta aplicação possui **nível enterprise global** com recursos de empresas Fortune 500:
 
-| Feature                    | Descrição                                      | Benefício                            |
-| -------------------------- | ---------------------------------------------- | ------------------------------------ |
-| 🎨 **Design Tokens**       | Biblioteca @rainer/design-tokens (200+ tokens) | Single source of truth, reutilizável |
-| 🚨 **Error Boundary**      | Tratamento global de erros                     | Zero crashes visíveis                |
-| ⏳ **Loading States**      | 4 componentes padronizados                     | UX consistente                       |
-| 📝 **Logging System**      | 4 níveis estruturados                          | Debug 80% mais rápido                |
-| 📊 **Analytics**           | 15+ eventos predefinidos                       | Insights completos                   |
-| ⚡ **Performance Monitor** | Core Web Vitals + custom                       | Performance em tempo real            |
-| ✅ **Validation Schemas**  | 7 validators centralizados                     | Validação consistente                |
-| 🔐 **Env Tipado**          | Type-safe environment                          | Zero erros de config                 |
-| 🪝 **Custom Hooks**        | 10+ hooks enterprise                           | Lógica reutilizável                  |
-| 📦 **Barrel Exports**      | Imports simplificados                          | Imports 50% menores                  |
+| Feature                    | Descrição                                             | Benefício                            |
+| -------------------------- | ----------------------------------------------------- | ------------------------------------ |
+| 🎨 **Design Tokens**       | Biblioteca @rainer/rainer-design-tokens (200+ tokens) | Single source of truth, reutilizável |
+| 🚨 **Error Boundary**      | Tratamento global de erros                            | Zero crashes visíveis                |
+| ⏳ **Loading States**      | 4 componentes padronizados                            | UX consistente                       |
+| 📝 **Logging System**      | 4 níveis estruturados                                 | Debug 80% mais rápido                |
+| 📊 **Analytics**           | 15+ eventos predefinidos                              | Insights completos                   |
+| ⚡ **Performance Monitor** | Core Web Vitals + custom                              | Performance em tempo real            |
+| ✅ **Validation Schemas**  | 7 validators centralizados                            | Validação consistente                |
+| 🔐 **Env Tipado**          | Type-safe environment                                 | Zero erros de config                 |
+| 🪝 **Custom Hooks**        | 10+ hooks enterprise                                  | Lógica reutilizável                  |
+| 📦 **Barrel Exports**      | Imports simplificados                                 | Imports 50% menores                  |
 
 **Mais detalhes**: Ver [📚 Documentação Completa](docs/)
 
@@ -1445,13 +1445,13 @@ docker start sonarqube
 
 ### Core Framework
 
-| Tecnologia                                                                | Versão | Descrição                                |
-| ------------------------------------------------------------------------- | ------ | ---------------------------------------- |
-| [Next.js](https://nextjs.org/)                                            | 15.3.4 | Framework React com App Router e SSR     |
-| [React](https://react.dev/)                                               | 19.0.0 | Biblioteca para construção de interfaces |
-| [TypeScript](https://www.typescriptlang.org/)                             | 5.x    | Superset JavaScript com tipagem estática |
-| [Tailwind CSS](https://tailwindcss.com/)                                  | 4.x    | Framework CSS utility-first              |
-| [@rainer/design-tokens](https://github.com/rainer-teixeira/design-tokens) | 1.0.0  | Biblioteca de design tokens reutilizável |
+| Tecnologia                                                                              | Versão | Descrição                                |
+| --------------------------------------------------------------------------------------- | ------ | ---------------------------------------- |
+| [Next.js](https://nextjs.org/)                                                          | 15.3.4 | Framework React com App Router e SSR     |
+| [React](https://react.dev/)                                                             | 19.0.0 | Biblioteca para construção de interfaces |
+| [TypeScript](https://www.typescriptlang.org/)                                           | 5.x    | Superset JavaScript com tipagem estática |
+| [Tailwind CSS](https://tailwindcss.com/)                                                | 4.x    | Framework CSS utility-first              |
+| [@rainer/rainer-design-tokens](https://github.com/rainer-teixeira/rainer-design-tokens) | 1.0.0  | Biblioteca de design tokens reutilizável |
 
 ### UI e Experiência do Usuário
 
@@ -2178,7 +2178,7 @@ Para questões e suporte:
 
 #### ✨ Novos Sistemas Enterprise
 
-1. **Design Tokens System** (`@rainer/design-tokens`)
+1. **Design Tokens System** (`@rainer/rainer-design-tokens`)
    - Biblioteca npm reutilizável com 200+ tokens centralizados
    - Animation, scroll, spacing, typography, shadows, gradients, etc
    - Type-safe com autocomplete completo
@@ -2380,10 +2380,10 @@ Esta seção documenta todas as melhorias realizadas no README.md para torná-lo
 
 ### 🛠️ Recursos Técnicos
 
-- 🎨 **Design Tokens**: `@rainer/design-tokens` (biblioteca npm reutilizável, 200+ tokens)
-  - Instalação: `npm install @rainer/design-tokens`
-  - Uso: `import { GRADIENTS, BACKGROUND, SHADOWS } from '@rainer/design-tokens'`
-  - Documentação: Ver seção [Design Tokens](#-design-tokens) abaixo
+- 🎨 **Design Tokens**: `@rainer/rainer-design-tokens` (biblioteca npm reutilizável, 200+ tokens)
+  - Instalação: `npm install @rainer/rainer-design-tokens`
+  - Uso: `import { GRADIENTS, BACKGROUND, SHADOWS } from '@rainer/rainer-design-tokens'`
+  - Documentação: Ver seção [Design Tokens](#-rainer-design-tokens) abaixo
 - 📝 **Logger**: `lib/logger.ts` (4 níveis)
 - 📊 **Analytics**: `lib/analytics.ts` (15+ eventos)
 - ⚡ **Performance**: `lib/performance-monitor.ts` (Core Web Vitals)
@@ -2441,7 +2441,7 @@ Esta seção documenta todas as melhorias realizadas no README.md para torná-lo
 ║                    ENTERPRISE FEATURES                            ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║                                                                   ║
-║  🎨 Design Tokens System (@rainer/design-tokens) ✅ Implementado ║
+║  🎨 Design Tokens System (@rainer/rainer-design-tokens) ✅ Implementado ║
 ║  🚨 Error Boundary Global         ✅ Implementado                ║
 ║  ⏳ Loading States Padronizados   ✅ Implementado                ║
 ║  📝 Logging System Estruturado    ✅ Implementado                ║
@@ -2807,16 +2807,16 @@ jobs:
 
 #### Design Tokens
 
-Sistema centralizado com 200+ tokens usando a biblioteca **`@rainer/design-tokens`**:
+Sistema centralizado com 200+ tokens usando a biblioteca **`@rainer/rainer-design-tokens`**:
 
 ##### 📦 Biblioteca de Design Tokens
 
-Este projeto utiliza a biblioteca **`@rainer/design-tokens`** como fonte única de verdade para todos os tokens de design. A biblioteca fornece valores consistentes para animações, espaçamentos, cores, tipografia, sombras, z-index e efeitos visuais.
+Este projeto utiliza a biblioteca **`@rainer/rainer-design-tokens`** como fonte única de verdade para todos os tokens de design. A biblioteca fornece valores consistentes para animações, espaçamentos, cores, tipografia, sombras, z-index e efeitos visuais.
 
 **Instalação:**
 
 ```bash
-npm install @rainer/design-tokens
+npm install @rainer/rainer-design-tokens
 ```
 
 **Uso:**
@@ -2830,10 +2830,10 @@ import {
   TEXT,
   BADGE,
   BORDER_RADIUS
-} from '@rainer/design-tokens';
+} from '@rainer/rainer-design-tokens';
 
 // Exemplo: Usando tokens em componentes
-import { BACKGROUND } from '@rainer/design-tokens';
+import { BACKGROUND } from '@rainer/rainer-design-tokens';
 import { cn } from '@/lib/utils';
 
 <div className={cn('min-h-screen', BACKGROUND.FULL)}>
@@ -2861,7 +2861,10 @@ import { cn } from '@/lib/utils';
 
 ```tsx
 // Animations
-import { ANIMATION_DURATION_MS, ANIMATIONS } from '@rainer/design-tokens';
+import {
+  ANIMATION_DURATION_MS,
+  ANIMATIONS,
+} from '@rainer/rainer-design-tokens';
 import { motion } from 'framer-motion';
 
 <motion.div
@@ -2872,7 +2875,7 @@ import { motion } from 'framer-motion';
 </motion.div>;
 
 // Gradients
-import { GRADIENTS, GRADIENT_DIRECTIONS } from '@rainer/design-tokens';
+import { GRADIENTS, GRADIENT_DIRECTIONS } from '@rainer/rainer-design-tokens';
 import { cn } from '@/lib/utils';
 
 <div className={cn(GRADIENT_DIRECTIONS.TO_RIGHT, GRADIENTS.TEXT_PRIMARY)}>
@@ -2880,12 +2883,12 @@ import { cn } from '@/lib/utils';
 </div>;
 
 // Shadows
-import { SHADOWS } from '@rainer/design-tokens';
+import { SHADOWS } from '@rainer/rainer-design-tokens';
 
 <div className={SHADOWS.LARGE}>Card com sombra</div>;
 
 // Backgrounds
-import { BACKGROUND } from '@rainer/design-tokens';
+import { BACKGROUND } from '@rainer/rainer-design-tokens';
 import { cn } from '@/lib/utils';
 
 <div className={cn('min-h-screen', BACKGROUND.FULL)}>
@@ -2909,7 +2912,7 @@ Para mais informações sobre a biblioteca, consulte:
 - 📖 [Guia de Uso](../@rainer-design-tokens/docs/GUIDE.md)
 - 💡 [Exemplos](../@rainer-design-tokens/EXAMPLES.md)
 
-**Nota:** O arquivo `constants/design-tokens.ts` foi renomeado para `constants/OLD_design-tokens.ts` e mantido como backup. Todos os novos imports devem usar `@rainer/design-tokens` diretamente.
+**Nota:** O arquivo `constants/rainer-design-tokens.ts` foi renomeado para `constants/OLD_design-tokens.ts` e mantido como backup. Todos os novos imports devem usar `@rainer/rainer-design-tokens` diretamente.
 
 ### ♿ Acessibilidade
 
@@ -3451,7 +3454,7 @@ export function useAuth() {
 
 #### ✨ Principais Features
 
-- 🎨 **Design Tokens System** - Biblioteca `@rainer/design-tokens` com 200+ tokens centralizados e reutilizáveis
+- 🎨 **Design Tokens System** - Biblioteca `@rainer/rainer-design-tokens` com 200+ tokens centralizados e reutilizáveis
 - 🚨 **Error Boundary Global** - Zero crashes visíveis ao usuário
 - ⏳ **Loading States Padronizados** - 4 componentes de loading
 - 📝 **Logging System** - 4 níveis estruturados de log
@@ -3615,7 +3618,7 @@ O **Rainer Portfolio Frontend** é uma aplicação web enterprise-grade que repr
 
 #### Arquitetura Enterprise
 
-- **Design Tokens System** - Biblioteca `@rainer/design-tokens` como single source of truth para design
+- **Design Tokens System** - Biblioteca `@rainer/rainer-design-tokens` como single source of truth para design
 - **Error Boundary Global** - Tratamento robusto de erros
 - **Custom Hooks Organizados** - 20+ hooks modulares
 - **Validation Schemas** - Validação centralizada e type-safe

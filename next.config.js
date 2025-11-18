@@ -19,7 +19,7 @@ const nextConfig = {
   /**
    * Lista de workspaces a serem transpilados (monorepo support).
    */
-  transpilePackages: ['@rainer/design-tokens'],
+  transpilePackages: ['@rainersoft/design-tokens'],
 
   /**
    * Configurações avançadas de imagens (domínios autorizados, formatos, tamanhos).

@@ -29,15 +29,18 @@ Refatorar a estrutura de `lib/` seguindo a mesma lógica usada para refatorar `a
 ### 1. **Utils Organizados** (`lib/utils/`)
 
 **Arquivos movidos:**
-- `lib/design-tokens-helpers.ts` → `lib/utils/design-tokens.ts`
+
+- `lib/rainer-design-tokens-helpers.ts` → `lib/utils/rainer-design-tokens.ts`
 - `lib/scroll-utils.ts` → `lib/utils/scroll.ts`
 - `lib/search.ts` → `lib/utils/search.ts`
 - `lib/validation-schemas.ts` → `lib/utils/validation.ts`
 
 **Novo arquivo:**
+
 - `lib/utils/index.ts` - Barrel export para todos os utilitários
 
 **Arquivos existentes mantidos:**
+
 - `lib/utils/string.ts` - String utilities (já existia)
 - `lib/utils/image-optimizer.ts` - Image optimization (já existia)
 - `lib/utils/post-compressor.ts` - Post compression (já existia)
@@ -45,19 +48,23 @@ Refatorar a estrutura de `lib/` seguindo a mesma lógica usada para refatorar `a
 ### 2. **Monitoring & Observability** (`lib/monitoring/`)
 
 **Arquivos movidos:**
+
 - `lib/analytics.ts` → `lib/monitoring/analytics.ts`
 - `lib/logger.ts` → `lib/monitoring/logger.ts`
 - `lib/performance-monitor.ts` → `lib/monitoring/performance.ts`
 
 **Novo arquivo:**
+
 - `lib/monitoring/index.ts` - Barrel export para todos os sistemas de monitoramento
 
 ### 3. **API Reorganizado** (`lib/api/`)
 
 **Arquivos movidos:**
+
 - `lib/blog-public-api.ts` → `lib/api/blog-public-api.ts`
 
 **Estrutura existente mantida:**
+
 - `lib/api/services/` - API services
 - `lib/api/helpers/` - API helpers
 - `lib/api/types/` - API types
@@ -65,13 +72,14 @@ Refatorar a estrutura de `lib/` seguindo a mesma lógica usada para refatorar `a
 - `lib/api/config.ts` - API config
 
 **Atualização:**
+
 - `lib/api/index.ts` - Adicionado export de `blog-public-api.ts`
 
 ### 4. **Arquivos de Compatibilidade (Deprecated)**
 
 Criados arquivos de compatibilidade na raiz de `lib/` para migração gradual:
 
-- `lib/design-tokens-helpers.ts` - Re-export de `utils/design-tokens`
+- `lib/rainer-design-tokens-helpers.ts` - Re-export de `utils/rainer-design-tokens`
 - `lib/scroll-utils.ts` - Re-export de `utils/scroll`
 - `lib/search.ts` - Re-export de `utils/search`
 - `lib/validation-schemas.ts` - Re-export de `utils/validation`
@@ -106,7 +114,7 @@ lib/
 ├── utils/                     # Utilitários organizados
 │   ├── index.ts              # Barrel exports
 │   ├── string.ts             # String utils
-│   ├── design-tokens.ts      # Design tokens helpers
+│   ├── rainer-design-tokens.ts      # Design tokens helpers
 │   ├── scroll.ts             # Scroll utils (a11y)
 │   ├── search.ts             # Search utilities
 │   ├── validation.ts         # Validation schemas
@@ -130,7 +138,7 @@ lib/
 │   ├── index.ts              # Barrel exports
 │   ├── cookie-manager.ts     # Cookie manager
 │   └── analytics.ts          # Analytics cookies
-├── design-tokens-helpers.ts  # ⚠️ DEPRECATED
+├── rainer-design-tokens-helpers.ts  # ⚠️ DEPRECATED
 ├── scroll-utils.ts           # ⚠️ DEPRECATED
 ├── search.ts                 # ⚠️ DEPRECATED
 ├── validation-schemas.ts     # ⚠️ DEPRECATED
@@ -145,11 +153,11 @@ lib/
 
 ### Arquivos de Código Fonte
 
-1. **`app/not-found.tsx`** - Atualizado import de `design-tokens-helpers` → `utils/design-tokens`
-2. **`app/blog/page.tsx`** - Atualizado import de `design-tokens-helpers` → `utils/design-tokens`
-3. **`components/home/hero-section.tsx`** - Atualizado import de `design-tokens-helpers` → `utils/design-tokens`
-4. **`components/home/carousel.tsx`** - Atualizado import de `design-tokens-helpers` → `utils/design-tokens`
-5. **`components/ui/floating-grid.tsx`** - Atualizado import de `design-tokens-helpers` → `utils/design-tokens`
+1. **`app/not-found.tsx`** - Atualizado import de `rainer-design-tokens-helpers` → `utils/rainer-design-tokens`
+2. **`app/blog/page.tsx`** - Atualizado import de `rainer-design-tokens-helpers` → `utils/rainer-design-tokens`
+3. **`components/home/hero-section.tsx`** - Atualizado import de `rainer-design-tokens-helpers` → `utils/rainer-design-tokens`
+4. **`components/home/carousel.tsx`** - Atualizado import de `rainer-design-tokens-helpers` → `utils/rainer-design-tokens`
+5. **`components/ui/floating-grid.tsx`** - Atualizado import de `rainer-design-tokens-helpers` → `utils/rainer-design-tokens`
 6. **`hooks/use-smooth-scroll.ts`** - Atualizado import de `scroll-utils` → `utils/scroll`
 7. **`hooks/use-analytics.ts`** - Atualizado imports de `logger` e `analytics` → `monitoring/logger` e `monitoring/analytics`
 
@@ -220,7 +228,7 @@ lib/
    - ✅ Nenhum import direto dos arquivos deprecated encontrado
 
 2. ✅ **Remover arquivos deprecated** - **CONCLUÍDO**
-   - ✅ Removido `lib/design-tokens-helpers.ts`
+   - ✅ Removido `lib/rainer-design-tokens-helpers.ts`
    - ✅ Removido `lib/scroll-utils.ts`
    - ✅ Removido `lib/search.ts`
    - ✅ Removido `lib/validation-schemas.ts`
@@ -253,4 +261,3 @@ A refatoração da estrutura de `lib/` foi concluída com sucesso. A nova estrut
 
 **Status**: ✅ **COMPLETA**  
 **Próximo passo**: Executar testes completos para validar a refatoração (se aplicável).
-

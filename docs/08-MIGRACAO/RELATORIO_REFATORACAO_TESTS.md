@@ -28,43 +28,52 @@ Refatorar a estrutura de `tests/lib/` para refletir a nova organização de `lib
 ### 1. **Monitoring & Observability** (`tests/lib/monitoring/`)
 
 **Arquivos movidos:**
+
 - `tests/lib/analytics.test.ts` → `tests/lib/monitoring/analytics.test.ts`
 - `tests/lib/logger.test.ts` → `tests/lib/monitoring/logger.test.ts`
 - `tests/lib/performance-monitor.test.ts` → `tests/lib/monitoring/performance.test.ts`
 
 **Novo diretório:**
+
 - `tests/lib/monitoring/` - Criado para testes de monitoring
 
 ### 2. **Utils Organizados** (`tests/lib/utils/`)
 
 **Arquivos movidos:**
+
 - `tests/lib/scroll-utils.test.ts` → `tests/lib/utils/scroll.test.ts`
 - `tests/lib/search.test.ts` → `tests/lib/utils/search.test.ts`
 - `tests/lib/validation-schemas.test.ts` → `tests/lib/utils/validation.test.ts`
 
 **Novos arquivos criados:**
+
 - `tests/lib/utils/string.test.ts` - Teste para `lib/utils/string.ts`
-- `tests/lib/utils/design-tokens.test.ts` - Teste para `lib/utils/design-tokens.ts`
+- `tests/lib/utils/rainer-design-tokens.test.ts` - Teste para `lib/utils/rainer-design-tokens.ts`
 
 **Arquivos existentes mantidos:**
+
 - `tests/lib/utils/image-optimizer.test.ts` - Já existia
 - `tests/lib/utils/post-compressor.test.ts` - Já existia
 
 ### 3. **Content Utilities** (`tests/lib/content/`)
 
 **Novo diretório criado:**
+
 - `tests/lib/content/` - Criado para testes de content utils
 
 **Novos arquivos criados:**
+
 - `tests/lib/content/tiptap-utils.test.ts` - Teste para `lib/content/tiptap-utils.ts`
 - `tests/lib/content/reading-time.test.ts` - Teste para `lib/content/reading-time.ts`
 
 ### 4. **SEO Utilities** (`tests/lib/seo/`)
 
 **Novo diretório criado:**
+
 - `tests/lib/seo/` - Criado para testes de SEO utils
 
 **Novos arquivos criados:**
+
 - `tests/lib/seo/metadata.test.ts` - Teste para `lib/seo/metadata.ts`
 - `tests/lib/seo/sitemap.test.ts` - Teste para `lib/seo/sitemap.ts`
 - `tests/lib/seo/structured-data.test.ts` - Teste para `lib/seo/structured-data.ts`
@@ -72,6 +81,7 @@ Refatorar a estrutura de `tests/lib/` para refletir a nova organização de `lib
 ### 5. **Arquivos Removidos**
 
 **Arquivos removidos da raiz de `tests/lib/`:**
+
 - ✅ `tests/lib/analytics.test.ts` - Movido para `tests/lib/monitoring/analytics.test.ts`
 - ✅ `tests/lib/logger.test.ts` - Movido para `tests/lib/monitoring/logger.test.ts`
 - ✅ `tests/lib/performance-monitor.test.ts` - Movido para `tests/lib/monitoring/performance.test.ts`
@@ -82,6 +92,7 @@ Refatorar a estrutura de `tests/lib/` para refletir a nova organização de `lib
 ### 6. **Arquivos Atualizados**
 
 **Arquivos de teste atualizados:**
+
 - ✅ `tests/lib/api-helpers.test.ts` - Adicionado comentário `@deprecated` indicando que agrupa múltiplos módulos
 
 ---
@@ -114,7 +125,7 @@ tests/lib/
 │   ├── sitemap.test.ts       # Teste de geração de sitemap
 │   └── structured-data.test.ts # Teste de dados estruturados
 ├── utils/                     # Testes de utilitários
-│   ├── design-tokens.test.ts # Teste de design tokens helpers
+│   ├── rainer-design-tokens.test.ts # Teste de design tokens helpers
 │   ├── image-optimizer.test.ts # Teste de otimização de imagens
 │   ├── post-compressor.test.ts # Teste de compressão de posts
 │   ├── scroll.test.ts        # Teste de scroll utils (a11y)
@@ -138,7 +149,7 @@ tests/lib/
 5. **`tests/lib/utils/search.test.ts`** - Teste para `lib/utils/search.ts`
 6. **`tests/lib/utils/validation.test.ts`** - Teste para `lib/utils/validation.ts`
 7. **`tests/lib/utils/string.test.ts`** - Teste para `lib/utils/string.ts` (novo)
-8. **`tests/lib/utils/design-tokens.test.ts`** - Teste para `lib/utils/design-tokens.ts` (novo)
+8. **`tests/lib/utils/rainer-design-tokens.test.ts`** - Teste para `lib/utils/rainer-design-tokens.ts` (novo)
 9. **`tests/lib/content/tiptap-utils.test.ts`** - Teste para `lib/content/tiptap-utils.ts` (novo)
 10. **`tests/lib/content/reading-time.test.ts`** - Teste para `lib/content/reading-time.ts` (novo)
 11. **`tests/lib/seo/metadata.test.ts`** - Teste para `lib/seo/metadata.ts` (novo)
@@ -225,4 +236,3 @@ A refatoração da estrutura de `tests/lib/` foi concluída com sucesso. A nova 
 3. **Melhorar testes existentes** - Adicionar mais casos de teste para aumentar cobertura
 4. **Executar testes** - Validar que todos os testes passam após refatoração
 5. **Verificar cobertura** - Verificar se a cobertura de testes está adequada
-

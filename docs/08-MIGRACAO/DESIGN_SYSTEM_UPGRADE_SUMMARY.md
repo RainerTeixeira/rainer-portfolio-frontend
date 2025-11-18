@@ -257,7 +257,7 @@ import {
   NEON_PURPLE,
   CYBERPUNK_GRADIENTS,
   CYBERPUNK_EFFECTS,
-} from '@rainer/design-tokens';
+} from '@rainer/rainer-design-tokens';
 
 // Usar em componente
 const buttonStyle = {

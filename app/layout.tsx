@@ -72,7 +72,7 @@ import {
 // ============================================================================
 
 import { SEO_KEYWORDS, SITE_CONFIG } from '@/constants';
-import { COLOR_HEX } from '@/lib/utils/design-tokens';
+import { COLOR_HEX } from '@/lib/utils';
 
 // ============================================================================
 // Analytics

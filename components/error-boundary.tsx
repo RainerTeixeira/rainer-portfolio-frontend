@@ -195,15 +195,15 @@ export class ErrorBoundary extends Component<
 
       // Renderiza UI de erro padrão
       return (
-        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-background dark:bg-linear-to-b dark:from-black dark:via-gray-900 dark:to-black">
-          <Card className="max-w-2xl w-full dark:bg-black/60 dark:border-red-400/30">
+        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-background dark:bg-[var(--color-background-primary)]">
+          <Card className="max-w-2xl w-full dark:bg-[var(--color-surface-primary)]/60 dark:border-[var(--color-status-error-border)]/30">
             <CardHeader>
               <div className="flex items-center gap-3 mb-2">
-                <div className="p-3 rounded-full bg-red-500/10 dark:bg-red-400/10 border border-red-500/30">
-                  <AlertTriangle className="h-8 w-8 text-red-600 dark:text-red-400" />
+                <div className="p-3 rounded-full bg-[var(--color-status-error)]/10 dark:bg-[var(--color-status-error)]/10 border border-[var(--color-status-error-border)]/30">
+                  <AlertTriangle className="h-8 w-8 text-[var(--color-status-error)] dark:text-[var(--color-status-error)]" />
                 </div>
                 <div>
-                  <CardTitle className="text-2xl dark:text-red-200">
+                  <CardTitle className="text-2xl dark:text-[var(--color-status-error)]">
                     Algo deu errado
                   </CardTitle>
                   <CardDescription>Um erro inesperado ocorreu</CardDescription>
@@ -213,19 +213,19 @@ export class ErrorBoundary extends Component<
 
             <CardContent className="space-y-6">
               {/* Mensagem de erro */}
-              <div className="p-4 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-400/20">
-                <p className="text-sm font-mono text-red-800 dark:text-red-300">
+              <div className="p-4 rounded-lg bg-[var(--color-status-error)]/10 dark:bg-[var(--color-status-error)]/30 border border-[var(--color-status-error-border)]/20">
+                <p className="text-sm font-mono text-[var(--color-status-error)] dark:text-[var(--color-status-error)]">
                   {error?.message || 'Erro desconhecido'}
                 </p>
               </div>
 
               {/* Stack trace (apenas em desenvolvimento) */}
               {process.env.NODE_ENV === 'development' && errorInfo && (
-                <details className="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-700">
-                  <summary className="text-sm font-semibold cursor-pointer text-gray-700 dark:text-gray-300 mb-2">
+                <details className="p-4 rounded-lg bg-[var(--color-background-secondary)] dark:bg-[var(--color-background-secondary)]/30 border border-[var(--color-border-primary)]">
+                  <summary className="text-sm font-semibold cursor-pointer text-[var(--color-text-primary)] dark:text-[var(--color-text-primary)] mb-2">
                     Detalhes técnicos (desenvolvimento)
                   </summary>
-                  <pre className="text-xs font-mono text-gray-600 dark:text-gray-400 overflow-x-auto mt-2 whitespace-pre-wrap">
+                  <pre className="text-xs font-mono text-[var(--color-text-secondary)] dark:text-[var(--color-text-secondary)] overflow-x-auto mt-2 whitespace-pre-wrap">
                     {errorInfo.componentStack}
                   </pre>
                 </details>

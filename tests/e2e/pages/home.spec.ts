@@ -5,7 +5,7 @@
  */
 
 import { expect, test } from '@playwright/test';
-import { getCSSVariable } from '../design-tokens/helpers/token-utils';
+import { getCSSVariable } from '../rainer-design-tokens/helpers/token-utils';
 
 test.describe('Home Page - Design Tokens Validation', () => {
   test.beforeEach(async ({ page }) => {

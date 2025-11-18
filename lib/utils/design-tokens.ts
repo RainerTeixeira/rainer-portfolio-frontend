@@ -1,13 +1,16 @@
 /**
  * Design Tokens Utils
  *
- * Utilitários para trabalhar com design tokens da biblioteca @rainer/design-tokens.
+ * Utilitários para trabalhar com design tokens da biblioteca @rainersoft/design-tokens.
  * Fornece funções para converter cores HEX para HSL, RGB e outras transformações necessárias.
+ * Usa diretamente as cores da biblioteca @rainersoft/design-tokens para evitar duplicação.
  *
  * @fileoverview Utilitários para design tokens
  * @author Rainer Teixeira
  * @version 4.0.0
  */
+
+import { darkThemeColors, lightThemeColors } from '@rainersoft/design-tokens';
 
 // ============================================================================
 // Color Conversion
@@ -133,140 +136,153 @@ export function hexToRGBA(hex: string, alpha: number): string {
 }
 
 // ============================================================================
-// Color Constants
+// Color Helpers - Extraindo cores diretamente da biblioteca
 // ============================================================================
+
+/**
+ * Obtém cores semânticas do tema atual
+ *
+ * Usa diretamente as cores da biblioteca @rainersoft/design-tokens.
+ * Prefira usar estas cores semânticas ao invés de cores primitivas.
+ *
+ * @param theme - 'light' | 'dark' (padrão: 'light')
+ * @returns Cores do tema especificado
+ */
+export function getThemeColors(theme: 'light' | 'dark' = 'light') {
+  return theme === 'light' ? lightThemeColors : darkThemeColors;
+}
 
 /**
  * Obtém cores primitivas como valores hex
  *
- * Utilitário para acessar cores primitivas usando valores hex padrão do Tailwind CSS.
- * Essas cores são mapeadas pelos tokens da biblioteca @rainer/design-tokens via Tailwind config.
- * Útil para uso em estilos inline, canvas, etc.
+ * NOTA: Estas cores são extraídas diretamente dos tokens primitivos da biblioteca.
+ * Todas as cores agora estão disponíveis nos tokens, eliminando valores hardcoded.
+ * Prefira usar as cores semânticas da biblioteca através de getThemeColors() quando possível.
  *
- * NOTA: A biblioteca v4.0.0 não exporta mais COLOR_* diretamente.
- * Use as classes Tailwind ou CSS variables para acessar as cores.
+ * @deprecated Use getThemeColors() e acesse cores semânticas diretamente
  */
 export const COLOR_HEX = {
-  // Cores primárias (baseadas na paleta Tailwind padrão)
+  // Cores extraídas dos tokens primitivos
   cyan: {
-    50: '#ecfeff',
-    100: '#cffafe',
-    200: '#a5f3fc',
-    300: '#67e8f9',
-    400: '#22d3ee',
-    500: '#06b6d4',
-    600: '#0891b2',
-    700: '#0e7490',
-    800: '#155e75',
-    900: '#164e63',
+    50: lightThemeColors.primitive.cyan[50],
+    100: lightThemeColors.primitive.cyan[100],
+    200: lightThemeColors.primitive.cyan[200],
+    300: lightThemeColors.primitive.cyan[300],
+    400: lightThemeColors.primitive.cyan[400],
+    500: lightThemeColors.primitive.cyan[500],
+    600: lightThemeColors.primitive.cyan[600],
+    700: lightThemeColors.primitive.cyan[700],
+    800: lightThemeColors.primitive.cyan[800],
+    900: lightThemeColors.primitive.cyan[900],
   },
   purple: {
-    50: '#faf5ff',
-    100: '#f3e8ff',
-    200: '#e9d5ff',
-    300: '#d8b4fe',
-    400: '#c084fc',
-    500: '#a855f7',
-    600: '#9333ea',
-    700: '#7e22ce',
-    800: '#6b21a8',
-    900: '#581c87',
+    50: lightThemeColors.primitive.purple[50],
+    100: lightThemeColors.primitive.purple[100],
+    200: lightThemeColors.primitive.purple[200],
+    300: lightThemeColors.primitive.purple[300],
+    400: lightThemeColors.primitive.purple[400],
+    500: lightThemeColors.primitive.purple[500],
+    600: lightThemeColors.primitive.purple[600],
+    700: lightThemeColors.primitive.purple[700],
+    800: lightThemeColors.primitive.purple[800],
+    900: lightThemeColors.primitive.purple[900],
   },
   pink: {
-    50: '#fdf2f8',
-    100: '#fce7f3',
-    200: '#fbcfe8',
-    300: '#f9a8d4',
-    400: '#f472b6',
-    500: '#ec4899',
-    600: '#db2777',
-    700: '#be185d',
-    800: '#9f1239',
-    900: '#831843',
+    50: lightThemeColors.primitive.pink[50],
+    100: lightThemeColors.primitive.pink[100],
+    200: lightThemeColors.primitive.pink[200],
+    300: lightThemeColors.primitive.pink[300],
+    400: lightThemeColors.primitive.pink[400],
+    500: lightThemeColors.primitive.pink[500],
+    600: lightThemeColors.primitive.pink[600],
+    700: lightThemeColors.primitive.pink[700],
+    800: lightThemeColors.primitive.pink[800],
+    900: lightThemeColors.primitive.pink[900],
   },
   blue: {
-    50: '#eff6ff',
-    100: '#dbeafe',
-    200: '#bfdbfe',
-    300: '#93c5fd',
-    400: '#60a5fa',
-    500: '#3b82f6',
-    600: '#2563eb',
-    700: '#1d4ed8',
-    800: '#1e40af',
-    900: '#1e3a8a',
+    50: lightThemeColors.primitive.blue[50],
+    100: lightThemeColors.primitive.blue[100],
+    200: lightThemeColors.primitive.blue[200],
+    300: lightThemeColors.primitive.blue[300],
+    400: lightThemeColors.primitive.blue[400],
+    500: lightThemeColors.primitive.blue[500],
+    600: lightThemeColors.primitive.blue[600],
+    700: lightThemeColors.primitive.blue[700],
+    800: lightThemeColors.primitive.blue[800],
+    900: lightThemeColors.primitive.blue[900],
   },
   green: {
-    50: '#f0fdf4',
-    100: '#dcfce7',
-    200: '#bbf7d0',
-    300: '#86efac',
-    400: '#4ade80',
-    500: '#22c55e',
-    600: '#16a34a',
-    700: '#15803d',
-    800: '#166534',
-    900: '#14532d',
+    50: lightThemeColors.primitive.green[50],
+    100: lightThemeColors.primitive.green[100],
+    200: lightThemeColors.primitive.green[200],
+    300: lightThemeColors.primitive.green[300],
+    400: lightThemeColors.primitive.green[400],
+    500: lightThemeColors.primitive.green[500],
+    600: lightThemeColors.primitive.green[600],
+    700: lightThemeColors.primitive.green[700],
+    800: lightThemeColors.primitive.green[800],
+    900: lightThemeColors.primitive.green[900],
   },
   orange: {
-    50: '#fff7ed',
-    100: '#ffedd5',
-    200: '#fed7aa',
-    300: '#fdba74',
-    400: '#fb923c',
-    500: '#f97316',
-    600: '#ea580c',
-    700: '#c2410c',
-    800: '#9a3412',
-    900: '#7c2d12',
+    50: lightThemeColors.primitive.orange[50],
+    100: lightThemeColors.primitive.orange[100],
+    200: lightThemeColors.primitive.orange[200],
+    300: lightThemeColors.primitive.orange[300],
+    400: lightThemeColors.primitive.orange[400],
+    500: lightThemeColors.primitive.orange[500],
+    600: lightThemeColors.primitive.orange[600],
+    700: lightThemeColors.primitive.orange[700],
+    800: lightThemeColors.primitive.orange[800],
+    900: lightThemeColors.primitive.orange[900],
   },
   red: {
-    50: '#fef2f2',
-    100: '#fee2e2',
-    200: '#fecaca',
-    300: '#fca5a5',
-    400: '#f87171',
-    500: '#ef4444',
-    600: '#dc2626',
-    700: '#b91c1c',
-    800: '#991b1b',
-    900: '#7f1d1d',
+    50: lightThemeColors.primitive.red[50],
+    100: lightThemeColors.primitive.red[100],
+    200: lightThemeColors.primitive.red[200],
+    300: lightThemeColors.primitive.red[300],
+    400: lightThemeColors.primitive.red[400],
+    500: lightThemeColors.primitive.red[500],
+    600: lightThemeColors.primitive.red[600],
+    700: lightThemeColors.primitive.red[700],
+    800: lightThemeColors.primitive.red[800],
+    900: lightThemeColors.primitive.red[900],
   },
   amber: {
-    50: '#fffbeb',
-    100: '#fef3c7',
-    200: '#fde68a',
-    300: '#fcd34d',
-    400: '#fbbf24',
-    500: '#f59e0b',
-    600: '#d97706',
-    700: '#b45309',
-    800: '#92400e',
-    900: '#78350f',
+    50: lightThemeColors.primitive.amber[50],
+    100: lightThemeColors.primitive.amber[100],
+    200: lightThemeColors.primitive.amber[200],
+    300: lightThemeColors.primitive.amber[300],
+    400: lightThemeColors.primitive.amber[400],
+    500: lightThemeColors.primitive.amber[500],
+    600: lightThemeColors.primitive.amber[600],
+    700: lightThemeColors.primitive.amber[700],
+    800: lightThemeColors.primitive.amber[800],
+    900: lightThemeColors.primitive.amber[900],
   },
   emerald: {
-    50: '#ecfdf5',
-    100: '#d1fae5',
-    200: '#a7f3d0',
-    300: '#6ee7b7',
-    400: '#34d399',
-    500: '#10b981',
-    600: '#059669',
-    700: '#047857',
-    800: '#065f46',
-    900: '#064e3b',
+    50: lightThemeColors.primitive.emerald[50],
+    100: lightThemeColors.primitive.emerald[100],
+    200: lightThemeColors.primitive.emerald[200],
+    300: lightThemeColors.primitive.emerald[300],
+    400: lightThemeColors.primitive.emerald[400],
+    500: lightThemeColors.primitive.emerald[500],
+    600: lightThemeColors.primitive.emerald[600],
+    700: lightThemeColors.primitive.emerald[700],
+    800: lightThemeColors.primitive.emerald[800],
+    900: lightThemeColors.primitive.emerald[900],
   },
   neutral: {
-    50: '#fafafa',
-    100: '#f5f5f5',
-    200: '#e5e5e5',
-    300: '#d4d4d4',
-    400: '#a3a3a3',
-    500: '#737373',
-    600: '#525252',
-    700: '#404040',
-    800: '#262626',
-    900: '#171717',
+    50: lightThemeColors.primitive.neutral[50],
+    100: lightThemeColors.primitive.neutral[100],
+    200: lightThemeColors.primitive.neutral[200],
+    300: lightThemeColors.primitive.neutral[300],
+    400: lightThemeColors.primitive.neutral[400],
+    500: lightThemeColors.primitive.neutral[500],
+    600: lightThemeColors.primitive.neutral[600],
+    700: lightThemeColors.primitive.neutral[700],
+    800: lightThemeColors.primitive.neutral[800],
+    900: lightThemeColors.primitive.neutral[900],
+    950: lightThemeColors.primitive.neutral[950],
   },
 } as const;
 
@@ -275,54 +291,68 @@ export const COLOR_HEX = {
  *
  * Utilitário para acessar cores primitivas como valores RGB,
  * útil para uso em estilos inline com alpha.
+ *
+ * @deprecated Use getThemeColors() e hexToRGB() diretamente nas cores semânticas
  */
 export const COLOR_RGB = {
   cyan: Object.fromEntries(
-    Object.entries(COLOR_HEX.cyan).map(([key, value]) => [key, hexToRGB(value)])
-  ) as Record<keyof typeof COLOR_HEX.cyan, string>,
+    Object.entries(lightThemeColors.primitive.cyan).map(([key, value]) => [
+      key,
+      hexToRGB(value as string),
+    ])
+  ) as Record<keyof typeof lightThemeColors.primitive.cyan, string>,
   purple: Object.fromEntries(
-    Object.entries(COLOR_HEX.purple).map(([key, value]) => [
+    Object.entries(lightThemeColors.primitive.purple).map(([key, value]) => [
       key,
-      hexToRGB(value),
+      hexToRGB(value as string),
     ])
-  ) as Record<keyof typeof COLOR_HEX.purple, string>,
+  ) as Record<keyof typeof lightThemeColors.primitive.purple, string>,
   pink: Object.fromEntries(
-    Object.entries(COLOR_HEX.pink).map(([key, value]) => [key, hexToRGB(value)])
-  ) as Record<keyof typeof COLOR_HEX.pink, string>,
+    Object.entries(lightThemeColors.primitive.pink).map(([key, value]) => [
+      key,
+      hexToRGB(value as string),
+    ])
+  ) as Record<keyof typeof lightThemeColors.primitive.pink, string>,
   blue: Object.fromEntries(
-    Object.entries(COLOR_HEX.blue).map(([key, value]) => [key, hexToRGB(value)])
-  ) as Record<keyof typeof COLOR_HEX.blue, string>,
+    Object.entries(lightThemeColors.primitive.blue).map(([key, value]) => [
+      key,
+      hexToRGB(value as string),
+    ])
+  ) as Record<keyof typeof lightThemeColors.primitive.blue, string>,
   green: Object.fromEntries(
-    Object.entries(COLOR_HEX.green).map(([key, value]) => [
+    Object.entries(lightThemeColors.primitive.green).map(([key, value]) => [
       key,
-      hexToRGB(value),
+      hexToRGB(value as string),
     ])
-  ) as Record<keyof typeof COLOR_HEX.green, string>,
+  ) as Record<keyof typeof lightThemeColors.primitive.green, string>,
   orange: Object.fromEntries(
-    Object.entries(COLOR_HEX.orange).map(([key, value]) => [
+    Object.entries(lightThemeColors.primitive.orange).map(([key, value]) => [
       key,
-      hexToRGB(value),
+      hexToRGB(value as string),
     ])
-  ) as Record<keyof typeof COLOR_HEX.orange, string>,
+  ) as Record<keyof typeof lightThemeColors.primitive.orange, string>,
   red: Object.fromEntries(
-    Object.entries(COLOR_HEX.red).map(([key, value]) => [key, hexToRGB(value)])
-  ) as Record<keyof typeof COLOR_HEX.red, string>,
+    Object.entries(lightThemeColors.primitive.red).map(([key, value]) => [
+      key,
+      hexToRGB(value as string),
+    ])
+  ) as Record<keyof typeof lightThemeColors.primitive.red, string>,
   amber: Object.fromEntries(
-    Object.entries(COLOR_HEX.amber).map(([key, value]) => [
+    Object.entries(lightThemeColors.primitive.amber).map(([key, value]) => [
       key,
-      hexToRGB(value),
+      hexToRGB(value as string),
     ])
-  ) as Record<keyof typeof COLOR_HEX.amber, string>,
+  ) as Record<keyof typeof lightThemeColors.primitive.amber, string>,
   emerald: Object.fromEntries(
-    Object.entries(COLOR_HEX.emerald).map(([key, value]) => [
+    Object.entries(lightThemeColors.primitive.emerald).map(([key, value]) => [
       key,
-      hexToRGB(value),
+      hexToRGB(value as string),
     ])
-  ) as Record<keyof typeof COLOR_HEX.emerald, string>,
+  ) as Record<keyof typeof lightThemeColors.primitive.emerald, string>,
   neutral: Object.fromEntries(
-    Object.entries(COLOR_HEX.neutral).map(([key, value]) => [
+    Object.entries(lightThemeColors.primitive.neutral).map(([key, value]) => [
       key,
-      hexToRGB(value),
+      hexToRGB(value as string),
     ])
-  ) as Record<keyof typeof COLOR_HEX.neutral, string>,
+  ) as Record<keyof typeof lightThemeColors.primitive.neutral, string>,
 } as const;

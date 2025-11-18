@@ -9,7 +9,7 @@ import { defineConfig, devices } from '@playwright/test';
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-  testDir: './tests/e2e/design-tokens',
+  testDir: './tests/e2e/rainer-design-tokens',
 
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -25,9 +25,9 @@ export default defineConfig({
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html', { outputFolder: 'playwright-report/design-tokens' }],
+    ['html', { outputFolder: 'playwright-report/rainer-design-tokens' }],
     ['list'],
-    ['json', { outputFile: 'test-results/design-tokens-results.json' }],
+    ['json', { outputFile: 'test-results/rainer-design-tokens-results.json' }],
   ],
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

@@ -4,7 +4,7 @@ Este é o Storybook do **frontend** (`rainer-portfolio-frontend`), focado em **c
 
 ## 🎯 Objetivo
 
-Documentar e visualizar os componentes de interface do usuário que **utilizam** os design tokens da biblioteca `@rainer/design-tokens`.
+Documentar e visualizar os componentes de interface do usuário que **utilizam** os design tokens da biblioteca `@rainer/rainer-design-tokens`.
 
 ## 🚀 Como Usar
 
@@ -133,4 +133,3 @@ Use o seletor de background no Storybook para alternar entre temas.
 - [Documentação Storybook](https://storybook.js.org/)
 - [Design Tokens Lib](../@rainer-design-tokens/README.md)
 - [Componentes UI](../components/ui/)
-

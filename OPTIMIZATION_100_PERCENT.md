@@ -53,7 +53,7 @@
 
 ### Design System
 
-- ✅ **Design Tokens**: `@rainer/design-tokens` → Única fonte de verdade
+- ✅ **Design Tokens**: `@rainersoft/design-tokens` → Única fonte de verdade
 - ✅ **Ícones**: `lucide-react` → Única lib de ícones
 - ✅ **Classes**: `cn()` (clsx + tailwind-merge) → Merge de classes
 - ✅ **Animações**: `framer-motion` → Animações complexas

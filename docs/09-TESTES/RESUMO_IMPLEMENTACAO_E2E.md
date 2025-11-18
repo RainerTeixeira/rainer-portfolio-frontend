@@ -5,6 +5,7 @@
 ### Visão Geral
 
 Implementação completa de sistema de testes E2E profissional usando Playwright, incluindo:
+
 - Monitoramento automático de console (F12)
 - Sistema de autenticação para desenvolvimento
 - Testes detalhados de todas as funcionalidades principais
@@ -17,6 +18,7 @@ Implementação completa de sistema de testes E2E profissional usando Playwright
 ### Arquivo: `playwright.config.ts`
 
 **Mudanças principais:**
+
 - Removido `webServer` (servidor não sobe automaticamente)
 - Configurado apenas Chrome (`channel: 'chrome'`, `headless: false`)
 - Adicionado monitoramento avançado de console
@@ -25,6 +27,7 @@ Implementação completa de sistema de testes E2E profissional usando Playwright
 - Múltiplos reporters (HTML, list, JSON)
 
 **Recursos implementados:**
+
 - Captura automática de logs do console (F12)
 - Tratamento de erros JavaScript
 - Monitoramento de requisições de rede
@@ -38,13 +41,16 @@ Implementação completa de sistema de testes E2E profissional usando Playwright
 ### Arquivos Criados:
 
 #### `tests/e2e/helpers/console-helper.ts`
+
 Classe `ConsoleHelper` que captura:
+
 - `console.log`, `console.error`, `console.warn`, `console.info`, `console.debug`
 - Erros de página (`pageerror`)
 - Requisições que falharam (`requestfailed`)
 - Respostas HTTP com erro (4xx, 5xx)
 
 **Métodos principais:**
+
 - `getAllLogs()` - Retorna todos os logs capturados
 - `getErrors()` - Retorna apenas erros
 - `getWarnings()` - Retorna apenas warnings
@@ -53,15 +59,19 @@ Classe `ConsoleHelper` que captura:
 - `generateReport()` - Gera relatório completo dos logs
 
 #### `tests/e2e/fixtures/index.ts`
+
 Fixtures globais que automaticamente:
+
 - Criam `ConsoleHelper` para cada teste
 - Validam erros críticos após cada teste
 - Disponibilizam `consoleHelper` para todos os testes
 
 #### `tests/e2e/fixtures/console-monitor.ts`
+
 Fixture alternativa para monitoramento de console
 
 #### `tests/e2e/helpers/setup-console-monitoring.ts`
+
 Helper para setup de monitoramento de console
 
 ---
@@ -71,16 +81,19 @@ Helper para setup de monitoramento de console
 ### Arquivo: `tests/e2e/helpers/auth-helper.ts`
 
 **Credenciais de desenvolvimento:**
+
 - Username: `admin`
 - Password: `admin`
 
 **Funções implementadas:**
+
 - `loginToDashboard(page, username?, password?)` - Realiza login
 - `isAuthenticated(page)` - Verifica se está autenticado
 - `logoutFromDashboard(page)` - Realiza logout
 - `ensureAuthenticated(page)` - Garante autenticação antes de testes
 
 **Características:**
+
 - Verifica se já está autenticado antes de fazer login
 - Múltiplos seletores para encontrar campos de login
 - Tratamento robusto de erros
@@ -93,7 +106,9 @@ Helper para setup de monitoramento de console
 ### 4.1 Testes de Rotas Principais
 
 #### `tests/e2e/main-routes-console-check.spec.ts`
+
 Testa as principais rotas do site verificando erros de console:
+
 - `/` (home)
 - `/sobre`
 - `/blog`
@@ -103,6 +118,7 @@ Testa as principais rotas do site verificando erros de console:
 - `/cookies`
 
 **Características:**
+
 - Verifica disponibilidade do servidor antes de executar
 - Filtra erros genéricos de rede
 - Relatório completo de erros encontrados
@@ -110,7 +126,9 @@ Testa as principais rotas do site verificando erros de console:
 ### 4.2 Testes Detalhados do Blog
 
 #### `tests/e2e/blog-detailed.spec.ts`
+
 **17 testes** cobrindo:
+
 - Listagem de posts
 - Busca de posts
 - Filtros por categoria
@@ -125,7 +143,9 @@ Testa as principais rotas do site verificando erros de console:
 ### 4.3 Testes de Formulários
 
 #### `tests/e2e/formularios.spec.ts`
+
 **8 testes** cobrindo:
+
 - Formulário de contato completo
 - Validação de campos obrigatórios
 - Validação de formato de email
@@ -137,7 +157,9 @@ Testa as principais rotas do site verificando erros de console:
 ### 4.4 Testes de Navegação
 
 #### `tests/e2e/navegacao.spec.ts`
+
 **10 testes** cobrindo:
+
 - Menu principal
 - Menu mobile
 - Links internos
@@ -148,7 +170,9 @@ Testa as principais rotas do site verificando erros de console:
 ### 4.5 Testes Detalhados do Dashboard
 
 #### `tests/e2e/dashboard-detailed.spec.ts`
+
 **17 testes** cobrindo:
+
 - Criação de post (6 testes)
   - Abrir formulário
   - Preencher campos básicos
@@ -172,6 +196,7 @@ Testa as principais rotas do site verificando erros de console:
 - Validação de formulário (1 teste)
 
 **Características especiais:**
+
 - Autenticação automática antes de cada teste
 - Múltiplos seletores para maior robustez
 - Timeouts otimizados
@@ -180,6 +205,7 @@ Testa as principais rotas do site verificando erros de console:
 ### 4.6 Teste de Autenticação
 
 #### `tests/e2e/auth-test.spec.ts`
+
 Teste básico para verificar se autenticação admin/admin funciona
 
 ---
@@ -187,24 +213,29 @@ Teste básico para verificar se autenticação admin/admin funciona
 ## 5. Padronização dos Testes Existentes
 
 ### Fase 1: Importações (✅ Completo)
+
 - Todos os testes migrados para usar `./fixtures` em vez de `@playwright/test`
 - Garante monitoramento automático de console
 
 ### Fase 2: BASE_URL (✅ Completo)
+
 - Removidas definições explícitas de `BASE_URL`
 - Substituídas URLs hardcoded por caminhos relativos
 - Uso de `baseURL` do `playwright.config.ts`
 
 ### Fase 3: Estrutura (✅ Completo)
+
 - Estrutura de testes padronizada
 - Uso consistente de `test.describe` e `test.beforeEach`
 - Imports organizados
 
 ### Fase 4: Monitoramento de Console (✅ Completo)
+
 - Todos os testes agora usam `consoleHelper` automaticamente
 - Validação de erros críticos após cada teste
 
 **Arquivos padronizados:**
+
 - `dashboard.spec.ts`
 - `accessibility.spec.ts`
 - `cookies.spec.ts`
@@ -230,7 +261,9 @@ Teste básico para verificar se autenticação admin/admin funciona
 ### Arquivos de Documentação Criados/Atualizados:
 
 #### `docs/09-TESTES/README_CONSOLE_MONITORING.md`
+
 Documentação completa do sistema de monitoramento de console:
+
 - Como funciona
 - Estrutura do sistema
 - Como usar
@@ -241,14 +274,18 @@ Documentação completa do sistema de monitoramento de console:
 - Integração com AI
 
 #### `docs/09-TESTES/DISCREPANCIAS_TESTES.md`
+
 Documentação das discrepâncias encontradas e plano de ação:
+
 - Análise completa das inconsistências
 - Plano de ação em 4 fases
 - Status de conclusão (100% completo)
 - Checklist de padronização
 
 #### `docs/09-TESTES/README.md`
+
 Documentação principal atualizada com:
+
 - Seção de testes E2E
 - Referências ao sistema de monitoramento
 - Estatísticas atualizadas
@@ -258,6 +295,7 @@ Documentação principal atualizada com:
 ## 7. Estatísticas Finais
 
 ### Arquivos Criados:
+
 - 1 helper de console (`console-helper.ts`)
 - 1 helper de autenticação (`auth-helper.ts`)
 - 2 fixtures (`index.ts`, `console-monitor.ts`)
@@ -266,12 +304,14 @@ Documentação principal atualizada com:
 - 1 teste de rotas principais (`main-routes-console-check.spec.ts`)
 
 ### Testes Implementados:
+
 - **~60+ casos de teste** novos
 - **17 arquivos de teste** padronizados
 - **0 erros de lint**
 - **0 erros de TypeScript**
 
 ### Cobertura:
+
 - ✅ Rotas principais
 - ✅ Blog completo
 - ✅ Formulários
@@ -286,20 +326,25 @@ Documentação principal atualizada com:
 ### Arquivos Criados:
 
 #### `tests/e2e/performance.spec.ts`
+
 **20 testes** cobrindo:
+
 - Core Web Vitals (LCP, FID, CLS, FCP, TTFB)
 - Tempos de carregamento (Load Time, DOMContentLoaded)
 - Otimizações de recursos (lazy loading, code splitting, cache)
 - Otimizações específicas (Next.js Image, fontes, preload)
 
 #### `tests/e2e/helpers/performance-helper.ts`
+
 Helper profissional para:
+
 - Coleta de métricas de performance
 - Coleta de Web Vitals
 - Validação de Core Web Vitals
 - Geração de relatórios de performance
 
 **Métricas testadas:**
+
 - LCP (Largest Contentful Paint) < 2.5s
 - FID (First Input Delay) < 100ms
 - CLS (Cumulative Layout Shift) < 0.1
@@ -310,6 +355,7 @@ Helper profissional para:
 - Total Size < 5MB
 
 **Características:**
+
 - Coleta automática via Performance API
 - PerformanceObserver para Web Vitals
 - Validação de thresholds profissionais
@@ -321,13 +367,16 @@ Helper profissional para:
 ### Arquivos Criados:
 
 #### `tests/e2e/visual-regression.spec.ts`
+
 **10 testes** cobrindo:
+
 - Páginas principais (home, blog, contato, sobre)
 - Componentes (header, footer, botões)
 - Responsividade (mobile, tablet)
 - Estados interativos (hover, formulários preenchidos)
 
 **Características:**
+
 - Screenshots comparativos com baseline
 - Detecção automática de mudanças visuais
 - Suporte a múltiplos viewports
@@ -338,7 +387,9 @@ Helper profissional para:
 ### Arquivos Criados:
 
 #### `tests/e2e/integration-complex.spec.ts`
+
 **10 testes** cobrindo:
+
 - Fluxos completos de usuário (3 testes)
   - Navegação → busca → visualização de post
   - Contato → preenchimento → envio
@@ -360,7 +411,9 @@ Helper profissional para:
 ### Arquivos Criados:
 
 #### `tests/e2e/accessibility-advanced.spec.ts`
+
 **12 testes** cobrindo:
+
 - Navegação por teclado (3 testes)
   - Navegação completa por Tab
   - Ativação com Enter
@@ -382,7 +435,9 @@ Helper profissional para:
 ### Arquivos Criados:
 
 #### `.github/workflows/e2e-tests.yml`
+
 Workflow GitHub Actions para:
+
 - Execução automática em push/PR
 - Instalação de dependências
 - Build da aplicação
@@ -391,6 +446,7 @@ Workflow GitHub Actions para:
 - Retenção de artifacts
 
 **Características:**
+
 - Executa em Ubuntu latest
 - Timeout de 30 minutos
 - Instala Playwright browsers
@@ -402,7 +458,9 @@ Workflow GitHub Actions para:
 ### Arquivos Criados:
 
 #### `tests/e2e/security.spec.ts`
+
 **10 testes** cobrindo:
+
 - Proteção XSS (2 testes)
   - Sanitização em formulários
   - Sanitização em busca
@@ -421,6 +479,7 @@ Workflow GitHub Actions para:
 ## 14. Fase 12: Documentação e Manutenção (✅ Implementado)
 
 ### Documentação Completa:
+
 - ✅ `RESUMO_IMPLEMENTACAO_E2E.md` - Resumo completo
 - ✅ `README_CONSOLE_MONITORING.md` - Sistema de monitoramento
 - ✅ `DISCREPANCIAS_TESTES.md` - Análise de discrepâncias
@@ -431,20 +490,26 @@ Workflow GitHub Actions para:
 ### Arquivos Criados:
 
 #### `tests/e2e/api-endpoints.spec.ts`
+
 **4 testes** cobrindo:
+
 - Health check
 - Carregamento de posts
 - Respostas HTTP (200, 404)
 - Validação de dados
 
 #### `tests/e2e/cookies-detailed.spec.ts`
+
 **6 testes** cobrindo:
+
 - Banner e consentimento (3 testes)
 - Configurações de cookies (2 testes)
 - Persistência (1 teste)
 
 #### `tests/e2e/seo-metadata.spec.ts`
+
 **6 testes** cobrindo:
+
 - Meta tags (title, description, viewport)
 - Open Graph tags
 - Structured data (JSON-LD)
@@ -452,20 +517,26 @@ Workflow GitHub Actions para:
 - Robots meta
 
 #### `tests/e2e/error-handling.spec.ts`
+
 **5 testes** cobrindo:
+
 - Páginas de erro (404)
 - Erros de rede
 - Fallbacks
 - Mensagens de erro amigáveis
 
 #### `tests/e2e/loading-states.spec.ts`
+
 **3 testes** cobrindo:
+
 - Indicadores visuais de loading
 - Skeleton screens
 - Transições suaves
 
 #### `tests/e2e/responsive-design.spec.ts`
+
 **5 testes** cobrindo:
+
 - Mobile (375x667)
 - Tablet (768x1024)
 - Desktop (1920x1080)
@@ -476,28 +547,37 @@ Workflow GitHub Actions para:
 ### Arquivos Adicionados:
 
 #### `tests/e2e/lighthouse-ci.spec.ts`
+
 **4 testes** cobrindo:
+
 - Métricas de Performance (load time, DOM content loaded)
 - Acessibilidade (alt text, labels, h1)
 - Best Practices (HTTPS, viewport)
 - SEO (title, meta description, h1, lang)
 
 #### `tests/e2e/security.spec.ts` (Atualizado)
+
 **+2 testes de CSRF** adicionados:
+
 - Proteção CSRF em formulários
 - Validação de origem em requisições
 
 #### `tests/e2e/accessibility-advanced.spec.ts` (Atualizado)
+
 **+3 testes de Leitores de Tela** adicionados:
+
 - Roles ARIA apropriados
 - aria-labels descritivos
 - Estados comunicados via ARIA
 
 #### `.github/workflows/e2e-tests.yml` (Atualizado)
+
 **Paralelização** adicionada:
+
 - `--workers=2` para execução paralela de testes
 
 ### Estatísticas Finais:
+
 - **Total de arquivos de teste:** 19 arquivos principais
 - **Total de casos de teste:** 160+ testes
 - **Helpers criados:** 4 helpers
@@ -510,11 +590,13 @@ Workflow GitHub Actions para:
 ## 9. Como Usar
 
 ### Executar todos os testes:
+
 ```bash
 npx playwright test --project=chrome
 ```
 
 ### Executar testes específicos:
+
 ```bash
 # Testes do dashboard
 npx playwright test dashboard-detailed.spec.ts --project=chrome
@@ -527,11 +609,13 @@ npx playwright test auth-test.spec.ts --project=chrome
 ```
 
 ### Ver relatório HTML:
+
 ```bash
 npx playwright show-report
 ```
 
 ### Ver trace de um teste que falhou:
+
 ```bash
 npx playwright show-trace test-results/[nome-do-teste]/trace.zip
 ```
@@ -541,6 +625,7 @@ npx playwright show-trace test-results/[nome-do-teste]/trace.zip
 ## 10. Credenciais de Desenvolvimento
 
 **Para testes E2E:**
+
 - Username: `admin`
 - Password: `admin`
 
@@ -551,24 +636,28 @@ O sistema de autenticação local (`auth-local.ts`) cria automaticamente este us
 ## 11. Melhorias Implementadas
 
 ### Robustez:
+
 - Múltiplos seletores para encontrar elementos
 - Timeouts otimizados
 - Fallbacks para diferentes implementações
 - Tratamento de erros não críticos
 
 ### Monitoramento:
+
 - Captura automática de todos os logs do console
 - Detecção de erros JavaScript
 - Monitoramento de requisições de rede
 - Relatórios detalhados
 
 ### Autenticação:
+
 - Login automático antes dos testes
 - Verificação de autenticação
 - Persistência de sessão
 - Logout quando necessário
 
 ### Padronização:
+
 - Estrutura consistente
 - Imports padronizados
 - Uso de fixtures
@@ -579,18 +668,22 @@ O sistema de autenticação local (`auth-local.ts`) cria automaticamente este us
 ## 12. Problemas Conhecidos e Soluções
 
 ### Erro: "COLOR_CYAN has already been declared"
-- **Causa:** Duplicação de imports do design-tokens
+
+- **Causa:** Duplicação de imports do rainer-design-tokens
 - **Solução:** Filtrado nos testes (não crítico para funcionamento)
 
 ### Erro: "Module parse failed"
+
 - **Causa:** Problemas de build do Turbopack
 - **Solução:** Filtrado nos testes (não crítico para funcionamento)
 
 ### Timeout em testes
+
 - **Causa:** Servidor não está rodando ou muito lento
 - **Solução:** Verificar se servidor está rodando na porta 3000
 
 ### Autenticação falha
+
 - **Causa:** Usuário admin/admin não existe
 - **Solução:** O sistema cria automaticamente no primeiro acesso
 
@@ -599,17 +692,20 @@ O sistema de autenticação local (`auth-local.ts`) cria automaticamente este us
 ## 13. Notas Técnicas
 
 ### Playwright Config:
+
 - `headless: false` - Para ver o navegador durante testes
 - `channel: 'chrome'` - Usa Chrome instalado no sistema
 - `trace: 'on'` - Sempre coleta traces para debugging
 - `video: 'retain-on-failure'` - Grava vídeo quando teste falha
 
 ### Console Monitoring:
+
 - Captura todos os tipos de log
 - Filtra erros conhecidos (COLOR_CYAN, Module parse failed)
 - Permite até 5 erros não críticos antes de falhar
 
 ### Autenticação:
+
 - Usa localStorage para persistência
 - Verifica `auth_user` no localStorage
 - Sistema local cria usuário admin/admin automaticamente
@@ -619,6 +715,7 @@ O sistema de autenticação local (`auth-local.ts`) cria automaticamente este us
 ## 14. Conclusão
 
 Sistema completo de testes E2E implementado com:
+
 - ✅ Monitoramento automático de console
 - ✅ Autenticação para desenvolvimento
 - ✅ Testes detalhados de todas as funcionalidades
@@ -627,4 +724,3 @@ Sistema completo de testes E2E implementado com:
 - ✅ Pronto para produção
 
 **Status:** Sistema 100% funcional e pronto para uso.
-

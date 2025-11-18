@@ -5,7 +5,7 @@ Este guia documenta como usar os componentes shadcn/ui no projeto, incluindo int
 ## 📋 Índice
 
 - [Componentes Disponíveis](#componentes-disponíveis)
-- [Integração com Design Tokens](#integração-com-design-tokens)
+- [Integração com Design Tokens](#integração-com-rainer-design-tokens)
 - [Exemplos de Uso](#exemplos-de-uso)
 - [Substituindo Código Customizado](#substituindo-código-customizado)
 - [Boas Práticas](#boas-práticas)
@@ -15,6 +15,7 @@ Este guia documenta como usar os componentes shadcn/ui no projeto, incluindo int
 ### Componentes Instalados (32/41 - 78%)
 
 #### Componentes Básicos
+
 - ✅ **Button** - Botões com variantes
 - ✅ **Card** - Sistema de cards composable
 - ✅ **Badge** - Etiquetas/tags
@@ -23,6 +24,7 @@ Este guia documenta como usar os componentes shadcn/ui no projeto, incluindo int
 - ✅ **Skeleton** - Loading placeholders
 
 #### Formulários
+
 - ✅ **Input** - Campos de texto
 - ✅ **Textarea** - Áreas de texto
 - ✅ **Label** - Labels de formulário
@@ -32,12 +34,14 @@ Este guia documenta como usar os componentes shadcn/ui no projeto, incluindo int
 - ✅ **Radio Group** - Grupos de opções radio
 
 #### Navegação
+
 - ✅ **Navigation Menu** - Menu de navegação avançado
 - ✅ **Tabs** - Navegação em abas
 - ✅ **Dropdown Menu** - Menus dropdown
 - ✅ **Sheet** - Drawer lateral
 
 #### Overlays
+
 - ✅ **Dialog** - Modais
 - ✅ **Alert Dialog** - Dialogs de confirmação
 - ✅ **Popover** - Popovers contextuais
@@ -45,22 +49,26 @@ Este guia documenta como usar os componentes shadcn/ui no projeto, incluindo int
 - ✅ **Hover Card** - Cards que aparecem no hover
 
 #### Feedback
+
 - ✅ **Alert** - Alertas e mensagens
 - ✅ **Sonner (Toaster)** - Notificações toast modernas
 - ✅ **Progress** - Barras de progresso
 - ✅ **Skeleton** - Loading states
 
 #### Dados
+
 - ✅ **Table** - Tabelas responsivas
 - ✅ **Carousel** - Carrosséis de imagens/conteúdo
 - ✅ **Accordion** - Seções expansíveis/colapsáveis
 
 #### Controles
+
 - ✅ **Switch** - Toggle switches
 - ✅ **Toggle** - Botões toggle
 - ✅ **Command** - Command palette (Ctrl+K)
 
 #### Utilitários
+
 - ✅ **Scroll Area** - Área de scroll customizada
 
 ## 🎨 Integração com Design Tokens
@@ -87,11 +95,21 @@ Os seguintes tokens foram integrados nos componentes:
 
 ```tsx
 // ❌ ANTES (hardcoded)
-<Button className="rounded-md transition-all duration-300 font-medium" />
+<Button className="rounded-md transition-all duration-300 font-medium" />;
 
 // ✅ DEPOIS (com design tokens)
-import { BORDER_RADIUS, TRANSITIONS, FONT_WEIGHT } from '@/constants/design-tokens'
-<Button className={cn(BORDER_RADIUS.MD, TRANSITIONS.ALL_EASE_IN_OUT, FONT_WEIGHT.MEDIUM)} />
+import {
+  BORDER_RADIUS,
+  TRANSITIONS,
+  FONT_WEIGHT,
+} from '@/constants/rainer-design-tokens';
+<Button
+  className={cn(
+    BORDER_RADIUS.MD,
+    TRANSITIONS.ALL_EASE_IN_OUT,
+    FONT_WEIGHT.MEDIUM
+  )}
+/>;
 ```
 
 ## 📚 Exemplos de Uso
@@ -104,19 +122,17 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui'
+} from '@/components/ui';
 
 export function FAQSection() {
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
         <AccordionTrigger>Como funciona?</AccordionTrigger>
-        <AccordionContent>
-          Explicação detalhada aqui...
-        </AccordionContent>
+        <AccordionContent>Explicação detalhada aqui...</AccordionContent>
       </AccordionItem>
     </Accordion>
-  )
+  );
 }
 ```
 
@@ -129,7 +145,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui'
+} from '@/components/ui';
 
 export function TestimonialsCarousel() {
   return (
@@ -141,26 +157,26 @@ export function TestimonialsCarousel() {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
-  )
+  );
 }
 ```
 
 ### 3. Sonner - Notificações Toast
 
 ```tsx
-import { toast } from 'sonner'
+import { toast } from 'sonner';
 
 // Sucesso
-toast.success('Operação realizada com sucesso!')
+toast.success('Operação realizada com sucesso!');
 
 // Erro
-toast.error('Erro ao processar')
+toast.error('Erro ao processar');
 
 // Info
-toast.info('Informação importante')
+toast.info('Informação importante');
 
 // Loading
-const toastId = toast.loading('Processando...')
+const toastId = toast.loading('Processando...');
 // Depois: toast.success('Concluído!', { id: toastId })
 ```
 
@@ -174,7 +190,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui'
+} from '@/components/ui';
 
 export function DataTable() {
   return (
@@ -192,7 +208,7 @@ export function DataTable() {
         </TableRow>
       </TableBody>
     </Table>
-  )
+  );
 }
 ```
 
@@ -205,7 +221,7 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from '@/components/ui'
+} from '@/components/ui';
 
 export function MainNavigation() {
   return (
@@ -219,34 +235,30 @@ export function MainNavigation() {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-  )
+  );
 }
 ```
 
 ### 6. Toggle - Botões Toggle
 
 ```tsx
-import { Toggle } from '@/components/ui'
+import { Toggle } from '@/components/ui';
 
 export function FilterToggle() {
-  const [active, setActive] = useState(false)
-  
+  const [active, setActive] = useState(false);
+
   return (
     <Toggle pressed={active} onPressedChange={setActive}>
       Filtro Ativo
     </Toggle>
-  )
+  );
 }
 ```
 
 ### 7. Hover Card - Preview de Conteúdo
 
 ```tsx
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui';
 
 export function UserPreview() {
   return (
@@ -256,7 +268,7 @@ export function UserPreview() {
         <p>Informações do usuário</p>
       </HoverCardContent>
     </HoverCard>
-  )
+  );
 }
 ```
 
@@ -267,65 +279,86 @@ export function UserPreview() {
 #### 1. Carrosséis Customizados → Carousel
 
 **Antes:**
+
 ```tsx
 // components/home/carousel.tsx - Carousel customizado complexo
 ```
 
 **Depois:**
+
 ```tsx
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui'
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui';
 // Usar componente shadcn/ui
 ```
 
 #### 2. Toasts Customizados → Sonner
 
 **Antes:**
+
 ```tsx
 // Sistema de toast customizado
 ```
 
 **Depois:**
+
 ```tsx
-import { toast } from 'sonner'
-toast.success('Mensagem')
+import { toast } from 'sonner';
+toast.success('Mensagem');
 ```
 
 #### 3. Menus Customizados → Navigation Menu
 
 **Antes:**
+
 ```tsx
 // Menu customizado com dropdown-menu
 ```
 
 **Depois:**
+
 ```tsx
-import { NavigationMenu } from '@/components/ui'
+import { NavigationMenu } from '@/components/ui';
 // Menu mais robusto e acessível
 ```
 
 #### 4. Tabelas Customizadas → Table
 
 **Antes:**
+
 ```tsx
 // Tabelas HTML customizadas
 ```
 
 **Depois:**
+
 ```tsx
-import { Table, TableHeader, TableBody, TableRow, TableCell } from '@/components/ui'
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
+} from '@/components/ui';
 // Tabelas responsivas e acessíveis
 ```
 
 #### 5. Accordions Customizados → Accordion
 
 **Antes:**
+
 ```tsx
 // Accordion customizado com useState
 ```
 
 **Depois:**
+
 ```tsx
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui'
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from '@/components/ui';
 // Accordion acessível e testado
 ```
 
@@ -335,7 +368,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 
 ```tsx
 // ✅ BOM
-import { BORDER_RADIUS, TRANSITIONS } from '@/constants/design-tokens'
+import { BORDER_RADIUS, TRANSITIONS } from '@/constants/rainer-design-tokens'
 <Button className={cn(BORDER_RADIUS.MD, TRANSITIONS.ALL_EASE_IN_OUT)} />
 
 // ❌ EVITAR
@@ -345,10 +378,10 @@ import { BORDER_RADIUS, TRANSITIONS } from '@/constants/design-tokens'
 ### 2. Use cn() para Combinar Classes
 
 ```tsx
-import { cn } from '@/lib/utils'
-import { BORDER_RADIUS } from '@/constants/design-tokens'
+import { cn } from '@/lib/utils';
+import { BORDER_RADIUS } from '@/constants/rainer-design-tokens';
 
-<Card className={cn(BORDER_RADIUS.LG, "custom-class")} />
+<Card className={cn(BORDER_RADIUS.LG, 'custom-class')} />;
 ```
 
 ### 3. Prefira Componentes shadcn/ui
@@ -382,14 +415,14 @@ import {
   SHADOWS,
   TRANSITIONS,
   FONT_WEIGHT,
-} from '@/constants/design-tokens'
+} from '@/constants/rainer-design-tokens';
 
 const customComponent = cn(
   BORDER_RADIUS.LG,
   SHADOWS.MEDIUM,
   TRANSITIONS.ALL_EASE_IN_OUT,
   FONT_WEIGHT.SEMIBOLD
-)
+);
 ```
 
 ## 📝 Checklist de Migração
@@ -406,7 +439,7 @@ Ao substituir código customizado:
 ## 🔗 Recursos
 
 - [Documentação shadcn/ui](https://ui.shadcn.com)
-- [Design Tokens do Projeto](./design-tokens.ts)
+- [Design Tokens do Projeto](./rainer-design-tokens.ts)
 - [Componentes UI](../components/ui/)
 
 ## 📊 Status de Integração
@@ -424,4 +457,3 @@ Ao substituir código customizado:
 
 **Última atualização:** Janeiro 2025  
 **Versão:** 1.0.0
-

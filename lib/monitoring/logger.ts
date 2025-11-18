@@ -22,7 +22,7 @@ import {
   COLOR_BLUE,
   COLOR_NEUTRAL,
   COLOR_RED,
-} from '@rainer/design-tokens';
+} from '@rainersoft/design-tokens';
 
 // ============================================================================
 // Types

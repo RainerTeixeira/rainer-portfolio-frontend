@@ -5,7 +5,7 @@
 1. [Visão Geral](#visão-geral)
 2. [Estrutura de Pastas](#estrutura-de-pastas)
 3. [Padrões de Código](#padrões-de-código)
-4. [Design Tokens](#design-tokens)
+4. [Design Tokens](#rainer-design-tokens)
 5. [Componentes](#componentes)
 6. [Providers](#providers)
 7. [Hooks Customizados](#hooks-customizados)
@@ -82,7 +82,7 @@ rainer-portfolio-frontend/
 │
 ├── constants/                    # Constantes globais
 │   ├── index.tsx                # Config geral
-│   └── design-tokens.ts         # Design tokens
+│   └── rainer-design-tokens.ts         # Design tokens
 │
 ├── types/                        # TypeScript types
 │   └── database.ts              # Database types
@@ -102,10 +102,10 @@ rainer-portfolio-frontend/
 ```typescript
 /**
  * Component Name
- * 
+ *
  * Descrição do componente
  * Lista de características
- * 
+ *
  * @fileoverview Descrição curta
  * @author Rainer Teixeira
  * @version 1.0.0
@@ -161,31 +161,31 @@ export function ComponentName({ prop1, prop2 }: ComponentProps) {
   // ============================================================================
   // Hooks
   // ============================================================================
-  
+
   // ============================================================================
   // State
   // ============================================================================
-  
+
   // ============================================================================
   // Effects
   // ============================================================================
-  
+
   // ============================================================================
   // Handler Functions
   // ============================================================================
-  
+
   // ============================================================================
   // Computed Values
   // ============================================================================
-  
+
   // ============================================================================
   // Render Guards
   // ============================================================================
-  
+
   // ============================================================================
   // Render
   // ============================================================================
-  
+
   return <div>...</div>
 }
 ```
@@ -215,23 +215,23 @@ export function ComponentName({ prop1, prop2 }: ComponentProps) {
 
 ## 🎨 Design Tokens
 
-Todos os valores de design estão centralizados em `constants/design-tokens.ts`:
+Todos os valores de design estão centralizados em `constants/rainer-design-tokens.ts`:
 
 ### **Exemplo de Uso**
 
 ```typescript
-import { 
+import {
   ANIMATION_DURATION_MS,
   SCROLL_THRESHOLDS,
   Z_INDEX,
   TYPOGRAPHY,
-  GRADIENTS 
-} from '@/constants/design-tokens'
+  GRADIENTS,
+} from '@/constants/rainer-design-tokens';
 
 // Usar tokens ao invés de valores hardcoded
-const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP // 300
-const zIndex = Z_INDEX.NAVBAR // 50
-const heading = TYPOGRAPHY.HEADING_1 // 'text-4xl sm:text-5xl...'
+const scrollThreshold = SCROLL_THRESHOLDS.BACK_TO_TOP; // 300
+const zIndex = Z_INDEX.NAVBAR; // 50
+const heading = TYPOGRAPHY.HEADING_1; // 'text-4xl sm:text-5xl...'
 ```
 
 ### **Benefícios**
@@ -264,12 +264,12 @@ Layout (app/layout.tsx)
 
 ### **Categorias de Componentes**
 
-| Categoria | Descrição | Exemplos |
-|-----------|-----------|----------|
-| **Layout** | Estrutura global | Navbar, Footer |
-| **Pages** | Páginas de rota | HomePage, BlogPage |
-| **Sections** | Seções de página | HeroSection, AboutSection |
-| **UI** | Componentes base | Button, Card, Input |
+| Categoria     | Descrição         | Exemplos                    |
+| ------------- | ----------------- | --------------------------- |
+| **Layout**    | Estrutura global  | Navbar, Footer              |
+| **Pages**     | Páginas de rota   | HomePage, BlogPage          |
+| **Sections**  | Seções de página  | HeroSection, AboutSection   |
+| **UI**        | Componentes base  | Button, Card, Input         |
 | **Providers** | Context providers | ThemeProvider, AuthProvider |
 
 ---
@@ -293,10 +293,10 @@ import { ThemeProvider } from '@/components/providers/theme-provider'
 Gerencia autenticação e sessão.
 
 ```typescript
-import { useAuthContext } from '@/components/providers/auth-context-provider'
+import { useAuthContext } from '@/components/providers/auth-context-provider';
 
 function Component() {
-  const { user, login, logout, isAuthenticated } = useAuthContext()
+  const { user, login, logout, isAuthenticated } = useAuthContext();
   // ...
 }
 ```
@@ -305,12 +305,12 @@ function Component() {
 
 ## 🪝 Hooks Customizados
 
-| Hook | Descrição | Uso |
-|------|-----------|-----|
-| `useAnalytics` | Tracking de eventos | Analytics e métricas |
-| `useSmoothScroll` | Scroll acessível | Navegação suave |
-| `useMobile` | Detecção mobile | Responsividade |
-| `usePWA` | Features PWA | Install prompt |
+| Hook              | Descrição           | Uso                  |
+| ----------------- | ------------------- | -------------------- |
+| `useAnalytics`    | Tracking de eventos | Analytics e métricas |
+| `useSmoothScroll` | Scroll acessível    | Navegação suave      |
+| `useMobile`       | Detecção mobile     | Responsividade       |
+| `usePWA`          | Features PWA        | Install prompt       |
 
 ---
 
@@ -319,46 +319,46 @@ function Component() {
 ### **Logger**
 
 ```typescript
-import { logger } from '@/lib/logger'
+import { logger } from '@/lib/logger';
 
-logger.debug('Debug info', { data })
-logger.info('Info message')
-logger.warn('Warning', { context })
-logger.error('Error occurred', error, { context })
+logger.debug('Debug info', { data });
+logger.info('Info message');
+logger.warn('Warning', { context });
+logger.error('Error occurred', error, { context });
 ```
 
 ### **Analytics**
 
 ```typescript
-import { analytics, ANALYTICS_EVENTS } from '@/lib/analytics'
+import { analytics, ANALYTICS_EVENTS } from '@/lib/analytics';
 
-analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'))
-analytics.track(ANALYTICS_EVENTS.BLOG_POST_LIKE('post-123'))
+analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'));
+analytics.track(ANALYTICS_EVENTS.BLOG_POST_LIKE('post-123'));
 ```
 
 ### **Performance Monitor**
 
 ```typescript
-import { performanceMonitor } from '@/lib/performance-monitor'
+import { performanceMonitor } from '@/lib/performance-monitor';
 
-performanceMonitor.start('load_data')
-await loadData()
-performanceMonitor.end('load_data')
+performanceMonitor.start('load_data');
+await loadData();
+performanceMonitor.end('load_data');
 
 // Ou
 await performanceMonitor.measure('load_data', async () => {
-  return await loadData()
-})
+  return await loadData();
+});
 ```
 
 ### **Validation**
 
 ```typescript
-import { validateEmail, validatePassword } from '@/lib/validation-schemas'
+import { validateEmail, validatePassword } from '@/lib/validation-schemas';
 
-const emailResult = validateEmail('test@example.com')
+const emailResult = validateEmail('test@example.com');
 if (!emailResult.isValid) {
-  console.error(emailResult.errors)
+  console.error(emailResult.errors);
 }
 ```
 
@@ -522,7 +522,7 @@ NEXT_PUBLIC_ENABLE_PWA=true
 
 ### **Adicionando Feature**
 
-1. Adicionar feature flag em `design-tokens.ts`
+1. Adicionar feature flag em `rainer-design-tokens.ts`
 2. Criar tipos necessários
 3. Implementar componentes
 4. Adicionar analytics events

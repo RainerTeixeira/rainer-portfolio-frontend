@@ -72,7 +72,7 @@ sequenceDiagram
 
 ## Notas
 
-- Estilos com `TailwindCSS` e tokens em `constants/design-tokens.ts`.
+- Estilos com `TailwindCSS` e tokens em `constants/rainer-design-tokens.ts`.
 - Rotas em `app/` (App Router) e componentes em `components/`.
 - `lib/api/` concentra integrações com o backend e utilitários.
 - Scripts `sonarqube/` para análise estática e integração com Quality Gates.

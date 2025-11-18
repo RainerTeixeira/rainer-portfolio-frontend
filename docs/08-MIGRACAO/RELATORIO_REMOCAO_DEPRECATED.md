@@ -14,7 +14,7 @@ Remover os arquivos deprecated da raiz de `lib/` após confirmação de que todo
 
 ### 📋 Arquivos Removidos
 
-1. ✅ `lib/design-tokens-helpers.ts` → Removido (migrado para `lib/utils/design-tokens.ts`)
+1. ✅ `lib/rainer-design-tokens-helpers.ts` → Removido (migrado para `lib/utils/rainer-design-tokens.ts`)
 2. ✅ `lib/scroll-utils.ts` → Removido (migrado para `lib/utils/scroll.ts`)
 3. ✅ `lib/search.ts` → Removido (migrado para `lib/utils/search.ts`)
 4. ✅ `lib/validation-schemas.ts` → Removido (migrado para `lib/utils/validation.ts`)
@@ -29,8 +29,9 @@ Remover os arquivos deprecated da raiz de `lib/` após confirmação de que todo
 ### 1. **Imports Diretos**
 
 **Busca realizada:**
+
 ```bash
-grep -r "from '@/lib/(design-tokens-helpers|scroll-utils|search|validation-schemas|analytics|logger|performance-monitor|blog-public-api)'" app/ components/ hooks/ lib/
+grep -r "from '@/lib/(rainer-design-tokens-helpers|scroll-utils|search|validation-schemas|analytics|logger|performance-monitor|blog-public-api)'" app/ components/ hooks/ lib/
 ```
 
 **Resultado**: ✅ **0 arquivos encontrados**
@@ -43,12 +44,14 @@ grep -r "from '@/lib/(design-tokens-helpers|scroll-utils|search|validation-schem
 ### 2. **Imports via Barrel Export**
 
 **Verificação:**
+
 - ✅ `lib/index.ts` - Não exporta arquivos deprecated
 - ✅ Todos os exports apontam para os novos módulos organizados
 
 ### 3. **Testes**
 
 **Verificação:**
+
 - ✅ `tests/lib/validation-schemas.test.ts` - Atualizado para `@/lib/utils/validation`
 - ✅ `tests/lib/search.test.ts` - Atualizado para `@/lib/utils/search`
 - ✅ `tests/lib/scroll-utils.test.ts` - Atualizado para `@/lib/utils/scroll`
@@ -82,7 +85,7 @@ lib/
 ├── utils/                     # Utilitários organizados
 │   ├── index.ts              # Barrel exports
 │   ├── string.ts             # String utils
-│   ├── design-tokens.ts      # Design tokens helpers
+│   ├── rainer-design-tokens.ts      # Design tokens helpers
 │   ├── scroll.ts             # Scroll utils (a11y)
 │   ├── search.ts             # Search utilities
 │   ├── validation.ts         # Validation schemas
@@ -115,6 +118,7 @@ lib/
 ### 1. **TypeScript Check**
 
 **Comando:**
+
 ```bash
 npm run type-check
 ```
@@ -124,6 +128,7 @@ npm run type-check
 ### 2. **Linting**
 
 **Comando:**
+
 ```bash
 npm run lint
 ```
@@ -133,6 +138,7 @@ npm run lint
 ### 3. **Estrutura de Arquivos**
 
 **Verificação:**
+
 - ✅ Arquivos deprecated removidos com sucesso
 - ✅ Estrutura de `lib/` limpa e organizada
 - ✅ Todos os módulos organizados por responsabilidade
@@ -166,4 +172,3 @@ A remoção dos arquivos deprecated foi concluída com sucesso. Todos os imports
 2. ✅ Verificar erros de tipo e lint - **CONCLUÍDO**
 3. ⏳ Executar testes completos - **PENDENTE**
 4. ⏳ Atualizar documentação final - **PENDENTE**
-

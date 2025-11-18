@@ -2,7 +2,7 @@
 
 ## 📋 Visão Geral
 
-Este documento descreve a integração completa da biblioteca `@rainer/design-tokens` no frontend do portfólio. A integração garante consistência visual, escalabilidade e manutenibilidade do design system.
+Este documento descreve a integração completa da biblioteca `@rainer/rainer-design-tokens` no frontend do portfólio. A integração garante consistência visual, escalabilidade e manutenibilidade do design system.
 
 ## 🎯 Objetivos Alcançados
 
@@ -18,7 +18,7 @@ Este documento descreve a integração completa da biblioteca `@rainer/design-to
 ### Estrutura de Tokens
 
 ```
-@rainer/design-tokens
+@rainer/rainer-design-tokens
 ├── Primitivos (valores base)
 │   ├── Cores (neutral, cyan, purple, pink, etc.)
 │   ├── Espaçamentos (baseado em grid 8pt)
@@ -36,7 +36,7 @@ Este documento descreve a integração completa da biblioteca `@rainer/design-to
 Frontend
 ├── tailwind.config.ts (configuração Tailwind + tokens)
 ├── app/globals.css (variáveis CSS baseadas em tokens)
-└── lib/design-tokens-helpers.ts (utilitários)
+└── lib/rainer-design-tokens-helpers.ts (utilitários)
 ```
 
 ## 🎨 Uso de Cores
@@ -47,9 +47,7 @@ As cores primitivas estão disponíveis diretamente no Tailwind:
 
 ```tsx
 // Usando cores primitivas
-<div className="bg-cyan-500 text-neutral-50">
-  Conteúdo com cores primitivas
-</div>
+<div className="bg-cyan-500 text-neutral-50">Conteúdo com cores primitivas</div>
 
 // Todas as paletas disponíveis:
 // neutral, cyan, purple, pink, blue, green, orange, red, amber, emerald
@@ -77,6 +75,7 @@ As cores semânticas usam variáveis CSS e se adaptam ao tema:
 ### Mapeamento de Cores Semânticas
 
 #### Light Mode
+
 - `background`: neutral-50 (#fafafa)
 - `foreground`: neutral-900 (#171717)
 - `primary`: cyan-600 (#0891b2)
@@ -84,6 +83,7 @@ As cores semânticas usam variáveis CSS e se adaptam ao tema:
 - `border`: neutral-200 (#e5e5e5)
 
 #### Dark Mode
+
 - `background`: neutral-950 (#0a0a0a)
 - `foreground`: neutral-50 (#fafafa)
 - `primary`: cyan-400 (#22d3ee)
@@ -95,57 +95,59 @@ As cores semânticas usam variáveis CSS e se adaptam ao tema:
 ### Tokens Legacy (Classes Tailwind)
 
 ```tsx
-import { 
-  GRADIENTS, 
-  SHADOWS, 
+import {
+  GRADIENTS,
+  SHADOWS,
   ANIMATION_DURATION_MS,
   BORDER_RADIUS,
-  TRANSITIONS
-} from '@rainer/design-tokens';
+  TRANSITIONS,
+} from '@rainer/rainer-design-tokens';
 
 // Uso em componentes
-<div className={cn(
-  GRADIENTS.TEXT_PRIMARY,
-  SHADOWS.LARGE,
-  BORDER_RADIUS.LG,
-  TRANSITIONS.NORMAL
-)}>
+<div
+  className={cn(
+    GRADIENTS.TEXT_PRIMARY,
+    SHADOWS.LARGE,
+    BORDER_RADIUS.LG,
+    TRANSITIONS.NORMAL
+  )}
+>
   Conteúdo estilizado
-</div>
+</div>;
 ```
 
 ### Tokens Primitivos
 
 ```tsx
-import { 
+import {
   COLOR_PRIMITIVES,
   SPACING_PRIMITIVES,
-  TYPOGRAPHY_PRIMITIVES
-} from '@rainer/design-tokens';
+  TYPOGRAPHY_PRIMITIVES,
+} from '@rainer/rainer-design-tokens';
 
 // Uso em estilos inline ou CSS-in-JS
 const styles = {
   color: COLOR_PRIMITIVES.cyan[600],
   padding: SPACING_PRIMITIVES.rem[4],
-  fontSize: TYPOGRAPHY_PRIMITIVES.fontSize.rem.lg
+  fontSize: TYPOGRAPHY_PRIMITIVES.fontSize.rem.lg,
 };
 ```
 
 ### Tokens Semânticos
 
 ```tsx
-import { 
+import {
   SEMANTIC_COLORS,
   SEMANTIC_SPACING,
-  SEMANTIC_TYPOGRAPHY
-} from '@rainer/design-tokens';
+  SEMANTIC_TYPOGRAPHY,
+} from '@rainer/rainer-design-tokens';
 
 // Uso em componentes
 const buttonStyle = {
   backgroundColor: SEMANTIC_COLORS.light.brand.primary,
   color: SEMANTIC_COLORS.light.text.inverse,
   padding: SEMANTIC_SPACING.component.paddingMd,
-  fontSize: SEMANTIC_TYPOGRAPHY.body.base.fontSize
+  fontSize: SEMANTIC_TYPOGRAPHY.body.base.fontSize,
 };
 ```
 
@@ -154,7 +156,7 @@ const buttonStyle = {
 ### Conversão HEX para HSL
 
 ```tsx
-import { hexToHSL, hexColorsToHSL } from '@/lib/design-tokens-helpers';
+import { hexToHSL, hexColorsToHSL } from '@/lib/rainer-design-tokens-helpers';
 
 // Converter uma cor
 const hslColor = hexToHSL('#0891b2'); // "188 85.7% 53.3%"
@@ -162,7 +164,7 @@ const hslColor = hexToHSL('#0891b2'); // "188 85.7% 53.3%"
 // Converter múltiplas cores
 const colors = hexColorsToHSL({
   primary: '#0891b2',
-  secondary: '#9333ea'
+  secondary: '#9333ea',
 });
 ```
 
@@ -182,7 +184,7 @@ const colors = hexColorsToHSL({
 </div>
 
 // 3. Combine tokens para criar componentes consistentes
-import { CARD, TRANSITIONS } from '@rainer/design-tokens';
+import { CARD, TRANSITIONS } from '@rainer/rainer-design-tokens';
 
 <div className={cn(
   CARD.BACKGROUND,
@@ -240,7 +242,7 @@ import { CARD, TRANSITIONS } from '@rainer/design-tokens';
 <div className="bg-gradient-to-r from-cyan-500 to-blue-500">
 
 // Depois
-import { GRADIENTS } from '@rainer/design-tokens';
+import { GRADIENTS } from '@rainer/rainer-design-tokens';
 <div className={GRADIENTS.PRIMARY}>
 ```
 
@@ -272,8 +274,9 @@ import { GRADIENTS } from '@rainer/design-tokens';
 ### Cores não aparecem
 
 Verifique se a biblioteca está instalada:
+
 ```bash
-npm list @rainer/design-tokens
+npm list @rainer/rainer-design-tokens
 ```
 
 ### Autocomplete não funciona
@@ -284,8 +287,8 @@ Reinicie o TypeScript server no VS Code:
 ### Build falha
 
 Certifique-se de que a biblioteca está compilada:
+
 ```bash
 cd ../\@rainer-design-tokens
 npm run build
 ```
-
