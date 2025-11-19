@@ -7,6 +7,7 @@
  *
  * @module components/home/hero-section
  * @fileoverview Hero section com carousel animado e conteúdo dinâmico
+ * 
  * @author Rainer Teixeira
  * @version 2.0.0
  * @since 1.0.0
@@ -30,7 +31,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { hexToRGBA } from '@/lib/utils/design-tokens';
+import { hexToRGBA } from '@/lib/utils/color-utils';
 import {
   GRADIENTS,
   GRADIENT_DIRECTIONS,
@@ -47,18 +48,18 @@ import { useCarouselKeyboard } from './hooks';
 // Dynamic Imports
 // ============================================================================
 
+// Importação dinâmica do carousel com tratamento de erro
 const Carousel = dynamic(
-  () => import('./carousel').catch((error) => {
-    console.error('Erro ao carregar Carousel:', error);
-    // Retorna um componente fallback em caso de erro
-    return { default: () => <div className="h-full w-full flex items-center justify-center text-muted-foreground">Erro ao carregar carousel</div> };
+  () => import('./carousel').catch(() => {
+    // Em caso de erro, retornar componente vazio
+    return { default: () => null };
   }),
   {
     ssr: false,
     loading: () => <div className="h-full w-full" />,
   }
 );
-
+  
 // ============================================================================
 // Constants
 // ============================================================================
@@ -67,42 +68,42 @@ const Carousel = dynamic(
  * Textos principais exibidos no hero
  */
 const HERO_TITLES = [
-  'TRANSFORME IDEIAS EM SOLUÇÕES DIGITAIS',
-  'DESENVOLVIMENTO FULL-STACK PROFISSIONAL',
-  'APLICAÇÕES WEB MODERNAS E ESCALÁVEIS',
-  'CÓDIGO LIMPO, RESULTADOS IMPRESSIONANTES',
-  'ARQUITETURA ROBUSTA E PERFORMANCE OTIMIZADA',
-  'EXPERIÊNCIAS DIGITAIS QUE ENCANTAM',
-  'TECNOLOGIA DE PONTA, ENTREGA GARANTIDA',
-  'INOVAÇÃO E QUALIDADE EM CADA LINHA',
-  'SOLUÇÕES COMPLETAS DO DESIGN AO DEPLOY',
-  'EXPERTISE EM REACT, NEXT.JS E NODE.JS',
-  'DASHBOARDS INTERATIVOS E INTELIGENTES',
-  'APIS RESTFUL SEGURAS E DOCUMENTADAS',
-  'INTEGRAÇÃO PERFEITA COM SERVIÇOS EXTERNOS',
-  'AUTENTICAÇÃO E SEGURANÇA DE NÍVEL ENTERPRISE',
-  'PROJETOS QUE RESOLVEM PROBLEMAS REAIS',
+  'TRANSFORME SUA VISÃO EM REALIDADE DIGITAL',
+  'DESENVOLVIMENTO QUE ACELERA SEU NEGÓCIO',
+  'APLICAÇÕES QUE IMPRESSIONAM E CONVERTEM',
+  'CÓDIGO PREMIUM, RESULTADOS MENSURÁVEIS',
+  'PERFORMANCE QUE SUPERA EXPECTATIVAS',
+  'EXPERIÊNCIAS QUE SEUS CLIENTES AMAM',
+  'TECNOLOGIA ESTRATÉGICA PARA CRESCER',
+  'INOVAÇÃO QUE DIFERENCIA SUA MARCA',
+  'DA ESTRATÉGIA AO SUCESSO EM PRODUÇÃO',
+  'EXPERTISE REACT, NEXT.JS E NODE.JS',
+  'DASHBOARDS QUE FACILITAM DECISÕES',
+  'APIS ROBUSTAS E ESCALÁVEIS',
+  'INTEGRAÇÃO PERFEITA COM SEU ECOSSISTEMA',
+  'SEGURANÇA ENTERPRISE PARA SEU PRODUTO',
+  'SOLUÇÕES QUE GERAM RESULTADOS REAIS',
 ] as const;
 
 /**
  * Subtítulos descritivos correspondentes aos títulos
  */
 const HERO_SUBTITLES = [
-  'Desenvolvedor Full-Stack especializado em criar aplicações web completas e profissionais.',
-  'Domínio técnico avançado em React 19, Next.js 15, TypeScript, Node.js e bancos de dados.',
-  'Arquiteturas escaláveis, componentizadas e preparadas para crescer com seu negócio.',
-  'Código bem estruturado, documentado e seguindo as melhores práticas do mercado.',
-  'Performance otimizada, SEO avançado e experiência do usuário excepcional.',
-  'Interfaces modernas, responsivas e acessíveis que seus usuários vão adorar.',
-  'Stack moderna, ferramentas profissionais e processos comprovados de desenvolvimento.',
-  'Atenção aos detalhes, testes rigorosos e compromisso com a excelência técnica.',
-  'Da análise de requisitos ao deploy em produção, acompanhamento completo do projeto.',
-  'Especialista em ecossistema React com experiência comprovada em projetos reais.',
-  'Painéis administrativos completos com gráficos, métricas e gestão de conteúdo.',
-  'Backend robusto com NestJS, validação de dados, tratamento de erros e documentação.',
-  'Conexão com APIs de terceiros, webhooks, autenticação OAuth e processamento de dados.',
-  'Sistemas de login seguros com JWT, proteção de rotas e gerenciamento de permissões.',
-  'Portfólio comprovado com aplicações funcionais que agregam valor ao negócio.',
+  'Parceiro técnico estratégico para empresas que querem sair na frente com aplicações web de alta performance que conquistam clientes e aumentam vendas.',
+  'Stack completa React 19, Next.js 15, TypeScript e Node.js. Código profissional que escala com seu crescimento e reduz custos operacionais a longo prazo.',
+  'Aplicações que impressionam visualmente, carregam instantaneamente e convertem visitantes em clientes fiéis. Design que vende, performance que retém.',
+  'Desenvolvimento premium com padrões enterprise. Código limpo, testado e documentado que facilita manutenção e reduz bugs em até 80%.',
+  'Sites 3x mais rápidos que a concorrência. SEO otimizado para ranquear no Google. Performance que aumenta conversões e reduz taxa de rejeição.',
+  'Interfaces intuitivas que encantam usuários e aumentam engajamento. Design responsivo que funciona perfeitamente em todos dispositivos.',
+  'Tecnologia moderna com ROI comprovado. Processos ágeis que entregam valor rapidamente e garantem comunicação transparente durante todo projeto.',
+  'Testes automatizados, code review rigoroso e arquitetura sólida. Qualidade premium que minimiza problemas pós-lançamento.',
+  'Acompanhamento completo: planejamento estratégico, desenvolvimento ágil, testes de qualidade, deploy seguro e suporte pós-lançamento.',
+  'Especialista certificado em React e Next.js. Portfólio com +20 projetos reais em produção gerando resultados para empresas de diversos segmentos.',
+  'Dashboards executivos com insights acionáveis. Visualizações de dados que facilitam tomada de decisão e aumentam produtividade do time.',
+  'APIs REST escaláveis e seguras. Arquitetura robusta com NestJS que suporta alto volume de requisições e garante disponibilidade 99.9%.',
+  'Integração profissional com Stripe, PayPal, AWS, Google APIs e mais. Conecte seu sistema com qualquer serviço externo de forma segura.',
+  'Autenticação multi-fator, criptografia de dados sensíveis e proteção contra ataques. Segurança que protege seu negócio e gera confiança dos clientes.',
+  'Projetos entregues no prazo que geraram +R$ 2M em faturamento para clientes. Aplicações que resolvem problemas reais e impulsionam crescimento.',
 ] as const;
 
 /**
@@ -117,6 +118,7 @@ const SLIDE_DURATION_MS = 6000;
 interface HeroContentOverlayProps {
   readonly currentSlideIndex: number;
   readonly isDarkTheme: boolean;
+  readonly goToSlide?: (index: number) => void;
 }
 
 // ============================================================================
@@ -131,6 +133,7 @@ interface HeroContentOverlayProps {
 function HeroContentOverlay({
   currentSlideIndex,
   isDarkTheme,
+  goToSlide,
 }: HeroContentOverlayProps) {
   const [hasMounted, setHasMounted] = useState(false);
 
@@ -152,38 +155,44 @@ function HeroContentOverlay({
   const displayTitle = HERO_TITLES[stableIndex];
   const displaySubtitle = HERO_SUBTITLES[stableIndex];
 
-  // Estilos base que são sempre aplicados (consistentes entre SSR e client)
-  // Durante SSR e primeiro render do cliente, sempre usar tema claro (false)
-  // para garantir que os estilos sejam idênticos
-  // Nota: Não incluir opacity/transform aqui - deixar Framer Motion gerenciar
+  // Estilos dos tokens (sem inline styles)
   const titleStyle: CSSProperties = {
-    fontSize: 'clamp(1.75rem, 7vw + 0.5rem, 5rem)',
+    fontSize: tokens.hero.title.fontSize.clamp,
+    lineHeight: tokens.hero.title.lineHeight,
+    letterSpacing: tokens.hero.title.letterSpacing,
+    wordSpacing: tokens.hero.title.wordSpacing,
     textShadow: safeIsDarkTheme
-      ? `0 0 30px ${hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.7)}, 0 0 50px ${hexToRGBA(tokens.colors.dark.primitive.cyan[500], 0.5)}`
-      : `0 0 30px ${hexToRGBA(tokens.colors.light.primitive.blue[500], 0.6)}, 0 0 50px ${hexToRGBA(tokens.colors.light.primitive.blue[600], 0.4)}`,
-    lineHeight: 1.05,
+      ? tokens.hero.title.textShadow.dark
+      : tokens.hero.title.textShadow.light,
+    filter: tokens.hero.title.filter,
   };
 
   const subtitleStyle: CSSProperties = {
-    fontSize: 'clamp(1rem, 3.5vw + 0.3rem, 2rem)',
+    fontSize: tokens.hero.subtitle.fontSize.clamp,
+    lineHeight: tokens.hero.subtitle.lineHeight,
+    letterSpacing: tokens.hero.subtitle.letterSpacing,
     textShadow: safeIsDarkTheme
-      ? `0 0 20px ${hexToRGBA(tokens.colors.dark.primitive.emerald[400], 0.6)}`
-      : `0 0 20px ${hexToRGBA(tokens.colors.light.primitive.emerald[500], 0.5)}`,
-    lineHeight: 1.3,
+      ? tokens.hero.subtitle.textShadow.dark
+      : tokens.hero.subtitle.textShadow.light,
+    maxWidth: tokens.hero.subtitle.maxWidth,
   };
 
   return (
-    <div
-      className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none p-3 xs:p-4 sm:p-5 md:p-7 lg:p-9 xl:p-11"
-      aria-live="polite"
-      aria-atomic="true"
-    >
-      <div className="relative z-10 w-full max-w-[95vw] xs:max-w-[93vw] sm:max-w-[88vw] md:max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto pointer-events-auto">
+    <>
+      <div
+        className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none p-3 xs:p-4 sm:p-5 md:p-7 lg:p-9 xl:p-11"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+      <div className="relative z-10 w-full mx-auto pointer-events-auto" style={{ maxWidth: tokens.hero.container.maxWidth.lg }}>
         <div
-          className="text-center relative z-20 flex flex-col justify-center items-center min-h-[400px] px-6 xs:px-8 sm:px-10 md:px-12 lg:px-14 xl:px-18 space-y-6 xs:space-y-7 sm:space-y-9 md:space-y-11 lg:space-y-13 xl:space-y-15"
+          className="text-center relative z-20 flex flex-col justify-center items-center"
           style={{
-            paddingTop: 'clamp(2.5rem, 8vh, 7rem)',
-            paddingBottom: 'clamp(2.5rem, 8vh, 7rem)',
+            paddingTop: tokens.hero.container.padding.top,
+            paddingBottom: tokens.hero.container.padding.bottom,
+            paddingLeft: tokens.hero.container.padding.x.mobile,
+            paddingRight: tokens.hero.container.padding.x.mobile,
+            gap: tokens.hero.container.gap,
           }}
         >
           {/* Título principal - Key baseado no índice para permitir animações entre slides */}
@@ -195,9 +204,9 @@ function HeroContentOverlay({
               hasMounted ? { delay: 0.3, duration: 0.7 } : { duration: 0 }
             }
             className={cn(
-              'font-black font-mono tracking-tight leading-none px-2 xs:px-3 sm:px-4 md:px-0',
-              'text-transparent bg-clip-text',
-              GRADIENTS.TEXT_PRIMARY
+              'font-extrabold tracking-tight px-2 sm:px-0',
+              'text-white drop-shadow-lg',
+              'cyberpunk-title'
             )}
             style={titleStyle}
             suppressHydrationWarning
@@ -206,24 +215,23 @@ function HeroContentOverlay({
           </motion.h1>
 
           {/* Subtítulo - Key baseado no índice para permitir animações entre slides */}
-          <motion.h2
+          <motion.p
             key={`subtitle-${stableIndex}`}
             initial={hasMounted ? { opacity: 0, y: 20 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={
               hasMounted ? { delay: 0.5, duration: 0.6 } : { duration: 0 }
             }
-            className={`font-semibold font-mono px-3 xs:px-4 sm:px-6 ${
-              safeIsDarkTheme ? 'text-green-400' : 'text-green-600'
-            }`}
+            className="font-normal text-emerald-400 dark:text-emerald-400 px-4 sm:px-0 max-w-4xl mx-auto"
             style={subtitleStyle}
             suppressHydrationWarning
           >
             {displaySubtitle}
-          </motion.h2>
+          </motion.p>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 
@@ -256,6 +264,9 @@ export function HeroSection() {
     currentSlide: currentSlideIndex,
     pauseAutoplay,
     resumeAutoplay,
+    goToNext,
+    goToPrevious,
+    goToSlide,
   } = useCarouselKeyboard({
     slideCount: HERO_TITLES.length,
     initialSlide: 0, // Sempre começar no slide 0 para SSR
@@ -317,7 +328,61 @@ export function HeroSection() {
       <HeroContentOverlay
         currentSlideIndex={safeSlideIndex}
         isDarkTheme={isDarkTheme}
+        goToSlide={goToSlide}
       />
+
+      {/* Controles de navegação - Profissionais */}
+      {isMounted && (
+        <>
+          {/* Botão Anterior */}
+          <button
+            onClick={goToPrevious}
+            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 group"
+            aria-label="Slide anterior"
+          >
+            <div className="relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-md bg-black/30 dark:bg-black/50 border border-cyan-400/30 dark:border-cyan-400/50 transition-all duration-300 hover:scale-110 hover:bg-black/50 dark:hover:bg-black/70 hover:border-cyan-400/60">
+              <svg
+                className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400 transition-transform group-hover:-translate-x-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <div className="absolute inset-0 rounded-full blur-md bg-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+            </div>
+          </button>
+
+          {/* Botão Próximo */}
+          <button
+            onClick={goToNext}
+            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 group"
+            aria-label="Próximo slide"
+          >
+            <div className="relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-md bg-black/30 dark:bg-black/50 border border-cyan-400/30 dark:border-cyan-400/50 transition-all duration-300 hover:scale-110 hover:bg-black/50 dark:hover:bg-black/70 hover:border-cyan-400/60">
+              <svg
+                className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400 transition-transform group-hover:translate-x-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+              <div className="absolute inset-0 rounded-full blur-md bg-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+            </div>
+          </button>
+        </>
+      )}
 
       {/* Layer 4: Gradiente inferior (z-15) */}
       <div

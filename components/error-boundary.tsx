@@ -195,15 +195,15 @@ export class ErrorBoundary extends Component<
 
       // Renderiza UI de erro padrão
       return (
-        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-background dark:bg-[var(--color-background-primary)]">
-          <Card className="max-w-2xl w-full dark:bg-[var(--color-surface-primary)]/60 dark:border-[var(--color-status-error-border)]/30">
+        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-background">
+          <Card className="max-w-2xl w-full border-error/30">
             <CardHeader>
               <div className="flex items-center gap-3 mb-2">
-                <div className="p-3 rounded-full bg-[var(--color-status-error)]/10 dark:bg-[var(--color-status-error)]/10 border border-[var(--color-status-error-border)]/30">
-                  <AlertTriangle className="h-8 w-8 text-[var(--color-status-error)] dark:text-[var(--color-status-error)]" />
+                <div className="p-3 rounded-full bg-error/10 border border-error/30">
+                  <AlertTriangle className="h-8 w-8 text-error" />
                 </div>
                 <div>
-                  <CardTitle className="text-2xl dark:text-[var(--color-status-error)]">
+                  <CardTitle className="text-2xl text-error">
                     Algo deu errado
                   </CardTitle>
                   <CardDescription>Um erro inesperado ocorreu</CardDescription>
@@ -213,19 +213,19 @@ export class ErrorBoundary extends Component<
 
             <CardContent className="space-y-6">
               {/* Mensagem de erro */}
-              <div className="p-4 rounded-lg bg-[var(--color-status-error)]/10 dark:bg-[var(--color-status-error)]/30 border border-[var(--color-status-error-border)]/20">
-                <p className="text-sm font-mono text-[var(--color-status-error)] dark:text-[var(--color-status-error)]">
+              <div className="p-4 rounded-lg bg-error/10 border border-error/20">
+                <p className="text-sm font-mono text-error">
                   {error?.message || 'Erro desconhecido'}
                 </p>
               </div>
 
               {/* Stack trace (apenas em desenvolvimento) */}
               {process.env.NODE_ENV === 'development' && errorInfo && (
-                <details className="p-4 rounded-lg bg-[var(--color-background-secondary)] dark:bg-[var(--color-background-secondary)]/30 border border-[var(--color-border-primary)]">
-                  <summary className="text-sm font-semibold cursor-pointer text-[var(--color-text-primary)] dark:text-[var(--color-text-primary)] mb-2">
+                <details className="p-4 rounded-lg bg-surface border border-border">
+                  <summary className="text-sm font-semibold cursor-pointer text-foreground mb-2">
                     Detalhes técnicos (desenvolvimento)
                   </summary>
-                  <pre className="text-xs font-mono text-[var(--color-text-secondary)] dark:text-[var(--color-text-secondary)] overflow-x-auto mt-2 whitespace-pre-wrap">
+                  <pre className="text-xs font-mono text-muted-foreground overflow-x-auto mt-2 whitespace-pre-wrap">
                     {errorInfo.componentStack}
                   </pre>
                 </details>

@@ -218,7 +218,7 @@ export const HTTP_STATUS = {
  * @readonly
  */
 export const ERROR_MESSAGES = {
-  NETWORK_ERROR: 'Erro de rede. Verifique sua conexão.',
+  NETWORK_ERROR: 'Conexão falhou. Se o problema persistir, verifique sua conexão com a internet ou VPN.',
   TIMEOUT_ERROR: 'Tempo limite excedido. Tente novamente.',
   UNAUTHORIZED: 'Usuário não autenticado.',
   FORBIDDEN: 'Acesso negado.',

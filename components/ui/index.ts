@@ -308,9 +308,7 @@ export {
   EmptyState,
   FullPageLoader,
   InlineLoader,
+  LoadingScreen,
   LoadingSpinner,
-  SkeletonGrid
-} from './loading-states';
-
-/** Loading Screen: tela de carregamento inicial da aplicação */
-export { LoadingScreen } from './loading-screen';
+  SkeletonGrid,
+} from './loading-screen';

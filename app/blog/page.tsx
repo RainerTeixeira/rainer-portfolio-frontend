@@ -31,7 +31,7 @@ import { useEffect, useState } from 'react';
  * Framer Motion para animações suaves e Lucide React para ícones.
  */
 import { motion } from 'framer-motion';
-import { BookOpen, Eye, Heart, TrendingUp } from 'lucide-react';
+import { AlertCircle, BookOpen, Database, Eye, Heart, TrendingUp } from 'lucide-react';
 
 /**
  * Imports de componentes do blog.
@@ -55,6 +55,22 @@ import { postsService } from '@/lib/api/services';
 import type { Post } from '@/lib/api/types';
 import { PostStatus } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
+import { getTokenColor } from '@/lib/utils/safe-design-tokens';
+import { useTheme } from 'next-themes';
+
+// Função auxiliar para converter HEX para RGB
+function hexToRGB(hex: string): string {
+  const cleanHex = hex.replace('#', '');
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+  return `${r}, ${g}, ${b}`;
+}
+
+function hexToRGBA(hex: string, alpha: number): string {
+  const rgb = hexToRGB(hex);
+  return `rgba(${rgb}, ${alpha})`;
+}
 
 /**
  * Configuração de estatística do blog.
@@ -148,6 +164,9 @@ const POSTS_CONTAINER_VARIANTS = {
  * @see {@link PostCard} Componente de card de post
  */
 export default function BlogPage() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
   /**
    * Estado de gerenciamento de posts.
    * allPosts: Todos os posts carregados da API.
@@ -157,6 +176,7 @@ export default function BlogPage() {
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+  const [hasConnectionError, setHasConnectionError] = useState(false);
 
   /**
    * Estado de filtros e ordenação.
@@ -166,6 +186,12 @@ export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentSortOption, setCurrentSortOption] =
     useState<SortOption>('recent');
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDarkTheme = mounted ? resolvedTheme === 'dark' : false;
 
   /**
    * Conta posts por categoria.
@@ -180,28 +206,49 @@ export default function BlogPage() {
   /**
    * Carrega posts publicados ao montar componente.
    * Busca todos os posts publicados da API e inicializa os estados de posts.
+   * OTIMIZADO: Usa setTimeout para evitar violações de performance no mount.
    */
   useEffect(() => {
-    const loadPosts = async () => {
-      setIsLoadingPosts(true);
-      try {
-        const response = await postsService.listPosts({
-          status: PostStatus.PUBLISHED,
-          limit: 100, // Carregar muitos posts inicialmente
-        });
-        if (response.success && response.posts) {
-          setAllPosts(response.posts);
-          setDisplayedPosts(response.posts);
+    // Usar setTimeout para evitar violações de performance no mount
+    const timeoutId = setTimeout(() => {
+      const loadPosts = async () => {
+        setIsLoadingPosts(true);
+        try {
+          const response = await postsService.listPosts({
+            status: PostStatus.PUBLISHED,
+            limit: 100, // Carregar muitos posts inicialmente
+          });
+          if (response.success && response.posts) {
+            setAllPosts(response.posts);
+            setDisplayedPosts(response.posts);
+          }
+        } catch (error) {
+          // Detectar erros de conexão (banco de dados não disponível)
+          const isConnectionError = 
+            error instanceof Error && 
+            (error.message.includes('Failed to fetch') || 
+             error.message.includes('ERR_CONNECTION_REFUSED') ||
+             error.message.includes('Conexão falhou') ||
+             error.message.includes('NetworkError'));
+          
+          if (isConnectionError) {
+            setHasConnectionError(true);
+          } else {
+            console.error('Erro ao carregar posts:', error);
+          }
+          // Em caso de erro, usar array vazio (página mostrará estado vazio)
+          setAllPosts([]);
+          setDisplayedPosts([]);
+        } finally {
+          setIsLoadingPosts(false);
         }
-      } catch (error) {
-        console.error('Erro ao carregar posts:', error);
-        setAllPosts([]);
-        setDisplayedPosts([]);
-      } finally {
-        setIsLoadingPosts(false);
-      }
+      };
+      loadPosts();
+    }, 0);
+
+    return () => {
+      clearTimeout(timeoutId);
     };
-    loadPosts();
   }, []);
 
   /**
@@ -305,6 +352,99 @@ export default function BlogPage() {
         title="Blog de Desenvolvimento"
         description="Artigos técnicos sobre React, Next.js, TypeScript e desenvolvimento web moderno. Compartilho aprendizados práticos, tutoriais detalhados, soluções para problemas reais e insights sobre as tecnologias que uso nos meus projetos. Conteúdo direto ao ponto, sem enrolação."
       />
+
+      {/* Mensagem de erro de conexão com banco de dados */}
+      {hasConnectionError && !isLoadingPosts && (
+        <motion.section
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-4xl mx-auto px-6 py-8 relative z-10"
+        >
+          <Card
+            className="border-2"
+            style={{
+              borderColor: getTokenColor(
+                isDarkTheme ? 'dark' : 'light',
+                'red',
+                500,
+                '#ef4444'
+              ),
+              backgroundColor: hexToRGBA(
+                getTokenColor(
+                  isDarkTheme ? 'dark' : 'light',
+                  'red',
+                  500,
+                  '#ef4444'
+                ),
+                isDarkTheme ? 0.1 : 0.05
+              ),
+            }}
+          >
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <div
+                  className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center"
+                  style={{
+                    backgroundColor: getTokenColor(
+                      isDarkTheme ? 'dark' : 'light',
+                      'red',
+                      500,
+                      '#ef4444'
+                    ),
+                  }}
+                >
+                  <Database
+                    className="w-6 h-6 text-white"
+                    style={{ color: '#ffffff' }}
+                  />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertCircle
+                      className="w-5 h-5"
+                      style={{
+                        color: getTokenColor(
+                          isDarkTheme ? 'dark' : 'light',
+                          'red',
+                          500,
+                          '#ef4444'
+                        ),
+                      }}
+                    />
+                    <h3
+                      className="text-lg font-bold"
+                      style={{
+                        color: getTokenColor(
+                          isDarkTheme ? 'dark' : 'light',
+                          'red',
+                          600,
+                          '#dc2626'
+                        ),
+                      }}
+                    >
+                      Erro de Conexão
+                    </h3>
+                  </div>
+                  <p
+                    className="text-sm leading-relaxed"
+                    style={{
+                      color: getTokenColor(
+                        isDarkTheme ? 'dark' : 'light',
+                        'red',
+                        400,
+                        '#f87171'
+                      ),
+                    }}
+                  >
+                    Não foi possível estabelecer conexão com o banco de dados.
+                    Por favor, tente novamente mais tarde.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.section>
+      )}
 
       {/* Seção de estatísticas do blog */}
       {/* Exibe cards com métricas: total de artigos, visualizações, curtidas e posts em destaque */}
@@ -474,7 +614,7 @@ export default function BlogPage() {
             aria-label="Lista de posts do blog"
           >
             {displayedPosts.map(post => (
-      {/* Artigo principal com conteúdo renderizado */}
+              /* Artigo principal com conteúdo renderizado */
               <article key={post.id} role="listitem">
                 <PostCard
                   title={post.title}
