@@ -398,16 +398,70 @@ class ApiClient {
         }
       }
 
+      // Interceptar console.error temporariamente para suprimir erros de conexão
+      const originalConsoleError = console.error;
+      const originalConsoleWarn = console.warn;
+
+      if (process.env.NODE_ENV === 'development') {
+        console.error = (...args: unknown[]) => {
+          const message = String(args[0] || '');
+          const isConnectionError = 
+            message.includes('ERR_CONNECTION_REFUSED') ||
+            message.includes('Failed to fetch') ||
+            message.includes('net::ERR_CONNECTION_REFUSED') ||
+            (args.length > 0 && typeof args[0] === 'string' && args[0].includes('localhost:4000'));
+          
+          if (!isConnectionError) {
+            originalConsoleError.apply(console, args);
+          }
+          // Erros de conexão são suprimidos silenciosamente
+        };
+
+        console.warn = (...args: unknown[]) => {
+          const message = String(args[0] || '');
+          const isConnectionError = 
+            message.includes('ERR_CONNECTION_REFUSED') ||
+            message.includes('Failed to fetch') ||
+            message.includes('net::ERR_CONNECTION_REFUSED');
+          
+          if (!isConnectionError) {
+            originalConsoleWarn.apply(console, args);
+          }
+        };
+      }
+
       const response = await fetch(url, {
         ...fetchOptions,
         headers,
         signal: controller.signal,
       }).catch(error => {
+        // Restaurar console original
         if (process.env.NODE_ENV === 'development') {
-          console.error(`[${requestId}] Erro no fetch:`, error);
+          console.error = originalConsoleError;
+          console.warn = originalConsoleWarn;
+        }
+
+        // Detectar erros de conexão recusada (backend não disponível)
+        const isConnectionRefused = 
+          error instanceof TypeError && 
+          (error.message.includes('Failed to fetch') || 
+           error.message.includes('ERR_CONNECTION_REFUSED') ||
+           error.message.includes('NetworkError'));
+        
+        // Não logar erros de conexão recusada
+        if (!isConnectionRefused) {
+          if (process.env.NODE_ENV === 'development') {
+            originalConsoleError(`[${requestId}] Erro no fetch:`, error);
+          }
         }
         throw error;
       });
+
+      // Restaurar console original após fetch bem-sucedido
+      if (process.env.NODE_ENV === 'development') {
+        console.error = originalConsoleError;
+        console.warn = originalConsoleWarn;
+      }
 
       if (process.env.NODE_ENV === 'development') {
         console.log(
@@ -496,6 +550,14 @@ class ApiClient {
       metrics.endTime = Date.now();
       metrics.duration = metrics.endTime - metrics.startTime;
 
+      // Detectar erros de conexão recusada (backend não disponível) - uma vez no início
+      const isConnectionRefused = 
+        (error instanceof TypeError || error instanceof ApiError) && 
+        (error.message.includes('Failed to fetch') || 
+         error.message.includes('ERR_CONNECTION_REFUSED') ||
+         error.message.includes('NetworkError') ||
+         error.message.includes('Conexão falhou'));
+
       // Log do erro detalhado (apenas em desenvolvimento)
       const errorMessage =
         error instanceof Error ? error.message : 'Erro desconhecido';
@@ -543,16 +605,21 @@ class ApiClient {
           }
         }
 
-        console.error(`[${requestId}] Erro na requisição:`, errorDetails);
+        // Não logar erros de conexão recusada em desenvolvimento
+        if (!isConnectionRefused || process.env.NODE_ENV !== 'development') {
+          console.error(`[${requestId}] Erro na requisição:`, errorDetails);
+        }
       }
 
-      // Log do erro resumido
-      this.log(`[${requestId}] Erro na requisição: ${endpoint}`, {
-        error: errorMessage,
-        duration: metrics.duration,
-        url,
-        method: fetchOptions.method,
-      });
+      // Log do erro resumido (apenas se não for erro de conexão em desenvolvimento)
+      if (!isConnectionRefused || process.env.NODE_ENV !== 'development') {
+        this.log(`[${requestId}] Erro na requisição: ${endpoint}`, {
+          error: errorMessage,
+          duration: metrics.duration,
+          url,
+          method: fetchOptions.method,
+        });
+      }
 
       // Report metrics com erro
       if (this.onRequest) {
@@ -580,9 +647,12 @@ class ApiClient {
       }
 
       // Tratamento de erro de rede
+      // Mensagem genérica para erros de conexão
+      const networkErrorMessage = ERROR_MESSAGES.NETWORK_ERROR;
+
       throw new ApiError(
         0,
-        ERROR_MESSAGES.NETWORK_ERROR,
+        networkErrorMessage,
         { originalError: error instanceof Error ? error.message : error },
         url,
         fetchOptions.method || 'GET',

@@ -1,27 +1,29 @@
 /**
- * Loading Screen Component
+ * Loading Screen e Estados de Carregamento
  *
- * Tela de carregamento inicial da aplicação. Exibida durante a inicialização
- * dos sistemas (autenticação, tema, providers, etc.) antes de mostrar o conteúdo principal.
+ * Componentes unificados para estados de carregamento. Inclui tela de loading inicial,
+ * loaders inline, skeletons e spinners. Mantém consistência visual em toda a aplicação.
  *
  * @module components/ui/loading-screen
- * @fileoverview Tela de loading inicial com estilo cyberpunk
+ * @fileoverview Componentes de loading unificados e otimizados
  * @author Rainer Teixeira
- * @version 2.0.0
+ * @version 3.0.0
  * @since 1.0.0
  *
  * @example
  * ```tsx
- * // No layout principal
- * {isInitializing ? <LoadingScreen /> : <AppContent />}
- * ```
+ * // Tela de loading inicial
+ * <LoadingScreen progress={50} currentStep="Carregando..." />
  *
- * Características:
- * - Estilo cyberpunk/futurista
- * - Animações suaves
- * - Mensagens de inicialização dinâmicas
- * - Progresso visual
- * - Acessibilidade completa
+ * // Loading inline
+ * <InlineLoader message="Carregando dados..." />
+ *
+ * // Grid de skeletons
+ * <SkeletonGrid columns={3} count={6} />
+ *
+ * // Spinner básico
+ * <LoadingSpinner size="lg" />
+ * ```
  */
 
 'use client';
@@ -30,7 +32,7 @@
 // React
 // ============================================================================
 
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 // ============================================================================
 // Loading Indicators
@@ -39,44 +41,297 @@ import { useEffect, useState } from 'react';
 import { Atom } from 'react-loading-indicators';
 
 // ============================================================================
+// Icons
+// ============================================================================
+
+import { Loader2 } from 'lucide-react';
+
+// ============================================================================
 // Utils
 // ============================================================================
 
 import { cn } from '@/lib/utils';
-import { tokens, GRADIENT_COMPOSITES } from '@rainersoft/design-tokens';
-import { useTheme } from 'next-themes';
+import { hexToRGB } from '@/lib/utils/color-utils';
+
+// Cache de tokens carregados dinamicamente
+let tokensCache: any = null;
+
+// Carregar tokens de forma assíncrona
+(async () => {
+  try {
+    const module = await import('@rainersoft/design-tokens');
+    tokensCache = module.tokens || module.default || {};
+  } catch (error) {
+    console.warn('Design tokens não disponíveis no loading-screen:', error);
+    tokensCache = {};
+  }
+})();
 
 // ============================================================================
 // Providers
 // ============================================================================
 
-import { useMatrix } from '@/components/providers';
+import { useTheme } from 'next-themes';
+
+// ============================================================================
+// UI Components
+// ============================================================================
+
+import { Skeleton } from './skeleton';
 
 // ============================================================================
 // Constants
 // ============================================================================
 
-// Mensagens de inicialização movidas para app-initialization-provider.tsx
-// O loading-screen usa apenas o currentStep fornecido pelo provider
+/**
+ * Tamanhos de spinner disponíveis
+ */
+const SPINNER_SIZES = {
+  sm: 'h-4 w-4',
+  md: 'h-6 w-6',
+  lg: 'h-8 w-8',
+  xl: 'h-12 w-12',
+} as const;
+
+/**
+ * Função auxiliar para obter cor de token com fallback seguro
+ *
+ * @param theme - Tema ('dark' ou 'light')
+ * @param color - Nome da cor primitiva
+ * @param shade - Tom da cor
+ * @param fallback - Cor hexadecimal de fallback
+ * @returns Cor hexadecimal do token ou fallback
+ */
+function getTokenColor(
+  theme: 'dark' | 'light',
+  color: string,
+  shade: number,
+  fallback: string
+): string {
+  try {
+    if (!tokensCache?.colors?.[theme]?.primitive) {
+      return fallback;
+    }
+    const colorObj = (tokensCache.colors[theme].primitive as Record<string, Record<number, string>>)[color];
+    if (!colorObj || typeof colorObj !== 'object') {
+      return fallback;
+    }
+    const colorValue = colorObj[shade];
+    return typeof colorValue === 'string' ? colorValue : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 // ============================================================================
 // Types
 // ============================================================================
+
+type SpinnerSize = keyof typeof SPINNER_SIZES;
+
+interface LoadingSpinnerProps {
+  readonly size?: SpinnerSize;
+  readonly className?: string;
+  readonly label?: string;
+}
+
+interface FullPageLoaderProps {
+  readonly message?: string;
+}
+
+interface InlineLoaderProps {
+  readonly message?: string;
+  readonly size?: SpinnerSize;
+}
+
+interface SkeletonGridProps {
+  readonly count?: number;
+  readonly columns?: 1 | 2 | 3 | 4;
+  readonly className?: string;
+}
 
 interface LoadingScreenProps {
   readonly progress?: number;
   readonly currentStep?: string;
 }
 
+interface EmptyStateProps {
+  readonly icon?: React.ComponentType<{ className?: string }>;
+  readonly title?: string;
+  readonly description?: string;
+  readonly action?: ReactNode;
+}
+
 // ============================================================================
-// Main Component
+// Components
 // ============================================================================
+
+/**
+ * Loading Spinner básico
+ *
+ * Ícone de loading animado customizável.
+ *
+ * @param size - Tamanho do spinner
+ * @param className - Classes CSS adicionais
+ * @param label - Label de acessibilidade
+ */
+export function LoadingSpinner({
+  size = 'md',
+  className = '',
+  label = 'Carregando...',
+}: LoadingSpinnerProps) {
+  return (
+    <Loader2
+      className={`${SPINNER_SIZES[size]} animate-spin text-primary ${className}`}
+      aria-label={label}
+      role="status"
+    />
+  );
+}
+
+/**
+ * Full Page Loader
+ *
+ * Loading que ocupa tela inteira.
+ * Usado em transições de página e carregamento inicial.
+ *
+ * @param message - Mensagem opcional de carregamento
+ */
+export function FullPageLoader({
+  message = 'Carregando...',
+}: FullPageLoaderProps) {
+  return (
+    <div
+      className="min-h-screen w-full flex flex-col items-center justify-center bg-background"
+      role="status"
+      aria-label={message}
+    >
+      <div className="text-center space-y-6">
+        {/* Spinner duplo animado */}
+        <div className="relative" aria-hidden="true">
+          <div className="w-20 h-20 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div
+            className="absolute inset-0 w-20 h-20 border-4 border-pink-400 border-b-transparent rounded-full animate-spin mx-auto"
+            style={{ animationDirection: 'reverse' }}
+          />
+        </div>
+
+        {/* Mensagem */}
+        <p className="text-cyan-600 dark:text-cyan-300 font-mono text-sm tracking-wider animate-pulse">
+          {message.toUpperCase()}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Inline Loader
+ *
+ * Loading inline para seções ou componentes.
+ * Não ocupa tela inteira.
+ *
+ * @param message - Mensagem de carregamento
+ * @param size - Tamanho do spinner
+ */
+export function InlineLoader({
+  message = 'Carregando...',
+  size = 'md',
+}: InlineLoaderProps) {
+  return (
+    <div
+      className="flex flex-col items-center justify-center py-12 space-y-4"
+      role="status"
+      aria-label={message}
+    >
+      <LoadingSpinner size={size} />
+      <p className="text-sm text-muted-foreground dark:text-gray-400">
+        {message}
+      </p>
+    </div>
+  );
+}
+
+/**
+ * Skeleton Grid
+ *
+ * Grid de skeleton loaders para listas.
+ * Usado em blog, dashboard, portfolio, etc.
+ *
+ * @param count - Número de skeletons
+ * @param columns - Número de colunas
+ * @param className - Classes CSS adicionais
+ */
+export function SkeletonGrid({
+  count = 4,
+  columns = 2,
+  className = '',
+}: SkeletonGridProps) {
+  const gridCols = {
+    1: 'grid-cols-1',
+    2: 'grid-cols-1 md:grid-cols-2',
+    3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+    4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+  };
+
+  return (
+    <div className={`grid ${gridCols[columns]} gap-6 ${className}`}>
+      {Array.from({ length: count }).map((_, index) => (
+        <div key={index} className="space-y-4">
+          <Skeleton className="h-48 w-full rounded-lg" />
+          <Skeleton className="h-6 w-3/4" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-2/3" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Empty State Component
+ *
+ * Estado vazio padronizado para listas sem conteúdo.
+ *
+ * @param icon - Ícone a exibir
+ * @param title - Título do estado vazio
+ * @param description - Descrição
+ * @param action - Ação opcional (botão)
+ */
+export function EmptyState({
+  icon: Icon = Loader2,
+  title = 'Nenhum item encontrado',
+  description = 'Não há itens para exibir no momento.',
+  action,
+}: EmptyStateProps) {
+  return (
+    <div className="text-center py-12 px-4">
+      <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-linear-to-br from-cyan-500/10 to-purple-500/10 dark:from-cyan-400/10 dark:to-purple-400/10 border border-cyan-400/30 mb-6">
+        <Icon
+          className="w-8 h-8 sm:w-10 sm:h-10 text-cyan-600 dark:text-cyan-400"
+          aria-hidden="true"
+        />
+      </div>
+
+      <h3 className="text-xl sm:text-2xl font-bold mb-2 text-foreground dark:text-cyan-200">
+        {title}
+      </h3>
+
+      <p className="text-sm sm:text-base text-muted-foreground dark:text-gray-400 mb-6 max-w-md mx-auto">
+        {description}
+      </p>
+
+      {action && <div className="flex justify-center">{action}</div>}
+    </div>
+  );
+}
 
 /**
  * LoadingScreen Component
  *
- * Tela de carregamento inicial com estilo cyberpunk.
- * Exibe animações e mensagens durante a inicialização.
+ * Tela de carregamento inicial com estilo cyberpunk profissional.
+ * Exibe animações suaves, mensagens dinâmicas e progresso visual.
+ * Otimizado para performance e uso eficiente de tokens.
  *
  * @param progress - Progresso de 0 a 100 (opcional)
  * @param currentStep - Etapa atual de inicialização (opcional)
@@ -97,31 +352,40 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
       opacity: number;
     }>
   >([]);
+  const [mounted, setMounted] = useState(false);
 
   // ============================================================================
   // Hooks
   // ============================================================================
 
   const { theme, systemTheme } = useTheme();
-  const { matrixColumns, isInitialized: matrixInitialized } = useMatrix();
-  const [mounted, setMounted] = useState(false);
 
   // ============================================================================
-  // Theme Colors
+  // Theme Colors (com fallbacks seguros)
   // ============================================================================
 
-  // Previne erro de hidratação: só determina tema após montagem no cliente
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Usa light theme como padrão até que o tema seja determinado no cliente
-  // Isso garante consistência entre servidor e cliente na primeira renderização
   const currentTheme = mounted ? (theme === 'system' ? systemTheme : theme) : 'light';
   const isDark = currentTheme === 'dark';
-  
-  // Usa EXCLUSIVAMENTE tokens da biblioteca @rainersoft/design-tokens
-  const colors = isDark ? tokens.colors.dark : tokens.colors.light;
+
+  // Cores otimizadas com fallbacks - usando tokens de forma inteligente
+  const primaryColor = isDark
+    ? getTokenColor('dark', 'cyan', 400, '#22d3ee')
+    : getTokenColor('light', 'cyan', 600, '#0891b2');
+  const secondaryColor = isDark
+    ? getTokenColor('dark', 'purple', 400, '#a855f7')
+    : getTokenColor('light', 'purple', 600, '#9333ea');
+  const accentColor = isDark
+    ? getTokenColor('dark', 'pink', 400, '#f472b6')
+    : getTokenColor('light', 'pink', 600, '#db2777');
+
+  // Converter para RGB para uso em estilos
+  const primaryRGB = hexToRGB(primaryColor);
+  const secondaryRGB = hexToRGB(secondaryColor);
+  const accentRGB = hexToRGB(accentColor);
 
   // ============================================================================
   // Effects
@@ -131,23 +395,15 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
    * Gera estrelas aleatórias para o fundo
    */
   useEffect(() => {
-    const starsCount = 150; // Número de estrelas
-    const newStars = Array.from({ length: starsCount }, (_, i) => {
-      const randomLeft = Math.random() * 100;
-      const randomTop = Math.random() * 100;
-      const randomSize = Math.random() * 2 + 0.5; // Tamanho entre 0.5px e 2.5px
-      const randomDelay = Math.random() * 3; // Delay para animação variada
-      const randomOpacity = 0.6 + Math.random() * 0.4; // Opacidade entre 0.6 e 1.0
-
-      return {
-        id: i,
-        left: randomLeft,
-        top: randomTop,
-        size: randomSize,
-        delay: randomDelay,
-        opacity: randomOpacity,
-      };
-    });
+    const starsCount = 100; // Reduzido para melhor performance
+    const newStars = Array.from({ length: starsCount }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      size: Math.random() * 2 + 0.5,
+      delay: Math.random() * 3,
+      opacity: 0.6 + Math.random() * 0.4,
+    }));
     setStars(newStars);
   }, []);
 
@@ -156,7 +412,6 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
    */
   useEffect(() => {
     if (progress === undefined) {
-      // Se não há progresso, manter em 0
       setDisplayedProgress(0);
       return;
     }
@@ -181,7 +436,6 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
   // Computed Values
   // ============================================================================
 
-  // Usa apenas o currentStep fornecido pelo provider (sem redundância)
   const currentMessage = currentStep || 'Inicializando sistemas...';
   const progressValue = progress !== undefined ? displayedProgress : undefined;
 
@@ -192,9 +446,8 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-9999 flex flex-col items-center justify-center',
-        'bg-background',
-        'backdrop-blur-sm',
+        'fixed inset-0 z-[9999] flex flex-col items-center justify-center',
+        'bg-background backdrop-blur-sm',
         'transition-opacity duration-500'
       )}
       role="status"
@@ -203,7 +456,7 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
     >
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        {/* Stars Background - Universo Estrelado */}
+        {/* Stars Background - Otimizado */}
         <div className="absolute inset-0">
           {stars.map(star => (
             <div
@@ -223,146 +476,21 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
           ))}
         </div>
 
-        {/* Gradient Orbs */}
+        {/* Gradient Orbs - Otimizados */}
         <div
-          className={cn(
-            'absolute top-1/4 left-1/4 w-96 h-96',
-            'bg-primary/20 rounded-full blur-3xl',
-            'animate-pulse'
-          )}
+          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl animate-pulse opacity-20"
+          style={{
+            background: `radial-gradient(circle, rgba(${primaryRGB}, 0.3), transparent)`,
+          }}
         />
         <div
-          className={cn(
-            'absolute bottom-1/4 right-1/4 w-96 h-96',
-            'bg-secondary/20 rounded-full blur-3xl',
-            'animate-pulse'
-          )}
-          style={{ animationDelay: '1s' }}
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl animate-pulse opacity-20"
+          style={{
+            background: `radial-gradient(circle, rgba(${secondaryRGB}, 0.3), transparent)`,
+            animationDelay: '1s',
+          }}
         />
 
-        {/* Matrix Rain - Renderizado durante loading */}
-        {matrixInitialized && matrixColumns.length > 0 && (
-          <div className="matrix-grid absolute inset-0 z-0 overflow-hidden">
-            {matrixColumns.map(column => {
-              // Usa cor accent dos tokens diretamente
-              const glowColorHex = colors.accent.base;
-              // Converte hex para rgb manualmente
-              const hex = glowColorHex.replace('#', '');
-              const r = parseInt(hex.substring(0, 2), 16);
-              const g = parseInt(hex.substring(2, 4), 16);
-              const b = parseInt(hex.substring(4, 6), 16);
-              const glowColor = `rgb(${r}, ${g}, ${b})`;
-
-              return (
-                <div
-                  key={column.id}
-                  className="matrix-column-wrapper absolute pointer-events-none"
-                  style={{
-                    left: `${column.leftPct}%`,
-                    top: 0,
-                    height: '200vh',
-                    animationName: 'matrixBinaryFall',
-                    animationDuration: `${column.animationDuration}s`,
-                    animationTimingFunction: 'linear',
-                    animationIterationCount: 'infinite',
-                    animationDelay: `${column.animationDelay}s`,
-                    transform: `scaleY(${column.speed})`,
-                    backfaceVisibility: 'hidden',
-                    WebkitBackfaceVisibility: 'hidden',
-                  }}
-                >
-                  {/* Primeiro set */}
-                  <div
-                    className="flex flex-col gap-0 whitespace-pre text-center"
-                    style={{ opacity: column.intensity }}
-                  >
-                    {column.characters.map((character, index) => {
-                      const baseOpacity =
-                        index === 0 ? 1 : Math.max(0.2, 1 - index * 0.08);
-                      const charVariation = character === '1' ? 1.15 : 0.9;
-                      const finalOpacity = Math.min(
-                        1,
-                        baseOpacity * charVariation
-                      );
-
-                      return (
-                        <span
-                          key={`${column.id}-ch-${index}-1`}
-                          className="font-mono font-bold tracking-wider text-accent"
-                          style={{
-                            fontSize: `${column.fontSize}px`,
-                            opacity: finalOpacity,
-                            textShadow:
-                              index === 0
-                                ? `0 0 20px ${glowColor}, 0 0 35px ${glowColor}, 0 0 50px ${glowColor}`
-                                : index < 2
-                                  ? `0 0 12px ${glowColor}, 0 0 20px ${glowColor}`
-                                  : `0 0 8px ${glowColor}`,
-                            filter:
-                              index === 0
-                                ? 'brightness(1.6) contrast(1.3) saturate(1.4)'
-                                : index < 2
-                                  ? 'brightness(1.3) saturate(1.2)'
-                                  : 'brightness(1.1)',
-                            transform: index === 0 ? 'scale(1.15)' : 'scale(1)',
-                            fontWeight:
-                              index === 0 ? '900' : index < 2 ? '800' : '700',
-                          }}
-                        >
-                          {character}
-                        </span>
-                      );
-                    })}
-                  </div>
-
-                  {/* Segundo set - Continuidade */}
-                  <div
-                    className="flex flex-col gap-0 whitespace-pre text-center"
-                    style={{ opacity: column.intensity }}
-                  >
-                    {column.characters.map((character, index) => {
-                      const baseOpacity =
-                        index === 0 ? 1 : Math.max(0.2, 1 - index * 0.08);
-                      const charVariation = character === '1' ? 1.15 : 0.9;
-                      const finalOpacity = Math.min(
-                        1,
-                        baseOpacity * charVariation
-                      );
-
-                      return (
-                        <span
-                          key={`${column.id}-ch-${index}-2`}
-                          className="font-mono font-bold tracking-wider text-accent"
-                          style={{
-                            fontSize: `${column.fontSize}px`,
-                            opacity: finalOpacity,
-                            textShadow:
-                              index === 0
-                                ? `0 0 20px ${glowColor}, 0 0 35px ${glowColor}, 0 0 50px ${glowColor}`
-                                : index < 2
-                                  ? `0 0 12px ${glowColor}, 0 0 20px ${glowColor}`
-                                  : `0 0 8px ${glowColor}`,
-                            filter:
-                              index === 0
-                                ? 'brightness(1.6) contrast(1.3) saturate(1.4)'
-                                : index < 2
-                                  ? 'brightness(1.3) saturate(1.2)'
-                                  : 'brightness(1.1)',
-                            transform: index === 0 ? 'scale(1.15)' : 'scale(1)',
-                            fontWeight:
-                              index === 0 ? '900' : index < 2 ? '800' : '700',
-                          }}
-                        >
-                          {character}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
       </div>
 
       {/* Content */}
@@ -373,16 +501,8 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
           aria-hidden="true"
           suppressHydrationWarning
         >
-          {/* Atom Component - Identidade Visual */}
-          {/* Cores mudam após detecção do tema no cliente (prevenido via mounted state) */}
           <Atom
-            color={[
-              colors.primary.base,
-              colors.secondary.base,
-              colors.accent.base,
-              colors.primary.base,
-            ]}
-            // Cores vêm EXCLUSIVAMENTE dos design tokens
+            color={[primaryColor, secondaryColor, accentColor, primaryColor]}
             size="large"
             text=""
             textColor=""
@@ -395,9 +515,9 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
           <p
             className={cn(
               'text-lg sm:text-xl font-mono font-semibold',
-              'text-primary tracking-wider',
-              'animate-pulse'
+              'tracking-wider animate-pulse'
             )}
+            style={{ color: primaryColor }}
             aria-live="polite"
           >
             {currentMessage}
@@ -407,18 +527,18 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
           {progressValue !== undefined && (
             <div className="w-64 sm:w-80 space-y-2">
               <div
-                className={cn(
-                  'h-1 bg-muted rounded-full overflow-hidden',
-                  'border border-primary/20'
-                )}
+                className="h-1 bg-muted rounded-full overflow-hidden border"
+                style={{
+                  borderColor: `${primaryColor}33`,
+                }}
               >
                 <div
-                  className={cn(
-                    GRADIENT_COMPOSITES.HORIZONTAL_PRIMARY,
-                    'h-full transition-all duration-300 ease-out',
-                    'shadow-[0_0_10px_hsl(var(--primary))]'
-                  )}
-                  style={{ width: `${progressValue}%` }}
+                  className="h-full transition-all duration-300 ease-out"
+                  style={{
+                    width: `${progressValue}%`,
+                    background: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})`,
+                    boxShadow: `0 0 10px ${primaryColor}`,
+                  }}
                   aria-valuenow={progressValue}
                   aria-valuemin={0}
                   aria-valuemax={100}
@@ -426,7 +546,8 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
                 />
               </div>
               <p
-                className="text-xs text-primary/70 font-mono text-right"
+                className="text-xs font-mono text-right"
+                style={{ color: `${primaryColor}B3` }}
                 aria-hidden="true"
               >
                 {Math.round(progressValue)}%
@@ -437,24 +558,30 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
 
         {/* Binary Rain Effect (subtle) */}
         <div
-          className={cn(
-            'absolute inset-0 overflow-hidden pointer-events-none',
-            'opacity-20'
-          )}
+          className="absolute inset-0 overflow-hidden pointer-events-none opacity-20"
           aria-hidden="true"
         >
-          <div className="absolute top-0 left-1/4 text-primary/30 font-mono text-xs animate-pulse">
+          <div
+            className="absolute top-0 left-1/4 font-mono text-xs animate-pulse"
+            style={{ color: `${primaryColor}4D` }}
+          >
             01001001
           </div>
           <div
-            className="absolute top-1/4 left-3/4 text-secondary/30 font-mono text-xs animate-pulse"
-            style={{ animationDelay: '0.5s' }}
+            className="absolute top-1/4 left-3/4 font-mono text-xs animate-pulse"
+            style={{
+              color: `${secondaryColor}4D`,
+              animationDelay: '0.5s',
+            }}
           >
             11001100
           </div>
           <div
-            className="absolute bottom-1/4 left-1/2 text-primary/30 font-mono text-xs animate-pulse"
-            style={{ animationDelay: '1s' }}
+            className="absolute bottom-1/4 left-1/2 font-mono text-xs animate-pulse"
+            style={{
+              color: `${primaryColor}4D`,
+              animationDelay: '1s',
+            }}
           >
             10101010
           </div>
@@ -463,7 +590,6 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
 
       {/* CSS para animações */}
       <style jsx>{`
-        /* Animação de brilho das estrelas */
         @keyframes starTwinkle {
           0%,
           100% {
@@ -476,33 +602,6 @@ export function LoadingScreen({ progress, currentStep }: LoadingScreenProps) {
           }
         }
 
-        /* Animação da matrix rain */
-        @keyframes matrixBinaryFall {
-          from {
-            transform: translate3d(0, -100vh, 0) translateZ(0);
-            opacity: 0;
-          }
-          2% {
-            opacity: 1;
-          }
-          98% {
-            opacity: 1;
-          }
-          to {
-            transform: translate3d(0, 0, 0) translateZ(0);
-            opacity: 0;
-          }
-        }
-
-        .matrix-column-wrapper {
-          backface-visibility: hidden;
-          transform: translateZ(0);
-        }
-
-        .matrix-grid {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
       `}</style>
     </div>
   );

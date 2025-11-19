@@ -3,7 +3,7 @@
  * @description
  * Arquivo CSS global mínimo obrigatório para Next.js 16.
  *
- * Contém apenas as diretivas do Tailwind CSS v4 necessárias para inicialização.
+ * Contém as diretivas do Tailwind CSS necessárias para inicialização.
  * TODOS os valores de design vêm EXCLUSIVAMENTE dos tokens via tailwind.config.ts.
  *
  * @module globals.css
@@ -15,8 +15,6 @@
  *          Todos os valores devem vir dos design tokens.
  */
 
-/* Tailwind CSS v4 - Preflight (reset CSS) */
-@import 'tailwindcss/preflight';
-
-/* Tailwind CSS v4 - Utilities (classes utilitárias) */
-@import 'tailwindcss/utilities';
+@import 'tailwindcss/theme' layer(theme);
+@import 'tailwindcss/preflight' layer(base);
+@import 'tailwindcss/utilities' layer(utilities);
