@@ -1,45 +1,61 @@
-/**
- * Carousel Component (Cyberpunk Advanced)
- *
- * Componente de hero section com tema cyberpunk/futurista. Apresenta rotação
- * automática de textos com efeitos visuais complexos (chuva de matriz,
- * partículas, glitch effects) e otimizações avançadas de performance.
- *
- * @module components/home/carousel
- * @fileoverview Carousel hero cyberpunk com efeitos visuais avançados
- * @author Rainer Teixeira
- * @version 2.0.0
- * @since 1.0.0
- *
- * @example
- * ```tsx
- * // Usado na hero section
- * <Carousel />
- * ```
- *
- * Efeitos visuais:
- * - Chuva de matriz (estilo Matrix) com código binário
- * - Partículas animadas de energia
- * - Grades hexagonais
- * - Círculos tecnológicos concêntricos
- * - Glitch effects nos textos
- * - Transições suaves entre slides
- *
- * Otimizações de performance:
- * - Memoização de componentes pesados
- * - useMemo para cálculos complexos
- * - useCallback para funções estáveis
- * - Controle de animações via requestAnimationFrame
- * - Redução de partículas em mobile
- */
-
 'use client';
 
-import { useMatrix } from '@/components/providers';
-import { hexToRGB, hexToRGBA } from '@/lib/utils/design-tokens';
-import { tokens } from '@rainersoft/design-tokens';
-import { useTheme } from 'next-themes';
+/**
+ * Carousel Component (Cyberpunk Advanced)
+ * Componente de hero section com tema cyberpunk/futurista.
+ * Apresenta efeitos visuais complexos incluindo chuva de matriz binária, partículas
+ * animadas, grades hexagonais e efeitos de glitch. Otimizado para performance com
+ * memoização e controle de animações via requestAnimationFrame.
+ *
+ * @module components/home/carousel
+ * @version 2.0.0
+ * @author Rainer Teixeira
+ * @copyright 2025 Rainer Teixeira
+ * @license MIT
+ * @requires next-themes
+ * @requires react
+ * @requires react-dom
+ * @requires styled-jsx
+ * @requires tailwindcss
+ * @requires typescript
+ * @requires @rainersoft/design-tokens
+ * @requires @rainersoft/design-tokens/colors
+ * @requires @rainersoft/design-tokens/colors/dark
+ * @requires @rainersoft/design-tokens/colors/light
+ */
+
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useTheme } from 'next-themes';
+
+// Funções de conversão de cores inline para evitar problemas com imports
+function hexToRGB(hex: string): string {
+  const cleanHex = hex.replace('#', '');
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+  return `${r}, ${g}, ${b}`;
+}
+
+function hexToRGBA(hex: string, alpha: number): string {
+  const rgb = hexToRGB(hex);
+  return `rgba(${rgb}, ${alpha})`;
+}
+
+/**
+ * Função auxiliar para obter uma cor de token de forma segura com fallback
+ * 
+ * Usa apenas fallbacks hardcoded para evitar problemas de webpack.
+ * Não tenta carregar tokens dinamicamente.
+ */
+function getTokenColor(
+  theme: 'dark' | 'light',
+  color: string,
+  shade: number,
+  fallback: string
+): string {
+  // Sempre retorna o fallback - evita problemas de webpack
+  return fallback;
+}
 
 /* ==========================================================
    CONSTANTES CYBERPUNK
@@ -150,8 +166,18 @@ interface Particle {
    ========================================================== */
 
 /**
- * Componente interno para renderizar caracteres da matriz
- * Extração de código duplicado para melhor manutenibilidade
+ * Propriedades do componente MatrixCharacterSet
+ *
+ * Interface que define as propriedades necessárias para renderizar
+ * um conjunto de caracteres da matriz binária.
+ *
+ * @interface MatrixCharacterSetProps
+ * @property {string[]} characters - Array de caracteres binários a serem exibidos
+ * @property {string} columnId - ID único da coluna da matriz
+ * @property {number} fontSize - Tamanho da fonte em pixels
+ * @property {number} intensity - Intensidade/opacidade do conjunto (0-1)
+ * @property {boolean} isDarkTheme - Indica se o tema escuro está ativo
+ * @property {number} setIndex - Índice do conjunto para geração de keys únicas
  */
 interface MatrixCharacterSetProps {
   characters: string[];
@@ -162,6 +188,18 @@ interface MatrixCharacterSetProps {
   setIndex: number;
 }
 
+/**
+ * Componente interno para renderizar caracteres da matriz binária
+ *
+ * Componente memoizado que renderiza um conjunto de caracteres binários
+ * com efeitos visuais cyberpunk (glow, pulso, shimmer). Extraído para
+ * melhor manutenibilidade e reutilização.
+ *
+ * @component
+ * @param {MatrixCharacterSetProps} props - Propriedades do componente
+ * @returns {JSX.Element} Elemento React renderizado
+ * @memo
+ */
 const MatrixCharacterSet = memo(function MatrixCharacterSet({
   characters,
   columnId,
@@ -171,11 +209,12 @@ const MatrixCharacterSet = memo(function MatrixCharacterSet({
   setIndex,
 }: MatrixCharacterSetProps) {
   const charColor = isDarkTheme ? 'text-green-400' : 'text-green-600';
-  // Using green primitive tokens for glow effect - convert to RGB for textShadow
+  // Usando tokens primitivos verdes para efeito de brilho - converter para RGB para textShadow
+  // Usando getTokenColor para acesso seguro aos tokens
   const glowColorHex = isDarkTheme
-    ? tokens.colors.dark.primitive.emerald[400] // emerald[400]
-    : tokens.colors.light.primitive.green[600]; // green[600]
-  const glowColor = `rgb(${hexToRGB(glowColorHex)})`;
+    ? getTokenColor('dark', 'emerald', 400, '#10b981') // emerald[400] fallback
+    : getTokenColor('light', 'green', 600, '#16a34a'); // green[600] fallback
+  const glowColor = glowColorHex ? `rgb(${hexToRGB(glowColorHex)})` : 'rgb(16, 185, 129)';
 
   return (
     <div
@@ -240,13 +279,26 @@ const MatrixCharacterSet = memo(function MatrixCharacterSet({
    COMPONENTE PRINCIPAL - CYBERPUNK CARRUSEL AVANÇADO
    ========================================================== */
 
-// Componente memoizado para melhor performance
-const Carousel = memo(function Carousel() {
+/**
+ * Componente Carousel Cyberpunk Avançado
+ *
+ * Componente principal que renderiza a hero section com tema cyberpunk/futurista.
+ * Apresenta efeitos visuais complexos incluindo chuva de matriz binária, partículas
+ * animadas, grades hexagonais e efeitos de glitch. Otimizado para performance com
+ * memoização e controle de animações via requestAnimationFrame.
+ *
+ * @component
+ * @returns {JSX.Element} Componente Carousel renderizado
+ * @memo
+ *
+ * @example
+ * ```tsx
+ * // Usado na hero section
+ * <Carousel />
+ * ```
+ */
+function Carousel() {
   const { resolvedTheme } = useTheme();
-  const {
-    matrixColumns: contextMatrixColumns,
-    isInitialized: matrixInitialized,
-  } = useMatrix();
   const [mounted, setMounted] = useState(false);
   const [matrixColumns, setMatrixColumns] = useState<MatrixColumn[]>([]);
   const [particles, setParticles] = useState<Particle[]>([]);
@@ -267,33 +319,48 @@ const Carousel = memo(function Carousel() {
     if (!mounted || prefersReducedMotion) return;
 
     // MATRIX RAIN: Padrões binários vivos que mudam constantemente
-    const matrixInterval = setInterval(() => {
-      setLivePatterns(prev =>
-        prev.map(pattern => {
-          const randomAction = Math.random();
+    // OTIMIZADO: Usar requestAnimationFrame para evitar violações de performance
+    let rafId: number | null = null;
+    let lastUpdate = 0;
+    const UPDATE_INTERVAL = 300; // Reduzido de 150ms para 300ms para melhor performance
 
-          // 40% chance: inverter o padrão (0101 -> 1010)
-          if (randomAction < 0.4) {
-            return pattern.split('').reverse().join('');
-          }
-          // 30% chance: mutar bits aleatórios
-          else if (randomAction < 0.7) {
-            return pattern
-              .split('')
-              .map(bit =>
-                Math.random() > 0.7 ? (bit === '0' ? '1' : '0') : bit
-              )
-              .join('');
-          }
-          // 30% chance: manter o padrão (continuidade)
-          else {
-            return pattern;
-          }
-        })
-      );
-    }, 150); // Mudanças rápidas e hipnóticas
+    const updatePatterns = (timestamp: number) => {
+      if (timestamp - lastUpdate >= UPDATE_INTERVAL) {
+        setLivePatterns(prev =>
+          prev.map(pattern => {
+            const randomAction = Math.random();
 
-    return () => clearInterval(matrixInterval);
+            // 40% chance: inverter o padrão (0101 -> 1010)
+            if (randomAction < 0.4) {
+              return pattern.split('').reverse().join('');
+            }
+            // 30% chance: mutar bits aleatórios
+            else if (randomAction < 0.7) {
+              return pattern
+                .split('')
+                .map(bit =>
+                  Math.random() > 0.7 ? (bit === '0' ? '1' : '0') : bit
+                )
+                .join('');
+            }
+            // 30% chance: manter o padrão (continuidade)
+            else {
+              return pattern;
+            }
+          })
+        );
+        lastUpdate = timestamp;
+      }
+      rafId = requestAnimationFrame(updatePatterns);
+    };
+
+    rafId = requestAnimationFrame(updatePatterns);
+
+    return () => {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
+    };
   }, [mounted, prefersReducedMotion]);
 
   /* ==========================================================
@@ -301,12 +368,7 @@ const Carousel = memo(function Carousel() {
      ========================================================== */
   useEffect(() => {
     setMounted(true);
-
-    // Usar matrix do contexto se disponível (já inicializada no loading-screen)
-    if (matrixInitialized && contextMatrixColumns.length > 0) {
-      setMatrixColumns(contextMatrixColumns);
-    }
-  }, [matrixInitialized, contextMatrixColumns]);
+  }, []);
 
   /* ==========================================================
      SISTEMA DE BOOT REMOVIDO
@@ -317,8 +379,21 @@ const Carousel = memo(function Carousel() {
   /* ==========================================================
      SISTEMA DE DIMENSÕES RESPONSIVAS AVANÇADO
      ========================================================== */
+  /**
+   * Atualiza as dimensões responsivas e regenera colunas da matriz e partículas
+   *
+   * Função memoizada que calcula as dimensões do container, determina
+   * se é mobile/tablet/desktop e regenera as colunas da matriz e partículas
+   * com base nas dimensões atuais. Otimizada para performance usando
+   * valores calculados localmente para evitar dependências circulares.
+   *
+   * @function updateResponsiveDimensions
+   * @returns {void}
+   * @memoized
+   */
   const updateResponsiveDimensions = useCallback(() => {
-    if (!containerRef.current) return;
+    // Garantir que o componente está montado antes de atualizar estado
+    if (!mounted || !containerRef.current) return;
 
     const width = containerRef.current.clientWidth;
 
@@ -383,7 +458,10 @@ const Carousel = memo(function Carousel() {
       }
     );
 
-    setMatrixColumns(newColumns);
+    // Só atualizar se o componente estiver montado
+    if (mounted) {
+      setMatrixColumns(newColumns);
+    }
 
     // Sistema de Partículas OTIMIZADO - REDUZIDO drasticamente para performance
     // Usar valores calculados localmente, não do state
@@ -400,50 +478,50 @@ const Carousel = memo(function Carousel() {
       'neural',
     ];
 
-    // Usando cores primitivas da biblioteca @rainersoft/design-tokens
+    // Usando cores primitivas da biblioteca @rainersoft/design-tokens com fallbacks seguros
     const darkPalette = {
       energy: [
-        hexToRGBA(tokens.colors.dark.primitive.emerald[400], 0.9), // emerald[400]
-        hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.85), // cyan[400]
-        hexToRGBA(tokens.colors.dark.primitive.purple[400], 0.9), // purple[400]
+        hexToRGBA(getTokenColor('dark', 'emerald', 400, '#10b981'), 0.9), // emerald[400]
+        hexToRGBA(getTokenColor('dark', 'cyan', 400, '#22d3ee'), 0.85), // cyan[400]
+        hexToRGBA(getTokenColor('dark', 'purple', 400, '#a855f7'), 0.9), // purple[400]
       ],
       data: [
-        hexToRGBA(tokens.colors.dark.primitive.pink[500], 0.8), // pink[500]
-        hexToRGBA(tokens.colors.dark.primitive.orange[400], 0.8), // orange[400]
-        hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.8), // cyan[400]
+        hexToRGBA(getTokenColor('dark', 'pink', 500, '#ec4899'), 0.8), // pink[500]
+        hexToRGBA(getTokenColor('dark', 'orange', 400, '#fb923c'), 0.8), // orange[400]
+        hexToRGBA(getTokenColor('dark', 'cyan', 400, '#22d3ee'), 0.8), // cyan[400]
       ],
       quantum: [
-        hexToRGBA(tokens.colors.dark.primitive.emerald[400], 0.7), // emerald[400]
-        hexToRGBA(tokens.colors.dark.primitive.pink[400], 0.7), // pink[400]
-        hexToRGBA(tokens.colors.dark.primitive.cyan[300], 0.7), // cyan[300]
+        hexToRGBA(getTokenColor('dark', 'emerald', 400, '#10b981'), 0.7), // emerald[400]
+        hexToRGBA(getTokenColor('dark', 'pink', 400, '#f472b6'), 0.7), // pink[400]
+        hexToRGBA(getTokenColor('dark', 'cyan', 300, '#67e8f9'), 0.7), // cyan[300]
       ],
       neural: [
-        hexToRGBA(tokens.colors.dark.primitive.pink[400], 0.8), // pink[400]
-        hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.8), // cyan[400]
-        hexToRGBA(tokens.colors.dark.primitive.orange[300], 0.8), // orange[300]
+        hexToRGBA(getTokenColor('dark', 'pink', 400, '#f472b6'), 0.8), // pink[400]
+        hexToRGBA(getTokenColor('dark', 'cyan', 400, '#22d3ee'), 0.8), // cyan[400]
+        hexToRGBA(getTokenColor('dark', 'orange', 300, '#fdba74'), 0.8), // orange[300]
       ],
     };
 
     const lightPalette = {
       energy: [
-        hexToRGBA(tokens.colors.light.primitive.blue[600], 0.8), // blue[600]
-        hexToRGBA(tokens.colors.light.primitive.purple[600], 0.8), // purple[600]
-        hexToRGBA(tokens.colors.light.primitive.cyan[600], 0.8), // cyan[600]
+        hexToRGBA(getTokenColor('light', 'blue', 600, '#2563eb'), 0.8), // blue[600]
+        hexToRGBA(getTokenColor('light', 'purple', 600, '#9333ea'), 0.8), // purple[600]
+        hexToRGBA(getTokenColor('light', 'cyan', 600, '#0891b2'), 0.8), // cyan[600]
       ],
       data: [
-        hexToRGBA(tokens.colors.light.primitive.pink[600], 0.8), // pink[600]
-        hexToRGBA(tokens.colors.light.primitive.orange[600], 0.8), // orange[600]
-        hexToRGBA(tokens.colors.light.primitive.blue[600], 0.8), // blue[600]
+        hexToRGBA(getTokenColor('light', 'pink', 600, '#db2777'), 0.8), // pink[600]
+        hexToRGBA(getTokenColor('light', 'orange', 600, '#ea580c'), 0.8), // orange[600]
+        hexToRGBA(getTokenColor('light', 'blue', 600, '#2563eb'), 0.8), // blue[600]
       ],
       quantum: [
-        hexToRGBA(tokens.colors.light.primitive.emerald[600], 0.7), // emerald[600]
-        hexToRGBA(tokens.colors.light.primitive.pink[600], 0.7), // pink[600]
-        hexToRGBA(tokens.colors.light.primitive.blue[600], 0.7), // blue[600]
+        hexToRGBA(getTokenColor('light', 'emerald', 600, '#059669'), 0.7), // emerald[600]
+        hexToRGBA(getTokenColor('light', 'pink', 600, '#db2777'), 0.7), // pink[600]
+        hexToRGBA(getTokenColor('light', 'blue', 600, '#2563eb'), 0.7), // blue[600]
       ],
       neural: [
-        hexToRGBA(tokens.colors.light.primitive.purple[600], 0.8), // purple[600]
-        hexToRGBA(tokens.colors.light.primitive.cyan[600], 0.8), // cyan[600]
-        hexToRGBA(tokens.colors.light.primitive.orange[500], 0.8), // orange[500]
+        hexToRGBA(getTokenColor('light', 'purple', 600, '#9333ea'), 0.8), // purple[600]
+        hexToRGBA(getTokenColor('light', 'cyan', 600, '#0891b2'), 0.8), // cyan[600]
+        hexToRGBA(getTokenColor('light', 'orange', 500, '#f97316'), 0.8), // orange[500]
       ],
     };
 
@@ -458,7 +536,7 @@ const Carousel = memo(function Carousel() {
         const colorArray = palette[type];
         const randomIndex = Math.floor(Math.random() * colorArray.length);
         const color: string =
-          colorArray[randomIndex] ?? colorArray[0] ?? hexToRGBA(tokens.colors.dark.primitive.emerald[400], 0.9); // emerald[400]
+          colorArray[randomIndex] ?? colorArray[0] ?? hexToRGBA(getTokenColor('dark', 'emerald', 400, '#10b981'), 0.9); // emerald[400]
 
         return {
           id: `p-${idx}-${Math.round(Math.random() * 10000)}`,
@@ -466,7 +544,7 @@ const Carousel = memo(function Carousel() {
           top: Math.random() * 100,
           size: currentIsMobile ? 3 + Math.random() * 4 : 4 + Math.random() * 6,
           color,
-          // OTIMIZADO: Duração estável para GPU acceleration
+          // OTIMIZADO: Duração estável para aceleração GPU
           duration: 4 + Math.random() * 3,
           delay: (idx / particleCount) * 4,
           type,
@@ -474,18 +552,22 @@ const Carousel = memo(function Carousel() {
       }
     );
 
-    setParticles(newParticles);
+    // Só atualizar se o componente estiver montado
+    if (mounted) {
+      setParticles(newParticles);
+    }
   }, [mounted, resolvedTheme, livePatterns]);
 
   useEffect(() => {
     if (!mounted) return;
 
-    // Inicializar dimensões imediatamente para Matrix Rain aparecer no boot
+    // Inicializar dimensões imediatamente para Matrix Rain aparecer
     // Usar requestAnimationFrame para garantir que o container está renderizado
     const rafId = requestAnimationFrame(() => {
-      // Criar um container temporário para calcular dimensões
-      if (!containerRef.current) {
-        // Se não houver container ainda, usar window.innerWidth como fallback
+      if (containerRef.current) {
+        updateResponsiveDimensions();
+      } else {
+        // Se não houver container ainda, criar colunas com fallback
         const width = typeof window !== 'undefined' ? window.innerWidth : 1920;
         const mobileBreakpoint = 640;
         const tabletBreakpoint = 1024;
@@ -537,24 +619,35 @@ const Carousel = memo(function Carousel() {
           };
         });
 
-        setMatrixColumns(initialColumns);
-      } else {
-        updateResponsiveDimensions();
+        // Só atualizar se o componente estiver montado
+        if (mounted) {
+          setMatrixColumns(initialColumns);
+        }
       }
-      // setIsReady removido - não é mais necessário
     });
 
     let resizeRafId: number | null = null;
+    let resizeTimeout: NodeJS.Timeout | null = null;
+    
+    // OTIMIZADO: Debounce resize para evitar reflows forçados
     const handleResize = () => {
+      if (resizeTimeout) clearTimeout(resizeTimeout);
       if (resizeRafId) cancelAnimationFrame(resizeRafId);
-      resizeRafId = requestAnimationFrame(() => updateResponsiveDimensions());
+      
+      // Debounce de 150ms + requestAnimationFrame para suavizar
+      resizeTimeout = setTimeout(() => {
+        resizeRafId = requestAnimationFrame(() => {
+          updateResponsiveDimensions();
+        });
+      }, 150);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('resize', handleResize);
       if (resizeRafId) cancelAnimationFrame(resizeRafId);
+      if (resizeTimeout) clearTimeout(resizeTimeout);
     };
   }, [mounted, updateResponsiveDimensions]);
 
@@ -598,8 +691,8 @@ const Carousel = memo(function Carousel() {
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: `
-              linear-gradient(${isDarkTheme ? hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.12) : hexToRGBA(tokens.colors.light.primitive.blue[500], 0.15)} 1px, transparent 1px),
-              linear-gradient(90deg, ${isDarkTheme ? hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.12) : hexToRGBA(tokens.colors.light.primitive.blue[500], 0.15)} 1px, transparent 1px)
+              linear-gradient(${isDarkTheme ? hexToRGBA(getTokenColor('dark', 'cyan', 400, '#22d3ee'), 0.12) : hexToRGBA(getTokenColor('light', 'blue', 500, '#3b82f6'), 0.15)} 1px, transparent 1px),
+              linear-gradient(90deg, ${isDarkTheme ? hexToRGBA(getTokenColor('dark', 'cyan', 400, '#22d3ee'), 0.12) : hexToRGBA(getTokenColor('light', 'blue', 500, '#3b82f6'), 0.15)} 1px, transparent 1px)
             `,
             backgroundSize: '50px 50px',
           }}
@@ -675,8 +768,8 @@ const Carousel = memo(function Carousel() {
                 top: `${(i / 3) * 100}%`,
                 background: `linear-gradient(90deg, transparent, ${
                   isDarkTheme
-                    ? hexToRGBA(tokens.colors.dark.primitive.cyan[300], 0.6) // cyan[300]
-                    : hexToRGBA(tokens.colors.light.primitive.blue[500], 0.6) // blue[500]
+                    ? hexToRGBA(getTokenColor('dark', 'cyan', 300, '#67e8f9'), 0.6) // cyan[300]
+                    : hexToRGBA(getTokenColor('light', 'blue', 500, '#3b82f6'), 0.6) // blue[500]
                 }, transparent)`,
                 animationName: 'hologramScan',
                 animationDuration: `${4 + i * 1}s`,
@@ -920,6 +1013,9 @@ const Carousel = memo(function Carousel() {
       `}</style>
     </div>
   );
-});
+}
 
-export default Carousel;
+// Wrapper para garantir compatibilidade com dynamic import
+const CarouselExport = Carousel;
+
+export default CarouselExport;

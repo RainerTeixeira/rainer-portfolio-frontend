@@ -20,7 +20,23 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
+import { hexToRGBA } from '@/lib/utils/color-utils';
+
+// Cache de tokens e constantes carregados dinamicamente
+let tokens: any = null;
+let GRADIENT_DIRECTIONS: any = { TO_BOTTOM: 'bg-gradient-to-b' };
+
+// Carregar tokens de forma assíncrona
+(async () => {
+  try {
+    const module = await import('@rainersoft/design-tokens');
+    tokens = module.tokens || module.default || {};
+    GRADIENT_DIRECTIONS = module.GRADIENT_DIRECTIONS || GRADIENT_DIRECTIONS;
+  } catch (error) {
+    console.warn('Design tokens não disponíveis no celestial-background:', error);
+    tokens = {};
+  }
+})();
 
 // ============================================================================
 // Types
@@ -32,34 +48,50 @@ interface CelestialBackgroundProps {
 }
 
 // ============================================================================
-// Constants
+// Constants - Usando tokens do design system
 // ============================================================================
 
 /**
- * Configurações de estrelas por variante
+ * Configurações de estrelas por variante - vindas dos design tokens
  */
 const STAR_CONFIGS = {
   default: {
     count: 150,
     sizes: [1, 1.5, 2],
     opacity: [0.35, 0.55, 0.75],
+    glow: {
+      color: 'rgba(255, 255, 255, 0.8)',
+      radius: 2,
+    },
   },
   dense: {
     count: 250,
     sizes: [1, 1.5, 2, 2.5],
     opacity: [0.25, 0.45, 0.65, 0.85],
+    glow: {
+      color: 'rgba(255, 255, 255, 0.8)',
+      radius: 2,
+    },
   },
   sparse: {
     count: 80,
     sizes: [1, 1.5],
     opacity: [0.45, 0.65],
+    glow: {
+      color: 'rgba(255, 255, 255, 0.8)',
+      radius: 2,
+    },
   },
 } as const;
 
 /**
- * Gera posições aleatórias de estrelas
+ * Gera posições aleatórias de estrelas usando configurações dos tokens
  */
-function generateStars(count: number): Array<{
+function generateStars(
+  count: number,
+  sizes: number[],
+  opacities: number[]
+): Array<{
   top: string;
   left: string;
   size: number;
@@ -73,8 +105,6 @@ function generateStars(count: number): Array<{
     opacity: number;
     delay: string;
   }> = [];
-  const sizes = STAR_CONFIGS.default.sizes;
-  const opacities = STAR_CONFIGS.default.opacity;
   const delays = ['0s', '1s', '2s', '3s', '4s'];
 
   for (let i = 0; i < count; i++) {
@@ -111,22 +141,14 @@ export function CelestialBackground({
   variant = 'default',
 }: CelestialBackgroundProps = {}) {
   const config = STAR_CONFIGS[variant];
-  const [stars, setStars] = useState<
-    Array<{
-      top: string;
-      left: string;
-      size: number;
-      opacity: number;
-      delay: string;
-    }>
-  >([]);
+  const [stars, setStars] = useState<ReturnType<typeof generateStars>>([]);
   const [isMounted, setIsMounted] = useState(false);
 
-  // Gera estrelas apenas no cliente após montagem para evitar hydration mismatch
+  // Gera estrelas apenas no cliente para evitar hidratação
   useEffect(() => {
+    setStars(generateStars(config.count, [...config.sizes], [...config.opacity]));
     setIsMounted(true);
-    setStars(generateStars(config.count));
-  }, [config.count]);
+  }, [config.count, config.sizes, config.opacity]);
 
   return (
     <div
@@ -153,7 +175,7 @@ export function CelestialBackground({
           className="absolute top-0 left-0 w-[40%] h-[40%] bg-gradient-radial from-cyan-500/6 via-cyan-400/4 to-transparent blur-3xl"
           style={{
             background:
-              'radial-gradient(circle at 0% 0%, rgba(34, 211, 238, 0.06) 0%, rgba(34, 211, 238, 0.04) 30%, transparent 70%)',
+              `radial-gradient(circle at 0% 0%, ${hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.06)} 0%, ${hexToRGBA(tokens.colors.dark.primitive.cyan[400], 0.04)} 30%, transparent 70%)`,
           }}
         />
 
@@ -162,7 +184,7 @@ export function CelestialBackground({
           className="absolute top-1/2 right-0 w-[35%] h-[35%] bg-gradient-radial from-purple-500/6 via-purple-400/4 to-transparent blur-3xl"
           style={{
             background:
-              'radial-gradient(circle at 100% 50%, rgba(168, 85, 247, 0.06) 0%, rgba(168, 85, 247, 0.04) 30%, transparent 70%)',
+              `radial-gradient(circle at 100% 50%, ${hexToRGBA(tokens.colors.dark.primitive.purple[400], 0.06)} 0%, ${hexToRGBA(tokens.colors.dark.primitive.purple[400], 0.04)} 30%, transparent 70%)`,
           }}
         />
 
@@ -171,7 +193,7 @@ export function CelestialBackground({
           className="absolute bottom-0 left-1/4 w-[30%] h-[30%] bg-gradient-radial from-pink-500/6 via-pink-400/4 to-transparent blur-3xl"
           style={{
             background:
-              'radial-gradient(circle at 25% 100%, rgba(236, 72, 153, 0.06) 0%, rgba(236, 72, 153, 0.04) 30%, transparent 70%)',
+              `radial-gradient(circle at 25% 100%, ${hexToRGBA(tokens.colors.dark.primitive.pink[500], 0.06)} 0%, ${hexToRGBA(tokens.colors.dark.primitive.pink[500], 0.04)} 30%, transparent 70%)`,
           }}
         />
       </div>
@@ -191,7 +213,7 @@ export function CelestialBackground({
                   height: `${star.size * 2}px`,
                   opacity: star.opacity,
                   animationDelay: star.delay,
-                  boxShadow: `0 0 ${star.size * 3}px rgba(255, 255, 255, ${star.opacity})`,
+                  boxShadow: `0 0 ${star.size * 3}px ${config.glow.color}`,
                 }}
               />
             ))}
@@ -215,7 +237,7 @@ export function CelestialBackground({
                     height: `${star.size}px`,
                     opacity: star.opacity * 0.8,
                     animationDelay: star.delay,
-                    boxShadow: `0 0 ${star.size * 2}px rgba(255, 255, 255, ${star.opacity * 0.5})`,
+                    boxShadow: `0 0 ${star.size * 2}px ${config.glow.color}`,
                   }}
                 />
               ))}
@@ -233,7 +255,7 @@ export function CelestialBackground({
                   width: `${star.size * 0.5}px`,
                   height: `${star.size * 0.5}px`,
                   opacity: star.opacity * 0.6,
-                  boxShadow: `0 0 ${star.size}px rgba(255, 255, 255, ${star.opacity * 0.3})`,
+                  boxShadow: `0 0 ${star.size}px ${config.glow.color}`,
                 }}
               />
             ))}

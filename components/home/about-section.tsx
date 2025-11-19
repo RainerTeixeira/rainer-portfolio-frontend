@@ -145,6 +145,43 @@ export const AboutSection = memo(function AboutSection() {
   const isDarkTheme = isMounted && resolvedTheme === 'dark';
 
   // ============================================================================
+  // Components
+  // ============================================================================
+
+  /**
+   * Componente de Avatar com tratamento de erro de imagem
+   */
+  const AvatarImage = () => {
+    const [imageError, setImageError] = useState(false);
+
+    if (imageError) {
+      return (
+        <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl bg-gradient-to-br from-cyan-500/30 via-purple-500/30 to-pink-500/30 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 mx-auto mb-2 rounded-full bg-gradient-to-br from-cyan-500/40 to-purple-500/40 flex items-center justify-center">
+              <Award className="w-8 h-8 text-cyan-400/80" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl group-hover:scale-105 transition-transform duration-500 bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20">
+        <Image
+          src="/images/t1.jpg"
+          alt="Rainer Teixeira - Desenvolvedor Full-Stack"
+          fill
+          className="object-cover"
+          sizes="160px"
+          onError={() => setImageError(true)}
+          unoptimized
+        />
+      </div>
+    );
+  };
+
+  // ============================================================================
   // Render
   // ============================================================================
 
@@ -199,15 +236,7 @@ export const AboutSection = memo(function AboutSection() {
                   />
 
                   {/* Avatar */}
-                  <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl group-hover:scale-105 transition-transform duration-500">
-                    <Image
-                      src="/images/t1.jpg"
-                      alt="Rainer Teixeira - Desenvolvedor Full-Stack"
-                      fill
-                      className="object-cover"
-                      sizes="160px"
-                    />
-                  </div>
+                  <AvatarImage />
 
                   {/* Badge de status */}
                   <div

@@ -36,7 +36,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Award, ExternalLink, GithubIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export function PortfolioShowcase() {
   const { resolvedTheme } = useTheme();
@@ -115,27 +115,54 @@ export function PortfolioShowcase() {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="h-full"
-            >
-              <Card className="h-full dark:bg-black/40 dark:border-cyan-400/20 hover:shadow-xl hover:shadow-cyan-500/10 dark:hover:border-cyan-400/40 transition-all duration-300 overflow-hidden group flex flex-col">
-                {/* Image */}
-                <div className="relative h-48 w-full overflow-hidden">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div
-                    className={`absolute inset-0 ${isDark ? 'bg-linear-to-t from-black/60 to-transparent' : 'bg-linear-to-t from-gray-900/50 to-transparent'}`}
-                  />
+          {projects.map((project, index) => {
+            // Componente interno para gerenciar estado de erro da imagem
+            const ProjectImage = () => {
+              const [imageError, setImageError] = useState(false);
+
+              if (imageError) {
+                return (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center p-4">
+                      <div className="w-16 h-16 mx-auto mb-2 rounded-lg bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                        <Award className="w-8 h-8 text-cyan-400/60" />
+                      </div>
+                      <p className="text-xs text-muted-foreground dark:text-gray-500">
+                        {project.title}
+                      </p>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  onError={() => setImageError(true)}
+                  unoptimized={project.image.startsWith('/images/')}
+                />
+              );
+            };
+
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="h-full"
+              >
+                <Card className="h-full dark:bg-black/40 dark:border-cyan-400/20 hover:shadow-xl hover:shadow-cyan-500/10 dark:hover:border-cyan-400/40 transition-all duration-300 overflow-hidden group flex flex-col">
+                  {/* Image */}
+                  <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 dark:from-cyan-900/20 dark:via-purple-900/20 dark:to-pink-900/20">
+                    <ProjectImage />
+                    <div
+                      className={`absolute inset-0 ${isDark ? 'bg-linear-to-t from-black/60 to-transparent' : 'bg-linear-to-t from-gray-900/50 to-transparent'}`}
+                    />
                   {project.featured && (
                     <Badge
                       className={`absolute top-4 right-4 ${isDark ? 'bg-linear-to-r from-cyan-500 to-purple-500' : 'bg-linear-to-r from-blue-500 to-purple-500'} text-white border-0 shadow-lg`}
@@ -225,7 +252,8 @@ export function PortfolioShowcase() {
                 </CardContent>
               </Card>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Ver Mais */}

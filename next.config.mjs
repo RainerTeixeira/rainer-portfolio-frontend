@@ -113,12 +113,28 @@ const nextConfig = {
    * Customização do Webpack.
    * - Garante resolução de symlinks correta (workspaces).
    * - Fornece fallback seguro para fs, net, tls no client-side.
+   * - Configura tratamento especial para @rainersoft/design-tokens.
    */
   webpack: (config, { isServer }) => {
     config.resolve.symlinks = true;
     if (!isServer) {
       config.resolve.fallback = { fs: false, net: false, tls: false };
     }
+    
+    // Configuração especial para evitar problemas com dynamic imports
+    config.resolve.extensionAlias = {
+      '.js': ['.js', '.ts', '.tsx'],
+      '.jsx': ['.jsx', '.tsx'],
+    };
+    
+    // Garantir que módulos client-side sejam tratados corretamente
+    if (!isServer) {
+      // Manter otimizações padrão, mas garantir resolução correta
+      config.resolve.alias = {
+        ...config.resolve.alias,
+      };
+    }
+    
     return config;
   },
 
