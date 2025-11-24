@@ -33,9 +33,9 @@
 
 'use client';
 
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
+import { Checkbox } from '@rainersoft/ui';
 import {
   Form,
   FormControl,
@@ -44,11 +44,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
+import { MOTION } from '@rainersoft/design-tokens';
 import { zodResolver } from '@hookform/resolvers/zod';
-// Design tokens via CSS variables (imported in globals.css)
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -301,7 +301,7 @@ export function RegisterForm({}: RegisterFormProps) {
                       type="button"
                       className={cn(
                         'text-primary hover:underline font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20',
-                        TRANSITIONS.COLORS
+                        MOTION.TRANSITION.COLOR
                       )}
                     >
                       Termos de Uso
@@ -313,7 +313,7 @@ export function RegisterForm({}: RegisterFormProps) {
                       type="button"
                       className={cn(
                         'text-primary hover:underline font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20',
-                        TRANSITIONS.COLORS
+                        MOTION.TRANSITION.COLOR
                       )}
                     >
                       Política de Privacidade

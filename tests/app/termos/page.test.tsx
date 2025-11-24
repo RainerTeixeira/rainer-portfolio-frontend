@@ -73,9 +73,10 @@ describe('Terms of Use Page', () => {
 
   it('deve exibir informações sobre responsabilidades', () => {
     render(<TermsOfUsePage />);
-    // Pode estar em múltiplos lugares, usa getAllByText
-    const elements = screen.queryAllByText(/Responsabilidades/i);
-    expect(elements.length).toBeGreaterThan(0);
+    // A seção atual correspondente trata de uso adequado dos serviços
+    expect(
+      screen.getByText(/Uso Adequado dos Serviços/i)
+    ).toBeInTheDocument();
   });
 
   it('deve exibir informações sobre propriedade intelectual', () => {
@@ -98,25 +99,16 @@ describe('Terms of Use Page', () => {
     expect(screen.getByText(/Modificações dos Termos/i)).toBeInTheDocument();
   });
 
-  it('deve exibir informações sobre rescisão', () => {
+  it('deve exibir informações sobre indenização', () => {
     render(<TermsOfUsePage />);
-    expect(screen.getByText(/Rescisão/i)).toBeInTheDocument();
+    expect(screen.getByText(/Indenização/i)).toBeInTheDocument();
   });
 
-  it('deve exibir link para política de privacidade', () => {
+  it('deve exibir seção de lei aplicável e jurisdição', () => {
     render(<TermsOfUsePage />);
-    // Verifica que existe algum texto relacionado a privacidade
-    const privacyLinks = screen.queryAllByText(/Política de Privacidade/i);
-    const privacyLinks2 = screen.queryAllByText(/Política/i);
-    const totalPrivacyLinks = privacyLinks.length + privacyLinks2.length;
-    expect(totalPrivacyLinks).toBeGreaterThan(0);
-    // Se encontrar link, verifica o href
-    const privacyLink =
-      privacyLinks.find(link => link.closest('a')) ||
-      privacyLinks2.find(link => link.closest('a'));
-    if (privacyLink && privacyLink.closest('a')) {
-      expect(privacyLink.closest('a')).toHaveAttribute('href', '/privacidade');
-    }
+    expect(
+      screen.getByText(/Lei Aplicável e Jurisdição/i)
+    ).toBeInTheDocument();
   });
 
   it('deve exibir informações de contato', () => {

@@ -15,6 +15,7 @@
     "jsx": "react-jsx",
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
+    "types": ["node", "jest"],
     "noUncheckedIndexedAccess": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,

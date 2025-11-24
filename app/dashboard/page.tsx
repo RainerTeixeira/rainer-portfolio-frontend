@@ -63,18 +63,18 @@ import type {
   UpdatePostData,
 } from '@/lib/api/types';
 import { BackToTop } from '@/components/ui';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
+import { Label } from '@rainersoft/ui';
+import { Textarea } from '@rainersoft/ui';
 import {
   AnalyticsOverview,
   HelpCenter,

@@ -26,15 +26,15 @@
  * - Integração com design tokens
  */
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+} from '@rainersoft/ui';
+import { Separator } from '@rainersoft/ui';
 import { CARD_CLASSES, SECTION_CLASSES, cn } from '@/lib/utils';
 import {
   Briefcase,
@@ -100,54 +100,54 @@ export const Highlights = memo(function Highlights() {
   const services: Service[] = [
     {
       /** Sistemas full-stack completos */
-      title: 'Full-Stack Web Systems',
+      title: 'Aplicações Web Full-Stack',
       description:
-        'Aplicações web profissionais end-to-end: frontend React 19 + Next.js 15 + TypeScript, backend Node.js + NestJS, PostgreSQL/MongoDB com Prisma, autenticação JWT, editor WYSIWYG, PWA instalável, temas dark/light. Arquitetura escalável e código documentado.',
+        'Desenvolvimento completo de aplicações web profissionais com React e Next.js no frontend, Node.js no backend e PostgreSQL. Incluo autenticação segura, PWA instalável, tema claro/escuro e dashboard administrativo. Código TypeScript 100% tipado e documentado.',
       icon: Code,
-      badge: 'Especialidade Core',
+      badge: 'Mais Procurado',
       features: [
         'React 19 + Next.js 15',
-        'TypeScript Avançado',
-        'Backend Node.js',
+        'TypeScript + Node.js',
         'PostgreSQL + Prisma',
+        'Deploy Profissional',
       ],
     },
     {
       /** Dashboards e painéis administrativos */
-      title: 'Admin Dashboards',
+      title: 'Dashboards Interativos',
       description:
-        'Painéis de gestão com interface moderna: gráficos interativos em tempo real, tabelas com filtros, CRUD completo, autenticação com perfis, editor de conteúdo rico, upload de arquivos, métricas visuais e notificações toast. Performance garantida.',
+        'Painéis administrativos modernos que transformam dados em insights. Gráficos dinâmicos, tabelas com filtros avançados, relatórios exportáveis e visualizações que facilitam decisões. Interface intuitiva que sua equipe vai adorar usar.',
       icon: Cloud,
-      badge: 'Portfolio Comprovado',
+      badge: 'Alta Demanda',
       features: [
-        'Gráficos Tempo Real',
-        'CRUD Completo',
-        'Auth JWT',
-        'Editor WYSIWYG',
+        'Gráficos Interativos',
+        'Filtros Inteligentes',
+        'Tempo Real',
+        'Export Excel/PDF',
       ],
     },
     {
       /** PWAs e aplicações offline */
-      title: 'PWAs & Performance',
+      title: 'PWAs e Performance',
       description:
-        'Progressive Web Apps instaláveis: service workers para cache e modo offline, animações 60 FPS, lazy loading, code splitting, Core Web Vitals excelentes (Lighthouse 95+), SEO avançado e acessibilidade WCAG AA. Experiência nativa em todos os dispositivos.',
+        'Progressive Web Apps rápidas como apps nativos. Funcionam offline, são instaláveis e carregam em menos de 2 segundos. SEO otimizado que coloca seu site no topo do Google. Lighthouse Score 95+ garantido com Core Web Vitals excelentes.',
       icon: Zap,
-      badge: 'Lighthouse 95+',
+      badge: 'Performance Máxima',
       features: [
-        'PWA Instalável',
-        'Modo Offline',
-        'Performance 95+',
-        'SEO Avançado',
+        'Carregamento < 2s',
+        'Funciona Offline',
+        'SEO Otimizado',
+        'Mobile First',
       ],
     },
     {
       /** APIs e integração */
-      title: 'REST APIs & Integration',
+      title: 'APIs REST Escaláveis',
       description:
-        'APIs RESTful robustas e documentadas: Node.js + NestJS, autenticação JWT com refresh tokens, validação Zod, tratamento de erros profissional, Prisma ORM, endpoints documentados, testes automatizados e deploy Docker. Integração com APIs externas e webhooks.',
+        'APIs profissionais com Node.js que aguentam milhões de requisições. Autenticação JWT segura, documentação Swagger completa, integrações com serviços externos (pagamento, email, AWS). Backend robusto preparado para crescer com seu negócio.',
       icon: Briefcase,
-      badge: 'Backend Sólido',
-      features: ['Node.js + NestJS', 'APIs RESTful', 'JWT Auth', 'Prisma ORM'],
+      badge: 'Arquitetura Sólida',
+      features: ['Node.js + NestJS', 'Documentação Swagger', 'Integrações', 'Escalável'],
     },
   ];
 
@@ -190,7 +190,7 @@ export const Highlights = memo(function Highlights() {
           )}
         >
           <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 animate-pulse" />
-          Capacidades Técnicas
+          O Que Entrego
         </Badge>
 
         {/** Título principal da seção (h2 para hierarquia) com gradiente */}
@@ -202,20 +202,20 @@ export const Highlights = memo(function Highlights() {
             'leading-tight'
           )}
         >
-          O Que Sei Fazer na Prática
+          Soluções que Transformam Negócios
         </h2>
 
         {/** Descrição/subtítulo com largura máxima para legibilidade */}
         <div className="space-y-2 max-w-4xl mx-auto px-2">
           <p className="text-base xs:text-lg sm:text-xl text-muted-foreground leading-relaxed">
-            Habilidades técnicas comprovadas através de projetos reais e
-            complexos. Stack moderna, arquitetura profissional e código que
-            entrega resultados mensuráveis.
+            Desenvolvimento full-stack profissional com React, Next.js e Node.js.
+            Crio aplicações web que resolvem problemas reais, aumentam
+            conversões e facilitam a vida dos seus usuários.
           </p>
           <p className="text-sm xs:text-base text-muted-foreground/80 leading-relaxed">
-            Não são apenas tecnologias que conheço: são sistemas funcionando em
-            produção, código versionado no GitHub e métricas de performance que
-            provam qualidade.
+            Cada serviço entregue com código limpo, documentação completa,
+            testes automatizados e performance otimizada. Projetos reais
+            disponíveis no GitHub para você avaliar a qualidade.
           </p>
         </div>
       </header>

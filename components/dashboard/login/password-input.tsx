@@ -34,7 +34,7 @@
 'use client';
 
 import { usePasswordStrength } from '@/components/dashboard/hooks';
-import { Input } from '@/components/ui/input';
+import { Input } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 // Design tokens via CSS variables (imported in globals.css)
 import { Eye, EyeOff } from 'lucide-react';

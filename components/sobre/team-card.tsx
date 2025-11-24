@@ -29,8 +29,8 @@
  * - Integração com CARD_CLASSES
  */
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@rainersoft/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { CARD_CLASSES } from '@/lib/utils';
 
 /**

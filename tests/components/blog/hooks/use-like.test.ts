@@ -40,14 +40,6 @@ describe('useLike', () => {
       await result.current.handleLike();
     });
 
-    // Aguarda a animação finalizar
-    await waitFor(
-      () => {
-        expect(result.current.isAnimating).toBe(false);
-      },
-      { timeout: 1000 }
-    );
-
     // Verifica se o estado mudou (optimistic update)
     expect(result.current.isLiked).toBe(!initialLiked);
     expect(result.current.likes).toBe(

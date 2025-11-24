@@ -29,17 +29,17 @@
  * - Suporte a dark/light mode
  */
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from '@rainersoft/ui';
+import { Progress } from '@rainersoft/ui';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@rainersoft/ui';
 import { hexToRGBA } from '@/lib/utils';
 import { darkThemeColors, lightThemeColors, tokens } from '@rainersoft/design-tokens';
 import {

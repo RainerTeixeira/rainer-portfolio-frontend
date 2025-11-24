@@ -28,8 +28,8 @@
 
 'use client';
 
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import { useAuth } from '@/hooks/useAuth';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';

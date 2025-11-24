@@ -4,6 +4,15 @@
 
 import { searchContent } from '@/lib/utils/search';
 
+jest.mock('@/lib/api/services', () => ({
+  postsService: {
+    listPosts: jest.fn().mockResolvedValue({
+      success: true,
+      posts: [],
+    }),
+  },
+}));
+
 describe('lib/utils/search', () => {
   describe('searchContent', () => {
     it('deve buscar conteúdo por query', async () => {

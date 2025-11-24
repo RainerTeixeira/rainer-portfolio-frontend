@@ -20,14 +20,14 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@rainersoft/ui';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@rainersoft/ui';
 import { Keyboard } from 'lucide-react';
 import { useKeyboardShortcuts } from './hooks';
 

@@ -33,14 +33,14 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@rainersoft/ui';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@rainersoft/ui';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,7 +48,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@rainersoft/ui';
 import {
   Check,
   Facebook,

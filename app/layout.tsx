@@ -47,7 +47,7 @@ import './globals.css';
 import { Inter, Orbitron, Rajdhani } from 'next/font/google';
 
 import { AuthProvider } from '@/components/providers/auth-provider';
-import { MatrixProvider } from '@/components/providers/matrix-context';
+import { MatrixProvider } from '@/components/providers/matrix-context-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { AppWrapper } from '@/components/layout/app-wrapper';
 import { Footer } from '@/components/layout/footer';
@@ -60,7 +60,7 @@ import {
   Toaster,
   UpdateNotification,
 } from '@/components/ui';
-import { SEO_KEYWORDS, SITE_CONFIG } from '@/constants';
+import { DESENVOLVEDOR, PALAVRAS_CHAVE, SITE_CONFIG } from '@/constants';
 import { darkThemeColors, lightThemeColors } from '@rainersoft/design-tokens';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -124,13 +124,17 @@ const fontRajdhani = Rajdhani({
  */
 export const metadata: Metadata = {
   title: {
-    default: `${SITE_CONFIG.name} - ${SITE_CONFIG.title} | Empresa de Desenvolvimento`,
+    default: `${SITE_CONFIG.name} - Desenvolvedor Full-Stack | Empresa de Desenvolvimento`,
     template: `%s | ${SITE_CONFIG.name}`,
   },
   description: SITE_CONFIG.description,
-  keywords: [...SEO_KEYWORDS],
-  authors: [{ name: SITE_CONFIG.name, url: SITE_CONFIG.url }],
-  creator: SITE_CONFIG.name,
+  keywords: [
+    ...PALAVRAS_CHAVE.principais,
+    ...PALAVRAS_CHAVE.secundarias,
+    ...PALAVRAS_CHAVE.longas
+  ],
+  authors: [{ name: DESENVOLVEDOR.nome, url: SITE_CONFIG.url }],
+  creator: DESENVOLVEDOR.nome,
   publisher: SITE_CONFIG.name,
   applicationName: SITE_CONFIG.name,
   category: 'technology',
@@ -141,7 +145,7 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
     alternateLocale: ['en_US'],
     url: SITE_CONFIG.url,
-    title: `${SITE_CONFIG.name} - ${SITE_CONFIG.title}`,
+    title: `${SITE_CONFIG.name} - Desenvolvedor Full-Stack`,
     description: SITE_CONFIG.description,
     siteName: SITE_CONFIG.name,
     images: [

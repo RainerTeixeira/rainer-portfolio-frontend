@@ -50,8 +50,8 @@ import { LayoutDashboard, LogIn, LogOut, Menu, Settings } from 'lucide-react';
 // ============================================================================
 
 import { ThemeToggle } from '@/components/theme/theme-toggle';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -59,20 +59,20 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@rainersoft/ui';
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from '@/components/ui/navigation-menu';
+} from '@rainersoft/ui';
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet';
+} from '@rainersoft/ui';
 
 // ============================================================================
 // Providers & Utils

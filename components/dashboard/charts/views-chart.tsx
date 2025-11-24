@@ -15,8 +15,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from '@rainersoft/ui';
+import { Tabs, TabsList, TabsTrigger } from '@rainersoft/ui';
 import {
   LineChart,
   Line,

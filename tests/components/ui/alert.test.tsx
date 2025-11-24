@@ -19,15 +19,16 @@ describe('Alert', () => {
 
     rerender(<Alert variant="success">Success</Alert>);
     const successAlert = screen.getByRole('alert');
-    expect(successAlert.className).toContain('border-green-500');
+    // Usa classes do design system de status de sucesso
+    expect(successAlert.className).toContain('status-success');
 
     rerender(<Alert variant="warning">Warning</Alert>);
     const warningAlert = screen.getByRole('alert');
-    expect(warningAlert.className).toContain('border-yellow-500');
+    expect(warningAlert.className).toContain('status-warning');
 
     rerender(<Alert variant="info">Info</Alert>);
     const infoAlert = screen.getByRole('alert');
-    expect(infoAlert.className).toContain('border-blue-500');
+    expect(infoAlert.className).toContain('status-info');
   });
 
   it('deve aceitar className customizada', () => {

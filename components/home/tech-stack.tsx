@@ -28,9 +28,9 @@
 
 'use client';
 
-import { SKILLS } from '@/components/icons/skills/skills-with-icons';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { SKILLS } from '@/components/skills/skills-with-icons';
+import { Badge } from '@rainersoft/ui';
+import { Card, CardContent } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';

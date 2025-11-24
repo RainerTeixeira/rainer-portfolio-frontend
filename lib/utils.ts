@@ -13,7 +13,6 @@
  *
  * ### Funções Utilitárias
  * - `cn()` - Merge inteligente de classes CSS (clsx + tailwind-merge)
- * - `getIcon()` - Helper para obter ícones com fallback
  *
  * ## Uso
  *
@@ -70,7 +69,7 @@ import { twMerge } from 'tailwind-merge';
 export const SECTION_CLASSES = {
   /** Container padrão: largura máxima 7xl, centralizado, padding usando tokens (px-2 = 0.5rem, px-3 = 0.75rem, etc) */
   container: 'w-full max-w-7xl mx-auto px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8',
-
+ 
   /** Espaçamento vertical usando tokens do design system (space-y-3 = 0.75rem, space-y-4 = 1rem, etc) */
   spacing: 'space-y-3 xs:space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8',
 } as const;
@@ -99,10 +98,10 @@ export const SECTION_CLASSES = {
 export const CARD_CLASSES = {
   /** Classes base do card: transição suave (200ms = padrão do design system) */
   base: 'transition-all duration-200 ease-in-out',
-
+ 
   /** Efeito de hover: sombra usando tokens (shadow-lg do design system) */
   hover: 'hover:shadow-lg',
-
+ 
   /** Combinação completa: base + hover */
   full: 'transition-all duration-200 ease-in-out hover:shadow-lg',
 } as const;
@@ -131,19 +130,19 @@ export const CARD_CLASSES = {
 export const ANIMATION_DELAYS = {
   /** Delay de 1s para primeira partícula */
   particle1: '1s',
-
+ 
   /** Delay de 2s para segunda partícula */
   particle2: '2s',
-
+ 
   /** Delay de 3s para terceira partícula */
   particle3: '3s',
-
+ 
   /** Delay de 1.5s (variação) */
   short: '1.5s',
-
+ 
   /** Delay de 2.5s (variação) */
   medium: '2.5s',
-
+ 
   /** Delay de 4s (variação) */
   long: '4s',
 } as const;
@@ -206,52 +205,14 @@ export function cn(
     })
     .filter(Boolean)
     .join(' ');
-
+ 
   return twMerge(classes);
-}
-
-// =============================================================================
-// HELPER FUNCTIONS
-// =============================================================================
-
-/**
- * Resolve componente de ícone dinamicamente com fallback
- *
- * Função utilitária para resolver ícones Lucide React de forma segura.
- * Se o ícone solicitado não existir no mapa, retorna o ícone de fallback.
- *
- * Útil para renderização dinâmica baseada em dados de configuração
- * (ex: footer, services, etc).
- *
- * @template T - Tipo do componente de ícone
- * @param {Record<string, T>} iconMap - Mapa de nomes para componentes de ícone
- * @param {string} iconName - Nome do ícone a buscar
- * @param {T} fallback - Ícone de fallback se não encontrar
- * @returns {T} Componente de ícone resolvido ou fallback
- *
- * @example
- * import { Globe, Layers } from 'lucide-react'
- * import { getIcon } from '@/lib/utils'
- *
- * const ICONS = { Globe, Layers }
- * const IconComponent = getIcon(ICONS, 'Globe', Layers)
- *
- * @example
- * // Com ícone não existente (retorna fallback)
- * const IconComponent = getIcon(ICONS, 'NonExistent', Layers) // retorna Layers
- */
-export function getIcon<T>(
-  iconMap: Record<string, T>,
-  iconName: string,
-  fallback: T
-): T {
-  return iconMap[iconName] || fallback;
 }
 
 // =============================================================================
 // Design Tokens Exports (Re-export from design-tokens.ts)
 // =============================================================================
-
+ 
 export {
   COLOR_HEX,
   COLOR_RGB,

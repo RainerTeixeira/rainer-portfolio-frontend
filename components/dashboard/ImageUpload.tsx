@@ -35,8 +35,8 @@
 'use client';
 
 import { useImageCompression, useUpload } from '@/components/dashboard/hooks';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
+import { Button } from '@rainersoft/ui';
+import { Progress } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { ImageIcon, Loader2, X } from 'lucide-react';
 import Image from 'next/image';

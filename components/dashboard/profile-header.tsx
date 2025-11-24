@@ -28,9 +28,9 @@
 'use client';
 
 import { useAuth } from '@/components/providers/auth-provider';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
+import { Badge } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   Dialog,
   DialogContent,
@@ -38,10 +38,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
+import { Label } from '@rainersoft/ui';
+import { Textarea } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { Calendar, Camera, Edit2, Mail, Shield } from 'lucide-react';

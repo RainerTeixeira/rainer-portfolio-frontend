@@ -7,7 +7,6 @@ import {
   CARD_CLASSES,
   SECTION_CLASSES,
   cn,
-  getIcon,
 } from '@/lib/utils';
 
 describe('lib/utils', () => {
@@ -77,20 +76,6 @@ describe('lib/utils', () => {
       expect(ANIMATION_DELAYS.short).toBeDefined();
       expect(ANIMATION_DELAYS.medium).toBeDefined();
       expect(ANIMATION_DELAYS.long).toBeDefined();
-    });
-  });
-
-  describe('getIcon', () => {
-    it('deve retornar ícone do mapa quando existe', () => {
-      const iconMap = { TestIcon: 'TestComponent' };
-      const result = getIcon(iconMap, 'TestIcon', 'Fallback');
-      expect(result).toBe('TestComponent');
-    });
-
-    it('deve retornar fallback quando ícone não existe', () => {
-      const iconMap = { TestIcon: 'TestComponent' };
-      const result = getIcon(iconMap, 'NonExistent', 'Fallback');
-      expect(result).toBe('Fallback');
     });
   });
 });

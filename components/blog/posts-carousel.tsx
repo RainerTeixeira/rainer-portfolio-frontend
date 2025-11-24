@@ -32,15 +32,15 @@ import { ArrowRight, Calendar, Eye, Heart, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
+import { Badge } from '@rainersoft/ui';
+import { Card } from '@rainersoft/ui';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel';
+} from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 

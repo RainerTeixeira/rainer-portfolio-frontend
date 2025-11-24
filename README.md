@@ -6,8 +6,8 @@
 >
 > Aplicação web enterprise-grade com qualidade Fortune 500
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.0.3-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2.0-blue?logo=react)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.5.5-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.0.0-blue?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.14-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
@@ -43,7 +43,6 @@
 ## 📑 Sumário
 
 ### Início Rápido
-
 - [Sobre o Projeto](#-sobre-o-projeto)
 - [Principais Características](#-principais-características)
 - [Features Enterprise (v2.0.0)](#-features-enterprise-v200)
@@ -52,21 +51,18 @@
 - [Scripts Disponíveis](#-scripts-disponíveis)
 
 ### Técnico
-
 - [Estrutura do Projeto](#%EF%B8%8F-estrutura-do-projeto)
 - [Stack Tecnológico](#%EF%B8%8F-stack-tecnológico)
 - [Funcionalidades](#-funcionalidades)
 - [Análise de Qualidade com SonarQube](#-análise-de-qualidade-com-sonarqube)
 
 ### Features
-
 - [PWA - Progressive Web App Universal](#-pwa---progressive-web-app-universal)
 - [Temas e Personalização](#-temas-e-personalização)
 - [Métricas de Performance](#-métricas-de-performance)
 - [Segurança](#-segurança)
 
 ### Produção e Contribuição
-
 - [Deploy em Produção](#-deploy-em-produção)
 - [Contribuindo](#-contribuindo)
 - [Estatísticas do Projeto](#-estatísticas-do-projeto)
@@ -75,7 +71,6 @@
 - [Resumo Executivo](#-resumo-executivo)
 
 ### Meta
-
 - [Licença](#-licença)
 - [Autor](#-autor)
 - [Suporte](#-suporte)
@@ -87,7 +82,6 @@
 ### 🎯 Propósito
 
 Servir como:
-
 - 💼 **Portfolio Profissional** - Showcase de projetos e habilidades
 - 📝 **Plataforma de Blog** - Compartilhamento de conhecimento técnico
 - 🏢 **Presença Empresarial** - Rainer Soft - Empresa de Desenvolvimento
@@ -96,15 +90,15 @@ Servir como:
 
 ### 📊 Status Atual
 
-| Aspecto           | Status           | Detalhes              |
-| ----------------- | ---------------- | --------------------- |
-| **Versão**        | 2.1.0 Enterprise | Release Janeiro 2025  |
-| **Code Quality**  | ⭐⭐⭐⭐⭐       | Rating A (SonarQube)  |
-| **Performance**   | 95+              | Lighthouse Score      |
-| **Accessibility** | WCAG 2.1 AA      | 100% Compliant        |
-| **Type Safety**   | 100%             | Zero erros TypeScript |
-| **Documentation** | 100%             | 8 docs + JSDoc inline |
-| **Production**    | 🟢 Ready         | Deploy-ready          |
+| Aspecto | Status | Detalhes |
+|---------|--------|----------|
+| **Versão** | 2.0.0 Enterprise | Release Outubro 2025 |
+| **Code Quality** | ⭐⭐⭐⭐⭐ | Rating A (SonarQube) |
+| **Performance** | 95+ | Lighthouse Score |
+| **Accessibility** | WCAG 2.1 AA | 100% Compliant |
+| **Type Safety** | 100% | Zero erros TypeScript |
+| **Documentation** | 100% | 8 docs + JSDoc inline |
+| **Production** | 🟢 Ready | Deploy-ready |
 
 ### ✨ Principais Características
 
@@ -124,18 +118,18 @@ Servir como:
 
 Esta aplicação possui **nível enterprise global** com recursos de empresas Fortune 500:
 
-| Feature                    | Descrição                                             | Benefício                            |
-| -------------------------- | ----------------------------------------------------- | ------------------------------------ |
-| 🎨 **Design Tokens**       | Biblioteca @rainer/rainer-design-tokens (200+ tokens) | Single source of truth, reutilizável |
-| 🚨 **Error Boundary**      | Tratamento global de erros                            | Zero crashes visíveis                |
-| ⏳ **Loading States**      | 4 componentes padronizados                            | UX consistente                       |
-| 📝 **Logging System**      | 4 níveis estruturados                                 | Debug 80% mais rápido                |
-| 📊 **Analytics**           | 15+ eventos predefinidos                              | Insights completos                   |
-| ⚡ **Performance Monitor** | Core Web Vitals + custom                              | Performance em tempo real            |
-| ✅ **Validation Schemas**  | 7 validators centralizados                            | Validação consistente                |
-| 🔐 **Env Tipado**          | Type-safe environment                                 | Zero erros de config                 |
-| 🪝 **Custom Hooks**        | 10+ hooks enterprise                                  | Lógica reutilizável                  |
-| 📦 **Barrel Exports**      | Imports simplificados                                 | Imports 50% menores                  |
+| Feature | Descrição | Benefício |
+|---------|-----------|-----------|
+| 🎨 **Design Tokens** | 200+ tokens centralizados | Single source of truth |
+| 🚨 **Error Boundary** | Tratamento global de erros | Zero crashes visíveis |
+| ⏳ **Loading States** | 4 componentes padronizados | UX consistente |
+| 📝 **Logging System** | 4 níveis estruturados | Debug 80% mais rápido |
+| 📊 **Analytics** | 15+ eventos predefinidos | Insights completos |
+| ⚡ **Performance Monitor** | Core Web Vitals + custom | Performance em tempo real |
+| ✅ **Validation Schemas** | 7 validators centralizados | Validação consistente |
+| 🔐 **Env Tipado** | Type-safe environment | Zero erros de config |
+| 🪝 **Custom Hooks** | 10+ hooks enterprise | Lógica reutilizável |
+| 📦 **Barrel Exports** | Imports simplificados | Imports 50% menores |
 
 **Mais detalhes**: Ver [📚 Documentação Completa](docs/)
 
@@ -145,20 +139,20 @@ Esta aplicação possui **nível enterprise global** com recursos de empresas Fo
 
 Documentação completa e profissional em **12 arquivos markdown**:
 
-| Documento                                                         | Descrição                 | Linhas |
-| ----------------------------------------------------------------- | ------------------------- | ------ |
-| [📘 Visão Geral](docs/getting-started/PROJECT-OVERVIEW.md)        | Sobre o projeto completo  | ~400   |
-| [🏗️ Arquitetura](docs/architecture/ARCHITECTURE.md)               | Arquitetura detalhada     | ~550   |
-| [👨‍💻 Guia do Desenvolvedor](docs/architecture/DEVELOPER-GUIDE.md)  | Como desenvolver          | ~740   |
-| [🌟 Features Enterprise](docs/reference/ENTERPRISE-FEATURES.md)   | Features avançadas        | ~760   |
-| [🛠️ Tech Stack](docs/getting-started/TECH-STACK.md)               | Stack completo            | ~800   |
-| [📚 API Reference](docs/reference/API-REFERENCE.md)               | APIs e utilitários        | ~650   |
-| [🧩 Components Reference](docs/reference/COMPONENTS-REFERENCE.md) | Todos os 60+ componentes  | ~750   |
-| [🔧 Troubleshooting](docs/guides/TROUBLESHOOTING.md)              | Solução de problemas      | ~700   |
-| [🤝 Contributing](docs/architecture/CONTRIBUTING.md)              | Como contribuir           | ~550   |
-| [📲 PWA Universal](docs/guides/COMPATIBILIDADE-PWA-UNIVERSAL.md)  | PWA todos devices         | ~400   |
-| [🗺️ Roadmap](docs/guides/ROADMAP.md)                              | Plano futuro do projeto   | ~450   |
-| [📖 Índice Geral](docs/README.md)                                 | Navegação da documentação | ~450   |
+| Documento | Descrição | Linhas |
+|-----------|-----------|--------|
+| [📘 Visão Geral](docs/getting-started/PROJECT-OVERVIEW.md) | Sobre o projeto completo | ~400 |
+| [🏗️ Arquitetura](docs/architecture/ARCHITECTURE.md) | Arquitetura detalhada | ~550 |
+| [👨‍💻 Guia do Desenvolvedor](docs/architecture/DEVELOPER-GUIDE.md) | Como desenvolver | ~740 |
+| [🌟 Features Enterprise](docs/reference/ENTERPRISE-FEATURES.md) | Features avançadas | ~760 |
+| [🛠️ Tech Stack](docs/getting-started/TECH-STACK.md) | Stack completo | ~800 |
+| [📚 API Reference](docs/reference/API-REFERENCE.md) | APIs e utilitários | ~650 |
+| [🧩 Components Reference](docs/reference/COMPONENTS-REFERENCE.md) | Todos os 60+ componentes | ~750 |
+| [🔧 Troubleshooting](docs/guides/TROUBLESHOOTING.md) | Solução de problemas | ~700 |
+| [🤝 Contributing](docs/architecture/CONTRIBUTING.md) | Como contribuir | ~550 |
+| [📲 PWA Universal](docs/guides/COMPATIBILIDADE-PWA-UNIVERSAL.md) | PWA todos devices | ~400 |
+| [🗺️ Roadmap](docs/guides/ROADMAP.md) | Plano futuro do projeto | ~450 |
+| [📖 Índice Geral](docs/README.md) | Navegação da documentação | ~450 |
 
 **Total**: ~7.200 linhas de documentação técnica profissional
 
@@ -203,10 +197,10 @@ docs/
 
 ### Pré-requisitos
 
-| Ferramenta | Versão Mínima     |
-| ---------- | ----------------- |
-| Node.js    | 18.x              |
-| npm        | 9.x               |
+| Ferramenta | Versão Mínima |
+|------------|---------------|
+| Node.js    | 18.x          |
+| npm        | 9.x           |
 | yarn       | 1.22.x (opcional) |
 
 ### Instalação
@@ -253,292 +247,30 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador.
 
 ### Tabela de Comandos
 
-| Categoria           | Comando               | Descrição                                        |
-| ------------------- | --------------------- | ------------------------------------------------ |
-| **Desenvolvimento** | `npm run dev`         | Inicia servidor de desenvolvimento com Turbopack |
-|                     | `npm run build`       | Gera build otimizado para produção               |
-|                     | `npm run start`       | Executa aplicação em modo produção               |
-| **Qualidade**       | `npm run lint`        | Executa análise ESLint                           |
-|                     | `npm run lint:fix`    | Corrige automaticamente problemas do ESLint      |
-|                     | `npm run type-check`  | Valida tipagem TypeScript                        |
-| **SonarQube**       | `npm run sonar`       | Análise completa com configuração padrão         |
-|                     | `npm run sonar:local` | Análise no servidor local (localhost:9000)       |
-| **Documentação**    | `npm run docs`        | Gera documentação JSDoc                          |
-|                     | `npm run docs:serve`  | Gera e disponibiliza documentação                |
-|                     | `npm run docs:clean`  | Remove arquivos de documentação                  |
-|                     | `npm run docs:watch`  | Gera documentação em modo observação             |
-| **Memórias**        | `npm run version:update` | Atualiza versão e sincroniza memórias automaticamente |
-|                     | `npm run memory:update` | Atualiza informações gerais das memórias        |
-|                     | `npm run memory:sync` | Sincroniza versão + memórias completas           |
-| **Utilitários**     | `npm run clean`       | Remove arquivos de build (.next, out, dist)      |
+| Categoria | Comando | Descrição |
+|-----------|---------|-----------|
+| **Desenvolvimento** | `npm run dev` | Inicia servidor de desenvolvimento com Turbopack |
+| | `npm run build` | Gera build otimizado para produção |
+| | `npm run start` | Executa aplicação em modo produção |
+| **Qualidade** | `npm run lint` | Executa análise ESLint |
+| | `npm run lint:fix` | Corrige automaticamente problemas do ESLint |
+| | `npm run type-check` | Valida tipagem TypeScript |
+| **SonarQube** | `npm run sonar` | Análise completa com configuração padrão |
+| | `npm run sonar:local` | Análise no servidor local (localhost:9000) |
+| **Documentação** | `npm run docs` | Gera documentação JSDoc |
+| | `npm run docs:serve` | Gera e disponibiliza documentação |
+| | `npm run docs:clean` | Remove arquivos de documentação |
+| | `npm run docs:watch` | Gera documentação em modo observação |
+| **Utilitários** | `npm run clean` | Remove arquivos de build (.next, out, dist) |
 
 ### Notas Importantes
 
 > 📚 **Documentação JSDoc:** Todo o código está documentado em português brasileiro seguindo padrões profissionais, incluindo componentes, hooks, utilitários e configurações com exemplos de uso e tipos detalhados.
 
 > ⚠️ **Compatibilidade Windows:** O comando `clean` utiliza `rm -rf` (Unix). No PowerShell, use:
->
 > ```powershell
 > Remove-Item -Recurse -Force .next,out,dist -ErrorAction SilentlyContinue
 > ```
-
-## 🔐 Arquitetura de Autenticação
-
-### 🎯 Visão Geral: Cognito + MongoDB
-
-O frontend integra-se com uma arquitetura híbrida onde **Amazon Cognito** é a fonte única de dados de autenticação e **MongoDB** armazena dados complementares de perfil.
-
-```
-┌────────────────────────────────────────────────────────────┐
-│                    AMAZON COGNITO                         │
-│              (Fonte Única de Verdade)                     │
-├────────────────────────────────────────────────────────────┤
-│  • sub (ID único)                                        │
-│  • email (verificado)                                     │
-│  • username                                               │
-│  • email_verified                                         │
-└────────────────────────────────────────────────────────────┘
-                          ↓ JWT Token
-                          ↓
-┌────────────────────────────────────────────────────────────┐
-│                      FRONTEND                           │
-│              (Mescla Dados Cognito + MongoDB)           │
-├────────────────────────────────────────────────────────────┤
-│  authService.getUserProfile():                          │
-│    1. Extrai email do JWT (Cognito)                     │
-│    2. Busca perfil no backend (MongoDB)                 │
-│    3. Mescla: { ...mongoData, email, emailVerified }    │
-└────────────────────────────────────────────────────────────┘
-                          ↓ API REST
-                          ↓
-┌────────────────────────────────────────────────────────────┐
-│                       BACKEND                          │
-│                  (NestJS + MongoDB)                    │
-├────────────────────────────────────────────────────────────┤
-│  GET /users/cognito/:cognitoSub                         │
-│  PATCH /users/:id (sem email)                           │
-│  POST /auth/change-email (Cognito)                      │
-└────────────────────────────────────────────────────────────┘
-                          ↓
-┌────────────────────────────────────────────────────────────┐
-│                      MONGODB                          │
-│              (Dados Complementares)                    │
-├────────────────────────────────────────────────────────────┤
-│  • cognitoSub (chave de ligação)                       │
-│  • fullName, bio, avatar, website                           │
-│  • socialLinks, role                                    │
-│  • postsCount, commentsCount                            │
-│                                                        │
-│  ❌ NÃO armazena: email, password, username            │
-└────────────────────────────────────────────────────────────┘
-```
-
-### 📊 Fluxo de Dados
-
-#### 1. Login do Usuário
-
-```typescript
-// 1. Usuário faz login
-POST /auth/login { email, password }
-
-// 2. Backend valida no Cognito
-Cognito.initiateAuth() → JWT { sub, email, email_verified }
-
-// 3. Backend busca perfil no MongoDB
-MongoDB.findByCognitoSub(sub) → { fullName, bio, avatar, ... }
-
-// 4. Frontend recebe dados mesclados
-{
-  ...mongoData,
-  email: "usuario@example.com",  // ← do Cognito
-  emailVerified: true              // ← do Cognito
-}
-```
-
-#### 2. Atualização de Perfil
-
-```typescript
-// ProfileForm.tsx - Email é readonly
-<Input
-  value={user.email}  // ← do Cognito (JWT)
-  disabled
-  className="bg-muted"
-/>
-<Button onClick={() => setShowEmailDialog(true)}>
-  Alterar Email
-</Button>
-
-// userService.updateProfile() - NÃO envia email
-await api.patch('/users/:id', {
-  fullName: "Novo Nome",
-  bio: "Nova bio"
-  // ❌ email não é enviado
-})
-```
-
-#### 3. Alteração de Email
-
-```typescript
-// ChangeEmailDialog.tsx
-// 1. Solicitar alteração
-await userService.changeEmail({
-  cognitoSub: user.cognitoSub,
-  newEmail: 'novo@example.com',
-});
-// → Backend atualiza no Cognito
-// → Cognito envia código de verificação
-
-// 2. Verificar código
-await userService.verifyEmailChange({
-  cognitoSub: user.cognitoSub,
-  code: '123456',
-});
-// → Backend confirma no Cognito
-// → MongoDB NÃO é atualizado
-
-// 3. Logout automático
-window.location.href = '/auth/login';
-// → Novo login gera JWT com email atualizado
-```
-
-### 📝 Implementação no Frontend
-
-#### Types Separados
-
-```typescript
-// lib/api/types/user.ts
-
-// Dados do MongoDB (sem email)
-export interface MongoUser {
-  id: string;
-  cognitoSub: string;
-  fullName: string;
-  bio?: string;
-  avatar?: string;
-  role: 'ADMIN' | 'AUTHOR' | 'READER';
-  // ❌ NÃO tem email
-}
-
-// Dados do Cognito (email)
-export interface CognitoUser {
-  sub: string;
-  email: string;
-  email_verified: boolean;
-}
-
-// Dados mesclados (frontend)
-export interface UserProfile extends MongoUser {
-  email: string; // ← do Cognito
-  emailVerified: boolean; // ← do Cognito
-}
-
-// DTO para atualização (sem email)
-export interface UpdateProfileData {
-  fullName?: string;
-  bio?: string;
-  avatar?: string;
-  // ❌ NÃO tem email
-}
-```
-
-#### Services
-
-```typescript
-// lib/api/services/auth.service.ts
-class AuthService {
-  // Extrai dados do Cognito do JWT
-  getCognitoUserFromToken(token: string): CognitoUser {
-    const decoded = jwt.decode(token);
-    return {
-      sub: decoded.sub,
-      email: decoded.email,
-      email_verified: decoded.email_verified,
-    };
-  }
-
-  // Busca perfil completo (mescla Cognito + MongoDB)
-  async getUserProfile(token: string): Promise<UserProfile> {
-    const cognitoUser = this.getCognitoUserFromToken(token);
-    const mongoUser = await api.get(`/users/cognito/${cognitoUser.sub}`);
-
-    return {
-      ...mongoUser,
-      email: cognitoUser.email,
-      emailVerified: cognitoUser.email_verified,
-    };
-  }
-}
-
-// lib/api/services/user.service.ts
-class UserService {
-  // Atualizar perfil (SEM email)
-  async updateProfile(userId: string, data: UpdateProfileData) {
-    return api.patch(`/users/${userId}`, data);
-    // ❌ email não é enviado
-  }
-
-  // Alterar email (via Cognito)
-  async changeEmail(data: ChangeEmailData) {
-    return api.post('/auth/change-email', data);
-  }
-}
-```
-
-#### Componentes
-
-```typescript
-// components/dashboard/profile-form.tsx
-export function ProfileForm() {
-  const { user, updateProfile } = useAuthContext();
-
-  return (
-    <form>
-      {/* Email readonly */}
-      <div>
-        <Label>Email</Label>
-        <div className="flex gap-2">
-          <Input
-            value={user.email}  // ← do Cognito
-            disabled
-            className="bg-muted"
-          />
-          <Button onClick={() => setShowEmailDialog(true)}>
-            Alterar
-          </Button>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Email gerenciado pelo Cognito
-        </p>
-      </div>
-
-      {/* Campos editáveis */}
-      <Input fullName="fullName" defaultValue={user.fullName} />
-      <Textarea fullName="bio" defaultValue={user.bio} />
-
-      <Button type="submit">Salvar</Button>
-    </form>
-  );
-}
-```
-
-### ✅ Benefícios da Arquitetura
-
-| Benefício               | Descrição                                    |
-| ----------------------- | -------------------------------------------- |
-| 🔒 **Segurança**        | Email gerenciado por serviço AWS certificado |
-| 🔄 **Consistência**     | Fonte única de verdade para email            |
-| 🛡️ **Compliance**       | GDPR e SOC 2 compliant via AWS               |
-| 🚀 **Escalabilidade**   | Cognito gerencia milhões de usuários         |
-| 🛠️ **Manutenibilidade** | Menos lógica de sincronização                |
-| 📊 **Performance**      | Cache eficiente de JWT                       |
-
-### 📚 Documentação Adicional
-
-- **[Guia de Implementação Frontend](docs/08-MIGRACAO/GUIA_IMPLEMENTACAO_FRONTEND.md)** - Implementação completa
-- **[Guia de Alteração de Email](docs/08-MIGRACAO/GUIA_ALTERACAO_EMAIL.md)** - Fluxo de alteração de email
-- **[Backend: Arquitetura](https://github.com/rainer-portfolio-backend/docs/08-MIGRACAO/ARQUITETURA_COGNITO_MONGODB.md)** - Arquitetura backend
-
----
 
 ## 🏗️ Estrutura do Projeto
 
@@ -551,9 +283,10 @@ rainer-portfolio-frontend/
 │   ├── dashboard/                    # Dashboard administrativo
 │   │   └── login/                    # Autenticação
 │   ├── sobre/                        # Página Sobre
-│   ├── globals.tsx                   # Layout raiz
-│   └── page.tsx                      # Página inicial
-├── components/                       # Componentes React (documentados)
+│   ├── layout.tsx                    # Layout raiz
+│   ├── page.tsx                      # Página inicial
+│   └── globals.css                   # Estilos globais
+├── components/                       # Componentes React específicos da aplicação (documentados)
 │   ├── accessibility/                # Componentes de acessibilidade
 │   ├── blog/                         # Componentes do blog
 │   │   ├── comments/                 # Sistema de comentários
@@ -570,8 +303,8 @@ rainer-portfolio-frontend/
 │   ├── layout/                       # Header e Footer
 │   ├── providers/                    # Context Providers
 │   ├── sobre/                        # Componentes da página sobre
-│   ├── theme/                        # Tema claro/escuro
-│   └── ui/                           # Componentes UI reutilizáveis
+│   ├── theme/                        # Integração de tema claro/escuro
+│   └── ui/                           # Componentes de UI específicos da aplicação (base em @rainersoft/ui)
 ├── constants/                        # Constantes e dados estáticos
 ├── hooks/                            # Custom React Hooks
 ├── lib/                              # Utilitários e helpers
@@ -596,6 +329,53 @@ rainer-portfolio-frontend/
 ```
 
 > 💡 **Documentação:** Todos os arquivos TypeScript/React estão documentados com JSDoc profissional em português, incluindo descrições detalhadas, exemplos de uso, tipos e comentários explicativos.
+
+### 🎨 Integração com o Design System
+
+O frontend **não define** seus próprios tokens de design nem componentes base. Em vez disso:
+
+- Consome **tokens globais** de `@rainersoft/design-tokens` (cores, tipografia, spacing, radius, sombras).
+- Consome **componentes prontos** de `@rainersoft/ui` (Radix + Tailwind + tokens).
+- Usa Tailwind configurado para ler as cores a partir das **CSS Variables** definidas pelos tokens.
+
+Exemplo simplificado de configuração de cores no `tailwind.config.ts` do frontend:
+
+```ts
+// tailwind.config.ts (trecho relevante)
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
+  darkMode: ['class', '[data-theme="dark"]'],
+  theme: {
+    extend: {
+      colors: {
+        background: 'rgb(var(--color-background) / <alpha-value>)',
+        foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
+        primary: {
+          DEFAULT: 'rgb(var(--color-primary) / <alpha-value>)',
+          foreground: 'rgb(var(--color-primary-foreground) / <alpha-value>)',
+        },
+        secondary: {
+          DEFAULT: 'rgb(var(--color-secondary) / <alpha-value>)',
+          foreground: 'rgb(var(--color-secondary-foreground) / <alpha-value>)',
+        },
+        muted: {
+          DEFAULT: 'rgb(var(--color-muted) / <alpha-value>)',
+          foreground: 'rgb(var(--color-muted-foreground) / <alpha-value>)',
+        },
+        card: {
+          DEFAULT: 'rgb(var(--color-card) / <alpha-value>)',
+          foreground: 'rgb(var(--color-card-foreground) / <alpha-value>)',
+        },
+      },
+    },
+  },
+};
+
+export default config;
+```
+
+Com isso, as classes Tailwind usadas no frontend e na UI (`bg-primary`, `text-primary-foreground`, `bg-card`, etc.) automaticamente refletem os valores definidos em `@rainersoft/design-tokens`, respeitando o tema ativo (`data-theme="light" | "dark"`).
 
 ---
 
@@ -646,11 +426,11 @@ components/
 
 Hooks utilitários reutilizáveis em **qualquer lugar** do projeto:
 
-| Hook                   | Responsabilidade                                      | Onde Usar                                          |
-| ---------------------- | ----------------------------------------------------- | -------------------------------------------------- |
-| `use-mobile.ts`        | Detecção responsiva de dispositivos móveis            | Componentes que precisam adaptar UI mobile/desktop |
-| `use-pwa.ts`           | Gerenciamento de PWA (install prompt, service worker) | Layout, providers, componentes PWA                 |
-| `use-smooth-scroll.ts` | Scroll suave respeitando `prefers-reduced-motion`     | Navegação, botões de scroll, âncoras               |
+| Hook | Responsabilidade | Onde Usar |
+|------|------------------|-----------|
+| `use-mobile.ts` | Detecção responsiva de dispositivos móveis | Componentes que precisam adaptar UI mobile/desktop |
+| `use-pwa.ts` | Gerenciamento de PWA (install prompt, service worker) | Layout, providers, componentes PWA |
+| `use-smooth-scroll.ts` | Scroll suave respeitando `prefers-reduced-motion` | Navegação, botões de scroll, âncoras |
 
 **Critério:** Hook é global quando **não depende de um componente específico** e pode ser útil em múltiplos contextos.
 
@@ -658,13 +438,13 @@ Hooks utilitários reutilizáveis em **qualquer lugar** do projeto:
 
 Hooks **específicos** de um módulo ou funcionalidade:
 
-| Módulo            | Total | Hooks Principais                           | Propósito                         |
-| ----------------- | ----- | ------------------------------------------ | --------------------------------- |
-| **dashboard**     | 7     | `use-posts`, `use-upload`, `use-autosave`  | CRUD, upload, analytics, autosave |
-| **blog**          | 5     | `use-like`, `use-bookmark`, `use-search`   | Interações sociais e busca        |
-| **home**          | 1     | `use-carousel-keyboard`                    | Navegação por teclado em carousel |
-| **contato**       | 1     | `use-contact-form`                         | Gerenciamento de formulário       |
-| **accessibility** | 3     | `use-focus-trap`, `use-keyboard-shortcuts` | Recursos de acessibilidade        |
+| Módulo | Total | Hooks Principais | Propósito |
+|--------|-------|------------------|-----------|
+| **dashboard** | 7 | `use-posts`, `use-upload`, `use-autosave` | CRUD, upload, analytics, autosave |
+| **blog** | 5 | `use-like`, `use-bookmark`, `use-search` | Interações sociais e busca |
+| **home** | 1 | `use-carousel-keyboard` | Navegação por teclado em carousel |
+| **contato** | 1 | `use-contact-form` | Gerenciamento de formulário |
+| **accessibility** | 3 | `use-focus-trap`, `use-keyboard-shortcuts` | Recursos de acessibilidade |
 
 **Critério:** Hook é local quando é **usado exclusivamente** por componentes daquele módulo.
 
@@ -690,27 +470,27 @@ Todos os hooks seguem este template:
 ```typescript
 /**
  * Hook para [Descrição Breve]
- *
+ * 
  * Descrição detalhada do que o hook faz, incluindo:
  * - Funcionalidades principais
  * - Casos de uso
- *
+ * 
  * Funcionalidades:
  * - ✓ Feature 1
  * - ✓ Feature 2
- *
+ * 
  * @fileoverview [Descrição curta]
  * @author Rainer Teixeira
  * @version 1.0.0
  */
 
-'use client';
+"use client"
 
-import {} from /* imports */ '...';
+import { /* imports */ } from '...'
 
 /**
  * Interface de opções (se aplicável)
- *
+ * 
  * @interface [Nome]Options
  * @property {type} prop - Descrição
  */
@@ -720,15 +500,15 @@ export interface HookOptions {
 
 /**
  * Hook [Nome]
- *
+ * 
  * Descrição detalhada do comportamento.
- *
+ * 
  * @param {HookOptions} options - Configurações
  * @returns {Object} Estado e funções
- *
+ * 
  * @example
  * import { useHook } from '@/components/module/hooks'
- *
+ * 
  * function Component() {
  *   const { state, action } = useHook({ config })
  *   return <div>{state}</div>
@@ -746,57 +526,50 @@ Cada pasta de hooks **deve ter** um `index.ts` para centralizar exportações:
 ```typescript
 /**
  * Exportações de Hooks do [Módulo]
- *
+ * 
  * @fileoverview [Módulo] hooks exports
  * @author Rainer Teixeira
  */
 
-export { useHook1 } from './use-hook1';
-export type { Hook1Options } from './use-hook1';
-export { useHook2, useHook2Helper } from './use-hook2';
+export { useHook1 } from './use-hook1'
+export type { Hook1Options } from './use-hook1'
+export { useHook2, useHook2Helper } from './use-hook2'
 ```
 
 **Importação simplificada:**
 
 ```tsx
 // ✅ CORRETO (via barrel file)
-import {
-  useAnalyticsData,
-  useDashboardStats,
-} from '@/components/dashboard/hooks';
+import { useAnalyticsData, useDashboardStats } from '@/components/dashboard/hooks'
 
 // ❌ EVITAR (import direto)
-import { useAnalyticsData } from '@/components/dashboard/hooks/use-analytics-data';
+import { useAnalyticsData } from '@/components/dashboard/hooks/use-analytics-data'
 ```
 
 #### 4. Tipos TypeScript
 
 ```typescript
 // ✅ Sempre exportar interfaces e types
-export interface UseHookOptions {
-  /* ... */
-}
-export interface HookReturn {
-  /* ... */
-}
-export type HookState = 'idle' | 'loading' | 'success';
+export interface UseHookOptions { /* ... */ }
+export interface HookReturn { /* ... */ }
+export type HookState = 'idle' | 'loading' | 'success'
 
 // ✅ Usar no barrel file
-export type { UseHookOptions, HookReturn, HookState } from './use-hook';
+export type { UseHookOptions, HookReturn, HookState } from './use-hook'
 ```
 
 #### 5. Documentação JSDoc
 
 **Obrigatório em todos os hooks:**
 
-| Elemento          | Tag JSDoc       | Exemplo                                      |
-| ----------------- | --------------- | -------------------------------------------- |
-| Descrição do hook | `@fileoverview` | `@fileoverview Hook para autosave`           |
-| Autor             | `@author`       | `@author Rainer Teixeira`                    |
-| Versão            | `@version`      | `@version 1.0.0`                             |
-| Parâmetros        | `@param`        | `@param {number} interval - Intervalo em ms` |
-| Retorno           | `@returns`      | `@returns {Object} Estado e funções`         |
-| Exemplos          | `@example`      | Código de uso prático                        |
+| Elemento | Tag JSDoc | Exemplo |
+|----------|-----------|---------|
+| Descrição do hook | `@fileoverview` | `@fileoverview Hook para autosave` |
+| Autor | `@author` | `@author Rainer Teixeira` |
+| Versão | `@version` | `@version 1.0.0` |
+| Parâmetros | `@param` | `@param {number} interval - Intervalo em ms` |
+| Retorno | `@returns` | `@returns {Object} Estado e funções` |
+| Exemplos | `@example` | Código de uso prático |
 
 ### 🔄 Fluxo de Extração de Hooks
 
@@ -809,31 +582,31 @@ Quando identificar lógica complexa em um componente:
              └─→ Criar use-{nome}.ts
                   └─→ Adicionar ao index.ts
                        └─→ Atualizar imports no componente
-
+   
    └─→ NÃO → Manter no componente
 ```
 
 **Critérios para extração:**
 
-| Extrair                                 | Não Extrair                          |
-| --------------------------------------- | ------------------------------------ |
-| ✅ Lógica reutilizada em 2+ componentes | ❌ useState simples usado uma vez    |
-| ✅ Lógica complexa (50+ linhas)         | ❌ useEffect trivial (mounted check) |
-| ✅ Múltiplos useEffect interdependentes | ❌ Lógica específica de UI           |
-| ✅ Gerenciamento de estado complexo     | ❌ Handlers simples inline           |
+| Extrair | Não Extrair |
+|---------|-------------|
+| ✅ Lógica reutilizada em 2+ componentes | ❌ useState simples usado uma vez |
+| ✅ Lógica complexa (50+ linhas) | ❌ useEffect trivial (mounted check) |
+| ✅ Múltiplos useEffect interdependentes | ❌ Lógica específica de UI |
+| ✅ Gerenciamento de estado complexo | ❌ Handlers simples inline |
 
 ### 📊 Inventário Atual de Hooks
 
 #### Resumo por Categoria
 
-| Categoria         | Total   | Arquivos                                                                                                        | Finalidade                                     |
-| ----------------- | ------- | --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| **Dashboard**     | 7 hooks | `use-analytics-data`, `use-autosave`, `use-dashboard-stats`, `use-password-strength`, `use-posts`, `use-upload` | Administração, CRUD, analytics, upload         |
-| **Blog**          | 5 hooks | `use-bookmark`, `use-like`, `use-newsletter`, `use-search`, `use-table-of-contents`                             | Interações sociais, busca, navegação           |
-| **Home**          | 1 hook  | `use-carousel-keyboard`                                                                                         | Navegação por teclado em carousel com autoplay |
-| **Contato**       | 1 hook  | `use-contact-form`                                                                                              | Gerenciamento de formulário de contato         |
-| **Accessibility** | 3 hooks | `use-focus-trap`, `use-high-contrast`, `use-keyboard-shortcuts`                                                 | Recursos de acessibilidade                     |
-| **Global**        | 3 hooks | `use-mobile`, `use-pwa`, `use-smooth-scroll`                                                                    | Utilitários reutilizáveis                      |
+| Categoria | Total | Arquivos | Finalidade |
+|-----------|-------|----------|------------|
+| **Dashboard** | 7 hooks | `use-analytics-data`, `use-autosave`, `use-dashboard-stats`, `use-password-strength`, `use-posts`, `use-upload` | Administração, CRUD, analytics, upload |
+| **Blog** | 5 hooks | `use-bookmark`, `use-like`, `use-newsletter`, `use-search`, `use-table-of-contents` | Interações sociais, busca, navegação |
+| **Home** | 1 hook | `use-carousel-keyboard` | Navegação por teclado em carousel com autoplay |
+| **Contato** | 1 hook | `use-contact-form` | Gerenciamento de formulário de contato |
+| **Accessibility** | 3 hooks | `use-focus-trap`, `use-high-contrast`, `use-keyboard-shortcuts` | Recursos de acessibilidade |
+| **Global** | 3 hooks | `use-mobile`, `use-pwa`, `use-smooth-scroll` | Utilitários reutilizáveis |
 
 **Total:** 20 hooks customizados organizados
 
@@ -844,17 +617,17 @@ Quando identificar lógica complexa em um componente:
 ```tsx
 // ✅ CORRETO: Hook isolado
 function useAnalyticsData(period: Period) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([])
   // Lógica isolada
-  return { data, isLoading, error };
+  return { data, isLoading, error }
 }
 
 // ❌ INCORRETO: Lógica no componente
 function AnalyticsChart() {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   // 50 linhas de lógica aqui...
-  return <Chart data={data} />;
+  return <Chart data={data} />
 }
 ```
 
@@ -863,14 +636,14 @@ function AnalyticsChart() {
 ```tsx
 // ✅ Hooks podem usar outros hooks
 export function useUpload(type: 'cover' | 'content') {
-  const { compress } = useImageCompression();
-  const [state, setState] = useState(/* ... */);
+  const { compress } = useImageCompression()
+  const [state, setState] = useState(/* ... */)
   // ...
 }
 
 // Variantes especializadas
 export function useBlogCoverUpload() {
-  return useUpload('cover');
+  return useUpload('cover')
 }
 ```
 
@@ -879,9 +652,9 @@ export function useBlogCoverUpload() {
 ```tsx
 // ✅ Hook exporta suas interfaces
 export interface PasswordStrength {
-  strength: number;
-  label: string;
-  color: string;
+  strength: number
+  label: string
+  color: string
 }
 
 export function usePasswordStrength(password: string): PasswordStrength {
@@ -889,7 +662,7 @@ export function usePasswordStrength(password: string): PasswordStrength {
 }
 
 // ✅ Barrel file re-exporta
-export type { PasswordStrength } from './use-password-strength';
+export type { PasswordStrength } from './use-password-strength'
 ```
 
 ### 🔍 Casos de Uso por Hook
@@ -897,35 +670,35 @@ export type { PasswordStrength } from './use-password-strength';
 <details>
 <summary><b>📊 Dashboard Hooks</b></summary>
 
-| Hook                  | Quando Usar                                     | Exemplo Real                    |
-| --------------------- | ----------------------------------------------- | ------------------------------- |
-| `useAnalyticsData`    | Buscar dados de analytics com filtro de período | Gráficos de views e engajamento |
-| `useAutosave`         | Salvar automaticamente rascunhos                | Editor de posts do blog         |
-| `useDashboardStats`   | Métricas gerais do dashboard                    | Cards de estatísticas           |
-| `usePasswordStrength` | Validar força de senha                          | Formulário de registro/login    |
-| `usePosts`            | CRUD de posts com React Query                   | Listagem e edição de posts      |
-| `useUpload`           | Upload de imagens para Cloudinary               | Capas de posts e imagens        |
+| Hook | Quando Usar | Exemplo Real |
+|------|-------------|--------------|
+| `useAnalyticsData` | Buscar dados de analytics com filtro de período | Gráficos de views e engajamento |
+| `useAutosave` | Salvar automaticamente rascunhos | Editor de posts do blog |
+| `useDashboardStats` | Métricas gerais do dashboard | Cards de estatísticas |
+| `usePasswordStrength` | Validar força de senha | Formulário de registro/login |
+| `usePosts` | CRUD de posts com React Query | Listagem e edição de posts |
+| `useUpload` | Upload de imagens para Cloudinary | Capas de posts e imagens |
 
 </details>
 
 <details>
 <summary><b>📝 Blog Hooks</b></summary>
 
-| Hook                 | Quando Usar                                | Exemplo Real             |
-| -------------------- | ------------------------------------------ | ------------------------ |
-| `useLike`            | Sistema de curtidas com optimistic updates | Botão de like em posts   |
-| `useBookmark`        | Salvar posts para ler depois               | Botão de bookmark        |
-| `useNewsletter`      | Inscrição em newsletter                    | Box de cadastro de email |
-| `useSearch`          | Busca com debounce e histórico             | Barra de busca de posts  |
-| `useTableOfContents` | Navegação por seções do artigo             | TOC lateral em posts     |
+| Hook | Quando Usar | Exemplo Real |
+|------|-------------|--------------|
+| `useLike` | Sistema de curtidas com optimistic updates | Botão de like em posts |
+| `useBookmark` | Salvar posts para ler depois | Botão de bookmark |
+| `useNewsletter` | Inscrição em newsletter | Box de cadastro de email |
+| `useSearch` | Busca com debounce e histórico | Barra de busca de posts |
+| `useTableOfContents` | Navegação por seções do artigo | TOC lateral em posts |
 
 </details>
 
 <details>
 <summary><b>🏠 Home Hooks</b></summary>
 
-| Hook                  | Quando Usar                             | Exemplo Real            |
-| --------------------- | --------------------------------------- | ----------------------- |
+| Hook | Quando Usar | Exemplo Real |
+|------|-------------|--------------|
 | `useCarouselKeyboard` | Navegação por teclado (←→) com autoplay | Hero carousel cyberpunk |
 
 </details>
@@ -933,8 +706,8 @@ export type { PasswordStrength } from './use-password-strength';
 <details>
 <summary><b>📧 Contato Hooks</b></summary>
 
-| Hook             | Quando Usar                    | Exemplo Real          |
-| ---------------- | ------------------------------ | --------------------- |
+| Hook | Quando Usar | Exemplo Real |
+|------|-------------|--------------|
 | `useContactForm` | Gerenciar estado de formulário | Formulário de contato |
 
 </details>
@@ -942,11 +715,11 @@ export type { PasswordStrength } from './use-password-strength';
 <details>
 <summary><b>♿ Accessibility Hooks</b></summary>
 
-| Hook                   | Quando Usar                 | Exemplo Real             |
-| ---------------------- | --------------------------- | ------------------------ |
-| `useFocusTrap`         | Manter foco em modal/dialog | Modals e dialogs         |
-| `useHighContrast`      | Modo alto contraste         | Toggle de acessibilidade |
-| `useKeyboardShortcuts` | Dialog de atalhos (Ctrl+/)  | Help dialog              |
+| Hook | Quando Usar | Exemplo Real |
+|------|-------------|--------------|
+| `useFocusTrap` | Manter foco em modal/dialog | Modals e dialogs |
+| `useHighContrast` | Modo alto contraste | Toggle de acessibilidade |
+| `useKeyboardShortcuts` | Dialog de atalhos (Ctrl+/) | Help dialog |
 
 </details>
 
@@ -957,16 +730,16 @@ export type { PasswordStrength } from './use-password-strength';
 export function useLike(postId: string, initialLikes: number) {
   const [isLiked, setIsLiked] = useState(false)
   const [likes, setLikes] = useState(initialLikes)
-
+  
   async function handleLike() {
     // Optimistic update
     setIsLiked(!isLiked)
     setLikes(prev => isLiked ? prev - 1 : prev + 1)
-
+    
     // API call
     await fetch(`/api/posts/${postId}/like`, { method: 'POST' })
   }
-
+  
   return { isLiked, likes, handleLike }
 }
 
@@ -984,28 +757,28 @@ function LikeButton({ postId }) {
 
 ### ✨ Vantagens desta Arquitetura
 
-| Benefício               | Descrição                                    |
-| ----------------------- | -------------------------------------------- |
-| 🧩 **Modularidade**     | Hooks organizados por domínio/funcionalidade |
-| ♻️ **Reutilização**     | Lógica compartilhada sem duplicação          |
-| 🔍 **Manutenibilidade** | Fácil localizar e atualizar hooks            |
-| 📦 **Encapsulamento**   | Lógica complexa isolada dos componentes      |
-| 🎯 **Testabilidade**    | Hooks podem ser testados independentemente   |
-| 📚 **Documentação**     | JSDoc completo em todos os hooks             |
-| 🔒 **Type Safety**      | TypeScript com tipos exportados              |
-| 🚀 **Escalabilidade**   | Estrutura suporta crescimento do projeto     |
+| Benefício | Descrição |
+|-----------|-----------|
+| 🧩 **Modularidade** | Hooks organizados por domínio/funcionalidade |
+| ♻️ **Reutilização** | Lógica compartilhada sem duplicação |
+| 🔍 **Manutenibilidade** | Fácil localizar e atualizar hooks |
+| 📦 **Encapsulamento** | Lógica complexa isolada dos componentes |
+| 🎯 **Testabilidade** | Hooks podem ser testados independentemente |
+| 📚 **Documentação** | JSDoc completo em todos os hooks |
+| 🔒 **Type Safety** | TypeScript com tipos exportados |
+| 🚀 **Escalabilidade** | Estrutura suporta crescimento do projeto |
 
 ### 🛠️ Ferramentas e Bibliotecas
 
 Hooks utilizam bibliotecas especializadas:
 
-| Hook                    | Biblioteca              | Propósito                      |
-| ----------------------- | ----------------------- | ------------------------------ |
-| `use-posts`             | `@tanstack/react-query` | Cache e sincronização de dados |
-| `use-upload`            | Cloudinary SDK          | Upload otimizado de imagens    |
-| `use-autosave`          | Timers nativos          | Salvamento automático          |
-| `use-search`            | Debounce + localStorage | Busca otimizada                |
-| `use-carousel-keyboard` | Event listeners         | Navegação por teclado          |
+| Hook | Biblioteca | Propósito |
+|------|------------|-----------|
+| `use-posts` | `@tanstack/react-query` | Cache e sincronização de dados |
+| `use-upload` | Cloudinary SDK | Upload otimizado de imagens |
+| `use-autosave` | Timers nativos | Salvamento automático |
+| `use-search` | Debounce + localStorage | Busca otimizada |
+| `use-carousel-keyboard` | Event listeners | Navegação por teclado |
 
 ---
 
@@ -1029,11 +802,11 @@ docker-compose -f sonarqube/docker-compose.sonarqube.yml logs -f sonarqube
 
 #### Passo 2: Acessar Interface Web
 
-| Informação         | Valor                   |
-| ------------------ | ----------------------- |
-| **URL**            | <http://localhost:9000> |
-| **Usuário padrão** | `admin`                 |
-| **Senha padrão**   | `admin`                 |
+| Informação | Valor |
+|------------|-------|
+| **URL** | <http://localhost:9000> |
+| **Usuário padrão** | `admin` |
+| **Senha padrão** | `admin` |
 
 ⚠️ **Importante:** A alteração de senha será solicitada no primeiro acesso.
 
@@ -1042,10 +815,10 @@ docker-compose -f sonarqube/docker-compose.sonarqube.yml logs -f sonarqube
 1. Acesse **"Create Project"** → **"Manually"**
 2. Configure o projeto:
 
-| Campo            | Valor                       |
-| ---------------- | --------------------------- |
-| Project key      | `rainer-portfolio-frontend` |
-| Display fullName | `Rainer Portfolio Frontend` |
+| Campo | Valor |
+|-------|-------|
+| Project key | `rainer-portfolio-frontend` |
+| Display name | `Rainer Portfolio Frontend` |
 
 3. Selecione **"Set Up"** → **"Locally"**
 4. Gere token de autenticação:
@@ -1143,13 +916,13 @@ sonar-scanner -Dsonar.host.url=http://localhost:9000 -Dsonar.login=seu-token-aqu
 2. Acesse <http://localhost:9000>
 3. Navegue até o projeto para visualizar:
 
-| Métrica                 | Descrição                               |
-| ----------------------- | --------------------------------------- |
-| 🐛 **Bugs**             | Erros de código que podem causar falhas |
-| 🔒 **Vulnerabilidades** | Falhas de segurança identificadas       |
-| 💡 **Code Smells**      | Problemas de manutenibilidade do código |
-| 📊 **Cobertura**        | Percentual de código coberto por testes |
-| 🎯 **Duplicação**       | Código duplicado no projeto             |
+| Métrica | Descrição |
+|---------|-----------|
+| 🐛 **Bugs** | Erros de código que podem causar falhas |
+| 🔒 **Vulnerabilidades** | Falhas de segurança identificadas |
+| 💡 **Code Smells** | Problemas de manutenibilidade do código |
+| 📊 **Cobertura** | Percentual de código coberto por testes |
+| 🎯 **Duplicação** | Código duplicado no projeto |
 
 ### 🛑 Parar o SonarQube
 
@@ -1214,14 +987,14 @@ sonar.sources=components,hooks,lib
 
 #### Durante o Desenvolvimento
 
-| Passo | Comando                         | Objetivo                         |
-| ----- | ------------------------------- | -------------------------------- |
-| 1️⃣    | _Realizar alterações no código_ | Implementar funcionalidades      |
-| 2️⃣    | `npm run lint:fix`              | Corrigir problemas de formatação |
-| 3️⃣    | `npm run type-check`            | Validar tipagem TypeScript       |
-| 4️⃣    | `npm run sonar:local`           | Executar análise de qualidade    |
-| 5️⃣    | _Corrigir issues reportados_    | Resolver problemas identificados |
-| 6️⃣    | `git commit`                    | Registrar alterações             |
+| Passo | Comando | Objetivo |
+|-------|---------|----------|
+| 1️⃣ | _Realizar alterações no código_ | Implementar funcionalidades |
+| 2️⃣ | `npm run lint:fix` | Corrigir problemas de formatação |
+| 3️⃣ | `npm run type-check` | Validar tipagem TypeScript |
+| 4️⃣ | `npm run sonar:local` | Executar análise de qualidade |
+| 5️⃣ | _Corrigir issues reportados_ | Resolver problemas identificados |
+| 6️⃣ | `git commit` | Registrar alterações |
 
 #### Antes de Pull Request
 
@@ -1243,13 +1016,13 @@ npm run lint:fix && npm run type-check && npm run sonar:local
 
 O SonarQube aplica critérios de qualidade que podem reprovar a análise:
 
-| Critério                   | Limite     | Descrição                            |
-| -------------------------- | ---------- | ------------------------------------ |
-| **Cobertura de Testes**    | < 80%      | Percentual de código testado         |
-| **Bugs Novos**             | > 0        | Erros introduzidos em código novo    |
-| **Vulnerabilidades Novas** | > 0        | Falhas de segurança em código novo   |
-| **Code Smells**            | Rating D/E | Problemas de manutenibilidade graves |
-| **Duplicação**             | > 3%       | Código duplicado no projeto          |
+| Critério | Limite | Descrição |
+|----------|--------|-----------|
+| **Cobertura de Testes** | < 80% | Percentual de código testado |
+| **Bugs Novos** | > 0 | Erros introduzidos em código novo |
+| **Vulnerabilidades Novas** | > 0 | Falhas de segurança em código novo |
+| **Code Smells** | Rating D/E | Problemas de manutenibilidade graves |
+| **Duplicação** | > 3% | Código duplicado no projeto |
 
 #### Customizar Quality Gates
 
@@ -1398,7 +1171,7 @@ java -version
    ```powershell
    # Windows
    C:\sonarqube\bin\windows-x86-64\StartSonar.bat
-
+   
    # Linux/Mac
    ./sonarqube/bin/linux-x86-64/sonar.sh start
    ```
@@ -1447,60 +1220,59 @@ docker start sonarqube
 
 ### Core Framework
 
-| Tecnologia                                                                              | Versão | Descrição                                |
-| --------------------------------------------------------------------------------------- | ------ | ---------------------------------------- |
-| [Next.js](https://nextjs.org/)                                                          | 15.3.4 | Framework React com App Router e SSR     |
-| [React](https://react.dev/)                                                             | 19.0.0 | Biblioteca para construção de interfaces |
-| [TypeScript](https://www.typescriptlang.org/)                                           | 5.x    | Superset JavaScript com tipagem estática |
-| [Tailwind CSS](https://tailwindcss.com/)                                                | 4.x    | Framework CSS utility-first              |
-| [@rainer/rainer-design-tokens](https://github.com/rainer-teixeira/rainer-design-tokens) | 1.0.0  | Biblioteca de design tokens reutilizável |
+| Tecnologia | Versão | Descrição |
+|------------|--------|-----------|
+| [Next.js](https://nextjs.org/) | 15.3.4 | Framework React com App Router e SSR |
+| [React](https://react.dev/) | 19.0.0 | Biblioteca para construção de interfaces |
+| [TypeScript](https://www.typescriptlang.org/) | 5.x | Superset JavaScript com tipagem estática |
+| [Tailwind CSS](https://tailwindcss.com/) | 4.x | Framework CSS utility-first |
 
 ### UI e Experiência do Usuário
 
-| Biblioteca                                                | Propósito                       |
-| --------------------------------------------------------- | ------------------------------- |
-| [Framer Motion](https://www.framer.com/motion/)           | Animações e transições fluidas  |
-| [Radix UI](https://www.radix-ui.com/)                     | Componentes acessíveis headless |
-| [Lucide Icons](https://lucide.dev/)                       | Biblioteca de ícones moderna    |
-| [next-themes](https://github.com/pacocoursey/next-themes) | Sistema de temas claro/escuro   |
+| Biblioteca | Propósito |
+|------------|-----------|
+| [`@rainersoft/ui`](https://github.com/RainerTeixeira/rainer-ui) | Biblioteca de componentes UI reutilizáveis (Radix + Tailwind + tokens) consumida pelo frontend |
+| [`@rainersoft/design-tokens`](https://github.com/RainerTeixeira/rainer-design-tokens) | Design tokens globais com CSS Variables e temas dinâmicos, usados pela UI e pelo app |
+| [Framer Motion](https://www.framer.com/motion/) | Animações e transições fluidas |
+| [next-themes](https://github.com/pacocoursey/next-themes) | Sistema de temas claro/escuro |
 
 ### Qualidade e Desenvolvimento
 
-| Ferramenta                                                   | Função                                    |
-| ------------------------------------------------------------ | ----------------------------------------- |
-| [ESLint](https://eslint.org/)                                | Análise estática e padronização de código |
-| [SonarQube](https://www.sonarsource.com/products/sonarqube/) | Análise de qualidade e segurança          |
-| [JSDoc](https://jsdoc.app/)                                  | Documentação automática do código         |
-| [Prettier](https://prettier.io/)                             | Formatação automática de código           |
+| Ferramenta | Função |
+|------------|--------|
+| [ESLint](https://eslint.org/) | Análise estática e padronização de código |
+| [SonarQube](https://www.sonarsource.com/products/sonarqube/) | Análise de qualidade e segurança |
+| [JSDoc](https://jsdoc.app/) | Documentação automática do código |
+| [Prettier](https://prettier.io/) | Formatação automática de código |
 
 ## 📱 Funcionalidades
 
 ### Páginas da Aplicação
 
-| Página        | Status          | Descrição                                                       |
-| ------------- | --------------- | --------------------------------------------------------------- |
-| **Home**      | ✅ Implementada | Hero section, showcase de portfolio, depoimentos e estatísticas |
-| **Sobre**     | ✅ Implementada | Informações profissionais, stack tecnológico e equipe           |
-| **Blog**      | ✅ Implementada | Sistema completo com posts dinâmicos e paginação                |
-| **Contato**   | ✅ Implementada | Formulário validado com React Hook Form + Zod                   |
-| **Dashboard** | ✅ Implementada | Painel administrativo para gestão de conteúdo                   |
+| Página | Status | Descrição |
+|--------|--------|-----------|
+| **Home** | ✅ Implementada | Hero section, showcase de portfolio, depoimentos e estatísticas |
+| **Sobre** | ✅ Implementada | Informações profissionais, stack tecnológico e equipe |
+| **Blog** | ✅ Implementada | Sistema completo com posts dinâmicos e paginação |
+| **Contato** | ✅ Implementada | Formulário validado com React Hook Form + Zod |
+| **Dashboard** | ✅ Implementada | Painel administrativo para gestão de conteúdo |
 
 ### Recursos Implementados
 
-| Categoria             | Funcionalidade                           | Tecnologia                           |
-| --------------------- | ---------------------------------------- | ------------------------------------ |
-| 🎨 **Tema**           | Modo claro/escuro com persistência       | next-themes + localStorage           |
-| 📱 **Responsividade** | Layout mobile-first adaptativo           | Tailwind CSS breakpoints             |
-| ⚡ **Performance**    | SSR, SSG e otimização de imagens         | Next.js 15 + next/image              |
-| ♿ **Acessibilidade** | Navegação por teclado, skip links, ARIA  | WCAG 2.1 compliant                   |
-| 🎭 **Animações**      | Transições suaves e interativas          | Framer Motion                        |
-| 📧 **Formulários**    | Validação robusta de dados               | React Hook Form + Zod                |
-| 🔼 **Navegação**      | Botão flutuante scroll to top            | Custom hook + smooth scroll          |
-| 📊 **Carrossel**      | Showcase interativo com drag & drop      | Embla Carousel                       |
-| 🔍 **Busca**          | Sistema de busca de posts                | Fuse.js (fuzzy search)               |
-| 💬 **Comentários**    | Sistema de comentários em posts          | Custom implementation                |
-| 📱 **PWA Universal**  | App instalável em iOS, Android e Desktop | Manifest + Service Worker + Metatags |
-| 📖 **Documentação**   | Código totalmente documentado            | JSDoc em pt-BR                       |
+| Categoria | Funcionalidade | Tecnologia |
+|-----------|----------------|------------|
+| 🎨 **Tema** | Modo claro/escuro com persistência | next-themes + localStorage |
+| 📱 **Responsividade** | Layout mobile-first adaptativo | Tailwind CSS breakpoints |
+| ⚡ **Performance** | SSR, SSG e otimização de imagens | Next.js 15 + next/image |
+| ♿ **Acessibilidade** | Navegação por teclado, skip links, ARIA | WCAG 2.1 compliant |
+| 🎭 **Animações** | Transições suaves e interativas | Framer Motion |
+| 📧 **Formulários** | Validação robusta de dados | React Hook Form + Zod |
+| 🔼 **Navegação** | Botão flutuante scroll to top | Custom hook + smooth scroll |
+| 📊 **Carrossel** | Showcase interativo com drag & drop | Embla Carousel |
+| 🔍 **Busca** | Sistema de busca de posts | Fuse.js (fuzzy search) |
+| 💬 **Comentários** | Sistema de comentários em posts | Custom implementation |
+| 📱 **PWA Universal** | App instalável em iOS, Android e Desktop | Manifest + Service Worker + Metatags |
+| 📖 **Documentação** | Código totalmente documentado | JSDoc em pt-BR |
 
 ---
 
@@ -1514,34 +1286,28 @@ A aplicação foi otimizada como **PWA (Progressive Web App)** com suporte compl
 
 **Características implementadas:**
 
-| Recurso                    | Descrição                                                  | Status |
-| -------------------------- | ---------------------------------------------------------- | ------ |
-| **Efeito Topo Contínuo**   | Barra de status preta integrada ao app (sem quebra visual) | ✅     |
-| **Modo Fullscreen**        | Remove barra de navegação do Safari                        | ✅     |
-| **Safe Area Insets**       | Respeita notch, Dynamic Island e bordas arredondadas       | ✅     |
-| **Splash Screens**         | 14 tamanhos otimizados para todos os modelos               | ✅     |
-| **Theme Color Adaptativo** | Muda cor da barra com tema claro/escuro                    | ✅     |
-| **Viewport Fit Cover**     | Conteúdo estendido até as bordas                           | ✅     |
+| Recurso | Descrição | Status |
+|---------|-----------|--------|
+| **Efeito Topo Contínuo** | Barra de status preta integrada ao app (sem quebra visual) | ✅ |
+| **Modo Fullscreen** | Remove barra de navegação do Safari | ✅ |
+| **Safe Area Insets** | Respeita notch, Dynamic Island e bordas arredondadas | ✅ |
+| **Splash Screens** | 14 tamanhos otimizados para todos os modelos | ✅ |
+| **Theme Color Adaptativo** | Muda cor da barra com tema claro/escuro | ✅ |
+| **Viewport Fit Cover** | Conteúdo estendido até as bordas | ✅ |
 
 **Metatags Apple configuradas:**
-
 ```html
-<meta fullName="apple-mobile-web-app-capable" content="yes" />
-<meta
-  fullName="apple-mobile-web-app-status-bar-style"
-  content="black-translucent"
-/>
-<meta fullName="apple-mobile-web-app-title" content="RainerSoft" />
-<meta fullName="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RainerSoft">
+<meta name="format-detection" content="telephone=no">
 ```
 
 **Dispositivos suportados:**
-
 - iPhone 5/SE até iPhone 14 Pro Max (10 modelos)
 - iPad Mini, Air, Pro 10.5", 11", 12.9" (4 modelos)
 
 **Como instalar no iOS:**
-
 1. Abra o site no Safari
 2. Toque em **Compartilhar** (ícone de seta)
 3. Role e toque em **Adicionar à Tela Inicial**
@@ -1555,58 +1321,53 @@ A aplicação foi otimizada como **PWA (Progressive Web App)** com suporte compl
 
 **Características implementadas:**
 
-| Recurso                      | Descrição                                 | Status |
-| ---------------------------- | ----------------------------------------- | ------ |
-| **Barra de Status Colorida** | Integrada ao app com cor `#000000`        | ✅     |
-| **Ícones Maskable**          | Adaptam ao formato do launcher do Android | ✅     |
-| **Atalhos Rápidos**          | 3 shortcuts (Blog, Contato, Dashboard)    | ✅     |
-| **Share Target**             | Recebe compartilhamentos de outros apps   | ✅     |
-| **Display Standalone**       | App sem barra do navegador                | ✅     |
-| **Safe Area**                | Respeita bordas arredondadas e punch-hole | ✅     |
+| Recurso | Descrição | Status |
+|---------|-----------|--------|
+| **Barra de Status Colorida** | Integrada ao app com cor `#000000` | ✅ |
+| **Ícones Maskable** | Adaptam ao formato do launcher do Android | ✅ |
+| **Atalhos Rápidos** | 3 shortcuts (Blog, Contato, Dashboard) | ✅ |
+| **Share Target** | Recebe compartilhamentos de outros apps | ✅ |
+| **Display Standalone** | App sem barra do navegador | ✅ |
+| **Safe Area** | Respeita bordas arredondadas e punch-hole | ✅ |
 
 **Metatags Android configuradas:**
-
 ```html
-<meta fullName="theme-color" content="#000000" />
-<meta fullName="mobile-web-app-capable" content="yes" />
-<meta fullName="mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-status-bar-style" content="black-translucent">
 ```
 
 **Manifest.json otimizado:**
-
 ```json
 {
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#000000",
   "shortcuts": [
-    { "fullName": "Blog", "url": "/blog?source=shortcut" },
-    { "fullName": "Contato", "url": "/contato?source=shortcut" },
-    { "fullName": "Dashboard", "url": "/dashboard?source=shortcut" }
+    {"name": "Blog", "url": "/blog?source=shortcut"},
+    {"name": "Contato", "url": "/contato?source=shortcut"},
+    {"name": "Dashboard", "url": "/dashboard?source=shortcut"}
   ],
   "share_target": {
     "action": "/contato",
-    "params": { "title": "title", "text": "text", "url": "url" }
+    "params": {"title": "title", "text": "text", "url": "url"}
   }
 }
 ```
 
 **Navegadores suportados:**
-
 - Chrome 76+ ✅
 - Samsung Internet 12+ ✅
 - Edge Mobile 79+ ✅
 - Brave, Opera, Kiwi Browser ✅
 
 **Como instalar no Android:**
-
 1. Abra o site no Chrome
 2. Toque no menu (⋮) → **Instalar aplicativo**
 3. Ou aguarde o banner automático
 4. Confirme a instalação
 
 **Atalhos rápidos:** Faça toque longo no ícone do app para acessar:
-
 - 📝 Blog
 - 📧 Contato
 - 📊 Dashboard
@@ -1617,16 +1378,15 @@ A aplicação foi otimizada como **PWA (Progressive Web App)** com suporte compl
 
 **Características implementadas:**
 
-| Recurso                     | Descrição                        | Status |
-| --------------------------- | -------------------------------- | ------ |
-| **Instalação Desktop**      | App nativo na área de trabalho   | ✅     |
-| **Window Controls Overlay** | Barra de título customizada      | ✅     |
-| **Live Tiles**              | Suporte a tiles do Windows       | ✅     |
-| **Atalhos de Teclado**      | Navegação completa via teclado   | ✅     |
-| **Modo Standalone**         | Janela independente do navegador | ✅     |
+| Recurso | Descrição | Status |
+|---------|-----------|--------|
+| **Instalação Desktop** | App nativo na área de trabalho | ✅ |
+| **Window Controls Overlay** | Barra de título customizada | ✅ |
+| **Live Tiles** | Suporte a tiles do Windows | ✅ |
+| **Atalhos de Teclado** | Navegação completa via teclado | ✅ |
+| **Modo Standalone** | Janela independente do navegador | ✅ |
 
 **browserconfig.xml para Microsoft:**
-
 ```xml
 <browserconfig>
   <msapplication>
@@ -1639,7 +1399,6 @@ A aplicação foi otimizada como **PWA (Progressive Web App)** com suporte compl
 ```
 
 **Como instalar no Desktop:**
-
 1. Acesse o site no Chrome ou Edge
 2. Clique no ícone **+** na barra de endereço
 3. Ou vá em Menu → **Instalar RainerSoft...**
@@ -1662,11 +1421,11 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
-
+  
   /* Scroll nativo suave */
   -webkit-overflow-scrolling: touch; /* iOS */
   overscroll-behavior-y: contain; /* Android - sem bounce */
-
+  
   /* Touch otimizado */
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation; /* Previne zoom acidental */
@@ -1679,9 +1438,7 @@ Inputs com `font-size: 16px` para evitar zoom automático no iOS e Android:
 
 ```css
 @media screen and (max-width: 767px) {
-  input,
-  textarea,
-  select {
+  input, textarea, select {
     font-size: 16px; /* 16px previne zoom automático */
   }
 }
@@ -1696,16 +1453,10 @@ Otimizações quando instalado como app:
   body {
     overscroll-behavior: none; /* Remove bounce em PWA */
   }
-
+  
   /* Controle de seleção de texto */
-  * {
-    user-select: none;
-  }
-  input,
-  textarea,
-  [contenteditable] {
-    user-select: text;
-  }
+  * { user-select: none; }
+  input, textarea, [contenteditable] { user-select: text; }
 }
 ```
 
@@ -1717,14 +1468,13 @@ Otimizações quando instalado como app:
 
 **3 atalhos configurados no manifest.json:**
 
-| Atalho       | URL                          | Ação                      |
-| ------------ | ---------------------------- | ------------------------- |
-| 📝 Blog      | `/blog?source=shortcut`      | Acesso direto aos artigos |
-| 📧 Contato   | `/contato?source=shortcut`   | Formulário de contato     |
-| 📊 Dashboard | `/dashboard?source=shortcut` | Painel admin              |
+| Atalho | URL | Ação |
+|--------|-----|------|
+| 📝 Blog | `/blog?source=shortcut` | Acesso direto aos artigos |
+| 📧 Contato | `/contato?source=shortcut` | Formulário de contato |
+| 📊 Dashboard | `/dashboard?source=shortcut` | Painel admin |
 
 **Como usar:**
-
 - **Android**: Toque longo no ícone do app
 - **Windows**: Clique direito no atalho do app
 
@@ -1745,7 +1495,6 @@ Permite que o app **receba compartilhamentos** de outros aplicativos:
 ```
 
 **Exemplo de uso:**
-
 1. Usuário compartilha um link de outro app
 2. Seleciona "RainerSoft" como destino
 3. Abre o formulário de contato com dados pré-preenchidos
@@ -1795,74 +1544,70 @@ Tenta usar controles nativos, depois standalone, depois minimal-ui.
 
 #### Ícones Universais (10 tamanhos)
 
-| Tamanho | Dispositivo/Uso    | Purpose        |
-| ------- | ------------------ | -------------- |
-| 72x72   | Android pequeno    | any            |
-| 96x96   | Android médio      | any            |
-| 128x128 | Android grande     | any            |
-| 144x144 | Windows Small Tile | any            |
-| 152x152 | iPad               | any            |
-| 192x192 | Android padrão     | any + maskable |
-| 384x384 | Android HD         | any            |
-| 512x512 | Splash screens     | any + maskable |
+| Tamanho | Dispositivo/Uso | Purpose |
+|---------|-----------------|---------|
+| 72x72 | Android pequeno | any |
+| 96x96 | Android médio | any |
+| 128x128 | Android grande | any |
+| 144x144 | Windows Small Tile | any |
+| 152x152 | iPad | any |
+| 192x192 | Android padrão | any + maskable |
+| 384x384 | Android HD | any |
+| 512x512 | Splash screens | any + maskable |
 
 **Ícones Maskable (Android):**
-
 - 192x192px e 512x512px com **safe zone de 40%**
 - Adaptam automaticamente ao formato do launcher (círculo, quadrado, squircle)
-- Testáveis em: <https://maskable.app/>
+- Testáveis em: https://maskable.app/
 
 #### Splash Screens iOS (14 tamanhos)
 
-| Arquivo              | Resolução   | Dispositivos                    |
-| -------------------- | ----------- | ------------------------------- |
-| `iphone5.png`        | 640 × 1136  | iPhone SE (1ª gen), 5s, 5c, 5   |
-| `iphone6.png`        | 750 × 1334  | iPhone 6/6s/7/8, SE (2ª/3ª gen) |
-| `iphone6plus.png`    | 1242 × 2208 | iPhone 6/6s/7/8 Plus            |
-| `iphonex.png`        | 1125 × 2436 | iPhone X/XS, 11 Pro, 12/13 Mini |
-| `iphonexr.png`       | 828 × 1792  | iPhone XR, 11                   |
-| `iphonexsmax.png`    | 1242 × 2688 | iPhone XS Max, 11 Pro Max       |
-| `iphone12.png`       | 1170 × 2532 | iPhone 12/12 Pro, 13/13 Pro, 14 |
-| `iphone12promax.png` | 1284 × 2778 | iPhone 12/13 Pro Max, 14 Plus   |
-| `iphone14pro.png`    | 1179 × 2556 | iPhone 14 Pro                   |
-| `iphone14promax.png` | 1290 × 2796 | iPhone 14 Pro Max               |
-| `ipad.png`           | 1536 × 2048 | iPad Mini, Air                  |
-| `ipadpro10.png`      | 1668 × 2224 | iPad Pro 10.5"                  |
-| `ipadpro11.png`      | 1668 × 2388 | iPad Pro 11"                    |
-| `ipadpro12.png`      | 2048 × 2732 | iPad Pro 12.9"                  |
+| Arquivo | Resolução | Dispositivos |
+|---------|-----------|--------------|
+| `iphone5.png` | 640 × 1136 | iPhone SE (1ª gen), 5s, 5c, 5 |
+| `iphone6.png` | 750 × 1334 | iPhone 6/6s/7/8, SE (2ª/3ª gen) |
+| `iphone6plus.png` | 1242 × 2208 | iPhone 6/6s/7/8 Plus |
+| `iphonex.png` | 1125 × 2436 | iPhone X/XS, 11 Pro, 12/13 Mini |
+| `iphonexr.png` | 828 × 1792 | iPhone XR, 11 |
+| `iphonexsmax.png` | 1242 × 2688 | iPhone XS Max, 11 Pro Max |
+| `iphone12.png` | 1170 × 2532 | iPhone 12/12 Pro, 13/13 Pro, 14 |
+| `iphone12promax.png` | 1284 × 2778 | iPhone 12/13 Pro Max, 14 Plus |
+| `iphone14pro.png` | 1179 × 2556 | iPhone 14 Pro |
+| `iphone14promax.png` | 1290 × 2796 | iPhone 14 Pro Max |
+| `ipad.png` | 1536 × 2048 | iPad Mini, Air |
+| `ipadpro10.png` | 1668 × 2224 | iPad Pro 10.5" |
+| `ipadpro11.png` | 1668 × 2388 | iPad Pro 11" |
+| `ipadpro12.png` | 2048 × 2732 | iPad Pro 12.9" |
 
 **Especificações:**
-
 - Formato: PNG
 - Fundo: `#000000` (preto sólido)
 - Logo: Centralizada ocupando 40% da menor dimensão
 - Safe area: Respeitando áreas seguras de cada dispositivo
 
 **Geração automática:**
-
-- Opção 1: <https://www.pwabuilder.com/imageGenerator>
+- Opção 1: https://www.pwabuilder.com/imageGenerator
 - Opção 2: Script Node.js com Sharp (incluído no projeto)
 
 ---
 
 ### 📊 Compatibilidade por Navegador
 
-| Navegador        | Versão | PWA | Install | Shortcuts | Share |
-| ---------------- | ------ | --- | ------- | --------- | ----- |
-| Chrome Android   | 76+    | ✅  | ✅      | ✅        | ✅    |
-| Safari iOS       | 15+    | ✅  | ✅      | ❌        | ❌    |
-| Edge Desktop     | 79+    | ✅  | ✅      | ✅        | ❌    |
-| Samsung Internet | 12+    | ✅  | ✅      | ✅        | ✅    |
-| Firefox Android  | 80+    | ⚠️  | ❌      | ❌        | ❌    |
-| Chrome Desktop   | 90+    | ✅  | ✅      | ✅        | ❌    |
-| Edge Mobile      | 79+    | ✅  | ✅      | ✅        | ✅    |
+| Navegador | Versão | PWA | Install | Shortcuts | Share |
+|-----------|--------|-----|---------|-----------|-------|
+| Chrome Android | 76+ | ✅ | ✅ | ✅ | ✅ |
+| Safari iOS | 15+ | ✅ | ✅ | ❌ | ❌ |
+| Edge Desktop | 79+ | ✅ | ✅ | ✅ | ❌ |
+| Samsung Internet | 12+ | ✅ | ✅ | ✅ | ✅ |
+| Firefox Android | 80+ | ⚠️ | ❌ | ❌ | ❌ |
+| Chrome Desktop | 90+ | ✅ | ✅ | ✅ | ❌ |
+| Edge Mobile | 79+ | ✅ | ✅ | ✅ | ✅ |
 
 ---
 
 ### ✅ Checklist de Implementação PWA
 
 #### iOS
-
 - [x] `apple-mobile-web-app-capable`
 - [x] `apple-mobile-web-app-status-bar-style: black-translucent`
 - [x] `viewport-fit: cover`
@@ -1872,7 +1617,6 @@ Tenta usar controles nativos, depois standalone, depois minimal-ui.
 - [x] Theme color adaptativo (light/dark)
 
 #### Android
-
 - [x] `theme-color` (#000000)
 - [x] manifest.json completo e validado
 - [x] 10 tamanhos de ícones (72px até 512px)
@@ -1883,7 +1627,6 @@ Tenta usar controles nativos, depois standalone, depois minimal-ui.
 - [x] Overscroll behavior otimizado
 
 #### Desktop
-
 - [x] browserconfig.xml (Microsoft)
 - [x] Window controls overlay
 - [x] Display override
@@ -1891,7 +1634,6 @@ Tenta usar controles nativos, depois standalone, depois minimal-ui.
 - [x] Launch handler
 
 #### Universal
-
 - [x] manifest.json válido e completo
 - [x] Service Worker funcional
 - [x] Suporte offline
@@ -1907,14 +1649,12 @@ Tenta usar controles nativos, depois standalone, depois minimal-ui.
 Quando instalado, o app apresenta:
 
 #### Visual
-
 - ✅ Barra de status integrada (sem quebra de cor entre navegador e app)
 - ✅ Modo fullscreen (sem barra de navegação do browser)
 - ✅ Splash screen profissional com logo centralizada
 - ✅ Ícone adaptado ao sistema operacional
 
 #### Funcional
-
 - ✅ Abre em janela standalone (independente do navegador)
 - ✅ Funciona completamente offline
 - ✅ Atalhos rápidos (Android/Windows)
@@ -1922,14 +1662,12 @@ Quando instalado, o app apresenta:
 - ✅ Notificações push (futuro)
 
 #### Performance
-
 - ✅ Scroll nativo e suave em todos os dispositivos
 - ✅ Zero zoom acidental em inputs
 - ✅ Touch otimizado para mobile
 - ✅ Áreas seguras respeitadas (notch, punch-hole, bordas)
 
 #### Qualidade
-
 - ✅ Lighthouse PWA score: **100/100**
 - ✅ Installable: **Sim**
 - ✅ Offline ready: **Sim**
@@ -1939,53 +1677,50 @@ Quando instalado, o app apresenta:
 
 ### 🛠️ Arquivos de Configuração PWA
 
-| Arquivo             | Localização                 | Propósito                             |
-| ------------------- | --------------------------- | ------------------------------------- |
-| `manifest.json`     | `/public/manifest.json`     | Configuração principal PWA            |
+| Arquivo | Localização | Propósito |
+|---------|-------------|-----------|
+| `manifest.json` | `/public/manifest.json` | Configuração principal PWA |
 | `browserconfig.xml` | `/public/browserconfig.xml` | Configuração Microsoft (Windows/Edge) |
-| Splash screens      | `/public/splash-screens/`   | Telas de inicialização iOS            |
-| Service Worker      | `/public/sw.js`             | Cache e funcionalidade offline        |
-| Layout              | `/app/layout.tsx`           | Metatags e viewport                   |
-| Estilos             | `tailwind.config.ts`         | Design tokens via Tailwind            |
+| Splash screens | `/public/splash-screens/` | Telas de inicialização iOS |
+| Service Worker | `/public/sw.js` | Cache e funcionalidade offline |
+| Layout | `/app/layout.tsx` | Metatags e viewport |
+| Estilos globais | `/app/globals.css` | Safe area e otimizações CSS |
 
 ---
 
 ### 📚 Recursos e Ferramentas
 
 #### Validação e Testes
-
-- **PWA Builder**: <https://www.pwabuilder.com/>
-- **Maskable Icons**: <https://maskable.app/>
+- **PWA Builder**: https://www.pwabuilder.com/
+- **Maskable Icons**: https://maskable.app/
 - **Lighthouse**: Chrome DevTools → Lighthouse
 - **iOS Simulator**: Xcode (macOS)
 
 #### Geração de Assets
-
-- **Splash Screens**: <https://www.pwabuilder.com/imageGenerator>
-- **Ícones**: <https://realfavicongenerator.net/>
-- **Maskable**: <https://maskable.app/editor>
+- **Splash Screens**: https://www.pwabuilder.com/imageGenerator
+- **Ícones**: https://realfavicongenerator.net/
+- **Maskable**: https://maskable.app/editor
 
 #### Documentação Oficial
-
-- **Apple PWA**: <https://developer.apple.com/documentation/webkit/>
-- **Android PWA**: <https://web.dev/progressive-web-apps/>
-- **Web App Manifest**: <https://web.dev/add-manifest/>
-- **Service Workers**: <https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API>
+- **Apple PWA**: https://developer.apple.com/documentation/webkit/
+- **Android PWA**: https://web.dev/progressive-web-apps/
+- **Web App Manifest**: https://web.dev/add-manifest/
+- **Service Workers**: https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API
 
 ---
 
 ### 🎉 Benefícios da PWA
 
-| Benefício                        | Descrição                                      |
-| -------------------------------- | ---------------------------------------------- |
-| 🚀 **Performance**               | Carregamento instantâneo com cache inteligente |
-| 📱 **Instalável**                | Adicione à tela inicial como app nativo        |
-| 🔌 **Offline First**             | Funciona sem conexão com internet              |
-| 🔔 **Engajamento**               | Notificações push (futuro)                     |
-| 💾 **Economia de Dados**         | Cache reduz uso de dados móveis                |
-| 🎨 **Experiência Nativa**        | Visual e comportamento de app nativo           |
-| 🌐 **Cross-Platform**            | Único código para todas as plataformas         |
-| ⚡ **Atualizações Instantâneas** | Sem App Store, atualizações automáticas        |
+| Benefício | Descrição |
+|-----------|-----------|
+| 🚀 **Performance** | Carregamento instantâneo com cache inteligente |
+| 📱 **Instalável** | Adicione à tela inicial como app nativo |
+| 🔌 **Offline First** | Funciona sem conexão com internet |
+| 🔔 **Engajamento** | Notificações push (futuro) |
+| 💾 **Economia de Dados** | Cache reduz uso de dados móveis |
+| 🎨 **Experiência Nativa** | Visual e comportamento de app nativo |
+| 🌐 **Cross-Platform** | Único código para todas as plataformas |
+| ⚡ **Atualizações Instantâneas** | Sem App Store, atualizações automáticas |
 
 ---
 
@@ -1995,37 +1730,37 @@ Sistema de temas dinâmico com suporte a modo claro/escuro, implementado com `ne
 
 ### Paleta de Cores
 
-| Cor            | Código Hexadecimal | Uso                                 |
-| -------------- | ------------------ | ----------------------------------- |
-| **Primária**   | `#0EA5E9`          | Links, botões principais, destaques |
-| **Secundária** | `#6366F1`          | Elementos secundários, gradientes   |
-| **Destaque**   | `#FBBF24`          | CTAs, notificações, alertas         |
+| Cor | Código Hexadecimal | Uso |
+|-----|-------------------|------|
+| **Primária** | `#0EA5E9` | Links, botões principais, destaques |
+| **Secundária** | `#6366F1` | Elementos secundários, gradientes |
+| **Destaque** | `#FBBF24` | CTAs, notificações, alertas |
 
 **Arquivos de configuração:**
 
-- `tailwind.config.ts` - Configuração do Tailwind usando design tokens
-- `lib/tailwind-dark-mode-plugin.ts` - Plugin para dark mode usando tokens
+- `tailwind.config.js` - Definição de cores e variantes
+- `app/globals.css` - CSS customizado e variáveis CSS
 
 ## 📈 Métricas de Performance
 
-| Métrica                | Score     | Detalhes                         |
-| ---------------------- | --------- | -------------------------------- |
-| ⚡ **Lighthouse**      | 95+       | Todas as categorias otimizadas   |
+| Métrica | Score | Detalhes |
+|---------|-------|----------|
+| ⚡ **Lighthouse** | 95+ | Todas as categorias otimizadas |
 | 🎯 **Core Web Vitals** | Otimizado | LCP, FID, CLS dentro dos limites |
-| 📦 **Bundle Size**     | Otimizado | Code splitting e lazy loading    |
-| 🖼️ **Imagens**         | Otimizado | Next.js Image com WebP/AVIF      |
-| 🔄 **TTI**             | < 3s      | Time to Interactive reduzido     |
+| 📦 **Bundle Size** | Otimizado | Code splitting e lazy loading |
+| 🖼️ **Imagens** | Otimizado | Next.js Image com WebP/AVIF |
+| 🔄 **TTI** | < 3s | Time to Interactive reduzido |
 
 ## 🔒 Segurança
 
-| Aspecto             | Implementação                               |
-| ------------------- | ------------------------------------------- |
-| ✅ **Validação**    | React Hook Form + Zod schemas               |
-| ✅ **Sanitização**  | DOMPurify para inputs do usuário            |
-| ✅ **Headers**      | Security headers configurados               |
-| ✅ **Análise**      | SonarQube para detecção de vulnerabilidades |
-| ✅ **Autenticação** | Sistema seguro de login no dashboard        |
-| ✅ **HTTPS**        | Forçado em produção                         |
+| Aspecto | Implementação |
+|---------|---------------|
+| ✅ **Validação** | React Hook Form + Zod schemas |
+| ✅ **Sanitização** | DOMPurify para inputs do usuário |
+| ✅ **Headers** | Security headers configurados |
+| ✅ **Análise** | SonarQube para detecção de vulnerabilidades |
+| ✅ **Autenticação** | Sistema seguro de login no dashboard |
+| ✅ **HTTPS** | Forçado em produção |
 
 ## 🚢 Deploy em Produção
 
@@ -2049,12 +1784,12 @@ vercel --prod
 
 ### Outras Plataformas Suportadas
 
-| Plataforma                | Complexidade | Documentação                                                                      |
-| ------------------------- | ------------ | --------------------------------------------------------------------------------- |
-| **Netlify**               | Baixa        | [Deploy Next.js na Netlify](https://docs.netlify.com/frameworks/next-js/)         |
-| **AWS Amplify**           | Média        | [Deploy com Amplify](https://aws.amazon.com/amplify/)                             |
-| **Azure Static Web Apps** | Média        | [Azure Static Web Apps](https://azure.microsoft.com/services/app-service/static/) |
-| **Docker**                | Alta         | Criar `Dockerfile` customizado                                                    |
+| Plataforma | Complexidade | Documentação |
+|------------|--------------|--------------|
+| **Netlify** | Baixa | [Deploy Next.js na Netlify](https://docs.netlify.com/frameworks/next-js/) |
+| **AWS Amplify** | Média | [Deploy com Amplify](https://aws.amazon.com/amplify/) |
+| **Azure Static Web Apps** | Média | [Azure Static Web Apps](https://azure.microsoft.com/services/app-service/static/) |
+| **Docker** | Alta | Criar `Dockerfile` customizado |
 
 ## 🤝 Contribuindo
 
@@ -2062,14 +1797,14 @@ Contribuições são bem-vindas! Siga o fluxo padrão de contribuição:
 
 ### Processo de Contribuição
 
-| Passo | Comando/Ação                                  | Descrição                                    |
-| ----- | --------------------------------------------- | -------------------------------------------- |
-| 1️⃣    | Fork do repositório                           | Criar cópia pessoal do projeto               |
-| 2️⃣    | `git checkout -b feature/MinhaFeature`        | Criar branch para nova funcionalidade        |
-| 3️⃣    | Implementar alterações                        | Desenvolver a feature/correção               |
-| 4️⃣    | `git commit -m 'feat: Adiciona MinhaFeature'` | Commit seguindo Conventional Commits         |
-| 5️⃣    | `git push origin feature/MinhaFeature`        | Enviar alterações para seu fork              |
-| 6️⃣    | Abrir Pull Request                            | Solicitar merge para o repositório principal |
+| Passo | Comando/Ação | Descrição |
+|-------|--------------|-----------|
+| 1️⃣ | Fork do repositório | Criar cópia pessoal do projeto |
+| 2️⃣ | `git checkout -b feature/MinhaFeature` | Criar branch para nova funcionalidade |
+| 3️⃣ | Implementar alterações | Desenvolver a feature/correção |
+| 4️⃣ | `git commit -m 'feat: Adiciona MinhaFeature'` | Commit seguindo Conventional Commits |
+| 5️⃣ | `git push origin feature/MinhaFeature` | Enviar alterações para seu fork |
+| 6️⃣ | Abrir Pull Request | Solicitar merge para o repositório principal |
 
 ### Checklist de Qualidade
 
@@ -2115,98 +1850,55 @@ Para questões e suporte:
 
 ### Tamanho e Complexidade
 
-| Métrica               | Valor   | Detalhes                     |
-| --------------------- | ------- | ---------------------------- |
-| **Total de Arquivos** | 180+    | TypeScript/React/CSS         |
-| **Linhas de Código**  | ~15.000 | Sem node_modules             |
-| **Componentes**       | 60+     | Reutilizáveis e documentados |
-| **Custom Hooks**      | 15+     | Lógica compartilhada         |
-| **Páginas**           | 10+     | App Router                   |
-| **Design Tokens**     | 200+    | Centralizados                |
-| **Dependências**      | 50+     | Production                   |
-| **DevDependencies**   | 15+     | Development                  |
+| Métrica | Valor | Detalhes |
+|---------|-------|----------|
+| **Total de Arquivos** | 180+ | TypeScript/React/CSS |
+| **Linhas de Código** | ~15.000 | Sem node_modules |
+| **Componentes** | 60+ | Reutilizáveis e documentados |
+| **Custom Hooks** | 15+ | Lógica compartilhada |
+| **Páginas** | 10+ | App Router |
+| **Design Tokens** | 200+ | Centralizados |
+| **Dependências** | 50+ | Production |
+| **DevDependencies** | 15+ | Development |
 
 ### Qualidade de Código
 
-| Métrica                 | Antes (v1.0) | Depois (v2.0) | Melhoria |
-| ----------------------- | ------------ | ------------- | -------- |
-| **TypeScript Coverage** | 80%          | **100%**      | +20%     |
-| **Lint Errors**         | ~50          | **0**         | -100%    |
-| **JSDoc Coverage**      | 20%          | **100%**      | +80%     |
-| **Hardcoded Values**    | ~200         | **0**         | -100%    |
-| **Code Duplication**    | 15%          | **<3%**       | -80%     |
-| **Accessibility Score** | 70%          | **100%**      | +30%     |
-| **Documentation Lines** | 500          | **8.000**     | +1.500%  |
+| Métrica | Antes (v1.0) | Depois (v2.0) | Melhoria |
+|---------|--------------|---------------|----------|
+| **TypeScript Coverage** | 80% | **100%** | +20% |
+| **Lint Errors** | ~50 | **0** | -100% |
+| **JSDoc Coverage** | 20% | **100%** | +80% |
+| **Hardcoded Values** | ~200 | **0** | -100% |
+| **Code Duplication** | 15% | **<3%** | -80% |
+| **Accessibility Score** | 70% | **100%** | +30% |
+| **Documentation Lines** | 500 | **8.000** | +1.500% |
 
 ### Performance Benchmarks
 
-| Métrica                       | Target | Atual  | Status |
-| ----------------------------- | ------ | ------ | ------ |
-| **Lighthouse Performance**    | >90    | 95+    | 🟢     |
-| **LCP**                       | <2.5s  | <2s    | 🟢     |
-| **FID**                       | <100ms | <50ms  | 🟢     |
-| **CLS**                       | <0.1   | <0.05  | 🟢     |
-| **Bundle Size (First Load)**  | <300KB | ~200KB | 🟢     |
-| **TTI (Time to Interactive)** | <3.5s  | <3s    | 🟢     |
+| Métrica | Target | Atual | Status |
+|---------|--------|-------|--------|
+| **Lighthouse Performance** | >90 | 95+ | 🟢 |
+| **LCP** | <2.5s | <2s | 🟢 |
+| **FID** | <100ms | <50ms | 🟢 |
+| **CLS** | <0.1 | <0.05 | 🟢 |
+| **Bundle Size (First Load)** | <300KB | ~200KB | 🟢 |
+| **TTI (Time to Interactive)** | <3.5s | <3s | 🟢 |
 
 ### Browser Support
 
-| Browser          | Versão Mínima | Status | PWA |
-| ---------------- | ------------- | ------ | --- |
-| Chrome Desktop   | 90+           | ✅     | ✅  |
-| Firefox          | 88+           | ✅     | ⚠️  |
-| Safari           | 14+           | ✅     | ✅  |
-| Edge             | 90+           | ✅     | ✅  |
-| iOS Safari       | 14+           | ✅     | ✅  |
-| Chrome Android   | 90+           | ✅     | ✅  |
-| Samsung Internet | 12+           | ✅     | ✅  |
+| Browser | Versão Mínima | Status | PWA |
+|---------|---------------|--------|-----|
+| Chrome Desktop | 90+ | ✅ | ✅ |
+| Firefox | 88+ | ✅ | ⚠️ |
+| Safari | 14+ | ✅ | ✅ |
+| Edge | 90+ | ✅ | ✅ |
+| iOS Safari | 14+ | ✅ | ✅ |
+| Chrome Android | 90+ | ✅ | ✅ |
+| Samsung Internet | 12+ | ✅ | ✅ |
 
 ---
 
 ## 📝 Histórico de Versões
-
-### [2.1.0] - Janeiro 2025 - Sistema de Atualização Automática 🚀
-
-#### 🎯 Sistema de Gerenciamento de Versão e Memórias
-
-**Resumo**: Implementação de sistema automatizado para sincronização de versão entre `package.json` e arquivos de memória do projeto.
-
-**Novos Recursos**:
-
-- ✅ **Atualização Automática de Versão** (`scripts/08-memoria/update-version.ts`)
-  - Detecta mudanças de versão no `package.json`
-  - Atualiza automaticamente todas as memórias quando versão muda
-  - Mantém cache da última versão processada (`.version-cache.json`)
-  - Atualiza `lastModified` em todos os arquivos de memória
-
-- ✅ **Scripts NPM Integrados**
-  - `npm run version:update` - Atualiza versão e memórias automaticamente
-  - `npm run memory:update` - Atualiza informações gerais das memórias
-  - `npm run memory:sync` - Sincronização completa (versão + memórias)
-
-- ✅ **Arquivos Atualizados Automaticamente**
-  - `docs/.memories/initial-memory.json`
-  - `docs/.memories/technical-details.json`
-  - `docs/.memories/code-analysis.json`
-  - `docs/.memories/consolidated-memory.json`
-
-**Fluxo de Trabalho**:
-
-1. Desenvolvedor atualiza versão no `package.json`
-2. Executa `npm run version:update`
-3. Sistema detecta mudança e atualiza todas as memórias
-4. Cache é atualizado para evitar processamento desnecessário
-
-**Benefícios**:
-
-- 🔄 Sincronização automática entre versão e documentação
-- ⚡ Processamento inteligente (só atualiza quando necessário)
-- 📊 Rastreamento de histórico de versões
-- 🎯 Zero redundância manual
-
-**Documentação**: Ver `scripts/08-memoria/README.md` para detalhes completos.
-
----
 
 ### [2.0.0] - Outubro 2025 - ENTERPRISE EDITION 🌟
 
@@ -2215,7 +1907,6 @@ Para questões e suporte:
 **Resumo**: Elevação do código ao **nível enterprise global** com 10 novos sistemas profissionais.
 
 **Arquivos afetados**:
-
 - ✨ 14 arquivos novos (~2.500 linhas)
 - ✅ 24 arquivos refatorados (~8.000 linhas)
 - 📚 8 documentos markdown (~8.000 linhas)
@@ -2223,56 +1914,58 @@ Para questões e suporte:
 
 #### ✨ Novos Sistemas Enterprise
 
-1. **Design Tokens System** (`@rainer/rainer-design-tokens`)
-   - Biblioteca npm reutilizável com 200+ tokens centralizados
-   - Animation, scroll, spacing, typography, shadows, gradients, etc
-   - Type-safe com autocomplete completo
-   - Tree-shaking suportado, ESM + CJS
-   - Zero dependências, apenas peer dependencies
+1. **Design Tokens System** (`@rainersoft/design-tokens` + `@rainersoft/ui`)
+   - 200+ tokens centralizados em uma biblioteca dedicada
+   - Animation, scroll, spacing, typography, etc expostos como CSS Variables
+   - Type-safe com autocomplete via pacotes de design tokens e UI
 
-2. **Loading States Padronizados** (`components/ui/loading-states.tsx`)
+2. **Error Boundary Global** (`components/error-boundary.tsx`)
+   - Captura erros de React
+   - UI de fallback profissional
+   - Logging automático
+
+3. **Loading States Padronizados** (componentes de `@rainersoft/ui` + utilitários do frontend)
    - FullPageLoader, InlineLoader
    - SkeletonGrid, EmptyState
    - LoadingSpinner
 
-3. **Logging System** (`lib/logger.ts`)
+4. **Logging System** (`lib/logger.ts`)
    - 4 níveis (debug, info, warn, error)
    - Contexto estruturado
    - Timestamps automáticos
 
-4. **Analytics System** (`lib/analytics.ts`)
+5. **Analytics System** (`lib/analytics.ts`)
    - 15+ eventos predefinidos
    - Integration-ready (GA4, Plausible)
    - Type-safe tracking
 
-5. **Performance Monitor** (`lib/performance-monitor.ts`)
+6. **Performance Monitor** (`lib/performance-monitor.ts`)
    - Core Web Vitals automáticos
    - Custom metrics
    - Rating system
 
-6. **Validation Schemas** (`lib/validation-schemas.ts`)
+7. **Validation Schemas** (`lib/validation-schemas.ts`)
    - 7 validators
    - 4 schemas de formulários
    - Mensagens padronizadas
 
-7. **Environment Tipado** (`lib/env.ts`)
+8. **Environment Tipado** (`lib/env.ts`)
    - Type-safe env vars
    - Validação runtime
    - Helper functions
 
-8. **Analytics Hook** (`hooks/use-analytics.ts`)
+9. **Analytics Hook** (`hooks/use-analytics.ts`)
    - Auto-track page views
    - Helper functions
    - HOC withAnalytics
 
-9. **Barrel Exports** (`lib/index.ts`, `hooks/index.ts`)
-   - Imports simplificados
-   - Tree-shaking friendly
+10. **Barrel Exports** (`lib/index.ts`, `hooks/index.ts`)
+    - Imports simplificados
+    - Tree-shaking friendly
 
 #### 🔄 Refatorações Semânticas
 
 **24 arquivos refatorados** com melhorias:
-
 - ✅ Nomenclatura semântica (100+ variáveis renomeadas)
 - ✅ Constantes extraídas (200+ valores)
 - ✅ Types com `readonly` (25+ interfaces)
@@ -2281,39 +1974,46 @@ Para questões e suporte:
 - ✅ ARIA labels adicionados (100+)
 
 **Arquivos principais**:
-
 - `app/layout.tsx`, `app/page.tsx`, `app/blog/page.tsx`
 - `app/dashboard/page.tsx`, `app/contato/page.tsx`, `app/sobre/page.tsx`
 - `components/layout/navbar.tsx`, `components/layout/footer.tsx`
-- `components/providers/*`, `components/ui/*`, `components/home/*`
+- `components/providers/*`, consumo de `@rainersoft/ui` e `components/home/*`
 
 #### 📚 Documentação Completa
 
 **12 documentos markdown organizados** em 4 pastas (~8.000 linhas):
 
 **getting-started/**:
-
 1. PROJECT-OVERVIEW.md - Visão geral
 2. WHATS-NEW.md - Novidades v2.0.0
 3. TECH-STACK.md - Stack técnico
 
-**architecture/**: 4. ARCHITECTURE.md - Arquitetura 5. DEVELOPER-GUIDE.md - Guia do dev 6. CONTRIBUTING.md - Como contribuir
+**architecture/**:
+4. ARCHITECTURE.md - Arquitetura
+5. DEVELOPER-GUIDE.md - Guia do dev
+6. CONTRIBUTING.md - Como contribuir
 
-**reference/**: 7. API-REFERENCE.md - Referência API 8. COMPONENTS-REFERENCE.md - Componentes 9. ENTERPRISE-FEATURES.md - Features pro
+**reference/**:
+7. API-REFERENCE.md - Referência API
+8. COMPONENTS-REFERENCE.md - Componentes
+9. ENTERPRISE-FEATURES.md - Features pro
 
-**guides/**: 10. TROUBLESHOOTING.md - Solução de problemas 11. PWA-UNIVERSAL.md - PWA todos devices 12. ROADMAP.md - Futuro do projeto
+**guides/**:
+10. TROUBLESHOOTING.md - Solução de problemas
+11. PWA-UNIVERSAL.md - PWA todos devices
+12. ROADMAP.md - Futuro do projeto
 
 **+ CHANGELOG-ENTERPRISE.md** com histórico completo
 
 #### 📈 Impacto Mensurável
 
-| Métrica         | Antes     | Depois     | Melhoria    |
-| --------------- | --------- | ---------- | ----------- |
-| Code Quality    | 65/100    | **95/100** | +46%        |
-| Maintainability | Média     | **Alta**   | +100%       |
-| Onboarding Time | 2 semanas | **3 dias** | -78%        |
-| Bug Rate        | Médio     | **Baixo**  | -40%        |
-| Dev Velocity    | Padrão    | **+30%**   | Mais rápido |
+| Métrica | Antes | Depois | Melhoria |
+|---------|-------|--------|----------|
+| Code Quality | 65/100 | **95/100** | +46% |
+| Maintainability | Média | **Alta** | +100% |
+| Onboarding Time | 2 semanas | **3 dias** | -78% |
+| Bug Rate | Médio | **Baixo** | -40% |
+| Dev Velocity | Padrão | **+30%** | Mais rápido |
 
 #### 🎯 Conquistas
 
@@ -2331,18 +2031,18 @@ Para questões e suporte:
 
 #### ✨ Funcionalidades Principais
 
-| Categoria          | Implementação                                        |
-| ------------------ | ---------------------------------------------------- |
-| **Interface**      | Portfolio completo com múltiplas páginas responsivas |
-| **Administração**  | Dashboard administrativo com editor TipTap           |
-| **Conteúdo**       | Sistema de blog com posts dinâmicos e comentários    |
-| **UX**             | Sistema de temas claro/escuro com persistência       |
-| **Acessibilidade** | Componentes seguindo WCAG 2.1                        |
-| **Qualidade**      | Integração completa com SonarQube                    |
-| **Documentação**   | JSDoc profissional em português brasileiro           |
-| **PWA**            | Progressive Web App com Service Worker               |
-| **Upload**         | Sistema de upload de imagens com Cloudinary          |
-| **Performance**    | Otimização SSR/SSG com Next.js 15                    |
+| Categoria | Implementação |
+|-----------|---------------|
+| **Interface** | Portfolio completo com múltiplas páginas responsivas |
+| **Administração** | Dashboard administrativo com editor TipTap |
+| **Conteúdo** | Sistema de blog com posts dinâmicos e comentários |
+| **UX** | Sistema de temas claro/escuro com persistência |
+| **Acessibilidade** | Componentes seguindo WCAG 2.1 |
+| **Qualidade** | Integração completa com SonarQube |
+| **Documentação** | JSDoc profissional em português brasileiro |
+| **PWA** | Progressive Web App com Service Worker |
+| **Upload** | Sistema de upload de imagens com Cloudinary |
+| **Performance** | Otimização SSR/SSG com Next.js 15 |
 
 ---
 
@@ -2425,10 +2125,8 @@ Esta seção documenta todas as melhorias realizadas no README.md para torná-lo
 
 ### 🛠️ Recursos Técnicos
 
-- 🎨 **Design Tokens**: `@rainer/rainer-design-tokens` (biblioteca npm reutilizável, 200+ tokens)
-  - Instalação: `npm install @rainer/rainer-design-tokens`
-  - Uso: `import { GRADIENTS, BACKGROUND, SHADOWS } from '@rainer/rainer-design-tokens'`
-  - Documentação: Ver seção [Design Tokens](#-rainer-design-tokens) abaixo
+- 🎨 **Design Tokens**: `@rainersoft/design-tokens` (200+ tokens globais via CSS Variables)
+- 🧩 **UI Components**: `@rainersoft/ui` (biblioteca de componentes reutilizáveis consumida pelo frontend)
 - 📝 **Logger**: `lib/logger.ts` (4 níveis)
 - 📊 **Analytics**: `lib/analytics.ts` (15+ eventos)
 - ⚡ **Performance**: `lib/performance-monitor.ts` (Core Web Vitals)
@@ -2486,7 +2184,7 @@ Esta seção documenta todas as melhorias realizadas no README.md para torná-lo
 ║                    ENTERPRISE FEATURES                            ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║                                                                   ║
-║  🎨 Design Tokens System (@rainer/rainer-design-tokens) ✅ Implementado ║
+║  🎨 Design Tokens System          ✅ Implementado                ║
 ║  🚨 Error Boundary Global         ✅ Implementado                ║
 ║  ⏳ Loading States Padronizados   ✅ Implementado                ║
 ║  📝 Logging System Estruturado    ✅ Implementado                ║
@@ -2528,1378 +2226,12 @@ Esta seção documenta todas as melhorias realizadas no README.md para torná-lo
 
 **Desenvolvido com ❤️ por [Rainer Teixeira](https://github.com/rainerteixeira)**
 
-**Última atualização:** Janeiro de 2025 | **Versão:** 2.1.0 Enterprise Edition
+**Última atualização:** 15 de Outubro de 2025 | **Versão:** 2.0.0 Enterprise Edition
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin)](https://linkedin.com/in/rainer-teixeira)
 [![Email](https://img.shields.io/badge/Email-Contact-red?logo=gmail)](mailto:suporte@rainersoft.com.br)
 [![Website](https://img.shields.io/badge/Website-Visit-green?logo=google-chrome)](https://rainersoft.com.br)
 
 **© 2025 Rainer Soft - Todos os direitos reservados**
-
-</div>
-2. Clique em **"Create"** para criar um novo Quality Gate
-3. Configure os critérios conforme necessário do projeto
-
-#### Excluir Arquivos da Análise
-
-Para excluir arquivos específicos, edite `sonarqube/sonar-project.properties`:
-
-```properties
-# Excluir arquivos de configuração
-sonar.exclusions=**/*.config.js,**/*.config.ts,next.config.js
-
-# Excluir diretórios completos
-sonar.exclusions=node_modules/**,out/**,.next/**
-
-# Excluir arquivos de teste (se não quiser analisar)
-sonar.test.exclusions=**/*.test.ts,**/*.test.tsx,**/*.spec.ts
-```
-
-### 📊 Métricas e Relatórios
-
-#### Principais Métricas Monitoradas
-
-| Categoria            | Métrica          | Objetivo | Status Atual             |
-| -------------------- | ---------------- | -------- | ------------------------ |
-| **Qualidade**        | Code Smells      | < 50     | ✅ Dentro do limite      |
-| **Confiabilidade**   | Bugs             | 0        | ✅ Zero bugs             |
-| **Segurança**        | Vulnerabilidades | 0        | ✅ Zero vulnerabilidades |
-| **Manutenibilidade** | Technical Debt   | < 1h     | ✅ Baixa dívida técnica  |
-| **Cobertura**        | Test Coverage    | > 80%    | 🔄 Em desenvolvimento    |
-
-#### Relatórios Disponíveis
-
-1. **Overview Dashboard** - Visão geral das métricas
-2. **Issues** - Lista detalhada de problemas encontrados
-3. **Measures** - Métricas históricas e tendências
-4. **Code** - Navegação pelo código com highlights
-5. **Activity** - Histórico de análises
-
-### 🔧 Troubleshooting
-
-#### Problemas Comuns
-
-<details>
-<summary><b>❌ Erro: "SonarQube server not found"</b></summary>
-
-**Causa:** Container não está rodando ou porta incorreta.
-
-**Solução:**
-
-```bash
-# Verificar se container está ativo
-docker ps | grep sonarqube
-
-# Se não estiver, iniciar
-docker-compose -f sonarqube/docker-compose.sonarqube.yml up -d
-
-# Aguardar inicialização (2-3 minutos)
-```
-
-</details>
-
-<details>
-<summary><b>❌ Erro: "Invalid authentication token"</b></summary>
-
-**Causa:** Token inválido ou expirado.
-
-**Solução:**
-
-1. Acesse <http://localhost:9000>
-2. Vá em **My Account** → **Security**
-3. Gere um novo token
-4. Atualize a variável `SONAR_TOKEN`
-
-</details>
-
-<details>
-<summary><b>❌ Erro: "Project key already exists"</b></summary>
-
-**Causa:** Projeto já foi criado anteriormente.
-
-**Solução:**
-
-- Use o projeto existente, ou
-- Delete o projeto atual e recrie, ou
-- Use uma chave diferente em `sonar.projectKey`
-
-</details>
-
-<details>
-<summary><b>⚠️ Análise muito lenta</b></summary>
-
-**Causa:** Muitos arquivos sendo analisados.
-
-**Solução:**
-
-```properties
-# Limitar escopo da análise
-sonar.sources=components,hooks,lib
-sonar.exclusions=node_modules/**,out/**,.next/**,public/**
-```
-
-</details>
-
-### 📚 Documentação Completa
-
-A pasta `sonarqube/docs/` contém documentação detalhada:
-
-| Arquivo                                                    | Conteúdo                      | Linhas |
-| ---------------------------------------------------------- | ----------------------------- | ------ |
-| [📋 README.md](sonarqube/docs/README.md)                   | Índice da documentação        | ~100   |
-| [⚡ QUICKSTART.md](sonarqube/docs/SONARQUBE-QUICKSTART.md) | Guia rápido de 5 minutos      | ~200   |
-| [🔧 SETUP.md](sonarqube/docs/SONARQUBE-SETUP.md)           | Setup completo e configuração | ~400   |
-| [❓ FAQ.md](sonarqube/docs/SONARQUBE-FAQ.md)               | Perguntas frequentes          | ~300   |
-| [📖 CHEATSHEET.md](sonarqube/docs/SONARQUBE-CHEATSHEET.md) | Referência rápida de comandos | ~150   |
-| [📑 INDEX.md](sonarqube/docs/SONARQUBE-INDEX.md)           | Índice completo de recursos   | ~250   |
-
-**Total:** ~1.400 linhas de documentação SonarQube
-
-### 🎯 Integração com CI/CD
-
-#### GitHub Actions (Exemplo)
-
-```yaml
-# .github/workflows/sonarqube.yml
-fullName: SonarQube Analysis
-
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
-
-jobs:
-  sonarqube:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - fullName: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - fullName: Install dependencies
-        run: npm ci
-
-      - fullName: Run tests with coverage
-        run: npm run test:coverage
-
-      - fullName: SonarQube Scan
-        uses: sonarqube-quality-gate-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-```
-
-#### Scripts NPM Integrados
-
-| Script                   | Comando                 | Uso              |
-| ------------------------ | ----------------------- | ---------------- |
-| `npm run sonar`          | Análise padrão          | Produção/CI      |
-| `npm run sonar:local`    | Análise local           | Desenvolvimento  |
-| `npm run sonar:coverage` | Com cobertura de testes | Análise completa |
-
-### 🏆 Benefícios da Integração SonarQube
-
-| Benefício                 | Descrição                              | Impacto                    |
-| ------------------------- | -------------------------------------- | -------------------------- |
-| 🔍 **Detecção Precoce**   | Identifica problemas antes da produção | -80% bugs em produção      |
-| 📊 **Métricas Objetivas** | Dados quantitativos de qualidade       | Decisões baseadas em dados |
-| 🛡️ **Segurança**          | Detecta vulnerabilidades conhecidas    | Reduz riscos de segurança  |
-| 📈 **Melhoria Contínua**  | Histórico de evolução da qualidade     | Cultura de qualidade       |
-| 👥 **Padronização**       | Regras consistentes para toda equipe   | Código mais uniforme       |
-| 🚀 **Produtividade**      | Menos tempo debugando problemas        | +30% produtividade         |
-
----
-
-## 🛠️ Stack Tecnológico
-
-### Frontend Core
-
-| Tecnologia       | Versão | Propósito                   | Documentação                                |
-| ---------------- | ------ | --------------------------- | ------------------------------------------- |
-| **Next.js**      | 15.5.5 | Framework React com SSR/SSG | [Docs](https://nextjs.org/docs)             |
-| **React**        | 19.0.0 | Biblioteca de interface     | [Docs](https://react.dev)                   |
-| **TypeScript**   | 5.x    | Tipagem estática            | [Docs](https://www.typescriptlang.org/docs) |
-| **Tailwind CSS** | 4.1.14 | Framework CSS utilitário    | [Docs](https://tailwindcss.com/docs)        |
-
-### UI e Componentes
-
-| Tecnologia          | Versão | Propósito                       |
-| ------------------- | ------ | ------------------------------- |
-| **Radix UI**        | 1.x    | Componentes acessíveis headless |
-| **Lucide React**    | 0.x    | Ícones SVG otimizados           |
-| **Framer Motion**   | 11.x   | Animações e transições          |
-| **React Hook Form** | 7.x    | Gerenciamento de formulários    |
-
-### Desenvolvimento e Qualidade
-
-| Tecnologia    | Versão | Propósito                  |
-| ------------- | ------ | -------------------------- |
-| **ESLint**    | 9.x    | Análise estática de código |
-| **Prettier**  | 3.x    | Formatação de código       |
-| **Husky**     | 9.x    | Git hooks                  |
-| **SonarQube** | 10.x   | Análise de qualidade       |
-
-### Performance e Otimização
-
-| Tecnologia          | Propósito             | Benefício              |
-| ------------------- | --------------------- | ---------------------- |
-| **Turbopack**       | Bundler ultra-rápido  | Build 10x mais rápido  |
-| **Next.js Image**   | Otimização de imagens | Carregamento otimizado |
-| **Dynamic Imports** | Code splitting        | Bundles menores        |
-| **Service Worker**  | Cache offline         | Performance PWA        |
-
-### Monitoramento e Analytics
-
-| Tecnologia           | Propósito                |
-| -------------------- | ------------------------ |
-| **Vercel Analytics** | Métricas de performance  |
-| **Google Analytics** | Análise de comportamento |
-| **Sentry**           | Monitoramento de erros   |
-| **Lighthouse CI**    | Auditoria automatizada   |
-
----
-
-## 🎨 Funcionalidades
-
-### 🏠 Página Inicial
-
-- **Hero Section** com animações cyberpunk
-- **Carrossel de Projetos** com navegação por teclado
-- **Seção de Habilidades** com ícones animados
-- **Call-to-Action** para contato e blog
-
-### 📝 Blog
-
-- **Sistema de Posts** com rich text editor
-- **Categorias e Tags** para organização
-- **Sistema de Comentários** com moderação
-- **Busca Avançada** com filtros
-- **Compartilhamento Social** integrado
-- **Newsletter** para inscrições
-
-### 👤 Dashboard Administrativo
-
-- **Autenticação Segura** com AWS Cognito
-- **CRUD de Posts** com preview em tempo real
-- **Upload de Imagens** via Cloudinary
-- **Analytics** com gráficos interativos
-- **Gerenciamento de Usuários** e permissões
-- **Configurações** do site
-
-### 📱 PWA - Progressive Web App Universal
-
-#### 🌟 Características PWA
-
-| Feature              | Status | Descrição                                    |
-| -------------------- | ------ | -------------------------------------------- |
-| **📲 Instalável**    | ✅     | Botão de instalação em todos os dispositivos |
-| **⚡ Offline**       | ✅     | Funciona sem internet (Service Worker)       |
-| **🔄 Atualizações**  | ✅     | Updates automáticos em background            |
-| **📱 Nativo**        | ✅     | Experiência similar a app nativo             |
-| **🎨 Splash Screen** | ✅     | Tela de carregamento personalizada           |
-| **🔔 Notificações**  | 🔄     | Push notifications (roadmap)                 |
-
-#### 📊 Compatibilidade Universal
-
-| Plataforma            | Suporte     | Experiência                               |
-| --------------------- | ----------- | ----------------------------------------- |
-| **🍎 iOS Safari**     | ✅ Completo | Instalação via "Adicionar à Tela Inicial" |
-| **🤖 Android Chrome** | ✅ Completo | Prompt automático de instalação           |
-| **🖥️ Desktop Chrome** | ✅ Completo | Instalação via barra de endereços         |
-| **🖥️ Desktop Edge**   | ✅ Completo | Instalação via menu "Apps"                |
-| **🦊 Firefox**        | ⚠️ Parcial  | Funciona como web app                     |
-
-#### 🎯 Recursos PWA Implementados
-
-```json
-{
-  "fullName": "Rainer Portfolio",
-  "short_name": "RainerDev",
-  "description": "Portfolio profissional de Rainer Teixeira",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#00ff88",
-  "orientation": "portrait-primary",
-  "categories": ["business", "productivity", "developer"],
-  "screenshots": [
-    {
-      "src": "/images/pwa/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ]
-}
-```
-
-**Documentação completa:** [📲 PWA Universal Guide](docs/guides/COMPATIBILIDADE-PWA-UNIVERSAL.md)
-
-### 🌓 Temas e Personalização
-
-#### Sistema de Temas
-
-- **Tema Claro** - Interface limpa e profissional
-- **Tema Escuro** - Modo noturno com cores cyberpunk
-- **Alto Contraste** - Acessibilidade aprimorada
-- **Persistência** - Preferência salva no localStorage
-
-#### Design Tokens
-
-Sistema centralizado com 200+ tokens usando a biblioteca **`@rainer/rainer-design-tokens`**:
-
-##### 📦 Biblioteca de Design Tokens
-
-Este projeto utiliza a biblioteca **`@rainer/rainer-design-tokens`** como fonte única de verdade para todos os tokens de design. A biblioteca fornece valores consistentes para animações, espaçamentos, cores, tipografia, sombras, z-index e efeitos visuais.
-
-**Instalação:**
-
-```bash
-npm install @rainer/rainer-design-tokens
-```
-
-**Uso:**
-
-```typescript
-import {
-  ANIMATION_DURATION_MS,
-  SHADOWS,
-  GRADIENTS,
-  BACKGROUND,
-  TEXT,
-  BADGE,
-  BORDER_RADIUS
-} from '@rainer/rainer-design-tokens';
-
-// Exemplo: Usando tokens em componentes
-import { BACKGROUND } from '@rainer/rainer-design-tokens';
-import { cn } from '@/lib/utils';
-
-<div className={cn('min-h-screen', BACKGROUND.FULL)}>
-  Conteúdo da página
-</div>
-```
-
-**Tokens Disponíveis:**
-
-- **ANIMATION_DURATION_MS** - Durações de animação em milissegundos
-- **ANIMATION_DURATION** - Durações como classes Tailwind
-- **ANIMATIONS** - Animações de entrada/saída (fade, slide, scale)
-- **GRADIENTS** - Gradientes reutilizáveis (text, button, decorative)
-- **GRADIENT_DIRECTIONS** - Direções de gradiente (to-top, to-right, to-br, etc)
-- **SHADOWS** - Sombras padronizadas (small, medium, large, xl)
-- **BACKGROUND** - Backgrounds reutilizáveis (full, gradient, overlay)
-- **TEXT** - Cores de texto (primary, secondary, muted)
-- **BADGE** - Tokens para badges (gradients, borders, text)
-- **BORDER_RADIUS** - Raios de borda (sm, md, lg, xl, full)
-- **SPACING** - Espaçamentos padronizados
-- **Z_INDEX** - Camadas z-index
-- E muito mais...
-
-**Exemplos Práticos:**
-
-```tsx
-// Animations
-import {
-  ANIMATION_DURATION_MS,
-  ANIMATIONS,
-} from '@rainer/rainer-design-tokens';
-import { motion } from 'framer-motion';
-
-<motion.div
-  transition={{ duration: ANIMATION_DURATION_MS.NORMAL }}
-  className={ANIMATIONS.FADE_IN}
->
-  Conteúdo animado
-</motion.div>;
-
-// Gradients
-import { GRADIENTS, GRADIENT_DIRECTIONS } from '@rainer/rainer-design-tokens';
-import { cn } from '@/lib/utils';
-
-<div className={cn(GRADIENT_DIRECTIONS.TO_RIGHT, GRADIENTS.TEXT_PRIMARY)}>
-  Texto com gradiente
-</div>;
-
-// Shadows
-import { SHADOWS } from '@rainer/rainer-design-tokens';
-
-<div className={SHADOWS.LARGE}>Card com sombra</div>;
-
-// Backgrounds
-import { BACKGROUND } from '@rainer/rainer-design-tokens';
-import { cn } from '@/lib/utils';
-
-<div className={cn('min-h-screen', BACKGROUND.FULL)}>
-  Página com background completo
-</div>;
-```
-
-**Compatibilidade:**
-
-- ✅ TypeScript completo com tipos exportados
-- ✅ Tree-Shaking suportado
-- ✅ ESM + CJS
-- ✅ Integração nativa com Tailwind CSS
-- ✅ Zero dependências (apenas peer dependencies)
-
-**Documentação Completa:**
-
-Para mais informações sobre a biblioteca, consulte:
-
-- 📚 [README da Biblioteca](../@rainer-design-tokens/README.md)
-- 📖 [Guia de Uso](../@rainer-design-tokens/docs/GUIDE.md)
-- 💡 [Exemplos](../@rainer-design-tokens/EXAMPLES.md)
-
-**Nota:** O arquivo `constants/rainer-design-tokens.ts` foi renomeado para `constants/OLD_design-tokens.ts` e mantido como backup. Todos os novos imports devem usar `@rainer/rainer-design-tokens` diretamente.
-
-### ♿ Acessibilidade
-
-#### Conformidade WCAG 2.1 AA
-
-| Critério                  | Status | Implementação         |
-| ------------------------- | ------ | --------------------- |
-| **Contraste**             | ✅     | Razão mínima 4.5:1    |
-| **Navegação por Teclado** | ✅     | Tab order lógico      |
-| **Screen Readers**        | ✅     | ARIA labels completos |
-| **Focus Management**      | ✅     | Focus trap em modals  |
-| **Texto Alternativo**     | ✅     | Alt text em imagens   |
-
-#### Recursos de Acessibilidade
-
-- **Skip Links** - Navegação rápida para conteúdo
-- **Atalhos de Teclado** - Ctrl+/ para ajuda
-- **Modo Alto Contraste** - Para usuários com baixa visão
-- **Texto Redimensionável** - Até 200% sem perda de funcionalidade
-- **Indicadores de Foco** - Visíveis e consistentes
-
-### 📊 Métricas de Performance
-
-#### Core Web Vitals
-
-| Métrica                            | Valor Atual | Meta    | Status       |
-| ---------------------------------- | ----------- | ------- | ------------ |
-| **LCP** (Largest Contentful Paint) | 1.2s        | < 2.5s  | ✅ Excelente |
-| **FID** (First Input Delay)        | 45ms        | < 100ms | ✅ Excelente |
-| **CLS** (Cumulative Layout Shift)  | 0.05        | < 0.1   | ✅ Excelente |
-| **FCP** (First Contentful Paint)   | 0.8s        | < 1.8s  | ✅ Excelente |
-| **TTI** (Time to Interactive)      | 2.1s        | < 3.8s  | ✅ Excelente |
-
-#### Lighthouse Score
-
-| Categoria          | Score | Detalhes                            |
-| ------------------ | ----- | ----------------------------------- |
-| **Performance**    | 95+   | Otimizações avançadas implementadas |
-| **Accessibility**  | 100   | WCAG 2.1 AA compliant               |
-| **Best Practices** | 100   | Seguindo padrões web modernos       |
-| **SEO**            | 100   | Meta tags e structured data         |
-| **PWA**            | 100   | Todos os critérios PWA atendidos    |
-
-#### Otimizações Implementadas
-
-| Técnica                | Benefício           | Implementação        |
-| ---------------------- | ------------------- | -------------------- |
-| **Image Optimization** | -60% tamanho        | Next.js Image + WebP |
-| **Code Splitting**     | -40% bundle inicial | Dynamic imports      |
-| **Tree Shaking**       | -30% JavaScript     | ES modules           |
-| **Compression**        | -70% transfer       | Gzip/Brotli          |
-| **Caching**            | -90% reload time    | Service Worker       |
-| **Preloading**         | -50% LCP            | Resource hints       |
-
-### 🔐 Segurança
-
-#### Medidas de Segurança Implementadas
-
-| Categoria                | Implementação              | Benefício                 |
-| ------------------------ | -------------------------- | ------------------------- |
-| **Headers de Segurança** | CSP, HSTS, X-Frame-Options | Previne XSS, clickjacking |
-| **Autenticação**         | AWS Cognito + JWT          | Autenticação enterprise   |
-| **Validação**            | Zod schemas                | Validação type-safe       |
-| **Sanitização**          | DOMPurify                  | Previne XSS em conteúdo   |
-| **Rate Limiting**        | Middleware customizado     | Previne ataques DDoS      |
-| **HTTPS**                | Certificado SSL/TLS        | Comunicação criptografada |
-
-#### Content Security Policy
-
-```typescript
-const csp = {
-  'default-src': ["'self'"],
-  'script-src': ["'self'", "'unsafe-inline'", 'https://vercel.live'],
-  'style-src': ["'self'", "'unsafe-inline'"],
-  'img-src': ["'self'", 'data:', 'https:'],
-  'font-src': ["'self'", 'https://fonts.gstatic.com'],
-  'connect-src': ["'self'", 'https://api.github.com'],
-};
-```
-
----
-
-## 🚀 Deploy em Produção
-
-### Plataformas Suportadas
-
-| Plataforma      | Status         | Configuração   | Benefícios                |
-| --------------- | -------------- | -------------- | ------------------------- |
-| **Vercel**      | ✅ Recomendado | Zero-config    | Edge functions, Analytics |
-| **Netlify**     | ✅ Suportado   | `netlify.toml` | Forms, Split testing      |
-| **AWS Amplify** | ✅ Suportado   | `amplify.yml`  | Integração AWS            |
-| **Docker**      | ✅ Suportado   | `Dockerfile`   | Portabilidade             |
-
-### Deploy na Vercel (Recomendado)
-
-#### Passo 1: Preparação
-
-```bash
-# Build local para testar
-npm run build
-npm run start
-
-# Verificar se tudo funciona em http://localhost:3000
-```
-
-#### Passo 2: Deploy
-
-```bash
-# Instalar Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
-
-# Seguir prompts:
-# - Link to existing project? No
-# - Project fullName: rainer-portfolio-frontend
-# - Directory: ./
-# - Override settings? No
-```
-
-#### Passo 3: Configurar Variáveis de Ambiente
-
-No dashboard da Vercel:
-
-1. Acesse **Settings** → **Environment Variables**
-2. Adicione as variáveis do `.env.local`:
-
-| Variável               | Valor                  | Ambiente   |
-| ---------------------- | ---------------------- | ---------- |
-| `NEXT_PUBLIC_API_URL`  | URL da API de produção | Production |
-| `NEXT_PUBLIC_SITE_URL` | URL do site            | Production |
-| `DATABASE_URL`         | String de conexão      | Production |
-
-#### Passo 4: Configurar Domínio Customizado
-
-1. Acesse **Settings** → **Domains**
-2. Adicione seu domínio: `rainersoft.com.br`
-3. Configure DNS conforme instruções
-
-### Deploy com Docker
-
-#### Dockerfile Otimizado
-
-```dockerfile
-# Build stage
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
-COPY . .
-RUN npm run build
-
-# Production stage
-FROM node:20-alpine AS runner
-WORKDIR /app
-RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
-COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-USER nextjs
-EXPOSE 3000
-ENV PORT 3000
-CMD ["node", "server.js"]
-```
-
-#### Docker Compose
-
-```yaml
-version: '3.8'
-services:
-  frontend:
-    build: .
-    ports:
-      - '3000:3000'
-    environment:
-      - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=https://api.rainersoft.com.br
-    restart: unless-stopped
-```
-
-### Configurações de Produção
-
-#### next.config.js
-
-```javascript
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'standalone',
-  compress: true,
-  poweredByHeader: false,
-  generateEtags: false,
-
-  // Performance
-  experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
-  },
-
-  // Security headers
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          { key: 'X-Frame-Options', value: 'DENY' },
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
-        ],
-      },
-    ];
-  },
-};
-```
-
-### Monitoramento em Produção
-
-#### Métricas Essenciais
-
-| Métrica         | Ferramenta       | Alerta          |
-| --------------- | ---------------- | --------------- |
-| **Uptime**      | Vercel Analytics | < 99.9%         |
-| **Performance** | Lighthouse CI    | Score < 90      |
-| **Errors**      | Sentry           | > 1% error rate |
-| **Traffic**     | Google Analytics | Anomalias       |
-
-#### Health Checks
-
-```typescript
-// app/api/health/route.ts
-export async function GET() {
-  const health = {
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    version: process.env.npm_package_version,
-    environment: process.env.NODE_ENV,
-    uptime: process.uptime(),
-  };
-
-  return Response.json(health);
-}
-```
-
-### Rollback e Versionamento
-
-#### Estratégia de Deploy
-
-1. **Feature Branches** → Deploy preview automático
-2. **Staging** → Deploy em ambiente de homologação
-3. **Production** → Deploy após aprovação manual
-4. **Rollback** → Revert para versão anterior em caso de problemas
-
-#### Versionamento Semântico
-
-```json
-{
-  "version": "2.0.0",
-  "scripts": {
-    "version:patch": "npm version patch",
-    "version:minor": "npm version minor",
-    "version:major": "npm version major"
-  }
-}
-```
-
----
-
-## 🤝 Contribuindo
-
-### Fluxo de Contribuição
-
-#### 1. Setup do Ambiente
-
-```bash
-# Fork e clone o repositório
-git clone https://github.com/seu-usuario/rainer-portfolio-frontend.git
-cd rainer-portfolio-frontend
-
-# Instalar dependências
-npm install
-
-# Configurar ambiente
-cp .env.example .env.local
-# Editar .env.local com suas configurações
-
-# Iniciar desenvolvimento
-npm run dev
-```
-
-#### 2. Criando uma Feature
-
-```bash
-# Criar branch a partir de main
-git checkout main
-git pull origin main
-git checkout -b feature/nome-da-feature
-
-# Desenvolver a feature
-# ... fazer alterações ...
-
-# Commit seguindo Conventional Commits
-git add .
-git commit -m "feat: adicionar nova funcionalidade X"
-
-# Push da branch
-git push origin feature/nome-da-feature
-```
-
-#### 3. Pull Request
-
-1. Abra PR no GitHub
-2. Preencha o template de PR
-3. Aguarde review e aprovação
-4. Merge após aprovação
-
-### Padrões de Código
-
-#### Conventional Commits
-
-| Tipo       | Descrição           | Exemplo                                         |
-| ---------- | ------------------- | ----------------------------------------------- |
-| `feat`     | Nova funcionalidade | `feat: adicionar sistema de comentários`        |
-| `fix`      | Correção de bug     | `fix: corrigir erro de validação no formulário` |
-| `docs`     | Documentação        | `docs: atualizar README com novas instruções`   |
-| `style`    | Formatação          | `style: aplicar prettier em components/`        |
-| `refactor` | Refatoração         | `refactor: extrair hook useAuth`                |
-| `test`     | Testes              | `test: adicionar testes para AuthService`       |
-| `chore`    | Manutenção          | `chore: atualizar dependências`                 |
-
-#### Estrutura de Commit
-
-```bash
-<tipo>(<escopo>): <descrição>
-
-<corpo opcional>
-
-<rodapé opcional>
-```
-
-**Exemplo:**
-
-```bash
-feat(auth): implementar login com AWS Cognito
-
-- Adicionar AuthProvider com Context API
-- Implementar hooks useAuth e useLogin
-- Criar componentes LoginForm e ProtectedRoute
-- Adicionar validação com Zod schemas
-
-Closes #123
-```
-
-### Code Review
-
-#### Checklist do Reviewer
-
-- [ ] **Funcionalidade** - A feature funciona conforme especificado?
-- [ ] **Código** - Está limpo, legível e bem estruturado?
-- [ ] **Performance** - Não introduz problemas de performance?
-- [ ] **Segurança** - Não há vulnerabilidades óbvias?
-- [ ] **Testes** - Tem cobertura adequada de testes?
-- [ ] **Documentação** - JSDoc e README atualizados?
-- [ ] **Acessibilidade** - Mantém padrões de acessibilidade?
-- [ ] **Responsividade** - Funciona em todos os dispositivos?
-
-#### Critérios de Aprovação
-
-| Critério       | Obrigatório | Descrição                          |
-| -------------- | ----------- | ---------------------------------- |
-| **Lint**       | ✅          | `npm run lint` sem erros           |
-| **Type Check** | ✅          | `npm run type-check` sem erros     |
-| **Build**      | ✅          | `npm run build` com sucesso        |
-| **Testes**     | ⚠️          | Testes passando (quando aplicável) |
-| **SonarQube**  | ⚠️          | Quality Gate aprovado              |
-
-### Reportando Bugs
-
-#### Template de Issue
-
-```markdown
-## 🐛 Descrição do Bug
-
-Descrição clara e concisa do problema.
-
-## 🔄 Passos para Reproduzir
-
-1. Vá para '...'
-2. Clique em '...'
-3. Role até '...'
-4. Veja o erro
-
-## ✅ Comportamento Esperado
-
-O que deveria acontecer.
-
-## 📱 Ambiente
-
-- OS: [Windows 11, macOS 13, Ubuntu 22.04]
-- Browser: [Chrome 120, Firefox 121, Safari 17]
-- Versão: [2.0.0]
-
-## 📸 Screenshots
-
-Se aplicável, adicione screenshots.
-
-## 📋 Informações Adicionais
-
-Qualquer contexto adicional sobre o problema.
-```
-
-### Sugerindo Features
-
-#### Template de Feature Request
-
-```markdown
-## 🚀 Descrição da Feature
-
-Descrição clara da funcionalidade desejada.
-
-## 💡 Motivação
-
-Por que esta feature seria útil?
-
-## 📋 Critérios de Aceitação
-
-- [ ] Critério 1
-- [ ] Critério 2
-- [ ] Critério 3
-
-## 🎨 Mockups/Wireframes
-
-Se aplicável, adicione designs ou mockups.
-
-## 🔗 Referências
-
-Links para inspiração ou documentação.
-```
-
-### Documentação
-
-#### Padrões de Documentação
-
-1. **JSDoc** - Todos os arquivos TypeScript/React
-2. **README** - Cada pasta importante tem seu README
-3. **Changelog** - Manter CHANGELOG.md atualizado
-4. **API Docs** - Documentar APIs e utilitários
-
-#### Exemplo de JSDoc
-
-````typescript
-/**
- * Hook para gerenciar autenticação de usuários
- *
- * Fornece funcionalidades completas de autenticação incluindo login,
- * logout, registro e gerenciamento de estado do usuário autenticado.
- *
- * Funcionalidades:
- * - ✓ Login/logout com AWS Cognito
- * - ✓ Persistência de sessão
- * - ✓ Refresh automático de tokens
- * - ✓ Proteção de rotas
- *
- * @fileoverview Hook de autenticação principal
- * @author Rainer Teixeira
- * @version 1.0.0
- *
- * @example
- * ```tsx
- * import { useAuth } from '@/hooks/use-auth'
- *
- * function LoginPage() {
- *   const { login, isLoading, error } = useAuth()
- *
- *   const handleLogin = async (credentials) => {
- *     await login(credentials)
- *   }
- *
- *   return <LoginForm onSubmit={handleLogin} loading={isLoading} />
- * }
- * ```
- */
-export function useAuth() {
-  // Implementação...
-}
-````
-
----
-
-## 📊 Estatísticas do Projeto
-
-### Métricas de Código
-
-| Métrica                | Valor         | Detalhes                     |
-| ---------------------- | ------------- | ---------------------------- |
-| **Linhas de Código**   | ~15.000       | TypeScript/React/CSS         |
-| **Componentes**        | 60+           | Reutilizáveis e documentados |
-| **Hooks Customizados** | 20+           | Lógica encapsulada           |
-| **Páginas**            | 15+           | Incluindo dashboard          |
-| **Testes**             | 100+          | Cobertura em desenvolvimento |
-| **Documentação**       | 7.200+ linhas | Markdown + JSDoc             |
-
-### Qualidade de Código
-
-| Aspecto           | Rating   | Ferramenta |
-| ----------------- | -------- | ---------- |
-| **Code Quality**  | A        | SonarQube  |
-| **Type Safety**   | 100%     | TypeScript |
-| **Lint Score**    | 0 errors | ESLint     |
-| **Performance**   | 95+      | Lighthouse |
-| **Accessibility** | 100      | axe-core   |
-| **Security**      | A+       | Snyk       |
-
-### Performance Benchmarks
-
-| Métrica                      | Desktop | Mobile | Meta    |
-| ---------------------------- | ------- | ------ | ------- |
-| **First Contentful Paint**   | 0.8s    | 1.2s   | < 1.8s  |
-| **Largest Contentful Paint** | 1.2s    | 1.8s   | < 2.5s  |
-| **Time to Interactive**      | 2.1s    | 3.2s   | < 3.8s  |
-| **Cumulative Layout Shift**  | 0.05    | 0.08   | < 0.1   |
-| **Bundle Size**              | 245KB   | 245KB  | < 500KB |
-
-### Dependências
-
-| Categoria            | Quantidade | Principais                   |
-| -------------------- | ---------- | ---------------------------- |
-| **Dependencies**     | 25         | Next.js, React, Tailwind     |
-| **DevDependencies**  | 35         | TypeScript, ESLint, Prettier |
-| **Vulnerabilidades** | 0          | Auditoria semanal            |
-| **Atualizações**     | Mensais    | Dependabot configurado       |
-
----
-
-## 📈 Histórico de Versões
-
-### v2.1.0 - Sistema de Atualização Automática (Atual)
-
-**🎯 Lançamento:** Janeiro 2025
-
-#### ✨ Novos Recursos
-
-- 🔄 **Sistema de Atualização Automática de Versão**
-  - Sincronização automática entre `package.json` e memórias
-  - Cache inteligente para evitar processamento desnecessário
-  - Scripts NPM integrados (`version:update`, `memory:update`, `memory:sync`)
-
-#### 🛠️ Melhorias Técnicas
-
-- ✅ Scripts de gerenciamento de memórias automatizados
-- ✅ Rastreamento de histórico de versões
-- ✅ Documentação completa em `scripts/08-memoria/README.md`
-
----
-
-### v2.0.0 - Enterprise Edition
-
-**🎯 Lançamento:** Outubro 2025
-
-#### ✨ Principais Features
-
-- 🎨 **Design Tokens System** - Biblioteca `@rainer/rainer-design-tokens` com 200+ tokens centralizados e reutilizáveis
-- 🚨 **Error Boundary Global** - Zero crashes visíveis ao usuário
-- ⏳ **Loading States Padronizados** - 4 componentes de loading
-- 📝 **Logging System** - 4 níveis estruturados de log
-- 📊 **Analytics Tracking** - 15+ eventos predefinidos
-- ⚡ **Performance Monitor** - Core Web Vitals + métricas custom
-- ✅ **Validation Schemas** - 7 validators centralizados
-- 🔐 **Environment Tipado** - Type-safe environment variables
-- 🪝 **Custom Hooks** - 20+ hooks enterprise organizados
-- 📚 **Documentação Completa** - 12 arquivos markdown profissionais
-
-#### 🏗️ Arquitetura
-
-- **Hooks Organizados** - Estrutura modular por domínio
-- **Barrel Exports** - Imports simplificados e limpos
-- **Type Safety 100%** - Zero erros TypeScript
-- **PWA Universal** - Instalável em iOS, Android e Desktop
-- **SonarQube Integration** - Análise contínua de qualidade
-
-#### 📊 Qualidade
-
-- **Lighthouse Score:** 95+ em todas as categorias
-- **Accessibility:** WCAG 2.1 AA compliant
-- **Performance:** Core Web Vitals excelentes
-- **Security:** Headers de segurança implementados
-- **SEO:** Meta tags e structured data otimizados
-
-### v1.5.0 - Dashboard Pro
-
-**🎯 Lançamento:** Setembro 2025
-
-#### ✨ Features Adicionadas
-
-- 📊 **Dashboard Administrativo** completo
-- 🔐 **Autenticação AWS Cognito** integrada
-- 📝 **CRUD de Posts** com rich text editor
-- 📸 **Upload Cloudinary** para imagens
-- 📈 **Analytics** com gráficos interativos
-- 🔍 **Sistema de Busca** avançado
-
-### v1.0.0 - Portfolio Base
-
-**🎯 Lançamento:** Agosto 2025
-
-#### ✨ Features Iniciais
-
-- 🏠 **Homepage** com hero cyberpunk
-- 📝 **Blog** com sistema de posts
-- 📧 **Página de Contato** com formulário
-- 👤 **Página Sobre** com informações pessoais
-- 🌓 **Tema Claro/Escuro** com persistência
-- 📱 **Design Responsivo** para todos os dispositivos
-
-### Roadmap Futuro
-
-#### v2.1.0 - Social Features (Q1 2026)
-
-- 💬 **Sistema de Comentários** com moderação
-- ❤️ **Likes e Reações** em posts
-- 🔖 **Bookmarks** para salvar posts
-- 📧 **Newsletter** com automação
-- 🔔 **Notificações Push** PWA
-
-#### v2.2.0 - Advanced Analytics (Q2 2026)
-
-- 📊 **Dashboard Analytics** avançado
-- 🎯 **A/B Testing** para otimização
-- 🔍 **Search Analytics** com insights
-- 📈 **Performance Monitoring** em tempo real
-- 🤖 **AI Insights** para conteúdo
-
-#### v3.0.0 - Multi-tenant (Q3 2026)
-
-- 🏢 **Multi-tenancy** para múltiplos portfolios
-- 🎨 **Theme Builder** visual
-- 🔌 **Plugin System** extensível
-- 🌐 **Internacionalização** (i18n)
-- 📱 **Mobile App** React Native
-
----
-
-## 🔗 Quick Links
-
-### 📚 Documentação
-
-| Link                                                               | Descrição                |
-| ------------------------------------------------------------------ | ------------------------ |
-| [📘 Visão Geral](docs/getting-started/PROJECT-OVERVIEW.md)         | Sobre o projeto completo |
-| [🏗️ Arquitetura](docs/architecture/ARCHITECTURE.md)                | Arquitetura detalhada    |
-| [👨💻 Guia do Desenvolvedor](docs/architecture/DEVELOPER-GUIDE.md) | Como desenvolver         |
-| [🌟 Features Enterprise](docs/reference/ENTERPRISE-FEATURES.md)    | Features avançadas       |
-| [🛠️ Tech Stack](docs/getting-started/TECH-STACK.md)                | Stack completo           |
-| [📚 API Reference](docs/reference/API-REFERENCE.md)                | APIs e utilitários       |
-| [🧩 Components](docs/reference/COMPONENTS-REFERENCE.md)            | Todos os componentes     |
-| [🔧 Troubleshooting](docs/guides/TROUBLESHOOTING.md)               | Solução de problemas     |
-
-### 🛠️ Ferramentas
-
-| Ferramenta     | URL                     | Propósito               |
-| -------------- | ----------------------- | ----------------------- |
-| **Aplicação**  | <http://localhost:3000> | Interface principal     |
-| **SonarQube**  | <http://localhost:9000> | Análise de qualidade    |
-| **Storybook**  | <http://localhost:6006> | Catálogo de componentes |
-| **Docs JSDoc** | `./docs-output/`        | Documentação gerada     |
-
-### 🔗 Links Externos
-
-| Recurso          | URL                                                           |
-| ---------------- | ------------------------------------------------------------- |
-| **Site Oficial** | [rainersoft.com.br](https://rainersoft.com.br)                |
-| **GitHub**       | [Repositório](https://github.com/rainer-portfolio-frontend)   |
-| **LinkedIn**     | [Rainer Teixeira](https://linkedin.com/in/rainer-teixeira)    |
-| **Email**        | [contato@rainersoft.com.br](mailto:contato@rainersoft.com.br) |
-
-### 📋 Checklists
-
-#### ✅ Setup Inicial
-
-- [ ] Node.js 18+ instalado
-- [ ] Dependências instaladas (`npm install`)
-- [ ] Arquivo `.env.local` configurado
-- [ ] Servidor de desenvolvimento rodando (`npm run dev`)
-- [ ] Aplicação acessível em <http://localhost:3000>
-
-#### ✅ Antes de Commit
-
-- [ ] `npm run lint:fix` executado sem erros
-- [ ] `npm run type-check` passou
-- [ ] `npm run build` com sucesso
-- [ ] Testes relevantes passando
-- [ ] Documentação atualizada (se necessário)
-
-#### ✅ Deploy em Produção
-
-- [ ] Build de produção testado localmente
-- [ ] Variáveis de ambiente configuradas
-- [ ] Domínio configurado
-- [ ] SSL/TLS ativo
-- [ ] Monitoramento configurado
-- [ ] Backup de dados realizado
-
----
-
-## 📋 Resumo Executivo
-
-### 🎯 Visão Geral
-
-O **Rainer Portfolio Frontend** é uma aplicação web enterprise-grade que representa o estado da arte em desenvolvimento web moderno. Construído com **Next.js 15**, **React 19** e **TypeScript**, oferece uma experiência de usuário excepcional com performance otimizada e qualidade de código profissional.
-
-### 🏆 Principais Conquistas
-
-| Aspecto            | Conquista             | Impacto                          |
-| ------------------ | --------------------- | -------------------------------- |
-| **Performance**    | Lighthouse 95+        | Experiência de usuário superior  |
-| **Qualidade**      | SonarQube Rating A    | Código maintível e confiável     |
-| **Acessibilidade** | WCAG 2.1 AA           | Inclusivo para todos os usuários |
-| **Segurança**      | Zero vulnerabilidades | Proteção robusta de dados        |
-| **Documentação**   | 7.200+ linhas         | Manutenção simplificada          |
-| **Type Safety**    | 100% TypeScript       | Desenvolvimento mais seguro      |
-
-### 🚀 Diferenciais Técnicos
-
-#### Arquitetura Enterprise
-
-- **Design Tokens System** - Biblioteca `@rainer/rainer-design-tokens` como single source of truth para design
-- **Error Boundary Global** - Tratamento robusto de erros
-- **Custom Hooks Organizados** - 20+ hooks modulares
-- **Validation Schemas** - Validação centralizada e type-safe
-- **Performance Monitoring** - Métricas em tempo real
-
-#### Qualidade de Código
-
-- **SonarQube Integration** - Análise contínua de qualidade
-- **100% TypeScript** - Type safety completo
-- **JSDoc Completo** - Documentação inline profissional
-- **Conventional Commits** - Histórico de mudanças padronizado
-- **Automated Testing** - Testes automatizados (em desenvolvimento)
-
-#### Experiência do Usuário
-
-- **PWA Universal** - Instalável em todos os dispositivos
-- **Performance Otimizada** - Core Web Vitals excelentes
-- **Acessibilidade Total** - WCAG 2.1 AA compliant
-- **Tema Claro/Escuro** - Personalização completa
-- **Responsivo 100%** - Funciona em qualquer tela
-
-### 📊 Métricas de Sucesso
-
-#### Performance
-
-- **95+ Lighthouse Score** em todas as categorias
-- **< 1.2s LCP** (Largest Contentful Paint)
-- **< 45ms FID** (First Input Delay)
-- **< 0.05 CLS** (Cumulative Layout Shift)
-
-#### Qualidade
-
-- **Rating A** no SonarQube
-- **0 bugs** críticos identificados
-- **0 vulnerabilidades** de segurança
-- **99%+ uptime** em produção
-
-#### Desenvolvimento
-
-- **15.000+ linhas** de código TypeScript/React
-- **60+ componentes** reutilizáveis
-- **20+ hooks** customizados
-- **12 documentos** markdown profissionais
-
-### 🎯 Casos de Uso
-
-#### Portfolio Profissional
-
-- Showcase de projetos e habilidades técnicas
-- Presença digital profissional de alta qualidade
-- Demonstração de expertise em tecnologias modernas
-
-#### Plataforma de Blog
-
-- Sistema completo de publicação de conteúdo
-- Dashboard administrativo para gerenciamento
-- Recursos sociais (likes, comentários, compartilhamento)
-
-#### Referência Técnica
-
-- Exemplo de arquitetura enterprise em React/Next.js
-- Padrões de código e boas práticas implementadas
-- Base para novos projetos com qualidade garantida
-
-### 🚀 Próximos Passos
-
-#### Curto Prazo (Q4 2025)
-
-- **Sistema de Comentários** com moderação
-- **Newsletter Integration** com automação
-- **Advanced Analytics** com insights detalhados
-
-#### Médio Prazo (Q1-Q2 2026)
-
-- **A/B Testing** para otimização de conversão
-- **Push Notifications** PWA
-- **AI-Powered** content recommendations
-
-#### Longo Prazo (Q3+ 2026)
-
-- **Multi-tenant** architecture
-- **Mobile App** React Native
-- **Plugin System** extensível
-
-### 💼 Valor de Negócio
-
-| Benefício            | Descrição                                | ROI               |
-| -------------------- | ---------------------------------------- | ----------------- |
-| **Credibilidade**    | Portfolio profissional de alta qualidade | +200% leads       |
-| **Eficiência**       | Código reutilizável e bem documentado    | -60% tempo dev    |
-| **Escalabilidade**   | Arquitetura preparada para crescimento   | +500% capacidade  |
-| **Manutenibilidade** | Código limpo e bem estruturado           | -70% bugs         |
-| **Performance**      | Experiência de usuário superior          | +150% engajamento |
-
----
-
-## 📄 Licença
-
-**Proprietary License**
-
-© 2025 Rainer Teixeira. Todos os direitos reservados.
-
-Este projeto é propriedade intelectual de **Rainer Teixeira** e **Rainer Soft**.
-
-### Termos de Uso
-
-- ✅ **Visualização** do código para fins educacionais
-- ✅ **Referência** para aprendizado de boas práticas
-- ❌ **Uso comercial** sem autorização expressa
-- ❌ **Redistribuição** ou modificação sem permissão
-- ❌ **Cópia** de código para outros projetos
-
-### Contato para Licenciamento
-
-Para uso comercial ou licenciamento, entre em contato:
-
-- 📧 **Email:** [contato@rainersoft.com.br](mailto:contato@rainersoft.com.br)
-- 🌐 **Website:** [rainersoft.com.br](https://rainersoft.com.br)
-- 💼 **LinkedIn:** [Rainer Teixeira](https://linkedin.com/in/rainer-teixeira)
-
----
-
-## 👨‍💻 Autor
-
-<div align="center">
-
-### Rainer Teixeira
-
-**Full-Stack Developer & Software Architect**
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/rainer-teixeira)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/rainer-teixeira)
-[![Website](https://img.shields.io/badge/Website-FF7139?style=for-the-badge&logo=Firefox-Browser&logoColor=white)](https://rainersoft.com.br)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:contato@rainersoft.com.br)
-
-</div>
-
-#### 🎯 Especialidades
-
-- **Frontend:** React, Next.js, TypeScript, Tailwind CSS
-- **Backend:** Node.js, NestJS, Python, AWS
-- **Database:** PostgreSQL, MongoDB, DynamoDB
-- **DevOps:** Docker, AWS, CI/CD, Terraform
-- **Architecture:** Microservices, Serverless, Event-Driven
-
-#### 🏢 Rainer Soft
-
-**Empresa de Desenvolvimento de Software**
-
-Especializada em soluções web modernas e arquiteturas escaláveis para empresas que buscam excelência técnica e inovação.
-
-**Serviços:**
-
-- 🚀 Desenvolvimento de aplicações web enterprise
-- 🏗️ Consultoria em arquitetura de software
-- 📊 Auditoria de código e performance
-- 🎓 Treinamentos técnicos especializados
-
----
-
-## 🆘 Suporte
-
-### 📞 Canais de Suporte
-
-| Canal                | Resposta | Uso                          |
-| -------------------- | -------- | ---------------------------- |
-| 📧 **Email**         | 24-48h   | Questões gerais e comerciais |
-| 💼 **LinkedIn**      | 12-24h   | Networking e oportunidades   |
-| 🐛 **GitHub Issues** | 1-7 dias | Bugs e melhorias             |
-| 🌐 **Website**       | 24h      | Contato comercial            |
-
-### 📋 Antes de Solicitar Suporte
-
-1. **Consulte a documentação** - [docs/](docs/)
-2. **Verifique issues existentes** - [GitHub Issues](issues)
-3. **Teste em ambiente limpo** - Clone fresh do repositório
-4. **Colete informações** - Versão, OS, browser, logs
-
-### 🐛 Reportando Problemas
-
-**Informações necessárias:**
-
-- **Versão:** Qual versão está usando?
-- **Ambiente:** OS, Node.js, browser
-- **Passos:** Como reproduzir o problema?
-- **Esperado vs Atual:** O que deveria vs o que acontece?
-- **Logs:** Console errors, stack traces
-- **Screenshots:** Se aplicável
-
-### 💡 Solicitando Features
-
-**Template sugerido:**
-
-- **Problema:** Que problema resolve?
-- **Solução:** Como deveria funcionar?
-- **Alternativas:** Outras opções consideradas?
-- **Contexto:** Informações adicionais
-
-### 🎓 Recursos de Aprendizado
-
-| Recurso                                                 | Descrição                     |
-| ------------------------------------------------------- | ----------------------------- |
-| [📚 Documentação](docs/)                                | Guias completos e referências |
-| [🧩 Components](docs/reference/COMPONENTS-REFERENCE.md) | Catálogo de componentes       |
-| [🪝 Hooks](docs/reference/API-REFERENCE.md)             | Hooks customizados            |
-| [🏗️ Arquitetura](docs/architecture/ARCHITECTURE.md)     | Decisões arquiteturais        |
-
----
-
-<div align="center">
-
-### 🌟 Se este projeto foi útil, considere dar uma ⭐
-
-**Desenvolvido com ❤️ por [Rainer Teixeira](https://rainersoft.com.br)**
-
----
-
-_"Código limpo não é escrito seguindo um conjunto de regras. Você não se torna um artesão de software aprendendo uma lista do que fazer e não fazer. Profissionalismo e artesanato vêm de valores que dirigem disciplinas."_ - **Robert C. Martin**
 
 </div>

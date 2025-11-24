@@ -59,28 +59,35 @@ Esta pasta contém toda a documentação relacionada a testes do projeto, inclui
     - Problemas identificados e soluções
     - Implementações realizadas
 
+11. **MEMORIA_CORRECOES_2025-11-19.md** ⭐ NOVO
+    - Memória completa das correções de performance e console
+    - Supressão de erros de conexão no console
+    - Otimizações do carousel e blog page
+    - Documentação técnica detalhada
+    - Veja também: `memoria-correcoes-2025-11-19.json`
+
 ### 📝 Funcionalidades
 
-11. **FUNCOES_IMPLEMENTADAS.md**
+12. **FUNCOES_IMPLEMENTADAS.md**
     - Documentação das funções implementadas no editor
     - Resumo completo de funcionalidades
     - Status de implementação
 
 ### 🧪 Testes E2E
 
-12. **Testes E2E com Playwright**
+13. **Testes E2E com Playwright**
     - Testes end-to-end automatizados
     - Monitoramento automático de console (F12)
     - Verificação de erros nas rotas principais
     - Veja `README_CONSOLE_MONITORING.md` para detalhes do sistema de monitoramento
 
-13. **DISCREPANCIAS_TESTES.md**
+14. **DISCREPANCIAS_TESTES.md**
     - Análise completa de discrepâncias nos testes E2E
     - Padrões inconsistentes encontrados
     - Recomendações de padronização
     - Plano de ação para migração
 
-14. **RESUMO_IMPLEMENTACAO_E2E.md**
+15. **RESUMO_IMPLEMENTACAO_E2E.md**
     - Resumo completo da implementação de testes E2E
     - Detalhes de todas as fases implementadas
     - Estatísticas e métricas
@@ -124,9 +131,9 @@ Para testes gerais:
 
 | Métrica | Valor |
 |---------|-------|
-| **Total de documentos** | 24 arquivos |
+| **Total de documentos** | 26 arquivos |
 | **Checklists** | 7 documentos |
-| **Relatórios** | 1 documento |
+| **Relatórios** | 2 documentos |
 | **Guias de funcionalidades** | 1 documento |
 | **Guias OAuth** | 2 documentos |
 | **Testes E2E** | 4 documentos |

@@ -29,7 +29,7 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@rainersoft/ui';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
@@ -98,7 +98,7 @@ export function CTASection() {
                 className={`inline-flex items-center gap-2 px-6 py-3 rounded-full ${isDark ? 'bg-linear-to-r from-green-400 via-emerald-400 to-green-500' : 'bg-linear-to-r from-green-500 via-emerald-500 to-green-600'} text-white font-bold text-sm mb-8 shadow-xl`}
               >
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                Aberto para Oportunidades
+                Disponível para Novos Projetos
               </motion.div>
 
               {/* Título principal */}
@@ -110,7 +110,7 @@ export function CTASection() {
                 className="text-4xl sm:text-5xl lg:text-7xl font-black mb-6 leading-tight"
               >
                 <span className="bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-                  Pronto para Entregar Resultados
+                  Desenvolvedor Full-Stack React e Next.js
                 </span>
               </motion.h2>
 
@@ -122,15 +122,15 @@ export function CTASection() {
                 transition={{ delay: 0.4 }}
                 className="text-lg sm:text-xl lg:text-2xl text-muted-foreground dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
               >
-                Busco oportunidades em{' '}
+                Transformo ideias em{' '}
                 <span className="font-bold text-foreground dark:text-cyan-200">
-                  desenvolvimento full-stack
+                  aplicações web profissionais
                 </span>{' '}
-                onde possa aplicar minhas habilidades técnicas e contribuir com{' '}
+                usando React, Next.js, TypeScript e Node.js. Se você precisa de um{' '}
                 <span className="font-bold text-foreground dark:text-purple-200">
-                  código de qualidade desde o primeiro dia
+                  desenvolvedor full-stack que entrega resultados
                 </span>
-                . Vamos conversar sobre como posso agregar valor ao seu time!
+                , vamos conversar sobre seu próximo projeto!
               </motion.p>
 
               {/* Botões CTA */}
@@ -177,21 +177,21 @@ export function CTASection() {
                 <div className="flex items-center gap-3 px-5 py-3 rounded-full bg-linear-to-r from-cyan-500/10 to-cyan-500/5 dark:from-cyan-400/20 dark:to-cyan-400/10 border border-cyan-400/30 shadow-lg">
                   <Zap className="h-5 w-5 text-cyan-600 dark:text-cyan-400" />
                   <span className="font-bold text-foreground dark:text-cyan-300">
-                    Stack Completa
+                    React + Next.js + Node.js
                   </span>
                 </div>
 
                 <div className="flex items-center gap-3 px-5 py-3 rounded-full bg-linear-to-r from-purple-500/10 to-purple-500/5 dark:from-purple-400/20 dark:to-purple-400/10 border border-purple-400/30 shadow-lg">
                   <Rocket className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                   <span className="font-bold text-foreground dark:text-purple-300">
-                    Projetos Comprovados
+                    Código no GitHub
                   </span>
                 </div>
 
                 <div className="flex items-center gap-3 px-5 py-3 rounded-full bg-linear-to-r from-pink-500/10 to-pink-500/5 dark:from-pink-400/20 dark:to-pink-400/10 border border-pink-400/30 shadow-lg">
                   <Sparkles className="h-5 w-5 text-pink-600 dark:text-pink-400" />
                   <span className="font-bold text-foreground dark:text-pink-300">
-                    Disponível Agora
+                    Início Imediato
                   </span>
                 </div>
               </motion.div>

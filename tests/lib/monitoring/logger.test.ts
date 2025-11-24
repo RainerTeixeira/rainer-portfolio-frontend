@@ -10,7 +10,7 @@ describe('lib/monitoring/logger', () => {
 
   beforeEach(() => {
     // Garantir que está em modo desenvolvimento para os logs funcionarem
-    process.env.NODE_ENV = 'development';
+    (process.env as any).NODE_ENV = 'development';
 
     global.console = {
       ...originalConsole,
@@ -23,7 +23,7 @@ describe('lib/monitoring/logger', () => {
   });
 
   afterEach(() => {
-    process.env.NODE_ENV = originalEnv;
+    (process.env as any).NODE_ENV = originalEnv;
     global.console = originalConsole;
     jest.clearAllMocks();
   });

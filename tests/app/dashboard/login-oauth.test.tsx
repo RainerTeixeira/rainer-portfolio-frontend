@@ -33,6 +33,7 @@ jest.mock('framer-motion', () => ({
     div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
     span: ({ children, ...props }: any) => <span {...props}>{children}</span>,
     svg: ({ children, ...props }: any) => <svg {...props}>{children}</svg>,
+    p: ({ children, ...props }: any) => <p {...props}>{children}</p>,
   },
 }));
 
@@ -44,8 +45,16 @@ jest.mock('sonner', () => ({
   },
 }));
 
-// Mock Design Tokens
-jest.mock('@rainer/rainer-design-tokens', () => ({
+// Mock Lucide Icons
+jest.mock('lucide-react', () => ({
+  Loader2: ({ className }: any) => <div className={className} data-testid="loader" />,
+  ChevronRight: ({ className }: any) => <div className={className} data-testid="chevron-right" />,
+  Eye: ({ className }: any) => <div className={className} data-testid="eye" />,
+  EyeOff: ({ className }: any) => <div className={className} data-testid="eye-off" />,
+}));
+
+// Mock Design Tokens (pacote atualizado)
+jest.mock('@rainersoft/design-tokens', () => ({
   ANIMATION_DURATION_MS: {
     FAST: 150,
     NORMAL: 300,
@@ -54,9 +63,69 @@ jest.mock('@rainer/rainer-design-tokens', () => ({
   TRANSITIONS: {
     ALL_EASE_IN_OUT: 'transition-all duration-300 ease-in-out',
     COLORS: 'transition-colors duration-200',
+    NORMAL: 'transition-all duration-300',
   },
   BORDER_RADIUS: {
     MD: 'rounded-md',
+  },
+  GRADIENTS: {
+    PRIMARY: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    SECONDARY: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    ACCENT: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    BG_HERO: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    BG_SECTION: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  },
+  SHADOWS: {
+    SMALL: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    MEDIUM: '0 4px 8px rgba(0, 0, 0, 0.15)',
+    LARGE: '0 8px 16px rgba(0, 0, 0, 0.2)',
+    XL: '0 12px 24px rgba(0, 0, 0, 0.25)',
+  },
+  GRADIENT_DIRECTIONS: {
+    TO_BOTTOM: 'to bottom',
+    TO_TOP: 'to top',
+    TO_RIGHT: 'to right',
+    TO_LEFT: 'to left',
+    TO_BR: 'to bottom right',
+    TO_BL: 'to bottom left',
+    TO_TR: 'to top right',
+    TO_TL: 'to top left',
+  },
+  BACKGROUND: {
+    GRADIENT_OVERLAY: 'bg-gradient-to-r from-background/95 to-background/50',
+    FULL: 'bg-background',
+    SECTION_CYAN: 'bg-cyan-900/10',
+    GRADIENT_RADIAL: 'bg-gradient-radial',
+  },
+  MOTION: {
+    TRANSITION: {
+      COLOR: 'transition-colors duration-200',
+      TRANSFORM: 'transition-transform duration-200',
+    },
+  },
+  lightThemeColors: {
+    primary: '#667eea',
+    secondary: '#764ba2',
+    background: '#ffffff',
+    foreground: '#000000',
+  },
+  darkThemeColors: {
+    primary: '#667eea',
+    secondary: '#764ba2',
+    background: '#000000',
+    foreground: '#ffffff',
+  },
+  COLOR_NEUTRAL: {
+    500: '#6b7280',
+  },
+  COLOR_BLUE: {
+    500: '#3b82f6',
+  },
+  COLOR_AMBER: {
+    500: '#f59e0b',
+  },
+  COLOR_RED: {
+    500: '#ef4444',
   },
 }));
 

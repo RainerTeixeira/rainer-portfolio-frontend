@@ -43,9 +43,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
+} from '@rainersoft/ui';
+import { ScrollArea } from '@rainersoft/ui';
+import { Separator } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
 import { Database, Eye, FileText, Lock, Shield, UserCheck } from 'lucide-react';
 

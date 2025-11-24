@@ -18,7 +18,34 @@ const nextConfig = {
    * - optimizePackageImports: Reduz o bundle transferindo apenas ícones realmente usados.
    */
   experimental: {
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+    optimizePackageImports: [
+      'lucide-react', 
+      '@radix-ui/react-icons',
+      '@radix-ui/react-accordion',
+      '@radix-ui/react-alert-dialog',
+      '@radix-ui/react-avatar',
+      '@radix-ui/react-checkbox',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-hover-card',
+      '@radix-ui/react-label',
+      '@radix-ui/react-navigation-menu',
+      '@radix-ui/react-popover',
+      '@radix-ui/react-progress',
+      '@radix-ui/react-radio-group',
+      '@radix-ui/react-scroll-area',
+      '@radix-ui/react-select',
+      '@radix-ui/react-separator',
+      '@radix-ui/react-slider',
+      '@radix-ui/react-slot',
+      '@radix-ui/react-switch',
+      '@radix-ui/react-tabs',
+      '@radix-ui/react-toast',
+      '@radix-ui/react-toggle',
+      '@radix-ui/react-tooltip',
+      'framer-motion',
+      '@tanstack/react-query'
+    ],
   },
 
   /**
@@ -64,6 +91,15 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+
+  /**
+   * Configurações de performance
+   */
+  reactStrictMode: false, // Desativa re-renderização dupla em dev (economiza recursos)
+  poweredByHeader: false, // Remove header X-Powered-By (segurança e tamanho)
+  compress: true, // Habilita compressão gzip
+  swcMinify: true, // Usa SWC para minificação (mais rápido)
+  productionBrowserSourceMaps: false, // Desabilita sourcemaps em produção
 
   /**
    * Headers HTTP para reforçar segurança e cache.

@@ -45,24 +45,24 @@ import {
 // UI Components
 // ============================================================================
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@rainersoft/ui';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Switch } from '@/components/ui/switch';
+} from '@rainersoft/ui';
+import { Label } from '@rainersoft/ui';
+import { Separator } from '@rainersoft/ui';
+import { Switch } from '@rainersoft/ui';
 
 // ============================================================================
 // Cookie Manager

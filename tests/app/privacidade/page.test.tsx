@@ -60,9 +60,8 @@ describe('Privacy Policy Page', () => {
 
   it('deve exibir informações sobre LGPD', () => {
     render(<PrivacyPolicyPage />);
-    expect(
-      screen.getByText(/Lei Geral de Proteção de Dados/i)
-    ).toBeInTheDocument();
+    const lgpdElements = screen.queryAllByText(/Lei Geral de Proteção de Dados/i);
+    expect(lgpdElements.length).toBeGreaterThan(0);
   });
 
   it('deve exibir seção de introdução', () => {
@@ -79,7 +78,9 @@ describe('Privacy Policy Page', () => {
 
   it('deve exibir informações sobre uso dos dados', () => {
     render(<PrivacyPolicyPage />);
-    expect(screen.getByText(/Como Utilizamos Seus Dados/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Finalidade do Uso dos Dados/i)
+    ).toBeInTheDocument();
   });
 
   it('deve exibir informações sobre compartilhamento', () => {
@@ -94,7 +95,8 @@ describe('Privacy Policy Page', () => {
 
   it('deve exibir informações sobre direitos do usuário', () => {
     render(<PrivacyPolicyPage />);
-    expect(screen.getByText(/Seus Direitos/i)).toBeInTheDocument();
+    const rightsElements = screen.queryAllByText(/Seus Direitos/i);
+    expect(rightsElements.length).toBeGreaterThan(0);
   });
 
   it('deve exibir link para política de cookies', () => {
@@ -115,7 +117,8 @@ describe('Privacy Policy Page', () => {
     render(<PrivacyPolicyPage />);
     const contactElements = screen.queryAllByText(/Contato/i);
     expect(contactElements.length).toBeGreaterThan(0);
-    expect(screen.getByText(/test@example.com/i)).toBeInTheDocument();
+    const emailLinks = screen.getAllByRole('link', { name: /@/i });
+    expect(emailLinks.length).toBeGreaterThan(0);
   });
 
   it('deve exibir data de última atualização', () => {

@@ -43,15 +43,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+} from '@rainersoft/ui';
+import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@rainersoft/ui';
 import type { Comment } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';

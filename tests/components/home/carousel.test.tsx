@@ -5,7 +5,7 @@
 // Mock do CSS primeiro
 jest.mock('@/app/globals.css', () => ({}));
 
-import { Carousel } from '@/components/home/carousel';
+import Carousel from '@/components/home/carousel';
 import { render } from '@testing-library/react';
 
 // Mock do next/image

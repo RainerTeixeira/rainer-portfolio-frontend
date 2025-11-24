@@ -29,9 +29,9 @@
 
 import { AuthLayout } from '@/components/dashboard/login';
 import { BackToTop } from '@/components/ui';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
 import { authService } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';

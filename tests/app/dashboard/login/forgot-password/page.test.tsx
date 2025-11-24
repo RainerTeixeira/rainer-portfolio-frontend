@@ -10,9 +10,12 @@ import { render, screen } from '@testing-library/react';
 
 // Mock dos componentes
 jest.mock('@/components/dashboard/login', () => ({
-  AuthLayout: ({ children, title, footer }: any) => (
+  AuthLayout: ({ children, title, description, footer }: any) => (
     <div data-testid="auth-layout">
       <h1>{title}</h1>
+      {description && (
+        <p data-testid="auth-description">{description}</p>
+      )}
       {children}
       {footer}
     </div>
@@ -51,8 +54,8 @@ jest.mock('@/constants', () => ({
 describe('Forgot Password Page', () => {
   it('deve renderizar a página de recuperação de senha', () => {
     render(<ForgotPasswordPage />);
-    const elements = screen.queryAllByText(/RainerSoft/i);
-    expect(elements.length).toBeGreaterThan(0);
+    // Garante que o layout de autenticação foi renderizado
+    expect(screen.getByTestId('auth-layout')).toBeInTheDocument();
   });
 
   it('deve exibir o componente ForgotPasswordForm', () => {
@@ -62,13 +65,10 @@ describe('Forgot Password Page', () => {
 
   it('deve exibir link para home', () => {
     render(<ForgotPasswordPage />);
-    const homeLinks = screen.queryAllByText(/RainerSoft/i);
-    const homeLink = homeLinks.find(link => link.closest('a'));
-    if (homeLink) {
-      expect(homeLink.closest('a')).toHaveAttribute('href', '/');
-    } else {
-      expect(homeLinks.length).toBeGreaterThan(0);
-    }
+    const loginLinks = screen.getAllByRole('link', {
+      name: /Voltar para login/i,
+    });
+    expect(loginLinks[0]).toHaveAttribute('href', '/dashboard/login');
   });
 
   it('deve renderizar componentes de UI corretamente', () => {

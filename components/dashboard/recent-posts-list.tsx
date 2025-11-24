@@ -32,9 +32,9 @@
 
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { postsService } from '@/lib/api/services';
 import type { Post } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
