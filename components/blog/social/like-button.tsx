@@ -31,7 +31,7 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';

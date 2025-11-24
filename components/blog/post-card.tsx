@@ -43,14 +43,14 @@
 // IMPORTS
 // ============================================================================
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@rainersoft/ui';
 import { CARD_CLASSES, cn } from '@/lib/utils';
 import { getDarkColors, getLightColors } from '@/lib/utils/tokens';
 import { motion } from 'framer-motion';

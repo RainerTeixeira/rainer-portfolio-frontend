@@ -21,8 +21,8 @@ const isCI = Boolean(
 );
 
 export default defineConfig({
-  // Diretório de testes
-  testDir: './tests/e2e/rainer-design-tokens',
+  // Diretório de testes (inclui todos os testes em ./tests, incluindo login.spec.ts)
+  testDir: './tests',
 
   // Executar testes em paralelo
   fullyParallel: true,
@@ -87,6 +87,7 @@ export default defineConfig({
     command: 'pnpm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !isCI,
-    timeout: 120 * 1000,
+    // Aumentado para permitir builds mais pesados antes dos testes
+    timeout: 300 * 1000,
   },
 });

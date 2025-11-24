@@ -29,7 +29,7 @@
 
 'use client';
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 

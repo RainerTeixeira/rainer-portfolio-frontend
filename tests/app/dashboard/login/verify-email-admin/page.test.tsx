@@ -9,8 +9,7 @@ jest.mock('@/app/globals.css', () => ({}));
 process.env.NEXT_PUBLIC_API_URL = 'http://localhost:4000';
 
 import VerifyEmailAdminPage from '@/app/dashboard/login/verify-email-admin/page';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 
 // Mock do useRouter
 const mockPush = jest.fn();
@@ -20,7 +19,7 @@ jest.mock('next/navigation', () => ({
   }),
 }));
 
-// Mock do authService
+// Mock do authService (módulo correto usado pela página)
 const mockVerifyEmailAdmin = jest.fn().mockResolvedValue({
   success: true,
   data: {
@@ -29,11 +28,9 @@ const mockVerifyEmailAdmin = jest.fn().mockResolvedValue({
   },
 });
 
-jest.mock('@/lib/api/services/auth.service', () => ({
+jest.mock('@/lib/api', () => ({
   authService: {
-    get verifyEmailAdmin() {
-      return mockVerifyEmailAdmin;
-    },
+    verifyEmailAdmin: (...args: unknown[]) => mockVerifyEmailAdmin(...args),
   },
 }));
 
@@ -49,7 +46,25 @@ jest.mock('sonner', () => ({
   },
 }));
 
+// Mock de animações e ícones para evitar dependências complexas
+jest.mock('framer-motion', () => ({
+  motion: {
+    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  },
+}));
+
+jest.mock('lucide-react', () => ({
+  AlertCircle: (props: any) => <div {...props} data-testid="alert-icon" />,
+  ArrowLeft: (props: any) => <div {...props} data-testid="arrow-icon" />,
+  CheckCircle2: (props: any) => <div {...props} data-testid="check-icon" />,
+  Loader2: (props: any) => <div {...props} data-testid="loader-icon" />,
+  Mail: (props: any) => <div {...props} data-testid="mail-icon" />,
+  Shield: (props: any) => <div {...props} data-testid="shield-icon" />,
+}));
+
 describe('Verify Email Admin Page', () => {
+  jest.setTimeout(15000);
+
   beforeEach(() => {
     jest.clearAllMocks();
     mockVerifyEmailAdmin.mockResolvedValue({
@@ -90,19 +105,17 @@ describe('Verify Email Admin Page', () => {
   });
 
   it('deve validar campo obrigatório', async () => {
-    const user = userEvent.setup();
     render(<VerifyEmailAdminPage />);
 
     const submitButton = screen.getByText(
       /Verificar E-mail Administrativamente/i
     );
-    await user.click(submitButton);
+    fireEvent.click(submitButton);
 
     expect(mockVerifyEmailAdmin).not.toHaveBeenCalled();
   });
 
   it('deve chamar verifyEmailAdmin quando formulário é submetido', async () => {
-    const user = userEvent.setup();
     render(<VerifyEmailAdminPage />);
 
     const identifierInput = screen.getByPlaceholderText(
@@ -116,8 +129,10 @@ describe('Verify Email Admin Page', () => {
         btn => btn.tagName === 'BUTTON' || btn.closest('button')
       ) || submitButtons[0];
 
-    await user.type(identifierInput, 'test@example.com');
-    await user.click(submitButton);
+    fireEvent.change(identifierInput, {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.click(submitButton);
 
     await waitFor(
       () => {
@@ -128,19 +143,23 @@ describe('Verify Email Admin Page', () => {
   });
 
   it('deve exibir mensagem de sucesso após verificação', async () => {
-    jest.setTimeout(10000);
-    const user = userEvent.setup();
     render(<VerifyEmailAdminPage />);
 
     const identifierInput = screen.getByPlaceholderText(
       /email@example.com, username ou cognitoSub/i
     );
-    const submitButton = screen.getByText(
+    const submitButtons = screen.getAllByText(
       /Verificar E-mail Administrativamente/i
     );
+    const submitButton =
+      submitButtons.find(
+        btn => btn.tagName === 'BUTTON' || btn.closest('button')
+      ) || submitButtons[0];
 
-    await user.type(identifierInput, 'test@example.com');
-    await user.click(submitButton);
+    fireEvent.change(identifierInput, {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(
@@ -152,8 +171,6 @@ describe('Verify Email Admin Page', () => {
   });
 
   it('deve redirecionar para login após verificação bem-sucedida', async () => {
-    jest.setTimeout(10000);
-    const user = userEvent.setup();
     render(<VerifyEmailAdminPage />);
 
     const identifierInput = screen.getByPlaceholderText(
@@ -163,20 +180,20 @@ describe('Verify Email Admin Page', () => {
       /Verificar E-mail Administrativamente/i
     );
 
-    await user.type(identifierInput, 'test@example.com');
-    await user.click(submitButton);
+    fireEvent.change(identifierInput, {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.click(submitButton);
 
     await waitFor(
       () => {
         expect(mockPush).toHaveBeenCalledWith('/dashboard/login');
       },
-      { timeout: 4000 }
+      { timeout: 5000 }
     );
   });
 
   it('deve exibir erro quando verificação falha', async () => {
-    jest.setTimeout(10000);
-    const user = userEvent.setup();
     mockVerifyEmailAdmin.mockResolvedValue({
       success: false,
       message: 'Usuário não encontrado',
@@ -191,17 +208,19 @@ describe('Verify Email Admin Page', () => {
       /Verificar E-mail Administrativamente/i
     );
 
-    await user.type(identifierInput, 'invalid@example.com');
-    await user.click(submitButton);
+    fireEvent.change(identifierInput, {
+      target: { value: 'invalid@example.com' },
+    });
+    fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/Erro ao verificar e-mail/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Usuário não encontrado/i)
+      ).toBeInTheDocument();
     });
   });
 
   it('deve exibir erro quando ocorre exceção', async () => {
-    jest.setTimeout(10000);
-    const user = userEvent.setup();
     mockVerifyEmailAdmin.mockRejectedValue(new Error('Network error'));
 
     render(<VerifyEmailAdminPage />);
@@ -213,12 +232,14 @@ describe('Verify Email Admin Page', () => {
       /Verificar E-mail Administrativamente/i
     );
 
-    await user.type(identifierInput, 'test@example.com');
-    await user.click(submitButton);
+    fireEvent.change(identifierInput, {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(
-        screen.getByText(/Erro ao verificar e-mail administrativamente/i)
+        screen.getByText(/Network error/i)
       ).toBeInTheDocument();
     });
   });

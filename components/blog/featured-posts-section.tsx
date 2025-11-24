@@ -13,7 +13,7 @@
 
 'use client';
 
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@rainersoft/ui';
 import type { Post } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
 import { Star } from 'lucide-react';

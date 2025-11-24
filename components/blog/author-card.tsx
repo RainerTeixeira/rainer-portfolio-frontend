@@ -39,9 +39,9 @@
 // IMPORTS
 // ============================================================================
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
+import { Card, CardContent } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
 import { cn } from '@/lib/utils';
 import { GithubIcon, Globe, Linkedin, Twitter } from 'lucide-react';

@@ -46,19 +46,20 @@ import {
 } from 'lucide-react';
 
 import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Badge } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
+import { Card, CardContent, CardTitle } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { BACKGROUND, GRADIENTS, GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
-import { SKILLS } from '@/components/icons/skills/skills-with-icons';
+import { SKILLS } from '@/components/skills/skills-with-icons';
 import {
   EXPERIENCE,
   PROFESSIONAL_METRICS,
-  SITE_CONFIG,
   TECH_BY_LAYER,
 } from '@/constants';
+import { DESENVOLVEDOR } from '@/constants/comum/desenvolvedor';
+import { REDES_SOCIAIS, CONTATO } from '@/constants/comum/social';
 
 import { CTACard } from '@/components/sobre/cta-card';
 import { ExperienceCard } from '@/components/sobre/experience-card';
@@ -414,10 +415,10 @@ export default function AboutPage() {
               <div className="flex items-center gap-2">
                 <Mail className="h-3.5 w-3.5" />
                 <a
-                  href={`mailto:${SITE_CONFIG.contact.email.address}`}
+                  href={`mailto:${DESENVOLVEDOR.email}`}
                   className="hover:text-primary transition-colors"
                 >
-                  {SITE_CONFIG.contact.email.address}
+                  {DESENVOLVEDOR.email}
                 </a>
               </div>
               <div className="flex items-center gap-2">
@@ -435,14 +436,11 @@ export default function AboutPage() {
                   />
                 </svg>
                 <a
-                  href={`tel:${SITE_CONFIG.contact.phone.number.replace(/\s/g, '')}`}
+                  href="#"
                   className="hover:text-primary transition-colors"
                 >
-                  {SITE_CONFIG.contact.phone.number}
+                  Entre em contato
                 </a>
-                {SITE_CONFIG.contact.phone.whatsapp && (
-                  <span className="text-green-500">• WhatsApp</span>
-                )}
               </div>
               <div className="flex items-center gap-2">
                 <svg
@@ -465,8 +463,7 @@ export default function AboutPage() {
                   />
                 </svg>
                 <span>
-                  {SITE_CONFIG.contact.location.city},{' '}
-                  {SITE_CONFIG.contact.location.country}
+                  {DESENVOLVEDOR.localizacao}
                 </span>
               </div>
               <div className="flex items-center gap-2 pt-1">
@@ -484,8 +481,8 @@ export default function AboutPage() {
                   />
                 </svg>
                 <span>
-                  {SITE_CONFIG.contact.workingHours.days} -{' '}
-                  {SITE_CONFIG.contact.workingHours.hours}
+                  {CONTATO.horarioAtendimento.dias} -{' '}
+                  {CONTATO.horarioAtendimento.horario}
                 </span>
               </div>
             </div>
@@ -508,7 +505,7 @@ export default function AboutPage() {
                   )}
                 >
                   <a
-                    href={SITE_CONFIG.github}
+                    href={REDES_SOCIAIS.github}
                     target="_blank"
                     rel="noopener noreferrer"
                     title="GitHub"
@@ -526,7 +523,7 @@ export default function AboutPage() {
                   )}
                 >
                   <a
-                    href={SITE_CONFIG.linkedin}
+                    href={REDES_SOCIAIS.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     title="LinkedIn"
@@ -544,7 +541,7 @@ export default function AboutPage() {
                   )}
                 >
                   <a
-                    href={SITE_CONFIG.url}
+                    href="/"
                     target="_blank"
                     rel="noopener noreferrer"
                     title="Website"

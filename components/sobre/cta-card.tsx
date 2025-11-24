@@ -19,7 +19,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import * as React from 'react';
 

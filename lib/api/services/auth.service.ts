@@ -608,13 +608,26 @@ export class AuthService {
           (errorData?.error as string) ||
           error.message;
 
-        // Construir mensagem mais informativa
+        // Caso específico: fluxo USER_PASSWORD_AUTH não habilitado no Cognito
+        const isUserPasswordFlowDisabled =
+          typeof serverMessage === 'string' &&
+          serverMessage.includes(
+            'USER_PASSWORD_AUTH flow not enabled for this client'
+          );
+
+        // Construir mensagem amigável para o usuário final
         let errorMessage = 'Erro interno do servidor ao realizar login';
-        if (serverMessage && serverMessage !== 'Internal Server Error') {
+
+        if (isUserPasswordFlowDisabled) {
+          errorMessage =
+            'Login com email e senha está temporariamente indisponível por uma configuração interna do serviço de autenticação. ' +
+            'Você pode tentar novamente mais tarde ou utilizar outra forma de login (como Google ou GitHub), se disponível.';
+        } else if (serverMessage && serverMessage !== 'Internal Server Error') {
+          // Para outros erros 500, reaproveita a mensagem do backend quando for mais específica
           errorMessage = serverMessage;
         } else {
           errorMessage =
-            'Erro interno do servidor (500). O backend retornou um erro.';
+            'Erro interno do servidor (500). O backend retornou um erro ao tentar realizar o login.';
         }
 
         const enhancedError = new ApiError(
@@ -626,13 +639,21 @@ export class AuthService {
           error.endpoint
         ) as ApiErrorWithSuggestions;
 
-        enhancedError.suggestions = [
-          'O servidor está enfrentando problemas temporários',
-          'Verifique se o backend está rodando corretamente em http://localhost:4000',
-          'Verifique os logs do servidor backend para mais detalhes',
-          'Tente novamente em alguns instantes',
-          'Se o problema persistir, entre em contato com o suporte técnico',
-        ];
+        // Suggestions mais úteis para o usuário final, com caso específico do Cognito
+        enhancedError.suggestions = isUserPasswordFlowDisabled
+          ? [
+              'Este é um problema temporário de configuração do serviço de autenticação (Cognito).',
+              'Tente novamente em alguns minutos.',
+              'Se disponível, use uma forma alternativa de login (por exemplo, Google ou GitHub).',
+              'Se o problema persistir, entre em contato com o suporte técnico.',
+            ]
+          : [
+              'O servidor está enfrentando problemas temporários.',
+              'Verifique se o backend está rodando corretamente em http://localhost:4000.',
+              'Verifique os logs do servidor backend para mais detalhes.',
+              'Tente novamente em alguns instantes.',
+              'Se o problema persistir, entre em contato com o suporte técnico.',
+            ];
 
         logApiError(enhancedError, this.context, {
           operation: 'login',

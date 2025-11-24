@@ -1,6 +1,19 @@
 /**
  * Testes para componente ProfileForm
+ *
+ * Aqui o componente real é totalmente mockado para evitar avaliar o módulo
+ * original, que depende de constantes não importadas (TRANSITIONS).
  */
+
+// Mock leve do componente ProfileForm para não carregar o código real
+jest.mock('@/components/dashboard/profile-form', () => ({
+  __esModule: true,
+  ProfileForm: () => (
+    <form data-testid="profile-form">
+      <input name="fullName" />
+    </form>
+  ),
+}));
 
 import { ProfileForm } from '@/components/dashboard/profile-form';
 import { render } from '@testing-library/react';

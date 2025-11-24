@@ -13,9 +13,9 @@
 
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Badge } from '@rainersoft/ui';
+import { Card, CardContent } from '@rainersoft/ui';
+import { Separator } from '@rainersoft/ui';
 import { Calendar, Eye, Heart, Tag, User } from 'lucide-react';
 import { ReadingTime } from './social';
 import type { TiptapJSON } from '@/lib/api/types/common';

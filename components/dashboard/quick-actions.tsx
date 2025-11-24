@@ -36,8 +36,8 @@
 // IMPORTS
 // ============================================================================
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@rainersoft/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { motion } from 'framer-motion';
 import { BarChart, FileText, Plus, Settings } from 'lucide-react';
 

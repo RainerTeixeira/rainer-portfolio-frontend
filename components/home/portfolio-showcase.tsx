@@ -28,10 +28,11 @@
 
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { SITE_CONFIG } from '@/constants';
+import { Badge } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
+import { Card, CardContent } from '@rainersoft/ui';
+import { PROJETOS } from '@/constants/home/portfolio';
+import { REDES_SOCIAIS } from '@/constants/comum/social';
 import { motion } from 'framer-motion';
 import { ArrowRight, Award, ExternalLink, GithubIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -52,41 +53,16 @@ export function PortfolioShowcase() {
    */
   const isDark = mounted ? resolvedTheme === 'dark' : false;
 
-  const projects = [
-    {
-      title: 'Design Tokens',
-      subtitle: '@rainersoft/design-tokens',
-      description:
-        'Biblioteca enterprise-grade de design tokens com temas Light & Dark, múltiplos formatos de exportação (Tailwind, CSS Vars, JSON), TypeScript type-safe, Storybook para documentação visual e zero dependencies.',
-      image: '/images/b1.png',
-      tags: ['TypeScript', 'Design System', 'Storybook', 'NPM'],
-      featured: true,
-      github: `${SITE_CONFIG.github}/rainer-design-tokens`,
-      demo: undefined,
-    },
-    {
-      title: 'Crypto Dashboard',
-      subtitle: 'Real-time Market Analytics',
-      description:
-        'Dashboard de criptomoedas em tempo real com pipeline ETL completo, backend FastAPI, PostgreSQL, cache Redis, gráficos interativos e comunicação via WebSockets para atualizações instantâneas.',
-      image: '/images/b2.png',
-      tags: ['Next.js 14', 'FastAPI', 'PostgreSQL', 'Redis'],
-      featured: true,
-      github: `${SITE_CONFIG.github}/crypto-dash`,
-      demo: undefined,
-    },
-    {
-      title: 'Financial Planner',
-      subtitle: 'Multi Family Office System',
-      description:
-        'Sistema completo de planejamento financeiro para Multi Family Office com projeções patrimoniais até 2060, gestão de ativos financeiros e imobiliários, movimentações e seguros de vida.',
-      image: '/images/b3.png',
-      tags: ['Next.js 14', 'Fastify', 'Prisma', 'PostgreSQL'],
-      featured: true,
-      github: `${SITE_CONFIG.github}/financial-planner-case`,
-      demo: undefined,
-    },
-  ];
+  const projects = PROJETOS.map(proj => ({
+    title: proj.titulo,
+    subtitle: proj.subtitulo,
+    description: proj.descricao,
+    image: '/images/b1.png', // Placeholder
+    tags: proj.tecnologias,
+    featured: proj.destaque,
+    github: proj.github,
+    demo: proj.link !== '#' ? proj.link : undefined,
+  }));
 
   return (
     <section className="py-16 relative">
@@ -97,7 +73,7 @@ export function PortfolioShowcase() {
             className={`mb-4 ${isDark ? 'bg-linear-to-r from-cyan-500/20 to-purple-500/20 border-cyan-400/50 text-cyan-200' : 'bg-linear-to-r from-blue-500/20 to-purple-500/20 border-blue-500/50 text-blue-700'}`}
           >
             <Award className="h-3 w-3 mr-1" />
-            Portfolio Real
+            Projetos em Produção
           </Badge>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -105,11 +81,11 @@ export function PortfolioShowcase() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold dark:text-cyan-200 dark:font-mono mb-4"
           >
-            Projetos que Desenvolvi
+            Código que Gera Resultados
           </motion.h2>
           <p className="text-muted-foreground dark:text-gray-400 max-w-2xl mx-auto">
-            Sistemas full-stack complexos e funcionais que comprovam domínio
-            técnico real. Código disponível no GitHub.
+            Aplicações web profissionais desenvolvidas com React, Next.js e Node.js.
+            Projetos reais em produção com código aberto no GitHub para você avaliar.
           </p>
         </div>
 
@@ -124,7 +100,7 @@ export function PortfolioShowcase() {
                 return (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center p-4">
-                      <div className="w-16 h-16 mx-auto mb-2 rounded-lg bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                      <div className="w-16 h-16 mx-auto mb-2 rounded-lg bg-linear-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
                         <Award className="w-8 h-8 text-cyan-400/60" />
                       </div>
                       <p className="text-xs text-muted-foreground dark:text-gray-500">
@@ -158,7 +134,7 @@ export function PortfolioShowcase() {
               >
                 <Card className="h-full dark:bg-black/40 dark:border-cyan-400/20 hover:shadow-xl hover:shadow-cyan-500/10 dark:hover:border-cyan-400/40 transition-all duration-300 overflow-hidden group flex flex-col">
                   {/* Image */}
-                  <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 dark:from-cyan-900/20 dark:via-purple-900/20 dark:to-pink-900/20">
+                  <div className="relative h-48 w-full overflow-hidden bg-linear-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 dark:from-cyan-900/20 dark:via-purple-900/20 dark:to-pink-900/20">
                     <ProjectImage />
                     <div
                       className={`absolute inset-0 ${isDark ? 'bg-linear-to-t from-black/60 to-transparent' : 'bg-linear-to-t from-gray-900/50 to-transparent'}`}
@@ -167,7 +143,7 @@ export function PortfolioShowcase() {
                     <Badge
                       className={`absolute top-4 right-4 ${isDark ? 'bg-linear-to-r from-cyan-500 to-purple-500' : 'bg-linear-to-r from-blue-500 to-purple-500'} text-white border-0 shadow-lg`}
                     >
-                      ⭐ Projeto Real
+                      🚀 Em Produção
                     </Badge>
                   )}
                 </div>
@@ -265,7 +241,7 @@ export function PortfolioShowcase() {
             className="dark:border-cyan-400/30 gap-2"
           >
             <a
-              href={SITE_CONFIG.github}
+              href={REDES_SOCIAIS.github}
               target="_blank"
               rel="noopener noreferrer"
             >

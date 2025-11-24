@@ -154,7 +154,9 @@ describe('authService', () => {
           { email: 'test@example.com', code: '123456', session: undefined },
           { timeout: 30000 }
         );
-        expect(result.user.email).toBe('test@example.com');
+        // Cast para any apenas no teste para evitar erro de tipo quando o modelo User
+        // ainda não expõe explicitamente a propriedade email nas definições de tipos.
+        expect((result.user as any).email).toBe('test@example.com');
         expect(result.tokens.accessToken).toBe('access-token-123');
         expect(localStorageMock.getItem('accessToken')).toBe(
           'access-token-123'

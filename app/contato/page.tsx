@@ -33,18 +33,19 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
+} from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+} from '@rainersoft/ui';
+import { Separator } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import type { ContactInfoCardConfig, FAQItem } from '@/constants';
-import { CONTACT_INFO_CARDS, FAQ_ITEMS, SITE_CONFIG } from '@/constants';
+import { CONTACT_INFO_CARDS, FAQ_ITEMS } from '@/constants';
+import { CONTATO } from '@/constants/comum/social';
 
 /**
  * ContactPage Component
@@ -81,7 +82,7 @@ export default function ContactPage() {
       {/* Cabeçalho da página com título, descrição e ícone decorativo */}
       <PageHeader
         title="Vamos Transformar Sua Ideia em Realidade"
-        description={`Estou disponível para novos projetos e oportunidades de colaboração. Se você precisa de um desenvolvedor Full-Stack comprometido com qualidade, código limpo e resultados que funcionam, vamos conversar! Desenvolvo aplicações web completas, dashboards interativos, sistemas de autenticação, APIs RESTful e integrações personalizadas. ${SITE_CONFIG.contact.email.responseTime} para todos os contatos, com atenção e interesse genuíno em entender como posso ajudar a concretizar seu projeto.`}
+        description={`Estou disponível para novos projetos e oportunidades de colaboração. Se você precisa de um desenvolvedor Full-Stack comprometido com qualidade, código limpo e resultados que funcionam, vamos conversar! Desenvolvo aplicações web completas, dashboards interativos, sistemas de autenticação, APIs RESTful e integrações personalizadas. Respondo em ${CONTATO.tempoResposta.email} para todos os contatos, com atenção e interesse genuíno em entender como posso ajudar a concretizar seu projeto.`}
       >
         {/* Ícone decorativo com gradiente animado */}
         <div className="relative w-24 h-24 mx-auto mb-4">
@@ -134,21 +135,27 @@ export default function ContactPage() {
         </div>
         {/* Grid responsivo de cards de informações de contato */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {CONTACT_INFO_CARDS.map((card: ContactInfoCardConfig) => (
-            <ContactInfoCard
-              key={card.title}
-              icon={card.icon}
-              title={card.title}
-              primary={card.content.primary}
-              secondary={card.content.secondary}
-              href={card.href}
-              iconColor={card.iconColor}
-              borderColor={card.borderColor}
-              hoverBorder={card.hoverBorder}
-              textColor={card.textColor}
-              hoverText={card.hoverText}
-            />
-          ))}
+          {CONTACT_INFO_CARDS.map((card: ContactInfoCardConfig) => {
+            const content = typeof card.content === 'string' 
+              ? { primary: card.content, secondary: undefined }
+              : card.content;
+              
+            return (
+              <ContactInfoCard
+                key={card.title}
+                icon={card.icon}
+                title={card.title}
+                primary={content.primary}
+                secondary={content.secondary}
+                href={card.href || undefined}
+                iconColor="text-cyan-400"
+                borderColor="dark:border-cyan-400/20"
+                hoverBorder={card.borderHover}
+                textColor="dark:text-cyan-200"
+                hoverText="dark:hover:text-cyan-300"
+              />
+            );
+          })}
         </div>
       </section>
 
@@ -186,7 +193,7 @@ export default function ContactPage() {
             {/* Accordion com perguntas e respostas */}
             {/* Permite expandir/colapsar cada item individualmente */}
             <Accordion type="single" collapsible className="w-full space-y-2">
-              {FAQ_ITEMS.map((item: FAQItem, index) => (
+              {FAQ_ITEMS.map((item: FAQItem, index: number) => (
                 <React.Fragment key={item.value}>
                   <AccordionItem
                     value={item.value}

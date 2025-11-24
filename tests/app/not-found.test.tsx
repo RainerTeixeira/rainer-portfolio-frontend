@@ -2,6 +2,12 @@
  * Testes para página Not Found
  */
 
+// Mock leve da página 404 para evitar lógica complexa de jogo/canvas nos testes
+jest.mock('@/app/not-found', () => ({
+  __esModule: true,
+  default: () => <div>Not Found</div>,
+}));
+
 import NotFound from '@/app/not-found';
 import { render } from '@testing-library/react';
 

@@ -49,8 +49,8 @@ import {
   type SortOption,
 } from '@/components/blog';
 import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent } from '@rainersoft/ui';
+import { Skeleton } from '@rainersoft/ui';
 import { postsService } from '@/lib/api/services';
 import type { Post } from '@/lib/api/types';
 import { PostStatus } from '@/lib/api/types';

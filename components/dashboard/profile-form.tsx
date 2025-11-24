@@ -29,22 +29,22 @@
 'use client';
 
 import { useAuthContext } from '@/components/providers/auth-context-provider';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
+import { Label } from '@rainersoft/ui';
+import { Separator } from '@rainersoft/ui';
+import { Textarea } from '@rainersoft/ui';
 import { cloudinaryService } from '@/lib/api';
 import { cn } from '@/lib/utils';
-import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
+import { GRADIENT_DIRECTIONS, MOTION } from '@rainersoft/design-tokens';
 import {
   Camera,
   CheckCircle2,
@@ -109,7 +109,7 @@ const FORM_STYLES = {
     'border-border/50 dark:border-cyan-400/20',
     'focus:border-primary/50 dark:focus:border-cyan-400/50',
     'focus:ring-2 focus:ring-primary/20 dark:focus:ring-cyan-400/20',
-    TRANSITIONS.NORMAL,
+    MOTION.TRANSITION.DEFAULT,
     'hover:border-primary/30 dark:hover:border-cyan-400/30'
   ),
 
@@ -120,7 +120,7 @@ const FORM_STYLES = {
     'text-foreground dark:text-cyan-300',
     'hover:bg-background dark:hover:bg-black/50',
     'hover:border-primary/40 dark:hover:border-cyan-400/40',
-    TRANSITIONS.NORMAL
+    MOTION.TRANSITION.DEFAULT
   ),
 } as const;
 
@@ -249,12 +249,12 @@ export function ProfileForm() {
                   'absolute inset-0 flex items-center justify-center',
                   'bg-black/60 dark:bg-black/80 rounded-full',
                   'opacity-0 group-hover:opacity-100',
-                  'transition-opacity {ANIMATION_DURATION.NORMAL} cursor-pointer',
+                  'transition-opacity duration-300 cursor-pointer',
                   'backdrop-blur-sm'
                 )}
               >
                 {uploadingAvatar ? (
-                  <div className="w-6 h-6 xs:w-8 xs:h-8 animate-spin {BORDER_RADIUS.FULL} border-2 border-white border-t-transparent" />
+                  <div className="w-6 h-6 xs:w-8 xs:h-8 animate-spin rounded-full border-2 border-white border-t-transparent" />
                 ) : (
                   <Camera className="w-6 h-6 xs:w-8 xs:h-8 text-white" />
                 )}
@@ -264,7 +264,7 @@ export function ProfileForm() {
                 accept="image/*"
                 onChange={handleAvatarChange}
                 disabled={uploadingAvatar}
-                className="absolute inset-0 {OPACITY.NONE} cursor-pointer disabled:cursor-not-allowed {BORDER_RADIUS.FULL}"
+                className="absolute inset-0 opacity-0 cursor-pointer disabled:cursor-not-allowed rounded-full"
                 aria-label="Alterar foto de perfil"
               />
             </div>
@@ -474,7 +474,7 @@ export function ProfileForm() {
               >
                 {loading ? (
                   <>
-                    <div className="mr-2 h-4 w-4 animate-spin {BORDER_RADIUS.FULL} border-2 border-current border-t-transparent" />
+                    <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                     Salvando...
                   </>
                 ) : (

@@ -36,11 +36,18 @@ import {
   GRADIENTS,
   GRADIENT_DIRECTIONS,
   tokens,
+  motionTokens,
+  breakpointTokens,
+  zIndexTokens,
+  MOTION,
+  Z_INDEX,
+  RESPONSIVE,
 } from '@rainersoft/design-tokens';
-import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
+import { AnimatePresence, motion } from 'framer-motion';
+import { memo, useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { CONTEUDO_HERO, ESTILOS_HERO, CTA_HERO } from '@/constants/home/hero';
 import dynamic from 'next/dynamic';
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useTheme } from 'next-themes';
 // HeroLoadingState removido - não é mais necessário
 import { useCarouselKeyboard } from './hooks';
 
@@ -67,44 +74,13 @@ const Carousel = dynamic(
 /**
  * Textos principais exibidos no hero
  */
-const HERO_TITLES = [
-  'TRANSFORME SUA VISÃO EM REALIDADE DIGITAL',
-  'DESENVOLVIMENTO QUE ACELERA SEU NEGÓCIO',
-  'APLICAÇÕES QUE IMPRESSIONAM E CONVERTEM',
-  'CÓDIGO PREMIUM, RESULTADOS MENSURÁVEIS',
-  'PERFORMANCE QUE SUPERA EXPECTATIVAS',
-  'EXPERIÊNCIAS QUE SEUS CLIENTES AMAM',
-  'TECNOLOGIA ESTRATÉGICA PARA CRESCER',
-  'INOVAÇÃO QUE DIFERENCIA SUA MARCA',
-  'DA ESTRATÉGIA AO SUCESSO EM PRODUÇÃO',
-  'EXPERTISE REACT, NEXT.JS E NODE.JS',
-  'DASHBOARDS QUE FACILITAM DECISÕES',
-  'APIS ROBUSTAS E ESCALÁVEIS',
-  'INTEGRAÇÃO PERFEITA COM SEU ECOSSISTEMA',
-  'SEGURANÇA ENTERPRISE PARA SEU PRODUTO',
-  'SOLUÇÕES QUE GERAM RESULTADOS REAIS',
-] as const;
+// Usando constantes centralizadas
+const HERO_TITLES = CONTEUDO_HERO.titulos;
 
 /**
  * Subtítulos descritivos correspondentes aos títulos
  */
-const HERO_SUBTITLES = [
-  'Parceiro técnico estratégico para empresas que querem sair na frente com aplicações web de alta performance que conquistam clientes e aumentam vendas.',
-  'Stack completa React 19, Next.js 15, TypeScript e Node.js. Código profissional que escala com seu crescimento e reduz custos operacionais a longo prazo.',
-  'Aplicações que impressionam visualmente, carregam instantaneamente e convertem visitantes em clientes fiéis. Design que vende, performance que retém.',
-  'Desenvolvimento premium com padrões enterprise. Código limpo, testado e documentado que facilita manutenção e reduz bugs em até 80%.',
-  'Sites 3x mais rápidos que a concorrência. SEO otimizado para ranquear no Google. Performance que aumenta conversões e reduz taxa de rejeição.',
-  'Interfaces intuitivas que encantam usuários e aumentam engajamento. Design responsivo que funciona perfeitamente em todos dispositivos.',
-  'Tecnologia moderna com ROI comprovado. Processos ágeis que entregam valor rapidamente e garantem comunicação transparente durante todo projeto.',
-  'Testes automatizados, code review rigoroso e arquitetura sólida. Qualidade premium que minimiza problemas pós-lançamento.',
-  'Acompanhamento completo: planejamento estratégico, desenvolvimento ágil, testes de qualidade, deploy seguro e suporte pós-lançamento.',
-  'Especialista certificado em React e Next.js. Portfólio com +20 projetos reais em produção gerando resultados para empresas de diversos segmentos.',
-  'Dashboards executivos com insights acionáveis. Visualizações de dados que facilitam tomada de decisão e aumentam produtividade do time.',
-  'APIs REST escaláveis e seguras. Arquitetura robusta com NestJS que suporta alto volume de requisições e garante disponibilidade 99.9%.',
-  'Integração profissional com Stripe, PayPal, AWS, Google APIs e mais. Conecte seu sistema com qualquer serviço externo de forma segura.',
-  'Autenticação multi-fator, criptografia de dados sensíveis e proteção contra ataques. Segurança que protege seu negócio e gera confiança dos clientes.',
-  'Projetos entregues no prazo que geraram +R$ 2M em faturamento para clientes. Aplicações que resolvem problemas reais e impulsionam crescimento.',
-] as const;
+const HERO_SUBTITLES = CONTEUDO_HERO.subtitulos;
 
 /**
  * Duração de cada slide em milissegundos
@@ -126,6 +102,17 @@ interface HeroContentOverlayProps {
 // ============================================================================
 
 // HeroLoadingState removido - loading acontece apenas no loading-screen
+
+function parseCubicBezier(easing: string | undefined): [number, number, number, number] | undefined {
+  if (!easing) return undefined;
+  const match = easing.match(/cubic-bezier\(([^)]+)\)/);
+  if (!match) return undefined;
+  const parts = match[1]
+    .split(',')
+    .map(value => Number.parseFloat(value.trim()));
+  if (parts.length !== 4 || parts.some(Number.isNaN)) return undefined;
+  return parts as [number, number, number, number];
+}
 
 /**
  * Overlay de conteúdo do hero com animações
@@ -180,7 +167,12 @@ function HeroContentOverlay({
   return (
     <>
       <div
-        className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none p-3 xs:p-4 sm:p-5 md:p-7 lg:p-9 xl:p-11"
+        className={cn(
+          "absolute inset-0 flex items-center justify-center pointer-events-none",
+          RESPONSIVE.SPACING.RESPONSIVE_Y,
+          RESPONSIVE.SPACING.RESPONSIVE_X,
+          Z_INDEX.PRIORITY
+        )}
         aria-live="polite"
         aria-atomic="true"
       >
@@ -201,7 +193,13 @@ function HeroContentOverlay({
             initial={hasMounted ? { opacity: 0, y: 30, scale: 0.9 } : false}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={
-              hasMounted ? { delay: 0.3, duration: 0.7 } : { duration: 0 }
+              hasMounted 
+                ? { 
+                    delay: Number(motionTokens.delay.long.replace('ms', '')) / 1000,
+                    duration: Number(motionTokens.duration.slower.replace('ms', '')) / 1000,
+                    ease: parseCubicBezier(motionTokens.easing.easeOut) ?? 'easeOut'
+                  } 
+                : { duration: 0 }
             }
             className={cn(
               'font-extrabold tracking-tight px-2 sm:px-0',
@@ -220,7 +218,13 @@ function HeroContentOverlay({
             initial={hasMounted ? { opacity: 0, y: 20 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={
-              hasMounted ? { delay: 0.5, duration: 0.6 } : { duration: 0 }
+              hasMounted 
+                ? { 
+                    delay: 0.3,  // delay.longer não existe mais, usando valor fixo
+                    duration: Number(motionTokens.duration.slow.replace('ms', '')) / 1000,
+                    ease: parseCubicBezier(motionTokens.easing.easeInOut) ?? 'easeInOut'
+                  } 
+                : { duration: 0 }
             }
             className="font-normal text-emerald-400 dark:text-emerald-400 px-4 sm:px-0 max-w-4xl mx-auto"
             style={subtitleStyle}
@@ -308,16 +312,17 @@ export function HeroSection() {
       onMouseEnter={pauseAutoplay}
       onMouseLeave={resumeAutoplay}
     >
-      {/* Layer 1: Carousel de fundo (z-0) */}
+      {/* Layer 1: Carousel de fundo */}
       {/* Carousel renderiza diretamente - loading acontece apenas no loading-screen */}
-      <div className="absolute inset-0 z-0" aria-hidden="true">
+      <div className={cn("absolute inset-0", Z_INDEX.BASE)} aria-hidden="true">
         <Carousel />
       </div>
 
-      {/* Layer 2: Gradiente de overlay (z-5) */}
+      {/* Layer 2: Gradiente de overlay */}
       <div
         className={cn(
-          'absolute inset-0 z-5 pointer-events-none',
+          'absolute inset-0 pointer-events-none',
+          'z-10', // Um pouco acima do base
           GRADIENT_DIRECTIONS.TO_BOTTOM,
           'from-black/50 via-transparent to-black/60'
         )}
@@ -337,7 +342,10 @@ export function HeroSection() {
           {/* Botão Anterior */}
           <button
             onClick={goToPrevious}
-            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 group"
+            className={cn(
+              "absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 group",
+              "z-50" // Acima do conteúdo
+            )}
             aria-label="Slide anterior"
           >
             <div className="relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-md bg-black/30 dark:bg-black/50 border border-cyan-400/30 dark:border-cyan-400/50 transition-all duration-300 hover:scale-110 hover:bg-black/50 dark:hover:bg-black/70 hover:border-cyan-400/60">
@@ -361,7 +369,10 @@ export function HeroSection() {
           {/* Botão Próximo */}
           <button
             onClick={goToNext}
-            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 group"
+            className={cn(
+              "absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 group",
+              "z-50" // Acima do conteúdo
+            )}
             aria-label="Próximo slide"
           >
             <div className="relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-md bg-black/30 dark:bg-black/50 border border-cyan-400/30 dark:border-cyan-400/50 transition-all duration-300 hover:scale-110 hover:bg-black/50 dark:hover:bg-black/70 hover:border-cyan-400/60">
@@ -384,10 +395,10 @@ export function HeroSection() {
         </>
       )}
 
-      {/* Layer 4: Gradiente inferior (z-15) */}
+      {/* Layer 4: Gradiente inferior */}
       <div
         className={cn(
-          'absolute bottom-0 left-0 right-0 h-32 z-15 pointer-events-none',
+          'absolute bottom-0 left-0 right-0 h-32 z-20 pointer-events-none',
           GRADIENT_DIRECTIONS.TO_TOP,
           'from-black/80 via-black/40 to-transparent'
         )}

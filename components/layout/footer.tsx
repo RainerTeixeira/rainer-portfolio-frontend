@@ -16,7 +16,7 @@
 // Constants & Configuration
 // ============================================================================
 
-import { FOOTER_CONFIG, NAVIGATION, SITE_CONFIG } from '@/constants';
+import { NAVIGATION, SERVICOS, SITE_CONFIG } from '@/constants';
 
 // ============================================================================
 // Icons
@@ -226,8 +226,8 @@ export function Footer() {
                 Serviços
               </h4>
               <ul className="space-y-2">
-                {FOOTER_CONFIG.services.items.slice(0, 4).map(service => (
-                  <li key={service.fullName}>
+                {SERVICOS.slice(0, 4).map(service => (
+                  <li key={service.titulo}>
                     <div
                       className={cn(
                         'text-sm',
@@ -239,7 +239,7 @@ export function Footer() {
                         'cursor-default leading-relaxed'
                       )}
                     >
-                      {service.fullName}
+                      {service.titulo}
                     </div>
                   </li>
                 ))}

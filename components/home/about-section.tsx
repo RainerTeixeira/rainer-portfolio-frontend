@@ -36,6 +36,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
+import { DESENVOLVEDOR, BIO, METRICAS } from '@/constants/comum/desenvolvedor';
 
 // ============================================================================
 // Third-party Libraries
@@ -56,7 +57,7 @@ import { useTheme } from 'next-themes';
 // UI Components
 // ============================================================================
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@rainersoft/ui';
 
 // ============================================================================
 // Types
@@ -80,25 +81,25 @@ interface ProfessionalMetric {
 /**
  * Métricas profissionais exibidas na seção
  */
-const PROFESSIONAL_STATS: readonly ProfessionalMetric[] = [
+const PROFESSIONAL_STATS = [
   {
-    icon: Target,
-    value: '10+',
-    label: 'Projetos Full-Stack',
+    icon: Award,
+    value: METRICAS.projetosConcluidos,
+    label: 'Aplicações em Produção',
     gradient: 'from-cyan-500 to-blue-600',
     iconBg: 'from-cyan-400 to-blue-500',
   },
   {
     icon: Code,
-    value: '50K+',
-    label: 'Linhas de Código',
+    value: METRICAS.linhasDeCodigo,
+    label: 'Linhas de Código Clean',
     gradient: 'from-purple-500 to-pink-600',
     iconBg: 'from-purple-400 to-pink-500',
   },
   {
     icon: Rocket,
-    value: '20+',
-    label: 'Tecnologias',
+    value: METRICAS.tecnologiasDominadas,
+    label: 'Tecnologias Dominadas',
     gradient: 'from-orange-500 to-amber-600',
     iconBg: 'from-orange-400 to-amber-500',
   },
@@ -156,9 +157,9 @@ export const AboutSection = memo(function AboutSection() {
 
     if (imageError) {
       return (
-        <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl bg-gradient-to-br from-cyan-500/30 via-purple-500/30 to-pink-500/30 flex items-center justify-center">
+        <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl bg-linear-to-br from-cyan-500/30 via-purple-500/30 to-pink-500/30 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-2 rounded-full bg-gradient-to-br from-cyan-500/40 to-purple-500/40 flex items-center justify-center">
+            <div className="w-16 h-16 mx-auto mb-2 rounded-full bg-linear-to-br from-cyan-500/40 to-purple-500/40 flex items-center justify-center">
               <Award className="w-8 h-8 text-cyan-400/80" />
             </div>
           </div>
@@ -167,10 +168,10 @@ export const AboutSection = memo(function AboutSection() {
     }
 
     return (
-      <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl group-hover:scale-105 transition-transform duration-500 bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20">
+      <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl group-hover:scale-105 transition-transform duration-500 bg-linear-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20">
         <Image
           src="/images/t1.jpg"
-          alt="Rainer Teixeira - Desenvolvedor Full-Stack"
+          alt={`${DESENVOLVEDOR.nome} - ${DESENVOLVEDOR.titulo}`}
           fill
           className="object-cover"
           sizes="160px"
@@ -200,7 +201,7 @@ export const AboutSection = memo(function AboutSection() {
             className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full ${isDarkTheme ? 'bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-linear-to-r from-blue-500 via-purple-500 to-pink-500'} text-white font-bold text-sm mb-8 shadow-xl`}
           >
             <Sparkles className="w-5 h-5" />
-            Conheça Meu Trabalho
+            Desenvolvedor Full-Stack Profissional
           </motion.div>
 
           <motion.h2
@@ -209,7 +210,7 @@ export const AboutSection = memo(function AboutSection() {
             viewport={{ once: true }}
             className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
           >
-            Sobre Mim
+            Quem Sou Eu
           </motion.h2>
         </div>
 
@@ -248,7 +249,7 @@ export const AboutSection = memo(function AboutSection() {
 
                 {/* Nome e título */}
                 <h3 className="text-2xl sm:text-3xl font-black mb-3 text-foreground dark:text-white">
-                  Rainer Teixeira
+                  {DESENVOLVEDOR.nome}
                 </h3>
                 <div
                   className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDarkTheme ? 'bg-linear-to-r from-cyan-500/10 to-purple-500/10 border-cyan-400/30' : 'bg-linear-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30'} border mb-6`}
@@ -259,7 +260,7 @@ export const AboutSection = memo(function AboutSection() {
                   <span
                     className={`text-sm font-bold ${isDarkTheme ? 'text-cyan-300' : 'text-blue-700'}`}
                   >
-                    Desenvolvedor Full-Stack
+                    React • Next.js • Node.js • TypeScript
                   </span>
                 </div>
 
@@ -269,7 +270,7 @@ export const AboutSection = memo(function AboutSection() {
                   className={`w-full group/btn ${isDarkTheme ? 'bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 shadow-cyan-500/30 hover:shadow-cyan-500/40' : 'bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 shadow-blue-500/30 hover:shadow-blue-500/40'} text-white shadow-xl hover:shadow-2xl transition-all duration-300`}
                 >
                   <Link href="/sobre">
-                    Ver Perfil Completo
+                    Conhecer Experiência Completa
                     <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
@@ -353,30 +354,21 @@ export const AboutSection = memo(function AboutSection() {
 
               <div className="relative z-10 space-y-4">
                 <p className="text-base sm:text-lg text-muted-foreground dark:text-gray-300 leading-relaxed">
-                  <span className="font-bold text-foreground dark:text-cyan-200">
-                    Desenvolvedor Full-Stack
-                  </span>{' '}
-                  especializado em criar aplicações web completas e
-                  profissionais. Portfólio comprovado com projetos reais:{' '}
-                  <span className="font-semibold text-foreground/90 dark:text-purple-200">
-                    portfólio enterprise com PWA, blog, autenticação e dashboard
-                  </span>{' '}
-                  (este site!), dashboard de criptomoedas com backend NestJS e
-                  PostgreSQL, planejador financeiro full-stack e sistemas de
-                  controle integrados.
+                  {BIO.longa}
                 </p>
 
                 <p className="text-sm sm:text-base text-muted-foreground dark:text-gray-300 leading-relaxed">
-                  Domínio técnico em:{' '}
+                  Trabalho com a stack mais moderna do mercado:{' '}
                   <span className="font-semibold text-foreground/90 dark:text-pink-200">
-                    React 19, Next.js 15, TypeScript, Node.js, NestJS,
-                    PostgreSQL, Prisma ORM, Docker e CI/CD
+                    React 19, Next.js 15, TypeScript, Node.js, PostgreSQL,
+                    Prisma ORM e Docker
                   </span>
-                  . Código limpo, arquitetura escalável, documentação completa e{' '}
+                  . Meu diferencial? Entrego{' '}
                   <span className="font-bold text-foreground dark:text-cyan-200">
-                    resultados que agregam valor ao negócio
+                    código limpo e documentado que facilita manutenção,
+                    aplicações que carregam rápido e convertem visitantes
                   </span>
-                  .
+                  . Sempre com foco em resolver problemas reais do seu negócio.
                 </p>
 
                 <div className="pt-4 flex items-center justify-center gap-2 text-sm font-medium">

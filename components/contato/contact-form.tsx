@@ -31,19 +31,19 @@
 // IMPORTS
 // ============================================================================
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
+import { Label } from '@rainersoft/ui';
+import { Separator } from '@rainersoft/ui';
+import { Textarea } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
 import { CARD_CLASSES, cn } from '@/lib/utils';
 import {

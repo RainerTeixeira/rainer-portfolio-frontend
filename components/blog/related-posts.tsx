@@ -31,14 +31,14 @@
 
 'use client';
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@rainersoft/ui';
 import type { PostWithRelations } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';

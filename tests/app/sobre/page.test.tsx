@@ -63,7 +63,7 @@ jest.mock('@/components/ui/card', () => ({
   ),
 }));
 
-jest.mock('@/components/icons/skills/skills-with-icons', () => ({
+jest.mock('@/components/skills/skills-with-icons', () => ({
   SKILLS: [
     {
       fullName: 'React',
@@ -189,7 +189,7 @@ jest.mock('@/constants', () => {
       },
       {
         label: 'Satisfação',
-        value: '95%',
+        value: '95+',
         icon: () => <div>Icon</div>,
         gradient: 'from-pink-500 to-pink-600',
         iconColor: 'text-pink-500',

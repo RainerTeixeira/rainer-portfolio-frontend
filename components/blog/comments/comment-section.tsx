@@ -30,8 +30,8 @@
 'use client';
 
 import { useAuth } from '@/components/providers/auth-provider';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { commentsService } from '@/lib/api/services';
 import type { Comment as ApiComment } from '@/lib/api/types';
 import { AlertCircle } from 'lucide-react';
