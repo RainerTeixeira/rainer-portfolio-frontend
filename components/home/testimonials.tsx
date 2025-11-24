@@ -27,7 +27,7 @@
 
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import {
@@ -60,57 +60,57 @@ export function Testimonials() {
   const differentials = [
     {
       icon: Code,
-      title: 'Clean Code',
+      title: 'Código Limpo e Documentado',
       description:
-        'TypeScript strict mode, ESLint configurado, documentação JSDoc completa e padrões consistentes. Código que outros desenvolvedores querem trabalhar.',
+        'TypeScript com tipagem completa, arquitetura modular e documentação detalhada. Cada função comentada, variáveis descritivas e estrutura que facilita manutenção. Código profissional que outros desenvolvedores entendem rapidamente.',
       gradient: 'from-cyan-500 to-blue-600',
       iconBg: 'from-cyan-400 to-blue-500',
-      badge: 'Clean Code',
+      badge: 'Best Practices',
     },
     {
       icon: Zap,
-      title: 'Performance 95+',
+      title: 'Performance Excepcional',
       description:
-        'Lighthouse Score 95+, Core Web Vitals excelentes, lazy loading estratégico, code splitting e cache inteligente. Aplicações rápidas que convertem.',
+        'Sites que carregam em menos de 2 segundos. Lighthouse Score 95+, otimização de imagens, lazy loading inteligente e cache estratégico. SEO avançado que melhora ranking no Google e aumenta conversões.',
       gradient: 'from-purple-500 to-pink-600',
       iconBg: 'from-purple-400 to-pink-500',
-      badge: 'Lighthouse 95+',
+      badge: 'Ultra Rápido',
     },
     {
       icon: Shield,
-      title: 'Security First',
+      title: 'Segurança Avançada',
       description:
-        'Autenticação JWT robusta, validações em backend e frontend, sanitização de dados, proteção XSS/CSRF e boas práticas OWASP.',
+        'Autenticação JWT segura, criptografia de dados sensíveis, proteção contra ataques XSS e CSRF. Validações robustas no frontend e backend. Aplicações protegidas seguindo padrões OWASP.',
       gradient: 'from-green-500 to-emerald-600',
       iconBg: 'from-green-400 to-emerald-500',
-      badge: 'Security First',
+      badge: 'Protegido',
     },
     {
       icon: BookOpen,
-      title: '100% Documentado',
+      title: 'Documentação Completa',
       description:
-        'JSDoc em todo código, README detalhado, comentários explicativos e arquitetura bem documentada. Facilita manutenção e colaboração.',
+        'README detalhado, comentários em cada função, documentação de APIs com Swagger. Instruções claras de instalação e uso. Facilito a vida de quem vai dar manutenção no futuro.',
       gradient: 'from-orange-500 to-amber-600',
       iconBg: 'from-orange-400 to-amber-500',
-      badge: '100% Documentado',
+      badge: 'Bem Documentado',
     },
     {
       icon: Layers,
-      title: 'Arquitetura Modular',
+      title: 'Arquitetura Escalável',
       description:
-        'Componentização modular, separação de responsabilidades, padrões de design aplicados e código preparado para crescer sem refatoração.',
+        'Componentes React reutilizáveis, separação clara entre camadas, padrões de design aplicados. Código modular preparado para crescer sem complicações. Arquitetura que facilita adição de novas funcionalidades.',
       gradient: 'from-blue-500 to-indigo-600',
       iconBg: 'from-blue-400 to-indigo-500',
-      badge: 'Modular',
+      badge: 'Escalável',
     },
     {
       icon: GitBranch,
-      title: 'Git Expert',
+      title: 'Versionamento Profissional',
       description:
-        'Commits semânticos, feature branches, pull requests documentados, versionamento organizado e histórico limpo. Trabalho em equipe facilitado.',
+        'Git flow organizado, commits semânticos descritivos, branches bem estruturadas. Código versionado no GitHub com histórico limpo. Pull requests detalhados que facilitam code review e colaboração em equipe.',
       gradient: 'from-red-500 to-rose-600',
       iconBg: 'from-red-400 to-rose-500',
-      badge: 'Git Expert',
+      badge: 'Git Flow',
     },
   ];
 
@@ -129,7 +129,7 @@ export function Testimonials() {
             className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full ${isDark ? 'bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400' : 'bg-linear-to-r from-blue-500 via-purple-500 to-pink-500'} text-white font-bold text-sm mb-8 shadow-xl`}
           >
             <Award className="w-5 h-5" />
-            Meus Diferenciais
+            Diferenciais Técnicos
           </motion.div>
 
           <motion.h2
@@ -138,7 +138,7 @@ export function Testimonials() {
             viewport={{ once: true }}
             className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
           >
-            Por Que Me Escolher
+            Código de Qualidade Superior
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -147,11 +147,11 @@ export function Testimonials() {
             transition={{ delay: 0.2 }}
             className="text-lg sm:text-xl text-muted-foreground dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
           >
-            Qualidade técnica, código profissional e{' '}
+            Desenvolvimento profissional com{' '}
             <span className="font-bold text-foreground dark:text-cyan-200">
-              comprometimento com excelência
+              React, Next.js e Node.js
             </span>{' '}
-            em cada linha
+            seguindo as melhores práticas do mercado
           </motion.p>
         </div>
 
@@ -245,11 +245,11 @@ export function Testimonials() {
           <div className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-linear-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 dark:from-cyan-400/20 dark:via-purple-400/20 dark:to-pink-400/20 border-2 border-cyan-400/30">
             <Target className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
             <span className="text-base font-bold text-foreground dark:text-white">
-              Pronto para entregar{' '}
+              Desenvolvimento full-stack com{' '}
               <span className="bg-linear-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-400 bg-clip-text text-transparent">
-                qualidade comprovada
+                React, Next.js e Node.js
               </span>{' '}
-              no seu projeto
+              para seu próximo projeto
             </span>
           </div>
         </motion.div>

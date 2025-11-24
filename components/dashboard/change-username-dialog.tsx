@@ -34,17 +34,17 @@
 
 'use client';
 
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
+import { Label } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 // Design tokens via CSS variables (imported in globals.css)

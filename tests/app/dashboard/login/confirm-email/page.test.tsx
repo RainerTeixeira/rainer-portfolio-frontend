@@ -25,21 +25,37 @@ jest.mock('next/navigation', () => ({
   },
 }));
 
-// Mock do authService
+// Mock do authService (módulo correto usado pela página)
 const mockConfirmEmail = jest.fn().mockResolvedValue({ success: true });
 const mockResendConfirmationCode = jest
   .fn()
   .mockResolvedValue({ success: true });
 
-jest.mock('@/lib/api/services/auth.service', () => ({
+jest.mock('@/lib/api', () => ({
   authService: {
-    get confirmEmail() {
-      return mockConfirmEmail;
-    },
-    get resendConfirmationCode() {
-      return mockResendConfirmationCode;
-    },
+    confirmEmail: (...args: unknown[]) => mockConfirmEmail(...args),
+    resendConfirmationCode: (...args: unknown[]) =>
+      mockResendConfirmationCode(...args),
   },
+}));
+
+// Mock do layout de autenticação para evitar dependências complexas (AuthBranding)
+jest.mock('@/components/dashboard/login', () => ({
+  AuthLayout: ({ children, footer, title, description }: any) => (
+    <div data-testid="auth-layout">
+      {title && <h1>{title}</h1>}
+      {description && <p>{description}</p>}
+      <div data-testid="auth-content">{children}</div>
+      {footer}
+    </div>
+  ),
+}));
+
+// Mock leve de ícones para evitar dependências de SVG complexos
+jest.mock('lucide-react', () => ({
+  CheckCircle2: (props: any) => <div {...props} data-testid="check-icon" />,
+  Loader2: (props: any) => <div {...props} data-testid="loader-icon" />,
+  XCircle: (props: any) => <div {...props} data-testid="x-icon" />,
 }));
 
 // Mock do localStorage

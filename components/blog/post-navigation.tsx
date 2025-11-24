@@ -13,8 +13,8 @@
 
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent } from '@rainersoft/ui';
+import { Separator } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';

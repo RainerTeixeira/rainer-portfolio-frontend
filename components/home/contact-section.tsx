@@ -30,10 +30,13 @@
 // IMPORTS
 // ============================================================================
 
-import { Button } from '@/components/ui/button';
-import { SITE_CONFIG } from '@/constants';
+import { Badge } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
+import { Card, CardContent } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { DESENVOLVEDOR } from '@/constants/comum/desenvolvedor';
+import { CONTATO } from '@/constants/comum/social';
+import { INFO_CONTATO } from '@/constants/contato/formulario';
 import {
   Clock,
   Mail,
@@ -46,6 +49,7 @@ import {
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 // ============================================================================
 // TYPES & INTERFACES
@@ -153,31 +157,29 @@ export const ContactSection = memo(function ContactSection() {
     {
       icon: Mail,
       title: 'Email',
-      content: SITE_CONFIG.contact.email.address,
+      content: CONTATO.email,
       gradient: 'from-cyan-500 to-blue-600',
       iconBg: 'from-cyan-400 to-blue-500',
-      href: `mailto:${SITE_CONFIG.contact.email.address}`,
-      description: SITE_CONFIG.contact.email.responseTime,
+      href: `mailto:${CONTATO.email}`,
+      description: `Respondo em ${CONTATO.tempoResposta.email}`,
     },
     {
-      icon: Phone,
-      title: 'Telefone',
-      content: SITE_CONFIG.contact.phone.number,
+      icon: Clock,
+      title: 'Horário',
+      content: CONTATO.horarioAtendimento.dias,
       gradient: 'from-purple-500 to-pink-600',
       iconBg: 'from-purple-400 to-pink-500',
-      href: `tel:${SITE_CONFIG.contact.phone.number.replace(/\s/g, '')}`,
-      description: SITE_CONFIG.contact.phone.whatsapp
-        ? 'WhatsApp disponível'
-        : undefined,
+      href: null,
+      description: `${CONTATO.horarioAtendimento.horario} - ${CONTATO.horarioAtendimento.fuso}`,
     },
     {
       icon: MapPin,
       title: 'Localização',
-      content: `${SITE_CONFIG.contact.location.city}, ${SITE_CONFIG.contact.location.country}`,
+      content: 'Brasil',
       gradient: 'from-orange-500 to-amber-600',
       iconBg: 'from-orange-400 to-amber-500',
       href: null,
-      description: `${SITE_CONFIG.contact.workingHours.days} - ${SITE_CONFIG.contact.workingHours.hours}`,
+      description: 'Atendimento remoto global',
     },
   ];
 
@@ -252,7 +254,7 @@ export const ContactSection = memo(function ContactSection() {
                 className="w-2 h-2 bg-white rounded-full animate-pulse"
                 aria-hidden="true"
               />
-              Disponível para Contato
+              {DESENVOLVEDOR.disponibilidade}
             </motion.div>
 
             {/* Main Heading */}
@@ -265,7 +267,7 @@ export const ContactSection = memo(function ContactSection() {
               className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight"
             >
               <span className="bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-                Vamos Trabalhar Juntos
+                Desenvolvedor Full-Stack Disponível
               </span>
             </motion.h2>
 
@@ -277,13 +279,7 @@ export const ContactSection = memo(function ContactSection() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="text-base sm:text-lg lg:text-xl text-muted-foreground dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-4"
             >
-              {'Procuro oportunidades de '}
-              <span className="font-bold text-foreground dark:text-cyan-200">
-                desenvolvimento full-stack
-              </span>
-              {
-                ' onde possa aplicar minhas habilidades e crescer profissionalmente. Vamos conversar!'
-              }
+              React, Next.js, Node.js e TypeScript para seu próximo projeto
             </motion.p>
 
             {/* Expertise Description */}
@@ -295,11 +291,10 @@ export const ContactSection = memo(function ContactSection() {
               className="text-sm sm:text-base text-muted-foreground dark:text-gray-400 max-w-2xl mx-auto"
             >
               <span className="font-semibold text-foreground dark:text-purple-200">
-                Especializado em:
+                Entrego:
               </span>
-              {
-                ' Desenvolvimento web full-stack, APIs REST, PWAs, dashboards administrativos e integrações com sistemas externos.'
-              }
+              {' '}
+              Código limpo e documentado, performance excepcional (Lighthouse 95+), SEO avançado e suporte completo do desenvolvimento ao deploy.
             </motion.p>
           </header>
 
@@ -435,10 +430,9 @@ export const ContactSection = memo(function ContactSection() {
                 {/* Response Time Message */}
                 <p className="text-base sm:text-lg text-muted-foreground dark:text-gray-300 mb-8 leading-relaxed">
                   <span className="font-bold text-foreground dark:text-cyan-200">
-                    {SITE_CONFIG.contact.email.responseTime}.
+                    Respondo em {CONTATO.tempoResposta.email}.
                   </span>{' '}
-                  Entre em contato sem compromisso para conversarmos sobre
-                  oportunidades, projetos ou colaborações.
+                  Vamos conversar sobre como posso ajudar seu projeto a crescer com tecnologia moderna e código profissional.
                 </p>
 
                 {/* Action Buttons */}
@@ -479,9 +473,9 @@ export const ContactSection = memo(function ContactSection() {
                       'backdrop-blur-sm hover:scale-105',
                       'transition-all duration-300 font-semibold'
                     )}
-                    aria-label={`Enviar email para ${SITE_CONFIG.contact.email.address}`}
+                    aria-label={`Enviar email para ${CONTATO.email}`}
                   >
-                    <a href={`mailto:${SITE_CONFIG.contact.email.address}`}>
+                    <a href={`mailto:${CONTATO.email}`}>
                       <Mail className="h-6 w-6" aria-hidden="true" />
                       Enviar Email Direto
                     </a>
@@ -501,7 +495,7 @@ export const ContactSection = memo(function ContactSection() {
                       aria-hidden="true"
                     />
                     <span className="text-sm font-bold text-foreground dark:text-green-300">
-                      Pronto para começar imediatamente
+                      {DESENVOLVEDOR.especialidade}
                     </span>
                   </div>
 
@@ -516,8 +510,8 @@ export const ContactSection = memo(function ContactSection() {
                       aria-hidden="true"
                     />
                     <span className="text-sm font-bold text-foreground dark:text-blue-300">
-                      {SITE_CONFIG.contact.workingHours.days}{' '}
-                      {SITE_CONFIG.contact.workingHours.hours}
+                      {CONTATO.horarioAtendimento.dias}{' '}
+                      {CONTATO.horarioAtendimento.horario}
                     </span>
                   </div>
                 </div>

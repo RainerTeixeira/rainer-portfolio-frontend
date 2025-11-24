@@ -11,14 +11,34 @@ process.env.NEXT_PUBLIC_API_URL = 'http://localhost:4000';
 // Mock do authService ANTES de qualquer import
 const mockResetPassword = jest.fn().mockResolvedValue({ success: true });
 
-jest.mock('@/lib/api/services/auth.service', () => ({
+jest.mock('@/lib/api', () => ({
   authService: {
-    get resetPassword() {
-      return mockResetPassword;
-    },
+    resetPassword: (...args: unknown[]) => mockResetPassword(...args),
     checkNameAvailability: jest.fn().mockResolvedValue({ available: true }),
-    checkNicknameAvailability: jest.fn().mockResolvedValue({ available: true }),
+    checkNicknameAvailability: jest
+      .fn()
+      .mockResolvedValue({ available: true }),
   },
+}));
+
+// Mock do layout e componentes de login para evitar dependências de animação/tokens
+jest.mock('@/components/dashboard/login', () => ({
+  AuthLayout: ({ children, footer, title, description }: any) => (
+    <div data-testid="auth-layout">
+      {title && <h1>{title}</h1>}
+      {description && <p>{description}</p>}
+      <div data-testid="auth-content">{children}</div>
+      {footer}
+    </div>
+  ),
+  PasswordInput: ({ value, onChange, ...props }: any) => (
+    <input
+      data-testid="password-input"
+      value={value}
+      onChange={(e: any) => onChange(e.target.value)}
+      {...props}
+    />
+  ),
 }));
 
 // Mock do useRouter
@@ -36,7 +56,7 @@ jest.mock('next/navigation', () => ({
 }));
 
 import ResetPasswordPage from '@/app/dashboard/login/reset-password/page';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('next/link', () => ({
@@ -49,6 +69,16 @@ jest.mock('sonner', () => ({
     success: jest.fn(),
     error: jest.fn(),
   },
+}));
+
+// Mock de ícones do lucide-react
+jest.mock('lucide-react', () => ({
+  AlertCircle: (props: any) => <div {...props} data-testid="alert-icon" />,
+  ArrowLeft: (props: any) => <div {...props} data-testid="arrow-icon" />,
+  CheckCircle2: (props: any) => <div {...props} data-testid="check-icon" />,
+  Loader2: (props: any) => <div {...props} data-testid="loader-icon" />,
+  Eye: (props: any) => <div {...props} data-testid="eye-icon" />,
+  EyeOff: (props: any) => <div {...props} data-testid="eyeoff-icon" />,
 }));
 
 describe('Reset Password Page', () => {
@@ -81,7 +111,6 @@ describe('Reset Password Page', () => {
   });
 
   it('deve validar campos obrigatórios', async () => {
-    const user = userEvent.setup();
     render(<ResetPasswordPage />);
 
     const submitButtons = screen.getAllByText(/Redefinir Senha/i);
@@ -89,13 +118,13 @@ describe('Reset Password Page', () => {
       submitButtons.find(
         btn => btn.tagName === 'BUTTON' || btn.closest('button')
       ) || submitButtons[0];
-    await user.click(submitButton);
+
+    fireEvent.click(submitButton);
 
     expect(mockResetPassword).not.toHaveBeenCalled();
   });
 
   it('deve validar que senha tem mínimo de 8 caracteres', async () => {
-    const user = userEvent.setup();
     render(<ResetPasswordPage />);
 
     const newPasswordInput = screen.getByLabelText(/Nova Senha/i);
@@ -106,15 +135,14 @@ describe('Reset Password Page', () => {
         btn => btn.tagName === 'BUTTON' || btn.closest('button')
       ) || submitButtons[0];
 
-    await user.type(newPasswordInput, '123');
-    await user.type(confirmPasswordInput, '123');
-    await user.click(submitButton);
+    fireEvent.change(newPasswordInput, { target: { value: '123' } });
+    fireEvent.change(confirmPasswordInput, { target: { value: '123' } });
+    fireEvent.click(submitButton);
 
     expect(mockResetPassword).not.toHaveBeenCalled();
   });
 
   it('deve validar que senhas coincidem', async () => {
-    const user = userEvent.setup();
     render(<ResetPasswordPage />);
 
     const newPasswordInput = screen.getByLabelText(/Nova Senha/i);
@@ -125,15 +153,18 @@ describe('Reset Password Page', () => {
         btn => btn.tagName === 'BUTTON' || btn.closest('button')
       ) || submitButtons[0];
 
-    await user.type(newPasswordInput, 'newpassword123');
-    await user.type(confirmPasswordInput, 'differentpassword');
-    await user.click(submitButton);
+    fireEvent.change(newPasswordInput, {
+      target: { value: 'newpassword123' },
+    });
+    fireEvent.change(confirmPasswordInput, {
+      target: { value: 'differentpassword' },
+    });
+    fireEvent.click(submitButton);
 
     expect(mockResetPassword).not.toHaveBeenCalled();
   });
 
   it('deve chamar resetPassword quando formulário é submetido corretamente', async () => {
-    const user = userEvent.setup();
     render(<ResetPasswordPage />);
 
     const newPasswordInput = screen.getByLabelText(/Nova Senha/i);
@@ -144,9 +175,13 @@ describe('Reset Password Page', () => {
         btn => btn.tagName === 'BUTTON' || btn.closest('button')
       ) || submitButtons[0];
 
-    await user.type(newPasswordInput, 'newpassword123');
-    await user.type(confirmPasswordInput, 'newpassword123');
-    await user.click(submitButton);
+    fireEvent.change(newPasswordInput, {
+      target: { value: 'newpassword123' },
+    });
+    fireEvent.change(confirmPasswordInput, {
+      target: { value: 'newpassword123' },
+    });
+    fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(mockResetPassword).toHaveBeenCalledWith({
@@ -158,7 +193,6 @@ describe('Reset Password Page', () => {
   });
 
   it('deve redirecionar para login após reset bem-sucedido', async () => {
-    const user = userEvent.setup();
     render(<ResetPasswordPage />);
 
     const newPasswordInput = screen.getByLabelText(/Nova Senha/i);
@@ -169,9 +203,13 @@ describe('Reset Password Page', () => {
         btn => btn.tagName === 'BUTTON' || btn.closest('button')
       ) || submitButtons[0];
 
-    await user.type(newPasswordInput, 'newpassword123');
-    await user.type(confirmPasswordInput, 'newpassword123');
-    await user.click(submitButton);
+    fireEvent.change(newPasswordInput, {
+      target: { value: 'newpassword123' },
+    });
+    fireEvent.change(confirmPasswordInput, {
+      target: { value: 'newpassword123' },
+    });
+    fireEvent.click(submitButton);
 
     await waitFor(
       () => {
@@ -182,7 +220,6 @@ describe('Reset Password Page', () => {
   });
 
   it('deve exibir mensagem de sucesso após reset bem-sucedido', async () => {
-    const user = userEvent.setup();
     render(<ResetPasswordPage />);
 
     const newPasswordInput = screen.getByLabelText(/Nova Senha/i);
@@ -193,9 +230,13 @@ describe('Reset Password Page', () => {
         btn => btn.tagName === 'BUTTON' || btn.closest('button')
       ) || submitButtons[0];
 
-    await user.type(newPasswordInput, 'newpassword123');
-    await user.type(confirmPasswordInput, 'newpassword123');
-    await user.click(submitButton);
+    fireEvent.change(newPasswordInput, {
+      target: { value: 'newpassword123' },
+    });
+    fireEvent.change(confirmPasswordInput, {
+      target: { value: 'newpassword123' },
+    });
+    fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(screen.getByText(/Senha redefinida!/i)).toBeInTheDocument();
@@ -203,7 +244,6 @@ describe('Reset Password Page', () => {
   });
 
   it('deve exibir erro quando código é inválido', async () => {
-    const user = userEvent.setup();
     mockResetPassword.mockRejectedValue(
       new Error('Código de verificação inválido')
     );
@@ -218,9 +258,13 @@ describe('Reset Password Page', () => {
         btn => btn.tagName === 'BUTTON' || btn.closest('button')
       ) || submitButtons[0];
 
-    await user.type(newPasswordInput, 'newpassword123');
-    await user.type(confirmPasswordInput, 'newpassword123');
-    await user.click(submitButton);
+    fireEvent.change(newPasswordInput, {
+      target: { value: 'newpassword123' },
+    });
+    fireEvent.change(confirmPasswordInput, {
+      target: { value: 'newpassword123' },
+    });
+    fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(

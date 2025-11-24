@@ -29,8 +29,10 @@ describe('lib/seo/metadata', () => {
       });
 
       expect(metadata.openGraph).toBeDefined();
-      expect(metadata.openGraph?.title).toBe('Teste');
-      expect(metadata.openGraph?.type).toBe('article');
+      // Cast para any apenas no teste, pois o tipo OpenGraph do Next.js pode mudar
+      // entre versões e não expor explicitamente a propriedade `type` nas typings.
+      expect((metadata.openGraph as any)?.title).toBe('Teste');
+      expect((metadata.openGraph as any)?.type).toBe('article');
     });
 
     it('deve gerar metadados com Twitter Cards', () => {

@@ -20,17 +20,17 @@
 
 'use client';
 
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
+import { Label } from '@rainersoft/ui';
 import { motion } from 'framer-motion';
 import {
   AlertCircle,

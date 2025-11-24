@@ -68,3 +68,6 @@ Zone.Identifier
 memories/
 docs/.memories/
 temp.json
+
+# jest cache
+.jest-cache

@@ -31,7 +31,7 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@rainersoft/ui';
 import {
   Dialog,
   DialogContent,
@@ -39,9 +39,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
+import { Label } from '@rainersoft/ui';
 import { userService } from '@/lib/api';
 import { Mail } from 'lucide-react';
 import { useState } from 'react';

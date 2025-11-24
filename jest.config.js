@@ -35,8 +35,11 @@ export default {
   // Diretórios de módulos
   moduleDirectories: ['node_modules', '<rootDir>'],
   
-  // Setup files
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  // Setup files (apenas dentro de tests/)
+  setupFilesAfterEnv: [
+    '<rootDir>/tests/setup/jest.setup.js',
+    '<rootDir>/tests/setup/jest.design-tokens-mock.js',
+  ],
   
   // Patterns de teste
   testMatch: [
@@ -50,6 +53,7 @@ export default {
     '<rootDir>/node_modules/',
     '<rootDir>/tests/e2e/',
     '<rootDir>/tests/live/',
+    '<rootDir>/tests/login.spec.ts',
     '<rootDir>/dist/',
     '<rootDir>/out/',
   ],

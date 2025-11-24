@@ -29,17 +29,17 @@
 
 'use client';
 
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
+} from '@rainersoft/ui';
+import { Checkbox } from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';

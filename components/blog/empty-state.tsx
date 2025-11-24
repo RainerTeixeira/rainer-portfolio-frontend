@@ -13,8 +13,8 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@rainersoft/ui';
+import { Card, CardContent } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { FileText } from 'lucide-react';
 

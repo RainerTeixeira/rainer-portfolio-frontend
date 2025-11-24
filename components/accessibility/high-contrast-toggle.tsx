@@ -20,7 +20,7 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { Contrast } from 'lucide-react';
 import { useHighContrast } from './hooks';

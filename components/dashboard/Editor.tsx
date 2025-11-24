@@ -37,9 +37,9 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Button } from '@rainersoft/ui';
+import { Card } from '@rainersoft/ui';
+import { Separator } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Image from '@tiptap/extension-image';

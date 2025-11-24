@@ -33,8 +33,8 @@
 
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   CommandDialog,
   CommandEmpty,
@@ -43,8 +43,8 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/components/ui/command';
-import { Input } from '@/components/ui/input';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { Loader2, Search, TrendingUp } from 'lucide-react';
 import { useRouter } from 'next/navigation';

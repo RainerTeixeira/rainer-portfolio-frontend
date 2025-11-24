@@ -35,7 +35,7 @@
 // IMPORTS
 // ============================================================================
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import {

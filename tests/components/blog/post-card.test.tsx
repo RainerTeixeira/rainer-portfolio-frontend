@@ -5,6 +5,34 @@
 import { PostCard } from '@/components/blog/post-card';
 import { render } from '@testing-library/react';
 
+// Mock de tokens de cores usados pelo PostCard
+jest.mock('@/lib/utils/tokens', () => ({
+  getLightColors: () => ({
+    brand: {
+      primary: '#0ea5e9',
+      secondary: '#8b5cf6',
+      tertiary: '#ec4899',
+    },
+    accent: {
+      cyan: '#22d3ee',
+      purple: '#a855f7',
+      pink: '#ec4899',
+    },
+  }),
+  getDarkColors: () => ({
+    brand: {
+      primary: '#0ea5e9',
+      secondary: '#8b5cf6',
+      tertiary: '#ec4899',
+    },
+    accent: {
+      cyan: '#22d3ee',
+      purple: '#a855f7',
+      pink: '#ec4899',
+    },
+  }),
+}));
+
 // Mock do next/image
 jest.mock('next/image', () => ({
   __esModule: true,

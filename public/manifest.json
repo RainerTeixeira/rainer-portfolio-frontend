@@ -1,7 +1,7 @@
 {
-  "fullName": "RainerSoft - Desenvolvedor Full-Stack",
-  "short_name": "RainerSoft",
-  "description": "Portfolio de Rainer - Desenvolvedor Full-Stack com React, Next.js, TypeScript e Node.js. Projetos reais e código profissional.",
+  "fullName": "Rainer Soft - Desenvolvedor Full-Stack",
+  "short_name": "Rainer Soft",
+  "description": "Portfolio de Rainer Teixeira, CEO da Rainer Soft - Desenvolvedor Full-Stack com React, Next.js, TypeScript e Node.js. Projetos reais e código profissional.",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",

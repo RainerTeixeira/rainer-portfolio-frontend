@@ -1,45 +1,113 @@
-﻿/**
- * Constants Barrel Export
- *
- * Exporta todas as constantes e configurações do projeto.
- * Estrutura modular seguindo Domain-Driven Design (DDD).
- *
+/**
+ * @fileoverview Export principal das constantes
  * @module constants
- * @fileoverview Barrel export para todas as constantes
- * @author Rainer Teixeira
  * @version 2.0.0
- * @since 1.0.0
- *
- * @example
+ * @author Rainer Teixeira
+ * 
+ * @description
+ * Ponto central de exportação de todas as constantes
+ * organizadas por contexto e página.
+ * 
+ * @estrutura
+ * ```
+ * constants/
+ * ├── comum/         # Constantes compartilhadas
+ * ├── home/          # Constantes da página inicial
+ * ├── sobre/         # Constantes da página sobre
+ * ├── contato/       # Constantes da página contato
+ * └── blog/          # Constantes do blog
+ * ```
+ * 
+ * @exemplo
  * ```tsx
- * // Import direto do barrel
- * import { SITE_CONFIG, NAVIGATION, SKILLS_DATA } from '@/constants'
- *
- * // Equivale a:
- * import { SITE_CONFIG } from '@/constants/site/config'
- * import { NAVIGATION } from '@/constants/site/navigation'
- * import { SKILLS_DATA } from '@/constants/data/skills'
+ * import { DESENVOLVEDOR, SERVICOS, FAQ } from '@/constants';
  * ```
  */
 
-// Site constants (configurações do site)
-export * from './site';
+// ============================================================================
+// CONSTANTES COMUNS
+// ============================================================================
 
-// Data constants (dados estáticos)
-export * from './data';
+export { DESENVOLVEDOR, BIO, METRICAS } from './comum/desenvolvedor';
+export { PALAVRAS_CHAVE, META_PADRAO, OPEN_GRAPH } from './comum/seo';
+export { REDES_SOCIAIS, CONTATO } from './comum/social';
+export { SECTION_IDS, NAVEGACAO, NAVIGATION, BREADCRUMBS } from './comum/navegacao';
+export { SITE_CONFIG, POLICIES_LAST_UPDATED, COPYRIGHT } from './comum/site';
+export { SKILLS_DATA } from './comum/skills';
+export type { SkillItemData } from './comum/skills';
 
-// Types são re-exportados automaticamente via barrel exports acima
+// ============================================================================
+// PÁGINA HOME
+// ============================================================================
 
-// NOTA: Design tokens devem ser importados diretamente de '@rainersoft/design-tokens'
-// conforme a documentação da biblioteca. Não re-exportamos aqui para evitar
-// problemas com resolução de módulos.
-//
-// Use: import { GRADIENTS, SHADOWS } from '@rainersoft/design-tokens'
-//
-// Estrutura DDD (Domain-Driven Design):
-// - constants/site/ - Configurações do site (config, meta, navigation, social)
-// - constants/data/ - Dados estáticos (skills, services, experience)
-// - components/icons/skills/ - Ícones React SVG (separados das constantes)
-//
-// Para usar skills com ícones:
-// import { SKILLS } from '@/components/icons/skills/skills-with-icons'
+export { CONTEUDO_HERO, ESTILOS_HERO, CTA_HERO } from './home/hero';
+export { SERVICOS, DIFERENCIAIS } from './home/servicos';
+export { PROJETOS, METRICAS_PROJETOS } from './home/portfolio';
+
+// ============================================================================
+// PÁGINA SOBRE
+// ============================================================================
+
+export { EXPERIENCIA, HABILIDADES, FORMACAO } from './sobre/experiencia';
+
+// ============================================================================
+// PÁGINA CONTATO
+// ============================================================================
+
+export { CAMPOS_FORMULARIO, MENSAGENS, INFO_CONTATO } from './contato/formulario';
+export type { ContactInfoCardConfig } from './contato/formulario';
+export { FAQ } from './contato/faq';
+export type { FAQItem } from './contato/faq';
+// Aliases para compatibilidade
+export { FAQ as FAQ_ITEMS } from './contato/faq';
+export { INFO_CONTATO as CONTACT_INFO_CARDS } from './contato/formulario';
+
+// ============================================================================
+// BLOG
+// ============================================================================
+
+export { CATEGORIAS, TAGS_POPULARES, CONFIG_BLOG } from './blog/categorias';
+
+// ============================================================================
+// NAMESPACES ORGANIZADOS
+// ============================================================================
+
+/**
+ * Namespace comum
+ * @namespace
+ * @description Constantes compartilhadas entre páginas
+ */
+export * as Comum from './comum/desenvolvedor';
+export * as SEO from './comum/seo';
+export * as Social from './comum/social';
+
+/**
+ * Namespace home
+ * @namespace
+ * @description Constantes da página inicial
+ */
+export * as Hero from './home/hero';
+export * as Servicos from './home/servicos';
+export * as Portfolio from './home/portfolio';
+
+/**
+ * Namespace sobre
+ * @namespace
+ * @description Constantes da página sobre
+ */
+export * as Sobre from './sobre/experiencia';
+
+/**
+ * Namespace contato
+ * @namespace
+ * @description Constantes da página contato
+ */
+export * as Formulario from './contato/formulario';
+export * as PerguntasFrequentes from './contato/faq';
+
+/**
+ * Namespace blog
+ * @namespace
+ * @description Constantes do blog
+ */
+export * as Blog from './blog/categorias';

@@ -27,8 +27,8 @@
 
 'use client';
 
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
 import {
   Form,
   FormControl,
@@ -37,8 +37,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 // Design tokens via CSS variables (imported in globals.css)

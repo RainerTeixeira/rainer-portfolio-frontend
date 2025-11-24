@@ -1,159 +1,118 @@
-# Constants - Estrutura DDD (Domain-Driven Design)
+# 📦 Módulo de Constantes
 
-Estrutura modular e profissional de constantes seguindo Domain-Driven Design (DDD).
+## Arquitetura limpa e modular organizada por contexto
 
-## 📁 Estrutura
+## 📁 Estrutura Simplificada
 
 ```
 constants/
-├── site/                    # Configurações do site
-│   ├── config.ts           # Configurações globais (SITE_CONFIG, AUTHOR)
-│   ├── meta.ts             # SEO, meta tags, CONTACT_CONFIG
-│   ├── navigation.ts       # Menu e links (NAVIGATION)
-│   ├── social.ts           # Redes sociais (SOCIAL_LINKS)
-│   ├── sections.ts         # IDs de seções e classes CSS (SECTION_IDS, DIVIDER_CLASSES)
-│   └── index.ts            # Barrel export
+├── comum/           # Constantes compartilhadas
+│   ├── desenvolvedor.ts  # Informações do desenvolvedor
+│   ├── seo.ts           # SEO e meta tags
+│   └── social.ts        # Redes sociais e contato
 │
-├── data/                    # Dados estáticos
-│   ├── skills.ts           # Skills/Tecnologias (SKILLS_DATA)
-│   ├── services.ts         # Serviços (SERVICES_DATA, FOOTER_CONFIG)
-│   ├── experience.ts       # Experiência profissional (EXPERIENCE)
-│   ├── faq.ts              # Perguntas frequentes (FAQ_ITEMS)
-│   ├── contact-info.ts     # Cards de informações de contato (CONTACT_INFO_CARDS)
-│   ├── metrics.ts          # Métricas profissionais (PROFESSIONAL_METRICS)
-│   ├── tech-layers.ts      # Tecnologias por camada (TECH_BY_LAYER)
-│   └── index.ts            # Barrel export
+├── home/            # Página inicial
+│   ├── hero.ts          # Hero section
+│   ├── servicos.ts      # Serviços oferecidos
+│   └── portfolio.ts     # Projetos em destaque
 │
-└── index.ts                 # Export central de tudo
+├── sobre/           # Página sobre
+│   └── experiencia.ts   # Experiência e habilidades
+│
+├── contato/         # Página contato
+│   ├── formulario.ts    # Campos e validações
+│   └── faq.ts          # Perguntas frequentes
+│
+├── blog/            # Blog
+│   └── categorias.ts    # Categorias e tags
+│
+└── index.ts         # Export principal
 ```
 
-## 🎯 Uso
+## 🎯 Como Usar
 
-### Importar do barrel central
+### Import Direto
 
 ```typescript
-import {
-  SITE_CONFIG,
-  NAVIGATION,
-  SOCIAL_LINKS,
-  SKILLS_DATA,
-  EXPERIENCE,
-  FAQ_ITEMS,
-  CONTACT_INFO_CARDS,
-  PROFESSIONAL_METRICS,
-  TECH_BY_LAYER,
-  SECTION_IDS,
-  DIVIDER_CLASSES,
+import { 
+  DESENVOLVEDOR, 
+  SERVICOS, 
+  FAQ 
 } from '@/constants';
 ```
 
-### Importar tipos
+### Import por Namespace
 
 ```typescript
-import type {
-  NavigationItem,
-  SkillItemData,
-  ExperienceItem,
-  FAQItem,
-  ContactInfoCardConfig,
-  ProfessionalMetric,
+import { 
+  Comum, 
+  Hero, 
+  Portfolio 
 } from '@/constants';
+
+// Uso
+console.log(Comum.DESENVOLVEDOR);
+console.log(Hero.CONTEUDO_HERO);
 ```
 
-### Skills com ícones React
+### Import Específico
 
 ```typescript
-import { SKILLS } from '@/components/icons/skills/skills-with-icons';
+import { CONTEUDO_HERO } from '@/constants/home/hero';
+import { DESENVOLVEDOR } from '@/constants/comum/desenvolvedor';
 ```
 
-## 📋 Arquivos e Responsabilidades
+## 📋 Constantes Disponíveis
 
-### `constants/site/`
+### Comum
 
-#### `config.ts`
+- `DESENVOLVEDOR` - Informações do desenvolvedor
+- `BIO` - Biografias em diferentes tamanhos
+- `METRICAS` - Conquistas profissionais
+- `PALAVRAS_CHAVE` - SEO keywords
+- `META_PADRAO` - Meta tags padrão
+- `REDES_SOCIAIS` - Links sociais
+- `CONTATO` - Configuração de contato
 
-- `SITE_CONFIG` - Configurações globais do site
-- `AUTHOR` - Informações do autor
-- `createDefaultSEO()` - Helper para criar configuração de SEO
+### Home
 
-#### `meta.ts`
+- `CONTEUDO_HERO` - Títulos rotativos
+- `ESTILOS_HERO` - Configuração visual
+- `SERVICOS` - Lista de serviços
+- `DIFERENCIAIS` - Vantagens competitivas
+- `PROJETOS` - Portfolio de projetos
 
-- `CONTACT_CONFIG` - Configuração de contato (horários, localização, telefone, email)
-- `SEO_KEYWORDS` - Keywords para SEO
-- `DEFAULT_SEO` - Configuração padrão de SEO
-- Interfaces: `WorkingHours`, `Location`, `Phone`, `Email`, `ContactConfig`
+### Sobre
 
-#### `navigation.ts`
+- `EXPERIENCIA` - Timeline profissional
+- `HABILIDADES` - Stack tecnológica
+- `FORMACAO` - Certificações
 
-- `NAVIGATION` - Itens do menu principal
-- Interface: `NavigationItem`
+### Contato
 
-#### `social.ts`
+- `CAMPOS_FORMULARIO` - Configuração do form
+- `MENSAGENS` - Feedbacks do sistema
+- `INFO_CONTATO` - Informações de contato
+- `FAQ` - Perguntas frequentes
 
-- `SOCIAL_LINKS` - Links de redes sociais (GitHub, LinkedIn, Instagram)
+### Blog
 
-#### `sections.ts`
-
-- `SECTION_IDS` - IDs das seções para navegação
-- `DIVIDER_CLASSES` - Classes CSS para divisores de seção
-
-### `constants/data/`
-
-#### `skills.ts`
-
-- `SKILLS_DATA` - Dados das tecnologias (sem ícones)
-- Interface: `SkillItemData`
-
-#### `services.ts`
-
-- `SERVICES_DATA` - Serviços oferecidos
-- `FOOTER_CONFIG` - Configuração do footer
-- Interfaces: `ServiceItem`, `IconConfig`
-
-#### `experience.ts`
-
-- `EXPERIENCE` - Histórico de experiência profissional
-- Interface: `ExperienceItem`
-
-#### `faq.ts`
-
-- `FAQ_ITEMS` - Perguntas frequentes
-- Interface: `FAQItem`
-
-#### `contact-info.ts`
-
-- `CONTACT_INFO_CARDS` - Cards de informações de contato
-- Interface: `ContactInfoCardConfig`
-
-#### `metrics.ts`
-
-- `PROFESSIONAL_METRICS` - Métricas profissionais
-- Interface: `ProfessionalMetric`
-
-#### `tech-layers.ts`
-
-- `TECH_BY_LAYER` - Tecnologias organizadas por camada (frontend, backend, database, devops)
+- `CATEGORIAS` - Categorias de artigos
+- `TAGS_POPULARES` - Tags mais usadas
+- `CONFIG_BLOG` - Configurações
 
 ## ✅ Benefícios
 
-- **Modular**: Cada arquivo com responsabilidade única
-- **Escalável**: Fácil adicionar novos dados/serviços
-- **Type-safe**: Tipos TypeScript em todos os arquivos
-- **Sem redundâncias**: Dados centralizados e reutilizados
-- **DDD**: Estrutura orientada a domínios
-- **Separação de concerns**: Dados (.ts) separados de componentes (.tsx)
-- **Barrel exports**: Imports simplificados
+- **Organização por Contexto**: Constantes agrupadas por página/funcionalidade
+- **JSDoc em Português**: Documentação profissional em PT-BR
+- **Integração com Design Tokens**: Usa `@rainersoft/design-tokens`
+- **Zero Redundância**: Estrutura limpa e mínima
+- **Type-Safe**: TypeScript em todos os arquivos
+- **Manutenção Fácil**: Encontre rapidamente o que precisa
 
-## 🔄 Atualizações
+## � Notas Importantes
 
-Para adicionar novos dados:
-
-1. Criar arquivo em `constants/data/` ou `constants/site/`
-2. Exportar do barrel (`index.ts`)
-3. Importar no componente/página via `@/constants`
-
-## 📝 Notas
-
-- Design tokens devem ser importados diretamente de `@rainer/rainer-design-tokens`
-- Ícones React estão em `components/icons/skills/`
-- `SKILLS` com ícones está em `components/icons/skills/skills-with-icons.tsx`
+- Todos os comentários JSDoc estão em português
+- Design tokens importados de `@rainersoft/design-tokens`
+- Estrutura organizada por rotas do Next.js
+- Apenas o necessário, sem arquivos redundantes

@@ -12,10 +12,10 @@
 
 'use client';
 
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
+import { Label } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import {
   AlertCircle,

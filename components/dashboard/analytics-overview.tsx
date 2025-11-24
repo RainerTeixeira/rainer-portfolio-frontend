@@ -28,7 +28,7 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { dashboardService } from '@/lib/api/services';
 import { cn } from '@/lib/utils';
 import { Eye, Heart, MessageSquare, TrendingUp } from 'lucide-react';

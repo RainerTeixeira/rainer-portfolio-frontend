@@ -34,15 +34,15 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@rainersoft/ui';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+} from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { Check, Mail, Send } from 'lucide-react';
 import { useNewsletter } from './hooks';

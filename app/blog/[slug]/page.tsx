@@ -39,10 +39,10 @@ import {
   TableOfContents,
 } from '@/components/blog';
 import { BackToTop, ParticlesEffect } from '@/components/ui';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Badge } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
+import { Card, CardContent } from '@rainersoft/ui';
+import { Separator } from '@rainersoft/ui';
 import { tiptapJSONtoHTML } from '@/components/dashboard/lib/tiptap-utils';
 import { postsService } from '@/lib/api/services';
 import type { Post } from '@/lib/api/types';

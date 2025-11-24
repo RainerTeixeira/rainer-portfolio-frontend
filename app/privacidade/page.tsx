@@ -17,7 +17,7 @@ import Link from 'next/link';
 import { Database, Eye, FileCheck, Lock, Mail, Shield } from 'lucide-react';
 
 import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { POLICIES_LAST_UPDATED, SITE_CONFIG } from '@/constants';
 

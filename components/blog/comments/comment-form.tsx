@@ -34,10 +34,10 @@
 'use client';
 
 import { useAuth } from '@/components/providers/auth-provider';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
+import { Button } from '@rainersoft/ui';
+import { Textarea } from '@rainersoft/ui';
 import { commentsService } from '@/lib/api/services';
 import type { Comment } from '@/lib/api/types';
 import { zodResolver } from '@hookform/resolvers/zod';
