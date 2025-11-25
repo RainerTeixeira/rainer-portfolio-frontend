@@ -78,7 +78,7 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
-    input.onchange = e => {
+    input.onchange = (e: Event) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file && onAvatarChange) {
         onAvatarChange(file);
@@ -204,9 +204,10 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
               <Input
                 id="edit-name"
                 value={editData.name}
-                onChange={e =>
-                  setEditData({ ...editData, name: e.target.value })
-                }
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement>,
+                ) =>
+                  setEditData({ ...editData, name: e.target.value })}
                 placeholder="Seu nome completo"
               />
             </div>
@@ -217,9 +218,10 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
                 id="edit-email"
                 type="email"
                 value={editData.email}
-                onChange={e =>
-                  setEditData({ ...editData, email: e.target.value })
-                }
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement>,
+                ) =>
+                  setEditData({ ...editData, email: e.target.value })}
                 placeholder="seu@email.com"
               />
             </div>
@@ -229,9 +231,10 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
               <Textarea
                 id="edit-bio"
                 value={editData.bio}
-                onChange={e =>
-                  setEditData({ ...editData, bio: e.target.value })
-                }
+                onChange={(
+                  e: React.ChangeEvent<HTMLTextAreaElement>,
+                ) =>
+                  setEditData({ ...editData, bio: e.target.value })}
                 placeholder="Conte um pouco sobre você..."
                 rows={4}
               />

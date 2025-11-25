@@ -2,7 +2,7 @@
  * Testes para componente Label
  */
 
-import { Label } from '@/components/ui/label';
+import { Label } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 
 describe('Label', () => {

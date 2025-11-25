@@ -2,7 +2,7 @@
  * Testes para componente Alert
  */
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 
 describe('Alert', () => {

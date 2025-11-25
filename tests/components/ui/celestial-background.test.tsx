@@ -2,7 +2,7 @@
  * Testes para componente CelestialBackground
  */
 
-import { CelestialBackground } from '@/components/ui/celestial-background';
+import { CelestialBackground } from '@/components/ui';
 import { render } from '@testing-library/react';
 
 describe('CelestialBackground', () => {

@@ -2,12 +2,7 @@
  * Testes para componente Tooltip
  */
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

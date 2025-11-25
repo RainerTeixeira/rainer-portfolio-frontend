@@ -79,7 +79,7 @@ export function ViewsChart({ data, isLoading }: ViewsChartProps) {
 
           <Tabs
             value={period}
-            onValueChange={v => setPeriod(v as '7d' | '30d' | '90d')}
+            onValueChange={(v: string) => setPeriod(v as '7d' | '30d' | '90d')}
           >
             <TabsList>
               <TabsTrigger value="7d">7 dias</TabsTrigger>

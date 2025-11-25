@@ -66,7 +66,7 @@ function parseCubicBezier(
   if (!easing) return undefined;
   const match = easing.match(/cubic-bezier\(([^)]+)\)/);
   if (!match) return undefined;
-  const parts = match[1]
+  const parts = match[1]!
     .split(',')
     .map(value => Number.parseFloat(value.trim()));
   if (parts.length !== 4 || parts.some(Number.isNaN)) return undefined;
@@ -383,7 +383,9 @@ export function LoginForm({
             type="text"
             placeholder="Digite seu email ou usuário"
             value={username}
-            onChange={e => setUsername(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setUsername(e.target.value)
+            }
             disabled={isLoading}
             className={cn(
               INPUT_STYLES.base,
@@ -469,7 +471,9 @@ export function LoginForm({
             type={showPassword ? 'text' : 'password'}
             placeholder="Digite sua senha"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
             disabled={isLoading}
             className={cn(
               INPUT_STYLES.base,
@@ -555,7 +559,9 @@ export function LoginForm({
             type="checkbox"
             id="remember"
             checked={rememberMe}
-            onChange={e => setRememberMe(e.target.checked)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setRememberMe(e.target.checked)
+            }
             className={cn(
               'h-4 w-4',
               'rounded-sm', // radiusTokens.sm

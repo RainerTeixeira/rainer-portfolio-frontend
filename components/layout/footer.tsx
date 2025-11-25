@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Footer Component - Clean Professional Design
  *
@@ -16,7 +18,7 @@
 // Constants & Configuration
 // ============================================================================
 
-import { NAVIGATION, SERVICOS, SITE_CONFIG } from '@/constants';
+import { NAVIGATION, SERVICOS, SITE_CONFIG, METRICAS } from '@/constants';
 
 // ============================================================================
 // Icons
@@ -149,7 +151,7 @@ export function Footer() {
                   )}
                 >
                   <CheckCircle2 className={cn('h-3 w-3')} />
-                  {SITE_CONFIG.experience} Anos
+                  {METRICAS.anosExperiencia} Anos
                 </span>
                 <span
                   className={cn(

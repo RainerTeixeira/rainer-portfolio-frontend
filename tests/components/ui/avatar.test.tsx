@@ -2,7 +2,7 @@
  * Testes para componente Avatar
  */
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 
 describe('Avatar', () => {

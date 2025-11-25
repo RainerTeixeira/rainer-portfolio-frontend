@@ -1,41 +1,14 @@
 /**
- * Configuração do PostCSS
+ * PostCSS Config - Tailwind CSS v4.0
  *
- * PostCSS é uma ferramenta para transformar CSS com plugins JavaScript.
- * Este arquivo define os plugins utilizados no pipeline de processamento do CSS.
- *
- * @fileoverview Configuração dos plugins PostCSS para processamento de estilos
+ * @description Configuração simplificada usando o novo plugin do Tailwind v4.0
  * @author Rainer Teixeira
- * @version 1.0.0
- * @since 1.0.0
- *
- * @typedef {Object} PostCSSConfig
- * @property {Object} plugins - Objeto contendo os plugins PostCSS ativos
+ * @version 2.0.0
  */
 
-/**
- * Exporta a configuração do PostCSS
- *
- * Plugins configurados:
- * - @tailwindcss/postcss: Plugin oficial do Tailwind CSS v4 para processar classes utilitárias
- * - autoprefixer: Adiciona automaticamente prefixos de navegadores (-webkit-, -moz-, etc)
- *                 garantindo compatibilidade cross-browser baseado em browserslist
- *
- * @type {PostCSSConfig}
- */
-export default {
+module.exports = {
   plugins: {
-    /**
-     * Plugin do Tailwind CSS v4
-     * Processa todas as diretivas @tailwind e gera as classes utilitárias
-     */
     '@tailwindcss/postcss': {},
-
-    /**
-     * Autoprefixer
-     * Adiciona prefixos de fornecedores automaticamente com base no browserslist
-     * Exemplo: transform -> -webkit-transform, -ms-transform, transform
-     */
     autoprefixer: {},
   },
 };

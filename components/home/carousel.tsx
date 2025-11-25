@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Carousel Component (Cyberpunk Advanced)
@@ -26,6 +26,7 @@
 
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useTheme } from 'next-themes';
+import { tokens } from '@rainersoft/design-tokens';
 
 // Funções de conversão de cores inline para evitar problemas com imports
 function hexToRGB(hex: string): string {
@@ -53,8 +54,26 @@ function getTokenColor(
   shade: number,
   fallback: string
 ): string {
-  // Sempre retorna o fallback - evita problemas de webpack
-  return fallback;
+  try {
+    const palette =
+      theme === 'dark'
+        ? tokens.colors.dark?.primitive
+        : tokens.colors.light?.primitive;
+
+    const family = palette?.[color as keyof typeof palette];
+    const value =
+      typeof shade === 'number'
+        ? (family as Record<number, string> | undefined)?.[shade]
+        : undefined;
+
+    if (typeof value === 'string' && value.length > 0) {
+      return value;
+    }
+
+    return fallback;
+  } catch {
+    return fallback;
+  }
 }
 
 /* ==========================================================
@@ -883,134 +902,6 @@ function Carousel() {
         </div>
       </div>
 
-      {/* ESTILOS CYBERPUNK AVANÇADOS */}
-      <style jsx>{`
-        /* ANIMAÇÕES DO SCROLL INDICATOR */
-        @keyframes scroll-wheel {
-          0% {
-            transform: translateY(0);
-            opacity: 1;
-          }
-          50% {
-            transform: translateY(8px);
-            opacity: 0.3;
-          }
-          100% {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-
-        @keyframes bounce-arrows {
-          0%,
-          100% {
-            transform: translateY(0);
-            opacity: 1;
-          }
-          50% {
-            transform: translateY(8px);
-            opacity: 0.7;
-          }
-        }
-
-        /* MATRIX BINARY FALL - Movimento como bits de processador */
-        @keyframes matrixBinaryFall {
-          from {
-            transform: translate3d(0, -100vh, 0) translateZ(0);
-            opacity: 0;
-          }
-          2% {
-            opacity: 1;
-          }
-          98% {
-            opacity: 1;
-          }
-          to {
-            transform: translate3d(0, 0, 0) translateZ(0);
-            opacity: 0;
-          }
-        }
-
-        /* PULSO BINÁRIO - Bits ativos pulsando */
-        @keyframes binary-pulse {
-          0%,
-          100% {
-            opacity: 1;
-            transform: scale(1.1);
-          }
-          50% {
-            opacity: 0.8;
-            transform: scale(1.15);
-          }
-        }
-
-        /* SHIMMER HIPNÓTICO - Efeito de brilho para bits '1' */
-        @keyframes binary-shimmer {
-          0%,
-          100% {
-            opacity: 0.85;
-            filter: brightness(1.1);
-          }
-          50% {
-            opacity: 1;
-            filter: brightness(1.4) saturate(1.3);
-          }
-        }
-
-        /* CLASSES PARA BITS */
-        .glow-binary-head {
-          animation: binary-pulse 1.5s ease-in-out infinite;
-        }
-
-        .glow-binary-trail {
-          animation: binary-pulse 2s ease-in-out infinite 0.3s;
-        }
-
-        .glow-binary-fade {
-          animation: none;
-        }
-
-        /* OTIMIZADO: Transform + Opacity = GPU Accelerated */
-        @keyframes quantumFloat {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-            opacity: 0.75;
-          }
-          50% {
-            transform: translate3d(15px, -30px, 0) scale(1.15);
-            opacity: 0.95;
-          }
-        }
-
-        @keyframes hologramScan {
-          0% {
-            transform: translateY(-100%);
-            opacity: 0;
-          }
-          5% {
-            opacity: 1;
-          }
-          95% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(100vh);
-            opacity: 0;
-          }
-        }
-
-        /* OTIMIZADO: Contenção de GPU sem excessos */
-        .matrix-column-wrapper {
-          backface-visibility: hidden;
-          transform: translateZ(0);
-        }
-
-        .matrix-grid {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-      `}</style>
     </div>
   );
 }

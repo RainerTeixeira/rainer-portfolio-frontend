@@ -165,7 +165,9 @@ export default function ResetPasswordPage() {
               type="text"
               placeholder="Digite o código de 6 dígitos"
               value={verificationCode}
-              onChange={e => setVerificationCode(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setVerificationCode(e.target.value)
+              }
               disabled={isLoading}
               className={cn(
                 'h-9 sm:h-10 text-center text-lg tracking-widest font-mono',
