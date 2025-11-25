@@ -26,21 +26,8 @@ import { HelpCircle } from 'lucide-react';
 
 import { ContactForm } from '@/components/contato/contact-form';
 import { ContactInfoCard } from '@/components/contato/contact-info-card';
-import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
+import { BackToTop, PageHeader, ParticlesEffect, Accordion, AccordionContent, AccordionItem, AccordionTrigger, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@rainersoft/ui';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@rainersoft/ui';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import type { ContactInfoCardConfig, FAQItem } from '@/constants';

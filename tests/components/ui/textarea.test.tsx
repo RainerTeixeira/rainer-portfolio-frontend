@@ -2,7 +2,7 @@
  * Testes para componente Textarea
  */
 
-import { Textarea } from '@/components/ui/textarea';
+import { Textarea } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

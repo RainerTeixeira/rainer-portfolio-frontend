@@ -107,7 +107,7 @@ function parseCubicBezier(easing: string | undefined): [number, number, number, 
   if (!easing) return undefined;
   const match = easing.match(/cubic-bezier\(([^)]+)\)/);
   if (!match) return undefined;
-  const parts = match[1]
+  const parts = match[1]!
     .split(',')
     .map(value => Number.parseFloat(value.trim()));
   if (parts.length !== 4 || parts.some(Number.isNaN)) return undefined;

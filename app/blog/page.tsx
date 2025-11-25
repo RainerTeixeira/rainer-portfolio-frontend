@@ -137,6 +137,21 @@ const POSTS_CONTAINER_VARIANTS = {
 } as const;
 
 /**
+ * Helper para cores do card de erro de conexão, baseadas em tokens.
+ */
+function getErrorColors(theme: 'dark' | 'light') {
+  const base = getTokenColor(theme, 'red', 500, '#ef4444');
+  return {
+    border: base,
+    background: hexToRGBA(base, theme === 'dark' ? 0.1 : 0.05),
+    iconBackground: base,
+    icon: base,
+    title: getTokenColor(theme, 'red', 600, '#dc2626'),
+    text: getTokenColor(theme, 'red', 400, '#f87171'),
+  } as const;
+}
+
+/**
  * BlogPage Component
  *
  * Componente principal da página de blog com:
@@ -360,24 +375,15 @@ export default function BlogPage() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-4xl mx-auto px-6 py-8 relative z-10"
         >
+          {/** Cores do card de erro baseadas em tokens */}
+          {(() => {
+            const errorColors = getErrorColors(isDarkTheme ? 'dark' : 'light');
+            return (
           <Card
             className="border-2"
             style={{
-              borderColor: getTokenColor(
-                isDarkTheme ? 'dark' : 'light',
-                'red',
-                500,
-                '#ef4444'
-              ),
-              backgroundColor: hexToRGBA(
-                getTokenColor(
-                  isDarkTheme ? 'dark' : 'light',
-                  'red',
-                  500,
-                  '#ef4444'
-                ),
-                isDarkTheme ? 0.1 : 0.05
-              ),
+              borderColor: errorColors.border,
+              backgroundColor: errorColors.background,
             }}
           >
             <CardContent className="p-6">
@@ -385,41 +391,23 @@ export default function BlogPage() {
                 <div
                   className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center"
                   style={{
-                    backgroundColor: getTokenColor(
-                      isDarkTheme ? 'dark' : 'light',
-                      'red',
-                      500,
-                      '#ef4444'
-                    ),
+                    backgroundColor: errorColors.iconBackground,
                   }}
                 >
-                  <Database
-                    className="w-6 h-6 text-white"
-                    style={{ color: '#ffffff' }}
-                  />
+                  <Database className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <AlertCircle
                       className="w-5 h-5"
                       style={{
-                        color: getTokenColor(
-                          isDarkTheme ? 'dark' : 'light',
-                          'red',
-                          500,
-                          '#ef4444'
-                        ),
+                        color: errorColors.icon,
                       }}
                     />
                     <h3
                       className="text-lg font-bold"
                       style={{
-                        color: getTokenColor(
-                          isDarkTheme ? 'dark' : 'light',
-                          'red',
-                          600,
-                          '#dc2626'
-                        ),
+                        color: errorColors.title,
                       }}
                     >
                       Erro de Conexão
@@ -428,12 +416,7 @@ export default function BlogPage() {
                   <p
                     className="text-sm leading-relaxed"
                     style={{
-                      color: getTokenColor(
-                        isDarkTheme ? 'dark' : 'light',
-                        'red',
-                        400,
-                        '#f87171'
-                      ),
+                      color: errorColors.text,
                     }}
                   >
                     Não foi possível estabelecer conexão com o banco de dados.
@@ -443,6 +426,8 @@ export default function BlogPage() {
               </div>
             </CardContent>
           </Card>
+            );
+          })()}
         </motion.section>
       )}
 

@@ -2,7 +2,7 @@
  * Testes para componente Badge
  */
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/ui';
 import { render, screen } from '@testing-library/react';
 
 describe('Badge', () => {

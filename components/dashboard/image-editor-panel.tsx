@@ -206,7 +206,9 @@ export function ImageEditorPanel({
             id="image-alt"
             placeholder="Descreva a imagem para acessibilidade"
             value={alt}
-            onChange={e => setAlt(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setAlt(e.target.value)
+            }
             className="text-sm"
           />
           <p className="text-xs text-muted-foreground">
@@ -223,7 +225,9 @@ export function ImageEditorPanel({
             id="image-title"
             placeholder="Título da imagem (aparece ao passar o mouse)"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setTitle(e.target.value)
+            }
             className="text-sm"
           />
         </div>
@@ -238,7 +242,9 @@ export function ImageEditorPanel({
             type="number"
             placeholder="Ex: 800 (deixe vazio para auto)"
             value={width}
-            onChange={e => setWidth(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setWidth(e.target.value)
+            }
             className="text-sm"
             min="1"
             max="2000"

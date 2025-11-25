@@ -33,7 +33,7 @@ export { PALAVRAS_CHAVE, META_PADRAO, OPEN_GRAPH } from './comum/seo';
 export { REDES_SOCIAIS, CONTATO } from './comum/social';
 export { SECTION_IDS, NAVEGACAO, NAVIGATION, BREADCRUMBS } from './comum/navegacao';
 export { SITE_CONFIG, POLICIES_LAST_UPDATED, COPYRIGHT } from './comum/site';
-export { SKILLS_DATA } from './comum/skills';
+export { SKILLS_DATA, TECH_BY_LAYER } from './comum/skills';
 export type { SkillItemData } from './comum/skills';
 
 // ============================================================================
@@ -48,7 +48,10 @@ export { PROJETOS, METRICAS_PROJETOS } from './home/portfolio';
 // PÁGINA SOBRE
 // ============================================================================
 
-export { EXPERIENCIA, HABILIDADES, FORMACAO } from './sobre/experiencia';
+export { EXPERIENCIA, HABILIDADES, FORMACAO, PROFESSIONAL_METRICS } from './sobre/experiencia';
+
+// Aliases para compatibilidade com imports antigos
+export { EXPERIENCIA as EXPERIENCE } from './sobre/experiencia';
 
 // ============================================================================
 // PÁGINA CONTATO

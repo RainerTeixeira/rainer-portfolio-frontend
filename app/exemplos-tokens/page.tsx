@@ -233,23 +233,23 @@ export default function ExemplosTokensPage() {
                 lineHeight: typography.button.medium.lineHeight,
                 letterSpacing: typography.button.medium.letterSpacing,
               }}
-              onMouseEnter={e => {
+              onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
                 e.currentTarget.style.backgroundColor = colors.primary.hover;
               }}
-              onMouseLeave={e => {
+              onMouseLeave={(e: React.MouseEvent<HTMLElement>) => {
                 e.currentTarget.style.backgroundColor = colors.primary.base;
               }}
-              onMouseDown={e => {
+              onMouseDown={(e: React.MouseEvent<HTMLElement>) => {
                 e.currentTarget.style.backgroundColor = colors.primary.active;
               }}
-              onMouseUp={e => {
+              onMouseUp={(e: React.MouseEvent<HTMLElement>) => {
                 e.currentTarget.style.backgroundColor = colors.primary.hover;
               }}
-              onFocus={e => {
+              onFocus={(e: React.FocusEvent<HTMLElement>) => {
                 e.currentTarget.style.outline = `2px solid ${colors.primary.focus}`;
                 e.currentTarget.style.outlineOffset = '2px';
               }}
-              onBlur={e => {
+              onBlur={(e: React.FocusEvent<HTMLElement>) => {
                 e.currentTarget.style.outline = 'none';
               }}
             >
@@ -267,21 +267,21 @@ export default function ExemplosTokensPage() {
                 fontWeight: typography.button.medium.fontWeight,
                 backgroundColor: 'transparent',
               }}
-              onMouseEnter={e => {
+              onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
                 e.currentTarget.style.backgroundColor =
                   colors.secondary.backgroundHover;
                 e.currentTarget.style.borderColor =
                   colors.secondary.borderHover;
               }}
-              onMouseLeave={e => {
+              onMouseLeave={(e: React.MouseEvent<HTMLElement>) => {
                 e.currentTarget.style.backgroundColor = 'transparent';
                 e.currentTarget.style.borderColor = colors.secondary.border;
               }}
-              onFocus={e => {
+              onFocus={(e: React.FocusEvent<HTMLElement>) => {
                 e.currentTarget.style.outline = `2px solid ${colors.secondary.focus}`;
                 e.currentTarget.style.outlineOffset = '2px';
               }}
-              onBlur={e => {
+              onBlur={(e: React.FocusEvent<HTMLElement>) => {
                 e.currentTarget.style.outline = 'none';
               }}
             >
@@ -297,10 +297,10 @@ export default function ExemplosTokensPage() {
                 fontSize: typography.button.medium.fontSize,
                 fontWeight: typography.button.medium.fontWeight,
               }}
-              onMouseEnter={e => {
+              onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
                 e.currentTarget.style.backgroundColor = colors.accent.hover;
               }}
-              onMouseLeave={e => {
+              onMouseLeave={(e: React.MouseEvent<HTMLElement>) => {
                 e.currentTarget.style.backgroundColor = colors.accent.base;
               }}
             >
@@ -344,11 +344,11 @@ export default function ExemplosTokensPage() {
                 borderColor: colors.border.primary,
               }}
               className="transition-all hover:shadow-lg"
-              onMouseEnter={e => {
+              onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
                 e.currentTarget.style.borderColor = colors.primary.border;
                 e.currentTarget.style.backgroundColor = colors.surface.hover;
               }}
-              onMouseLeave={e => {
+              onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
                 e.currentTarget.style.borderColor = colors.border.primary;
                 e.currentTarget.style.backgroundColor = colors.surface.primary;
               }}

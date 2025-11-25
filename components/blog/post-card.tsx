@@ -159,10 +159,10 @@ export function PostCard({
   const isDark = theme === 'dark';
   const colors = isDark ? getDarkColors() : getLightColors();
 
-  // Cores do tema atual
-  const accentCyan = isDark ? colors.accent.cyan : colors.brand.primary;
-  const accentPurple = isDark ? colors.accent.purple : colors.brand.secondary;
-  const accentPink = isDark ? colors.accent.pink : colors.brand.tertiary;
+  // Cores do tema atual (usando apenas propriedades válidas do objeto colors)
+  const accentCyan = colors.primary.base;
+  const accentPurple = colors.secondary.base;
+  const accentPink = colors.accent.base;
 
   // ========================================================================
   // COMPUTED VALUES
@@ -304,7 +304,6 @@ export function PostCard({
               )}
               style={
                 {
-                  // @ts-expect-error - CSS custom property
                   '--gradient-from': accentCyan,
                   '--gradient-via': accentPurple,
                   '--gradient-to': accentPink,

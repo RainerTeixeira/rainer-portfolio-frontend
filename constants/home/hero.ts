@@ -49,7 +49,7 @@ export const CONTEUDO_HERO = {
  * @description Estilos usando tokens do design system
  */
 export const ESTILOS_HERO = {
-  gradiente: GRADIENTS.PRIMARY,
+  gradiente: GRADIENTS.TEXT_PRIMARY,
   sombra: SHADOWS.LARGE,
   animacao: {
     duracao: 6000,

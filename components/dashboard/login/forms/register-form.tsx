@@ -179,7 +179,7 @@ export function RegisterForm({}: RegisterFormProps) {
         <FormField
           control={form.control}
           name="name"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Nome Completo</FormLabel>
               <FormControl>
@@ -199,7 +199,7 @@ export function RegisterForm({}: RegisterFormProps) {
         <FormField
           control={form.control}
           name="username"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Nome de Usuário</FormLabel>
               <FormControl>
@@ -222,7 +222,7 @@ export function RegisterForm({}: RegisterFormProps) {
         <FormField
           control={form.control}
           name="email"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
@@ -243,7 +243,7 @@ export function RegisterForm({}: RegisterFormProps) {
         <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
@@ -264,7 +264,7 @@ export function RegisterForm({}: RegisterFormProps) {
         <FormField
           control={form.control}
           name="confirmPassword"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Confirmar Senha</FormLabel>
               <FormControl>
@@ -284,7 +284,7 @@ export function RegisterForm({}: RegisterFormProps) {
         <FormField
           control={form.control}
           name="acceptTerms"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
               <FormControl>
                 <Checkbox

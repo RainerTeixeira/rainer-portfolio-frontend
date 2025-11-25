@@ -64,7 +64,9 @@ export function CategoryFilter({
         onClick={() => handleCategoryClick(null)}
         role="button"
         tabIndex={0}
-        onKeyDown={e => handleKeyDown(e, null)}
+        onKeyDown={(e: React.KeyboardEvent<HTMLElement>) =>
+          handleKeyDown(e, null)
+        }
         aria-label="Mostrar todos os posts"
         aria-pressed={!selectedCategory}
       >
@@ -78,7 +80,9 @@ export function CategoryFilter({
           onClick={() => handleCategoryClick(category)}
           role="button"
           tabIndex={0}
-          onKeyDown={e => handleKeyDown(e, category)}
+          onKeyDown={(e: React.KeyboardEvent<HTMLElement>) =>
+            handleKeyDown(e, category)
+          }
           aria-label={`Filtrar por categoria ${category}`}
           aria-pressed={selectedCategory === category}
         >

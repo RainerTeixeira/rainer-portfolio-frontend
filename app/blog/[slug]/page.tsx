@@ -230,6 +230,8 @@ export default function PostPage() {
             O post que você procura não existe ou foi removido.
           </p>
           <Button
+            variant="default"
+            size="md"
             onClick={() => router.push('/blog')}
             className="gap-2 dark:bg-cyan-600 dark:hover:bg-cyan-700"
             aria-label="Voltar para página do blog"

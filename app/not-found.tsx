@@ -295,7 +295,6 @@ export default function NotFound() {
    * @param color - Cor do ícone
    * @param glow - Se true, adiciona efeito de brilho ao redor do ícone
    */
-  // @ts-expect-error - TypeScript não reconhece tipos DOM corretamente neste contexto
   const drawIcon = useCallback(
     (
       ctx: CanvasRenderingContext2D,
@@ -535,7 +534,6 @@ export default function NotFound() {
    *
    * @param worldId - ID do mundo a ser inicializado (1-10)
    */
-  // @ts-expect-error - TypeScript não reconhece tipos DOM corretamente neste contexto
   const initWorld = useCallback((worldId: number) => {
     const world = WORLDS.find(w => w.id === worldId);
     if (!world) return;
@@ -1469,7 +1467,6 @@ export default function NotFound() {
    * Atualiza estado do jogo a cada frame.
    * Processa física, colisões, coleta de moedas e detecção de game over.
    */
-  // @ts-expect-error - TypeScript não reconhece tipos DOM corretamente neste contexto
   const updateGame = useCallback(() => {
     if (gameState !== 'playing') return;
 
@@ -1591,7 +1588,6 @@ export default function NotFound() {
    * Renderiza frame do jogo no canvas.
    * Desenha background, plataformas, player, inimigos, moedas e UI.
    */
-  // @ts-expect-error - TypeScript não reconhece tipos DOM corretamente neste contexto
   const render = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -2389,7 +2385,7 @@ export default function NotFound() {
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         /* Grid pattern removido - fundo limpo */
       `}</style>
     </div>

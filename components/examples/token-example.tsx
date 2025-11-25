@@ -155,7 +155,7 @@ export function TokenCompleteExample() {
       {/* Card 2: Usando métodos do hook */}
       <div
         style={{
-          ...styles.background('surface'),
+          ...styles.background('primary'),
           ...styles.text('primary'),
           ...styles.shadow('md'),
           ...styles.radius('lg'),

@@ -32,7 +32,7 @@ import {
 // UI Components
 // ============================================================================
 
-import { LoadingScreen } from '@/components/ui';
+import { LoadingScreen } from '@rainersoft/ui';
 
 // ============================================================================
 // Types

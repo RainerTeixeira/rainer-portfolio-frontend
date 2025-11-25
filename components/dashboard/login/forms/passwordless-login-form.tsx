@@ -225,7 +225,9 @@ export function PasswordlessLoginForm({
             type="email"
             placeholder="seu@email.com"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
             disabled={isLoading}
             className={cn(
               'h-11',
@@ -302,7 +304,9 @@ export function PasswordlessLoginForm({
           type="text"
           placeholder="Digite o código recebido"
           value={code}
-          onChange={e => setCode(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setCode(e.target.value)
+          }
           disabled={isLoading}
           className={cn(
             'h-11 text-center text-lg tracking-wider font-mono',

@@ -192,8 +192,8 @@ function NewsletterForm({
               <Checkbox
                 id="terms-inline"
                 checked={acceptTerms}
-                onCheckedChange={checked =>
-                  setValue('acceptTerms', checked as boolean)
+                onCheckedChange={(checked: boolean) =>
+                  setValue('acceptTerms', checked)
                 }
                 disabled={isSubmitting}
               />
@@ -322,8 +322,8 @@ function NewsletterForm({
               <Checkbox
                 id="terms"
                 checked={acceptTerms}
-                onCheckedChange={checked =>
-                  setValue('acceptTerms', checked as boolean)
+                onCheckedChange={(checked: boolean) =>
+                  setValue('acceptTerms', checked)
                 }
                 disabled={isSubmitting}
               />
