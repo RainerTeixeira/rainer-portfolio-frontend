@@ -105,3 +105,36 @@ export const SKILLS_DATA: ReadonlyArray<SkillItemData> = [
     color: 'from-pink-500 to-fuchsia-500',
   },
 ] as const;
+
+/**
+ * Agrupamento de tecnologias por camada da stack
+ * Usado principalmente na página /sobre para exibir competências por camada.
+ */
+export const TECH_BY_LAYER = {
+  frontend: [
+    'React 19',
+    'Next.js 15',
+    'TypeScript',
+    'Tailwind CSS',
+    'Framer Motion',
+  ],
+  backend: [
+    'Node.js',
+    'NestJS',
+    'Express',
+    'Fastify',
+    'Prisma ORM',
+  ],
+  database: [
+    'PostgreSQL',
+    'MongoDB',
+    'Redis',
+    'MySQL',
+  ],
+  devops: [
+    'Docker',
+    'AWS',
+    'Vercel',
+    'GitHub Actions',
+  ],
+} as const;

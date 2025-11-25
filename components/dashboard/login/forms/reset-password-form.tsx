@@ -150,7 +150,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Nova Senha</FormLabel>
               <FormControl>
@@ -171,7 +171,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         <FormField
           control={form.control}
           name="confirmPassword"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Confirmar Nova Senha</FormLabel>
               <FormControl>

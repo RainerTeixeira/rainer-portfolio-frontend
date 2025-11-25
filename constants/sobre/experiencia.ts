@@ -84,6 +84,38 @@ export const HABILIDADES = {
 } as const;
 
 /**
+ * Métricas profissionais exibidas na página Sobre
+ * @constant
+ * @description Números de impacto do portfólio
+ */
+export const PROFESSIONAL_METRICS = [
+  {
+    value: '15+',
+    label: 'Projetos reais entregues',
+    gradient: `from-${EXPERIENCE_COLORS.primary} to-${EXPERIENCE_COLORS.primary}`,
+    iconColor: EXPERIENCE_COLORS.primary,
+  },
+  {
+    value: '100K+',
+    label: 'Linhas de código em produção',
+    gradient: `from-${EXPERIENCE_COLORS.secondary} to-${EXPERIENCE_COLORS.secondary}`,
+    iconColor: EXPERIENCE_COLORS.secondary,
+  },
+  {
+    value: '95+',
+    label: 'Score médio no Lighthouse',
+    gradient: `from-${EXPERIENCE_COLORS.accent} to-${EXPERIENCE_COLORS.accent}`,
+    iconColor: EXPERIENCE_COLORS.accent,
+  },
+  {
+    value: '5+',
+    label: 'Anos de experiência focada em web',
+    gradient: `from-${EXPERIENCE_COLORS.primary} to-${EXPERIENCE_COLORS.primary}`,
+    iconColor: EXPERIENCE_COLORS.primary,
+  },
+] as const;
+
+/**
  * Certificações e cursos
  * @constant
  * @description Formação e aprimoramento

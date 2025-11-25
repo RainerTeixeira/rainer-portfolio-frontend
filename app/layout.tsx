@@ -59,7 +59,7 @@ import {
   StarsBackground,
   Toaster,
   UpdateNotification,
-} from '@/components/ui';
+} from '@rainersoft/ui';
 import { DESENVOLVEDOR, PALAVRAS_CHAVE, SITE_CONFIG } from '@/constants';
 import { darkThemeColors, lightThemeColors } from '@rainersoft/design-tokens';
 import { Analytics } from '@vercel/analytics/next';

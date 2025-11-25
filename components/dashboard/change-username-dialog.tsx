@@ -237,12 +237,12 @@ export function ChangeUsernameDialog({
           required && !success && '[&>button]:hidden'
         )}
         // Se required=true, não permite fechar clicando fora
-        onInteractOutside={e => {
+        onInteractOutside={(e: Event) => {
           if (required && !success) {
             e.preventDefault();
           }
         }}
-        onEscapeKeyDown={e => {
+        onEscapeKeyDown={(e: KeyboardEvent) => {
           if (required && !success) {
             e.preventDefault();
           }
@@ -321,7 +321,9 @@ export function ChangeUsernameDialog({
               <Input
                 id="new-nickname"
                 value={newNickname}
-                onChange={e => handleNicknameChange(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleNicknameChange(e.target.value)
+                }
                 placeholder="meunickname"
                 disabled={loading}
                 required

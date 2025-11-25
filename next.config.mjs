@@ -44,8 +44,18 @@ const nextConfig = {
       '@radix-ui/react-toggle',
       '@radix-ui/react-tooltip',
       'framer-motion',
-      '@tanstack/react-query'
+      '@tanstack/react-query',
+      '@rainersoft/ui',
+      'class-variance-authority',
+      'clsx',
+      'tailwind-merge'
     ],
+    // Performance otimizações
+    scrollRestoration: true,
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+    typedRoutes: true,
   },
 
   /**
@@ -57,7 +67,7 @@ const nextConfig = {
   /**
    * Lista de workspaces a serem transpilados (monorepo support).
    */
-  transpilePackages: ['@rainersoft/design-tokens'],
+  transpilePackages: ['@rainersoft/design-tokens', '@rainersoft/ui'],
 
   /**
    * Configurações avançadas de imagens (domínios autorizados, formatos, tamanhos).
@@ -98,8 +108,30 @@ const nextConfig = {
   reactStrictMode: false, // Desativa re-renderização dupla em dev (economiza recursos)
   poweredByHeader: false, // Remove header X-Powered-By (segurança e tamanho)
   compress: true, // Habilita compressão gzip
-  swcMinify: true, // Usa SWC para minificação (mais rápido)
   productionBrowserSourceMaps: false, // Desabilita sourcemaps em produção
+  cacheComponents: true, // Substitui experimental.ppr para habilitar Partial Prerendering
+  
+  // Otimizações adicionais
+  output: 'standalone', // Para deploy otimizado
+  generateBuildId: async () => {
+    return `build-${Date.now()}`; // ID único para cada build
+  },
+  
+  // Configurações de bundle
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
+  
+  // Otimização de módulos
+  modularizeImports: {
+    '@heroicons/react': {
+      transform: '@heroicons/react/24/outline/{{member}}',
+    },
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{member}}',
+    },
+  },
 
   /**
    * Headers HTTP para reforçar segurança e cache.
@@ -113,6 +145,9 @@ const nextConfig = {
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
         ],
       },
       {

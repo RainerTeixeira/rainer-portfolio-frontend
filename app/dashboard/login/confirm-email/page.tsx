@@ -352,7 +352,7 @@ export default function ConfirmEmailPage() {
               type="text"
               placeholder="Código de 6 dígitos"
               value={code}
-              onChange={e => setCode(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)}
               maxLength={6}
               disabled={isLoading}
               className={cn(

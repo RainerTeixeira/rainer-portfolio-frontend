@@ -2,7 +2,7 @@
  * Testes para componente Skeleton
  */
 
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@rainersoft/ui';
 import { render } from '@testing-library/react';
 
 describe('Skeleton', () => {

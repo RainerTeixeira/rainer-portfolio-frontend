@@ -154,7 +154,9 @@ export function ChangeEmailDialog({
                 id="new-email"
                 type="email"
                 value={newEmail}
-                onChange={e => setNewEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewEmail(e.target.value)
+                }
                 placeholder="novoemail@example.com"
                 autoFocus
               />
@@ -168,7 +170,7 @@ export function ChangeEmailDialog({
                 id="code"
                 type="text"
                 value={code}
-                onChange={e =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setCode(e.target.value.replace(/\D/g, '').slice(0, 6))
                 }
                 placeholder="123456"

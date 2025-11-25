@@ -45,10 +45,7 @@ import {
   Zap,
 } from 'lucide-react';
 
-import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
-import { Badge } from '@rainersoft/ui';
-import { Button } from '@rainersoft/ui';
-import { Card, CardContent, CardTitle } from '@rainersoft/ui';
+import { BackToTop, PageHeader, ParticlesEffect, Badge, Button, Card, CardContent, CardTitle } from '@rainersoft/ui';
 import { cn } from '@/lib/utils';
 import { BACKGROUND, GRADIENTS, GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
@@ -95,6 +92,7 @@ import { TechStackCard } from '@/components/sobre/tech-stack-card';
  * @see {@link SITE_CONFIG} Configurações centralizadas do site
  */
 export default function AboutPage() {
+  const METRIC_ICONS = [Code2, Monitor, Database, Zap];
   return (
     <div className={cn('min-h-screen', BACKGROUND.FULL)}>
       {/* Efeito de partículas decorativas no background (visível apenas no dark mode) */}
@@ -166,7 +164,7 @@ export default function AboutPage() {
           {PROFESSIONAL_METRICS.map((metric, index) => (
             <MetricCard
               key={index}
-              icon={metric.icon}
+              icon={METRIC_ICONS[index] ?? Code2}
               value={metric.value}
               label={metric.label}
               gradient={metric.gradient}
@@ -203,14 +201,16 @@ export default function AboutPage() {
 
             {/* Timeline de experiências */}
             <div className="space-y-6">
-              {EXPERIENCE.map((exp, idx) => (
-                <ExperienceCard
-                  key={idx}
-                  period={exp.period}
-                  role={exp.role}
-                  description={exp.description}
-                />
-              ))}
+              {EXPERIENCE.map(
+                (exp: (typeof EXPERIENCE)[number], idx: number) => (
+                  <ExperienceCard
+                    key={idx}
+                    period={exp.periodo}
+                    role={exp.cargo}
+                    description={exp.descricao}
+                  />
+                ),
+              )}
             </div>
           </div>
 

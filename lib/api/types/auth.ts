@@ -59,3 +59,21 @@ export interface ResetPasswordData {
   readonly code: string;
   readonly newPassword: string;
 }
+
+/**
+ * Resposta de inicialização de login sem senha.
+ */
+export interface PasswordlessInitResponse {
+  readonly success: boolean;
+  readonly message?: string;
+}
+
+/**
+ * Resposta de verificação de login sem senha.
+ */
+export interface PasswordlessVerifyResponse {
+  readonly success: boolean;
+  readonly token?: string;
+  readonly refreshToken?: string;
+  readonly message?: string;
+}

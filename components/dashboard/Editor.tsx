@@ -869,7 +869,9 @@ export function Editor({
             )}
             <textarea
               value={jsonValue}
-              onChange={e => handleJsonChange(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                handleJsonChange(e.target.value)
+              }
               className={cn(
                 'w-full min-h-[500px] p-4 rounded-lg font-mono text-sm',
                 'bg-gray-50 dark:bg-gray-900',
@@ -915,7 +917,7 @@ export function Editor({
         )}
 
         {/* Estilos customizados do editor */}
-        <style jsx global>{`
+        <style>{`
           /* Placeholder */
           .ProseMirror p.is-editor-empty:first-child::before {
             content: attr(data-placeholder);

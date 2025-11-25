@@ -2,7 +2,7 @@
  * Testes para componente Tabs
  */
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

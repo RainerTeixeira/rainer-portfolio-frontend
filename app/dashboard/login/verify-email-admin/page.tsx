@@ -177,7 +177,9 @@ export default function VerifyEmailAdminPage() {
                     type="text"
                     placeholder="email@example.com, username ou cognitoSub"
                     value={identifier}
-                    onChange={e => setIdentifier(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setIdentifier(e.target.value)
+                    }
                     disabled={isLoading}
                     className="h-11"
                     autoFocus

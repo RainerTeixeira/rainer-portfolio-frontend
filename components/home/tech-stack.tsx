@@ -31,7 +31,7 @@
 import { SKILLS } from '@/components/skills/skills-with-icons';
 import { Badge } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
-import { SITE_CONFIG } from '@/constants';
+import { METRICAS } from '@/constants';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -162,7 +162,7 @@ export function TechStackShowcase() {
               Tecnologias
             </div>
             <div className="text-sm text-muted-foreground dark:text-gray-400 mt-1">
-              {SITE_CONFIG.experience}
+              {METRICAS.tecnologiasDominadas} tecnologias dominadas
             </div>
           </div>
           <div className="w-px bg-border dark:bg-cyan-400/20" />
@@ -171,7 +171,7 @@ export function TechStackShowcase() {
               Experiência
             </div>
             <div className="text-sm text-muted-foreground dark:text-gray-400 mt-1">
-              {SITE_CONFIG.experience}
+              {METRICAS.anosExperiencia} anos de experiência
             </div>
           </div>
           <div className="w-px bg-border dark:bg-cyan-400/20" />
@@ -180,7 +180,7 @@ export function TechStackShowcase() {
               Projetos Completos
             </div>
             <div className="text-sm text-muted-foreground dark:text-gray-400 mt-1">
-              {SITE_CONFIG.projects}
+              {METRICAS.projetosConcluidos} projetos concluídos
             </div>
           </div>
         </motion.div>

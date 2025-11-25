@@ -11,7 +11,7 @@ jest.mock('@radix-ui/react-separator', () => ({
   ),
 }));
 
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@rainersoft/ui';
 import { render } from '@testing-library/react';
 
 describe('Separator', () => {

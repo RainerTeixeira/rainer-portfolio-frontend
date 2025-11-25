@@ -23,7 +23,7 @@ import { useEffect } from 'react';
 // Cookie Manager
 // ============================================================================
 
-import { useCookieConsent } from '@rainersoft/ui';
+import { useCookieConsent } from '@/components/ui/cookie-banner';
 import { initGoogleAnalytics } from '@/lib/cookies/analytics';
 import { getCookieManager } from '@/lib/cookies/cookie-manager';
 
