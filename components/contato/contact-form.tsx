@@ -44,7 +44,7 @@ import { Input } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
 import { Textarea } from '@rainersoft/ui';
-import { SITE_CONFIG } from '@/constants';
+import { SITE_CONFIG, CONTATO, TEXTO_TEMPO_RESPOSTA, TEXTO_CONTATO_URGENTE } from '@/constants';
 import { CARD_CLASSES, cn } from '@/lib/portfolio';
 import {
   Github,
@@ -86,25 +86,29 @@ interface ContactInfoItem {
  *
  * Array contendo informações de contato (email, LinkedIn, GitHub)
  * que serão exibidas no card lateral do formulário.
- *
- * @type {ContactInfoItem[]}
- * @constant
  */
+function getSafeUrlLabel(url: unknown, fallback: string): string {
+  if (typeof url !== 'string' || url.length === 0) {
+    return fallback;
+  }
+  return url;
+}
+
 const CONTACT_INFO_ITEMS: ReadonlyArray<ContactInfoItem> = [
   {
     label: 'E-mail',
-    value: SITE_CONFIG.contact.email.address,
+    value: SITE_CONFIG.contact.email.comercial,
   },
   {
     label: 'LinkedIn',
-    value: SITE_CONFIG.linkedin.replace('https://', ''),
-    href: SITE_CONFIG.linkedin,
+    value: getSafeUrlLabel(SITE_CONFIG.linkedin, 'linkedin.com'),
+    href: SITE_CONFIG.linkedin || undefined,
     isExternal: true,
   },
   {
     label: 'GitHub',
-    value: SITE_CONFIG.github.replace('https://', ''),
-    href: SITE_CONFIG.github,
+    value: getSafeUrlLabel(SITE_CONFIG.github, 'github.com'),
+    href: SITE_CONFIG.github || undefined,
     isExternal: true,
   },
 ] as const;
@@ -152,6 +156,16 @@ export function ContactForm() {
    * @property {Function} handleSubmit - Handler para submissão do formulário
    */
   const { formData, handleChange, handleSubmit } = useContactForm();
+
+  // Dados de WhatsApp vindos da config (podem estar ausentes)
+  const rawWhatsapp = SITE_CONFIG.contact.phone.whatsapp;
+  const hasWhatsapp = typeof rawWhatsapp === 'string' && rawWhatsapp.length > 0;
+  const whatsappHref = hasWhatsapp
+    ? `https://wa.me/${encodeURIComponent(rawWhatsapp as string)}`
+    : undefined;
+
+  // Tempo de resposta configurado (duração pura, ex: "24 horas")
+  const emailResponseTime = CONTATO.tempoResposta.email;
 
   // ========================================================================
   // MAIN RENDER
@@ -328,9 +342,7 @@ export function ContactForm() {
           </CardHeader>
           <CardContent className="space-y-4">
             {CONTACT_INFO_ITEMS.map((item, index) => (
-              <React.Fragment
-                key={`contact-info-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
-              >
+              <React.Fragment key={`contact-info-${index}`}>
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
                     <Badge variant="secondary" className="text-xs font-medium">
@@ -375,37 +387,39 @@ export function ContactForm() {
           <CardHeader className="space-y-2">
             <CardTitle className="text-xl flex items-center gap-2">
               <MessageSquare className="h-5 w-5 text-primary dark:text-cyan-400" />
-              Tempo de Resposta
+              {TEXTO_TEMPO_RESPOSTA.titulo}
             </CardTitle>
-            <CardDescription>
-              Quando você pode esperar uma resposta
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="text-muted-foreground leading-relaxed text-sm space-y-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <span>Normalmente respondo em até</span>
-                <Badge variant="secondary" className="font-semibold">
-                  {SITE_CONFIG.contact.email.responseTime.toLowerCase()}
-                </Badge>
-                <span>durante dias úteis.</span>
+              <div className="flex flex-wrap items-center gap-0">
+                <span>{TEXTO_TEMPO_RESPOSTA.prefixo}</span>
+                <span className="font-semibold mx-1">
+                  {emailResponseTime}
+                </span>
+                <span>{TEXTO_TEMPO_RESPOSTA.sufixo}</span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <span>Para projetos urgentes, entre em contato via</span>
-                {SITE_CONFIG.contact.phone.whatsapp ? (
+                <span>
+                  {TEXTO_CONTATO_URGENTE.prefixo}{' '}
+                  <span className="font-semibold">
+                    {CONTATO.tempoResposta.urgente}
+                  </span>
+                </span>
+                {hasWhatsapp && whatsappHref ? (
                   <a
-                    href={`https://wa.me/${SITE_CONFIG.contact.phone.number.replace(/\D/g, '')}`}
+                    href={whatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:underline font-semibold transition-colors"
-                    aria-label="Abrir WhatsApp para contato urgente"
+                    aria-label={TEXTO_CONTATO_URGENTE.whatsappLabel}
                   >
-                    WhatsApp
+                    {TEXTO_CONTATO_URGENTE.whatsappLabel}
                   </a>
                 ) : (
-                  <span className="font-semibold">telefone</span>
+                  <span className="font-semibold">{TEXTO_CONTATO_URGENTE.telefoneLabel}</span>
                 )}
-                <span>.</span>
+                <span>{TEXTO_CONTATO_URGENTE.sufixo}</span>
               </div>
             </div>
           </CardContent>

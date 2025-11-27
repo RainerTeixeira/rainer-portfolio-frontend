@@ -35,7 +35,6 @@ import { Inter, Orbitron, Rajdhani } from 'next/font/google';
 // ============================================================================
 
 import AuthProvider from '@/components/providers/auth-context-provider';
-import { MatrixProvider } from '@/components/providers/matrix-context-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { AppWrapper } from '@/components/layout/app-wrapper';
 
@@ -45,8 +44,6 @@ import { AppWrapper } from '@/components/layout/app-wrapper';
 
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
-import { MatrixBackground } from '@rainersoft/ui';
-
 import { CookieInitializer } from '@/components/cookies/cookie-initializer';
 
 // ============================================================================
@@ -398,69 +395,63 @@ export default function RootLayout({ children }: RootLayoutProps) {
           enableSystem
         >
           {/**
-           * Provider de efeitos matrix para elementos visuais
+           * Provider de autenticação para gestão de estado do usuário
            */}
-          <MatrixProvider>
+          <AuthProvider>
             {/**
-             * Provider de autenticação para gestão de estado do usuário
+             * Wrapper principal da aplicação
              */}
-            <AuthProvider>
+            <AppWrapper>
               {/**
-               * Wrapper principal da aplicação
+               * Fundo estelar decorativo (modo dark)
                */}
-              <AppWrapper>
+              <StarsBackground />
+
+              {/**
+               * Estrutura principal do layout
+               * - Header fixo no topo
+               * - Conteúdo principal flexível
+               * - Footer no final
+               */}
+              <div className="flex flex-col min-h-screen">
                 {/**
-                 * Fundo estelar decorativo + matrix rain
+                 * Cabeçalho fixo com navegação principal
                  */}
-                <StarsBackground />
-                <MatrixBackground />
-
-                {/**
-                 * Estrutura principal do layout
-                 * - Header fixo no topo
-                 * - Conteúdo principal flexível
-                 * - Footer no final
-                 */}
-                <div className="flex flex-col min-h-screen">
-                  {/**
-                   * Cabeçalho fixo com navegação principal
-                   */}
-                  <header
-                    className={`sticky top-0 will-change-transform ${Z_INDEX.STICKY}`}
-                  >
-                    <Navbar />
-                  </header>
-
-                  {/**
-                   * Área de conteúdo principal das páginas
-                   */}
-                  <main
-                    className={`flex-1 relative ${RESPONSIVE.SPACING.RESPONSIVE_Y}`}
-                    role="main"
-                  >
-                    {children}
-                  </main>
-
-                  {/**
-                   * Rodapé da aplicação
-                   */}
-                  <Footer />
-                </div>
+                <header
+                  className={`sticky top-0 will-change-transform ${Z_INDEX.STICKY}`}
+                >
+                  <Navbar />
+                </header>
 
                 {/**
-                 * Componentes globais de UI
-                 * - Banner de cookies (LGPD/GDPR)
-                 * - Inicializador de cookies
-                 * - Prompt de instalação PWA
-                 * - Notificação de atualização
+                 * Área de conteúdo principal das páginas
                  */}
-                <CookieBanner />
-                <CookieInitializer />
-                <InstallPrompt />
-                <UpdateNotification />
-              </AppWrapper>
-            </AuthProvider>
-          </MatrixProvider>
+                <main
+                  className={`flex-1 relative ${RESPONSIVE.SPACING.RESPONSIVE_Y}`}
+                  role="main"
+                >
+                  {children}
+                </main>
+
+                {/**
+                 * Rodapé da aplicação
+                 */}
+                <Footer />
+              </div>
+
+              {/**
+               * Componentes globais de UI
+               * - Banner de cookies (LGPD/GDPR)
+               * - Inicializador de cookies
+               * - Prompt de instalação PWA
+               * - Notificação de atualização
+               */}
+              <CookieBanner />
+              <CookieInitializer />
+              <InstallPrompt />
+              <UpdateNotification />
+            </AppWrapper>
+          </AuthProvider>
         </ThemeProvider>
 
         {/**

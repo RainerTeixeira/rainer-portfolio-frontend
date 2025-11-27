@@ -31,7 +31,7 @@
 'use client';
 
 import { cn } from '@/lib/portfolio';
-import { hexToRGBA } from '@rainersoft/ui';
+import { hexToRGBA, MatrixBackground } from '@rainersoft/ui';
 import {
   GRADIENTS,
   GRADIENT_DIRECTIONS,
@@ -303,7 +303,9 @@ export function HeroSection() {
 
   return (
     <header
-      className={`relative w-full h-svh sm:h-screen flex items-center justify-center overflow-hidden ${isDarkTheme ? 'bg-black' : 'bg-white'}`}
+      className={
+        'relative w-full h-svh sm:h-screen flex items-center justify-center overflow-hidden'
+      }
       style={{
         minHeight: 'max(100svh, 600px)',
         maxHeight: '100svh',
@@ -312,11 +314,12 @@ export function HeroSection() {
       onMouseEnter={pauseAutoplay}
       onMouseLeave={resumeAutoplay}
     >
-      {/* Layer 1: Carousel de fundo */}
-      {/* Carousel renderiza diretamente - loading acontece apenas no loading-screen */}
-      <div className={cn("absolute inset-0", Z_INDEX.BASE)} aria-hidden="true">
-        <Carousel />
-      </div>
+      {/* Layer 1: Matrix Rain Effect (apenas no hero) */}
+      {isMounted && (
+        <div className="absolute inset-0 z-[5] opacity-85" aria-hidden="true">
+          <MatrixBackground variant="local" />
+        </div>
+      )}
 
       {/* Layer 2: Gradiente de overlay */}
       <div
