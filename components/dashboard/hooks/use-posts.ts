@@ -542,3 +542,5 @@ export function useIncrementViews(slug: string) {
     // Silencioso, não mostra toast
   });
 }
+
+

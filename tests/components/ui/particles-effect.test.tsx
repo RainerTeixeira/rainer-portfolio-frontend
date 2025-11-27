@@ -2,7 +2,7 @@
  * Testes para componente ParticlesEffect
  */
 
-import { ParticlesEffect } from '@/components/ui';
+import { ParticlesEffect } from '@rainersoft/ui';
 import { render } from '@testing-library/react';
 
 describe('ParticlesEffect', () => {

@@ -15,7 +15,7 @@
 
 import { Button } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { FileText } from 'lucide-react';
 
 interface EmptyStateProps {
@@ -66,3 +66,5 @@ export function EmptyState({
     </Card>
   );
 }
+
+

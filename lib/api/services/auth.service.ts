@@ -11,7 +11,7 @@
  */
 
 import { api, ApiError } from '../client';
-import { logApiError } from '../debug-utils';
+import { logApiError } from '../utils/debug-utils';
 import type {
   ApiResponse,
   ApiSuccessResponse,

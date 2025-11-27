@@ -5,12 +5,12 @@
  */
 
 import { expect, test } from './fixtures';
-import { isAuthenticated, loginToDashboard } from './helpers/auth-helper';
+import { isAuthenticated, loginWithJsonCredentials } from './helpers/auth-helper';
 
 test.describe('Autenticação - Desenvolvimento', () => {
   test('deve fazer login com admin/admin', async ({ page, consoleHelper }) => {
-    // Fazer login
-    await loginToDashboard(page, 'admin', 'admin');
+    // Fazer login utilizando credenciais do arquivo JSON (ou admin/admin como fallback)
+    await loginWithJsonCredentials(page);
 
     // Verificar se está autenticado
     const authenticated = await isAuthenticated(page);

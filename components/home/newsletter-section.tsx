@@ -40,7 +40,7 @@ import {
 } from '@rainersoft/ui';
 import { Checkbox } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import {
@@ -106,7 +106,6 @@ function NewsletterForm({
     watch,
     formState: { errors },
   } = useForm<NewsletterFormValues>({
-    resolver: zodResolver(newsletterSchema),
     defaultValues: {
       email: '',
       name: '',
@@ -572,3 +571,5 @@ export const NewsletterSection = memo(function NewsletterSection() {
  * Exporta também o formulário separadamente para uso em outras partes da aplicação
  */
 export { NewsletterForm };
+
+

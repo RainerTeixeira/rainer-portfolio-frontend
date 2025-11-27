@@ -30,7 +30,7 @@
 'use client';
 
 import { Badge } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 
 interface StatusBadgeProps {
@@ -71,3 +71,5 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
     </Badge>
   );
 }
+
+

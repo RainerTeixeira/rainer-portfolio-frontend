@@ -2,11 +2,13 @@
  * Testes para componente UpdateNotification
  */
 
-import { UpdateNotification } from '@/components/ui/update-notification';
+import { UpdateNotification } from '@rainersoft/ui';
 import { render } from '@testing-library/react';
+import * as uiModule from '@rainersoft/ui';
 
 // Mock do usePWA
-jest.mock('@/hooks/use-pwa', () => ({
+jest.mock('@rainersoft/ui', () => ({
+  ...jest.requireActual('@rainersoft/ui'),
   usePWA: jest.fn(() => ({
     updateAvailable: false,
     updateServiceWorker: jest.fn(),

@@ -29,7 +29,7 @@
 
 'use client';
 
-import { useAuth } from '@/components/providers/auth-provider';
+import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { commentsService } from '@/lib/api/services';
@@ -56,12 +56,12 @@ interface CommentSectionProps {
 }
 
 export function CommentSection({ postId }: CommentSectionProps) {
-  const { user } = useAuth();
+  const { user } = useAuthContext();
   const [comments, setComments] = useState<CommentWithAuthor[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const currentUserId = user?.username; // Usar username como ID temporário
+  const currentUserId = user?.cognitoSub || user?.id; // ID único do Cognito
 
   const loadComments = useCallback(async () => {
     try {
@@ -220,3 +220,5 @@ export function CommentSection({ postId }: CommentSectionProps) {
     </Card>
   );
 }
+
+

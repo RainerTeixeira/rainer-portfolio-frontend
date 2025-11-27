@@ -16,7 +16,6 @@ import { defineConfig, devices } from '@playwright/test';
 
 // Verifica se está rodando em CI/CD
 const isCI = Boolean(
-  // @ts-expect-error - process.env é disponível em runtime Node.js
   typeof process !== 'undefined' && process.env?.['CI'],
 );
 
@@ -91,3 +90,4 @@ export default defineConfig({
     timeout: 300 * 1000,
   },
 });
+

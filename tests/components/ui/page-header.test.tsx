@@ -2,7 +2,7 @@
  * Testes para componente PageHeader
  */
 
-import { PageHeader } from '@/components/ui/page-header';
+import { PageHeader } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 
 describe('PageHeader', () => {

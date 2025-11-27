@@ -33,7 +33,7 @@
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { DESENVOLVEDOR } from '@/constants/comum/desenvolvedor';
 import { CONTATO } from '@/constants/comum/social';
 import { INFO_CONTATO } from '@/constants/contato/formulario';
@@ -529,3 +529,5 @@ export const ContactSection = memo(function ContactSection() {
  * @type {string}
  */
 ContactSection.displayName = 'ContactSection';
+
+

@@ -39,7 +39,7 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { motion } from 'framer-motion';
 import {
   Eye,
@@ -183,3 +183,5 @@ export function StatsCards({ stats, isLoading }: StatsCardsProps) {
     </div>
   );
 }
+
+

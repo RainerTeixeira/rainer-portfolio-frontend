@@ -46,7 +46,7 @@ import {
 } from 'lucide-react';
 
 import { BackToTop, PageHeader, ParticlesEffect, Badge, Button, Card, CardContent, CardTitle } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { BACKGROUND, GRADIENTS, GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
 import { SKILLS } from '@/components/skills/skills-with-icons';
@@ -565,3 +565,5 @@ export default function AboutPage() {
     </div>
   );
 }
+
+

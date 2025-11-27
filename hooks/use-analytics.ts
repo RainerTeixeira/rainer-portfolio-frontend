@@ -28,8 +28,8 @@ import React, { useCallback, useEffect } from 'react';
 // Monitoring
 // ============================================================================
 
-import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring/analytics';
-import { logger } from '@/lib/monitoring/logger';
+import { analytics, ANALYTICS_EVENTS } from '@/lib/tracking';
+import { logger } from '@/lib/tracking';
 
 // ============================================================================
 // Types
@@ -208,3 +208,4 @@ export function withAnalytics<P extends object>(
     return React.createElement(Component, props);
   };
 }
+

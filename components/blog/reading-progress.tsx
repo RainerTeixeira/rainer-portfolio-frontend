@@ -31,7 +31,7 @@
 
 'use client';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -98,3 +98,5 @@ export function ReadingProgress({
     </>
   );
 }
+
+

@@ -22,12 +22,12 @@
 
 import { AuthLayout } from '@/components/dashboard/login';
 import { PasswordInput } from '@/components/dashboard/login/password-input';
-import { BackToTop } from '@/components/ui';
+import { BackToTop } from '@rainersoft/ui';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { AlertCircle, ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -252,3 +252,5 @@ export default function ResetPasswordPage() {
     </>
   );
 }
+
+

@@ -15,7 +15,7 @@
 
 import { Separator } from '@rainersoft/ui';
 import type { Post } from '@/lib/api/types';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { Star } from 'lucide-react';
 import { PostCard } from './post-card';
 
@@ -79,3 +79,5 @@ export function FeaturedPostsSection({
     </div>
   );
 }
+
+

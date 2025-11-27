@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Contact Page Component
  *
  * Página de contato com formulário completo, informações de contato e seção
@@ -29,7 +29,7 @@ import { ContactInfoCard } from '@/components/contato/contact-info-card';
 import { BackToTop, PageHeader, ParticlesEffect, Accordion, AccordionContent, AccordionItem, AccordionTrigger, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@rainersoft/ui';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import { Separator } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import type { ContactInfoCardConfig, FAQItem } from '@/constants';
 import { CONTACT_INFO_CARDS, FAQ_ITEMS } from '@/constants';
 import { CONTATO } from '@/constants/comum/social';
@@ -208,3 +208,5 @@ export default function ContactPage() {
     </div>
   );
 }
+
+

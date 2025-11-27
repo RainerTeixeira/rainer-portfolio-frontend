@@ -270,11 +270,14 @@ function main(): void {
 }
 
 // Executar se chamado diretamente
-const isMainModule = import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/')) || 
-                     process.argv[1]?.includes('update-version.ts');
+const isMainModule = process.argv[1] && (
+  import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/')) || 
+  process.argv[1].includes('update-version.ts')
+);
 if (isMainModule) {
   main();
 }
 
 export { main, updateVersionInAllMemories, getCurrentVersion };
+
 

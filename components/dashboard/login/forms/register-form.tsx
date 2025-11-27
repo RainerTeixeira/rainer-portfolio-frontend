@@ -46,7 +46,7 @@ import {
   FormMessage,
 } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { MOTION } from '@rainersoft/design-tokens';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
@@ -99,9 +99,9 @@ export function RegisterForm({}: RegisterFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState<string>('');
 
   const form = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
     defaultValues: {
       name: '',
       username: '',
@@ -117,32 +117,66 @@ export function RegisterForm({}: RegisterFormProps) {
     setError(null);
 
     try {
-      const { localAuth } = await import(
-        '@/components/dashboard/lib/auth-local'
-      );
+      // Verificar se deve usar Cognito ou localAuth
+      const forceCognito = process.env.NEXT_PUBLIC_FORCE_COGNITO_AUTH === 'true';
+      const isDevelopment = process.env.NODE_ENV === 'development';
+      const useLocalAuth = isDevelopment && !forceCognito;
 
-      const result = await localAuth.register({
-        name: data.name,
-        username: data.username,
-        email: data.email,
-        password: data.password,
-      });
+      if (useLocalAuth) {
+        // Modo desenvolvimento: usar localAuth
+        const { localAuth } = await import('@/components/dashboard/lib/auth-local');
+        const result = await localAuth.register({
+          name: data.name,
+          username: data.username,
+          email: data.email,
+          password: data.password,
+        });
 
-      if (!result.success) {
-        throw new Error(result.message);
+        if (!result.success) {
+          throw new Error(result.message);
+        }
+
+        setSuccess(true);
+        setTimeout(() => {
+          window.location.href = '/dashboard/login';
+        }, 2000);
+      } else {
+        // Modo produção: usar AWS Cognito via authService
+        const { authService } = await import('@/lib/api/services/auth.service');
+        
+        const registerResponse = await authService.register({
+          fullName: data.name,
+          email: data.email,
+          password: data.password,
+          nickname: data.username,
+        });
+
+        console.log('✅ Registro bem-sucedido:', registerResponse);
+        setRegisteredEmail(data.email);
+        setSuccess(true);
+
+        // Redirecionar para página de confirmação de email após 2s
+        setTimeout(() => {
+          window.location.href = `/dashboard/login/confirm-email?email=${encodeURIComponent(data.email)}`;
+        }, 2000);
       }
-
-      setSuccess(true);
-
-      // Aguardar 2s e redirecionar para login
-      setTimeout(() => {
-        window.location.href = '/dashboard/login';
-      }, 2000);
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : 'Erro ao criar conta. Tente novamente.';
+    } catch (err: any) {
+      console.error('❌ Erro ao registrar:', err);
+      let errorMessage = 'Erro ao criar conta. Tente novamente.';
+      
+      // Tratar erros específicos do Cognito
+      if (err.message) {
+        if (err.message.includes('already exists') || err.message.includes('já existe')) {
+          errorMessage = 'Este email já está registrado. Tente fazer login ou use outro email.';
+        } else if (err.message.includes('Invalid email')) {
+          errorMessage = 'Email inválido. Por favor, verifique e tente novamente.';
+        } else if (err.message.includes('Password')) {
+          errorMessage = 'Senha não atende aos requisitos de segurança.';
+        } else {
+          errorMessage = err.message;
+        }
+      }
+      
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -150,11 +184,21 @@ export function RegisterForm({}: RegisterFormProps) {
   }
 
   if (success) {
+    const forceCognito = process.env.NEXT_PUBLIC_FORCE_COGNITO_AUTH === 'true';
+    
     return (
       <Alert className="border-green-500">
         <CheckCircle2 className="h-4 w-4 text-green-500" />
         <AlertDescription className="text-green-700 dark:text-green-400">
-          Conta criada com sucesso! Verifique seu email para ativar sua conta.
+          {forceCognito ? (
+            <>
+              ✅ Conta criada com sucesso! 
+              <br />
+              📧 Verifique seu email <strong>{registeredEmail}</strong> e insira o código de confirmação na próxima página.
+            </>
+          ) : (
+            'Conta criada com sucesso! Verifique seu email para ativar sua conta.'
+          )}
         </AlertDescription>
       </Alert>
     );
@@ -338,3 +382,5 @@ export function RegisterForm({}: RegisterFormProps) {
     </Form>
   );
 }
+
+

@@ -30,8 +30,8 @@
 
 'use client';
 
-import { cn } from '@/lib/utils';
-import { hexToRGBA } from '@/lib/utils/color-utils';
+import { cn } from '@/lib/portfolio';
+import { hexToRGBA } from '@rainersoft/ui';
 import {
   GRADIENTS,
   GRADIENT_DIRECTIONS,
@@ -407,3 +407,5 @@ export function HeroSection() {
     </header>
   );
 }
+
+

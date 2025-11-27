@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Blog Page Component
  *
  * Página de listagem de artigos com filtros por categoria, ordenação, busca
@@ -48,29 +48,16 @@ import {
   SortControls,
   type SortOption,
 } from '@/components/blog';
-import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
+import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { Skeleton } from '@rainersoft/ui';
 import { postsService } from '@/lib/api/services';
-import type { Post } from '@/lib/api/types';
-import { PostStatus } from '@/lib/api/types';
-import { cn } from '@/lib/utils';
-import { getTokenColor } from '@/lib/utils/safe-design-tokens';
+import type { Post } from '@/lib/api/types/posts';
+import { PostStatus } from '@/lib/api/types/posts';
+import { cn } from '@/lib/portfolio';
+import { getTokenColor } from '@/lib/portfolio/tokens';
 import { useTheme } from 'next-themes';
-
-// Função auxiliar para converter HEX para RGB
-function hexToRGB(hex: string): string {
-  const cleanHex = hex.replace('#', '');
-  const r = parseInt(cleanHex.substring(0, 2), 16);
-  const g = parseInt(cleanHex.substring(2, 4), 16);
-  const b = parseInt(cleanHex.substring(4, 6), 16);
-  return `${r}, ${g}, ${b}`;
-}
-
-function hexToRGBA(hex: string, alpha: number): string {
-  const rgb = hexToRGB(hex);
-  return `rgba(${rgb}, ${alpha})`;
-}
+import { hexToRGB, hexToRGBA } from '@rainersoft/ui';
 
 /**
  * Configuração de estatística do blog.
@@ -649,3 +636,5 @@ export default function BlogPage() {
     </div>
   );
 }
+
+

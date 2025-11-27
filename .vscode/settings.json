@@ -8,8 +8,9 @@
       // Desabilitar sugestões incorretas de classes canônicas
       // O Tailwind CSS usa bg-gradient-to-* (não bg-linear-to-*)
       "tailwindCSS.suggestions": true,
-      "tailwindCSS.validate": true,
+      "tailwindCSS.validate": false,
       "tailwindCSS.lint.suggestCanonicalClasses": false,
+      "tailwindCSS.showPixelEquivalents": false,
   
   // Configurações do TypeScript
   "typescript.tsdk": "node_modules/typescript/lib",

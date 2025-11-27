@@ -2,7 +2,7 @@
  * Testes para componente Switch
  */
 
-import { Switch } from '@/components/ui';
+import { Switch } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

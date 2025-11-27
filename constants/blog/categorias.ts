@@ -9,14 +9,18 @@
  * dos artigos do blog.
  */
 
-// Cores para as categorias
+import { lightThemeColors } from '@rainersoft/design-tokens';
+
+/**
+ * Cores para categorias (Tailwind)
+ */
 const CATEGORY_COLORS = {
-  primary: '#0891b2',    // cyan-600
-  secondary: '#9333ea',  // purple-600
-  accent: '#db2777',     // pink-600
-  info: '#2563eb',       // blue-600
-  success: '#059669',    // emerald-600
-  warning: '#f97316',    // orange-500
+  primary: lightThemeColors.primitive.cyan[600],
+  secondary: lightThemeColors.primitive.purple[600],
+  accent: lightThemeColors.primitive.pink[600],
+  info: lightThemeColors.primitive.blue[600],
+  success: lightThemeColors.primitive.emerald[600],
+  warning: lightThemeColors.primitive.orange[500],
 } as const;
 
 /**
@@ -97,3 +101,4 @@ export const CONFIG_BLOG = {
   resumoMaxCaracteres: 150,
   tempoLeituraVelocidade: 200, // palavras por minuto
 } as const;
+

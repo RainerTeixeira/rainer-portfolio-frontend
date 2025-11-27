@@ -8,7 +8,7 @@ import {
   InlineLoader,
   LoadingSpinner,
   SkeletonGrid,
-} from '@/components/ui/loading-screen';
+} from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 
 describe('LoadingStates', () => {

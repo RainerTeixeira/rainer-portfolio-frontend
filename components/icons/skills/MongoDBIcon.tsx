@@ -17,3 +17,5 @@ export function MongoDBIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+

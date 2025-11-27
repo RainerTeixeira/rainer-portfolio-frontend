@@ -37,8 +37,8 @@
  */
 
 import type { TiptapJSON } from '@/lib/api/types/common';
-import { calculateReadingTime } from '@/lib/content/reading-time';
-import { cn } from '@/lib/utils';
+import { calculateReadingTime } from '@/lib/blog';
+import { cn } from '@/lib/portfolio';
 import { Clock } from 'lucide-react';
 
 interface ReadingTimeProps {
@@ -72,3 +72,5 @@ export function ReadingTime({
     </div>
   );
 }
+
+

@@ -5,7 +5,7 @@
 // Mock do CSS primeiro
 jest.mock('@/app/globals.css', () => ({}));
 
-import { CookieBanner, useCookieConsent } from '@/components/ui/cookie-banner';
+import { CookieBanner, useCookieConsent } from '@rainersoft/ui';
 import type { CookiePreferences } from '@/lib/cookies/cookie-manager';
 import {
   getCookieManager,
@@ -65,7 +65,7 @@ jest.mock('next-themes', () => ({
 }));
 
 // Mock simplificado do componente CookieBanner apenas para testes
-jest.mock('@/components/ui/cookie-banner', () => {
+jest.mock('@rainersoft/ui', () => {
   const React = require('react');
   const { getCookieManager } = require('@/lib/cookies/cookie-manager');
 
@@ -133,11 +133,8 @@ jest.mock('@/components/ui/cookie-banner', () => {
     );
   };
 
-  const actual = jest.requireActual('@/components/ui/cookie-banner');
-
   return {
     __esModule: true,
-    ...actual,
     CookieBanner: MockCookieBanner,
   };
 });

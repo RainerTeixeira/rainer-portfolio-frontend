@@ -8,7 +8,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
+} from '@rainersoft/ui';
 import { render } from '@testing-library/react';
 
 // Mock scrollIntoView

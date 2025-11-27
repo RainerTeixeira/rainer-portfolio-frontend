@@ -45,7 +45,7 @@ import {
 } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 // Design tokens via CSS variables (imported in globals.css)
 import { AlertCircle, CheckCircle2, Loader2, User } from 'lucide-react';
@@ -400,3 +400,5 @@ export function ChangeUsernameDialog({
     </Dialog>
   );
 }
+
+

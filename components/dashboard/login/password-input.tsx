@@ -35,7 +35,7 @@
 
 import { usePasswordStrength } from '@/components/dashboard/hooks';
 import { Input } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 // Design tokens via CSS variables (imported in globals.css)
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
@@ -141,3 +141,5 @@ export function PasswordInput({
     </div>
   );
 }
+
+

@@ -1,58 +1,58 @@
 /**
  * @module app/layout
- * @fileoverview
- * RootLayout - Layout Raiz da Aplicação Next.js
- *
- * Este componente define o layout global de toda a aplicação Next.js,
- * envolvendo todas as páginas e providenciando:
- *   - Estrutura básica HTML (<html> e <body>)
- *   - Configuração global de fontes otimizadas (next/font)
- *   - Metadados para SEO, redes sociais e PWA (via `metadata`)
- *   - Configuração de viewport universal (via `viewport`)
- *   - Providers de contexto (ThemeProvider, MatrixProvider, AuthProvider)
- *   - Layout fixo com Navbar (sticky), Footer (fixo) e área principal responsiva
- *   - Banner e inicializador de cookies para LGPD/GDPR
- *   - Prompts e notificações PWA (instalação, atualização)
- *   - Toast global para notificações do usuário
- *   - Integração com Analytics e Speed Insights Vercel
- *
+ * @fileoverview Layout Raiz da Aplicação Next.js
+ * 
+ * Componente de layout raiz que define a estrutura global da aplicação,
+ * incluindo providers de contexto, configurações de tema, metadados SEO,
+ * e integrações com sistemas de analytics e performance.
+ * 
+ * Este layout serve como wrapper global para todas as páginas da aplicação,
+ * garantindo consistência visual e funcional em toda a experiência do usuário.
+ * 
  * @author Rainer Teixeira
- * @version 2.0.0
+ * @version 3.0.0
  * @since 1.0.0
- *
- * @example
- * Renderização automática pelo Next.js App Router:
- * <html>
- *   <body>
- *     <ThemeProvider>
- *       <MatrixProvider>
- *         <AuthProvider>
- *           <AppWrapper>
- *              ...UI & children...
- *           </AppWrapper>
- *         </AuthProvider>
- *       </MatrixProvider>
- *     </ThemeProvider>
- *     <Toaster />
- *     <Analytics />
- *     <SpeedInsights />
- *   </body>
- * </html>
+ * 
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/layout
  */
 
 import type { Metadata, Viewport } from 'next';
 
+// ============================================================================
+// Importações de Estilos e Configurações Base
+// ============================================================================
+
 import './globals.css';
+
+// ============================================================================
+// Importações de Fontes Otimizadas (next/font)
+// ============================================================================
 
 import { Inter, Orbitron, Rajdhani } from 'next/font/google';
 
-import { AuthProvider } from '@/components/providers/auth-provider';
+// ============================================================================
+// Importações de Providers de Contexto
+// ============================================================================
+
+import AuthProvider from '@/components/providers/auth-context-provider';
 import { MatrixProvider } from '@/components/providers/matrix-context-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { AppWrapper } from '@/components/layout/app-wrapper';
-import { Footer } from '@/components/layout/footer';
+
+// ============================================================================
+// Importações de Componentes de Layout
+// ============================================================================
+
 import { Navbar } from '@/components/layout/navbar';
+import { Footer } from '@/components/layout/footer';
+import { MatrixBackground } from '@rainersoft/ui';
+
 import { CookieInitializer } from '@/components/cookies/cookie-initializer';
+
+// ============================================================================
+// Importações da Biblioteca UI (@rainersoft/ui)
+// ============================================================================
+
 import {
   CookieBanner,
   InstallPrompt,
@@ -60,19 +60,52 @@ import {
   Toaster,
   UpdateNotification,
 } from '@rainersoft/ui';
-import { DESENVOLVEDOR, PALAVRAS_CHAVE, SITE_CONFIG } from '@/constants';
-import { darkThemeColors, lightThemeColors } from '@rainersoft/design-tokens';
+
+// ============================================================================
+// Importações de Design Tokens
+// ============================================================================
+
+import {
+  lightThemeColors,
+  darkThemeColors,
+  Z_INDEX,
+  RESPONSIVE,
+} from '@rainersoft/design-tokens';
+
+// ============================================================================
+// Importações de Analytics e Performance
+// ============================================================================
+
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
+// ============================================================================
+// Importações de Constantes e Configurações
+// ============================================================================
+
+import {
+  DESENVOLVEDOR,
+  PALAVRAS_CHAVE,
+  SITE_CONFIG,
+  OPEN_GRAPH,
+  SEO_CONFIG,
+  OPEN_GRAPH_IMAGE_ALT,
+} from '@/constants';
+
+// ============================================================================
+// Configuração de Fontes
+// ============================================================================
+
 /**
- * Configuração da fonte principal Inter.
- * Fonte sans-serif moderna utilizada no corpo de texto da aplicação.
- *
- * @constant {NextFont}
- * @property {string[]} subsets - Subconjuntos de caracteres (latino)
- * @property {string} display - Estratégia de exibição (swap para evitar FOIT)
- * @property {string} variable - Variável CSS customizada (--font-inter)
+ * Configuração da fonte Inter para texto corporativo.
+ * 
+ * @type {NextFont}
+ * @property {string[]} subsets - Subconjuntos de caracteres ('latin')
+ * @property {string} display - Estratégia de exibição ('swap')
+ * @property {string} variable - Variável CSS personalizada ('--font-inter')
+ * 
+ * @example
+ * Aplicação no CSS: `font-family: var(--font-inter)`
  */
 const fontInter = Inter({
   subsets: ['latin'],
@@ -81,14 +114,16 @@ const fontInter = Inter({
 });
 
 /**
- * Configuração da fonte Orbitron.
- * Fonte secundária com estilo futurista/cyberpunk para títulos e elementos destacados.
- *
- * @constant {NextFont}
- * @property {string[]} subsets - Subconjuntos de caracteres (latino)
- * @property {string} display - Estratégia de exibição (swap)
- * @property {string} variable - Variável CSS customizada (--font-orbitron)
- * @property {string[]} weight - Pesos de fonte disponíveis (400-900)
+ * Configuração da fonte Orbitron para elementos futuristas.
+ * 
+ * @type {NextFont}
+ * @property {string[]} subsets - Subconjuntos de caracteres ('latin')
+ * @property {string} display - Estratégia de exibição ('swap')
+ * @property {string} variable - Variável CSS personalizada ('--font-orbitron')
+ * @property {string[]} weight - Pesos de fonte disponíveis
+ * 
+ * @example
+ * Aplicação no CSS: `font-family: var(--font-orbitron)`
  */
 const fontOrbitron = Orbitron({
   subsets: ['latin'],
@@ -98,14 +133,16 @@ const fontOrbitron = Orbitron({
 });
 
 /**
- * Configuração da fonte Rajdhani.
- * Fonte técnica complementar para subtítulos e elementos secundários.
- *
- * @constant {NextFont}
- * @property {string[]} subsets - Subconjuntos de caracteres (latino)
- * @property {string} display - Estratégia de exibição (swap)
- * @property {string} variable - Variável CSS customizada (--font-rajdhani)
- * @property {string[]} weight - Pesos de fonte disponíveis (300-700)
+ * Configuração da fonte Rajdhani para elementos técnicos.
+ * 
+ * @type {NextFont}
+ * @property {string[]} subsets - Subconjuntos de caracteres ('latin')
+ * @property {string} display - Estratégia de exibição ('swap')
+ * @property {string} variable - Variável CSS personalizada ('--font-rajdhani')
+ * @property {string[]} weight - Pesos de fonte disponíveis
+ * 
+ * @example
+ * Aplicação no CSS: `font-family: var(--font-rajdhani)`
  */
 const fontRajdhani = Rajdhani({
   subsets: ['latin'],
@@ -114,12 +151,27 @@ const fontRajdhani = Rajdhani({
   weight: ['300', '400', '500', '600', '700'],
 });
 
+// ============================================================================
+// Metadados da Aplicação
+// ============================================================================
+
 /**
- * Metadados globais da aplicação.
- * Configurações de SEO, OpenGraph, Twitter Cards, PWA e otimizações de compartilhamento.
- * Utilizados diretamente pelo Next.js para geração automática de meta tags.
- *
+ * Metadados globais para SEO, OpenGraph, Twitter Cards e PWA.
+ * 
  * @type {Metadata}
+ * 
+ * @property {Object} title - Configurações de título
+ * @property {string} title.default - Título padrão da aplicação
+ * @property {string} title.template - Template para títulos de páginas
+ * @property {string} description - Descrição meta para SEO
+ * @property {string[]} keywords - Palavras-chave para SEO
+ * @property {Object[]} authors - Informações do autor/desenvolvedor
+ * @property {string} creator - Criador do conteúdo
+ * @property {string} publisher - Publicador da aplicação
+ * @property {string} applicationName - Nome da aplicação PWA
+ * @property {string} category - Categoria da aplicação
+ * @property {string} classification - Classificação para SEO
+ * 
  * @see https://nextjs.org/docs/app/api-reference/functions/generate-metadata
  */
 export const metadata: Metadata = {
@@ -137,26 +189,33 @@ export const metadata: Metadata = {
   creator: DESENVOLVEDOR.nome,
   publisher: SITE_CONFIG.name,
   applicationName: SITE_CONFIG.name,
-  category: 'technology',
-  classification:
-    'Software Development Company, Web Development, Enterprise Solutions',
+  category: SEO_CONFIG.category,
+  classification: SEO_CONFIG.classification,
+  
+  /**
+   * Configurações OpenGraph para redes sociais.
+   */
   openGraph: {
-    type: 'website',
-    locale: 'pt_BR',
+    type: OPEN_GRAPH.tipo,
+    locale: OPEN_GRAPH.idioma,
     alternateLocale: ['en_US'],
     url: SITE_CONFIG.url,
-    title: `${SITE_CONFIG.name} - Desenvolvedor Full-Stack`,
+    title: OPEN_GRAPH.siteName,
     description: SITE_CONFIG.description,
-    siteName: SITE_CONFIG.name,
+    siteName: OPEN_GRAPH.siteName,
     images: [
       {
-        url: `${SITE_CONFIG.url}/og-image.png`,
+        url: `${SITE_CONFIG.url}${OPEN_GRAPH.imagem}`,
         width: 1200,
         height: 630,
-        alt: `${SITE_CONFIG.name} - Empresa de Desenvolvimento Full-Stack`,
+        alt: OPEN_GRAPH_IMAGE_ALT,
       },
     ],
   },
+  
+  /**
+   * Configurações para robôs de busca.
+   */
   robots: {
     index: true,
     follow: true,
@@ -170,11 +229,10 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    // google: 'seu-codigo-aqui',
-    // yandex: 'seu-codigo-aqui',
-    // bing: 'seu-codigo-aqui',
-  },
+  
+  /**
+   * URLs alternativas e canonical para SEO.
+   */
   alternates: {
     canonical: SITE_CONFIG.url,
     languages: {
@@ -182,33 +240,29 @@ export const metadata: Metadata = {
       'en-US': `${SITE_CONFIG.url}/en`,
     },
   },
+  
+  /**
+   * Configurações PWA (Progressive Web App).
+   */
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: `${SITE_CONFIG.name}`,
     startupImage: [
-      { url: '/splash-screens/iphone5.png', media: '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)' },
-      { url: '/splash-screens/iphone6.png', media: '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)' },
-      { url: '/splash-screens/iphone6plus.png', media: '(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)' },
-      { url: '/splash-screens/iphonex.png', media: '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)' },
-      { url: '/splash-screens/iphonexr.png', media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)' },
-      { url: '/splash-screens/iphonexsmax.png', media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)' },
-      { url: '/splash-screens/iphone12.png', media: '(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)' },
-      { url: '/splash-screens/iphone12promax.png', media: '(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)' },
-      { url: '/splash-screens/iphone14pro.png', media: '(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)' },
-      { url: '/splash-screens/iphone14promax.png', media: '(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)' },
-      { url: '/splash-screens/ipad.png', media: '(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)' },
-      { url: '/splash-screens/ipadpro10.png', media: '(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)' },
-      { url: '/splash-screens/ipadpro11.png', media: '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)' },
-      { url: '/splash-screens/ipadpro12.png', media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)' },
+      // Nota: Adicione aqui suas splash screens específicas por dispositivo
     ],
   },
+  
   formatDetection: {
     telephone: false,
     email: false,
     address: false,
   },
+  
+  /**
+   * Ícones para vários dispositivos e contextos.
+   */
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -219,6 +273,10 @@ export const metadata: Metadata = {
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
+  
+  /**
+   * Metadados adicionais para compatibilidade cross-browser.
+   */
   other: {
     'mobile-web-app-capable': 'yes',
     'application-name': SITE_CONFIG.name,
@@ -238,13 +296,23 @@ export const metadata: Metadata = {
   },
 };
 
+// ============================================================================
+// Configuração da Viewport
+// ============================================================================
+
 /**
- * Configuração universal da viewport.
- * Otimizações para máxima compatibilidade cross-device, suporte a notch,
- * zoom controlado, fullscreen PWA e adaptação automática da barra de status
- * conforme o tema do sistema operacional.
- *
+ * Configurações da viewport para responsividade e PWA.
+ * 
  * @type {Viewport}
+ * 
+ * @property {string} width - Largura da viewport
+ * @property {number} initialScale - Zoom inicial
+ * @property {number} minimumScale - Zoom mínimo permitido
+ * @property {number} maximumScale - Zoom máximo permitido
+ * @property {boolean} userScalable - Permite zoom do usuário
+ * @property {string} viewportFit - Comportamento em dispositivos com notch
+ * @property {Object[]} themeColor - Cores do tema por preferência do sistema
+ * 
  * @see https://nextjs.org/docs/app/api-reference/functions/generate-viewport
  */
 export const viewport: Viewport = {
@@ -255,41 +323,56 @@ export const viewport: Viewport = {
   userScalable: true,
   viewportFit: 'cover',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: lightThemeColors.primitive.neutral[50] },
-    { media: '(prefers-color-scheme: dark)', color: darkThemeColors.primitive.neutral[950] },
+    { 
+      media: '(prefers-color-scheme: light)', 
+      color: lightThemeColors.primitive.neutral[50] 
+    },
+    { 
+      media: '(prefers-color-scheme: dark)', 
+      color: darkThemeColors.primitive.neutral[950] 
+    },
   ],
 };
 
+// ============================================================================
+// Interface das Props do Layout Raiz
+// ============================================================================
+
 /**
  * Propriedades do componente RootLayout.
- *
+ * 
  * @interface RootLayoutProps
+ * @property {React.ReactNode} children - Conteúdo das páginas filhas
  */
 interface RootLayoutProps {
-  /** Conteúdo das páginas filhas renderizadas pelo Next.js App Router */
   readonly children: React.ReactNode;
 }
 
+// ============================================================================
+// Componente Principal do Layout Raiz
+// ============================================================================
+
 /**
- * Componente raiz do layout da aplicação Next.js.
- *
- * Estrutura toda a aplicação na camada mais alta, englobando:
- * - Providers de contexto (Theme, Matrix, Auth)
- * - Layout fixo com Navbar, Main e Footer
- * - Componentes globais (Cookies, PWA, Background)
- * - Integrações de Analytics e Performance
- *
+ * Componente RootLayout - Layout Raiz da Aplicação
+ * 
+ * Este componente define a estrutura HTML base e engloba toda a aplicação
+ * com providers de contexto, configurações de tema e componentes globais.
+ * 
  * @param {RootLayoutProps} props - Propriedades do layout raiz
- * @returns {JSX.Element} Estrutura HTML global da aplicação
- *
+ * @param {React.ReactNode} props.children - Conteúdo das páginas filhas
+ * 
+ * @returns {JSX.Element} Estrutura HTML completa da aplicação
+ * 
  * @example
  * ```tsx
+ * // Renderizado automaticamente pelo Next.js App Router
  * <RootLayout>
  *   <PageContent />
  * </RootLayout>
  * ```
  */
 export default function RootLayout({ children }: RootLayoutProps) {
+
   return (
     <html
       lang="pt-BR"
@@ -297,30 +380,80 @@ export default function RootLayout({ children }: RootLayoutProps) {
       className={`${fontInter.variable} ${fontOrbitron.variable} ${fontRajdhani.variable}`}
     >
       <body
-        className={`${fontInter.variable} text-foreground antialiased min-h-screen smooth-scroll font-sans`}
+        className="min-h-screen antialiased smooth-scroll font-sans bg-background text-foreground"
+        style={{
+          /**
+           * Fonte principal vinda da variável configurada pelo next/font
+           */
+          fontFamily: 'var(--font-inter)',
+        }}
         suppressHydrationWarning
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {/**
+         * Provider de tema com suporte a sistema, claro e escuro
+         */}
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="system" 
+          enableSystem
+        >
+          {/**
+           * Provider de efeitos matrix para elementos visuais
+           */}
           <MatrixProvider>
+            {/**
+             * Provider de autenticação para gestão de estado do usuário
+             */}
             <AuthProvider>
+              {/**
+               * Wrapper principal da aplicação
+               */}
               <AppWrapper>
+                {/**
+                 * Fundo estelar decorativo + matrix rain
+                 */}
                 <StarsBackground />
+                <MatrixBackground />
 
-                {/* Layout principal da aplicação */}
-                {/* Estrutura com header fixo, área de conteúdo e footer */}
-                <div className="flex flex-col min-h-screen visible">
-                  {/* Cabeçalho fixo no topo com navbar */}
-                  <header className="sticky top-0 z-50 will-change-transform">
+                {/**
+                 * Estrutura principal do layout
+                 * - Header fixo no topo
+                 * - Conteúdo principal flexível
+                 * - Footer no final
+                 */}
+                <div className="flex flex-col min-h-screen">
+                  {/**
+                   * Cabeçalho fixo com navegação principal
+                   */}
+                  <header
+                    className={`sticky top-0 will-change-transform ${Z_INDEX.STICKY}`}
+                  >
                     <Navbar />
                   </header>
-                  {/* Área principal de conteúdo das páginas */}
-                  <main className="flex-1 relative" role="main">
+
+                  {/**
+                   * Área de conteúdo principal das páginas
+                   */}
+                  <main
+                    className={`flex-1 relative ${RESPONSIVE.SPACING.RESPONSIVE_Y}`}
+                    role="main"
+                  >
                     {children}
                   </main>
-                  {/* Rodapé da aplicação */}
+
+                  {/**
+                   * Rodapé da aplicação
+                   */}
                   <Footer />
                 </div>
 
+                {/**
+                 * Componentes globais de UI
+                 * - Banner de cookies (LGPD/GDPR)
+                 * - Inicializador de cookies
+                 * - Prompt de instalação PWA
+                 * - Notificação de atualização
+                 */}
                 <CookieBanner />
                 <CookieInitializer />
                 <InstallPrompt />
@@ -330,6 +463,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </MatrixProvider>
         </ThemeProvider>
 
+        {/**
+         * Utilitários globais
+         * - Sistema de toasts/notificações
+         * - Analytics da Vercel
+         * - Insights de performance
+         */}
         <Toaster />
         <Analytics />
         <SpeedInsights />

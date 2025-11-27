@@ -209,3 +209,5 @@ export function useSearch() {
     clearRecentSearches,
   };
 }
+
+

@@ -105,3 +105,4 @@ export const BREADCRUMBS = {
     { label: 'Cookies', href: '/cookies' },
   ],
 } as const;
+

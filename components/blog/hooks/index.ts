@@ -17,3 +17,5 @@ export { useSearch } from './use-search';
 export type { SearchResult } from './use-search';
 
 export { useNewsletter } from './use-newsletter';
+
+

@@ -14,8 +14,8 @@
 'use client';
 
 import { CookieSettings } from '@/components/cookies/cookie-settings';
-import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
-import { cn } from '@/lib/utils';
+import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
+import { cn } from '@/lib/portfolio';
 
 export default function CookieSettingsPage() {
   return (
@@ -35,3 +35,5 @@ export default function CookieSettingsPage() {
     </div>
   );
 }
+
+

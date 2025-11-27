@@ -39,7 +39,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { zodResolver } from '@hookform/resolvers/zod';
 // Design tokens via CSS variables (imported in globals.css)
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
@@ -81,7 +81,6 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const [success, setSuccess] = useState(false);
 
   const form = useForm<ResetPasswordFormValues>({
-    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: '',
       confirmPassword: '',
@@ -202,3 +201,5 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     </Form>
   );
 }
+
+

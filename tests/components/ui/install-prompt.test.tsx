@@ -2,11 +2,13 @@
  * Testes para componente InstallPrompt
  */
 
-import { InstallPrompt } from '@/components/ui/install-prompt';
+import { InstallPrompt } from '@rainersoft/ui';
 import { render } from '@testing-library/react';
+import * as uiModule from '@rainersoft/ui';
 
 // Mock do usePWA
-jest.mock('@/hooks/use-pwa', () => ({
+jest.mock('@rainersoft/ui', () => ({
+  ...jest.requireActual('@rainersoft/ui'),
   usePWA: jest.fn(() => ({
     isInstallable: false,
     installApp: jest.fn(),

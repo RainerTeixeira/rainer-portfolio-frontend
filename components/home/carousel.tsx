@@ -27,20 +27,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { tokens } from '@rainersoft/design-tokens';
-
-// Funções de conversão de cores inline para evitar problemas com imports
-function hexToRGB(hex: string): string {
-  const cleanHex = hex.replace('#', '');
-  const r = parseInt(cleanHex.substring(0, 2), 16);
-  const g = parseInt(cleanHex.substring(2, 4), 16);
-  const b = parseInt(cleanHex.substring(4, 6), 16);
-  return `${r}, ${g}, ${b}`;
-}
-
-function hexToRGBA(hex: string, alpha: number): string {
-  const rgb = hexToRGB(hex);
-  return `rgba(${rgb}, ${alpha})`;
-}
+import { hexToRGB, hexToRGBA } from '@rainersoft/ui';
 
 /**
  * Função auxiliar para obter uma cor de token de forma segura com fallback
@@ -736,47 +723,6 @@ function Carousel() {
           />
         ))}
 
-        {/* MATRIX BINARY PROCESSOR - OTIMIZADO COMO BITS */}
-        <div className="matrix-grid absolute inset-0 z-0 overflow-hidden">
-          {matrixColumns.map(column => (
-            <div
-              key={column.id}
-              className="matrix-column-wrapper absolute pointer-events-none"
-              style={{
-                left: `${column.leftPct}%`,
-                top: 0,
-                height: '200vh',
-                animationName: 'matrixBinaryFall',
-                animationDuration: `${column.animationDuration}s`,
-                animationTimingFunction: 'linear',
-                animationIterationCount: 'infinite',
-                animationDelay: `${column.animationDelay}s`,
-                transform: `scaleY(${column.speed})`,
-              }}
-            >
-              {/* Primeiro set - Bits de processador com efeito Matrix Rain hipnótico */}
-              <MatrixCharacterSet
-                characters={column.characters}
-                columnId={column.id}
-                fontSize={column.fontSize}
-                intensity={column.intensity}
-                isDarkTheme={isDarkTheme}
-                setIndex={1}
-              />
-
-              {/* Segundo set - Continuidade com efeito Matrix Rain hipnótico */}
-              <MatrixCharacterSet
-                characters={column.characters}
-                columnId={column.id}
-                fontSize={column.fontSize}
-                intensity={column.intensity}
-                isDarkTheme={isDarkTheme}
-                setIndex={2}
-              />
-            </div>
-          ))}
-        </div>
-
         {/* EFEITOS DE SCANLINE OTIMIZADOS - REDUZIDO */}
         <div className="absolute inset-0 pointer-events-none">
           {Array.from({ length: 3 }).map((_, i) => (
@@ -910,3 +856,5 @@ function Carousel() {
 const CarouselExport = Carousel;
 
 export default CarouselExport;
+
+

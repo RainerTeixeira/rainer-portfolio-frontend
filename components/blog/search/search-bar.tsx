@@ -45,7 +45,7 @@ import {
   CommandSeparator,
 } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { Loader2, Search, TrendingUp } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useSearch, type SearchResult } from '../hooks';
@@ -291,3 +291,5 @@ function SearchDialog({
     </CommandDialog>
   );
 }
+
+

@@ -514,3 +514,4 @@ export async function uploadLossless(
 ): Promise<string> {
   return uploadToCloudinary(file, CLOUDINARY_PRESETS.webpLossless, onProgress);
 }
+

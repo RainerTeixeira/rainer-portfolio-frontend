@@ -14,6 +14,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /**
+   * Typed Routes (movido de experimental no Next.js 16)
+   */
+  typedRoutes: true,
+
+  /**
    * Opções experimentais do Next.js 16:
    * - optimizePackageImports: Reduz o bundle transferindo apenas ícones realmente usados.
    */
@@ -55,7 +60,6 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
-    typedRoutes: true,
   },
 
   /**
@@ -112,7 +116,7 @@ const nextConfig = {
   cacheComponents: true, // Substitui experimental.ppr para habilitar Partial Prerendering
   
   // Otimizações adicionais
-  output: 'standalone', // Para deploy otimizado
+  // output: 'standalone', // Desabilitado temporariamente - erro de permissão no Windows
   generateBuildId: async () => {
     return `build-${Date.now()}`; // ID único para cada build
   },
@@ -218,4 +222,3 @@ const nextConfig = {
 };
 
 export default nextConfig;
-

@@ -53,7 +53,7 @@ import {
   DropdownMenuTrigger,
 } from '@rainersoft/ui';
 import type { Comment } from '@/lib/api/types';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import {
@@ -371,3 +371,5 @@ export function CommentItem({
     </div>
   );
 }
+
+
