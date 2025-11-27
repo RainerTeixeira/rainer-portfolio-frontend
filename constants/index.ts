@@ -67,6 +67,7 @@ export { CAMPOS_FORMULARIO, MENSAGENS, INFO_CONTATO } from './contato/formulario
 export type { ContactInfoCardConfig } from './contato/formulario';
 export { FAQ } from './contato/faq';
 export type { FAQItem } from './contato/faq';
+export { TEXTO_TEMPO_RESPOSTA, TEXTO_CONTATO_URGENTE } from './contato/textos';
 // Aliases para compatibilidade
 export { FAQ as FAQ_ITEMS } from './contato/faq';
 export { INFO_CONTATO as CONTACT_INFO_CARDS } from './contato/formulario';
