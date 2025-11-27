@@ -40,7 +40,7 @@ import {
   CardTitle,
 } from '@rainersoft/ui';
 import type { PostWithRelations } from '@/lib/api/types';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { motion } from 'framer-motion';
 import { Eye, Heart, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
@@ -177,3 +177,5 @@ function extractPreview(
 
   return text.slice(0, 150) + (text.length > 150 ? '...' : '');
 }
+
+

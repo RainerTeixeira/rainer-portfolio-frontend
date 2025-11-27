@@ -132,3 +132,4 @@ export const INFO_CONTATO: ReadonlyArray<ContactInfoCardConfig> = [
     href: '/contato#form',
   },
 ] as const;
+

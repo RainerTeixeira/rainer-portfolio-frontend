@@ -32,7 +32,7 @@
 'use client';
 
 import { Button } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
 import { useLike } from '../hooks';
@@ -131,3 +131,5 @@ export function LikeButton({
     </Button>
   );
 }
+
+

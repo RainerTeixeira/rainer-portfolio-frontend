@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Privacy Policy Page Component
  *
  * Página de política de privacidade completa e profissional, conforme LGPD.
@@ -16,9 +16,9 @@
 import Link from 'next/link';
 import { Database, Eye, FileCheck, Lock, Mail, Shield } from 'lucide-react';
 
-import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
+import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { POLICIES_LAST_UPDATED, SITE_CONFIG } from '@/constants';
 
 export default function PrivacyPolicyPage() {
@@ -361,3 +361,5 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
+
+

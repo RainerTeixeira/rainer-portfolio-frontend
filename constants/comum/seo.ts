@@ -66,3 +66,20 @@ export const OPEN_GRAPH = {
   imagem: '/og-image.png',
   twitter: '@rainerteixeira',
 } as const;
+
+/**
+ * Configuração complementar de SEO para categoria e classificação do site.
+ * Centraliza valores usados em metadata/layout.
+ */
+export const SEO_CONFIG = {
+  category: 'technology',
+  classification:
+    'Software Development Company, Web Development, Enterprise Solutions',
+} as const;
+
+/**
+ * Texto ALT padrão para a imagem Open Graph principal.
+ */
+export const OPEN_GRAPH_IMAGE_ALT =
+  `${DESENVOLVEDOR.nome} - Desenvolvedor Full-Stack | ${OPEN_GRAPH.siteName}` as const;
+

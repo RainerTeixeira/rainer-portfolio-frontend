@@ -45,7 +45,7 @@ import { Label } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
 import { Textarea } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
-import { CARD_CLASSES, cn } from '@/lib/utils';
+import { CARD_CLASSES, cn } from '@/lib/portfolio';
 import {
   Github,
   Linkedin,
@@ -420,3 +420,5 @@ export function ContactForm() {
  * @type {string}
  */
 ContactForm.displayName = 'ContactForm';
+
+

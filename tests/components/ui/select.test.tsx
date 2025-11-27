@@ -8,7 +8,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 
 describe('Select', () => {

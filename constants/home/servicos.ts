@@ -9,102 +9,155 @@
  * incluindo descrições e características.
  */
 
-// Cores para os serviços
+import { lightThemeColors } from '@rainersoft/design-tokens';
+
+/**
+ * Cores para serviços (Tailwind)
+ */
 const SERVICE_COLORS = {
-  primary: '#0891b2',    // cyan-600
-  secondary: '#9333ea',  // purple-600 
-  accent: '#db2777',     // pink-600
-  success: '#059669',    // emerald-600
+  primary: lightThemeColors.primitive.cyan[600],
+  secondary: lightThemeColors.primitive.purple[600],
+  accent: lightThemeColors.primitive.pink[600],
+  success: lightThemeColors.primitive.emerald[600],
 } as const;
 
 /**
- * Lista de serviços
+ * Serviços especializados com expertise comprovada
  * @constant
- * @description Serviços principais oferecidos
+ * @description Serviços que posso entregar com excelência
  */
 export const SERVICOS = [
   {
-    titulo: 'Aplicações Web Full-Stack',
-    descricao: 'Desenvolvimento completo com React, Next.js e Node.js. ' +
-               'Inclui autenticação, PWA e dashboard administrativo.',
-    badge: 'Mais Procurado',
+    titulo: 'Aplicações Web Modernas',
+    descricao: 'Desenvolvimento completo com React e Next.js. ' +
+               'Performance otimizada, SEO avançado e experiência de usuário excepcional.',
+    badge: 'Especialidade',
     caracteristicas: [
       'React 19 + Next.js 15',
-      'TypeScript + Node.js',
-      'PostgreSQL + Prisma',
-      'Deploy Profissional',
+      'TypeScript + TailwindCSS',
+      'Performance 98+ Lighthouse',
+      'SEO & Core Web Vitals',
     ],
-    icone: 'Globe',
+    icone: 'Code2',
     cor: SERVICE_COLORS.primary,
+    preco: 'Consultoria personalizada',
   },
   {
-    titulo: 'Dashboards Interativos',
-    descricao: 'Painéis administrativos que transformam dados em insights. ' +
-               'Gráficos dinâmicos e relatórios exportáveis.',
-    badge: 'Alta Demanda',
+    titulo: 'Design System & Componentes',
+    descricao: 'Criação de design systems completos e bibliotecas de componentes reutilizáveis. ' +
+               'Documentação clara e testes automatizados.',
+    badge: 'Projeto Próprio',
     caracteristicas: [
-      'Gráficos Interativos',
-      'Filtros Inteligentes',
-      'Tempo Real',
-      'Export Excel/PDF',
+      'Design Tokens W3C',
+      'Componentes Acessíveis',
+      '100% Cobertura de Testes',
+      'Storybook & Documentação',
     ],
-    icone: 'BarChart',
+    icone: 'Palette',
     cor: SERVICE_COLORS.secondary,
+    preco: 'Projeto sob medida',
   },
   {
-    titulo: 'PWAs e Performance',
-    descricao: 'Progressive Web Apps rápidas como apps nativos. ' +
-               'Funcionam offline e são instaláveis.',
-    badge: 'Performance',
-    caracteristicas: [
-      'Carregamento < 2s',
-      'Funciona Offline',
-      'SEO Otimizado',
-      'Mobile First',
-    ],
-    icone: 'Zap',
-    cor: SERVICE_COLORS.accent,
-  },
-  {
-    titulo: 'APIs REST Escaláveis',
-    descricao: 'APIs profissionais com Node.js. ' +
-               'Autenticação JWT e documentação Swagger.',
-    badge: 'Backend',
+    titulo: 'APIs & Backend',
+    descricao: 'Desenvolvimento de APIs REST robustas com Node.js e NestJS. ' +
+               'Autenticação segura, documentação completa e integrações.',
+    badge: 'Full-Stack',
     caracteristicas: [
       'Node.js + NestJS',
-      'Documentação Swagger',
-      'Integrações',
-      'Escalável',
+      'JWT + OAuth2',
+      'PostgreSQL & MongoDB',
+      'Swagger Documentation',
     ],
     icone: 'Server',
+    cor: SERVICE_COLORS.accent,
+    preco: 'Orçamento detalhado',
+  },
+  {
+    titulo: 'Performance & Otimização',
+    descricao: 'Melhoria de performance de aplicações existentes. ' +
+               'Análise de gargalos, otimização de bundle e Core Web Vitals.',
+    badge: 'Lighthouse 98+',
+    caracteristicas: [
+      'Análise de Performance',
+      'Otimização de Bundle',
+      'Lazy Loading & Code Splitting',
+      'Cache Strategy',
+    ],
+    icone: 'Zap',
     cor: SERVICE_COLORS.success,
+    preco: 'Análise gratuita',
   },
 ] as const;
 
 /**
- * Diferenciais técnicos
+ * Diferenciais baseados em competências reais
  * @constant
- * @description Vantagens competitivas
+ * @description O que me diferencia no mercado
  */
 export const DIFERENCIAIS = [
   {
-    titulo: 'Código Limpo',
-    descricao: 'TypeScript com arquitetura modular e documentação completa.',
-    icone: 'Code',
+    titulo: 'Código Open Source',
+    descricao: 'Projetos publicados no NPM com código aberto e documentção completa.',
+    icone: 'Github',
+    destaque: true,
   },
   {
-    titulo: 'Performance',
-    descricao: 'Sites rápidos com Lighthouse Score 95+ garantido.',
+    titulo: 'Testes Automatizados',
+    descricao: '100% de cobertura em projetos críticos. TDD como padrão de desenvolvimento.',
+    icone: 'CheckCircle',
+  },
+  {
+    titulo: 'Performance Garantida',
+    descricao: 'Lighthouse Score 98+. Aplicações que carregam em menos de 2 segundos.',
     icone: 'Zap',
+    destaque: true,
   },
   {
-    titulo: 'Segurança',
-    descricao: 'Autenticação JWT e proteção contra ataques XSS/CSRF.',
-    icone: 'Shield',
+    titulo: 'Stack Atualizada',
+    descricao: 'React 19, Next.js 15, TypeScript 5. Sempre nas versões mais recentes e estáveis.',
+    icone: 'Cpu',
   },
   {
-    titulo: 'Escalabilidade',
-    descricao: 'Arquitetura preparada para crescer com seu negócio.',
-    icone: 'TrendingUp',
+    titulo: 'Documentação Detalhada',
+    descricao: 'Código comentado, README completo e documentação técnica clara.',
+    icone: 'BookOpen',
+    destaque: true,
+  },
+  {
+    titulo: 'Arquitetura Escalável',
+    descricao: 'Design patterns, SOLID principles e clean architecture em todos os projetos.',
+    icone: 'Layers',
   },
 ] as const;
+
+/**
+ * Processo transparente de desenvolvimento
+ * @constant
+ */
+export const PROCESSO = [
+  {
+    fase: '01',
+    titulo: 'Análise Técnica',
+    descricao: 'Entendimento completo dos requisitos e definição da melhor arquitetura.',
+    duracao: '2-3 dias',
+  },
+  {
+    fase: '02',
+    titulo: 'Prototipagem',
+    descricao: 'MVP funcional para validação de conceito e ajustes iniciais.',
+    duracao: '1 semana',
+  },
+  {
+    fase: '03',
+    titulo: 'Desenvolvimento',
+    descricao: 'Implementação com entregas incrementais e testes contínuos.',
+    duracao: '2-8 semanas',
+  },
+  {
+    fase: '04',
+    titulo: 'Entrega & Documentação',
+    descricao: 'Deploy, documentação completa e transferência de conhecimento.',
+    duracao: '3-5 dias',
+  },
+] as const;
+

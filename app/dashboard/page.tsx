@@ -53,7 +53,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { useAuth } from '@/components/providers/auth-provider';
+import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { postsService } from '@/lib/api/services';
 import type {
   CreatePostData,
@@ -62,7 +62,7 @@ import type {
   TiptapJSON,
   UpdatePostData,
 } from '@/lib/api/types';
-import { BackToTop } from '@/components/ui';
+import { BackToTop } from '@rainersoft/ui';
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import {
@@ -82,13 +82,15 @@ import {
   QuickActions,
   QuickStats,
   RecentPostsList,
+  SubcategorySelect,
+  ImageUpload,
 } from '@/components/dashboard';
 import { PostCard } from '@/components/blog/post-card';
 import { Editor } from '@/components/dashboard/Editor';
 import { tiptapJSONtoHTML } from '@/components/dashboard/lib/tiptap-utils';
-import { createEmptyTiptapContent } from '@/lib/content';
-import { cn } from '@/lib/utils';
-import { textToSlug } from '@/lib/utils/string';
+import { createEmptyTiptapContent } from '@/lib/blog';
+import { cn } from '@/lib/portfolio';
+import { textToSlug } from '@rainersoft/utils';
 import { GRADIENT_DIRECTIONS, BACKGROUND } from '@rainersoft/design-tokens';
 
 type ChangeEvent<T = HTMLInputElement> = React.ChangeEvent<T>;
@@ -117,7 +119,7 @@ const EMPTY_POST_TEMPLATE: Partial<CreatePostData> = {
   excerpt: '',
   content: createEmptyTiptapContent(),
   subcategoryId: '',
-  coverImage: '/images/b1.png',
+  coverImage: '/images/t1.jpg',
   status: 'DRAFT' as PostStatus,
   featured: false,
   allowComments: true,
@@ -148,9 +150,12 @@ const EMPTY_POST_TEMPLATE: Partial<CreatePostData> = {
 function DashboardPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { user, isAuthenticated, isLoading: isAuthLoading } = useAuth();
+  const { user, isAuthenticated, loading: isAuthLoading } = useAuthContext();
 
   const [allPosts, setAllPosts] = React.useState<Post[]>([]);
+  const [filteredPosts, setFilteredPosts] = React.useState<Post[]>([]);
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [statusFilter, setStatusFilter] = React.useState<'all' | 'PUBLISHED' | 'DRAFT'>('all');
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [isPreviewVisible, setIsPreviewVisible] = React.useState(true);
   const [isSavingPost, setIsSavingPost] = React.useState(false);
@@ -167,10 +172,27 @@ function DashboardPageContent() {
 
   /**
    * Redireciona para login se não autenticado.
+   * Adiciona delay para evitar redirecionamento antes do OAuth completar.
    */
   React.useEffect(() => {
+    // Verifica se veio de um callback OAuth (tem 'from=oauth' na URL)
+    const isFromOAuth = window.location.search.includes('from=oauth');
+    
     if (!isAuthLoading && !isAuthenticated) {
-      router.push('/dashboard/login');
+      // Se veio do OAuth, espera um pouco mais para dar tempo do estado atualizar
+      if (isFromOAuth) {
+        console.log('[Dashboard] Veio do OAuth, aguardando autenticação...');
+        setTimeout(() => {
+          // Verifica novamente após 2 segundos
+          if (!isAuthenticated) {
+            console.log('[Dashboard] Ainda não autenticado após OAuth, redirecionando para login');
+            router.push('/dashboard/login');
+          }
+        }, 2000);
+      } else {
+        console.log('[Dashboard] Não autenticado, redirecionando para login');
+        router.push('/dashboard/login');
+      }
     }
   }, [isAuthenticated, isAuthLoading, router]);
 
@@ -198,12 +220,13 @@ function DashboardPageContent() {
         startCreatingNewPost();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, urlEditId, urlMode]);
 
   /**
    * Carrega todos os posts da API.
    */
-  const loadAllPosts = async () => {
+  const loadAllPosts = React.useCallback(async () => {
     try {
       const response = await postsService.listPosts({
         limit: 100,
@@ -211,12 +234,35 @@ function DashboardPageContent() {
       });
       if (response.success && response.posts) {
         setAllPosts(response.posts);
+        setFilteredPosts(response.posts);
       }
     } catch (error) {
       console.error('Erro ao carregar posts:', error);
       toast.error('Erro ao carregar posts');
     }
-  };
+  }, []);
+
+  /**
+   * Filtra posts baseado em busca e status
+   */
+  React.useEffect(() => {
+    let filtered = [...allPosts];
+
+    // Filtro de busca
+    if (searchQuery) {
+      filtered = filtered.filter(post =>
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()))
+      );
+    }
+
+    // Filtro de status
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(post => post.status === statusFilter);
+    }
+
+    setFilteredPosts(filtered);
+  }, [allPosts, searchQuery, statusFilter]);
 
   /**
    * Reseta dados - removido (não aplicável com API real).
@@ -230,24 +276,24 @@ function DashboardPageContent() {
   /**
    * Inicia criação de novo post.
    */
-  const startCreatingNewPost = () => {
+  const startCreatingNewPost = React.useCallback(() => {
     setCurrentEditingPost(EMPTY_POST_TEMPLATE);
     setIsEditMode(true);
-  };
+  }, []);
 
   /**
    * Inicia edição de post existente.
    */
-  const startEditingPost = (post: Post) => {
+  const startEditingPost = React.useCallback((post: Post) => {
     setCurrentEditingPost(post);
     setIsEditMode(true);
-  };
+  }, []);
 
   /**
    * Salva post (criar ou atualizar).
    */
   const saveCurrentPost = async () => {
-    if (!user?.username) {
+    if (!user?.cognitoSub) {
       toast.error('Você precisa estar autenticado para salvar posts');
       return;
     }
@@ -334,7 +380,7 @@ function DashboardPageContent() {
             currentEditingPost.subcategoryId
               ? currentEditingPost.subcategoryId
               : '', // Necessário para criação
-          authorId: user.username,
+          authorId: user.cognitoSub,
           status:
             ('status' in currentEditingPost && currentEditingPost.status) ||
             ('DRAFT' as PostStatus),
@@ -742,46 +788,45 @@ function DashboardPageContent() {
                             />
                           </div>
 
-                          {/* Subcategoria e Imagem */}
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                              <Label htmlFor="subcategoryId">
-                                Subcategoria ID
-                              </Label>
-                              <Input
-                                id="subcategoryId"
-                                placeholder="ID da subcategoria"
-                                value={
-                                  'subcategoryId' in currentEditingPost
-                                    ? currentEditingPost.subcategoryId || ''
-                                    : ''
-                                }
-                                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                  setCurrentEditingPost({
-                                    ...currentEditingPost,
-                                    subcategoryId: e.target.value,
-                                  })
-                                }
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="coverImage">Imagem de Capa</Label>
-                              <Input
-                                id="coverImage"
-                                placeholder="/images/b1.png"
-                                value={
-                                  'coverImage' in currentEditingPost
-                                    ? currentEditingPost.coverImage || ''
-                                    : ''
-                                }
-                                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                  setCurrentEditingPost({
-                                    ...currentEditingPost,
-                                    coverImage: e.target.value,
-                                  })
-                                }
-                              />
-                            </div>
+                          {/* Subcategoria */}
+                          <div className="space-y-2">
+                            <Label htmlFor="subcategoryId">
+                              Subcategoria *
+                            </Label>
+                            <SubcategorySelect
+                              value={
+                                'subcategoryId' in currentEditingPost
+                                  ? currentEditingPost.subcategoryId || ''
+                                  : ''
+                              }
+                              onChange={(subcategoryId) =>
+                                setCurrentEditingPost({
+                                  ...currentEditingPost,
+                                  subcategoryId,
+                                })
+                              }
+                              placeholder="Selecione uma subcategoria"
+                            />
+                          </div>
+
+                          {/* Imagem de Capa */}
+                          <div className="space-y-2">
+                            <Label>Imagem de Capa</Label>
+                            <ImageUpload
+                              value={
+                                'coverImage' in currentEditingPost
+                                  ? currentEditingPost.coverImage || ''
+                                  : ''
+                              }
+                              onChange={(url) =>
+                                setCurrentEditingPost({
+                                  ...currentEditingPost,
+                                  coverImage: url,
+                                })
+                              }
+                              maxSize={10}
+                              type="cover"
+                            />
                           </div>
 
                           {/* Conteúdo (Editor Rico) */}
@@ -991,24 +1036,45 @@ function DashboardPageContent() {
                           Todos os Posts
                         </CardTitle>
                         <CardDescription>
-                          {allPosts.length}{' '}
-                          {allPosts.length === 1 ? 'post' : 'posts'} no total
+                          {filteredPosts.length} de {allPosts.length}{' '}
+                          {allPosts.length === 1 ? 'post' : 'posts'}
                         </CardDescription>
                       </CardHeader>
-                      <CardContent>
-                        {allPosts.length === 0 ? (
+                      <CardContent className="space-y-4">
+                        {/* Filtros */}
+                        <div className="flex flex-col sm:flex-row gap-3">
+                          <Input
+                            placeholder="Buscar por título ou descrição..."
+                            value={searchQuery}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                            className="flex-1"
+                          />
+                          <select
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value as 'all' | 'PUBLISHED' | 'DRAFT')}
+                            className="px-3 py-2 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                          >
+                            <option value="all">Todos os Status</option>
+                            <option value="PUBLISHED">Publicados</option>
+                            <option value="DRAFT">Rascunhos</option>
+                          </select>
+                        </div>
+
+                        {filteredPosts.length === 0 ? (
                           <div className="text-center py-12">
                             <FileText
                               className="w-12 h-12 mx-auto mb-4 text-muted-foreground"
                               aria-hidden="true"
                             />
                             <p className="text-muted-foreground">
-                              Nenhum post criado ainda
+                              {allPosts.length === 0
+                                ? 'Nenhum post criado ainda'
+                                : 'Nenhum post encontrado com os filtros atuais'}
                             </p>
                           </div>
                         ) : (
                           <div className="space-y-4">
-                            {allPosts.map((post: Post) => (
+                            {filteredPosts.map((post: Post) => (
                               <motion.div
                                 key={post.id}
                                 initial={{ opacity: 0, x: -20 }}
@@ -1114,3 +1180,5 @@ export default function DashboardPage() {
     </React.Suspense>
   );
 }
+
+

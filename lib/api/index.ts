@@ -86,19 +86,18 @@ export * from './types/users';
 // Namespace consolidado para imports limpos
 export * as types from './types';
 
-// Services
-export * from './services/auth.service';
-export * from './services/bookmarks.service';
-export * from './services/categories.service';
-export * from './services/cloudinary.service';
-export * from './services/comments.service';
-export * from './services/dashboard.service';
-export * from './services/health.service';
-export * from './services/likes.service';
-export * from './services/notifications.service';
-export * from './services/posts.service';
+// Services (exportando apenas os services, não os tipos)
+export { authService } from './services/auth.service';
+export { bookmarksService } from './services/bookmarks.service';
+export { categoriesService } from './services/categories.service';
+export { cloudinaryService } from './services/cloudinary.service';
+export { commentsService } from './services/comments.service';
+export { dashboardService } from './services/dashboard.service';
+export { likesService } from './services/likes.service';
+export { postsService } from './services/posts.service';
+export { usersService } from './services/users.service';
+export { userService } from './services/user.service';
 export * from './services/user.service';
-export * from './services/users.service';
 
 // Blog Public API
 export * from './blog-public-api';

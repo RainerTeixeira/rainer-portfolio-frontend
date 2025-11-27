@@ -15,7 +15,7 @@
 
 import { Badge } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { Calendar } from 'lucide-react';
 
 interface ExperienceCardProps {
@@ -73,3 +73,5 @@ export function ExperienceCard({
     </Card>
   );
 }
+
+

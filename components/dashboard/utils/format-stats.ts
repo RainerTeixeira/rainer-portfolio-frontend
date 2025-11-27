@@ -72,3 +72,5 @@ export function groupDataByPeriod(
   // Implementação simplificada - pode ser expandida
   return data;
 }
+
+

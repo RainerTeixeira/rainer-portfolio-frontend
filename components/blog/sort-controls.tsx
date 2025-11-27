@@ -14,7 +14,7 @@
 'use client';
 
 import { Button } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { Clock, Eye, SortDesc, TrendingUp } from 'lucide-react';
 
 export type SortOption = 'recent' | 'popular' | 'trending';
@@ -88,3 +88,5 @@ export function SortControls({
     </div>
   );
 }
+
+

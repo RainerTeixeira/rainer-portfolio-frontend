@@ -39,7 +39,7 @@ import {
   FormMessage,
 } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { zodResolver } from '@hookform/resolvers/zod';
 // Design tokens via CSS variables (imported in globals.css)
 import { ArrowLeft, CheckCircle2, Loader2, XCircle } from 'lucide-react';
@@ -60,7 +60,6 @@ export function ForgotPasswordForm() {
   const [success, setSuccess] = useState(false);
 
   const form = useForm<ForgotPasswordFormValues>({
-    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: '',
     },
@@ -176,3 +175,5 @@ export function ForgotPasswordForm() {
     </Form>
   );
 }
+
+

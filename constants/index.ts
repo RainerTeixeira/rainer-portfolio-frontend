@@ -29,7 +29,13 @@
 // ============================================================================
 
 export { DESENVOLVEDOR, BIO, METRICAS } from './comum/desenvolvedor';
-export { PALAVRAS_CHAVE, META_PADRAO, OPEN_GRAPH } from './comum/seo';
+export {
+  PALAVRAS_CHAVE,
+  META_PADRAO,
+  OPEN_GRAPH,
+  SEO_CONFIG,
+  OPEN_GRAPH_IMAGE_ALT,
+} from './comum/seo';
 export { REDES_SOCIAIS, CONTATO } from './comum/social';
 export { SECTION_IDS, NAVEGACAO, NAVIGATION, BREADCRUMBS } from './comum/navegacao';
 export { SITE_CONFIG, POLICIES_LAST_UPDATED, COPYRIGHT } from './comum/site';
@@ -114,3 +120,4 @@ export * as PerguntasFrequentes from './contato/faq';
  * @description Constantes do blog
  */
 export * as Blog from './blog/categorias';
+

@@ -108,3 +108,4 @@ if (typeof global !== 'undefined') {
 }
 
 export default loadProjectMemories;
+

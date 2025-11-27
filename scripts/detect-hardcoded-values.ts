@@ -171,7 +171,7 @@ const groupedByType = issues.reduce((acc, issue) => {
   if (!acc[issue.type]) {
     acc[issue.type] = [];
   }
-  acc[issue.type].push(issue);
+  acc[issue.type]!.push(issue);
   return acc;
 }, {} as Record<string, HardcodedIssue[]>);
 
@@ -269,4 +269,5 @@ ${fileIssues.map(issue => `
 
 fs.writeFileSync(reportPath, reportContent);
 console.log(`📝 Report saved to: ${path.relative(process.cwd(), reportPath)}`);
+
 

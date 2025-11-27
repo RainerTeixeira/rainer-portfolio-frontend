@@ -14,7 +14,7 @@
 'use client';
 
 import { SITE_CONFIG } from '@/constants';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { ReactNode, useEffect, useState } from 'react';
@@ -274,3 +274,5 @@ export function AuthLayout({
     </div>
   );
 }
+
+

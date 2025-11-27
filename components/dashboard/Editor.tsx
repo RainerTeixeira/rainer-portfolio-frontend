@@ -40,7 +40,7 @@
 import { Button } from '@rainersoft/ui';
 import { Card } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
@@ -1247,3 +1247,5 @@ export function Editor({
     </Card>
   );
 }
+
+

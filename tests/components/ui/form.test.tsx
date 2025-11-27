@@ -10,7 +10,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 import { useForm } from 'react-hook-form';
 

@@ -14,7 +14,7 @@
 'use client';
 
 import { Badge } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { Filter } from 'lucide-react';
 
 interface CategoryFilterProps {
@@ -92,3 +92,5 @@ export function CategoryFilter({
     </div>
   );
 }
+
+

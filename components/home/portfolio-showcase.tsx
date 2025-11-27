@@ -57,7 +57,7 @@ export function PortfolioShowcase() {
     title: proj.titulo,
     subtitle: proj.subtitulo,
     description: proj.descricao,
-    image: '/images/b1.png', // Placeholder
+    image: '/images/t1.jpg', // Placeholder
     tags: proj.tecnologias,
     featured: proj.destaque,
     github: proj.github,
@@ -255,3 +255,5 @@ export function PortfolioShowcase() {
     </section>
   );
 }
+
+

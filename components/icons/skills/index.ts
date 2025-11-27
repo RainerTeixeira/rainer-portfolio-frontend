@@ -58,3 +58,5 @@ export const SKILL_ICONS: Record<
   GraphQL: GraphQLIcon,
   Prisma: PrismaIcon,
 } as const;
+
+

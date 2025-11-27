@@ -160,10 +160,14 @@ export default function OAuthCallbackPage() {
         if (success) {
           setStatus('success');
           toast.success('Login realizado com sucesso!');
+          
+          console.log('[OAuth Callback] Login bem-sucedido, redirecionando...');
+          console.log('[OAuth Callback] isAuthenticated:', isAuthenticated);
 
-          // Redirecionar para dashboard após 1 segundo
+          // Redirecionar para dashboard após 1 segundo com flag de OAuth
           setTimeout(() => {
-            router.push('/dashboard');
+            console.log('[OAuth Callback] Redirecionando para /dashboard?from=oauth');
+            router.push('/dashboard?from=oauth');
           }, 1000);
         } else {
           setError('Falha ao processar login');
@@ -248,3 +252,5 @@ export default function OAuthCallbackPage() {
     </div>
   );
 }
+
+

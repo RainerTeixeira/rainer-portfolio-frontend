@@ -29,7 +29,7 @@
 'use client';
 
 import { Card, CardContent } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { motion } from 'framer-motion';
 import { Code, Globe, Star, Trophy, Users, Zap } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -240,3 +240,5 @@ export function StatsShowcase() {
     </section>
   );
 }
+
+

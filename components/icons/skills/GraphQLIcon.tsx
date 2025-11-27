@@ -17,3 +17,5 @@ export function GraphQLIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+

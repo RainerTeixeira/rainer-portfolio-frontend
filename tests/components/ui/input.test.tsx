@@ -2,7 +2,7 @@
  * Testes para componente Input
  */
 
-import { Input } from '@/components/ui/input';
+import { Input } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

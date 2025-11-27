@@ -19,3 +19,5 @@ export function NextJSIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+

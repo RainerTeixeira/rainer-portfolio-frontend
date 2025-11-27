@@ -2,7 +2,7 @@
  * Testes para componente VisuallyHidden
  */
 
-import { VisuallyHidden } from '@/components/ui';
+import { VisuallyHidden } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 
 describe('VisuallyHidden', () => {

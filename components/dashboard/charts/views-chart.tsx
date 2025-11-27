@@ -136,3 +136,5 @@ export function ViewsChart({ data, isLoading }: ViewsChartProps) {
     </Card>
   );
 }
+
+

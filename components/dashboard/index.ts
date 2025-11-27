@@ -9,7 +9,8 @@
 
 // Editor e Upload
 export { Editor } from './Editor';
-export { ImageUpload } from './ImageUpload';
+export { SubcategorySelect } from './subcategory-select';
+export { ImageUpload } from './Image-Upload';
 
 // Estatísticas
 export { StatsCards } from './stats-cards';
@@ -39,3 +40,5 @@ export { QuickActions } from './quick-actions';
 export { RecentPostsList } from './recent-posts-list';
 export { AnalyticsOverview } from './analytics-overview';
 export { HelpCenter } from './help-center';
+
+

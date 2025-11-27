@@ -1,7 +1,7 @@
 /**
  * Icons Provider
  *
- * Provider e componente utilitário para exibir qualquer ícone do site
+ * Provider e utilitário para exibir qualquer ícone do site
  * a partir de um nome em string (vindo das constantes).
  *
  * @module components/providers/icons-provider
@@ -9,7 +9,7 @@
 
 'use client';
 
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import {
   BarChart,
   BookOpen,
@@ -33,7 +33,7 @@ import { SKILL_ICONS } from '@/components/icons/skills';
 export type IconComponent = React.ComponentType<{ className?: string }>;
 
 /** Registro de ícones disponíveis no site */
-type IconRegistry = Record<string, IconComponent>;
+type IconRegistry = Readonly<Record<string, IconComponent>>;
 
 /**
  * Mapa padrão de ícones do site
@@ -71,15 +71,24 @@ export interface IconsProviderProps {
 
 /**
  * Provider para o registro de ícones do site
+ *
+ * @example
+ * ```tsx
+ * <IconsProvider>
+ *   <App />
+ * </IconsProvider>
+ * ```
  */
 export function IconsProvider({ children, icons }: IconsProviderProps) {
-  const value: IconRegistry = icons
-    ? ({ ...DEFAULT_ICONS, ...icons } as IconRegistry)
-    : DEFAULT_ICONS;
+  const value = useMemo<IconRegistry>(
+    () => (icons ? { ...DEFAULT_ICONS, ...icons } : DEFAULT_ICONS),
+    [icons]
+  );
+
   return <IconsContext.Provider value={value}>{children}</IconsContext.Provider>;
 }
 
-/** Hook interno para acessar o registro de ícones */
+/** Hook para acessar o registro de ícones */
 export function useIcons(): IconRegistry {
   return useContext(IconsContext);
 }
@@ -93,18 +102,25 @@ export interface SiteIconProps {
   fallbackName?: string;
 }
 
+/** Fallback padrão para ícones não encontrados */
+const DefaultFallback: IconComponent = ({ className }) => (
+  <span className={className}>?</span>
+);
+
 /**
  * Componente simples para exibir um ícone a partir do nome em string
+ *
+ * @example
+ * ```tsx
+ * <SiteIcon name="Globe" className="w-6 h-6 text-blue-500" />
+ * ```
  */
 export function SiteIcon({ name, className, fallbackName }: SiteIconProps) {
   const registry = useIcons();
 
-  const DefaultFallback: IconComponent = props => (
-    <span className={props.className ?? className}>?</span>
-  );
-
   const fallbackComponent: IconComponent =
     (fallbackName && registry[fallbackName]) || DefaultFallback;
+
   const IconComponent = registry[name] || fallbackComponent;
 
   return <IconComponent className={className} />;
@@ -112,4 +128,3 @@ export function SiteIcon({ name, className, fallbackName }: SiteIconProps) {
 
 // Alias mais curto se quiser usar apenas <Icon name="..." />
 export { SiteIcon as Icon };
-

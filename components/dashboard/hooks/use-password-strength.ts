@@ -124,3 +124,5 @@ export function usePasswordStrength(password: string): PasswordStrength {
     color: colors[strength - 1] || '',
   };
 }
+
+

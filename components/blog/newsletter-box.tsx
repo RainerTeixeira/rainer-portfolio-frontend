@@ -43,7 +43,7 @@ import {
   CardTitle,
 } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { Check, Mail, Send } from 'lucide-react';
 import { useNewsletter } from './hooks';
 
@@ -131,3 +131,5 @@ export function NewsletterBox({
     </Card>
   );
 }
+
+
