@@ -49,7 +49,7 @@ import { LayoutDashboard, LogIn, LogOut, Menu, Settings } from 'lucide-react';
 // Internal Components
 // ============================================================================
 
-import { ThemeToggle } from '@/components/theme/theme-toggle';
+import { ThemeToggle } from '@rainersoft/ui';
 import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import {
@@ -78,9 +78,9 @@ import {
 // Providers & Utils
 // ============================================================================
 
-import { useAuth } from '@/components/providers/auth-provider';
+import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { NAVIGATION, SITE_CONFIG } from '@/constants';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 
 // ============================================================================
 // Constants
@@ -111,8 +111,9 @@ const MAX_AVATAR_INITIALS = 2;
 // ============================================================================
 
 interface UserData {
-  readonly username: string;
+  readonly nickname: string;
   readonly role: string;
+  readonly avatarUrl?: string;
 }
 
 interface UserMenuProps {
@@ -164,7 +165,22 @@ function getUserInitials(name: string): string {
  * ```
  */
 function getUserRoleLabel(role: string): string {
-  return role === 'manager' ? 'Administrador' : 'Usuário';
+  switch (role) {
+    case 'ADMIN':
+      return 'Administrador';
+    case 'EDITOR':
+      return 'Editor';
+    case 'AUTHOR':
+      return 'Autor';
+    case 'SUBSCRIBER':
+      return 'Assinante';
+    case 'manager':
+      return 'Administrador';
+    case 'user':
+      return 'Usuário';
+    default:
+      return 'Usuário';
+  }
 }
 
 // ============================================================================
@@ -208,7 +224,7 @@ function UserMenu({ user, logout }: UserMenuProps) {
     );
   }
 
-  const userInitials = getUserInitials(user.username);
+  const userInitials = getUserInitials(user.nickname);
   const userRoleLabel = getUserRoleLabel(user.role);
 
   return (
@@ -222,7 +238,7 @@ function UserMenu({ user, logout }: UserMenuProps) {
             'dark:ring-offset-black dark:focus-visible:ring-cyan-400',
             'transition-all duration-200 hover:scale-105 active:scale-95'
           )}
-          aria-label={`Menu do usuário ${user.username}`}
+          aria-label={`Menu do usuário ${user.nickname}`}
         >
           <Avatar
             className={cn(
@@ -232,8 +248,8 @@ function UserMenu({ user, logout }: UserMenuProps) {
             )}
           >
             <AvatarImage
-              src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`}
-              alt={`Avatar de ${user.username}`}
+              src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.nickname}`}
+              alt={`Avatar de ${user.nickname}`}
               className="object-cover"
             />
             <AvatarFallback
@@ -269,7 +285,7 @@ function UserMenu({ user, logout }: UserMenuProps) {
         >
           <div className="flex flex-col space-y-1.5">
             <p className="text-sm font-semibold leading-none tracking-tight">
-              {user.username}
+              {user.nickname}
             </p>
             <p
               className={cn(
@@ -372,7 +388,24 @@ export function Navbar() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuthContext();
+
+  const navbarUser: UserData | null =
+    isAuthenticated && user
+      ? {
+          nickname:
+            user.nickname ||
+            user.fullName ||
+            user.email ||
+            'Usuário',
+          role: user.role,
+          avatarUrl: user.avatar,
+        }
+      : null;
+
+  const handleLogoutClick = () => {
+    void logout();
+  };
 
   // ============================================================================
   // Effects
@@ -517,7 +550,7 @@ export function Navbar() {
 
             <div className="flex items-center gap-2 ml-2 pl-2 border-l border-border/40 dark:border-cyan-400/20">
               <ThemeToggle />
-              <UserMenu user={user} logout={logout} />
+              <UserMenu user={navbarUser} logout={handleLogoutClick} />
             </div>
           </nav>
 
@@ -572,7 +605,7 @@ export function Navbar() {
                   </SheetHeader>
 
                   {/* Informações do usuário mobile */}
-                  {isAuthenticated && user && (
+                  {isAuthenticated && navbarUser && (
                     <div
                       className={cn(
                         'mx-4 mt-4 mb-2 p-4 rounded-xl',
@@ -592,8 +625,11 @@ export function Navbar() {
                         )}
                       >
                         <AvatarImage
-                          src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`}
-                          alt={`Avatar de ${user.username}`}
+                          src={
+                            navbarUser.avatarUrl ||
+                            `https://api.dicebear.com/7.x/initials/svg?seed=${navbarUser.nickname}`
+                          }
+                          alt={`Avatar de ${navbarUser.nickname}`}
                           className="object-cover"
                         />
                         <AvatarFallback
@@ -604,7 +640,7 @@ export function Navbar() {
                             'font-semibold text-sm'
                           )}
                         >
-                          {getUserInitials(user.username)}
+                          {getUserInitials(navbarUser.nickname)}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
@@ -614,7 +650,7 @@ export function Navbar() {
                             'text-foreground dark:text-cyan-200'
                           )}
                         >
-                          {user.username}
+                          {navbarUser.nickname}
                         </p>
                         <p
                           className={cn(
@@ -622,7 +658,7 @@ export function Navbar() {
                             'text-muted-foreground/80 dark:text-cyan-400/70'
                           )}
                         >
-                          {getUserRoleLabel(user.role)}
+                          {getUserRoleLabel(navbarUser.role)}
                         </p>
                       </div>
                     </div>
@@ -753,3 +789,5 @@ export function Navbar() {
     </motion.header>
   );
 }
+
+

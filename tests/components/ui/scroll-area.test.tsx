@@ -2,7 +2,7 @@
  * Testes para componente ScrollArea
  */
 
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '@rainersoft/ui';
 import { render } from '@testing-library/react';
 
 describe('ScrollArea', () => {

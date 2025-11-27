@@ -34,11 +34,11 @@ import {
   LoginForm,
   OAuthButtons,
 } from '@/components/dashboard/login';
-import { BackToTop } from '@/components/ui';
+import { BackToTop } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { ApiError } from '@/lib/api/client';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -72,7 +72,7 @@ export default function LoginPage() {
     loading: authLoading,
     loginWithGoogle,
     loginWithGitHub,
-  } = useAuth();
+  } = useAuthContext();
 
   /**
    * Estados da interface de login.
@@ -370,3 +370,5 @@ export default function LoginPage() {
     </>
   );
 }
+
+

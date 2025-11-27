@@ -6,6 +6,7 @@
  */
 
 import { Page } from '@playwright/test';
+import { readFileSync } from 'fs';
 
 /**
  * Credenciais padrão para desenvolvimento
@@ -14,6 +15,31 @@ export const DEV_CREDENTIALS = {
   username: 'admin',
   password: 'admin',
 } as const;
+
+export const JSON_CREDENTIALS_PATH =
+  process.env.PLAYWRIGHT_LOGIN_JSON || 'C\\\\Desenvolvimento\\\\temp-login.json';
+
+export function loadJsonCredentials(): { username: string; password: string } {
+  try {
+    const raw = readFileSync(JSON_CREDENTIALS_PATH, 'utf-8');
+    const parsed = JSON.parse(raw) as {
+      email?: string;
+      username?: string;
+      password?: string;
+    };
+
+    const username = parsed.username || parsed.email || DEV_CREDENTIALS.username;
+    const password = parsed.password || DEV_CREDENTIALS.password;
+
+    return { username, password };
+  } catch (error) {
+    console.warn(
+      '[auth-helper] Não foi possível ler credenciais de JSON, usando DEV_CREDENTIALS',
+      error,
+    );
+    return { username: DEV_CREDENTIALS.username, password: DEV_CREDENTIALS.password };
+  }
+}
 
 /**
  * Realiza login no dashboard
@@ -84,38 +110,37 @@ export async function loginToDashboard(
   // Aguardar redirecionamento ou sucesso
   await page.waitForTimeout(3000);
 
-  // Verificar se foi redirecionado para dashboard
-  const currentUrl = page.url();
-
-  // Se ainda está na página de login, verificar se login foi bem-sucedido via localStorage
-  if (currentUrl.includes('/login')) {
-    await page.waitForTimeout(2000);
-    const authUser = await page.evaluate(() => {
-      return localStorage.getItem('auth_user');
+  // Tentar aguardar redirecionamento para /dashboard (fluxo Cognito)
+  try {
+    await page.waitForURL(/\/dashboard(\/|$)/, {
+      timeout: 15000,
     });
+    let currentUrl = page.url();
+  } catch {
+    // Ignorar timeout aqui, vamos tratar abaixo
+  }
 
-    if (authUser) {
-      // Login bem-sucedido, mas ainda na página de login - aguardar redirecionamento
-      await page.waitForTimeout(2000);
-    } else {
-      // Verificar se há mensagem de erro
-      const errorMessage = page.locator(
-        'text=/erro|error|incorreto|inválido|não encontrado/i, [role="alert"], .error'
-      );
-      const hasError = await errorMessage
-        .isVisible({ timeout: 3000 })
-        .catch(() => false);
+  // Se ainda está na página de login, tentar detectar erro explícito
+  let currentUrl = page.url();
+  if (currentUrl.includes('/login')) {
+    // Verificar se há mensagem de erro visível
+    const errorMessage = page.locator(
+      'text=/erro|error|incorreto|inválido|não encontrado/i, [role="alert"], .error'
+    );
+    const hasError = await errorMessage
+      .isVisible({ timeout: 5000 })
+      .catch(() => false);
 
-      if (hasError) {
-        const errorText = await errorMessage.textContent().catch(() => '');
-        throw new Error(`Falha no login: ${errorText}`);
-      }
-
-      // Tentar novamente ou verificar se precisa criar usuário
-      throw new Error(
-        'Login falhou - verifique se o usuário admin/admin existe'
-      );
+    if (hasError) {
+      const errorText = await errorMessage.textContent().catch(() => '');
+      throw new Error(`Falha no login: ${errorText}`);
     }
+
+    // Se não há erro visível mas também não saiu da tela de login,
+    // considerar falha genérica de autenticação
+    throw new Error(
+      'Login falhou - usuário não foi redirecionado para o dashboard. Verifique as credenciais de desenvolvimento (JSON ou admin/admin).'
+    );
   }
 
   // Verificar autenticação final
@@ -123,6 +148,11 @@ export async function loginToDashboard(
   if (!finalAuth) {
     throw new Error('Autenticação não foi estabelecida após login');
   }
+}
+
+export async function loginWithJsonCredentials(page: Page): Promise<void> {
+  const { username, password } = loadJsonCredentials();
+  await loginToDashboard(page, username, password);
 }
 
 /**
@@ -133,14 +163,23 @@ export async function loginToDashboard(
  */
 export async function isAuthenticated(page: Page): Promise<boolean> {
   try {
-    const authUser = await page.evaluate(() => {
-      try {
-        return localStorage.getItem('auth_user');
-      } catch (e) {
-        // Se não conseguir acessar localStorage (página about:blank, etc)
-        return null;
-      }
-    });
+    const [authUser, currentUrl] = await Promise.all([
+      page.evaluate(() => {
+        try {
+          return localStorage.getItem('auth_user');
+        } catch (e) {
+          // Se não conseguir acessar localStorage (página about:blank, etc)
+          return null;
+        }
+      }),
+      page.url(),
+    ]);
+
+    // Considerar autenticado se já está em alguma rota de dashboard
+    if (currentUrl.includes('/dashboard')) {
+      return true;
+    }
+
     return !!authUser;
   } catch (e) {
     // Se a página não permitir acesso ao localStorage

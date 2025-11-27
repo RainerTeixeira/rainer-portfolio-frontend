@@ -507,3 +507,4 @@ function parseInlineMarkdown(text: string): JSONContent[] {
 
   return result.length > 0 ? result : [{ type: 'text', text: '' }];
 }
+

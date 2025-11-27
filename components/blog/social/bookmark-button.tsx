@@ -33,7 +33,7 @@
 'use client';
 
 import { Button } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { motion } from 'framer-motion';
 import { Bookmark } from 'lucide-react';
 import { useBookmark } from '../hooks';
@@ -98,3 +98,5 @@ export function BookmarkButton({
     </Button>
   );
 }
+
+

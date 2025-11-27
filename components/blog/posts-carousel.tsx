@@ -41,7 +41,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
 // ============================================================================
@@ -296,3 +296,5 @@ export function PostsCarousel({
     </section>
   );
 }
+
+

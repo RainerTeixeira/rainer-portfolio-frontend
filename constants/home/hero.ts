@@ -12,34 +12,24 @@
 import { GRADIENTS, SHADOWS } from '@rainersoft/design-tokens';
 
 /**
- * Conteúdo rotativo do hero
+ * Conteúdo profissional para Hero Section
  * @constant
- * @description Títulos e subtítulos para o carousel
+ * @description Copy direto e impactante baseado em expertise real
  */
 export const CONTEUDO_HERO = {
   titulos: [
-    'DESENVOLVEDOR FULL-STACK REACT E NEXT.JS',
-    'APLICAÇÕES WEB PROFISSIONAIS QUE CONVERTEM',
-    'DASHBOARDS INTERATIVOS COM PERFORMANCE',
-    'PWAS MODERNAS COM SEO AVANÇADO',
-    'APIS REST ROBUSTAS COM NODE.JS',
-    'CÓDIGO LIMPO E ARQUITETURA ESCALÁVEL',
-    'DESENVOLVIMENTO ÁGIL COM ENTREGAS SEMANAIS',
-    'INTERFACES RESPONSIVAS QUE ENCANTAM',
-    'PERFORMANCE LIGHTHOUSE 95+ GARANTIDA',
-    'DO DESIGN AO DEPLOY COMPLETO',
+    'Desenvolvimento Full-Stack com Excelência Técnica',
+    'React + Next.js + TypeScript: Stack Moderna em Produção',
+    'Arquitetura Escalável, Performance Otimizada',
+    'Do Design System ao Deploy: Domínio Completo',
+    'Código Limpo, Testes Automatizados, CI/CD',
   ],
   subtitulos: [
-    'Especialista em React, Next.js e TypeScript. Transformo ideias em aplicações profissionais.',
-    'Desenvolvimento completo: frontend, backend e banco de dados. Código limpo e documentado.',
-    'Dashboards que simplificam gestão. Gráficos em tempo real e relatórios inteligentes.',
-    'Apps instaláveis com performance excepcional. SEO que coloca seu site no topo.',
-    'APIs profissionais com Node.js. Autenticação segura e documentação completa.',
-    'Metodologia que economiza tempo. Código modular e testado para fácil manutenção.',
-    'Entregas incrementais com feedback constante. Desenvolvimento transparente.',
-    'Design mobile-first que funciona em qualquer dispositivo. Experiência fluida.',
-    'Sites rápidos que o Google adora. Core Web Vitals otimizados.',
-    'Desenvolvimento completo incluindo design, código, testes e infraestrutura.',
+    'Desenvolvedor com projetos open source publicados no NPM. Especialista em React 19, Next.js 15 e Node.js.',
+    'Criador de bibliotecas em produção: design-tokens, componentes UI e utilitários. 100% de cobertura de testes.',
+    'Lighthouse Score 98+. Core Web Vitals otimizados. Aplicações que carregam em menos de 2 segundos.',
+    'Experiência completa: Design Tokens W3C, componentes acessíveis WCAG 2.1, APIs REST, bancos de dados.',
+    'Metodologia sólida: TDD, documentação clara, versionamento semântico, integração contínua.',
   ],
 } as const;
 
@@ -64,11 +54,12 @@ export const ESTILOS_HERO = {
  */
 export const CTA_HERO = {
   principal: {
-    texto: 'Ver Projetos',
+    texto: 'Ver Projetos Open Source',
     link: '#portfolio',
   },
   secundario: {
-    texto: 'Entre em Contato',
+    texto: 'Iniciar Conversa',
     link: '#contato',
   },
 } as const;
+

@@ -2,7 +2,7 @@ import type { Config } from 'tailwindcss';
 import { tokens } from '@rainersoft/design-tokens';
 
 const config: Config = {
-  darkMode: ['class'],
+  darkMode: 'class',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -21,8 +21,6 @@ const config: Config = {
       // Integração com Design Tokens
       colors: tokens.colors,
       spacing: tokens.spacing,
-      borderRadius: tokens.borderRadius,
-      boxShadow: tokens.boxShadow,
       
       // Animações otimizadas
       animation: {
@@ -69,10 +67,6 @@ const config: Config = {
       
       // Breakpoints dos tokens
       screens: tokens.breakpoints,
-      
-      // Transições otimizadas
-      transitionDuration: tokens.animation.duration,
-      transitionTimingFunction: tokens.animation.easing,
     },
   },
   plugins: [
@@ -82,3 +76,4 @@ const config: Config = {
 };
 
 export default config;
+

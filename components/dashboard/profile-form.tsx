@@ -43,7 +43,7 @@ import { Label } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
 import { Textarea } from '@rainersoft/ui';
 import { cloudinaryService } from '@/lib/api';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { GRADIENT_DIRECTIONS, MOTION } from '@rainersoft/design-tokens';
 import {
   Camera,
@@ -506,3 +506,5 @@ export function ProfileForm() {
     </div>
   );
 }
+
+

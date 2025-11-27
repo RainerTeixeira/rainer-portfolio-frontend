@@ -2,7 +2,7 @@
  * Testes para componente Progress
  */
 
-import { Progress } from '@/components/ui/progress';
+import { Progress } from '@rainersoft/ui';
 import { render } from '@testing-library/react';
 
 describe('Progress', () => {

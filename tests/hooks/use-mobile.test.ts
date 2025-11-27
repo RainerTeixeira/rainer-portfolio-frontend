@@ -2,7 +2,7 @@
  * Testes para useIsMobile hook
  */
 
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@rainersoft/ui';
 import { renderHook, waitFor } from '@testing-library/react';
 
 // Mock window.matchMedia

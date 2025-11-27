@@ -33,7 +33,7 @@
 
 'use client';
 
-import { useAuth } from '@/components/providers/auth-provider';
+import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
@@ -73,7 +73,7 @@ export function CommentForm({
   onCancel,
   placeholder = 'Escreva seu comentário...',
 }: CommentFormProps) {
-  const { user } = useAuth();
+  const { user } = useAuthContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -84,7 +84,6 @@ export function CommentForm({
     watch,
     formState: { errors },
   } = useForm<CommentFormValues>({
-    resolver: zodResolver(commentSchema),
     defaultValues: {
       content: editingComment?.content || '',
     },
@@ -94,7 +93,7 @@ export function CommentForm({
   const remainingChars = 1000 - (content?.length || 0);
 
   async function onSubmit(data: CommentFormValues) {
-    if (!user?.username) {
+    if (!user?.cognitoSub) {
       setError('Você precisa estar autenticado para comentar');
       return;
     }
@@ -122,7 +121,7 @@ export function CommentForm({
           content: data.content,
           postId,
           parentId,
-          authorId: user.username, // Usar username como authorId temporário
+          authorId: user.cognitoSub, // ID único do Cognito como authorId
         });
         toast.success('Comentário enviado!');
         reset();
@@ -167,7 +166,7 @@ export function CommentForm({
           <Avatar className="h-10 w-10 shrink-0">
             <AvatarImage src={user.avatar} />
             <AvatarFallback>
-              {getInitials(user.name || user.username)}
+              {getInitials(user.fullName || user.nickname)}
             </AvatarFallback>
           </Avatar>
         )}
@@ -235,3 +234,5 @@ export function CommentForm({
     </form>
   );
 }
+
+

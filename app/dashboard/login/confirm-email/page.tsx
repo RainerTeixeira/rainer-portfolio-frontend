@@ -28,12 +28,12 @@
 'use client';
 
 import { AuthLayout } from '@/components/dashboard/login';
-import { BackToTop } from '@/components/ui';
+import { BackToTop } from '@rainersoft/ui';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
 import { authService } from '@/lib/api';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -183,8 +183,8 @@ export default function ConfirmEmailPage() {
           err.message.includes('Código de confirmação expirado')
         ) {
           errorMessage =
-            'O código de verificação expirou (códigos são válidos por 24 horas). Clique em "Reenviar código" para receber um novo.';
-          // foca no campo de código para nova tentativa
+            '⏰ O código de verificação expirou. Códigos são válidos por 24 horas. Use o botão "Reenviar Código" abaixo para receber um novo código por email.';
+          // Não limpa o código para usuário ver o que digitou
           codeInputRef.current?.focus();
         } else if (
           err.message.includes('NotAuthorizedException') ||
@@ -348,9 +348,13 @@ export default function ConfirmEmailPage() {
           {/* Campo de código de verificação */}
           {/* Input centralizado com fonte monoespaçada para melhor legibilidade */}
           <div className="space-y-2">
+            <label htmlFor="code" className="text-sm font-medium text-muted-foreground block text-center">
+              Código de Verificação
+            </label>
             <Input
+              id="code"
               type="text"
-              placeholder="Código de 6 dígitos"
+              placeholder="000000"
               value={code}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)}
               maxLength={6}
@@ -362,6 +366,9 @@ export default function ConfirmEmailPage() {
               )}
               ref={codeInputRef}
             />
+            <p className="text-xs text-muted-foreground text-center mt-2">
+              📧 Verifique seu email e insira o código de 6 dígitos
+            </p>
           </div>
 
           {/* Botões de ação */}
@@ -384,8 +391,18 @@ export default function ConfirmEmailPage() {
               disabled={isResending || isLoading}
             >
               {isResending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Reenviar código
+              {isResending ? 'Reenviando...' : 'Reenviar Código'}
             </Button>
+          </div>
+
+          {/* Informações adicionais */}
+          <div className="mt-6 space-y-2 text-center">
+            <p className="text-xs text-muted-foreground">
+              ⏰ Códigos são válidos por 24 horas
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Não recebeu? Verifique a pasta de spam ou clique em "Reenviar Código"
+            </p>
           </div>
         </form>
       </AuthLayout>
@@ -394,3 +411,5 @@ export default function ConfirmEmailPage() {
     </>
   );
 }
+
+

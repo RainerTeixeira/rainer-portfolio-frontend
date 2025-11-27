@@ -30,7 +30,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { dashboardService } from '@/lib/api/services';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { Eye, Heart, MessageSquare, TrendingUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -191,3 +191,5 @@ export function AnalyticsOverview({ className }: AnalyticsOverviewProps) {
     </div>
   );
 }
+
+

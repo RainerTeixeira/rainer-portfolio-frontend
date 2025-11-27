@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

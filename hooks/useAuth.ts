@@ -57,14 +57,44 @@ export function useAuth() {
     const checkAuth = async () => {
       try {
         setLoading(true);
+        const forceCognito = process.env.NEXT_PUBLIC_FORCE_COGNITO_AUTH === 'true';
+        const isDevelopment = process.env.NODE_ENV === 'development';
+        const useLocalAuth = isDevelopment && !forceCognito;
 
-        if (authService.isAuthenticated()) {
-          // Se estiver autenticado, busca os dados mais recentes do usuário
-          const userData = await authService.getUserProfile();
-          const userProfile = convertUserToUserProfile(userData);
-          setUser(userProfile);
+        if (useLocalAuth) {
+          // EM DESENVOLVIMENTO: Verificar localStorage via localAuth
+          const { localAuth } = await import('@/components/dashboard/lib/auth-local');
+          const currentUser = localAuth.getCurrentUser();
+          
+          if (currentUser) {
+            const localUserProfile: UserProfile = {
+              id: currentUser.id,
+              cognitoSub: currentUser.id,
+              fullName: currentUser.name || 'Admin',
+              email: currentUser.email || 'admin@rainersoft.com',
+              emailVerified: true,
+              nickname: currentUser.username,
+              role: 'ADMIN' as any,
+              isActive: true,
+              isBanned: false,
+              postsCount: 0,
+              commentsCount: 0,
+              createdAt: currentUser.createdAt || new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            };
+            setUser(localUserProfile);
+          } else {
+            setUser(null);
+          }
         } else {
-          setUser(null);
+          // EM PRODUÇÃO: Verificar via authService (Cognito)
+          if (authService.isAuthenticated()) {
+            const userData = await authService.getUserProfile();
+            const userProfile = convertUserToUserProfile(userData);
+            setUser(userProfile);
+          } else {
+            setUser(null);
+          }
         }
       } catch (err) {
         console.error('Erro ao verificar autenticação:', err);
@@ -86,12 +116,49 @@ export function useAuth() {
   const login = useCallback(async (email: string, password: string) => {
     try {
       setLoading(true);
-      const response = await authService.login({ email, password });
-      // LoginResponse.user já é UserProfile completo
-      const userProfile = response.user as UserProfile;
-      setUser(userProfile);
-      setError(null);
-      return userProfile;
+      
+      // Verificar se deve usar Cognito (produção OU flag forçada em dev)
+      const forceCognito = process.env.NEXT_PUBLIC_FORCE_COGNITO_AUTH === 'true';
+      const isDevelopment = process.env.NODE_ENV === 'development';
+      const useLocalAuth = isDevelopment && !forceCognito;
+      
+      if (useLocalAuth) {
+        // Importar localAuth dinamicamente
+        const { localAuth } = await import('@/components/dashboard/lib/auth-local');
+        const result = await localAuth.login(email, password);
+        
+        if (result.success && result.user) {
+          // Converter User local para UserProfile
+          const localUserProfile: UserProfile = {
+            id: result.user.id,
+            cognitoSub: result.user.id,
+            fullName: result.user.name || 'Admin',
+            email: result.user.email || 'admin@rainersoft.com',
+            emailVerified: true,
+            nickname: result.user.username,
+            role: 'ADMIN' as any,
+            isActive: true,
+            isBanned: false,
+            postsCount: 0,
+            commentsCount: 0,
+            createdAt: result.user.createdAt || new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+          
+          setUser(localUserProfile);
+          setError(null);
+          return localUserProfile;
+        } else {
+          throw new Error(result.message || 'Credenciais inválidas');
+        }
+      } else {
+        // Produção: usar backend real
+        const response = await authService.login({ email, password });
+        const userProfile = response.user as UserProfile;
+        setUser(userProfile);
+        setError(null);
+        return userProfile;
+      }
     } catch (err) {
       console.error('Erro no login:', err);
       setError(err instanceof Error ? err : new Error('Erro ao fazer login'));
@@ -606,3 +673,4 @@ export function useAuth() {
 }
 
 export default useAuth;
+

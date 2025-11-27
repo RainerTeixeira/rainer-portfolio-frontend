@@ -15,7 +15,7 @@
 
 import { Badge } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { ComponentType } from 'react';
 
 interface SkillLayerCardProps {
@@ -117,3 +117,5 @@ export function SkillLayerCard({
     </Card>
   );
 }
+
+

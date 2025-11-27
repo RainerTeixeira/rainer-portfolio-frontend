@@ -20,8 +20,8 @@
 'use client';
 
 import { AuthLayout, ForgotPasswordForm } from '@/components/dashboard/login';
-import { BackToTop } from '@/components/ui';
-import { cn } from '@/lib/utils';
+import { BackToTop } from '@rainersoft/ui';
+import { cn } from '@/lib/portfolio';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -55,3 +55,5 @@ export default function ForgotPasswordPage() {
     </>
   );
 }
+
+

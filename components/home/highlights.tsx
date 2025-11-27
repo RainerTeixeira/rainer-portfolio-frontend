@@ -35,7 +35,7 @@ import {
   CardTitle,
 } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
-import { CARD_CLASSES, SECTION_CLASSES, cn } from '@/lib/utils';
+import { CARD_CLASSES, SECTION_CLASSES, cn } from '@/lib/portfolio';
 import {
   Briefcase,
   Cloud,
@@ -497,3 +497,5 @@ const ServiceCard = memo(function ServiceCard({ service }: ServiceCardProps) {
     </Card>
   );
 });
+
+

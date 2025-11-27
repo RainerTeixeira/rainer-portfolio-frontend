@@ -316,6 +316,33 @@ class LocalAuth {
     const validTokens = tokens.filter(t => Date.now() <= t.expiresAt);
     localStorage.setItem(RESET_TOKENS_KEY, JSON.stringify(validTokens));
   }
+
+  /**
+   * Obter usuário logado atualmente (via localStorage)
+   * Usado em desenvolvimento para verificar sessão
+   */
+  getCurrentUser(): Omit<User, 'password'> | null {
+    if (typeof window === 'undefined') return null;
+    
+    const currentUserData = localStorage.getItem('auth_user');
+    if (!currentUserData) return null;
+    
+    try {
+      const parsed = JSON.parse(currentUserData);
+      // Buscar usuário completo na lista de usuários
+      const users = this.getUsers();
+      const user = users.find(u => u.username === parsed.username);
+      
+      if (!user) return null;
+      
+      // Retornar sem a senha
+      const { password, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    } catch {
+      return null;
+    }
+  }
 }
 
 export const localAuth = new LocalAuth();
+

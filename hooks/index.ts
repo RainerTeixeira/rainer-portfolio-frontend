@@ -18,9 +18,9 @@ export { useAnalytics, withAnalytics } from './use-analytics';
 // UI & UX
 // ============================================================================
 
-export { useIsMobile } from './use-mobile';
-export { usePWA } from './use-pwa';
-export { useSmoothScroll } from './use-smooth-scroll';
+// Hooks migrados para @rainersoft/ui
+export { useIsMobile, usePWA } from '@rainersoft/ui';
+// useSmoothScroll removido - funcionalidade migrada para @rainersoft/ui
 
 // ============================================================================
 // Forms
@@ -29,3 +29,4 @@ export { useSmoothScroll } from './use-smooth-scroll';
 // Removidos temporariamente - hooks não existem ainda
 // export { usePasswordStrength } from './use-password-strength';
 // export { useUpload } from './use-upload';
+

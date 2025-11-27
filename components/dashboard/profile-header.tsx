@@ -27,7 +27,7 @@
 
 'use client';
 
-import { useAuth } from '@/components/providers/auth-provider';
+import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
@@ -42,7 +42,7 @@ import {
 import { Input } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
 import { Textarea } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { motion } from 'framer-motion';
 import { Calendar, Camera, Edit2, Mail, Shield } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -55,7 +55,7 @@ interface ProfileHeaderProps {
 export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const { user } = useAuth();
+  const { user } = useAuthContext();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
@@ -67,8 +67,10 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
    * Só retorna true após montagem para evitar hydration mismatch
    */
   const isDark = mounted ? resolvedTheme === 'dark' : false;
+  const displayName = user?.fullName || user?.nickname || 'Usuário';
+  const displayEmail = user?.email || 'admin@rainersoft.com';
   const [editData, setEditData] = useState({
-    name: user?.name || '',
+    name: user?.fullName || '',
     email: user?.email || '',
     bio: user?.bio || '',
   });
@@ -87,20 +89,20 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
     input.click();
   };
 
+  // Iniciais do usuário para o avatar
+  const initials =
+    displayName
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2) || 'AD';
+
   const handleSaveProfile = () => {
     // TODO: Salvar dados do perfil
     console.log('Salvando perfil:', editData);
     setIsEditModalOpen(false);
   };
-
-  // Iniciais do usuário para o avatar
-  const initials =
-    user?.name
-      ?.split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2) || 'AD';
 
   return (
     <>
@@ -126,7 +128,7 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
           {/* Avatar */}
           <div className="relative group">
             <Avatar className="w-24 h-24 border-4 border-white/20">
-              <AvatarImage src={user?.avatar} alt={user?.name} />
+              <AvatarImage src={user?.avatar} alt={displayName} />
               <AvatarFallback className="text-2xl font-bold bg-linear-to-br from-cyan-400 to-purple-500">
                 {initials}
               </AvatarFallback>
@@ -150,7 +152,7 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
           {/* Informações do Usuário */}
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl font-bold">{user?.name || 'Usuário'}</h1>
+              <h1 className="text-3xl font-bold">{displayName}</h1>
               <Badge
                 variant="secondary"
                 className="bg-white/20 text-white border-white/30"
@@ -163,7 +165,7 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
             <div className="flex flex-wrap items-center gap-4 text-white/90 text-sm">
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
-                {user?.email || 'admin@rainersoft.com'}
+                {displayEmail}
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
@@ -257,3 +259,5 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
     </>
   );
 }
+
+

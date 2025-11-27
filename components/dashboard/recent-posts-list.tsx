@@ -37,7 +37,7 @@ import { Button } from '@rainersoft/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { postsService } from '@/lib/api/services';
 import type { Post } from '@/lib/api/types';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { motion } from 'framer-motion';
 import { Calendar, Edit2, Eye, Tag, Trash2 } from 'lucide-react';
 import Image from 'next/image';
@@ -219,3 +219,5 @@ export function RecentPostsList({
     </Card>
   );
 }
+
+

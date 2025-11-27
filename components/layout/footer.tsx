@@ -8,9 +8,9 @@
  * partículas sutis e animações suaves.
  *
  * @module components/layout/footer
- * @fileoverview Componente de rodapé profissional clean
+ * @fileoverview Componente de rodapé profissional clean usando design tokens
  * @author Rainer Teixeira
- * @version 5.0.0
+ * @version 6.0.0 - Migrado para design tokens
  * @since 1.0.0
  */
 
@@ -36,11 +36,23 @@ import {
 } from 'lucide-react';
 
 // ============================================================================
+// Design Tokens
+// ============================================================================
+
+import {
+  GRADIENT_DIRECTIONS,
+  MOTION,
+  SHADOWS,
+  RESPONSIVE,
+  lightThemeColors,
+  darkThemeColors,
+} from '@rainersoft/design-tokens';
+
+// ============================================================================
 // Utils
 // ============================================================================
 
-import { cn } from '@/lib/utils';
-import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
+import { cn } from '@/lib/portfolio';
 import Link from 'next/link';
 // ============================================================================
 // Main Component
@@ -54,8 +66,12 @@ export function Footer() {
     <footer
       className={cn(
         'relative w-full overflow-hidden border-t',
-        'bg-background dark:bg-black',
-        'border-border dark:border-cyan-400/20'
+        // Background usando tokens
+        'bg-[var(--color-background-primary)]',
+        'dark:bg-[var(--color-background-primary)]',
+        // Border usando tokens
+        'border-[var(--color-border-primary)]',
+        'dark:border-[var(--color-primary-base)]/20'
       )}
       role="contentinfo"
     >
@@ -64,8 +80,13 @@ export function Footer() {
         className={cn(
           'absolute inset-0 blur-2xl pointer-events-none opacity-20 dark:opacity-10',
           GRADIENT_DIRECTIONS.TO_RIGHT,
-          'from-cyan-500/5 via-purple-500/5 to-pink-500/5',
-          'dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5'
+          // Cores de gradiente usando tokens primitivos
+          'from-[var(--color-primitive-cyan-500)]/5',
+          'via-[var(--color-primitive-purple-500)]/5',
+          'to-[var(--color-primitive-pink-500)]/5',
+          'dark:from-[var(--color-primitive-cyan-400)]/5',
+          'dark:via-[var(--color-primitive-purple-400)]/5',
+          'dark:to-[var(--color-primitive-pink-400)]/5'
         )}
         aria-hidden="true"
       />
@@ -81,10 +102,13 @@ export function Footer() {
           className={cn(
             'absolute top-1/3 left-1/4 animate-pulse',
             'w-1.5 h-1.5',
-            'bg-cyan-400',
+            // Cor usando token primário
+            'bg-[var(--color-primary-base)]',
             'opacity-40',
             'rounded-full',
-            'shadow-lg shadow-cyan-400/50'
+            // Shadow usando token com cor primária
+            SHADOWS.LARGE,
+            'shadow-[var(--color-primary-base)]/50'
           )}
           style={{ animationDelay: '2s' }}
         />
@@ -92,10 +116,13 @@ export function Footer() {
           className={cn(
             'absolute bottom-1/3 right-1/4 animate-pulse',
             'w-1.5 h-1.5',
-            'bg-purple-400',
+            // Cor usando token secundário
+            'bg-[var(--color-secondary-base)]',
             'opacity-40',
             'rounded-full',
-            'shadow-lg shadow-purple-400/50'
+            // Shadow usando token com cor secundária
+            SHADOWS.LARGE,
+            'shadow-[var(--color-secondary-base)]/50'
           )}
           style={{ animationDelay: '3s' }}
         />
@@ -113,8 +140,9 @@ export function Footer() {
                 className={cn(
                   'text-lg',
                   'font-bold',
-                  'text-foreground',
-                  'dark:text-cyan-300',
+                  // Text usando tokens
+                  'text-[var(--color-text-primary)]',
+                  'dark:text-[var(--color-primary-hover)]',
                   'dark:font-mono'
                 )}
               >
@@ -123,8 +151,9 @@ export function Footer() {
               <p
                 className={cn(
                   'text-sm',
-                  'text-muted-foreground',
-                  'dark:text-gray-300',
+                  // Text usando tokens
+                  'text-[var(--color-text-secondary)]',
+                  'dark:text-[var(--color-primitive-neutral-300)]',
                   'leading-relaxed'
                 )}
                 style={{
@@ -143,9 +172,12 @@ export function Footer() {
                   className={cn(
                     'inline-flex items-center gap-1.5 px-3 py-1',
                     'rounded-full',
-                    `${GRADIENT_DIRECTIONS.TO_BR} from-primary/10 to-primary/20`,
-                    'text-primary',
-                    'border border-primary/30',
+                    // Gradiente usando tokens
+                    `${GRADIENT_DIRECTIONS.TO_BR}`,
+                    'from-[var(--color-primary-base)]/10',
+                    'to-[var(--color-primary-base)]/20',
+                    'text-[var(--color-primary-base)]',
+                    'border border-[var(--color-primary-base)]/30',
                     'font-semibold',
                     'text-xs'
                   )}
@@ -157,9 +189,13 @@ export function Footer() {
                   className={cn(
                     'inline-flex items-center gap-1.5 px-3 py-1',
                     'rounded-full',
-                    `${GRADIENT_DIRECTIONS.TO_BR} from-green-500/10 to-green-600/20`,
-                    'text-green-600 dark:text-green-400',
-                    'border border-green-500/30',
+                    // Gradiente usando tokens de status success
+                    `${GRADIENT_DIRECTIONS.TO_BR}`,
+                    'from-[var(--color-status-success-base)]/10',
+                    'to-[var(--color-primitive-green-600)]/20',
+                    'text-[var(--color-primitive-green-600)]',
+                    'dark:text-[var(--color-primitive-green-400)]',
+                    'border border-[var(--color-status-success-base)]/30',
                     'font-semibold',
                     'text-xs'
                   )}
@@ -176,8 +212,9 @@ export function Footer() {
                 className={cn(
                   'text-base',
                   'font-semibold',
-                  'text-foreground',
-                  'dark:text-cyan-300'
+                  // Text usando tokens
+                  'text-[var(--color-text-primary)]',
+                  'dark:text-[var(--color-primary-hover)]'
                 )}
               >
                 Navegação
@@ -191,11 +228,13 @@ export function Footer() {
                         className={cn(
                           'inline-flex items-center gap-2 group',
                           'text-sm',
-                          'text-muted-foreground',
-                          'dark:text-gray-300',
-                          'hover:text-primary',
-                          'dark:hover:text-cyan-400',
-                          'transition-colors duration-200 ease-in-out'
+                          // Text usando tokens
+                          'text-[var(--color-text-secondary)]',
+                          'dark:text-[var(--color-primitive-neutral-300)]',
+                          'hover:text-[var(--color-primary-base)]',
+                          'dark:hover:text-[var(--color-primary-base)]',
+                          // Transition usando token MOTION
+                          MOTION.TRANSITION.COLOR
                         )}
                       >
                         <ArrowRight
@@ -221,8 +260,9 @@ export function Footer() {
                 className={cn(
                   'text-base',
                   'font-semibold',
-                  'text-foreground',
-                  'dark:text-cyan-300'
+                  // Text usando tokens
+                  'text-[var(--color-text-primary)]',
+                  'dark:text-[var(--color-primary-hover)]'
                 )}
               >
                 Serviços
@@ -233,11 +273,13 @@ export function Footer() {
                     <div
                       className={cn(
                         'text-sm',
-                        'text-muted-foreground',
-                        'dark:text-gray-300',
-                        'hover:text-foreground',
-                        'dark:hover:text-cyan-400',
-                        'transition-colors duration-200 ease-in-out',
+                        // Text usando tokens
+                        'text-[var(--color-text-secondary)]',
+                        'dark:text-[var(--color-primitive-neutral-300)]',
+                        'hover:text-[var(--color-text-primary)]',
+                        'dark:hover:text-[var(--color-primary-base)]',
+                        // Transition usando token MOTION
+                        MOTION.TRANSITION.COLOR,
                         'cursor-default leading-relaxed'
                       )}
                     >
@@ -254,68 +296,98 @@ export function Footer() {
                 className={cn(
                   'text-base',
                   'font-semibold',
-                  'text-foreground',
-                  'dark:text-cyan-300'
+                  // Text usando tokens
+                  'text-[var(--color-text-primary)]',
+                  'dark:text-[var(--color-primary-hover)]'
                 )}
               >
                 Contato
               </h4>
               <div className="space-y-3">
-                {/* Email */}
+                {/* Email principal (comercial) */}
                 <a
-                  href={`mailto:${SITE_CONFIG.contact.email.address}`}
+                  href={`mailto:${SITE_CONFIG.contact.email.comercial}`}
                   className={cn(
                     'flex items-center gap-2 group',
                     'text-sm',
-                    'text-muted-foreground',
-                    'dark:text-gray-300',
-                    'hover:text-primary',
-                    'dark:hover:text-cyan-400',
-                    'transition-colors duration-200 ease-in-out'
+                    // Text usando tokens
+                    'text-[var(--color-text-secondary)]',
+                    'dark:text-[var(--color-primitive-neutral-300)]',
+                    'hover:text-[var(--color-primary-base)]',
+                    'dark:hover:text-[var(--color-primary-base)]',
+                    // Transition usando token MOTION
+                    MOTION.TRANSITION.COLOR
                   )}
-                  aria-label={`Enviar email para ${SITE_CONFIG.contact.email.address}`}
+                  aria-label={`Enviar email para ${SITE_CONFIG.contact.email.comercial}`}
                 >
                   <Mail
-                    className={cn('h-4 w-4', 'text-primary dark:text-cyan-400')}
+                    className={cn(
+                      'h-4 w-4',
+                      'text-[var(--color-primary-base)]',
+                      'dark:text-[var(--color-primary-base)]'
+                    )}
                   />
                   <span className="break-all text-xs">
-                    {SITE_CONFIG.contact.email.address}
+                    {SITE_CONFIG.contact.email.comercial}
                   </span>
                 </a>
 
-                {/* Telefone */}
-                <a
-                  href={`tel:${SITE_CONFIG.contact.phone.number.replace(/\s/g, '')}`}
-                  className={cn(
-                    'flex items-center gap-2 group',
-                    'text-sm',
-                    'text-muted-foreground',
-                    'dark:text-gray-300',
-                    'hover:text-primary',
-                    'dark:hover:text-cyan-400',
-                    'transition-colors duration-200 ease-in-out'
-                  )}
-                  aria-label={`Ligar para ${SITE_CONFIG.contact.phone.number}`}
-                >
-                  <Phone
-                    className={cn('h-4 w-4', 'text-primary dark:text-cyan-400')}
-                  />
-                  <span>{SITE_CONFIG.contact.phone.number}</span>
-                </a>
+                {/* Telefone (prioriza WhatsApp, senão comercial) */}
+                {(() => {
+                  const contact = SITE_CONFIG.contact;
+                  const phone = contact?.phone;
+                  const rawPhone = phone?.whatsapp || phone?.comercial;
 
-                {/* Localização */}
+                  if (!rawPhone) return null;
+
+                  const telHref = `tel:${rawPhone}`;
+
+                  return (
+                    <a
+                      href={telHref}
+                      className={cn(
+                        'flex items-center gap-2 group',
+                        'text-sm',
+                        // Text usando tokens
+                        'text-[var(--color-text-secondary)]',
+                        'dark:text-[var(--color-primitive-neutral-300)]',
+                        'hover:text-[var(--color-primary-base)]',
+                        'dark:hover:text-[var(--color-primary-base)]',
+                        // Transition usando token MOTION
+                        MOTION.TRANSITION.COLOR
+                      )}
+                      aria-label={`Ligar para ${rawPhone}`}
+                    >
+                      <Phone
+                        className={cn(
+                          'h-4 w-4',
+                          'text-[var(--color-primary-base)]',
+                          'dark:text-[var(--color-primary-base)]'
+                        )}
+                      />
+                      <span>{rawPhone}</span>
+                    </a>
+                  );
+                })()}
+
+                {/* Localização (sede principal) */}
                 <div
                   className={cn(
                     'flex items-center gap-2',
                     'text-sm',
-                    'text-muted-foreground',
-                    'dark:text-gray-300'
+                    // Text usando tokens
+                    'text-[var(--color-text-secondary)]',
+                    'dark:text-[var(--color-primitive-neutral-300)]'
                   )}
                 >
                   <MapPin
-                    className={cn('h-4 w-4', 'text-primary dark:text-cyan-400')}
+                    className={cn(
+                      'h-4 w-4',
+                      'text-[var(--color-primary-base)]',
+                      'dark:text-[var(--color-primary-base)]'
+                    )}
                   />
-                  <span>{SITE_CONFIG.contact.location.city}</span>
+                  <span>{SITE_CONFIG.contact.location.headquarters.city}</span>
                 </div>
 
                 {/* Redes sociais */}
@@ -325,14 +397,16 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      'p-2 rounded-lg transition-all',
-                      'text-muted-foreground',
-                      'hover:text-primary',
-                      'dark:hover:text-cyan-400',
-                      'hover:bg-accent/50',
+                      'p-2 rounded-lg',
+                      // Text usando tokens
+                      'text-[var(--color-text-secondary)]',
+                      'hover:text-[var(--color-primary-base)]',
+                      'dark:hover:text-[var(--color-primary-base)]',
+                      'hover:bg-[var(--color-accent-base)]/50',
                       'hover:scale-110',
-                      'transition-colors duration-200 ease-in-out',
-                      'transition-transform duration-200 ease-in-out'
+                      // Transitions usando tokens MOTION
+                      MOTION.TRANSITION.COLOR,
+                      MOTION.TRANSITION.TRANSFORM
                     )}
                     aria-label="Visitar GitHub"
                   >
@@ -343,14 +417,16 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      'p-2 rounded-lg transition-all',
-                      'text-muted-foreground',
-                      'hover:text-primary',
-                      'dark:hover:text-cyan-400',
-                      'hover:bg-accent/50',
+                      'p-2 rounded-lg',
+                      // Text usando tokens
+                      'text-[var(--color-text-secondary)]',
+                      'hover:text-[var(--color-primary-base)]',
+                      'dark:hover:text-[var(--color-primary-base)]',
+                      'hover:bg-[var(--color-accent-base)]/50',
                       'hover:scale-110',
-                      'transition-colors duration-200 ease-in-out',
-                      'transition-transform duration-200 ease-in-out'
+                      // Transitions usando tokens MOTION
+                      MOTION.TRANSITION.COLOR,
+                      MOTION.TRANSITION.TRANSFORM
                     )}
                     aria-label="Visitar LinkedIn"
                   >
@@ -366,7 +442,9 @@ export function Footer() {
         <div
           className={cn(
             'w-full border-t',
-            'border-border/50 dark:border-cyan-400/20'
+            // Border usando tokens
+            'border-[var(--color-border-primary)]/50',
+            'dark:border-[var(--color-primary-base)]/20'
           )}
           aria-hidden="true"
         />
@@ -379,8 +457,9 @@ export function Footer() {
               <p
                 className={cn(
                   'text-sm',
-                  'text-muted-foreground',
-                  'dark:text-gray-400'
+                  // Text usando tokens
+                  'text-[var(--color-text-secondary)]',
+                  'dark:text-[var(--color-primitive-neutral-400)]'
                 )}
               >
                 &copy; {new Date().getFullYear()} {SITE_CONFIG.fullName}. Todos
@@ -394,10 +473,12 @@ export function Footer() {
                 href="/privacidade"
                 className={cn(
                   'text-xs',
-                  'text-muted-foreground',
-                  'hover:text-primary',
-                  'dark:hover:text-cyan-400',
-                  'transition-colors duration-200 ease-in-out'
+                  // Text usando tokens
+                  'text-[var(--color-text-secondary)]',
+                  'hover:text-[var(--color-primary-base)]',
+                  'dark:hover:text-[var(--color-primary-base)]',
+                  // Transition usando token MOTION
+                  MOTION.TRANSITION.COLOR
                 )}
               >
                 Privacidade
@@ -406,10 +487,12 @@ export function Footer() {
                 href="/termos"
                 className={cn(
                   'text-xs',
-                  'text-muted-foreground',
-                  'hover:text-primary',
-                  'dark:hover:text-cyan-400',
-                  'transition-colors duration-200 ease-in-out'
+                  // Text usando tokens
+                  'text-[var(--color-text-secondary)]',
+                  'hover:text-[var(--color-primary-base)]',
+                  'dark:hover:text-[var(--color-primary-base)]',
+                  // Transition usando token MOTION
+                  MOTION.TRANSITION.COLOR
                 )}
               >
                 Termos
@@ -418,10 +501,12 @@ export function Footer() {
                 href="/cookies"
                 className={cn(
                   'text-xs',
-                  'text-muted-foreground',
-                  'hover:text-primary',
-                  'dark:hover:text-cyan-400',
-                  'transition-colors duration-200 ease-in-out'
+                  // Text usando tokens
+                  'text-[var(--color-text-secondary)]',
+                  'hover:text-[var(--color-primary-base)]',
+                  'dark:hover:text-[var(--color-primary-base)]',
+                  // Transition usando token MOTION
+                  MOTION.TRANSITION.COLOR
                 )}
               >
                 Cookies
@@ -430,10 +515,12 @@ export function Footer() {
                 href="/cookies/settings"
                 className={cn(
                   'text-xs',
-                  'text-muted-foreground',
-                  'hover:text-primary',
-                  'dark:hover:text-cyan-400',
-                  'transition-colors duration-200 ease-in-out'
+                  // Text usando tokens
+                  'text-[var(--color-text-secondary)]',
+                  'hover:text-[var(--color-primary-base)]',
+                  'dark:hover:text-[var(--color-primary-base)]',
+                  // Transition usando token MOTION
+                  MOTION.TRANSITION.COLOR
                 )}
               >
                 Gerenciar Cookies
@@ -445,3 +532,5 @@ export function Footer() {
     </footer>
   );
 }
+
+

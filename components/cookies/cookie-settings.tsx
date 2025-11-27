@@ -71,13 +71,13 @@ import { Switch } from '@rainersoft/ui';
 import {
   getCookieManager,
   type CookiePreferences,
-} from '@/lib/cookies/cookie-manager';
+} from '@/lib/privacy';
 
 // ============================================================================
 // Design Tokens
 // ============================================================================
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 
 // ============================================================================
 // Types
@@ -503,3 +503,5 @@ export function CookieSettingsButton() {
     </>
   );
 }
+
+

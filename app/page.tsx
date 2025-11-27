@@ -44,8 +44,8 @@ import {
   TechStackShowcase,
   Testimonials,
 } from '@/components/home';
+import { cn } from '@/lib/portfolio';
 import { BackToTop } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
 import { BACKGROUND } from '@rainersoft/design-tokens';
 import { SECTION_IDS } from '@/constants';
 
@@ -238,3 +238,5 @@ export default function HomePage() {
     </main>
   );
 }
+
+

@@ -47,3 +47,5 @@ export const SKILLS: ReadonlyArray<SkillItem> = SKILLS_DATA.map(
     };
   }
 ) as ReadonlyArray<SkillItem>;
+
+

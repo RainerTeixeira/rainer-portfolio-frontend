@@ -38,6 +38,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@rainersoft/design-tokens": "link:../rainer-design-tokens",
     "@rainersoft/ui": "link:../rainer-ui",
+    "@rainersoft/utils": "file:..\\rainer-utils",
     "@tanstack/react-query": "^5.90.9",
     "@tiptap/extension-code-block-lowlight": "^3.10.7",
     "@tiptap/extension-image": "^3.10.7",
@@ -67,6 +68,7 @@
     "@axe-core/playwright": "^4.11.0",
     "@eslint/eslintrc": "^3.3.1",
     "@playwright/test": "^1.56.1",
+    "@tailwindcss/postcss": "^4.1.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tanstack/react-query-devtools": "^5.90.2",
     "@testing-library/jest-dom": "^6.9.1",
@@ -84,13 +86,13 @@
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^16.2.6",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.0",
-    "@tailwindcss/postcss": "^4.1.0",
     "prettier": "^3.6.2",
     "rimraf": "^5.0.5",
+    "tailwindcss": "^4.1.0",
     "ts-jest": "^29.4.5",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "web-vitals": "^5.1.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,scss,md}": [

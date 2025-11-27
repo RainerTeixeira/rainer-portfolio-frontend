@@ -24,8 +24,8 @@ import {
   RegisterForm,
   TermsDialog,
 } from '@/components/dashboard/login';
-import { BackToTop } from '@/components/ui';
-import { cn } from '@/lib/utils';
+import { BackToTop } from '@rainersoft/ui';
+import { cn } from '@/lib/portfolio';
 import Link from 'next/link';
 
 export default function RegisterPage() {
@@ -84,3 +84,5 @@ export default function RegisterPage() {
     </>
   );
 }
+
+

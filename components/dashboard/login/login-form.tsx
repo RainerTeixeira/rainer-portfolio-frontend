@@ -45,7 +45,7 @@ import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { 
   MOTION, 
   SHADOWS, 
@@ -709,3 +709,5 @@ export function LoginForm({
     </form>
   );
 }
+
+

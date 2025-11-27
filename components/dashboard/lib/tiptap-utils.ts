@@ -179,3 +179,4 @@ function extractNodeText(node: TiptapNode): string {
 
   return '';
 }
+

@@ -17,3 +17,5 @@ export function PrismaIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+

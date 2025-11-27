@@ -1,0 +1,29 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+overrides:
+  '@humanwhocodes/config-array': ^0.15.0
+  '@humanwhocodes/object-schema': ^2.0.3
+  glob: ^11.0.0
+  inflight: npm:inflight@^1.0.6
+  rimraf: ^6.0.1
+
+importers:
+
+  .:
+    dependencies:
+      '@rainersoft/utils':
+        specifier: file:..\rainer-utils
+        version: file:../rainer-utils
+
+packages:
+
+  '@rainersoft/utils@file:../rainer-utils':
+    resolution: {directory: ../rainer-utils, type: directory}
+
+snapshots:
+
+  '@rainersoft/utils@file:../rainer-utils': {}

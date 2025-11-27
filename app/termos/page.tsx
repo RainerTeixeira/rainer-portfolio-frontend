@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Terms of Use Page Component
  *
  * Página de termos de uso completa e profissional.
@@ -23,9 +23,9 @@ import {
   Shield,
 } from 'lucide-react';
 
-import { BackToTop, PageHeader, ParticlesEffect } from '@/components/ui';
+import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { POLICIES_LAST_UPDATED, SITE_CONFIG } from '@/constants';
 
 export default function TermsOfUsePage() {
@@ -326,3 +326,5 @@ export default function TermsOfUsePage() {
     </div>
   );
 }
+
+

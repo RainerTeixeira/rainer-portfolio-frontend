@@ -20,7 +20,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import * as React from 'react';
 
 interface CTACardProps {
@@ -111,3 +111,5 @@ export function CTACard({
     </Card>
   );
 }
+
+

@@ -2,7 +2,7 @@
  * Testes para hook usePWA
  */
 
-import { usePWA } from '@/hooks/use-pwa';
+import { usePWA } from '@rainersoft/ui';
 import { renderHook } from '@testing-library/react';
 
 // Mock do window.matchMedia

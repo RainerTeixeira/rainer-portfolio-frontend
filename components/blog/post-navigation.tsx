@@ -15,7 +15,7 @@
 
 import { Card, CardContent } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/portfolio';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -88,3 +88,5 @@ export function PostNavigation({
     </div>
   );
 }
+
+

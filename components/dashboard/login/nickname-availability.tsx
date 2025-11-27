@@ -99,3 +99,5 @@ export function NicknameAvailability({
 
   return <StatusBadge status={status} className="mt-1" />;
 }
+
+

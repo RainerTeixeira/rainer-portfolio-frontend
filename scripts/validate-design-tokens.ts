@@ -145,7 +145,7 @@ if (issues.length === 0) {
   const byType = issues.reduce(
     (acc, issue) => {
       if (!acc[issue.type]) acc[issue.type] = [];
-      acc[issue.type].push(issue);
+      acc[issue.type]!.push(issue);
       return acc;
     },
     {} as Record<string, Issue[]>
@@ -170,3 +170,4 @@ if (issues.length === 0) {
   );
   process.exit(1);
 }
+

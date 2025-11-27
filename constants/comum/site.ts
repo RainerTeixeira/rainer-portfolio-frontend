@@ -9,38 +9,68 @@
  * URLs, e informações legais.
  */
 
-import { DESENVOLVEDOR } from './desenvolvedor';
+import { EMPRESA, CEO } from './desenvolvedor';
 import { CONTATO } from './social';
 
 /**
- * Configuração principal do site
+ * Configuração principal do site da Rainer Soft
  * @constant
- * @description Informações gerais do site
+ * @description Informações institucionais da empresa
  */
 export const SITE_CONFIG = {
-  fullName: 'Rainer Soft',
+  fullName: 'Rainer Soft - Software House Premium',
   name: 'Rainer Soft',
-  description: 'Portfolio profissional de desenvolvimento full-stack',
+  slogan: 'Transformando ideias em soluções digitais inovadoras',
+  description: 'Software house líder em desenvolvimento de soluções enterprise, mobile, cloud e AI. Transformação digital com tecnologia de ponta.',
   url: 'https://rainersoft.com.br',
-  github: 'https://github.com/rainerteixeira',
-  linkedin: 'https://linkedin.com/in/rainerteixeira',
+  github: 'https://github.com/rainersoft',
+  linkedin: 'https://linkedin.com/company/rainersoft',
+  instagram: 'https://instagram.com/rainersoft',
+  youtube: 'https://youtube.com/@rainersoft',
   contact: {
     email: {
-      address: DESENVOLVEDOR.email,
-      responseTime: CONTATO.tempoResposta.email,
+      comercial: EMPRESA.email,
+      suporte: EMPRESA.suporte,
+      responseTime: EMPRESA.tempoResposta,
     },
     phone: {
-      number: '+55 24 99913-7382',
-      whatsapp: true,
+      comercial: '+55 24 3025-5000',
+      suporte: '+55 24 3025-5001',
+      whatsapp: '+55 24 99913-7382',
     },
     location: {
-      city: 'Volta Redonda',
-      state: 'RJ',
-      country: 'Brasil',
+      headquarters: {
+        address: 'Av. Sete de Setembro, 58 - Aterrado',
+        city: 'Volta Redonda',
+        state: 'RJ',
+        country: 'Brasil',
+        cep: '27215-610',
+      },
+      branches: [
+        {
+          city: 'São Paulo',
+          state: 'SP',
+          type: 'Escritório',
+        },
+        {
+          city: 'Miami',
+          state: 'FL',
+          country: 'USA',
+          type: 'Internacional',
+        },
+      ],
     },
     workingHours: {
-      days: CONTATO.horarioAtendimento.dias,
-      hours: CONTATO.horarioAtendimento.horario,
+      commercial: {
+        days: 'Segunda a Sexta',
+        hours: '9h às 18h',
+        timezone: 'BRT (UTC-3)',
+      },
+      support: {
+        days: '24/7',
+        hours: 'Atendimento contínuo',
+        sla: 'Resposta em até 2 horas',
+      },
     },
   },
 } as const;
@@ -59,7 +89,9 @@ export const POLICIES_LAST_UPDATED = '2025-01-15' as const;
  */
 export const COPYRIGHT = {
   year: new Date().getFullYear(),
-  holder: DESENVOLVEDOR.nome,
+  holder: EMPRESA.nome,
   rights: 'Todos os direitos reservados',
-  text: `© ${new Date().getFullYear()} ${DESENVOLVEDOR.nome}. Todos os direitos reservados.`,
+  text: `© ${new Date().getFullYear()} ${EMPRESA.nome}. Todos os direitos reservados.`,
+  cnpj: '00.000.000/0001-00',
 } as const;
+

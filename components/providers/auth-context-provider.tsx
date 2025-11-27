@@ -1,9 +1,8 @@
 /**
  * Auth Context Provider Component
  *
- * Provider global de autenticação para toda a aplicação. Wrapper do hook
- * useAuth() que gerencia estado de autenticação via Context API. Inclui
- * login, logout, registro, atualização de perfil e recuperação de senha.
+ * Provider global de autenticação para toda a aplicação.
+ * Wrapper do hook useAuth() que gerencia estado de autenticação via Context API.
  *
  * @module components/providers/auth-context-provider
  * @fileoverview Provider de contexto de autenticação com AWS Cognito
@@ -27,6 +26,7 @@
 
 import { useAuth } from '@/hooks/useAuth';
 import type { UpdateProfileData, UserProfile } from '@/lib/api/types/users';
+import { authService } from '@/lib/api/services/auth.service';
 import {
   ReactNode,
   createContext,
@@ -39,18 +39,20 @@ import {
 // Types
 // ============================================================================
 
+type RegisterData = {
+  fullName: string;
+  email: string;
+  username: string;
+  password: string;
+};
+
 type AuthContextType = {
   user: UserProfile | null;
   isAuthenticated: boolean;
   loading: boolean;
   error: Error | null;
   login: (email: string, password: string) => Promise<UserProfile | undefined>;
-  register: (data: {
-    fullName: string;
-    email: string;
-    username: string;
-    password: string;
-  }) => Promise<UserProfile | undefined>;
+  register: (data: RegisterData) => Promise<UserProfile | undefined>;
   logout: () => Promise<void>;
   updateProfile: (data: UpdateProfileData) => Promise<UserProfile | undefined>;
   forgotPassword: (email: string) => Promise<void>;
@@ -59,16 +61,15 @@ type AuthContextType = {
     code: string;
     newPassword: string;
   }) => Promise<void>;
-  changePassword: (
-    currentPassword: string,
-    newPassword: string
-  ) => Promise<void>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
   checkAuth: () => Promise<void>;
   loginWithOAuthCode: (
     code: string,
     provider?: 'google' | 'github',
     state?: string
   ) => Promise<boolean>;
+  loginWithGoogle: () => void;
+  loginWithGitHub: () => void;
 };
 
 type AuthProviderProps = {
@@ -101,14 +102,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
  *
  * @param children - Componentes filhos que terão acesso ao contexto
  * @returns Provider configurado
- *
- * @example
- * ```tsx
- * // No layout raiz
- * <AuthProvider>
- *   <App />
- * </AuthProvider>
- * ```
  */
 export function AuthProvider({ children }: AuthProviderProps) {
   const {
@@ -148,6 +141,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       changePassword,
       checkAuth,
       loginWithOAuthCode,
+      loginWithGoogle: () => authService.loginWithGoogle(),
+      loginWithGitHub: () => authService.loginWithGitHub(),
     }),
     [
       user,
@@ -176,7 +171,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 // ============================================================================
 
 /**
- * Custom hook para acesso ao contexto de autenticação
+ * Hook para acesso ao contexto de autenticação
  *
  * Fornece acesso aos dados de autenticação e funções de login/logout.
  * Deve ser usado dentro de um AuthProvider.
@@ -187,17 +182,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
  * @example
  * ```tsx
  * function MyComponent() {
- *   const { user, isAuthenticated, logout } = useAuthContext()
- *   return <div>{user?.fullName}</div>
+ *   const { user, isAuthenticated, logout } = useAuthContext();
+ *   return <div>{user?.fullName}</div>;
  * }
  * ```
  */
 export function useAuthContext() {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAuthContext deve ser usado dentro de um AuthProvider');
   }
   return context;
 }
 
-export default AuthContext;
+// Exporta o contexto bruto para casos avançados (opcional)
+export { AuthContext };
+
+// Export default para uso mais simples como componente de Provider
+export default AuthProvider;
