@@ -92,22 +92,11 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     setError(null);
 
     try {
-      const { localAuth } = await import(
-        '@/components/dashboard/lib/auth-local'
+      // Fluxo legado baseado em token local foi descontinuado.
+      // Orientar o usuário a utilizar o fluxo oficial de "Esqueci minha senha".
+      throw new Error(
+        'Este fluxo de redefinição de senha não está mais disponível. Use a opção "Esqueci minha senha" na tela de login para redefinir sua senha.'
       );
-
-      const result = await localAuth.resetPassword(token, data.password);
-
-      if (!result.success) {
-        throw new Error(result.message);
-      }
-
-      setSuccess(true);
-
-      // Redirecionar para login após 2s
-      setTimeout(() => {
-        router.push('/dashboard/login');
-      }, 2000);
     } catch (err) {
       const errorMessage =
         err instanceof Error

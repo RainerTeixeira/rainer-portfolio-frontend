@@ -31,9 +31,6 @@
 // Serviços de Autenticação e Autorização
 export * from './auth.service';
 
-// Serviços de Usuários
-export * from './users.service';
-
 // Serviços de Posts e Categorias
 export * from './posts.service';
 export * from './categories.service';

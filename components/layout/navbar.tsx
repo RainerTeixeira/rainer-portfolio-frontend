@@ -248,7 +248,10 @@ function UserMenu({ user, logout }: UserMenuProps) {
             )}
           >
             <AvatarImage
-              src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.nickname}`}
+              src={
+                user.avatarUrl ||
+                `https://api.dicebear.com/7.x/initials/svg?seed=${user.nickname}`
+              }
               alt={`Avatar de ${user.nickname}`}
               className="object-cover"
             />
@@ -449,11 +452,10 @@ export function Navbar() {
         // Suporte condicional para backdrop-filter
         'supports-backdrop-filter:bg-background/90',
         'dark:supports-backdrop-filter:bg-black/60',
-        // Bordas com gradiente
-        'border-b',
+        // Sombras sutis (sem borda inferior visível)
         hasScrolled
-          ? 'border-border/60 dark:border-cyan-400/30 shadow-lg dark:shadow-cyan-500/10'
-          : 'border-border/40 dark:border-cyan-400/20',
+          ? 'shadow-lg dark:shadow-cyan-500/10'
+          : '',
         // Transições suaves
         'transition-all duration-300 ease-in-out',
         // Estados scrolled
@@ -461,7 +463,7 @@ export function Navbar() {
           cn(
             'shadow-xl shadow-black/5 dark:shadow-cyan-500/10',
             'bg-background/98 dark:bg-black/85',
-            'border-border/60 dark:border-cyan-400/30'
+            ''
           ),
         // Performance hints
         'will-change-transform'

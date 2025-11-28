@@ -10,16 +10,21 @@
 import { authService } from '@/lib/api';
 import { api } from '@/lib/api/client';
 
-// Mock do api client
-jest.mock('@/lib/api/client', () => ({
-  api: {
-    get: jest.fn(),
-    post: jest.fn(),
-    put: jest.fn(),
-    delete: jest.fn(),
-    setAuthToken: jest.fn(),
-  },
-}));
+// Mock do api client preservando ApiError e demais exports
+jest.mock('@/lib/api/client', () => {
+  const actual = jest.requireActual('@/lib/api/client');
+
+  return {
+    ...actual,
+    api: {
+      get: jest.fn(),
+      post: jest.fn(),
+      put: jest.fn(),
+      delete: jest.fn(),
+      setAuthToken: jest.fn(),
+    },
+  };
+});
 
 // Mock de window.location para OAuth redirects
 // jsdom não permite redefinir location, então usamos uma variável global
@@ -58,6 +63,72 @@ describe('authService', () => {
     // Reset location mock
     mockLocationHref = 'http://localhost/';
     (window as any).__testLocationHref = 'http://localhost/';
+  });
+
+  describe('Login tradicional', () => {
+    it('deve realizar login com sucesso, chamar /auth/login e salvar tokens', async () => {
+      const mockResponse = {
+        success: true,
+        data: {
+          tokens: {
+            accessToken: 'access-token-123',
+            refreshToken: 'refresh-token-123',
+            idToken: 'id-token-123',
+            expiresIn: 3600,
+            tokenType: 'Bearer',
+          },
+          user: {
+            id: 'user-123',
+            cognitoSub: 'cognito-sub-123',
+            fullName: 'Test User',
+            role: 'SUBSCRIBER',
+            isActive: true,
+            isBanned: false,
+            postsCount: 0,
+            commentsCount: 0,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          },
+        },
+      };
+
+      (api.post as jest.Mock).mockResolvedValue(mockResponse);
+
+      const result = await authService.login({
+        email: 'test@example.com',
+        password: 'password123',
+      });
+
+      expect(api.post).toHaveBeenCalledWith(
+        '/auth/login',
+        { email: 'test@example.com', password: 'password123' },
+      );
+
+      expect(result.user.id).toBe('user-123');
+      expect(localStorageMock.getItem('accessToken')).toBe('access-token-123');
+      expect(localStorageMock.getItem('userId')).toBe('cognito-sub-123');
+    });
+
+    it('deve lançar erro de login quando credenciais são inválidas', async () => {
+      const mockErrorResponse = {
+        success: false,
+        message: 'Email ou senha incorretos',
+      };
+
+      (api.post as jest.Mock).mockResolvedValue(mockErrorResponse);
+
+      await expect(
+        authService.login({
+          email: 'wrong@example.com',
+          password: 'wrong-password',
+        }),
+      ).rejects.toThrow('Email ou senha incorretos');
+
+      expect(api.post).toHaveBeenCalledWith(
+        '/auth/login',
+        { email: 'wrong@example.com', password: 'wrong-password' },
+      );
+    });
   });
 
   describe('Métodos Básicos', () => {
@@ -231,6 +302,10 @@ describe('authService', () => {
   describe('Autenticação OAuth', () => {
     describe('loginWithGoogle', () => {
       beforeEach(() => {
+        // Garantir redirect configurado para evitar erro de configuração
+        process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN =
+          'http://localhost:3000/dashboard/login/callback';
+
         // Reset location mock
         mockLocationHref = 'http://localhost/';
         (window as any).__testLocationHref = 'http://localhost/';
@@ -266,6 +341,10 @@ describe('authService', () => {
 
     describe('loginWithGitHub', () => {
       beforeEach(() => {
+        // Garantir redirect configurado para evitar erro de configuração
+        process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN =
+          'http://localhost:3000/dashboard/login/callback';
+
         // Reset location mock
         mockLocationHref = 'http://localhost/';
       });

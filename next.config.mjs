@@ -185,6 +185,29 @@ const nextConfig = {
   },
 
   /**
+   * Rewrites para proxy de API em desenvolvimento.
+   * Em produção, o frontend deve consumir o backend pela URL pública (sem proxy).
+   * @returns {Promise<Array<{source: string, destination: string}>>}
+   */
+  async rewrites() {
+    if (process.env.NODE_ENV !== 'development') {
+      return [];
+    }
+
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl) {
+      return [];
+    }
+
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${apiUrl}/:path*`,
+      },
+    ];
+  },
+
+  /**
    * Customização do Webpack.
    * - Garante resolução de symlinks correta (workspaces).
    * - Fornece fallback seguro para fs, net, tls no client-side.

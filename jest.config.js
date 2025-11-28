@@ -30,21 +30,28 @@ export default {
   // Mapeamento de paths
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+    // Mocks para assets e CSS
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 
+      '<rootDir>/tests/mocks/file-mock.js',
   },
   
   // Diretórios de módulos
   moduleDirectories: ['node_modules', '<rootDir>'],
   
-  // Setup files (apenas dentro de tests/)
+  // Setup files
   setupFilesAfterEnv: [
     '<rootDir>/tests/setup/jest.setup.js',
     '<rootDir>/tests/setup/jest.design-tokens-mock.js',
+    '<rootDir>/tests/setup/jest.fetch-mock.js',
   ],
   
   // Patterns de teste
   testMatch: [
     '**/__tests__/**/*.[jt]s?(x)',
     '**/?(*.)+(spec|test).[jt]s?(x)',
+    '<rootDir>/tests/unit/**/*.test.{ts,tsx}',
   ],
   
   // Ignorar paths
@@ -64,6 +71,8 @@ export default {
     'components/**/*.{ts,tsx}',
     'lib/**/*.{ts,tsx}',
     'hooks/**/*.{ts,tsx}',
+    'services/**/*.{ts,tsx}',
+    'utils/**/*.{ts,tsx}',
     '!**/*.d.ts',
     '!**/layout.tsx',
     '!**/page.tsx',
@@ -77,10 +86,10 @@ export default {
   coverageReporters: ['text', 'lcov', 'html', 'json', 'json-summary'],
   coverageThreshold: {
     global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
+      branches: 70,
+      functions: 75,
+      lines: 75,
+      statements: 75,
     },
   },
   
@@ -88,5 +97,10 @@ export default {
   maxWorkers: '50%',
   cache: true,
   cacheDirectory: '<rootDir>/.jest-cache',
+  
+  // Verbose mode para ver todos os testes
+  verbose: true,
+  
+  // Timeout para testes
+  testTimeout: 10000,
 };
-

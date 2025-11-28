@@ -1,15 +1,21 @@
 /**
- * User Types - Sistema de Autenticação com AWS Cognito + MongoDB
- *
+ * Tipos de Usuários - Sistema de Autenticação com AWS Cognito + MongoDB
+ * 
  * Arquitetura:
  * - Cognito: Gerencia email, sub, email_verified, nickname
  * - MongoDB: Armazena perfil complementar (bio, avatar, estatísticas, etc.)
  * - Sincronização: cognitoSub é a chave única entre Cognito ⇄ MongoDB
- *
+ * 
  * @fileoverview Definições de tipos para usuários e autenticação
- * @author Rainer Teixeira
+ * @module types/users
  * @version 2.0.0
+ * @author Rainer Teixeira
+ * @since 1.0.0
  */
+
+// =============================================================================
+// ENUMS
+// =============================================================================
 
 /**
  * Papel/permissão do usuário no sistema
@@ -27,6 +33,10 @@ export enum UserRole {
   SUBSCRIBER = 'SUBSCRIBER',
 }
 
+// =============================================================================
+// INTERFACES PRINCIPAIS
+// =============================================================================
+
 /**
  * Dados do usuário no Cognito (apenas autenticação)
  * @interface CognitoUser
@@ -38,8 +48,8 @@ export interface CognitoUser {
   readonly email: string;
   /** Status de verificação do email */
   readonly email_verified: boolean;
-  /** Nome de usuário/nickname (obrigatório) */
-  readonly nickname: string;
+  /** Nickname do usuário no Cognito */
+  readonly nickname?: string;
 }
 
 /**
@@ -53,6 +63,8 @@ export interface User {
   readonly cognitoSub: string;
   /** Nome completo ou nome de exibição */
   readonly fullName: string;
+  /** Nickname único do usuário */
+  readonly nickname: string;
   /** URL do avatar (CDN, S3, ou upload local) */
   readonly avatar?: string;
   /** Biografia curta do usuário */
@@ -87,8 +99,8 @@ export type MongoUser = User;
 
 /**
  * Perfil completo do usuário (Cognito + MongoDB mesclados)
- * Usado no frontend para exibir dados completos
  * @interface UserProfile
+ * @description Usado no frontend para exibir dados completos do usuário
  */
 export interface UserProfile extends Omit<User, 'cognitoSub'> {
   /** ID único do usuário no Cognito */
@@ -97,9 +109,11 @@ export interface UserProfile extends Omit<User, 'cognitoSub'> {
   readonly email: string;
   /** Status de verificação do email (vem do Cognito) */
   readonly emailVerified: boolean;
-  /** Nickname do usuário (vem do Cognito nickname) */
-  readonly nickname: string;
 }
+
+// =============================================================================
+// DATA TRANSFER OBJECTS (DTOs)
+// =============================================================================
 
 /**
  * DTO para criação de usuário no registro
@@ -127,13 +141,15 @@ export interface CreateUserData {
 }
 
 /**
- * DTO para atualização de perfil do usuário
- * IMPORTANTE: Email NÃO pode ser atualizado aqui (apenas via Cognito)
+ * DTO para atualização de perfil do usuário (operação administrativa)
  * @interface UpdateUserData
+ * @description Permite atualização de todos os campos, incluindo dados administrativos
  */
 export interface UpdateUserData {
   /** Novo nome completo */
   readonly fullName?: string;
+  /** Novo nickname */
+  readonly nickname?: string;
   /** Nova biografia */
   readonly bio?: string;
   /** Novo avatar */
@@ -154,8 +170,8 @@ export interface UpdateUserData {
 
 /**
  * DTO para atualização de perfil pelo próprio usuário
- * Versão simplificada sem campos administrativos
  * @interface UpdateProfileData
+ * @description Versão simplificada sem campos administrativos
  */
 export interface UpdateProfileData {
   /** Novo nome completo */
@@ -171,12 +187,12 @@ export interface UpdateProfileData {
 }
 
 /**
- * DTO para alteração de nickname no Cognito
+ * DTO para alteração de nickname no MongoDB
  * @interface UpdateNicknameData
  */
 export interface UpdateNicknameData {
-  /** ID do usuário no Cognito */
-  readonly cognitoSub: string;
+  /** ID do usuário no MongoDB */
+  readonly _id: string;
   /** Novo nickname */
   readonly newNickname: string;
 }
@@ -203,6 +219,10 @@ export interface VerifyEmailChangeData {
   readonly code: string;
 }
 
+// =============================================================================
+// FILTROS E RESPOSTAS
+// =============================================================================
+
 /**
  * Filtros para listagem de usuários
  * @interface UserFilters
@@ -218,11 +238,14 @@ export interface UserFilters {
   readonly search?: string;
   /** Filtro por status de atividade */
   readonly isActive?: boolean;
+  /** Filtro por status de banimento */
+  readonly isBanned?: boolean;
 }
 
 /**
  * Resposta paginada para listagem de usuários
  * @interface UsersResponse
+ * @deprecated Use PaginatedResponse<User> instead
  */
 export interface UsersResponse {
   /** Lista de usuários */
@@ -236,6 +259,10 @@ export interface UsersResponse {
   /** Limite por página */
   readonly limit: number;
 }
+
+// =============================================================================
+// RESPOSTAS DE AUTENTICAÇÃO
+// =============================================================================
 
 /**
  * DTO para resposta de login
@@ -270,4 +297,95 @@ export interface LoginResponseData {
     readonly website?: string;
     readonly socialLinks?: Record<string, string>;
   };
+}
+
+// =============================================================================
+// TIPOS DE EVENTOS E NOTIFICAÇÕES
+// =============================================================================
+
+/**
+ * Evento de mudança no perfil do usuário
+ * @interface UserProfileChangeEvent
+ */
+export interface UserProfileChangeEvent {
+  /** Tipo do evento */
+  readonly type: 'PROFILE_UPDATED' | 'AVATAR_CHANGED' | 'ROLE_CHANGED';
+  /** ID do usuário */
+  readonly userId: string;
+  /** Dados antigos (opcional) */
+  readonly oldData?: Partial<User>;
+  /** Dados novos */
+  readonly newData: Partial<User>;
+  /** Timestamp do evento */
+  readonly timestamp: string;
+}
+
+/**
+ * Configurações de notificação do usuário
+ * @interface UserNotificationSettings
+ */
+export interface UserNotificationSettings {
+  /** Receber notificações por email */
+  readonly emailNotifications: boolean;
+  /** Receber notificações de novos posts */
+  readonly newPosts: boolean;
+  /** Receber notificações de comentários */
+  readonly comments: boolean;
+  /** Receber notificações de mensagens */
+  readonly messages: boolean;
+  /** Receber newsletters */
+  readonly newsletter: boolean;
+}
+
+// =============================================================================
+// TIPOS DE ESTATÍSTICAS
+// =============================================================================
+
+/**
+ * Estatísticas do usuário
+ * @interface UserStats
+ */
+export interface UserStats {
+  /** Total de posts criados */
+  readonly totalPosts: number;
+  /** Total de comentários feitos */
+  readonly totalComments: number;
+  /** Total de likes recebidos */
+  readonly totalLikes: number;
+  /** Total de visualizações */
+  readonly totalViews: number;
+  /** Data da última atividade */
+  readonly lastActivity: string;
+  /** Taxa de engajamento */
+  readonly engagementRate: number;
+}
+
+// =============================================================================
+// TIPOS DE VALIDAÇÃO
+// =============================================================================
+
+/**
+ * Resultado da validação de dados do usuário
+ * @interface UserValidationResult
+ */
+export interface UserValidationResult {
+  /** Se os dados são válidos */
+  readonly isValid: boolean;
+  /** Lista de erros de validação */
+  readonly errors: string[];
+  /** Campos que falharam na validação */
+  readonly failedFields: string[];
+}
+
+/**
+ * Disponibilidade de nickname/email
+ * @interface AvailabilityCheck
+ */
+export interface AvailabilityCheck {
+  /** Se o valor está disponível */
+  readonly available: boolean;
+  /** Sugestões alternativas (se não disponível) */
+  readonly suggestions?: string[];
+  /** Motivo da indisponibilidade */
+  readonly reason?: string;
 }

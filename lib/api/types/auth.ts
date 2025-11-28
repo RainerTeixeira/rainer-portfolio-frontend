@@ -13,9 +13,6 @@ export interface RegisterData {
   readonly password: string;
   readonly fullName: string;
   readonly nickname: string;
-  // Campo mantido para compatibilidade com versões antigas, mas não deve ser mais usado
-  // Use 'nickname' em vez disso
-  readonly username?: string;
   readonly phoneNumber?: string;
   readonly avatar?: string;
 }
@@ -33,7 +30,6 @@ export interface LoginData {
  */
 export interface ConfirmEmailData {
   readonly email: string;
-  readonly username: string;
   readonly code: string;
 }
 
