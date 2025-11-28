@@ -1,5 +1,7 @@
 # 🔄 Refatoração: Nickname Personalizável no Cadastro
 
+> **Status (2025-11)**: O fluxo atual de cadastro já usa **`nickname` como campo oficial** tanto no Cognito quanto no backend (`User.nickname` no Mongo/Prisma). As menções a `username` neste documento são históricas; na prática, o frontend trabalha com `nickname` e o backend persiste esse valor no perfil do usuário.
+
 ## 📋 Resumo
 
 Refatoração do sistema de cadastro para permitir que o usuário escolha seu próprio nickname (nickname) durante o registro, com sugestão automática baseada no email.
@@ -241,28 +243,17 @@ const [triedUsernames, setTriedUsernames] = useState<string[]>([])
 | 🔒 **Segurança** | Validações impedem usernames inválidos |
 | 🚀 **Performance** | Debounce evita requisições excessivas |
 
-## 📝 Notas Técnicas
+## 📝 Notas Técnicas (Atualização)
 
-### Compatibilidade com Cognito
+### Compatibilidade com Cognito / Backend Atual
 
-O username escolhido é enviado para o Cognito como `username` no registro:
+No modelo atual:
 
-```typescript
-await authService.register({
-  fullName: data.fullName,
-  username: data.username,  // ← Username escolhido pelo usuário
-  email: data.email,
-  password: data.password,
-})
-```
+- O **Cognito** continua exigindo um `username` interno, gerado automaticamente no backend.
+- O **frontend** trabalha apenas com `email`, `fullName` e **`nickname`**.
+- O backend envia para o Cognito um `username` gerado e um atributo `nickname`, e persiste o mesmo `nickname` em `User.nickname` no Mongo/Prisma.
 
-### Persistência
-
-O username é salvo no localStorage após cadastro para uso na confirmação de email:
-
-```typescript
-localStorage.setItem('pendingUsername', data.username)
-```
+Ou seja, o que importa para UI/UX e para o domínio é o **`nickname`**, não o `username` interno do Cognito.
 
 ## 🐛 Troubleshooting
 

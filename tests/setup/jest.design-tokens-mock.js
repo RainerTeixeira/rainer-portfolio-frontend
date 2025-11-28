@@ -1,7 +1,11 @@
-// Global mock para '@rainersoft/design-tokens' usado nos testes Jest
-// Mantém a aplicação real usando o pacote normalmente, mas nos testes
-// evitamos carregar o bundle ESM `dist/index.mjs`.
+/**
+ * @file jest.design-tokens-mock.js
+ * @description Mock do pacote '@rainersoft/design-tokens' para testes Jest
+ * @version 1.0.0
+ * @author Rainer Teixeira
+ */
 
+// Cores base para tema light
 const baseLightColors = {
   primary: {
     base: '#0891b2',
@@ -11,8 +15,8 @@ const baseLightColors = {
   },
 };
 
+// Cores base para tema dark
 const baseDarkColors = {
-  // Basta cobrir o que é usado em testes (ex.: CelestialBackground, layout)
   primitive: {
     cyan: {
       400: '#22d3ee',
@@ -30,16 +34,15 @@ const baseDarkColors = {
   },
 };
 
-// Direções de gradiente usadas em alguns componentes (ex.: skills-with-icons, botões sociais)
+// Direções de gradiente
 const GRADIENT_DIRECTIONS = {
   TO_RIGHT: 'bg-linear-to-r',
   TO_BR: 'bg-gradient-to-br',
 };
 
-// Backgrounds usados na Home e em seções com gradiente
+// Backgrounds
 const BACKGROUND = {
-  GRADIENT_OVERLAY:
-    'bg-gradient-to-br from-cyan-500/20 via-transparent to-purple-500/20',
+  GRADIENT_OVERLAY: 'bg-gradient-to-br from-cyan-500/20 via-transparent to-purple-500/20',
   FULL: 'bg-slate-950',
   SECTION_CYAN: 'bg-cyan-900/40',
   SECTION_PURPLE_VIA: 'bg-purple-900/40',
@@ -47,7 +50,7 @@ const BACKGROUND = {
   SECTION_CYAN_VIA: 'bg-cyan-900/40',
 };
 
-// Paleta light simplificada com primitives.neutral usada em app/layout
+// Cores do tema light
 const lightThemeColors = {
   primitive: {
     neutral: {
@@ -57,23 +60,13 @@ const lightThemeColors = {
   },
 };
 
-// Paleta de cores simples usada pelo logger (COLOR_* constantes)
-const COLOR_NEUTRAL = {
-  500: '#6b7280',
-};
+// Paleta de cores para logging
+const COLOR_NEUTRAL = { 500: '#6b7280' };
+const COLOR_BLUE = { 500: '#3b82f6' };
+const COLOR_AMBER = { 500: '#f59e0b' };
+const COLOR_RED = { 500: '#ef4444' };
 
-const COLOR_BLUE = {
-  500: '#3b82f6',
-};
-
-const COLOR_AMBER = {
-  500: '#f59e0b',
-};
-
-const COLOR_RED = {
-  500: '#ef4444',
-};
-
+// Tema base
 const theme = {
   colors: baseLightColors,
   typography: {},
@@ -82,7 +75,7 @@ const theme = {
   shadows: {},
 };
 
-// Tokens de animação simplificados usados em componentes como LoginForm
+// Tokens de animação
 const motionTokens = {
   duration: {
     normal: '300ms',
@@ -100,7 +93,7 @@ const motionTokens = {
   },
 };
 
-// Tokens simplificados para a Home/Hero Section
+// Tokens do Hero Section
 const heroTokens = {
   title: {
     fontSize: { clamp: 'clamp(2rem, 4vw, 3rem)' },
@@ -138,6 +131,7 @@ const heroTokens = {
   },
 };
 
+// Tokens responsivos
 const RESPONSIVE = {
   SPACING: {
     RESPONSIVE_Y: 'py-8 sm:py-12 lg:py-16',
@@ -145,28 +139,36 @@ const RESPONSIVE = {
   },
 };
 
-// Breakpoints e z-index simplificados usados em alguns componentes da home
+// Breakpoints
 const breakpointTokens = {
   md: '768px',
   lg: '1024px',
   xl: '1280px',
 };
 
+// Z-index
 const zIndexTokens = {
   base: 1,
   overlay: 10,
   modal: 50,
 };
 
+// Mock do pacote @rainersoft/design-tokens
 jest.mock('@rainersoft/design-tokens', () => ({
   __esModule: true,
+  
+  // Gradientes e sombras
   GRADIENTS: {},
   SHADOWS: {},
+  
+  // Z-index
   Z_INDEX: {
     DROPDOWN: 'z-[1000]',
     MODAL: 'z-[1050]',
     PRIORITY: 'z-[1100]',
   },
+  
+  // Transições
   MOTION: {
     TRANSITION: {
       COLOR: 'transition-colors duration-200 ease-in-out',
@@ -174,6 +176,8 @@ jest.mock('@rainersoft/design-tokens', () => ({
       DEFAULT: 'transition-all duration-200 ease-in-out',
     },
   },
+  
+  // Tokens
   motionTokens,
   tokens: {
     colors: {
@@ -182,15 +186,23 @@ jest.mock('@rainersoft/design-tokens', () => ({
     },
     hero: heroTokens,
   },
+  
+  // Utilitários
   breakpointTokens,
   zIndexTokens,
   RESPONSIVE,
+  
+  // Cores
   COLOR_NEUTRAL,
   COLOR_BLUE,
   COLOR_AMBER,
   COLOR_RED,
+  
+  // Backgrounds e gradientes
   BACKGROUND,
   GRADIENT_DIRECTIONS,
+  
+  // Temas
   lightThemeColors,
   darkThemeColors: baseDarkColors,
   lightTheme: theme,
@@ -199,6 +211,8 @@ jest.mock('@rainersoft/design-tokens', () => ({
     light: theme,
     dark: theme,
   },
+  
+  // Funções utilitárias
   validateContrast: () => ({
     valid: true,
     level: 'AA',
@@ -206,3 +220,22 @@ jest.mock('@rainersoft/design-tokens', () => ({
     message: 'mock-contrast',
   }),
 }));
+
+// Export para uso em testes específicos
+module.exports = {
+  baseLightColors,
+  baseDarkColors,
+  GRADIENT_DIRECTIONS,
+  BACKGROUND,
+  lightThemeColors,
+  COLOR_NEUTRAL,
+  COLOR_BLUE,
+  COLOR_AMBER,
+  COLOR_RED,
+  theme,
+  motionTokens,
+  heroTokens,
+  RESPONSIVE,
+  breakpointTokens,
+  zIndexTokens,
+};

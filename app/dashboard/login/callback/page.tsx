@@ -28,10 +28,10 @@
 
 'use client';
 
-import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Alert, AlertDescription, InlineLoader } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
-import { useAuth } from '@/hooks/useAuth';
-import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { useAuthContext } from '@/components/providers/auth-context-provider';
+import { AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -39,7 +39,7 @@ import { toast } from 'sonner';
 export default function OAuthCallbackPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { loginWithOAuthCode, isAuthenticated } = useAuth();
+  const { loginWithOAuthCode, isAuthenticated } = useAuthContext();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>(
     'loading'
   );
@@ -209,8 +209,7 @@ export default function OAuthCallbackPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4">
-          <Loader2 className="w-8 h-8 animate-spin text-cyan-500 mx-auto" />
-          <p className="text-muted-foreground">Processando login...</p>
+          <InlineLoader message="Processando login..." size="md" />
         </div>
       </div>
     );

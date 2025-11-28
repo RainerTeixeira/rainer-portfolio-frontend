@@ -52,6 +52,7 @@ import {
   CardTitle,
 } from '@rainersoft/ui';
 import { CARD_CLASSES, cn } from '@/lib/portfolio';
+import { formatRelativeDate } from '@rainersoft/utils';
 import { getDarkColors, getLightColors } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Tag } from 'lucide-react';
@@ -163,6 +164,9 @@ export function PostCard({
   const accentCyan = colors.primary.base;
   const accentPurple = colors.secondary.base;
   const accentPink = colors.accent.base;
+
+  // Data relativa (se for fornecida)
+  const relativeDate = date ? formatRelativeDate(date) : null;
 
   // ========================================================================
   // COMPUTED VALUES
@@ -281,14 +285,14 @@ export function PostCard({
                   </Badge>
                 </motion.div>
               )}
-              {date && (
+              {relativeDate && (
                 <div
                   className="flex items-center gap-1 text-xs text-muted-foreground dark:text-gray-400"
-                  aria-label={`Data de publicação: ${date}`}
+                  aria-label={`Data de publicação: ${relativeDate}`}
                 >
                   <Calendar className="w-3 h-3" aria-hidden="true" />
                   <time dateTime={date} className="font-mono">
-                    {date}
+                    {relativeDate}
                   </time>
                 </div>
               )}

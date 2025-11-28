@@ -427,7 +427,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                  * Área de conteúdo principal das páginas
                  */}
                 <main
-                  className={`flex-1 relative ${RESPONSIVE.SPACING.RESPONSIVE_Y}`}
+                  className="flex-1 relative"
                   role="main"
                 >
                   {children}

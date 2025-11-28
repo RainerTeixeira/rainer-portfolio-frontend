@@ -1127,12 +1127,22 @@ import {
 ### Common Types
 
 ```typescript
-// User
-interface User {
-  readonly id: string;
-  readonly fullName: string;
-  readonly email: string;
-  readonly role: 'admin' | 'editor' | 'viewer';
+// UserProfile vindo do backend
+interface UserProfile {
+  readonly id: string;              // MongoDB ID
+  readonly cognitoSub: string;      // ID único do Cognito (usar para authorId, etc.)
+  readonly email: string;           // Email (Cognito)
+  readonly emailVerified: boolean;  // Status de verificação
+  readonly nickname: string;        // Nickname público
+  readonly fullName: string;        // Nome completo
+  readonly avatar?: string;         // URL do avatar
+  readonly bio?: string;            // Biografia
+  readonly website?: string;        // Website pessoal
+  readonly role: 'ADMIN' | 'EDITOR' | 'AUTHOR' | 'SUBSCRIBER';
+  readonly isActive: boolean;
+  readonly isBanned: boolean;
+  readonly postsCount: number;
+  readonly commentsCount: number;
 }
 
 // Blog Post

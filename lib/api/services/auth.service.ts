@@ -99,6 +99,15 @@ export class AuthService {
     return localStorage.getItem('accessToken');
   }
 
+  /**
+   * Recupera o idToken do storage (browser).
+   * Usado para extrair claims completas do Cognito (email, nickname, etc.).
+   */
+  public getIdToken(): string | null {
+    if (typeof window === 'undefined') return null;
+    return localStorage.getItem('idToken');
+  }
+
   private getRefreshToken(): string | null {
     if (typeof window === 'undefined') return null;
     return localStorage.getItem('refreshToken');
@@ -184,7 +193,8 @@ export class AuthService {
    * Retorna o payload decodificado do token ou null se não houver token.
    */
   public getCognitoUserFromToken(): JwtPayload | null {
-    const token = this.getAccessToken();
+    // Preferir o idToken (que contém claims completas como email/nickname)
+    const token = this.getIdToken() || this.getAccessToken();
     if (!token) return null;
     return this.decodeToken(token);
   }
@@ -233,7 +243,9 @@ export class AuthService {
     // Criar um perfil básico a partir do token com todos os campos necessários
     // Nota: User não tem nickname, apenas UserProfile tem
     if (!cognitoSub) {
-      throw new Error('Cognito sub não encontrado no token');
+      throw new Error(
+        'Cognito sub não encontrado no token (serviço de autenticação)'
+      );
     }
 
     const cognitoGroups = decodedToken['cognito:groups'];
@@ -325,7 +337,9 @@ export class AuthService {
         return registerResponse;
       }
 
-      const errorMessage = response.message || 'Erro desconhecido ao registrar';
+      const errorMessage =
+        response.message ||
+        'Erro ao registrar usuário (serviço de autenticação)';
       logApiError(new Error(errorMessage), this.context, {
         operation: 'register',
         email: data.email,
@@ -338,72 +352,6 @@ export class AuthService {
         operation: 'register',
         email: data.email,
         nickname: data.nickname,
-      });
-      throw error;
-    }
-  }
-
-  /**
-   * Troca o código OAuth por tokens de autenticação
-   * @param code - Código de autorização retornado pelo Cognito Hosted UI
-   * @returns Promise com tokens de autenticação
-   */
-  async exchangeOAuthCode(code: string): Promise<AuthTokens> {
-    const domain = process.env.NEXT_PUBLIC_COGNITO_DOMAIN;
-    const clientId = process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID;
-    const redirectUri =
-      process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN ||
-      (typeof window !== 'undefined'
-        ? `${window.location.origin}/dashboard/login/callback`
-        : '/dashboard/login/callback');
-
-    if (!domain || !clientId) {
-      throw new Error(
-        'Variáveis de ambiente do Cognito não configuradas. Verifique NEXT_PUBLIC_COGNITO_DOMAIN e NEXT_PUBLIC_COGNITO_CLIENT_ID'
-      );
-    }
-
-    try {
-      // Trocar código por tokens via endpoint do Cognito
-      const tokenUrl = `https://${domain}/oauth2/token`;
-      const params = new URLSearchParams({
-        grant_type: 'authorization_code',
-        client_id: clientId,
-        code: code,
-        redirect_uri: redirectUri,
-      });
-
-      const response = await fetch(tokenUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: params.toString(),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Erro ao trocar código OAuth:', errorText);
-        throw new Error(`Falha ao trocar código OAuth: ${response.statusText}`);
-      }
-
-      const tokenData = await response.json();
-
-      const tokens: AuthTokens = {
-        accessToken: tokenData.access_token,
-        refreshToken: tokenData.refresh_token,
-        idToken: tokenData.id_token,
-        expiresIn: tokenData.expires_in || 3600,
-        tokenType: tokenData.token_type || 'Bearer',
-      };
-
-      // Salvar tokens
-      this.setTokens(tokens);
-
-      return tokens;
-    } catch (error) {
-      logApiError(error, this.context, {
-        operation: 'exchangeOAuthCode',
       });
       throw error;
     }
@@ -441,9 +389,15 @@ export class AuthService {
     );
 
     if (!response.success) {
-      throw new Error(
-        response.message || 'Falha ao processar OAuth no backend'
-      );
+      const errorMessage =
+        response.message ||
+        `Erro ao trocar código OAuth via backend (provider=${provider})`;
+      logApiError(new Error(errorMessage), this.context, {
+        operation: 'exchangeOAuthCodeViaBackend',
+        provider,
+        endpoint,
+      });
+      throw new Error(errorMessage);
     }
 
     const data = (response as ApiSuccessResponse<LoginResponse>).data;
@@ -542,7 +496,10 @@ export class AuthService {
       );
 
       if (!response.success) {
-        throw new Error(response.message || 'Erro ao realizar login');
+        throw new Error(
+          response.message ||
+          'Erro ao realizar login (serviço de autenticação)'
+        );
       }
 
       const loginResponse = (response as ApiSuccessResponse<LoginResponse>)
@@ -699,7 +656,13 @@ export class AuthService {
         return tokens;
       }
 
-      throw new Error(response.message);
+      const errorMessage =
+        response.message ||
+        'Erro ao renovar token de autenticação (refreshToken, serviço de autenticação)';
+      logApiError(new Error(errorMessage), this.context, {
+        operation: 'refreshToken',
+      });
+      throw new Error(errorMessage);
     } catch (error) {
       logApiError(error, this.context, {
         operation: 'refreshToken',
@@ -849,7 +812,8 @@ export class AuthService {
 
       if (!response.success) {
         throw new Error(
-          response.message || 'Falha ao atualizar o nickname no Cognito'
+          response.message ||
+          'Falha ao atualizar o nickname no Cognito (serviço de autenticação)'
         );
       }
 
@@ -905,7 +869,10 @@ export class AuthService {
     );
 
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao obter perfil do usuário');
+      throw new Error(
+        response.message ||
+        'Erro ao obter perfil do usuário (serviço de autenticação)'
+      );
     }
   }
 
@@ -921,13 +888,17 @@ export class AuthService {
     try {
       const token = this.getAccessToken();
       if (!token) {
-        throw new Error('Nenhum token de acesso encontrado');
+        throw new Error(
+          'Nenhum token de acesso encontrado (serviço de autenticação)'
+        );
       }
 
       // Extrai o cognitoSub do token JWT
       const decodedToken = this.decodeToken(token);
       if (!decodedToken || !decodedToken.sub) {
-        throw new Error('Token inválido: não contém sub (cognitoSub)');
+        throw new Error(
+          'Token inválido: não contém sub (cognitoSub, serviço de autenticação)'
+        );
       }
 
       const cognitoSub = decodedToken.sub;
@@ -944,7 +915,10 @@ export class AuthService {
       );
 
       if (!response.success) {
-        throw new Error(response.message || 'Erro ao obter perfil do usuário');
+        throw new Error(
+          response.message ||
+          'Erro ao obter perfil do usuário (serviço de autenticação)'
+        );
       }
 
       return (response as ApiSuccessResponse<User>).data;
@@ -1059,7 +1033,8 @@ export class AuthService {
 
       if (!response.success) {
         throw new Error(
-          response.message || 'Erro ao iniciar autenticação passwordless'
+          response.message ||
+          'Erro ao iniciar autenticação passwordless (serviço de autenticação)'
         );
       }
 
@@ -1109,7 +1084,8 @@ export class AuthService {
 
       if (!response.success) {
         throw new Error(
-          response.message || 'Erro ao verificar código passwordless'
+          response.message ||
+          'Erro ao verificar código passwordless (serviço de autenticação)'
         );
       }
 
@@ -1154,9 +1130,20 @@ export class AuthService {
       return;
     }
 
-    const backendUrl =
-      process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-    const redirectUri = `${window.location.origin}/dashboard/login/callback`;
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL;
+    const redirectUri = process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN;
+
+    if (!backendUrl) {
+      throw new Error(
+        '[AuthService] NEXT_PUBLIC_API_URL não configurada. Defina a URL base da API no .env.local.'
+      );
+    }
+
+    if (!redirectUri) {
+      throw new Error(
+        '[AuthService] NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN não configurada. Defina a URL de callback OAuth no .env.local.'
+      );
+    }
     const oauthUrl = `${backendUrl}/auth/oauth/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
 
     // Em ambiente de teste, atualiza variável global para rastreamento
@@ -1198,9 +1185,20 @@ export class AuthService {
       return;
     }
 
-    const backendUrl =
-      process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-    const redirectUri = `${window.location.origin}/dashboard/login/callback`;
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL;
+    const redirectUri = process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN;
+
+    if (!backendUrl) {
+      throw new Error(
+        '[AuthService] NEXT_PUBLIC_API_URL não configurada. Defina a URL base da API no .env.local.'
+      );
+    }
+
+    if (!redirectUri) {
+      throw new Error(
+        '[AuthService] NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN não configurada. Defina a URL de callback OAuth no .env.local.'
+      );
+    }
     const oauthUrl = `${backendUrl}/auth/oauth/github?redirect_uri=${encodeURIComponent(redirectUri)}`;
 
     // Em ambiente de teste, atualiza variável global para rastreamento

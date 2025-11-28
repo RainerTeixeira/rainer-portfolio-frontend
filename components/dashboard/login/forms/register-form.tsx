@@ -55,6 +55,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { PasswordInput } from '../password-input';
 import { TermsDialog } from '../terms-dialog';
+import { authService } from '@/lib/api/services/auth.service';
 
 // Schema de validação
 const registerSchema = z
@@ -117,49 +118,22 @@ export function RegisterForm({}: RegisterFormProps) {
     setError(null);
 
     try {
-      // Verificar se deve usar Cognito ou localAuth
-      const forceCognito = process.env.NEXT_PUBLIC_FORCE_COGNITO_AUTH === 'true';
-      const isDevelopment = process.env.NODE_ENV === 'development';
-      const useLocalAuth = isDevelopment && !forceCognito;
+      // Modo produção: usar AWS Cognito via authService (sempre backend)
+      const registerResponse = await authService.register({
+        fullName: data.name,
+        email: data.email,
+        password: data.password,
+        nickname: data.username,
+      });
 
-      if (useLocalAuth) {
-        // Modo desenvolvimento: usar localAuth
-        const { localAuth } = await import('@/components/dashboard/lib/auth-local');
-        const result = await localAuth.register({
-          name: data.name,
-          username: data.username,
-          email: data.email,
-          password: data.password,
-        });
+      console.log('✅ Registro bem-sucedido:', registerResponse);
+      setRegisteredEmail(data.email);
+      setSuccess(true);
 
-        if (!result.success) {
-          throw new Error(result.message);
-        }
-
-        setSuccess(true);
-        setTimeout(() => {
-          window.location.href = '/dashboard/login';
-        }, 2000);
-      } else {
-        // Modo produção: usar AWS Cognito via authService
-        const { authService } = await import('@/lib/api/services/auth.service');
-        
-        const registerResponse = await authService.register({
-          fullName: data.name,
-          email: data.email,
-          password: data.password,
-          nickname: data.username,
-        });
-
-        console.log('✅ Registro bem-sucedido:', registerResponse);
-        setRegisteredEmail(data.email);
-        setSuccess(true);
-
-        // Redirecionar para página de confirmação de email após 2s
-        setTimeout(() => {
-          window.location.href = `/dashboard/login/confirm-email?email=${encodeURIComponent(data.email)}`;
-        }, 2000);
-      }
+      // Redirecionar para página de confirmação de email após 2s
+      setTimeout(() => {
+        window.location.href = `/dashboard/login/confirm-email?email=${encodeURIComponent(data.email)}`;
+      }, 2000);
     } catch (err: any) {
       console.error('❌ Erro ao registrar:', err);
       let errorMessage = 'Erro ao criar conta. Tente novamente.';

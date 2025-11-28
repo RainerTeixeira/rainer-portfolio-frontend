@@ -40,6 +40,7 @@ import {
 } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
 import { cn } from '@/lib/portfolio';
+import { authService } from '@/lib/api/services/auth.service';
 import { zodResolver } from '@hookform/resolvers/zod';
 // Design tokens via CSS variables (imported in globals.css)
 import { ArrowLeft, CheckCircle2, Loader2, XCircle } from 'lucide-react';
@@ -70,23 +71,8 @@ export function ForgotPasswordForm() {
     setError(null);
 
     try {
-      const { localAuth } = await import(
-        '@/components/dashboard/lib/auth-local'
-      );
-
-      const result = await localAuth.forgotPassword(data.email);
-
-      if (!result.success) {
-        throw new Error(result.message);
-      }
-
-      // Mostrar token no console para dev
-      if (result.token) {
-        console.log(
-          '🔗 Use este link para resetar:',
-          `/dashboard/login/reset-password/${result.token}`
-        );
-      }
+      // Usar backend real via authService (fluxo Cognito)
+      await authService.forgotPassword({ email: data.email });
 
       setSuccess(true);
     } catch (err) {

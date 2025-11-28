@@ -1,12 +1,23 @@
 /**
- * API Client - Cliente HTTP profissional para consumo de APIs REST.
- * @fileoverview Cliente HTTP profissional para consumo de APIs REST.
  * @module ApiClient
+ * @fileoverview Cliente HTTP profissional para consumo de APIs REST
+ * @description 
+ * Fornece uma interface robusta para fazer requisições HTTP com tratamento de erros,
+ * retry automático, logging e métricas de performance.
  * @author Rainer Teixeira
- * @version 1.0.1
+ * @version 1.1.0
  */
 
 import { API_CONFIG, ERROR_MESSAGES, HTTP_STATUS } from './config';
+
+// =============================================================================
+// TIPOS E INTERFACES
+// =============================================================================
+
+/**
+ * Tipo para valores de parâmetros de query string
+ */
+type QueryParamValue = string | number | boolean | null | undefined;
 
 /**
  * Tipo para dados de erro da API
@@ -14,20 +25,52 @@ import { API_CONFIG, ERROR_MESSAGES, HTTP_STATUS } from './config';
 type ApiErrorData = unknown;
 
 /**
+ * Interface para opções de requisição HTTP
+ */
+interface RequestOptions extends RequestInit {
+  /** Parâmetros de query string */
+  params?: Record<string, QueryParamValue>;
+  /** Timeout em milissegundos */
+  timeout?: number;
+  /** Tentativas de retry */
+  retries?: number;
+  /** Delay entre retries em milissegundos */
+  retryDelay?: number;
+}
+
+/**
+ * Interface para métricas de performance das requisições
+ */
+interface RequestMetrics {
+  startTime: number;
+  endTime?: number;
+  duration?: number;
+  size?: number;
+}
+
+/**
+ * Estrutura comum para dados de erro da API
+ */
+interface ErrorDataStructure {
+  message?: string;
+  error?: string | { message?: string };
+  detail?: string;
+  errorMessage?: string;
+  error_description?: string;
+  err?: { message?: string };
+  stack?: string;
+}
+
+// =============================================================================
+// CLASSE DE ERRO PERSONALIZADA
+// =============================================================================
+
+/**
  * Classe de erro personalizada para erros de API com informações detalhadas
  * @class
  * @extends Error
  */
 export class ApiError extends Error {
-  /**
-   * Cria uma instância de ApiError
-   * @param {number} status - Status HTTP do erro
-   * @param {string} message - Mensagem de erro
-   * @param {ApiErrorData} [data] - Dados adicionais do erro
-   * @param {string} [url] - URL da requisição que causou o erro
-   * @param {string} [method] - Método HTTP da requisição
-   * @param {string} [endpoint] - Endpoint da API
-   */
   public readonly fullName = 'ApiError';
 
   constructor(
@@ -50,7 +93,6 @@ export class ApiError extends Error {
 
   /**
    * Retorna uma representação em string do erro para logging
-   * @returns {string}
    */
   toString(): string {
     return `ApiError: ${this.status} - ${this.message} | URL: ${this.method} ${this.url} | Endpoint: ${this.endpoint} | Data: ${JSON.stringify(this.data)}`;
@@ -58,7 +100,6 @@ export class ApiError extends Error {
 
   /**
    * Verifica se o erro é um erro de servidor (5xx)
-   * @returns {boolean}
    */
   isServerError(): boolean {
     return this.status >= 500;
@@ -66,43 +107,15 @@ export class ApiError extends Error {
 
   /**
    * Verifica se o erro é um erro de cliente (4xx)
-   * @returns {boolean}
    */
   isClientError(): boolean {
     return this.status >= 400 && this.status < 500;
   }
 }
 
-/**
- * Tipo para valores de parâmetros de query string
- */
-type QueryParamValue = string | number | boolean | null | undefined;
-
-/**
- * Interface para opções de requisição HTTP
- * @interface RequestOptions
- * @extends RequestInit
- */
-interface RequestOptions extends RequestInit {
-  /** Parâmetros de query string */
-  params?: Record<string, QueryParamValue>;
-  /** Timeout em milissegundos */
-  timeout?: number;
-  /** Tentativas de retry */
-  retries?: number;
-  /** Delay entre retries */
-  retryDelay?: number;
-}
-
-/**
- * Interface para métricas de performance
- */
-interface RequestMetrics {
-  startTime: number;
-  endTime?: number;
-  duration?: number;
-  size?: number;
-}
+// =============================================================================
+// CLIENTE HTTP PRINCIPAL
+// =============================================================================
 
 /**
  * Cliente HTTP para consumir APIs REST
@@ -111,11 +124,14 @@ interface RequestMetrics {
 class ApiClient {
   /** URL base da API */
   private baseUrl: string;
+  
   /** Headers padrão para todas as requisições */
   private defaultHeaders: HeadersInit;
+  
   /** Callback para logging */
   private logger?: (message: string, data?: unknown) => void;
-  /** Callback para monitoramento */
+  
+  /** Callback para monitoramento de requisições */
   private onRequest?: (
     metrics: RequestMetrics & {
       endpoint: string;
@@ -126,9 +142,9 @@ class ApiClient {
 
   /**
    * Cria uma instância do ApiClient
-   * @param {Object} options - Opções de configuração
-   * @param {Function} options.logger - Função para logging
-   * @param {Function} options.onRequest - Callback para monitoramento de requisições
+   * @param options - Opções de configuração
+   * @param options.logger - Função para logging personalizado
+   * @param options.onRequest - Callback para monitoramento de requisições
    */
   constructor(options?: {
     logger?: (message: string, data?: unknown) => void;
@@ -140,33 +156,187 @@ class ApiClient {
       }
     ) => void;
   }) {
-    // Validar URL da API
+    this.validateConfiguration();
+    this.baseUrl = API_CONFIG.BASE_URL || '';
+    this.defaultHeaders = this.initializeDefaultHeaders();
+    this.logger = options?.logger;
+    this.onRequest = options?.onRequest;
+
+    this.logDevelopmentInfo();
+  }
+
+  // ===========================================================================
+  // MÉTODOS PÚBLICOS
+  // ===========================================================================
+
+  /**
+   * Executa uma requisição GET
+   * @param endpoint - Endpoint da API
+   * @param options - Opções da requisição
+   * @returns Promise com os dados da resposta
+   */
+  async get<T>(
+    endpoint: string,
+    options?: Omit<RequestOptions, 'body'>
+  ): Promise<T> {
+    return this.request<T>(endpoint, { ...options, method: 'GET' });
+  }
+
+  /**
+   * Executa uma requisição POST
+   * @param endpoint - Endpoint da API
+   * @param body - Corpo da requisição
+   * @param options - Opções da requisição
+   * @returns Promise com os dados da resposta
+   */
+  async post<T>(
+    endpoint: string,
+    body?: unknown,
+    options?: Omit<RequestOptions, 'body'>
+  ): Promise<T> {
+    return this.requestWithBody<T>('POST', endpoint, body, options);
+  }
+
+  /**
+   * Executa uma requisição PUT
+   * @param endpoint - Endpoint da API
+   * @param body - Corpo da requisição
+   * @param options - Opções da requisição
+   * @returns Promise com os dados da resposta
+   */
+  async put<T>(
+    endpoint: string,
+    body?: unknown,
+    options?: Omit<RequestOptions, 'body'>
+  ): Promise<T> {
+    return this.requestWithBody<T>('PUT', endpoint, body, options);
+  }
+
+  /**
+   * Executa uma requisição PATCH
+   * @param endpoint - Endpoint da API
+   * @param body - Corpo da requisição
+   * @param options - Opções da requisição
+   * @returns Promise com os dados da resposta
+   */
+  async patch<T>(
+    endpoint: string,
+    body?: unknown,
+    options?: Omit<RequestOptions, 'body'>
+  ): Promise<T> {
+    return this.request<T>(endpoint, {
+      ...options,
+      method: 'PATCH',
+      body: body ? JSON.stringify(body) : undefined,
+    });
+  }
+
+  /**
+   * Executa uma requisição DELETE
+   * @param endpoint - Endpoint da API
+   * @param options - Opções da requisição
+   * @returns Promise com os dados da resposta
+   */
+  async delete<T>(endpoint: string, options?: RequestOptions): Promise<T> {
+    return this.request<T>(endpoint, { ...options, method: 'DELETE' });
+  }
+
+  /**
+   * Define o token de autenticação
+   * @param token - Token JWT
+   */
+  setAuthToken(token: string): void {
+    this.defaultHeaders = {
+      ...this.defaultHeaders,
+      Authorization: `Bearer ${token}`,
+    };
+  }
+
+  /**
+   * Remove o token de autenticação
+   */
+  clearAuthToken(): void {
+    const headers = { ...this.defaultHeaders } as Record<string, string>;
+    delete headers.Authorization;
+    this.defaultHeaders = headers;
+  }
+
+  /**
+   * Define um header personalizado
+   * @param key - Chave do header
+   * @param value - Valor do header
+   */
+  setHeader(key: string, value: string): void {
+    this.defaultHeaders = {
+      ...this.defaultHeaders,
+      [key]: value,
+    };
+  }
+
+  /**
+   * Remove um header personalizado
+   * @param key - Chave do header a ser removido
+   */
+  removeHeader(key: string): void {
+    const headers = { ...this.defaultHeaders } as Record<string, string>;
+    delete headers[key];
+    this.defaultHeaders = headers;
+  }
+
+  /**
+   * Obtém os headers atuais (cópia)
+   * @returns Headers atuais
+   */
+  getHeaders(): HeadersInit {
+    return { ...this.defaultHeaders };
+  }
+
+  // ===========================================================================
+  // MÉTODOS PRIVADOS - CONFIGURAÇÃO E INICIALIZAÇÃO
+  // ===========================================================================
+
+  /**
+   * Valida a configuração necessária do cliente
+   * @private
+   */
+  private validateConfiguration(): void {
     if (!API_CONFIG.BASE_URL) {
       const errorMessage =
         'NEXT_PUBLIC_API_URL não está configurada. Verifique suas variáveis de ambiente.';
       console.error('[ApiClient]', errorMessage);
-      if (process.env.NODE_ENV === 'development') {
-        throw new Error(errorMessage);
-      }
-    }
 
-    this.baseUrl = API_CONFIG.BASE_URL || '';
-    this.defaultHeaders = {
+      // Falhar cedo em qualquer ambiente se a URL base da API não estiver configurada
+      throw new Error(errorMessage);
+    }
+  }
+
+  /**
+   * Inicializa os headers padrão
+   * @private
+   */
+  private initializeDefaultHeaders(): HeadersInit {
+    return {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      // Seleção de provider de banco (PRISMA | DYNAMODB)
       'X-Database-Provider': (
         process.env.NEXT_PUBLIC_API_DB_PROVIDER || 'PRISMA'
       ).toUpperCase(),
     };
-    this.logger = options?.logger;
-    this.onRequest = options?.onRequest;
+  }
 
-    // Log da URL base em desenvolvimento
+  /**
+   * Loga informações de desenvolvimento
+   * @private
+   */
+  private logDevelopmentInfo(): void {
     if (process.env.NODE_ENV === 'development' && this.baseUrl) {
       console.log('[ApiClient] URL base da API:', this.baseUrl);
     }
   }
+
+  // ===========================================================================
+  // MÉTODOS PRIVADOS - UTILITÁRIOS
+  // ===========================================================================
 
   /**
    * Loga mensagens se logger estiver configurado
@@ -205,6 +375,44 @@ class ApiClient {
   }
 
   /**
+   * Prepara headers para requisições, tratando FormData adequadamente
+   * @private
+   */
+  private prepareHeaders(customHeaders?: HeadersInit, isFormData = false): Headers {
+    const headers = new Headers();
+
+    // Adicionar headers padrão (exceto Content-Type se for FormData)
+    Object.entries(this.defaultHeaders).forEach(([key, value]) => {
+      if (!(isFormData && key.toLowerCase() === 'content-type')) {
+        headers.set(key, value as string);
+      }
+    });
+
+    // Adicionar headers customizados (exceto Content-Type se for FormData)
+    if (customHeaders) {
+      if (customHeaders instanceof Headers) {
+        customHeaders.forEach((value, key) => {
+          if (!(isFormData && key.toLowerCase() === 'content-type')) {
+            headers.set(key, value);
+          }
+        });
+      } else if (customHeaders instanceof Object) {
+        Object.entries(customHeaders).forEach(([key, value]) => {
+          if (!(isFormData && key.toLowerCase() === 'content-type')) {
+            headers.set(key, value as string);
+          }
+        });
+      }
+    }
+
+    return headers;
+  }
+
+  // ===========================================================================
+  // MÉTODOS PRIVADOS - PROCESSAMENTO DE RESPOSTA E ERROS
+  // ===========================================================================
+
+  /**
    * Processa a resposta da API
    * @private
    */
@@ -213,7 +421,6 @@ class ApiClient {
     const contentType = response.headers.get('content-type');
 
     try {
-      // Processar a resposta normalmente
       if (contentType && contentType.includes('application/json')) {
         data = await response.json();
       } else if (response.status !== HTTP_STATUS.NO_CONTENT) {
@@ -226,34 +433,36 @@ class ApiClient {
         error: jsonError,
         status: response.status,
       });
-
-      // Para erros 500, tentar ler como texto mesmo se falhar o JSON
-      if (response.status >= 500) {
-        try {
-          // Tentar clonar e ler como texto
-          const clonedResponse = response.clone();
-          const text = await clonedResponse.text();
-          data = text;
-
-          // Tentar parsear como JSON
-          try {
-            data = JSON.parse(text);
-          } catch {
-            // Se não for JSON, manter como texto
-            data = text;
-          }
-        } catch {
-          console.error('[ApiClient] Erro ao ler resposta do servidor');
-          data = {
-            error: 'Não foi possível ler a resposta do servidor',
-          };
-        }
-      } else {
-        data = {};
-      }
+      data = await this.handleParseError(response);
     }
 
     return data as T;
+  }
+
+  /**
+   * Trata erros de parse de resposta
+   * @private
+   */
+  private async handleParseError(response: Response): Promise<unknown> {
+    // Para erros 500, tentar ler como texto
+    if (response.status >= 500) {
+      try {
+        const clonedResponse = response.clone();
+        const text = await clonedResponse.text();
+        
+        // Tentar parsear como JSON
+        try {
+          return JSON.parse(text);
+        } catch {
+          return text;
+        }
+      } catch {
+        console.error('[ApiClient] Erro ao ler resposta do servidor');
+        return { error: 'Não foi possível ler a resposta do servidor' };
+      }
+    }
+    
+    return {};
   }
 
   /**
@@ -261,21 +470,8 @@ class ApiClient {
    * @private
    */
   private getErrorMessage(data: unknown, status: number): string {
-    /**
-     * Tipo para dados de erro estruturados
-     */
-    interface ErrorDataStructure {
-      message?: string;
-      error?: string | { message?: string };
-      detail?: string;
-      errorMessage?: string;
-      error_description?: string;
-      err?: { message?: string };
-      stack?: string;
-    }
     if (typeof data === 'string') return data;
 
-    // Tipo guard para verificar se é objeto
     if (typeof data !== 'object' || data === null) {
       return `Request failed with status ${status}`;
     }
@@ -283,47 +479,68 @@ class ApiClient {
     const errorData = data as ErrorDataStructure;
 
     // Tenta extrair mensagem de erro de estruturas comuns
-    // Para erros 500, tenta várias estruturas possíveis
-    let errorMessage: string | undefined =
-      errorData?.message ||
-      (typeof errorData?.error === 'object' && errorData.error !== null
-        ? (errorData.error as { message?: string })?.message
-        : typeof errorData?.error === 'string'
-          ? errorData.error
-          : undefined) ||
-      errorData?.detail ||
-      errorData?.errorMessage ||
-      errorData?.error_description ||
-      (errorData?.err && typeof errorData.err === 'object'
-        ? (errorData.err as { message?: string })?.message
-        : undefined) ||
-      errorData?.stack; // Último recurso: mostrar stack trace
+    const errorMessage = this.extractErrorMessage(errorData, status);
 
-    // Se não encontrou mensagem e há dados, tenta stringificar
-    if (!errorMessage && data) {
-      try {
-        const dataString = JSON.stringify(data);
-        // Se os dados são muito grandes, trunca
-        if (dataString.length > 500) {
-          errorMessage = `Erro do servidor (${status}): ${dataString.substring(0, 500)}...`;
-        } else {
-          errorMessage = `Erro do servidor (${status}): ${dataString}`;
-        }
-      } catch {
-        errorMessage = `Request failed with status ${status}`;
-      }
-    }
-
-    // Fallback final
-    if (!errorMessage) {
-      errorMessage = `Request failed with status ${status}`;
-    }
-
-    return errorMessage;
+    return errorMessage || `Request failed with status ${status}`;
   }
 
   /**
-   * Executa uma requisição HTTP com retry automático
+   * Extrai mensagem de erro de estruturas comuns de erro
+   * @private
+   */
+  private extractErrorMessage(errorData: ErrorDataStructure, status: number): string | undefined {
+    // Tentar várias estruturas possíveis de erro
+    let message = errorData?.message;
+
+    if (!message && errorData?.error) {
+      if (typeof errorData.error === 'string') {
+        message = errorData.error;
+      } else if (typeof errorData.error === 'object') {
+        message = errorData.error.message;
+      }
+    }
+
+    if (!message) {
+      message = errorData?.detail || 
+                errorData?.errorMessage || 
+                errorData?.error_description ||
+                (errorData?.err && typeof errorData.err === 'object' ? errorData.err.message : undefined);
+    }
+
+    // Último recurso: usar stack trace ou stringify os dados
+    if (!message && errorData?.stack) {
+      message = errorData.stack;
+    }
+
+    if (!message && errorData) {
+      message = this.stringifyErrorData(errorData, status);
+    }
+
+    return message;
+  }
+
+  /**
+   * Converte dados de erro para string com truncamento
+   * @private
+   */
+  private stringifyErrorData(data: unknown, status: number): string {
+    try {
+      const dataString = JSON.stringify(data);
+      if (dataString.length > 500) {
+        return `Erro do servidor (${status}): ${dataString.substring(0, 500)}...`;
+      }
+      return `Erro do servidor (${status}): ${dataString}`;
+    } catch {
+      return `Request failed with status ${status}`;
+    }
+  }
+
+  // ===========================================================================
+  // MÉTODOS PRIVADOS - LÓGICA PRINCIPAL DE REQUISIÇÃO
+  // ===========================================================================
+
+  /**
+   * Executa uma requisição HTTP
    * @private
    */
   private async request<T>(
@@ -333,526 +550,423 @@ class ApiClient {
     const {
       params,
       timeout = API_CONFIG.TIMEOUT,
-      retries = 2, // Número padrão de tentativas
-      retryDelay = 2000, // 2 segundos entre tentativas
+      retries = 2,
+      retryDelay = 2000,
       ...fetchOptions
     } = options;
 
-    const requestId = Math.random().toString(36).substring(2, 9);
-
+    const requestId = this.generateRequestId();
     const url = this.buildUrl(endpoint, params);
+    const metrics: RequestMetrics = { startTime: Date.now() };
+
+    try {
+      this.logRequestStart(requestId, endpoint, url, options);
+      const response = await this.executeFetch(requestId, url, fetchOptions, timeout);
+      
+      metrics.endTime = Date.now();
+      metrics.duration = metrics.endTime - metrics.startTime;
+
+      const data = await this.processResponse<T>(response);
+      this.logRequestSuccess(requestId, endpoint, response, metrics);
+
+      this.reportMetrics(metrics, endpoint, fetchOptions.method || 'GET', response.status);
+
+      if (!response.ok) {
+        throw this.createApiError(response, data, url, fetchOptions.method, endpoint);
+      }
+
+      return data;
+    } catch (error) {
+      metrics.endTime = Date.now();
+      metrics.duration = metrics.endTime - metrics.startTime;
+
+      const processedError = this.processRequestError(
+        error, 
+        requestId, 
+        endpoint, 
+        url, 
+        fetchOptions.method, 
+        metrics
+      );
+
+      this.reportMetrics(
+        metrics, 
+        endpoint, 
+        fetchOptions.method || 'GET', 
+        processedError instanceof ApiError ? processedError.status : 0
+      );
+
+      throw processedError;
+    }
+  }
+
+  /**
+   * Executa requisições com corpo (POST, PUT) tratando FormData adequadamente
+   * @private
+   */
+  private async requestWithBody<T>(
+    method: string,
+    endpoint: string,
+    body?: unknown,
+    options?: Omit<RequestOptions, 'body'>
+  ): Promise<T> {
+    const isFormData = body instanceof FormData;
+    
+    if (isFormData) {
+      const headers = this.prepareHeaders(options?.headers, true);
+      return this.request<T>(endpoint, {
+        ...options,
+        method,
+        body,
+        headers,
+      });
+    }
+
+    return this.request<T>(endpoint, {
+      ...options,
+      method,
+      body: body ? JSON.stringify(body) : undefined,
+    });
+  }
+
+  // ===========================================================================
+  // MÉTODOS PRIVADOS - EXECUÇÃO E LOGGING
+  // ===========================================================================
+
+  /**
+   * Gera ID único para a requisição
+   * @private
+   */
+  private generateRequestId(): string {
+    return Math.random().toString(36).substring(2, 9);
+  }
+
+  /**
+   * Loga início da requisição
+   * @private
+   */
+  private logRequestStart(
+    requestId: string, 
+    endpoint: string, 
+    url: string, 
+    options: RequestOptions
+  ): void {
+    this.log(
+      `[${requestId}] Iniciando requisição: ${options.method || 'GET'} ${endpoint}`,
+      { url, params: options.params, headers: options.headers }
+    );
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[${requestId}] URL da requisição:`, url);
+    }
+  }
+
+  /**
+   * Loga sucesso da requisição
+   * @private
+   */
+  private logRequestSuccess(
+    requestId: string,
+    endpoint: string,
+    response: Response,
+    metrics: RequestMetrics
+  ): void {
+    this.log(`Resposta recebida: ${response.status} ${endpoint}`, {
+      status: response.status,
+      duration: metrics.duration,
+    });
+  }
+
+  /**
+   * Executa o fetch com timeout e tratamento de console
+   * @private
+   */
+  private async executeFetch(
+    requestId: string,
+    url: string,
+    fetchOptions: RequestInit,
+    timeout: number
+  ): Promise<Response> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-    const metrics: RequestMetrics = {
-      startTime: Date.now(),
-    };
+    const { restoreConsole, suppressConnectionErrors } = this.setupConsoleInterception();
 
     try {
-      this.log(
-        `[${requestId}] Iniciando requisição: ${fetchOptions.method || 'GET'} ${endpoint}`,
-        {
-          url,
-          params,
-          headers: fetchOptions.headers,
-          timeout,
-          retries,
-          retryDelay,
-        }
-      );
-
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[${requestId}] URL da requisição:`, url);
-      }
-
-      const fetchStartTime = Date.now();
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[${requestId}] Iniciando fetch...`);
-      }
-
-      // Preparar headers - remover Content-Type se body for FormData
       const isFormData = fetchOptions.body instanceof FormData;
-      const headers = new Headers();
-
-      // Adicionar headers padrão (exceto Content-Type se for FormData)
-      Object.entries(this.defaultHeaders).forEach(([key, value]) => {
-        if (!(isFormData && key.toLowerCase() === 'content-type')) {
-          headers.set(key, value as string);
-        }
-      });
-
-      // Adicionar headers customizados (exceto Content-Type se for FormData)
-      if (fetchOptions.headers) {
-        if (fetchOptions.headers instanceof Headers) {
-          fetchOptions.headers.forEach((value, key) => {
-            if (!(isFormData && key.toLowerCase() === 'content-type')) {
-              headers.set(key, value);
-            }
-          });
-        } else if (fetchOptions.headers instanceof Object) {
-          Object.entries(fetchOptions.headers).forEach(([key, value]) => {
-            if (!(isFormData && key.toLowerCase() === 'content-type')) {
-              headers.set(key, value as string);
-            }
-          });
-        }
-      }
-
-      // Interceptar console.error temporariamente para suprimir erros de conexão
-      const originalConsoleError = console.error;
-      const originalConsoleWarn = console.warn;
-
-      if (process.env.NODE_ENV === 'development') {
-        console.error = (...args: unknown[]) => {
-          const message = String(args[0] || '');
-          const isConnectionError = 
-            message.includes('ERR_CONNECTION_REFUSED') ||
-            message.includes('Failed to fetch') ||
-            message.includes('net::ERR_CONNECTION_REFUSED') ||
-            (args.length > 0 && typeof args[0] === 'string' && args[0].includes('localhost:4000'));
-          
-          if (!isConnectionError) {
-            originalConsoleError.apply(console, args);
-          }
-          // Erros de conexão são suprimidos silenciosamente
-        };
-
-        console.warn = (...args: unknown[]) => {
-          const message = String(args[0] || '');
-          const isConnectionError = 
-            message.includes('ERR_CONNECTION_REFUSED') ||
-            message.includes('Failed to fetch') ||
-            message.includes('net::ERR_CONNECTION_REFUSED');
-          
-          if (!isConnectionError) {
-            originalConsoleWarn.apply(console, args);
-          }
-        };
-      }
+      const headers = this.prepareHeaders(fetchOptions.headers, isFormData);
 
       const response = await fetch(url, {
         ...fetchOptions,
         headers,
         signal: controller.signal,
-      }).catch(error => {
-        // Restaurar console original
-        if (process.env.NODE_ENV === 'development') {
-          console.error = originalConsoleError;
-          console.warn = originalConsoleWarn;
-        }
-
-        // Detectar erros de conexão recusada (backend não disponível)
-        const isConnectionRefused = 
-          error instanceof TypeError && 
-          (error.message.includes('Failed to fetch') || 
-           error.message.includes('ERR_CONNECTION_REFUSED') ||
-           error.message.includes('NetworkError'));
-        
-        // Não logar erros de conexão recusada
-        if (!isConnectionRefused) {
-          if (process.env.NODE_ENV === 'development') {
-            originalConsoleError(`[${requestId}] Erro no fetch:`, error);
-          }
-        }
-        throw error;
       });
 
-      // Restaurar console original após fetch bem-sucedido
+      clearTimeout(timeoutId);
+      restoreConsole();
+      return response;
+    } catch (error) {
+      clearTimeout(timeoutId);
+      restoreConsole();
+      suppressConnectionErrors(error);
+      throw error;
+    }
+  }
+
+  /**
+   * Configura interceptação do console para suprimir erros de conexão
+   * @private
+   */
+  private setupConsoleInterception() {
+    const originalConsoleError = console.error;
+    const originalConsoleWarn = console.warn;
+
+    if (process.env.NODE_ENV === 'development') {
+      console.error = this.createConsoleInterceptor(originalConsoleError, 'error');
+      console.warn = this.createConsoleInterceptor(originalConsoleWarn, 'warn');
+    }
+
+    const restoreConsole = () => {
       if (process.env.NODE_ENV === 'development') {
         console.error = originalConsoleError;
         console.warn = originalConsoleWarn;
       }
+    };
 
+    const suppressConnectionErrors = (error: unknown) => {
+      if (this.isConnectionError(error) && process.env.NODE_ENV === 'development') {
+        // Erros de conexão são suprimidos silenciosamente em desenvolvimento
+        return;
+      }
+      
       if (process.env.NODE_ENV === 'development') {
-        console.log(
-          `[${requestId}] Fetch concluído em ${Date.now() - fetchStartTime}ms`,
-          {
-            status: response.status,
-            statusText: response.statusText,
-            headers: Object.fromEntries(response.headers.entries()),
-          }
-        );
+        originalConsoleError(`Erro no fetch:`, error);
       }
+    };
 
-      clearTimeout(timeoutId);
-      metrics.endTime = Date.now();
-      metrics.duration = metrics.endTime - metrics.startTime;
+    return { restoreConsole, suppressConnectionErrors };
+  }
 
-      // Processar resposta primeiro
-      const data = await this.processResponse<T>(response);
-
-      // Para erros 500, logar dados processados de forma consolidada
-      if (response.status >= 500 && process.env.NODE_ENV === 'development') {
-        console.error(
-          `[${requestId}] [ApiClient] ERRO ${response.status} DETECTADO:`,
-          {
-            endpoint,
-            url,
-            method: fetchOptions.method || 'GET',
-            status: response.status,
-            statusText: response.statusText,
-            headers: Object.fromEntries(response.headers.entries()),
-            responseData: data,
-            responseDataStringified:
-              typeof data === 'object'
-                ? JSON.stringify(data, null, 2)
-                : String(data),
-          }
-        );
+  /**
+   * Cria interceptor para console que suprime erros de conexão
+   * @private
+   */
+  private createConsoleInterceptor(originalMethod: (...args: unknown[]) => void, type: 'error' | 'warn') {
+    return (...args: unknown[]) => {
+      const message = String(args[0] || '');
+      const isConnectionError = this.isConnectionMessage(message);
+      
+      if (!isConnectionError) {
+        originalMethod.apply(console, args);
       }
+    };
+  }
 
-      // Log da resposta
-      this.log(`Resposta recebida: ${response.status} ${endpoint}`, {
-        status: response.status,
-        duration: metrics.duration,
-        data: response.ok ? data : undefined,
-      });
+  /**
+   * Verifica se a mensagem indica erro de conexão
+   * @private
+   */
+  private isConnectionMessage(message: string): boolean {
+    return message.includes('ERR_CONNECTION_REFUSED') ||
+           message.includes('Failed to fetch') ||
+           message.includes('net::ERR_CONNECTION_REFUSED');
+  }
 
-      // Report metrics
-      if (this.onRequest) {
-        this.onRequest({
-          ...metrics,
-          endpoint,
-          method: fetchOptions.method || 'GET',
-          status: response.status,
-        });
-      }
+  /**
+   * Verifica se o erro é de conexão
+   * @private
+   */
+  private isConnectionError(error: unknown): boolean {
+    return error instanceof TypeError && 
+           (error.message.includes('Failed to fetch') || 
+            error.message.includes('ERR_CONNECTION_REFUSED') ||
+            error.message.includes('NetworkError'));
+  }
 
-      if (!response.ok) {
-        const errorMessage = this.getErrorMessage(data, response.status);
+  // ===========================================================================
+  // MÉTODOS PRIVADOS - TRATAMENTO DE ERROS
+  // ===========================================================================
 
-        // Log detalhado de erros do servidor em desenvolvimento
-        if (process.env.NODE_ENV === 'development' && response.status >= 500) {
-          console.error('[ApiClient] Erro do servidor:', {
-            status: response.status,
-            statusText: response.statusText,
-            endpoint,
-            url,
-            method: fetchOptions.method || 'GET',
-            responseData: data,
-            errorMessage,
-          });
-        }
+  /**
+   * Processa erros da requisição
+   * @private
+   */
+  private processRequestError(
+    error: unknown,
+    requestId: string,
+    endpoint: string,
+    url: string,
+    method?: string,
+    metrics?: RequestMetrics
+  ): Error {
+    // Se já é ApiError, apenas propague
+    if (error instanceof ApiError) {
+      return error;
+    }
 
-        throw new ApiError(
-          response.status,
-          errorMessage,
-          data,
-          url,
-          fetchOptions.method || 'GET',
-          endpoint
-        );
-      }
-
-      return data;
-    } catch (error) {
-      clearTimeout(timeoutId);
-      metrics.endTime = Date.now();
-      metrics.duration = metrics.endTime - metrics.startTime;
-
-      // Detectar erros de conexão recusada (backend não disponível) - uma vez no início
-      const isConnectionRefused = 
-        (error instanceof TypeError || error instanceof ApiError) && 
-        (error.message.includes('Failed to fetch') || 
-         error.message.includes('ERR_CONNECTION_REFUSED') ||
-         error.message.includes('NetworkError') ||
-         error.message.includes('Conexão falhou'));
-
-      // Log do erro detalhado (apenas em desenvolvimento)
-      const errorMessage =
-        error instanceof Error ? error.message : 'Erro desconhecido';
-
-      if (process.env.NODE_ENV === 'development') {
-        // Extrair informações detalhadas do erro
-        interface ErrorDetails {
-          endpoint: string;
-          url: string;
-          method: string;
-          duration?: number;
-          error: string;
-          status?: number;
-          statusText?: string;
-          responseData?: unknown;
-          errorType?: string;
-          stack?: string;
-          isAbortError?: boolean;
-        }
-
-        const errorDetails: ErrorDetails = {
-          endpoint,
-          url,
-          method: fetchOptions.method || 'GET',
-          duration: metrics.duration,
-          error: errorMessage,
-        };
-
-        // Se for ApiError, incluir status e dados da resposta
-        if (error instanceof ApiError) {
-          errorDetails.status = error.status;
-          errorDetails.responseData = error.data;
-        }
-
-        // Incluir tipo e stack se disponível
-        if (error instanceof Error) {
-          if (error.constructor?.name) {
-            errorDetails.errorType = error.constructor.name;
-          }
-          if (error.stack) {
-            errorDetails.stack = error.stack;
-          }
-          if (error.name === 'AbortError' || errorMessage.includes('aborted')) {
-            errorDetails.isAbortError = true;
-          }
-        }
-
-        // Não logar erros de conexão recusada em desenvolvimento
-        if (!isConnectionRefused || process.env.NODE_ENV !== 'development') {
-          console.error(`[${requestId}] Erro na requisição:`, errorDetails);
-        }
-      }
-
-      // Log do erro resumido (apenas se não for erro de conexão em desenvolvimento)
-      if (!isConnectionRefused || process.env.NODE_ENV !== 'development') {
-        this.log(`[${requestId}] Erro na requisição: ${endpoint}`, {
-          error: errorMessage,
-          duration: metrics.duration,
-          url,
-          method: fetchOptions.method,
-        });
-      }
-
-      // Report metrics com erro
-      if (this.onRequest) {
-        this.onRequest({
-          ...metrics,
-          endpoint,
-          method: fetchOptions.method || 'GET',
-          status: error instanceof ApiError ? error.status : 0,
-        });
-      }
-
-      // Se for ApiError, apenas propague
-      if (error instanceof ApiError) throw error;
-
-      // Tratamento de timeout
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw new ApiError(
-          HTTP_STATUS.SERVICE_UNAVAILABLE,
-          ERROR_MESSAGES.TIMEOUT_ERROR,
-          { originalError: error.message },
-          url,
-          fetchOptions.method || 'GET',
-          endpoint
-        );
-      }
-
-      // Tratamento de erro de rede
-      // Mensagem genérica para erros de conexão
-      const networkErrorMessage = ERROR_MESSAGES.NETWORK_ERROR;
-
-      throw new ApiError(
-        0,
-        networkErrorMessage,
-        { originalError: error instanceof Error ? error.message : error },
+    // Tratamento de timeout
+    if (error instanceof Error && error.name === 'AbortError') {
+      return new ApiError(
+        HTTP_STATUS.SERVICE_UNAVAILABLE,
+        ERROR_MESSAGES.TIMEOUT_ERROR,
+        { originalError: error.message },
         url,
-        fetchOptions.method || 'GET',
+        method || 'GET',
         endpoint
       );
     }
+
+    // Tratamento de erro de rede
+    const isConnectionError = this.isConnectionError(error);
+    
+    if (!isConnectionError || process.env.NODE_ENV !== 'development') {
+      this.logRequestError(requestId, endpoint, error, url, method, metrics);
+    }
+
+    return new ApiError(
+      0,
+      ERROR_MESSAGES.NETWORK_ERROR,
+      { originalError: error instanceof Error ? error.message : error },
+      url,
+      method || 'GET',
+      endpoint
+    );
   }
 
   /**
-   * Executa uma requisição GET
+   * Loga erro da requisição
+   * @private
    */
-  async get<T>(
+  private logRequestError(
+    requestId: string,
     endpoint: string,
-    options?: Omit<RequestOptions, 'body'>
-  ): Promise<T> {
-    return this.request<T>(endpoint, { ...options, method: 'GET' });
+    error: unknown,
+    url: string,
+    method?: string,
+    metrics?: RequestMetrics
+  ): void {
+    const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+    
+    if (process.env.NODE_ENV === 'development') {
+      const errorDetails = this.buildErrorDetails(error, endpoint, url, method, metrics);
+      console.error(`[${requestId}] Erro na requisição:`, errorDetails);
+    }
+
+    this.log(`[${requestId}] Erro na requisição: ${endpoint}`, {
+      error: errorMessage,
+      duration: metrics?.duration,
+      url,
+      method,
+    });
   }
 
   /**
-   * Executa uma requisição POST
+   * Constrói detalhes do erro para logging
+   * @private
    */
-  async post<T>(
+  private buildErrorDetails(
+    error: unknown,
     endpoint: string,
-    body?: unknown,
-    options?: Omit<RequestOptions, 'body'>
-  ): Promise<T> {
-    // Se body for FormData, não fazer JSON.stringify
-    const isFormData = body instanceof FormData;
+    url: string,
+    method?: string,
+    metrics?: RequestMetrics
+  ) {
+    const errorDetails: any = {
+      endpoint,
+      url,
+      method: method || 'GET',
+      duration: metrics?.duration,
+      error: error instanceof Error ? error.message : 'Erro desconhecido',
+    };
 
-    if (isFormData) {
-      // Criar headers incluindo padrões (Authorization, etc.) mas sem Content-Type
-      const headersWithoutContentType = new Headers();
+    if (error instanceof ApiError) {
+      errorDetails.status = error.status;
+      errorDetails.responseData = error.data;
+    }
 
-      // Adicionar headers padrão (exceto Content-Type)
-      Object.entries(this.defaultHeaders).forEach(([key, value]) => {
-        if (key.toLowerCase() !== 'content-type') {
-          headersWithoutContentType.set(key, value as string);
-        }
-      });
-
-      // Adicionar headers customizados (exceto Content-Type)
-      if (options?.headers) {
-        if (options.headers instanceof Headers) {
-          options.headers.forEach((value, key) => {
-            if (key.toLowerCase() !== 'content-type') {
-              headersWithoutContentType.set(key, value);
-            }
-          });
-        } else {
-          Object.entries(options.headers).forEach(([key, value]) => {
-            if (key.toLowerCase() !== 'content-type') {
-              headersWithoutContentType.set(key, value as string);
-            }
-          });
-        }
+    if (error instanceof Error) {
+      if (error.constructor?.name) {
+        errorDetails.errorType = error.constructor.name;
       }
+      if (error.stack) {
+        errorDetails.stack = error.stack;
+      }
+      if (error.name === 'AbortError' || error.message.includes('aborted')) {
+        errorDetails.isAbortError = true;
+      }
+    }
 
-      return this.request<T>(endpoint, {
-        ...options,
-        method: 'POST',
-        body: body, // FormData como está
-        headers: headersWithoutContentType,
+    return errorDetails;
+  }
+
+  /**
+   * Cria ApiError a partir da resposta
+   * @private
+   */
+  private createApiError(
+    response: Response,
+    data: unknown,
+    url: string,
+    method?: string,
+    endpoint?: string
+  ): ApiError {
+    const errorMessage = this.getErrorMessage(data, response.status);
+
+    if (process.env.NODE_ENV === 'development' && response.status >= 500) {
+      console.error('[ApiClient] Erro do servidor:', {
+        status: response.status,
+        endpoint,
+        url,
+        method: method || 'GET',
+        responseData: data,
+        errorMessage,
       });
     }
 
-    // JSON normal
-    return this.request<T>(endpoint, {
-      ...options,
-      method: 'POST',
-      body: body ? JSON.stringify(body) : undefined,
-    });
+    return new ApiError(
+      response.status,
+      errorMessage,
+      data,
+      url,
+      method || 'GET',
+      endpoint
+    );
   }
 
   /**
-   * Executa uma requisição PUT
+   * Reporta métricas da requisição
+   * @private
    */
-  async put<T>(
+  private reportMetrics(
+    metrics: RequestMetrics,
     endpoint: string,
-    body?: unknown,
-    options?: Omit<RequestOptions, 'body'>
-  ): Promise<T> {
-    // Se body for FormData, não fazer JSON.stringify (deixar o navegador definir Content-Type com boundary)
-    const isFormData = body instanceof FormData;
-
-    // Se for FormData, passar headers sem Content-Type no options
-    // O método request() já trata a remoção de Content-Type automaticamente
-    if (isFormData) {
-      // Criar headers incluindo padrões (Authorization, etc.) mas sem Content-Type
-      const headersWithoutContentType = new Headers();
-
-      // Adicionar headers padrão (exceto Content-Type)
-      Object.entries(this.defaultHeaders).forEach(([key, value]) => {
-        if (key.toLowerCase() !== 'content-type') {
-          headersWithoutContentType.set(key, value as string);
-        }
-      });
-
-      // Adicionar headers customizados (exceto Content-Type)
-      if (options?.headers) {
-        if (options.headers instanceof Headers) {
-          options.headers.forEach((value, key) => {
-            if (key.toLowerCase() !== 'content-type') {
-              headersWithoutContentType.set(key, value);
-            }
-          });
-        } else {
-          Object.entries(options.headers).forEach(([key, value]) => {
-            if (key.toLowerCase() !== 'content-type') {
-              headersWithoutContentType.set(key, value as string);
-            }
-          });
-        }
-      }
-
-      return this.request<T>(endpoint, {
-        ...options,
-        method: 'PUT',
-        body: body, // FormData como está
-        headers: headersWithoutContentType,
+    method: string,
+    status?: number
+  ): void {
+    if (this.onRequest) {
+      this.onRequest({
+        ...metrics,
+        endpoint,
+        method,
+        status,
       });
     }
 
-    // JSON normal
-    return this.request<T>(endpoint, {
-      ...options,
-      method: 'PUT',
-      body: body ? JSON.stringify(body) : undefined,
-    });
-  }
-
-  /**
-   * Executa uma requisição PATCH
-   */
-  async patch<T>(
-    endpoint: string,
-    body?: unknown,
-    options?: Omit<RequestOptions, 'body'>
-  ): Promise<T> {
-    return this.request<T>(endpoint, {
-      ...options,
-      method: 'PATCH',
-      body: body ? JSON.stringify(body) : undefined,
-    });
-  }
-
-  /**
-   * Executa uma requisição DELETE
-   */
-  async delete<T>(endpoint: string, options?: RequestOptions): Promise<T> {
-    return this.request<T>(endpoint, { ...options, method: 'DELETE' });
-  }
-
-  /**
-   * Define o token de autenticação
-   */
-  setAuthToken(token: string): void {
-    this.defaultHeaders = {
-      ...this.defaultHeaders,
-      Authorization: `Bearer ${token}`,
-    };
-  }
-
-  /**
-   * Remove o token de autenticação
-   */
-  clearAuthToken(): void {
-    const headers = { ...this.defaultHeaders } as Record<string, string>;
-    delete headers.Authorization;
-    this.defaultHeaders = headers;
-  }
-
-  /**
-   * Define um header personalizado
-   */
-  setHeader(key: string, value: string): void {
-    this.defaultHeaders = {
-      ...this.defaultHeaders,
-      [key]: value,
-    };
-  }
-
-  /**
-   * Remove um header personalizado
-   */
-  removeHeader(key: string): void {
-    const headers = { ...this.defaultHeaders } as Record<string, string>;
-    delete headers[key];
-    this.defaultHeaders = headers;
-  }
-
-  /**
-   * Obtém os headers atuais (cópia)
-   */
-  getHeaders(): HeadersInit {
-    return { ...this.defaultHeaders };
+    // Log de requisições lentas
+    if (metrics.duration && metrics.duration > 5000) {
+      console.warn(
+        `[API Slow Request] ${method} ${endpoint} took ${metrics.duration}ms`
+      );
+    }
   }
 }
 
+// =============================================================================
+// INSTÂNCIA SINGLETON E EXPORTAÇÕES
+// =============================================================================
+
 /**
- * Instância singleton do cliente API
+ * Instância singleton do cliente API pré-configurada
  */
 export const api = new ApiClient({
   logger: (message, data) => {

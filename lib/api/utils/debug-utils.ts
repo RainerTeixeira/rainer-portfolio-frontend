@@ -4,8 +4,6 @@
  * @description Fornece ferramentas para análise detalhada de erros,
  * validação de dados e integração com a API
  */
-
-// Removido import de COLOR_HEX - usando valor direto
 import {
   validateEmail,
   validatePassword,
@@ -150,6 +148,16 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
     result.method = apiError.method;
     result.endpoint = apiError.endpoint;
 
+    // ApiError com status 0 representa erro de rede/backend offline
+    if (apiError.status === 0) {
+      result.isNetworkError = true;
+      // Garante mensagem consistente mesmo se vier vazia
+      if (!result.message) {
+        result.message = 'Conexão falhou. Se o problema persistir, verifique sua conexão com a internet ou VPN.';
+      }
+      return result;
+    }
+
     // Tratamento de erros de validação (HTTP 400)
     if (apiError.status === 400) {
       result.isValidationError = true;
@@ -274,6 +282,31 @@ export function logApiError(
   metadata?: Record<string, unknown>
 ): void {
   const errorAnalysis = analyzeApiError(error);
+
+  // Tratamento especial para erros de rede (backend offline / status 0)
+  const isNetworkApiError =
+    errorAnalysis.isNetworkError || errorAnalysis.status === 0;
+
+  if (isNetworkApiError) {
+    // Em desenvolvimento, logar apenas um aviso curto e sem stack
+    if (process.env.NODE_ENV === 'development') {
+      console.info(
+        `[${context}] Backend ou rede indisponível. Tratando como falha de conexão controlada.`,
+        {
+          status: error instanceof ApiError ? error.status : errorAnalysis.status,
+          message:
+            (error instanceof ApiError ? error.message : errorAnalysis.message) ||
+            'Erro de conexão',
+          endpoint: errorAnalysis.endpoint,
+          method: errorAnalysis.method,
+          metadata,
+        }
+      );
+    }
+
+    // Não usar console.error nem imprimir stack/suggestions para este caso
+    return;
+  }
 
   // Formata a mensagem de erro
   const errorMessage = [
