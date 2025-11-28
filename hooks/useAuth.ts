@@ -1,5 +1,6 @@
 import { authService } from '@/lib/api/services/auth.service';
-import { userService } from '@/lib/api/services/user.service';
+import { profileService as userService } from '@/lib/api/services/user.service';
+import { ApiError } from '@/lib/api/client';
 import type {
   UpdateProfileData,
   User,
@@ -12,10 +13,11 @@ import { useCallback, useEffect, useState } from 'react';
  * Extrai email, emailVerified e nickname do token JWT
  */
 function convertUserToUserProfile(user: User): UserProfile {
-  const token = authService.getAccessToken();
+  // Preferir o idToken (mais rico em claims de usuário) e cair para accessToken se necessário
+  const token = authService.getIdToken() || authService.getAccessToken();
   let email = '';
   let emailVerified = false;
-  let nickname = '';
+  let nicknameFromToken = '';
 
   if (token) {
     try {
@@ -23,7 +25,7 @@ function convertUserToUserProfile(user: User): UserProfile {
       if (decodedToken) {
         email = typeof decodedToken.email === 'string' ? decodedToken.email : '';
         emailVerified = typeof decodedToken.email_verified === 'boolean' ? decodedToken.email_verified : false;
-        nickname =
+        nicknameFromToken =
           (typeof decodedToken.nickname === 'string' ? decodedToken.nickname : '') ||
           (typeof decodedToken['custom:nickname'] === 'string' ? decodedToken['custom:nickname'] : '') ||
           (typeof decodedToken['cognito:username'] === 'string' ? decodedToken['cognito:username'] : '') ||
@@ -38,7 +40,8 @@ function convertUserToUserProfile(user: User): UserProfile {
     ...user,
     email,
     emailVerified,
-    nickname: nickname || '',
+    // Priorizar sempre nickname vindo do backend (Mongo/Prisma). Token é apenas fallback.
+    nickname: user.nickname || nicknameFromToken || '',
   };
 }
 
@@ -57,46 +60,38 @@ export function useAuth() {
     const checkAuth = async () => {
       try {
         setLoading(true);
-        const forceCognito = process.env.NEXT_PUBLIC_FORCE_COGNITO_AUTH === 'true';
-        const isDevelopment = process.env.NODE_ENV === 'development';
-        const useLocalAuth = isDevelopment && !forceCognito;
 
-        if (useLocalAuth) {
-          // EM DESENVOLVIMENTO: Verificar localStorage via localAuth
-          const { localAuth } = await import('@/components/dashboard/lib/auth-local');
-          const currentUser = localAuth.getCurrentUser();
-          
-          if (currentUser) {
-            const localUserProfile: UserProfile = {
-              id: currentUser.id,
-              cognitoSub: currentUser.id,
-              fullName: currentUser.name || 'Admin',
-              email: currentUser.email || 'admin@rainersoft.com',
-              emailVerified: true,
-              nickname: currentUser.username,
-              role: 'ADMIN' as any,
-              isActive: true,
-              isBanned: false,
-              postsCount: 0,
-              commentsCount: 0,
-              createdAt: currentUser.createdAt || new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-            };
-            setUser(localUserProfile);
-          } else {
-            setUser(null);
-          }
+        // Verificar sempre via authService (Cognito/backend)
+        if (authService.isAuthenticated()) {
+          const userData = await authService.getUserProfile();
+          const userProfile = convertUserToUserProfile(userData);
+          setUser(userProfile);
         } else {
-          // EM PRODUÇÃO: Verificar via authService (Cognito)
-          if (authService.isAuthenticated()) {
-            const userData = await authService.getUserProfile();
-            const userProfile = convertUserToUserProfile(userData);
-            setUser(userProfile);
-          } else {
-            setUser(null);
-          }
+          setUser(null);
         }
       } catch (err) {
+        // Tratamento especial para backend offline / erro de rede no carregamento inicial
+        if (
+          err instanceof ApiError &&
+          err.status === 0 &&
+          typeof err.message === 'string'
+        ) {
+          if (process.env.NODE_ENV === 'development') {
+            console.info(
+              '[useAuth] Backend indisponível no carregamento inicial. Usuário será tratado como deslogado.',
+              {
+                message: err.message,
+                endpoint: err.endpoint,
+                url: err.url,
+              }
+            );
+          }
+
+          setUser(null);
+          setError(null);
+          return;
+        }
+
         console.error('Erro ao verificar autenticação:', err);
         setError(
           err instanceof Error
@@ -116,49 +111,13 @@ export function useAuth() {
   const login = useCallback(async (email: string, password: string) => {
     try {
       setLoading(true);
-      
-      // Verificar se deve usar Cognito (produção OU flag forçada em dev)
-      const forceCognito = process.env.NEXT_PUBLIC_FORCE_COGNITO_AUTH === 'true';
-      const isDevelopment = process.env.NODE_ENV === 'development';
-      const useLocalAuth = isDevelopment && !forceCognito;
-      
-      if (useLocalAuth) {
-        // Importar localAuth dinamicamente
-        const { localAuth } = await import('@/components/dashboard/lib/auth-local');
-        const result = await localAuth.login(email, password);
-        
-        if (result.success && result.user) {
-          // Converter User local para UserProfile
-          const localUserProfile: UserProfile = {
-            id: result.user.id,
-            cognitoSub: result.user.id,
-            fullName: result.user.name || 'Admin',
-            email: result.user.email || 'admin@rainersoft.com',
-            emailVerified: true,
-            nickname: result.user.username,
-            role: 'ADMIN' as any,
-            isActive: true,
-            isBanned: false,
-            postsCount: 0,
-            commentsCount: 0,
-            createdAt: result.user.createdAt || new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          };
-          
-          setUser(localUserProfile);
-          setError(null);
-          return localUserProfile;
-        } else {
-          throw new Error(result.message || 'Credenciais inválidas');
-        }
-      } else {
-        // Produção: usar backend real
-        const response = await authService.login({ email, password });
-        const userProfile = response.user as UserProfile;
-        setUser(userProfile);
-        setError(null);
-        return userProfile;
-      }
+
+      // Sempre usar backend real via authService
+      const response = await authService.login({ email, password });
+      const userProfile = response.user as UserProfile;
+      setUser(userProfile);
+      setError(null);
+      return userProfile;
     } catch (err) {
       console.error('Erro no login:', err);
       setError(err instanceof Error ? err : new Error('Erro ao fazer login'));
@@ -369,11 +328,36 @@ export function useAuth() {
       }
       setError(null);
     } catch (err) {
+      // Tratamento especial para backend offline / erro de rede
+      if (
+        err instanceof ApiError &&
+        err.status === 0 &&
+        typeof err.message === 'string'
+      ) {
+        if (process.env.NODE_ENV === 'development') {
+          console.info(
+            '[useAuth] Backend indisponível ao verificar autenticação. Usuário será tratado como deslogado.',
+            {
+              message: err.message,
+              endpoint: err.endpoint,
+              url: err.url,
+            }
+          );
+        }
+
+        // Quando o backend está offline, apenas trata como não autenticado
+        setUser(null);
+        // Não expõe erro de rede para a UI nesse caso, para evitar UX ruim
+        setError(null);
+        return;
+      }
+
       console.error('Erro ao verificar autenticação:', err);
       setUser(null);
       setError(
         err instanceof Error ? err : new Error('Erro ao verificar autenticação')
       );
+      // Mantém o comportamento atual para erros que não são de rede/backend offline
       throw err;
     } finally {
       setLoading(false);
@@ -547,11 +531,32 @@ export function useAuth() {
         return true;
       } catch (err) {
         console.error('Erro ao fazer login com OAuth:', err);
-        setError(
-          err instanceof Error
-            ? err
-            : new Error('Erro ao fazer login com OAuth')
-        );
+
+        let finalError: Error;
+
+        if (err instanceof Error) {
+          const msg = err.message || '';
+
+          // Erros típicos de backend/banco de dados indisponível
+          const isDbUnavailable =
+            msg.includes('Server selection timeout') ||
+            msg.includes('Nenhuma conexão pôde ser feita') ||
+            msg.includes('ECONNREFUSED') ||
+            msg.includes('Failed to fetch') ||
+            msg.includes('AbortError');
+
+          if (isDbUnavailable) {
+            finalError = new Error(
+              'Não foi possível completar o login porque o serviço de usuários/banco de dados está indisponível no momento. Tente novamente em alguns instantes.'
+            );
+          } else {
+            finalError = err;
+          }
+        } else {
+          finalError = new Error('Erro ao fazer login com OAuth');
+        }
+
+        setError(finalError);
         return false;
       } finally {
         setLoading(false);

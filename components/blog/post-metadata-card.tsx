@@ -19,6 +19,7 @@ import { Separator } from '@rainersoft/ui';
 import { Calendar, Eye, Heart, Tag, User } from 'lucide-react';
 import { ReadingTime } from './social';
 import type { TiptapJSON } from '@/lib/api/types/common';
+import { formatRelativeDate } from '@rainersoft/utils';
 
 interface PostMetadataCardProps {
   author?: string;
@@ -70,7 +71,7 @@ export function PostMetadataCard({
                     aria-hidden="true"
                   />
                   <time dateTime={date} className="font-mono">
-                    {date}
+                    {formatRelativeDate(date)}
                   </time>
                 </div>
                 <Separator

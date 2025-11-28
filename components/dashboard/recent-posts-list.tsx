@@ -38,6 +38,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { postsService } from '@/lib/api/services';
 import type { Post } from '@/lib/api/types';
 import { cn } from '@/lib/portfolio';
+import { formatRelativeDate } from '@rainersoft/utils';
 import { motion } from 'framer-motion';
 import { Calendar, Edit2, Eye, Tag, Trash2 } from 'lucide-react';
 import Image from 'next/image';
@@ -182,9 +183,7 @@ export function RecentPostsList({
                     )}
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
-                      {post.publishedAt
-                        ? new Date(post.publishedAt).toLocaleDateString('pt-BR')
-                        : new Date(post.createdAt).toLocaleDateString('pt-BR')}
+                      {formatRelativeDate(post.publishedAt || post.createdAt)}
                     </div>
                   </div>
 

@@ -419,24 +419,14 @@ export default function PostPage() {
         </h2>
         <PostMetadataCard
           author={post.author?.fullName || post.author?.nickname}
-          date={
-            post.publishedAt
-              ? new Date(post.publishedAt).toLocaleDateString('pt-BR', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                })
-              : new Date(post.createdAt).toLocaleDateString('pt-BR', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                })
-          }
+          // Passar data crua (ISO) para o card, que formata de forma relativa
+          date={post.publishedAt || post.createdAt}
           category={post.subcategory?.name}
           tags={post.tags}
           views={post.views}
           likesCount={post.likesCount}
           content={post.content}
+          className="mt-6"
         />
       </motion.section>
 

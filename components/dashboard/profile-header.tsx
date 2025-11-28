@@ -43,6 +43,7 @@ import { Input } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
 import { Textarea } from '@rainersoft/ui';
 import { cn } from '@/lib/portfolio';
+import { formatDate } from '@rainersoft/utils';
 import { motion } from 'framer-motion';
 import { Calendar, Camera, Edit2, Mail, Shield } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -68,7 +69,13 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
    */
   const isDark = mounted ? resolvedTheme === 'dark' : false;
   const displayName = user?.fullName || user?.nickname || 'Usuário';
-  const displayEmail = user?.email || 'admin@rainersoft.com';
+  const displayNickname = user?.nickname || 'Usuário';
+  const displayEmail = user?.email || '';
+  const memberSinceDate =
+    (user as any)?.userCreateDate || (user as any)?.createdAt || undefined;
+  const formattedMemberSince = memberSinceDate
+    ? formatDate(memberSinceDate, 'long')
+    : 'data desconhecida';
   const [editData, setEditData] = useState({
     name: user?.fullName || '',
     email: user?.email || '',
@@ -152,7 +159,11 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
           {/* Informações do Usuário */}
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl font-bold">{displayName}</h1>
+              {/* Nome principal vindo do MongoDB (fullName) e nickname do Cognito como secundário */}
+              <div className="flex flex-col">
+                <h1 className="text-3xl font-bold">{displayName}</h1>
+                <span className="text-sm text-white/80">@{displayNickname}</span>
+              </div>
               <Badge
                 variant="secondary"
                 className="bg-white/20 text-white border-white/30"
@@ -165,11 +176,13 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
             <div className="flex flex-wrap items-center gap-4 text-white/90 text-sm">
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
-                {displayEmail}
+                {displayEmail || 'Email não disponível'}
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
-                Membro desde Janeiro 2025
+                {formattedMemberSince === 'data desconhecida'
+                  ? 'Membro desde data não disponível'
+                  : `Membro desde ${formattedMemberSince}`}
               </div>
             </div>
 

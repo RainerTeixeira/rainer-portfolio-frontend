@@ -1,10 +1,12 @@
-# ⚠️ Problema: Login com Email não Funciona
+# ⚠️ Problema: Login com Email não Funciona *(LEGADO)*
 
-## 🔴 Situação Atual
+> **Status (2025-11)**: O fluxo atual já foi atualizado para trabalhar com **login por email** integrado ao Cognito e backend. O documento abaixo descreve alternativas antigas baseadas em `username` e hoje serve apenas como **histórico**.
 
-- **Registro**: Usa `username` único (ex: `savitom101684523`)
-- **Login**: Usuário tenta usar `email` (ex: `savitom101@elygifts.com`)
-- **Erro**: Cognito não encontra usuário porque está buscando por username
+## 🔴 Situação (Contexto Original)
+
+- **Registro**: Usava `username` único (ex: `savitom101684523`)
+- **Login**: Usuário tentava usar `email` (ex: `savitom101@elygifts.com`)
+- **Erro**: Cognito não encontrava usuário porque buscava por `username`
 
 ## 💡 Soluções
 
@@ -25,34 +27,13 @@ Permite login com email OU username.
 
 ---
 
-### Solução 2: Criar Endpoint de Busca de Username por Email 🔧
+### Solução 2: (LEGADO) Endpoint de Busca de Username por Email 🔧
 
-Adicionar endpoint no backend que busca username pelo email antes de fazer login.
-
-**Backend** (`auth.service.ts`):
-
-```typescript
-async getUsernameByEmail(email: string): Promise<string> {
-  const user = await this.usersService.getUserByEmail(email);
-  if (!user) {
-    throw new NotFoundException('Usuário não encontrado');
-  }
-  return user.username;
-}
-```
-
-**Frontend** (antes do login):
-
-```typescript
-// Busca username pelo email
-const { username } = await authService.getUsernameByEmail(email);
-// Faz login com username
-await authService.login({ username, password });
-```
+> Hoje o backend já faz login diretamente com **email + senha** no Cognito, sem precisar traduzir para `username`. Este bloco fica como referência de uma abordagem antiga e não deve ser reimplementado.
 
 ---
 
-### Solução 3: Aceitar Username no Formulário de Login 📝 (Mais Simples)
+### Solução 3: (LEGADO) Aceitar Username no Formulário de Login 📝
 
 Mudar o formulário para pedir username ao invés de email.
 
@@ -69,7 +50,7 @@ Mudar o formulário para pedir username ao invés de email.
 
 ---
 
-### Solução 4: Salvar Username no LocalStorage após Registro 💾
+### Solução 4: (LEGADO) Salvar Username no LocalStorage após Registro 💾
 
 Após registro bem-sucedido, salvar username e preencher automaticamente no login.
 
@@ -83,7 +64,7 @@ const savedUsername = localStorage.getItem('lastUsername');
 
 ---
 
-## 🎯 Solução Recomendada: Híbrida
+## 🎯 Solução Recomendada (LEGADO)
 
 Combinar Solução 2 + 4:
 
@@ -114,6 +95,7 @@ async function handleLogin(emailOrUsername: string, password: string) {
 
 ## 🚀 Implementação Rápida (5 minutos)
 
+Vou implementar a **Solução 1** agora:
 Vou implementar a **Solução 2** agora:
 
 1. ✅ Criar endpoint no backend para buscar username por email

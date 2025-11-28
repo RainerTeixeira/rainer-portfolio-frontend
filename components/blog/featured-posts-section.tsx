@@ -56,19 +56,8 @@ export function FeaturedPostsSection({
             key={post.id}
             title={post.title}
             description={post.excerpt || ''}
-            date={
-              post.publishedAt
-                ? new Date(post.publishedAt).toLocaleDateString('pt-BR', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })
-                : new Date(post.createdAt).toLocaleDateString('pt-BR', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })
-            }
+            // Passar data crua (ISO) para o PostCard, que formata de forma relativa
+            date={post.publishedAt || post.createdAt}
             category={post.subcategory?.name}
             link={`/blog/${post.slug}`}
             image={post.coverImage}
