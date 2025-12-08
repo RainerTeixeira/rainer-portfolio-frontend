@@ -15,19 +15,6 @@ jest.mock('next/font/google', () => ({
 import CookiePolicyPage from '@/app/cookies/page';
 import { render, screen } from '@testing-library/react';
 
-// Mock dos componentes
-jest.mock('@/components/ui', () => ({
-  BackToTop: () => <div data-testid="back-to-top">Back to Top</div>,
-  PageHeader: ({ children, title, description }: any) => (
-    <div data-testid="page-header">
-      <h1>{title}</h1>
-      <p>{description}</p>
-      {children}
-    </div>
-  ),
-  ParticlesEffect: () => <div data-testid="particles-effect">Particles</div>,
-}));
-
 jest.mock('next/link', () => ({
   __esModule: true,
   default: ({ children, href }: any) => <a href={href}>{children}</a>,

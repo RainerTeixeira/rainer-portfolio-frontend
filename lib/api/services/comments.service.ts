@@ -57,7 +57,9 @@ export class CommentsService {
     const response =
       await api.get<ApiResponse<PaginatedResponse<Comment>>>(url);
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao listar comentários');
+      throw new Error(
+        response.message || 'Erro ao listar comentários com filtros fornecidos'
+      );
     }
     return (response as ApiSuccessResponse<PaginatedResponse<Comment>>).data;
   }
@@ -73,7 +75,9 @@ export class CommentsService {
       `${this.basePath}/${id}`
     );
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao buscar comentário');
+      throw new Error(
+        response.message || `Erro ao buscar comentário com ID: ${id}`
+      );
     }
     return (response as ApiSuccessResponse<Comment>).data;
   }
@@ -89,7 +93,9 @@ export class CommentsService {
       `${this.basePath}/post/${postId}`
     );
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao buscar comentários');
+      throw new Error(
+        response.message || `Erro ao buscar comentários do post: ${postId}`
+      );
     }
     return (response as ApiSuccessResponse<Comment[]>).data;
   }
@@ -105,7 +111,10 @@ export class CommentsService {
       `${this.basePath}/user/${authorId}`
     );
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao buscar comentários');
+      throw new Error(
+        response.message ||
+          `Erro ao buscar comentários do autor com ID: ${authorId}`
+      );
     }
     return (response as ApiSuccessResponse<Comment[]>).data;
   }
@@ -119,7 +128,12 @@ export class CommentsService {
   async createComment(data: CreateCommentData): Promise<Comment> {
     const response = await api.post<ApiResponse<Comment>>(this.basePath, data);
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao criar comentário');
+      throw new Error(
+        response.message ||
+          `Erro ao criar comentário${
+            data.postId ? ` para o post: ${data.postId}` : ''
+          }`
+      );
     }
     return (response as ApiSuccessResponse<Comment>).data;
   }
@@ -136,7 +150,9 @@ export class CommentsService {
       data
     );
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao atualizar comentário');
+      throw new Error(
+        response.message || `Erro ao atualizar comentário com ID: ${id}`
+      );
     }
     return (response as ApiSuccessResponse<Comment>).data;
   }
@@ -162,7 +178,9 @@ export class CommentsService {
       `${this.basePath}/${id}/approve`
     );
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao aprovar comentário');
+      throw new Error(
+        response.message || `Erro ao aprovar comentário com ID: ${id}`
+      );
     }
     return (response as ApiSuccessResponse<Comment>).data;
   }
@@ -178,7 +196,9 @@ export class CommentsService {
       `${this.basePath}/${id}/disapprove`
     );
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao reprovar comentário');
+      throw new Error(
+        response.message || `Erro ao reprovar comentário com ID: ${id}`
+      );
     }
     return (response as ApiSuccessResponse<Comment>).data;
   }

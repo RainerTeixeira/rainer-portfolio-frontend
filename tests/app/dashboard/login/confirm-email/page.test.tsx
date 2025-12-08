@@ -88,7 +88,7 @@ describe('Confirm Email Page', () => {
   it('deve exibir campo para código de verificação', () => {
     render(<ConfirmEmailPage />);
     expect(
-      screen.getByPlaceholderText(/Código de 6 dígitos/i)
+      screen.getByLabelText(/Código de Verificação/i)
     ).toBeInTheDocument();
   });
 
@@ -100,7 +100,9 @@ describe('Confirm Email Page', () => {
 
   it('deve exibir botão para reenviar código', () => {
     render(<ConfirmEmailPage />);
-    expect(screen.getByText(/Reenviar código/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Reenviar Código/i })
+    ).toBeInTheDocument();
   });
 
   it('deve validar código obrigatório', async () => {
@@ -121,7 +123,7 @@ describe('Confirm Email Page', () => {
     const user = userEvent.setup();
     render(<ConfirmEmailPage />);
 
-    const codeInput = screen.getByPlaceholderText(/Código de 6 dígitos/i);
+    const codeInput = screen.getByLabelText(/Código de Verificação/i);
     const submitButton =
       screen
         .getAllByText(/Confirmar Email/i)
@@ -144,7 +146,7 @@ describe('Confirm Email Page', () => {
     const user = userEvent.setup();
     render(<ConfirmEmailPage />);
 
-    const codeInput = screen.getByPlaceholderText(/Código de 6 dígitos/i);
+    const codeInput = screen.getByLabelText(/Código de Verificação/i);
     const submitButton =
       screen
         .getAllByText(/Confirmar Email/i)
@@ -166,7 +168,7 @@ describe('Confirm Email Page', () => {
     const user = userEvent.setup();
     render(<ConfirmEmailPage />);
 
-    const codeInput = screen.getByPlaceholderText(/Código de 6 dígitos/i);
+    const codeInput = screen.getByLabelText(/Código de Verificação/i);
     const submitButton =
       screen
         .getAllByText(/Confirmar Email/i)
@@ -186,7 +188,9 @@ describe('Confirm Email Page', () => {
     const user = userEvent.setup();
     render(<ConfirmEmailPage />);
 
-    const resendButton = screen.getByText(/Reenviar código/i);
+    const resendButton = screen.getByRole('button', {
+      name: /Reenviar Código/i,
+    });
     await user.click(resendButton);
 
     await waitFor(() => {
@@ -204,7 +208,7 @@ describe('Confirm Email Page', () => {
 
     render(<ConfirmEmailPage />);
 
-    const codeInput = screen.getByPlaceholderText(/Código de 6 dígitos/i);
+    const codeInput = screen.getByLabelText(/Código de Verificação/i);
     const submitButton =
       screen
         .getAllByText(/Confirmar Email/i)
@@ -229,7 +233,7 @@ describe('Confirm Email Page', () => {
 
     render(<ConfirmEmailPage />);
 
-    const codeInput = screen.getByPlaceholderText(/Código de 6 dígitos/i);
+    const codeInput = screen.getByLabelText(/Código de Verificação/i);
     const submitButton =
       screen
         .getAllByText(/Confirmar Email/i)

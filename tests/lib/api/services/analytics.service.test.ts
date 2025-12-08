@@ -7,7 +7,7 @@
  */
 
 import { dashboardService } from '@/lib/api';
-import { analytics } from '@/lib/monitoring/analytics';
+import { analytics } from '@/lib/tracking/analytics';
 
 // Mock do api client
 jest.mock('@/lib/api/client', () => ({

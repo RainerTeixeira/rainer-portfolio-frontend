@@ -56,7 +56,10 @@ export class NotificationsService {
     const response =
       await api.get<ApiResponse<PaginatedResponse<Notification>>>(url);
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao listar notificações');
+      throw new Error(
+        response.message ||
+          `Erro ao listar notificações para o usuário ${filters.userId}`
+      );
     }
     return response.data;
   }
@@ -72,7 +75,9 @@ export class NotificationsService {
       `${this.basePath}/${id}`
     );
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao buscar notificação');
+      throw new Error(
+        response.message || `Erro ao buscar notificação com ID: ${id}`
+      );
     }
     return response.data;
   }
@@ -88,7 +93,10 @@ export class NotificationsService {
       `${this.basePath}/user/${userId}`
     );
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao buscar notificações');
+      throw new Error(
+        response.message ||
+          `Erro ao buscar notificações do usuário com ID: ${userId}`
+      );
     }
     return response.data;
   }
@@ -105,7 +113,8 @@ export class NotificationsService {
     );
     if (!response.success) {
       throw new Error(
-        response.message || 'Erro ao contar notificações não lidas'
+        response.message ||
+          `Erro ao contar notificações não lidas do usuário ${userId}`
       );
     }
     return response.data.count;
@@ -125,7 +134,10 @@ export class NotificationsService {
       data
     );
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao criar notificação');
+      throw new Error(
+        response.message ||
+          `Erro ao criar notificação para o usuário ${data.userId}`
+      );
     }
     return response.data;
   }
@@ -145,7 +157,9 @@ export class NotificationsService {
       data
     );
     if (!response.success) {
-      throw new Error(response.message || 'Erro ao atualizar notificação');
+      throw new Error(
+        response.message || `Erro ao atualizar notificação com ID: ${id}`
+      );
     }
     return response.data;
   }
@@ -157,7 +171,17 @@ export class NotificationsService {
    * Deleta notificação por ID.
    */
   async deleteNotification(id: string): Promise<ApiResponse<void>> {
-    return api.delete<ApiResponse<void>>(`${this.basePath}/${id}`);
+    const response = await api.delete<ApiResponse<void>>(
+      `${this.basePath}/${id}`
+    );
+
+    if (!response.success) {
+      throw new Error(
+        response.message || `Erro ao deletar notificação com ID: ${id}`
+      );
+    }
+
+    return response;
   }
 
   /**
@@ -185,9 +209,18 @@ export class NotificationsService {
    * Marca todas notificações do usuário como lidas.
    */
   async markAllAsRead(userId: string): Promise<ApiResponse<void>> {
-    return api.patch<ApiResponse<void>>(
+    const response = await api.patch<ApiResponse<void>>(
       `${this.basePath}/user/${userId}/read-all`
     );
+
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao marcar todas as notificações como lidas para o usuário ${userId}`
+      );
+    }
+
+    return response;
   }
 
   /**

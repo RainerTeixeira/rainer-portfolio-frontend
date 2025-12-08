@@ -55,7 +55,9 @@ export function useComments(postId: string) {
       toast.success('Comentário enviado para moderação');
       return comment;
     } catch (err) {
-      toast.error('Erro ao adicionar comentário');
+      const message =
+        err instanceof Error ? err.message : 'Erro ao adicionar comentário';
+      toast.error(message);
       throw err;
     }
   };

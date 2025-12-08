@@ -47,7 +47,7 @@ jest.mock('@/components/blog', () => ({
 }));
 
 // Mock dos componentes UI
-jest.mock('@/components/ui', () => ({
+jest.mock('@rainersoft/ui', () => ({
   BackToTop: () => <div data-testid="back-to-top">Back to Top</div>,
   PageHeader: ({ children, title, description }: any) => (
     <div data-testid="page-header">
@@ -57,16 +57,10 @@ jest.mock('@/components/ui', () => ({
     </div>
   ),
   ParticlesEffect: () => <div data-testid="particles-effect">Particles</div>,
-}));
-
-jest.mock('@/components/ui/card', () => ({
   Card: ({ children }: any) => <div data-testid="card">{children}</div>,
   CardContent: ({ children }: any) => (
     <div data-testid="card-content">{children}</div>
   ),
-}));
-
-jest.mock('@/components/ui/skeleton', () => ({
   Skeleton: () => <div data-testid="skeleton">Skeleton</div>,
 }));
 

@@ -12,7 +12,7 @@
 import { lightThemeColors } from '@rainersoft/design-tokens';
 
 /**
- * Cores para categorias (Tailwind)
+ * Cores para categorias (tokens do tema claro)
  */
 const CATEGORY_COLORS = {
   primary: lightThemeColors.primitive.cyan[600],

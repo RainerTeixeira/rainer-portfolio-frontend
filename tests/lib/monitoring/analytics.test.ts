@@ -2,7 +2,7 @@
  * Testes para lib/monitoring/analytics.ts
  */
 
-import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring/analytics';
+import { analytics, ANALYTICS_EVENTS } from '@/lib/tracking/analytics';
 
 // Mock do window.gtag se existir
 const mockGtag = jest.fn();

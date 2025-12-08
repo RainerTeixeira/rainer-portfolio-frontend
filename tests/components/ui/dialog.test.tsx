@@ -2,6 +2,46 @@
  * Testes para componente Dialog
  */
 
+// Mock simples dos componentes de Dialog do @rainersoft/ui para evitar
+// dependências internas do Radix durante os testes.
+jest.mock('@rainersoft/ui', () => {
+  const React = require('react');
+
+  const MockDialog = ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="mock-dialog">{children}</div>
+  );
+
+  const MockDialogTrigger = ({ children }: { children: React.ReactNode }) => (
+    <button type="button">{children}</button>
+  );
+
+  const MockDialogContent = ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  );
+
+  const MockDialogHeader = ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  );
+
+  const MockDialogTitle = ({ children }: { children: React.ReactNode }) => (
+    <h2>{children}</h2>
+  );
+
+  const MockDialogDescription = ({ children }: { children: React.ReactNode }) => (
+    <p>{children}</p>
+  );
+
+  return {
+    __esModule: true,
+    Dialog: MockDialog,
+    DialogTrigger: MockDialogTrigger,
+    DialogContent: MockDialogContent,
+    DialogHeader: MockDialogHeader,
+    DialogTitle: MockDialogTitle,
+    DialogDescription: MockDialogDescription,
+  };
+});
+
 import {
   Dialog,
   DialogContent,

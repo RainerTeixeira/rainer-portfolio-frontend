@@ -259,7 +259,7 @@ class Analytics {
  *
  * @example
  * ```tsx
- * import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring/analytics'
+ * import { analytics, ANALYTICS_EVENTS } from '@/lib/tracking/analytics'
  *
  * analytics.track(ANALYTICS_EVENTS.BLOG_POST_VIEW('123', 'Título'))
  * analytics.pageView('/blog')

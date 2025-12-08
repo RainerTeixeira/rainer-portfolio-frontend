@@ -12,7 +12,7 @@
 import { lightThemeColors } from '@rainersoft/design-tokens';
 
 /**
- * Cores para experiência (Tailwind)
+ * Cores para experiência (tokens do tema claro)
  */
 const EXPERIENCE_COLORS = {
   primary: lightThemeColors.primitive.cyan[600],

@@ -32,7 +32,7 @@ import {
   formatDateTime,
   textToSlug,
   translateStatus,
-} from '@/lib/utils/string';
+} from '@rainersoft/utils';
 
 describe('api-helpers', () => {
   describe('textToSlug', () => {

@@ -2,6 +2,61 @@
  * Testes para componente AlertDialog
  */
 
+// Mock simples dos componentes de AlertDialog do @rainersoft/ui para evitar
+// dependências internas do Radix durante os testes.
+jest.mock('@rainersoft/ui', () => {
+  const React = require('react');
+
+  const MockAlertDialog = ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="mock-alert-dialog">{children}</div>
+  );
+
+  const MockAlertDialogTrigger = ({ children }: { children: React.ReactNode }) => (
+    <button type="button">{children}</button>
+  );
+
+  const MockAlertDialogContent = ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  );
+
+  const MockAlertDialogHeader = ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  );
+
+  const MockAlertDialogFooter = ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  );
+
+  const MockAlertDialogTitle = ({ children }: { children: React.ReactNode }) => (
+    <h2>{children}</h2>
+  );
+
+  const MockAlertDialogDescription = ({ children }: { children: React.ReactNode }) => (
+    <p>{children}</p>
+  );
+
+  const MockAlertDialogAction = ({ children }: { children: React.ReactNode }) => (
+    <button type="button">{children}</button>
+  );
+
+  const MockAlertDialogCancel = ({ children }: { children: React.ReactNode }) => (
+    <button type="button">{children}</button>
+  );
+
+  return {
+    __esModule: true,
+    AlertDialog: MockAlertDialog,
+    AlertDialogTrigger: MockAlertDialogTrigger,
+    AlertDialogContent: MockAlertDialogContent,
+    AlertDialogHeader: MockAlertDialogHeader,
+    AlertDialogFooter: MockAlertDialogFooter,
+    AlertDialogTitle: MockAlertDialogTitle,
+    AlertDialogDescription: MockAlertDialogDescription,
+    AlertDialogAction: MockAlertDialogAction,
+    AlertDialogCancel: MockAlertDialogCancel,
+  };
+});
+
 import {
   AlertDialog,
   AlertDialogAction,

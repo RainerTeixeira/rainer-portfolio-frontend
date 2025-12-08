@@ -142,7 +142,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       checkAuth,
       loginWithOAuthCode,
       loginWithGoogle: () => authService.loginWithGoogle(),
-      loginWithGitHub: () => authService.loginWithGitHub(),
     }),
     [
       user,

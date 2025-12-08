@@ -5,8 +5,8 @@
 import CookieSettingsPage from '@/app/cookies/settings/page';
 import { render, screen } from '@testing-library/react';
 
-// Mock dos componentes
-jest.mock('@/components/ui', () => ({
+// Mock dos componentes diretamente de @rainersoft/ui
+jest.mock('@rainersoft/ui', () => ({
   BackToTop: () => <div data-testid="back-to-top">Back to Top</div>,
   PageHeader: ({ title, description }: any) => (
     <div data-testid="page-header">

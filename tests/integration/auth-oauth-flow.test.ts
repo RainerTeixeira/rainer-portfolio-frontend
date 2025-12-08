@@ -2,7 +2,7 @@
  * OAuth Flow Integration Tests
  *
  * Testes de integração para o fluxo completo de autenticação OAuth.
- * Valida a integração entre frontend e backend para Google e GitHub OAuth.
+ * Valida a integração entre frontend e backend para Google OAuth.
  *
  * @module tests/integration/auth-oauth-flow
  * @author Rainer Teixeira
@@ -96,6 +96,8 @@ describe('OAuth Flow Integration', () => {
     process.env.NEXT_PUBLIC_API_URL = 'http://localhost:4000';
     process.env.NEXT_PUBLIC_COGNITO_DOMAIN = 'test-domain.auth.us-east-1.amazoncognito.com';
     process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID = 'test-client-id';
+    process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN =
+      'http://localhost:3000/dashboard/login/callback';
   });
 
   // ========================================================================== 
@@ -110,19 +112,6 @@ describe('OAuth Flow Integration', () => {
         (window as any).__testLocationHref || window.location.href;
 
       expect(testHref).toContain('/auth/oauth/google');
-      expect(testHref).toContain('redirect_uri=');
-      expect(testHref).toContain(
-        encodeURIComponent('/dashboard/login/callback')
-      );
-    });
-
-    it('deve iniciar login com GitHub e redirecionar para backend', () => {
-      authService.loginWithGitHub();
-
-      const testHref =
-        (window as any).__testLocationHref || window.location.href;
-
-      expect(testHref).toContain('/auth/oauth/github');
       expect(testHref).toContain('redirect_uri=');
       expect(testHref).toContain(
         encodeURIComponent('/dashboard/login/callback')
@@ -144,7 +133,8 @@ describe('OAuth Flow Integration', () => {
       authService.loginWithGoogle();
 
       const expectedCallback = encodeURIComponent(
-        `${window.location.origin}/dashboard/login/callback`
+        process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN ||
+          `${window.location.origin}/dashboard/login/callback`
       );
 
       const testHref =
@@ -206,52 +196,7 @@ describe('OAuth Flow Integration', () => {
       expect(tokens.refreshToken).toBe(mockTokens.refreshToken);
     });
 
-    it('deve trocar código OAuth por tokens via backend (GitHub)', async () => {
-      const mockTokens = {
-        accessToken: createMockToken({ sub: 'user-456', email: 'github@example.com' }),
-        refreshToken: 'mock-refresh-token',
-        idToken: 'mock-id-token',
-        expiresIn: 3600,
-        tokenType: 'Bearer',
-      };
-
-      const mockUser = {
-        id: 'user-456',
-        cognitoSub: 'user-456',
-        fullName: 'GitHub User',
-        email: 'github@example.com',
-        role: 'SUBSCRIBER',
-        isActive: true,
-        isBanned: false,
-        postsCount: 0,
-        commentsCount: 0,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-
-      const postSpy = jest.spyOn(api, 'post').mockResolvedValueOnce(
-        createSuccessResponse({
-          tokens: mockTokens,
-          user: mockUser,
-        }) as any
-      );
-
-      const tokens = await authService.exchangeOAuthCodeViaBackend(
-        'github',
-        'test-code-456'
-      );
-
-      expect(postSpy).toHaveBeenCalledWith(
-        expect.stringContaining('/auth/oauth/github/callback'),
-        expect.objectContaining({
-          code: 'test-code-456',
-        }),
-        expect.any(Object)
-      );
-
-      expect(tokens.accessToken).toBe(mockTokens.accessToken);
-      expect(tokens.refreshToken).toBe(mockTokens.refreshToken);
-    });
+    // Testes específicos de troca de código para GitHub foram removidos.
 
     it('deve incluir state e redirectUri na requisição', async () => {
       const mockTokens = {
@@ -451,63 +396,7 @@ describe('OAuth Flow Integration', () => {
       expect(authService.isAuthenticated()).toBe(true);
     });
 
-    it('deve completar fluxo OAuth com sucesso (GitHub)', async () => {
-      const mockTokens = {
-        accessToken: createMockToken({
-          sub: 'user-456',
-          email: 'github@example.com',
-          nickname: 'githubuser',
-          exp: Math.floor(Date.now() / 1000) + 3600,
-        }),
-        refreshToken: 'mock-refresh-token',
-        idToken: 'mock-id-token',
-        expiresIn: 3600,
-        tokenType: 'Bearer',
-      };
-
-      const mockUser = {
-        id: 'user-456',
-        cognitoSub: 'user-456',
-        fullName: 'GitHub User',
-        email: 'github@example.com',
-        role: 'SUBSCRIBER',
-        isActive: true,
-        isBanned: false,
-        postsCount: 0,
-        commentsCount: 0,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-
-      // Passo 1: Iniciar OAuth
-      authService.loginWithGitHub();
-      const testHrefGithub =
-        (window as any).__testLocationHref || window.location.href;
-
-      expect(testHrefGithub).toContain('/auth/oauth/github');
-
-      // Passo 2: Simular callback com código
-      jest.spyOn(api, 'post').mockResolvedValueOnce(
-        createSuccessResponse({
-          tokens: mockTokens,
-          user: mockUser,
-        }) as any
-      );
-
-      const tokens = await authService.exchangeOAuthCodeViaBackend(
-        'github',
-        'callback-code-456'
-      );
-
-      // Passo 3: Verificar tokens salvos
-      expect(tokens.accessToken).toBeTruthy();
-      expect(localStorageMock.getItem('accessToken')).toBe(
-        mockTokens.accessToken
-      );
-
-      // Passo 4: Verificar autenticação
-      expect(authService.isAuthenticated()).toBe(true);
-    });
+    // Fluxo completo GitHub foi removido, pois o login social atual usa apenas Google.
   });
 
   // ==========================================================================

@@ -2,6 +2,40 @@
  * Testes para componente Select
  */
 
+// Mock simples de Select do @rainersoft/ui para evitar dependências do Radix
+jest.mock('@rainersoft/ui', () => {
+  const React = require('react');
+
+  const MockSelect = ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="mock-select">{children}</div>
+  );
+
+  const MockSelectTrigger = ({ children }: { children: React.ReactNode }) => (
+    <button type="button">{children}</button>
+  );
+
+  const MockSelectContent = ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  );
+
+  const MockSelectItem = ({ children }: { children: React.ReactNode }) => (
+    <div role="option">{children}</div>
+  );
+
+  const MockSelectValue = ({ placeholder }: { placeholder?: string }) => (
+    <span>{placeholder}</span>
+  );
+
+  return {
+    __esModule: true,
+    Select: MockSelect,
+    SelectTrigger: MockSelectTrigger,
+    SelectContent: MockSelectContent,
+    SelectItem: MockSelectItem,
+    SelectValue: MockSelectValue,
+  };
+});
+
 import {
   Select,
   SelectContent,

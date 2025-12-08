@@ -12,7 +12,7 @@
 import { lightThemeColors } from '@rainersoft/design-tokens';
 
 /**
- * Cores para serviços (Tailwind)
+ * Cores para serviços (tokens do tema claro)
  */
 const SERVICE_COLORS = {
   primary: lightThemeColors.primitive.cyan[600],

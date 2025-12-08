@@ -23,7 +23,8 @@ import type {
   UserFilters,
   VerifyEmailChangeData,
   UserRole,
-} from './users.types';
+} from '../types/users';
+import { prepareAvatarForUpload } from '@/lib/utils/image-converter';
 
 // =============================================================================
 // SERVIÇO BASE COMPARTILHADO
@@ -147,7 +148,7 @@ export class ProfileService extends BaseUserService {
     // Garantir que e-mail não seja enviado (alteração via Cognito apenas)
     const { email, ...profileData } = data as any;
 
-    const response = await api.patch<ApiResponse<User>>(
+    const response = await api.put<ApiResponse<User>>(
       `${this.basePath}/${userId}`,
       profileData
     );
@@ -336,8 +337,17 @@ export class UsersService extends BaseUserService {
     if (avatarFile) {
       const formData = new FormData();
 
-      // Adicionar arquivo de avatar
-      formData.append('avatar', avatarFile);
+      // Converter avatar para WebP no cliente antes do upload
+      // Aceita qualquer formato de imagem e sempre converte para WebP otimizado
+      console.log(`🔄 Convertendo avatar para WebP: ${avatarFile.name} (${avatarFile.type})`);
+      const webpAvatar = await prepareAvatarForUpload(avatarFile);
+      console.log(
+        `✅ Avatar convertido: ${webpAvatar.name} (${webpAvatar.type}) - ` +
+        `${Math.round(avatarFile.size / 1024)}KB → ${Math.round(webpAvatar.size / 1024)}KB`
+      );
+
+      // Adicionar arquivo de avatar convertido
+      formData.append('avatar', webpAvatar);
 
       // Adicionar outros campos como strings
       if (data.fullName) formData.append('fullName', data.fullName);

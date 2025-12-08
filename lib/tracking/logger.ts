@@ -260,7 +260,7 @@ class Logger {
  *
  * @example
  * ```tsx
- * import { logger } from '@/lib/monitoring/logger'
+ * import { logger } from '@/lib/tracking/logger'
  *
  * logger.info('Usuário logado', { userId: '123' })
  * logger.error('Falha ao salvar', error, { postId: '456' })

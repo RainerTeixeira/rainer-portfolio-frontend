@@ -18,8 +18,8 @@ process.env.NEXT_PUBLIC_API_URL = 'http://localhost:4000';
 import AboutPage from '@/app/sobre/page';
 import { render, screen } from '@testing-library/react';
 
-// Mock dos componentes
-jest.mock('@/components/ui', () => ({
+// Mock dos componentes de UI diretamente de @rainersoft/ui
+jest.mock('@rainersoft/ui', () => ({
   BackToTop: () => <div data-testid="back-to-top">Back to Top</div>,
   PageHeader: ({ children, title, description }: any) => (
     <div data-testid="page-header">
@@ -29,6 +29,26 @@ jest.mock('@/components/ui', () => ({
     </div>
   ),
   ParticlesEffect: () => <div data-testid="particles-effect">Particles</div>,
+  Separator: () => <hr data-testid="separator" />,
+  Card: ({ children }: any) => <div data-testid="card">{children}</div>,
+  CardHeader: ({ children }: any) => (
+    <div data-testid="card-header">{children}</div>
+  ),
+  CardTitle: ({ children }: any) => (
+    <h3 data-testid="card-title">{children}</h3>
+  ),
+  CardDescription: ({ children }: any) => (
+    <p data-testid="card-description">{children}</p>
+  ),
+  CardContent: ({ children }: any) => (
+    <div data-testid="card-content">{children}</div>
+  ),
+  Badge: ({ children }: any) => <span data-testid="badge">{children}</span>,
+  Button: ({ children, ...props }: any) => (
+    <button data-testid="button" {...props}>
+      {children}
+    </button>
+  ),
 }));
 
 jest.mock('next/image', () => ({
@@ -43,25 +63,6 @@ jest.mock('next/image', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/separator', () => ({
-  Separator: () => <hr data-testid="separator" />,
-}));
-
-jest.mock('@/components/ui/card', () => ({
-  Card: ({ children }: any) => <div data-testid="card">{children}</div>,
-  CardHeader: ({ children }: any) => (
-    <div data-testid="card-header">{children}</div>
-  ),
-  CardTitle: ({ children }: any) => (
-    <h3 data-testid="card-title">{children}</h3>
-  ),
-  CardDescription: ({ children }: any) => (
-    <p data-testid="card-description">{children}</p>
-  ),
-  CardContent: ({ children }: any) => (
-    <div data-testid="card-content">{children}</div>
-  ),
-}));
 
 jest.mock('@/components/skills/skills-with-icons', () => ({
   SKILLS: [
@@ -73,17 +74,6 @@ jest.mock('@/components/skills/skills-with-icons', () => ({
   ],
 }));
 
-jest.mock('@/components/ui/badge', () => ({
-  Badge: ({ children }: any) => <span data-testid="badge">{children}</span>,
-}));
-
-jest.mock('@/components/ui/button', () => ({
-  Button: ({ children, ...props }: any) => (
-    <button data-testid="button" {...props}>
-      {children}
-    </button>
-  ),
-}));
 
 jest.mock('framer-motion', () => ({
   motion: {

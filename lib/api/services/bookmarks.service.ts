@@ -36,6 +36,13 @@ export class BookmarksService {
    */
   async savePost(data: CreateBookmarkData): Promise<ApiResponse<Bookmark>> {
     const response = await api.post<ApiResponse<Bookmark>>(this.basePath, data);
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao salvar bookmark para o post ${data.postId} do usuário ${data.userId}`
+      );
+    }
+
     return response;
   }
 
@@ -47,7 +54,10 @@ export class BookmarksService {
     if (response.success && response.data) {
       return response.data;
     }
-    throw new Error(response.message || 'Erro ao criar bookmark');
+    throw new Error(
+      response.message ||
+        `Erro ao criar bookmark para o post ${data.postId} do usuário ${data.userId}`
+    );
   }
 
   /**
@@ -60,6 +70,12 @@ export class BookmarksService {
     const response = await api.get<ApiResponse<Bookmark>>(
       `${this.basePath}/${id}`
     );
+    if (!response.success) {
+      throw new Error(
+        response.message || `Erro ao buscar bookmark com ID: ${id}`
+      );
+    }
+
     return response;
   }
 
@@ -73,6 +89,13 @@ export class BookmarksService {
     const response = await api.get<ApiResponse<Bookmark[]>>(
       `${this.basePath}/user/${userId}`
     );
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao listar bookmarks do usuário com ID: ${userId}`
+      );
+    }
+
     return response;
   }
 
@@ -90,6 +113,13 @@ export class BookmarksService {
       `${this.basePath}/user/${userId}/collection`,
       { params: { fullName } }
     );
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao listar bookmarks da coleção "${fullName}" do usuário ${userId}`
+      );
+    }
+
     return response;
   }
 
@@ -107,6 +137,12 @@ export class BookmarksService {
       `${this.basePath}/${id}`,
       data
     );
+    if (!response.success) {
+      throw new Error(
+        response.message || `Erro ao atualizar bookmark com ID: ${id}`
+      );
+    }
+
     return response;
   }
 
@@ -117,7 +153,17 @@ export class BookmarksService {
    * Remove bookmark por ID.
    */
   async removeBookmark(id: string): Promise<ApiResponse<void>> {
-    return api.delete<ApiResponse<void>>(`${this.basePath}/${id}`);
+    const response = await api.delete<ApiResponse<void>>(
+      `${this.basePath}/${id}`
+    );
+
+    if (!response.success) {
+      throw new Error(
+        response.message || `Erro ao remover bookmark com ID: ${id}`
+      );
+    }
+
+    return response;
   }
 
   /**
@@ -130,9 +176,18 @@ export class BookmarksService {
     userId: string,
     postId: string
   ): Promise<ApiResponse<void>> {
-    return api.delete<ApiResponse<void>>(
+    const response = await api.delete<ApiResponse<void>>(
       `${this.basePath}/user/${userId}/post/${postId}`
     );
+
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao remover post ${postId} dos bookmarks do usuário ${userId}`
+      );
+    }
+
+    return response;
   }
 
   /**
@@ -193,7 +248,10 @@ export class BookmarksService {
       if (bookmarkResponse.success) {
         return { bookmarked: true, bookmark: bookmarkResponse.data };
       }
-      throw new Error(bookmarkResponse.message);
+      throw new Error(
+        bookmarkResponse.message ||
+          `Erro ao salvar bookmark para o post ${postId} do usuário ${userId}`
+      );
     }
   }
 
@@ -230,7 +288,10 @@ export class BookmarksService {
     if (response.success) {
       return response.data;
     }
-    throw new Error(response.message);
+    throw new Error(
+      response.message ||
+        `Erro ao mover bookmark ${bookmarkId} para a coleção "${collection}"`
+    );
   }
 
   /**
@@ -244,7 +305,10 @@ export class BookmarksService {
     if (response.success) {
       return response.data;
     }
-    throw new Error(response.message);
+    throw new Error(
+      response.message ||
+        `Erro ao atualizar notas do bookmark com ID: ${bookmarkId}`
+    );
   }
 }
 

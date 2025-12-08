@@ -339,11 +339,6 @@ afterEach(() => {
   localStorage.clear();
   sessionStorage.clear();
   
-  // Limpa timers
-  if (jest.getTimerCount() > 0) {
-    jest.clearAllTimers();
-  }
-  
   // Restaura console original
   console.log.mockRestore?.();
   console.error.mockRestore?.();

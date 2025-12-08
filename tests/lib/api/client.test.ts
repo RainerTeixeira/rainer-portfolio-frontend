@@ -1,14 +1,14 @@
 /**
  * @fileoverview Testes unitários para a classe ApiClient
- * @description Cobre funcionalidades principais, tratamento de erros, 
+ * @description Cobre funcionalidades principais, tratamento de erros,
  * headers, autenticação e métricas
  */
 
-import { ApiClient, ApiError } from './ApiClient';
-import { API_CONFIG, ERROR_MESSAGES, HTTP_STATUS } from './config';
+import { ApiClient, ApiError } from '@/lib/api/client';
+import { API_CONFIG, ERROR_MESSAGES, HTTP_STATUS } from '@/lib/api/config';
 
-// Mock das dependências
-jest.mock('./config', () => ({
+// Mock das dependências de configuração para tornar o cliente previsível em teste
+jest.mock('@/lib/api/config', () => ({
   API_CONFIG: {
     BASE_URL: 'https://api.example.com',
     TIMEOUT: 5000,
@@ -83,17 +83,14 @@ describe('ApiClient', () => {
 
     test('deve lançar erro em desenvolvimento sem URL base', () => {
       const originalEnv = process.env.NODE_ENV;
+      const originalBaseUrl = API_CONFIG.BASE_URL;
       process.env.NODE_ENV = 'development';
-      
-      // Mock para simular falta de URL base
-      jest.doMock('./config', () => ({
-        API_CONFIG: { BASE_URL: '', TIMEOUT: 5000 },
-        ERROR_MESSAGES: {},
-        HTTP_STATUS: {},
-      }));
+
+      (API_CONFIG as any).BASE_URL = '';
 
       expect(() => new ApiClient()).toThrow();
-      
+
+      (API_CONFIG as any).BASE_URL = originalBaseUrl;
       process.env.NODE_ENV = originalEnv;
     });
 
@@ -265,7 +262,11 @@ describe('ApiClient', () => {
     test('deve lançar ApiError para timeout', async () => {
       (fetch as jest.Mock).mockImplementation(
         () => new Promise((_, reject) => {
-          setTimeout(() => reject(new Error('AbortError')), 100);
+          setTimeout(() => {
+            const abortError = new Error('Request aborted');
+            (abortError as any).name = 'AbortError';
+            reject(abortError);
+          }, 100);
         })
       );
 
@@ -682,23 +683,26 @@ describe('ApiClient', () => {
 // Testes para a instância singleton exportada
 describe('api (singleton)', () => {
   test('deve exportar instância singleton pré-configurada', async () => {
-    const { api } = await import('./ApiClient');
+    const { api } = await import('@/lib/api/client');
     
     expect(api).toBeInstanceOf(ApiClient);
     expect(api.get).toBeInstanceOf(Function);
     expect(api.post).toBeInstanceOf(Function);
   });
 
-  test('deve ter logger configurado para desenvolvimento', async () => {
+  test('deve ter logger configurado para desenvolvimento', () => {
     const originalEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = 'development';
 
     const consoleSpy = jest.spyOn(console, 'log');
-    
-    // Importa o módulo para executar o código de inicialização
-    await import('./ApiClient');
 
-    expect(consoleSpy).toHaveBeenCalled();
+    // Instancia um novo cliente para disparar o log de desenvolvimento
+    new ApiClient();
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      '[ApiClient] URL base da API:',
+      'https://api.example.com'
+    );
 
     process.env.NODE_ENV = originalEnv;
     consoleSpy.mockRestore();
