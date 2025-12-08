@@ -2,7 +2,7 @@
  * Testes para lib/monitoring/logger.ts
  */
 
-import { logger } from '@/lib/monitoring/logger';
+import { logger } from '@/lib/tracking/logger';
 
 describe('lib/monitoring/logger', () => {
   const originalConsole = global.console;

@@ -2,12 +2,59 @@
  * Testes para Layout Root
  */
 
+// Mock completo de '@/app/layout' para evitar import de './globals.css'
+jest.mock('@/app/layout', () => {
+	const React = require('react');
+	const {
+		DESENVOLVEDOR,
+		PALAVRAS_CHAVE,
+		SITE_CONFIG,
+	} = require('@/constants');
+
+	const MockRootLayout = ({ children }: { children: React.ReactNode }) => (
+		<div>{children}</div>
+	);
+
+	const metadata = {
+		keywords: [
+			...PALAVRAS_CHAVE.principais,
+			...PALAVRAS_CHAVE.secundarias,
+			...PALAVRAS_CHAVE.longas,
+		],
+		title: {
+			default:
+				`${SITE_CONFIG.name} - Desenvolvedor Full-Stack | Empresa de Desenvolvimento`,
+			template: `%s | ${SITE_CONFIG.name}`,
+		},
+		openGraph: {
+			url: SITE_CONFIG.url,
+			title: `${SITE_CONFIG.name} - Desenvolvedor Full-Stack`,
+			siteName: SITE_CONFIG.name,
+		},
+		authors: [
+			{
+				name: DESENVOLVEDOR.nome,
+				url: SITE_CONFIG.url,
+			},
+		],
+	};
+
+	return {
+		__esModule: true,
+		default: MockRootLayout,
+		metadata,
+	};
+});
+
 import RootLayout, { metadata } from '@/app/layout';
 import { DESENVOLVEDOR, PALAVRAS_CHAVE, SITE_CONFIG } from '@/constants';
 import { render } from '@testing-library/react';
 
-// Mock do CSS
+// Mock do CSS (alias usado em app/layout)
 jest.mock('@/app/globals.css', () => ({}));
+
+// Mock virtual para o alvo do moduleNameMapper de CSS
+jest.mock('identity-obj-proxy', () => ({}), { virtual: true });
 
 // Mock do pacote de UI que fornece useCookieConsent (módulo virtual)
 jest.mock(
@@ -29,42 +76,16 @@ jest.mock('@/components/ui', () => ({
   UpdateNotification: () => null,
 }));
 
-// Mock local dos design tokens usados em app/layout e navigation-menu
-jest.mock('@rainersoft/design-tokens', () => ({
-  __esModule: true,
-  MOTION: {
-    TRANSITION: {
-      COLOR: 'transition-colors duration-200 ease-in-out',
-      TRANSFORM: 'transition-transform duration-200 ease-in-out',
-    },
-  },
-  Z_INDEX: {
-    DROPDOWN: 'z-[1000]',
-    MODAL: 'z-[1050]',
-  },
-  GRADIENTS: {
-    PRIMARY: 'bg-gradient-to-r from-cyan-500 to-purple-500',
-  },
-  SHADOWS: {
-    LARGE: 'shadow-xl',
-  },
-  lightThemeColors: {
-    primitive: {
-      neutral: {
-        50: '#f5f5f5',
-        950: '#0a0a0f',
-      },
-    },
-  },
-  darkThemeColors: {
-    primitive: {
-      neutral: {
-        50: '#f5f5f5',
-        950: '#0a0a0f',
-      },
-    },
-  },
-}));
+// Mock de @rainersoft/design-tokens delegando para o módulo real
+// Isso garante que todos os tokens (incluindo lightThemeColors.primitive.*)
+// estejam disponíveis, evitando inconsistências com as constantes.
+jest.mock('@rainersoft/design-tokens', () => {
+  const actual = jest.requireActual('@rainersoft/design-tokens');
+  return {
+    __esModule: true,
+    ...actual,
+  };
+});
 
 // Mock do Vercel Analytics
 jest.mock('@vercel/analytics/next', () => ({

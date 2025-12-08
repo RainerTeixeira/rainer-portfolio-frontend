@@ -32,8 +32,8 @@
  * ## Uso
  *
  * ```typescript
- * import { analytics, logger, performanceMonitor } from '@/lib/monitoring'
- * import { ANALYTICS_EVENTS } from '@/lib/monitoring/analytics'
+ * import { analytics, logger, performanceMonitor } from '@/lib/tracking'
+ * import { ANALYTICS_EVENTS } from '@/lib/tracking/analytics'
  *
  * // Analytics
  * analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'))
@@ -49,7 +49,7 @@
  * const duration = performanceMonitor.end('load-posts')
  * ```
  *
- * @module lib/monitoring
+ * @module lib/tracking
  * @fileoverview Barrel exports para sistemas de monitoramento
  * @author Rainer Teixeira
  * @version 1.0.0

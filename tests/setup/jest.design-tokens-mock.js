@@ -50,9 +50,27 @@ const BACKGROUND = {
   SECTION_CYAN_VIA: 'bg-cyan-900/40',
 };
 
-// Cores do tema light
+// Cores do tema light (shape compatível com a lib real)
 const lightThemeColors = {
   primitive: {
+    cyan: {
+      600: '#0ea5e9',
+    },
+    purple: {
+      600: '#8b5cf6',
+    },
+    pink: {
+      600: '#ec4899',
+    },
+    emerald: {
+      600: '#10b981',
+    },
+    blue: {
+      600: '#3b82f6',
+    },
+    orange: {
+      500: '#f97316',
+    },
     neutral: {
       50: '#f5f5f5',
       950: '#0a0a0f',
@@ -186,6 +204,18 @@ jest.mock('@rainersoft/design-tokens', () => ({
     },
     hero: heroTokens,
   },
+  // Funções de acesso a paletas (espelham contrato da lib real)
+  // Formato compatível com uso em PostCard: colors.primary/secondary/accent.base
+  getLightColors: () => ({
+    primary: { base: baseLightColors.primary.base },
+    secondary: { base: '#8b5cf6' },
+    accent: { base: '#ec4899' },
+  }),
+  getDarkColors: () => ({
+    primary: { base: '#0ea5e9' },
+    secondary: { base: '#8b5cf6' },
+    accent: { base: '#ec4899' },
+  }),
   
   // Utilitários
   breakpointTokens,

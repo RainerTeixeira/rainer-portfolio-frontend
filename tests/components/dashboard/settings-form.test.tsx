@@ -14,14 +14,6 @@ const SettingsForm = () => (
   </form>
 );
 
-// Mock do hook useAuth
-jest.mock('@/components/providers/auth-provider', () => ({
-  useAuth: jest.fn(() => ({
-    user: { id: '1', fullName: 'Test User' },
-    updateProfile: jest.fn(),
-  })),
-}));
-
 describe('SettingsForm', () => {
   it('deve renderizar formulário de configurações', () => {
     render(<SettingsForm />);

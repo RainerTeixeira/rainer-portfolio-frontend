@@ -33,24 +33,13 @@ jest.mock('@/components/contato/contact-info-card', () => ({
   ),
 }));
 
-jest.mock('@/components/ui', () => ({
-  BackToTop: () => <div data-testid="back-to-top">Back to Top</div>,
-  PageHeader: ({ children, title, description }: any) => (
-    <div data-testid="page-header">
-      <h1>{title}</h1>
-      <p>{description}</p>
-      {children}
-    </div>
-  ),
-  ParticlesEffect: () => <div data-testid="particles-effect">Particles</div>,
-}));
-
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: any) => <img {...props} />,
 }));
 
-jest.mock('@/components/ui/accordion', () => ({
+// Mock de componentes de UI diretamente de @rainersoft/ui
+jest.mock('@rainersoft/ui', () => ({
   Accordion: ({ children }: any) => (
     <div data-testid="accordion">{children}</div>
   ),
@@ -63,9 +52,6 @@ jest.mock('@/components/ui/accordion', () => ({
   AccordionContent: ({ children }: any) => (
     <div data-testid="accordion-content">{children}</div>
   ),
-}));
-
-jest.mock('@/components/ui/card', () => ({
   Card: ({ children }: any) => <div data-testid="card">{children}</div>,
   CardHeader: ({ children }: any) => (
     <div data-testid="card-header">{children}</div>
@@ -79,10 +65,16 @@ jest.mock('@/components/ui/card', () => ({
   CardContent: ({ children }: any) => (
     <div data-testid="card-content">{children}</div>
   ),
-}));
-
-jest.mock('@/components/ui/separator', () => ({
   Separator: () => <hr data-testid="separator" />,
+  PageHeader: ({ children, title, description }: any) => (
+    <div data-testid="page-header">
+      <h1>{title}</h1>
+      <p>{description}</p>
+      {children}
+    </div>
+  ),
+  ParticlesEffect: () => <div data-testid="particles-effect">Particles</div>,
+  BackToTop: () => <div data-testid="back-to-top">Back to top</div>,
 }));
 
 jest.mock('framer-motion', () => ({

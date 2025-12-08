@@ -73,6 +73,13 @@ export class PostsService {
    */
   async getPostById(id: string): Promise<ApiResponse<Post>> {
     const response = await api.get<ApiResponse<Post>>(`${this.basePath}/${id}`);
+
+    if (!response.success) {
+      throw new Error(
+        response.message || `Erro ao buscar post com ID: ${id}`
+      );
+    }
+
     return response;
   }
 
@@ -89,7 +96,9 @@ export class PostsService {
     if (response.success && response.data) {
       return response.data;
     }
-    throw new Error(response.message || 'Erro ao buscar post');
+    throw new Error(
+      response.message || `Erro ao buscar post com slug: ${slug}`
+    );
   }
 
   /**
@@ -103,7 +112,10 @@ export class PostsService {
     if (response.success && response.data) {
       return response.data;
     }
-    throw new Error(response.message || 'Erro ao criar post');
+    throw new Error(
+      response.message ||
+        `Erro ao criar post${data.title ? ` com título: ${data.title}` : ''}`
+    );
   }
 
   /**
@@ -120,6 +132,13 @@ export class PostsService {
       `${this.basePath}/${id}`,
       data
     );
+
+    if (!response.success) {
+      throw new Error(
+        response.message || `Erro ao atualizar post com ID: ${id}`
+      );
+    }
+
     return response;
   }
 
@@ -143,6 +162,13 @@ export class PostsService {
     const response = await api.patch<ApiResponse<Post>>(
       `${this.basePath}/${id}/publish`
     );
+
+    if (!response.success) {
+      throw new Error(
+        response.message || `Erro ao publicar post com ID: ${id}`
+      );
+    }
+
     return response;
   }
 
@@ -156,6 +182,13 @@ export class PostsService {
     const response = await api.patch<ApiResponse<Post>>(
       `${this.basePath}/${id}/unpublish`
     );
+
+    if (!response.success) {
+      throw new Error(
+        response.message || `Erro ao despublicar post com ID: ${id}`
+      );
+    }
+
     return response;
   }
 
@@ -171,6 +204,14 @@ export class PostsService {
     const response = await api.get<ApiResponse<Post[]>>(
       `${this.basePath}/subcategory/${subcategoryId}`
     );
+
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao listar posts da subcategoria: ${subcategoryId}`
+      );
+    }
+
     return response;
   }
 
@@ -184,6 +225,13 @@ export class PostsService {
     const response = await api.get<ApiResponse<Post[]>>(
       `${this.basePath}/author/${authorId}`
     );
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao listar posts do autor com ID: ${authorId}`
+      );
+    }
+
     return response;
   }
 }

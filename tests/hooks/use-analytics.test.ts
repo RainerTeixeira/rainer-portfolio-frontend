@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => ({
 }));
 
 // Mock do logger para evitar dependência de cores de design tokens
-jest.mock('@/lib/monitoring/logger', () => ({
+jest.mock('@/lib/tracking/logger', () => ({
   logger: {
     debug: jest.fn(),
     info: jest.fn(),
@@ -24,7 +24,7 @@ jest.mock('@/lib/monitoring/logger', () => ({
 }));
 
 // Mock completo do analytics com todos eventos usados no hook
-jest.mock('@/lib/monitoring/analytics', () => ({
+jest.mock('@/lib/tracking/analytics', () => ({
   analytics: {
     track: jest.fn(),
     pageView: jest.fn(),
@@ -87,7 +87,7 @@ describe('useAnalytics', () => {
   });
 
   it('deve inicializar analytics no mount', () => {
-    const { analytics } = require('@/lib/monitoring/analytics');
+    const { analytics } = require('@/lib/tracking/analytics');
     renderHook(() => useAnalytics());
 
     // Verifica se analytics está disponível

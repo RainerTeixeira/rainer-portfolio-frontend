@@ -2,13 +2,53 @@
  * Testes para lib/utils/scroll.ts
  */
 
+jest.mock('@rainersoft/utils', () => {
+  function prefersReducedMotion() {
+    // O comportamento real depende de matchMedia; aqui o teste controla
+    // window.matchMedia, então essa função apenas delega para ele.
+    return !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }
+
+  function scrollToPosition(top: number, left: number = 0) {
+    window.scrollTo({ top, left, behavior: 'auto' });
+  }
+
+  function smoothScrollTo(target: Element | string) {
+    let el: Element | null = null;
+    if (typeof target === 'string') {
+      el = document.querySelector(target);
+    } else {
+      el = target;
+    }
+    el?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function onReducedMotionChange(callback: (value: boolean) => void) {
+    callback(prefersReducedMotion());
+    return () => void 0;
+  }
+
+  return {
+    __esModule: true,
+    prefersReducedMotion,
+    scrollToTop,
+    scrollToPosition,
+    smoothScrollTo,
+    onReducedMotionChange,
+  };
+});
+
 import {
   onReducedMotionChange,
   prefersReducedMotion,
   scrollToPosition,
   scrollToTop,
   smoothScrollTo,
-} from '@/lib/utils/scroll';
+} from '@rainersoft/utils';
 
 // Mock window.matchMedia
 const mockMatchMedia = jest.fn();

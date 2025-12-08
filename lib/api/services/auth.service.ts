@@ -518,6 +518,50 @@ export class AuthService {
 
       return loginResponse;
     } catch (error) {
+      // Tratamento específico para erros de timeout / serviço indisponível / backend ou DB offline
+      if (error instanceof ApiError) {
+        const message = (error.message || '').toLowerCase();
+
+        const isTimeoutStatus = error.status === 0 || error.status === 503;
+        const isTimeoutMessage =
+          message.includes('tempo limite excedido') ||
+          message.includes('timeout') ||
+          message.includes('server selection timeout') ||
+          message.includes('nenhuma conexão pôde ser feita') ||
+          message.includes('econnrefused');
+
+        if (isTimeoutStatus || isTimeoutMessage) {
+          const friendlyMessage =
+            'O serviço de autenticação está temporariamente indisponível. Tente novamente em alguns instantes.';
+
+          const enhancedError = new ApiError(
+            error.status || 503,
+            friendlyMessage,
+            error.data,
+            error.url,
+            error.method,
+            error.endpoint
+          );
+
+          // Em desenvolvimento, logar como warning (não como erro crítico) para evitar ruído excessivo
+          if (process.env.NODE_ENV === 'development') {
+            // eslint-disable-next-line no-console
+            console.warn(
+              `[${this.context}] login - Serviço indisponível (timeout/DB off)`,
+              {
+                status: error.status,
+                url: error.url,
+                endpoint: error.endpoint,
+                method: error.method,
+                originalMessage: error.message,
+              }
+            );
+          }
+
+          return Promise.reject(enhancedError);
+        }
+      }
+
       // Tratamento específico para erros 401 (credenciais inválidas)
       if (error instanceof ApiError && error.status === 401) {
         // Interface para ApiError com suggestions (adicionado dinamicamente)
@@ -632,6 +676,18 @@ export class AuthService {
       });
       throw error;
     }
+  }
+
+  /**
+   * Realiza login com email e senha usando o fluxo padrão de login
+   * Mantido como helper para compatibilidade com hooks que esperam loginWithEmail
+   */
+  async loginWithEmail(email: string, password: string): Promise<LoginResponse> {
+    console.log(`[${this.context}] loginWithEmail - Iniciando login com email`, {
+      email,
+    });
+
+    return this.login({ email, password });
   }
 
   /**

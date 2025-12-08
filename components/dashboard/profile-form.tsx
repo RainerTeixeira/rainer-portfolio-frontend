@@ -45,17 +45,8 @@ import { Textarea } from '@rainersoft/ui';
 import { cloudinaryService } from '@/lib/api';
 import { cn } from '@/lib/portfolio';
 import { GRADIENT_DIRECTIONS, MOTION } from '@rainersoft/design-tokens';
-import {
-  Camera,
-  CheckCircle2,
-  Globe,
-  Mail,
-  Save,
-  User,
-  UserCircle,
-} from 'lucide-react';
+import { Camera, CheckCircle2, Globe, Save, User, UserCircle } from 'lucide-react';
 import { useState } from 'react';
-import { ChangeEmailDialog } from './change-email-dialog';
 import { ChangeUsernameDialog } from './change-username-dialog';
 
 /**
@@ -126,7 +117,6 @@ const FORM_STYLES = {
 
 export function ProfileForm() {
   const { user, updateProfile } = useAuthContext();
-  const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [showUsernameDialog, setShowUsernameDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -320,40 +310,8 @@ export function ProfileForm() {
         </CardHeader>
         <CardContent className="relative {Z_INDEX_CLASSES.CONTENT}">
           <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
-            {/* Credentials Section */}
+            {/* Credentials Section (apenas username, email gerenciado fora deste form) */}
             <div className="space-y-4 sm:space-y-6">
-              <div className="space-y-3">
-                <Label htmlFor="email" className={FORM_STYLES.label}>
-                  <Mail className="w-4 h-4" />
-                  Email
-                </Label>
-                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                  <Input
-                    id="email"
-                    type="email"
-                    value={user.email}
-                    disabled
-                    className={cn(FORM_STYLES.input, 'flex-1 bg-muted/50')}
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowEmailDialog(true)}
-                    className={cn(
-                      FORM_STYLES.buttonSecondary,
-                      'w-full sm:w-auto whitespace-nowrap'
-                    )}
-                  >
-                    <Mail className="w-4 h-4 mr-2" />
-                    Alterar
-                  </Button>
-                </div>
-                <p className="text-xs text-muted-foreground dark:text-gray-400">
-                  Email gerenciado pelo Cognito
-                </p>
-              </div>
-
               <div className="space-y-3">
                 <Label htmlFor="username" className={FORM_STYLES.label}>
                   <User className="w-4 h-4" />
@@ -490,13 +448,6 @@ export function ProfileForm() {
       </Card>
 
       {/* Dialogs */}
-      <ChangeEmailDialog
-        open={showEmailDialog}
-        onOpenChange={setShowEmailDialog}
-        cognitoSub={user.cognitoSub}
-        currentEmail={user.email}
-      />
-
       <ChangeUsernameDialog
         open={showUsernameDialog}
         onOpenChange={setShowUsernameDialog}

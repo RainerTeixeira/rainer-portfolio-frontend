@@ -119,6 +119,27 @@ const user = await usersService.getUserById('123');
 const response = await authService.login({ email, password });
 ```
 
+#### Contrato de Tratamento de Erros
+
+Todos os serviços em `lib/api/services` seguem o mesmo padrão de erro:
+
+- Chamadas ao backend retornam um wrapper `ApiResponse<T>`.
+- Se `response.success === false`, o service **lança um `Error`** com uma mensagem descritiva.
+- As mensagens de erro sempre incluem **contexto útil** (ID, slug, userId, etc.) quando possível.
+- Consumers (hooks, componentes, páginas) devem usar `try/catch` e, em geral, exibir `err.message`:
+
+```ts
+try {
+  const posts = await postsService.listPosts({ status: 'PUBLISHED' });
+} catch (err) {
+  const message =
+    err instanceof Error ? err.message : 'Erro ao carregar posts';
+  toast.error(message);
+}
+```
+
+> Dica: os hooks de UI (`use-posts`, `use-comments`, etc.) já seguem esse padrão, propagando `error.message` para o estado ou para toasts.
+
 #### Helpers
 
 ```typescript
@@ -234,7 +255,7 @@ Sistema completo de monitoramento: analytics, logging e performance.
 #### Analytics
 
 ```typescript
-import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring';
+import { analytics, ANALYTICS_EVENTS } from '@/lib/tracking';
 
 // Rastrear evento
 analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'));
@@ -250,7 +271,7 @@ analytics.identify('user-123', { plan: 'premium' });
 #### Logger
 
 ```typescript
-import { logger } from '@/lib/monitoring';
+import { logger } from '@/lib/tracking';
 
 // Diferentes níveis
 logger.debug('Debug info', { data: 'value' });
@@ -266,7 +287,7 @@ contextualLogger.info('Posts carregados', { count: 10 });
 #### Performance
 
 ```typescript
-import { performanceMonitor } from '@/lib/monitoring';
+import { performanceMonitor } from '@/lib/tracking';
 
 // Medir operação
 performanceMonitor.start('load-posts');
@@ -485,18 +506,19 @@ const estimate = estimateCompression(original, compressed);
 
 ```typescript
 // Importar do barrel principal (recomendado)
-import { api, logger, validateEmail } from '@/lib';
+import { api, tracking, validateEmail } from '@/lib';
 
 // Importar de módulos específicos
 import { postsService } from '@/lib/api';
 import { calculateReadingTime } from '@/lib/content';
-import { analytics } from '@/lib/monitoring';
+import { analytics } from '@/lib/tracking';
 ```
 
 ### Padrões Recomendados
 
 1. **Sempre use services ao invés do client direto** (quando disponível)
 2. **Trate erros com ApiError** para requisições HTTP
+3. **Use tracking ao invés de console.log** em produção
 3. **Use logger ao invés de console.log** em produção
 4. **Verifique consentimento** antes de carregar analytics
 5. **Valide dados** antes de enviar para API
@@ -513,7 +535,7 @@ import {
   preparePostForCreate,
   validatePostData,
 } from '@/lib/api';
-import { logger } from '@/lib/monitoring';
+import { logger } from '@/lib/tracking';
 
 async function createPost(formData: PostFormData, userId: string) {
   try {
@@ -547,7 +569,7 @@ import {
   initGoogleAnalytics,
   trackPageView,
 } from '@/lib/cookies';
-import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring';
+import { analytics, ANALYTICS_EVENTS } from '@/lib/tracking';
 
 // Inicializar analytics se consentido
 if (isCookieAllowed('analytics')) {
@@ -569,8 +591,8 @@ function onRouteChange(url: string) {
 ### Exemplo 3: Performance Monitoring
 
 ```typescript
-import { performanceMonitor } from '@/lib/monitoring';
-import { logger } from '@/lib/monitoring';
+import { performanceMonitor } from '@/lib/tracking';
+import { logger } from '@/lib/tracking';
 
 async function loadPosts() {
   const duration = await performanceMonitor.measure('load-posts', async () => {

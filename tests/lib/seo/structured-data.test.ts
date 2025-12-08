@@ -6,7 +6,7 @@ import type { Post } from '@/lib/api/types';
 import {
   generateArticleStructuredData,
   generateBreadcrumbStructuredData,
-} from '@/lib/seo/structured-data';
+} from '@/lib/metadata/structured-data';
 
 describe('lib/seo/structured-data', () => {
   describe('generateArticleStructuredData', () => {

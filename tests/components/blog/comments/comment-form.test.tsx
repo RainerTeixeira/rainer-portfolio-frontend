@@ -9,8 +9,9 @@ import { CommentForm } from '@/components/blog/comments/comment-form';
 import { render } from '@testing-library/react';
 
 // Mock do useAuthContext
-jest.mock('@/components/providers/auth-provider', () => ({
-  useAuth: jest.fn(() => ({
+jest.mock('@/components/providers/auth-context-provider', () => ({
+  __esModule: true,
+  useAuthContext: () => ({
     user: {
       id: '1',
       fullName: 'Test User',
@@ -18,7 +19,8 @@ jest.mock('@/components/providers/auth-provider', () => ({
       username: 'testuser',
     },
     isAuthenticated: true,
-  })),
+    loading: false,
+  }),
 }));
 
 // Mock do commentsService

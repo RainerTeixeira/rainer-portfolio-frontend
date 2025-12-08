@@ -50,14 +50,12 @@ interface ChangeEmailDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   cognitoSub: string;
-  currentEmail: string;
 }
 
 export function ChangeEmailDialog({
   open,
   onOpenChange,
   cognitoSub,
-  currentEmail,
 }: ChangeEmailDialogProps) {
   const [step, setStep] = useState<'email' | 'code'>('email');
   const [newEmail, setNewEmail] = useState('');
@@ -137,17 +135,6 @@ export function ChangeEmailDialog({
 
         {step === 'email' ? (
           <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="current-email">Email Atual</Label>
-              <Input
-                id="current-email"
-                type="email"
-                value={currentEmail}
-                disabled
-                className="bg-muted"
-              />
-            </div>
-
             <div className="space-y-2">
               <Label htmlFor="new-email">Novo Email</Label>
               <Input

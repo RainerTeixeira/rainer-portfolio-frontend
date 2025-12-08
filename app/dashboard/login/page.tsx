@@ -2,7 +2,7 @@
  * Login Page Component
  *
  * Página de autenticação do dashboard com design split-screen.
- * Suporta login tradicional e login social (Google/GitHub) via AWS Cognito.
+ * Suporta login tradicional e login social (Google) via AWS Cognito.
  *
  * @module app/dashboard/login/page
  * @fileoverview Página de login do dashboard com autenticação completa
@@ -20,7 +20,7 @@
  * Características:
  * - Design split-screen (branding + formulário)
  * - Login tradicional com email/usuário e senha
- * - Login social via OAuth (Google/GitHub) na página principal
+ * - Login social via OAuth (Google) na página principal
  * - Integração com AWS Cognito
  * - Validação de formulário
  * - Estados de loading e erro
@@ -32,7 +32,7 @@
 import {
   AuthLayout,
   LoginForm,
-  OAuthButtons,
+  OAuthButton,
 } from '@/components/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
@@ -71,7 +71,6 @@ export default function LoginPage() {
     isAuthenticated,
     loading: authLoading,
     loginWithGoogle,
-    loginWithGitHub,
   } = useAuthContext();
 
   /**
@@ -216,18 +215,7 @@ export default function LoginPage() {
     }
   };
 
-  /**
-   * Handler de login social com GitHub OAuth.
-   * Inicia fluxo de autenticação via GitHub.
-   */
-  const handleGitHubLogin = () => {
-    try {
-      loginWithGitHub();
-    } catch (err) {
-      console.error('Erro ao iniciar login com GitHub:', err);
-      toast.error('Erro ao iniciar login com GitHub');
-    }
-  };
+  // Fluxo de login social com GitHub foi desativado neste momento.
 
   /**
    * Estado de carregamento inicial.
@@ -356,11 +344,10 @@ export default function LoginPage() {
           </div>
         </motion.div>
 
-        {/* Botões de login social (OAuth) */}
-        {/* Autenticação via Google e GitHub */}
-        <OAuthButtons
+        {/* Botão de login social (OAuth) */}
+        {/* Autenticação via Google */}
+        <OAuthButton
           onGoogleLogin={handleGoogleLogin}
-          onGitHubLogin={handleGitHubLogin}
           disabled={isLoading}
         />
       </AuthLayout>

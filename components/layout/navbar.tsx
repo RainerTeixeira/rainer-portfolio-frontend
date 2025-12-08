@@ -81,6 +81,7 @@ import {
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { NAVIGATION, SITE_CONFIG } from '@/constants';
 import { cn } from '@/lib/portfolio';
+import { getAvatarUrl, getInitials, setCloudNameFromUrl } from '@/lib/utils/avatar';
 
 // ============================================================================
 // Constants
@@ -113,7 +114,36 @@ const MAX_AVATAR_INITIALS = 2;
 interface UserData {
   readonly nickname: string;
   readonly role: string;
+  readonly cognitoSub?: string;
   readonly avatarUrl?: string;
+  readonly avatarVersion?: number;
+}
+
+/**
+ * Resolve a URL de avatar usando o padrão profissional:
+ * 1. Prioriza URL do backend (contém cloud_name correto)
+ * 2. Constrói URL a partir do cognitoSub se necessário
+ * 3. Adiciona cache-busting via timestamp
+ */
+function resolveAvatarSrc(
+  cognitoSub: string | undefined,
+  avatarUrl: string | undefined,
+  avatarVersion?: number,
+): string | undefined {
+  const versionQuery = avatarVersion ? `?v=${avatarVersion}` : '';
+
+  // Prioridade 1: URL do backend (já contém cloud_name correto)
+  if (avatarUrl?.startsWith('http://') || avatarUrl?.startsWith('https://')) {
+    return `${avatarUrl}${versionQuery}`;
+  }
+
+  // Prioridade 2: Construir a partir do cognitoSub
+  if (cognitoSub) {
+    const url = getAvatarUrl(cognitoSub, avatarVersion);
+    if (url) return url;
+  }
+
+  return undefined;
 }
 
 interface UserMenuProps {
@@ -127,26 +157,10 @@ interface UserMenuProps {
 
 /**
  * Extrai iniciais do nome de usuário para avatar
- *
- * Pega as primeiras letras de cada palavra do nome, converte para
- * maiúsculas e limita a MAX_AVATAR_INITIALS caracteres.
- *
- * @param {string} name - Nome completo do usuário
- * @returns {string} Iniciais em uppercase (máximo 2 caracteres)
- *
- * @example
- * ```ts
- * getUserInitials("Rainer Teixeira") // returns "RT"
- * getUserInitials("John Doe Smith") // returns "JD"
- * ```
+ * Usa o utilitário centralizado de avatar
  */
 function getUserInitials(name: string): string {
-  return name
-    .split(' ')
-    .map(word => word[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, MAX_AVATAR_INITIALS);
+  return getInitials(name, MAX_AVATAR_INITIALS) || '??';
 }
 
 /**
@@ -248,10 +262,7 @@ function UserMenu({ user, logout }: UserMenuProps) {
             )}
           >
             <AvatarImage
-              src={
-                user.avatarUrl ||
-                `https://api.dicebear.com/7.x/initials/svg?seed=${user.nickname}`
-              }
+              src={resolveAvatarSrc(user.cognitoSub, user.avatarUrl, user.avatarVersion)}
               alt={`Avatar de ${user.nickname}`}
               className="object-cover"
             />
@@ -393,6 +404,9 @@ export function Navbar() {
   const [isMounted, setIsMounted] = useState(false);
   const { user, isAuthenticated, logout } = useAuthContext();
 
+  // Estado para forçar atualização do avatar após upload
+  const [avatarVersion, setAvatarVersion] = useState<number>(Date.now());
+
   const navbarUser: UserData | null =
     isAuthenticated && user
       ? {
@@ -402,7 +416,9 @@ export function Navbar() {
             user.email ||
             'Usuário',
           role: user.role,
+          cognitoSub: user.cognitoSub,
           avatarUrl: user.avatar,
+          avatarVersion: avatarVersion,
         }
       : null;
 
@@ -421,6 +437,26 @@ export function Navbar() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  /**
+   * Detecta cloud_name do Cloudinary a partir da URL do avatar
+   * Permite construir URLs de avatar sem variável de ambiente
+   */
+  useEffect(() => {
+    if (user?.avatar) {
+      setCloudNameFromUrl(user.avatar);
+    }
+  }, [user?.avatar]);
+
+  /**
+   * Atualiza versão do avatar quando usuário muda
+   * Força reload do avatar após atualizações
+   */
+  useEffect(() => {
+    if (user?.cognitoSub) {
+      setAvatarVersion(Date.now());
+    }
+  }, [user?.cognitoSub, user?.avatar]);
 
   /**
    * Detecta scroll para ativar efeito glassmorphism
@@ -627,10 +663,7 @@ export function Navbar() {
                         )}
                       >
                         <AvatarImage
-                          src={
-                            navbarUser.avatarUrl ||
-                            `https://api.dicebear.com/7.x/initials/svg?seed=${navbarUser.nickname}`
-                          }
+                          src={resolveAvatarSrc(navbarUser.cognitoSub, navbarUser.avatarUrl, navbarUser.avatarVersion)}
                           alt={`Avatar de ${navbarUser.nickname}`}
                           className="object-cover"
                         />

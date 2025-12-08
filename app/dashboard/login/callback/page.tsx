@@ -39,7 +39,7 @@ import { toast } from 'sonner';
 export default function OAuthCallbackPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { loginWithOAuthCode, isAuthenticated } = useAuthContext();
+  const { loginWithOAuthCode, isAuthenticated, error: authError } = useAuthContext();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>(
     'loading'
   );
@@ -170,9 +170,20 @@ export default function OAuthCallbackPage() {
             router.push('/dashboard?from=oauth');
           }, 1000);
         } else {
-          setError('Falha ao processar login');
+          // Tentar usar mensagem mais descritiva do hook de autenticação, se disponível
+          const authErrorMessage =
+            authError instanceof Error
+              ? authError.message
+              : typeof authError === 'string'
+                ? authError
+                : null;
+
+          const fallbackMessage = 'Falha ao processar login';
+          const finalMessage = authErrorMessage || fallbackMessage;
+
+          setError(finalMessage);
           setStatus('error');
-          toast.error('Falha ao processar login');
+          toast.error(finalMessage);
         }
       } catch (err) {
         console.error('[OAuth Callback] Erro no callback OAuth:', err);
@@ -200,6 +211,30 @@ export default function OAuthCallbackPage() {
       router.push('/dashboard');
     }
   }, [isAuthenticated, status, router]);
+
+  /**
+   * Redireciona automaticamente para a tela de login quando o erro indicar
+   * que o código OAuth é inválido ou expirou. Mantém a mensagem visível por
+   * alguns segundos antes do redirect.
+   */
+  useEffect(() => {
+    if (status !== 'error' || !error) return;
+
+    const normalized = error.toLowerCase();
+    const isExpiredOAuthError =
+      normalized.includes('login social expirou') ||
+      normalized.includes('código de autorização inválido') ||
+      (normalized.includes('authorization code') &&
+        (normalized.includes('invalid') || normalized.includes('expired')));
+
+    if (!isExpiredOAuthError) return;
+
+    const timeoutId = setTimeout(() => {
+      router.push('/dashboard/login');
+    }, 4000);
+
+    return () => clearTimeout(timeoutId);
+  }, [status, error, router]);
 
   /**
    * Estado de carregamento.
@@ -234,12 +269,23 @@ export default function OAuthCallbackPage() {
     );
   }
 
+  const normalizedError = (error || '').toLowerCase();
+  const isExpiredOAuthErrorUI =
+    normalizedError.includes('login social expirou') ||
+    normalizedError.includes('código de autorização inválido') ||
+    (normalizedError.includes('authorization code') &&
+      (normalizedError.includes('invalid') || normalizedError.includes('expired')));
+
+  const displayMessage = isExpiredOAuthErrorUI
+    ? 'Sua sessão de login social expirou. Redirecionando para a tela de login...'
+    : error;
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="text-center space-y-4 max-w-md w-full">
-        <Alert variant="destructive">
+        <Alert variant={isExpiredOAuthErrorUI ? 'default' : 'destructive'}>
           <AlertCircle className="h-4 w-4" />
-          <AlertDescription>{error}</AlertDescription>
+          <AlertDescription>{displayMessage}</AlertDescription>
         </Alert>
         <Button
           onClick={() => router.push('/dashboard/login')}
@@ -251,5 +297,3 @@ export default function OAuthCallbackPage() {
     </div>
   );
 }
-
-

@@ -7,7 +7,7 @@ import {
   generateCategoryMetadata,
   generateMetadata,
   generatePostMetadata,
-} from '@/lib/seo/metadata';
+} from '@/lib/metadata/page-metadata';
 
 describe('lib/seo/metadata', () => {
   describe('generateMetadata', () => {

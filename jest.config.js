@@ -29,6 +29,20 @@ export default {
   
   // Mapeamento de paths
   moduleNameMapper: {
+    // Aliases legados usados em testes apontando para módulos reais da nova estrutura
+    '^@/lib/env$': '<rootDir>/lib/config/env',
+    '^@/lib/utils$': '<rootDir>/lib/portfolio/css',
+    '^@/lib/content$': '<rootDir>/lib/blog',
+    '^@/lib/content/reading-time$': '<rootDir>/lib/blog/reading-time',
+    '^@/lib/content/tiptap-utils$': '<rootDir>/lib/blog/tiptap',
+    '^@/lib/cookies/analytics$': '<rootDir>/lib/privacy/analytics',
+    '^@/lib/cookies/cookie-manager$': '<rootDir>/lib/privacy/manager',
+    '^@/lib/utils/tokens$': '<rootDir>/lib/portfolio/tokens',
+    '^@/components/ui/badge$': '<rootDir>/components/dashboard/login/status-badge',
+    '^@/components/ui/tabs$': '@rainersoft/ui',
+    '^@/components/ui/card$': '@rainersoft/ui',
+    '^@/components/ui$': '@rainersoft/ui',
+    // Alias genérico para @/ apontando para a raiz do projeto (deve vir por último)
     '^@/(.*)$': '<rootDir>/$1',
     '^(\\.{1,2}/.*)\\.js$': '$1',
     // Mocks para assets e CSS
