@@ -255,9 +255,9 @@ componentLogger.info('Mounted');
 #### `analytics.track(event)`
 
 ```typescript
-import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring/analytics';
+import { analytics, ANALYTICS_EVENTS } from '@/lib/tracking/analytics';
 // ou via barrel export:
-import { analytics, ANALYTICS_EVENTS } from '@/lib/monitoring';
+import { analytics, ANALYTICS_EVENTS } from '@/lib/tracking';
 
 analytics.track(ANALYTICS_EVENTS.PAGE_VIEW('/blog'));
 analytics.track(ANALYTICS_EVENTS.BLOG_POST_LIKE('post-123'));

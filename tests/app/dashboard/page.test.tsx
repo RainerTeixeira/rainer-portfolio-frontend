@@ -51,15 +51,16 @@ jest.mock('@/components/dashboard', () => ({
   ),
 }));
 
-jest.mock('@/components/ui', () => ({
+jest.mock('@rainersoft/ui', () => ({
   BackToTop: () => <div data-testid="back-to-top">Back to Top</div>,
 }));
 
-jest.mock('@/components/providers/auth-provider', () => ({
-  useAuth: () => ({
+jest.mock('@/components/providers/auth-context-provider', () => ({
+  __esModule: true,
+  useAuthContext: () => ({
     user: { id: '1', email: 'test@example.com' },
     isAuthenticated: true,
-    isLoading: false,
+    loading: false,
   }),
 }));
 

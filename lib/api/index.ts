@@ -95,8 +95,8 @@ export { commentsService } from './services/comments.service';
 export { dashboardService } from './services/dashboard.service';
 export { likesService } from './services/likes.service';
 export { postsService } from './services/posts.service';
-export { usersService } from './services/user.service';
-export * from './services/user.service';
+export { profileService, usersService } from './services/user.service';
+export { profileService as userService } from './services/user.service';
 
 // Blog Public API
 export * from './blog-public-api';

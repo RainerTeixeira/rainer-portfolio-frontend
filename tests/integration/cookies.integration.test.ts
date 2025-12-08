@@ -49,64 +49,33 @@ Object.defineProperty(window, 'gtag', {
   configurable: true,
 });
 
-// Mock do document
+// Mock parcial do document: espiona criação de scripts sem sobrescrever window.document inteiro
 const mockScripts: HTMLScriptElement[] = [];
-const createElementMock = jest.fn((tag: string) => {
-  if (tag === 'script') {
-    const script = {
-      async: false,
-      src: '',
-      innerHTML: '',
-    } as any;
-    mockScripts.push(script);
-    return script;
-  }
-  return document.createElement(tag);
-});
+const originalCreateElement = document.createElement.bind(document);
 
-const mockHead = {
-  appendChild: jest.fn((node: any) => {
-    mockScripts.push(node);
-  }),
-  querySelectorAll: jest.fn(() => []),
-};
+const createElementMock = jest
+  .spyOn(document, 'createElement')
+  .mockImplementation((tag: any) => {
+    if (tag === 'script') {
+      const script = originalCreateElement('script') as HTMLScriptElement;
+      mockScripts.push(script);
+      return script;
+    }
+    return originalCreateElement(tag);
+  });
 
-// Evita redefinir document se já foi definido
-// Usa try-catch para evitar erro se document já foi definido
-try {
-  if (!(window.document as any).__testMocked) {
-    const originalDocument = window.document;
-    Object.defineProperty(window, 'document', {
-      value: {
-        ...originalDocument,
-        createElement: createElementMock,
-        head: mockHead,
-        cookie: '',
-        querySelectorAll: jest.fn(() => []),
-        __testMocked: true,
-      },
-      writable: true,
-      configurable: true,
-    });
-  } else {
-    // Se já foi mockado, apenas atualiza as propriedades necessárias
-    (window.document as any).createElement = createElementMock;
-    (window.document as any).head = mockHead;
-  }
-} catch (e) {
-  // Se falhar, apenas atualiza propriedades diretamente
-  (window.document as any).createElement = createElementMock;
-  // Não tenta definir head se for read-only
-  try {
-    Object.defineProperty(window.document, 'head', {
-      value: mockHead,
-      writable: true,
-      configurable: true,
-    });
-  } catch (headError) {
-    // Ignora erro se head for read-only
-  }
-}
+const appendChildMock = jest
+  .spyOn(document.head, 'appendChild')
+  .mockImplementation((node: any) => {
+    if (node && (node as HTMLElement).tagName === 'SCRIPT') {
+      mockScripts.push(node as HTMLScriptElement);
+    }
+    // chama implementação original
+    return (HTMLHeadElement.prototype.appendChild as any).call(
+      document.head,
+      node,
+    );
+  });
 
 // Mock do process.env
 const originalEnv = process.env;
@@ -118,12 +87,17 @@ describe('Cookie System Integration', () => {
     mockGtag.mockClear();
     mockScripts.length = 0;
     (CookieManager as any).instance = undefined;
-    delete (window as any).gtag;
+    (window as any).gtag = undefined;
     process.env = { ...originalEnv };
   });
 
   afterEach(() => {
     process.env = originalEnv;
+  });
+
+  afterAll(() => {
+    createElementMock.mockRestore();
+    appendChildMock.mockRestore();
   });
 
   describe('Fluxo completo de consentimento', () => {
@@ -213,7 +187,7 @@ describe('Cookie System Integration', () => {
       initGoogleAnalytics();
 
       expect(createElementMock).toHaveBeenCalled();
-      expect(mockHead.appendChild).toHaveBeenCalled();
+      expect(mockScripts.length).toBeGreaterThan(0);
     });
 
     it('não deve carregar Google Analytics quando analytics não é permitido', () => {

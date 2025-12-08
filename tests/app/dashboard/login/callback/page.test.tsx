@@ -25,15 +25,32 @@ jest.mock('next/navigation', () => ({
   },
 }));
 
-// Mock do useAuth
+// Mock do contexto de autenticação
 const mockLoginWithOAuthCode = jest.fn().mockResolvedValue(true);
-const mockUseAuth = {
+const mockAuthContext = {
   loginWithOAuthCode: mockLoginWithOAuthCode,
   isAuthenticated: false,
 };
 
-jest.mock('@/hooks/useAuth', () => ({
-  useAuth: () => mockUseAuth,
+jest.mock('@/components/providers/auth-context-provider', () => ({
+  __esModule: true,
+  useAuthContext: () => mockAuthContext,
+}));
+
+// Mock de componentes de UI usados na página de callback
+jest.mock('@rainersoft/ui', () => ({
+  __esModule: true,
+  InlineLoader: ({ message }: { message: string }) => (
+    <div>
+      <div data-testid="loader-icon">Loading...</div>
+      <span>{message}</span>
+    </div>
+  ),
+  Alert: ({ children }: any) => <div data-testid="alert">{children}</div>,
+  AlertDescription: ({ children }: any) => (
+    <div data-testid="alert-description">{children}</div>
+  ),
+  Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
 }));
 
 jest.mock('sonner', () => ({
@@ -71,7 +88,7 @@ describe('OAuth Callback Page', () => {
 
     await waitFor(
       () => {
-        expect(mockPush).toHaveBeenCalledWith('/dashboard');
+        expect(mockPush).toHaveBeenCalledWith('/dashboard?from=oauth');
       },
       { timeout: 3000 }
     );
@@ -139,7 +156,7 @@ describe('OAuth Callback Page', () => {
   });
 
   it('deve redirecionar se já estiver autenticado', () => {
-    mockUseAuth.isAuthenticated = true;
+    mockAuthContext.isAuthenticated = true;
     render(<OAuthCallbackPage />);
     expect(mockPush).toHaveBeenCalledWith('/dashboard');
   });

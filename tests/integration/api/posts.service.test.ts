@@ -63,7 +63,10 @@ describe('postsService - Integração', () => {
   });
 
   test('publishPost faz PATCH', async () => {
-    const mock = mockFetchOnce({ id: '1', status: 'PUBLISHED' });
+    const mock = mockFetchOnce({
+      success: true,
+      data: { id: '1', status: 'PUBLISHED' },
+    });
     await postsService.publishPost('1');
     const init = (mock as any).mock.calls[0][1];
     expect(init.method).toBe('PATCH');

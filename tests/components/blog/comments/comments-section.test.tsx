@@ -9,11 +9,13 @@ import { CommentSection } from '@/components/blog/comments/comment-section';
 import { render } from '@testing-library/react';
 
 // Mock do auth context
-jest.mock('@/components/providers/auth-provider', () => ({
-  useAuth: jest.fn(() => ({
+jest.mock('@/components/providers/auth-context-provider', () => ({
+  __esModule: true,
+  useAuthContext: () => ({
     user: null,
     isAuthenticated: false,
-  })),
+    loading: false,
+  }),
 }));
 
 // Mock do commentsService

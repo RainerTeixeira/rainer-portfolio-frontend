@@ -18,8 +18,8 @@ export { RegisterForm } from './forms/register-form';
 export { ResetPasswordForm } from './forms/reset-password-form';
 export { LoginForm } from './login-form';
 
-// Componentes OAuth
-export { OAuthButtons } from './oauth-buttons';
+// Componentes OAuth (apenas Google no momento)
+export { OAuthButton } from './oauth-buttons';
 
 // Componentes Auxiliares
 export { NameAvailability } from './name-availability';

@@ -15,8 +15,9 @@ jest.mock('next/font/google', () => ({
 import TermsOfUsePage from '@/app/termos/page';
 import { render, screen } from '@testing-library/react';
 
-// Mock dos componentes
-jest.mock('@/components/ui', () => ({
+// Mock dos componentes de UI usados na página de termos
+jest.mock('@rainersoft/ui', () => ({
+  __esModule: true,
   BackToTop: () => <div data-testid="back-to-top">Back to Top</div>,
   PageHeader: ({ children, title, description }: any) => (
     <div data-testid="page-header">

@@ -11,6 +11,16 @@ jest.mock('next/image', () => ({
   default: (props: any) => <img {...props} />,
 }));
 
+// Mock leve de '@/constants' para evitar carregar módulos que dependem
+// diretamente de design tokens (ex: constants/home/servicos)
+jest.mock('@/constants', () => ({
+  SITE_CONFIG: {
+    github: 'https://github.com/test',
+    linkedin: 'https://linkedin.com/in/test',
+    url: 'https://example.com',
+  },
+}));
+
 describe('AuthorCard', () => {
   it('deve renderizar o card de autor com props', () => {
     const { container } = render(

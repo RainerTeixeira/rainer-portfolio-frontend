@@ -116,6 +116,12 @@ Todas as rotas do backend estão implementadas no frontend.
 
 3. **Todos os outros endpoints estão cobertos** ✅
 
+4. **Contrato de erros no frontend**
+   - Para todas as rotas acima, os serviços de frontend (`AuthService`, `PostsService`, `CommentsService`, `CategoriesService`, `LikesService`, `BookmarksService`, `NotificationsService`, `UsersService`, `HealthService`, etc.)
+     validam o `ApiResponse` retornado pelo backend.
+   - Quando `success === false`, o service **lança um `Error`** com mensagem contextual (por exemplo, incluindo `id`, `slug`, `userId`, `postId`).
+   - Hooks e componentes que consomem esses serviços devem, em geral, usar `err.message` ao exibir erros para o usuário.
+
 ## 🎯 Total de Rotas
 
 - **Backend**: 71 rotas

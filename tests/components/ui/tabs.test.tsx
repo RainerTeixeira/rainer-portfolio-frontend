@@ -2,6 +2,36 @@
  * Testes para componente Tabs
  */
 
+// Mock simples dos componentes de Tabs do @rainersoft/ui para evitar
+// dependências internas do Radix (useContext) durante os testes.
+jest.mock('@rainersoft/ui', () => {
+  const React = require('react');
+
+  const MockTabs = ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="mock-tabs">{children}</div>
+  );
+
+  const MockTabsList = ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  );
+
+  const MockTabsTrigger = ({ children }: { children: React.ReactNode }) => (
+    <button type="button">{children}</button>
+  );
+
+  const MockTabsContent = ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  );
+
+  return {
+    __esModule: true,
+    Tabs: MockTabs,
+    TabsList: MockTabsList,
+    TabsTrigger: MockTabsTrigger,
+    TabsContent: MockTabsContent,
+  };
+});
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@rainersoft/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

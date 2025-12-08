@@ -88,7 +88,7 @@ lib/
 ```typescript
 import { cn } from '@/lib/utils';
 import { calculateReadingTime } from '@/lib/content';
-import { analytics } from '@/lib/monitoring';
+import { analytics } from '@/lib/tracking';
 import { generateMetadata } from '@/lib/seo';
 import { getCookieManager } from '@/lib/cookies';
 import { env } from '@/lib/env';

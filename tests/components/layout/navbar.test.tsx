@@ -23,12 +23,15 @@ jest.mock('next-themes', () => ({
   })),
 }));
 
-// Mock do useAuth
-jest.mock('@/components/providers/auth-provider', () => ({
-  useAuth: jest.fn(() => ({
+// Mock do useAuthContext
+jest.mock('@/components/providers/auth-context-provider', () => ({
+  __esModule: true,
+  useAuthContext: () => ({
     user: null,
     isAuthenticated: false,
-  })),
+    loading: false,
+    logout: jest.fn(),
+  }),
 }));
 
 describe('Navbar', () => {

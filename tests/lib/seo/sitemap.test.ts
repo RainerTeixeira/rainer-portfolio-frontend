@@ -3,7 +3,7 @@
  */
 
 import type { Category, Post } from '@/lib/api/types';
-import { generateRobotsTxt, generateSitemap } from '@/lib/seo/sitemap';
+import { generateRobotsTxt, generateSitemap } from '@/lib/metadata/sitemap';
 
 describe('lib/seo/sitemap', () => {
   describe('generateSitemap', () => {

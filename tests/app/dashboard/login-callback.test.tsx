@@ -9,7 +9,6 @@
  * @version 1.0.0
  */
 
-import { useAuth } from '@/hooks/useAuth';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
@@ -24,9 +23,6 @@ jest.mock('next/navigation', () => ({
   useSearchParams: jest.fn(),
 }));
 
-// Mock useAuth hook
-jest.mock('@/hooks/useAuth');
-
 // Mock Sonner
 jest.mock('sonner', () => ({
   toast: {
@@ -35,8 +31,8 @@ jest.mock('sonner', () => ({
   },
 }));
 
-// Mock UI Components
-jest.mock('@/components/ui/alert', () => ({
+// Mock UI Components diretamente de @rainersoft/ui
+jest.mock('@rainersoft/ui', () => ({
   Alert: ({ children, ...props }: any) => (
     <div data-testid="alert" {...props}>
       {children}
@@ -47,14 +43,29 @@ jest.mock('@/components/ui/alert', () => ({
       {children}
     </div>
   ),
-}));
-
-jest.mock('@/components/ui/button', () => ({
+  InlineLoader: ({ message }: { message: string }) => (
+    <div>
+      <div data-testid="loader-icon">Loading...</div>
+      <span>{message}</span>
+    </div>
+  ),
   Button: ({ children, onClick, ...props }: any) => (
     <button onClick={onClick} {...props}>
       {children}
     </button>
   ),
+}));
+
+// Mock global de useAuthContext compartilhando mockLoginWithOAuthCode
+const mockLoginWithOAuthCode = jest.fn();
+const mockAuthContext = {
+  loginWithOAuthCode: mockLoginWithOAuthCode,
+  isAuthenticated: false,
+};
+
+jest.mock('@/components/providers/auth-context-provider', () => ({
+  __esModule: true,
+  useAuthContext: () => mockAuthContext,
 }));
 
 // Mock Lucide Icons
@@ -73,7 +84,6 @@ let OAuthCallbackPage: React.ComponentType;
 describe('OAuthCallbackPage', () => {
   // Mock functions
   const mockPush = jest.fn();
-  const mockLoginWithOAuthCode = jest.fn();
 
   // Helper para criar URLSearchParams mock
   const createSearchParams = (params: Record<string, string>) => {
@@ -97,18 +107,14 @@ describe('OAuthCallbackPage', () => {
     OAuthCallbackPage = module.default;
   });
 
+  const renderWithAuth = (ui: React.ReactElement) => render(ui);
+
   beforeEach(() => {
     jest.clearAllMocks();
 
     // Mock router
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
-    });
-
-    // Mock useAuth
-    (useAuth as jest.Mock).mockReturnValue({
-      loginWithOAuthCode: mockLoginWithOAuthCode,
-      isAuthenticated: false,
     });
   });
 
@@ -145,7 +151,7 @@ describe('OAuthCallbackPage', () => {
         })
       );
 
-      render(<OAuthCallbackPage />);
+      renderWithAuth(<OAuthCallbackPage />);
 
       expect(screen.getByTestId('loader-icon')).toBeInTheDocument();
     });
@@ -165,7 +171,7 @@ describe('OAuthCallbackPage', () => {
         })
       );
 
-      render(<OAuthCallbackPage />);
+      renderWithAuth(<OAuthCallbackPage />);
 
       await waitFor(() => {
         expect(mockLoginWithOAuthCode).toHaveBeenCalledWith(
@@ -315,7 +321,7 @@ describe('OAuthCallbackPage', () => {
 
       await waitFor(
         () => {
-          expect(mockPush).toHaveBeenCalledWith('/dashboard');
+          expect(mockPush).toHaveBeenCalledWith('/dashboard?from=oauth');
         },
         { timeout: 2000 }
       );
@@ -393,6 +399,40 @@ describe('OAuthCallbackPage', () => {
       });
     });
 
+    it('deve se comportar como produção quando sessão OAuth estiver expirada', async () => {
+      jest.useFakeTimers();
+
+      // Simula fluxo onde o hook detecta código OAuth inválido/expirado
+      mockLoginWithOAuthCode.mockResolvedValue(false);
+      (mockAuthContext as any).error = new Error(
+        'Seu login social expirou ou foi finalizado. Volte para a tela de login e clique novamente no botão de login com Google ou GitHub para tentar outra vez.'
+      );
+
+      (useSearchParams as jest.Mock).mockReturnValue(
+        createSearchParams({
+          code: 'expired-code-123',
+        })
+      );
+
+      render(<OAuthCallbackPage />);
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            /sua sessão de login social expirou. redirecionando para a tela de login/i
+          )
+        ).toBeInTheDocument();
+      });
+
+      // Avança o tempo para disparar o redirecionamento automático
+      await waitFor(() => {
+        jest.advanceTimersByTime(4000);
+        expect(mockPush).toHaveBeenCalledWith('/dashboard/login');
+      });
+
+      jest.useRealTimers();
+    });
+
     it('deve ter botão para voltar ao login em caso de erro', async () => {
       mockLoginWithOAuthCode.mockRejectedValue(
         new Error('Erro ao processar OAuth')
@@ -454,10 +494,7 @@ describe('OAuthCallbackPage', () => {
     });
 
     it('não deve processar se já autenticado', async () => {
-      (useAuth as jest.Mock).mockReturnValue({
-        loginWithOAuthCode: mockLoginWithOAuthCode,
-        isAuthenticated: true,
-      });
+      mockAuthContext.isAuthenticated = true;
 
       (useSearchParams as jest.Mock).mockReturnValue(
         createSearchParams({
@@ -550,7 +587,7 @@ describe('OAuthCallbackPage', () => {
         })
       );
 
-      render(<OAuthCallbackPage />);
+      renderWithAuth(<OAuthCallbackPage />);
 
       await waitFor(() => {
         expect(consoleLogSpy).toHaveBeenCalledWith(
@@ -576,7 +613,7 @@ describe('OAuthCallbackPage', () => {
         })
       );
 
-      render(<OAuthCallbackPage />);
+      renderWithAuth(<OAuthCallbackPage />);
 
       await waitFor(() => {
         expect(consoleErrorSpy).toHaveBeenCalledWith(

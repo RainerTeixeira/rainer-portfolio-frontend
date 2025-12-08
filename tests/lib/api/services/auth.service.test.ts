@@ -4,7 +4,7 @@
  * Testa todos os métodos de autenticação incluindo:
  * - Login tradicional (email/senha)
  * - Login passwordless (código por email)
- * - Login OAuth (Google e GitHub)
+ * - Login OAuth (Google)
  */
 
 import { authService } from '@/lib/api';
@@ -339,41 +339,6 @@ describe('authService', () => {
       });
     });
 
-    describe('loginWithGitHub', () => {
-      beforeEach(() => {
-        // Garantir redirect configurado para evitar erro de configuração
-        process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN =
-          'http://localhost:3000/dashboard/login/callback';
-
-        // Reset location mock
-        mockLocationHref = 'http://localhost/';
-      });
-
-      it('deve redirecionar para GitHub OAuth', () => {
-        authService.loginWithGitHub();
-
-        // Verifica se tentou redirecionar (jsdom não permite navegação real)
-        const trackedHref =
-          (window as any).__testLocationHref || mockLocationHref;
-        expect(trackedHref).toContain('/auth/oauth/github');
-      });
-
-      it('deve usar URL do backend do ambiente', () => {
-        const originalEnv = process.env.NEXT_PUBLIC_API_URL;
-        process.env.NEXT_PUBLIC_API_URL = 'https://api.example.com';
-
-        authService.loginWithGitHub();
-
-        // Verifica se tentou redirecionar com URL do ambiente
-        const trackedHref =
-          (window as any).__testLocationHref || mockLocationHref;
-        expect(trackedHref).toContain('api.example.com');
-        expect(trackedHref).toContain('/auth/oauth/github');
-
-        process.env.NEXT_PUBLIC_API_URL = originalEnv;
-        mockLocationHref = 'http://localhost/';
-        (window as any).__testLocationHref = 'http://localhost/';
-      });
-    });
+    // Testes relacionados a loginWithGitHub foram removidos, pois o fluxo GitHub está desativado.
   });
 });

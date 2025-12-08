@@ -9,10 +9,18 @@
  * @version 1.0.0
  */
 
-import { useAuth } from '@/hooks/useAuth';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, render as rtlRender } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { AuthProvider } from '@/components/providers/auth-context-provider';
+
+// Wrapper personalizado para incluir o AuthProvider
+const renderWithAuth = (ui: React.ReactElement, options = {}) => {
+  return rtlRender(ui, {
+    wrapper: ({ children }) => <AuthProvider>{children}</AuthProvider>,
+    ...options,
+  });
+};
 
 // ============================================================================
 // Mocks
@@ -24,8 +32,50 @@ jest.mock('next/navigation', () => ({
   useSearchParams: jest.fn(() => new URLSearchParams()),
 }));
 
-// Mock useAuth hook
-jest.mock('@/hooks/useAuth');
+// Mock useAuth hook (estado de autenticação + operações principais)
+const mockCheckAuth = jest.fn().mockResolvedValue(undefined);
+const mockLogin = jest.fn().mockResolvedValue({});
+const mockLogout = jest.fn().mockResolvedValue(undefined);
+const mockRegister = jest.fn().mockResolvedValue({});
+const mockUpdateProfile = jest.fn().mockResolvedValue({});
+const mockForgotPassword = jest.fn().mockResolvedValue(undefined);
+const mockConfirmPasswordReset = jest.fn().mockResolvedValue(undefined);
+const mockChangePassword = jest.fn().mockResolvedValue(undefined);
+const mockLoginWithOAuthCode = jest.fn().mockResolvedValue(true);
+
+// Callbacks de OAuth serão expostos via authService (ver mock abaixo)
+const mockLoginWithGoogle = jest.fn();
+const mockLoginWithGitHub = jest.fn();
+
+const mockUseAuthValue = {
+  user: null as any,
+  isAuthenticated: false,
+  loading: false,
+  error: null as any,
+  login: mockLogin,
+  logout: mockLogout,
+  register: mockRegister,
+  updateProfile: mockUpdateProfile,
+  forgotPassword: mockForgotPassword,
+  confirmPasswordReset: mockConfirmPasswordReset,
+  changePassword: mockChangePassword,
+  checkAuth: mockCheckAuth,
+  loginWithOAuthCode: mockLoginWithOAuthCode,
+};
+
+jest.mock('@/hooks/useAuth', () => ({
+  __esModule: true,
+  useAuth: () => mockUseAuthValue,
+  default: () => mockUseAuthValue,
+}));
+
+// Mock do authService para que AuthProvider use estes callbacks de OAuth
+jest.mock('@/lib/api/services/auth.service', () => ({
+  authService: {
+    loginWithGoogle: (...args: any[]) => mockLoginWithGoogle(...args),
+    loginWithGitHub: (...args: any[]) => mockLoginWithGitHub(...args),
+  },
+}));
 
 // Mock Framer Motion
 jest.mock('framer-motion', () => ({
@@ -34,6 +84,16 @@ jest.mock('framer-motion', () => ({
     span: ({ children, ...props }: any) => <span {...props}>{children}</span>,
     svg: ({ children, ...props }: any) => <svg {...props}>{children}</svg>,
     p: ({ children, ...props }: any) => <p {...props}>{children}</p>,
+  },
+}));
+
+// Mock leve de '@/constants' para evitar dependência de módulos que usam
+// diretamente design tokens (ex: constants/home/servicos)
+jest.mock('@/constants', () => ({
+  SITE_CONFIG: {
+    github: 'https://github.com/test',
+    linkedin: 'https://linkedin.com/in/test',
+    url: 'https://example.com',
   },
 }));
 
@@ -127,6 +187,55 @@ jest.mock('@rainersoft/design-tokens', () => ({
   COLOR_RED: {
     500: '#ef4444',
   },
+  motionTokens: {
+    delay: {
+      short: 100,
+      medium: 200,
+      long: 300,
+    },
+    duration: {
+      short: '150ms',
+      medium: '300ms',
+      long: '500ms',
+    },
+    easing: {
+      easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    },
+  },
+  tokens: {
+    colors: {
+      light: {
+        primary: '#667eea',
+        secondary: '#764ba2',
+        background: '#ffffff',
+        foreground: '#000000',
+        // Cores adicionais que podem ser necessárias
+        text: {
+          primary: '#1a202c',
+          secondary: '#4a5568',
+        },
+        button: {
+          primary: '#667eea',
+          hover: '#5a67d8',
+        },
+      },
+      dark: {
+        primary: '#667eea',
+        secondary: '#764ba2',
+        background: '#000000',
+        foreground: '#ffffff',
+        // Cores adicionais que podem ser necessárias
+        text: {
+          primary: '#f7fafc',
+          secondary: '#cbd5e0',
+        },
+        button: {
+          primary: '#667eea',
+          hover: '#5a67d8',
+        },
+      },
+    },
+  },
 }));
 
 // Mock UI Components
@@ -188,16 +297,13 @@ let LoginPage: React.ComponentType;
 describe('LoginPage OAuth', () => {
   // Mock functions
   const mockPush = jest.fn();
-  const mockLogin = jest.fn();
-  const mockLoginWithGoogle = jest.fn();
-  const mockLoginWithGitHub = jest.fn();
 
   beforeAll(async () => {
     // Importar componente dinamicamente após mocks
     const module = await import('@/app/dashboard/login/page');
     LoginPage = module.default;
   });
-
+  
   beforeEach(() => {
     jest.clearAllMocks();
 
@@ -206,14 +312,14 @@ describe('LoginPage OAuth', () => {
       push: mockPush,
     });
 
-    // Mock useAuth com valores padrão
-    (useAuth as jest.Mock).mockReturnValue({
-      login: mockLogin,
-      isAuthenticated: false,
-      loading: false,
-      loginWithGoogle: mockLoginWithGoogle,
-      loginWithGitHub: mockLoginWithGitHub,
-    });
+    // Resetar estado de autenticação para valor padrão
+    mockUseAuthValue.isAuthenticated = false;
+    mockUseAuthValue.loading = false;
+    mockUseAuthValue.user = null;
+
+    // Garantir que funções de OAuth estejam limpas a cada teste
+    mockLoginWithGoogle.mockClear();
+    mockLoginWithGitHub.mockClear();
   });
 
   // ==========================================================================
@@ -222,7 +328,7 @@ describe('LoginPage OAuth', () => {
 
   describe('Renderização OAuth', () => {
     it('deve renderizar botões OAuth na página de login', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       expect(screen.getByTestId('oauth-buttons')).toBeInTheDocument();
       expect(screen.getByTestId('google-login-button')).toBeInTheDocument();
@@ -230,13 +336,13 @@ describe('LoginPage OAuth', () => {
     });
 
     it('deve renderizar separador "ou" entre formulário e OAuth', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       expect(screen.getByText('ou')).toBeInTheDocument();
     });
 
     it('deve renderizar formulário de login e botões OAuth juntos', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       expect(screen.getByTestId('login-form')).toBeInTheDocument();
       expect(screen.getByTestId('oauth-buttons')).toBeInTheDocument();
@@ -249,7 +355,7 @@ describe('LoginPage OAuth', () => {
 
   describe('Login com Google', () => {
     it('deve chamar loginWithGoogle ao clicar no botão Google', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const googleButton = screen.getByTestId('google-login-button');
       fireEvent.click(googleButton);
@@ -258,7 +364,7 @@ describe('LoginPage OAuth', () => {
     });
 
     it('não deve chamar loginWithGitHub ao clicar no botão Google', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const googleButton = screen.getByTestId('google-login-button');
       fireEvent.click(googleButton);
@@ -274,7 +380,7 @@ describe('LoginPage OAuth', () => {
         throw new Error('Erro ao iniciar login com Google');
       });
 
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const googleButton = screen.getByTestId('google-login-button');
       fireEvent.click(googleButton);
@@ -288,7 +394,7 @@ describe('LoginPage OAuth', () => {
     });
 
     it('deve permitir múltiplos cliques no botão Google', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const googleButton = screen.getByTestId('google-login-button');
       fireEvent.click(googleButton);
@@ -304,7 +410,7 @@ describe('LoginPage OAuth', () => {
 
   describe('Login com GitHub', () => {
     it('deve chamar loginWithGitHub ao clicar no botão GitHub', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const githubButton = screen.getByTestId('github-login-button');
       fireEvent.click(githubButton);
@@ -313,7 +419,7 @@ describe('LoginPage OAuth', () => {
     });
 
     it('não deve chamar loginWithGoogle ao clicar no botão GitHub', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const githubButton = screen.getByTestId('github-login-button');
       fireEvent.click(githubButton);
@@ -329,7 +435,7 @@ describe('LoginPage OAuth', () => {
         throw new Error('Erro ao iniciar login com GitHub');
       });
 
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const githubButton = screen.getByTestId('github-login-button');
       fireEvent.click(githubButton);
@@ -343,7 +449,7 @@ describe('LoginPage OAuth', () => {
     });
 
     it('deve permitir múltiplos cliques no botão GitHub', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const githubButton = screen.getByTestId('github-login-button');
       fireEvent.click(githubButton);
@@ -369,7 +475,7 @@ describe('LoginPage OAuth', () => {
           })
       );
 
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const loginForm = screen.getByTestId('login-form');
       fireEvent.submit(loginForm);
@@ -384,21 +490,15 @@ describe('LoginPage OAuth', () => {
     });
 
     it('não deve mostrar loading inicial se authLoading=false', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       expect(screen.queryByText('Carregando...')).not.toBeInTheDocument();
     });
 
     it('deve mostrar loading inicial se authLoading=true', () => {
-      (useAuth as jest.Mock).mockReturnValue({
-        login: mockLogin,
-        isAuthenticated: false,
-        loading: true,
-        loginWithGoogle: mockLoginWithGoogle,
-        loginWithGitHub: mockLoginWithGitHub,
-      });
+      mockUseAuthValue.loading = true;
 
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       expect(screen.getByText('Carregando...')).toBeInTheDocument();
     });
@@ -410,15 +510,10 @@ describe('LoginPage OAuth', () => {
 
   describe('Redirecionamento', () => {
     it('deve redirecionar para /dashboard se já autenticado', async () => {
-      (useAuth as jest.Mock).mockReturnValue({
-        login: mockLogin,
-        isAuthenticated: true,
-        loading: false,
-        loginWithGoogle: mockLoginWithGoogle,
-        loginWithGitHub: mockLoginWithGitHub,
-      });
+      mockUseAuthValue.isAuthenticated = true;
+      mockUseAuthValue.loading = false;
 
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       await waitFor(() => {
         expect(mockPush).toHaveBeenCalledWith('/dashboard');
@@ -426,15 +521,10 @@ describe('LoginPage OAuth', () => {
     });
 
     it('não deve renderizar conteúdo se já autenticado', () => {
-      (useAuth as jest.Mock).mockReturnValue({
-        login: mockLogin,
-        isAuthenticated: true,
-        loading: false,
-        loginWithGoogle: mockLoginWithGoogle,
-        loginWithGitHub: mockLoginWithGitHub,
-      });
+      mockUseAuthValue.isAuthenticated = true;
+      mockUseAuthValue.loading = false;
 
-      const { container } = render(<LoginPage />);
+      const { container } = renderWithAuth(<LoginPage />);
 
       // Não deve renderizar formulário ou botões OAuth
       expect(screen.queryByTestId('login-form')).not.toBeInTheDocument();
@@ -448,7 +538,7 @@ describe('LoginPage OAuth', () => {
 
   describe('Alternância entre Métodos', () => {
     it('deve permitir alternar entre Google e GitHub', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const googleButton = screen.getByTestId('google-login-button');
       const githubButton = screen.getByTestId('github-login-button');
@@ -463,7 +553,7 @@ describe('LoginPage OAuth', () => {
     it('deve permitir usar OAuth após tentar login tradicional', async () => {
       mockLogin.mockRejectedValue(new Error('Credenciais inválidas'));
 
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       // Tentar login tradicional
       const loginForm = screen.getByTestId('login-form');
@@ -487,14 +577,14 @@ describe('LoginPage OAuth', () => {
 
   describe('Acessibilidade', () => {
     it('deve ter textos descritivos nos botões OAuth', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       expect(screen.getByText('Continuar com Google')).toBeInTheDocument();
       expect(screen.getByText('Continuar com GitHub')).toBeInTheDocument();
     });
 
     it('deve ter link para registro visível', () => {
-      render(<LoginPage />);
+      renderWithAuth(<LoginPage />);
 
       const registerLink = screen.getByText('Criar uma conta');
       expect(registerLink).toBeInTheDocument();

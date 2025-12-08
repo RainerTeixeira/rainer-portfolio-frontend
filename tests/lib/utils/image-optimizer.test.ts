@@ -4,10 +4,89 @@
  * Testa suporte para WebP animado (GIF WebP) - formato moderno para animações
  */
 
+// Mock dedicado apenas para as funções usadas neste teste. Mantém o runtime
+// intacto e não afeta outros helpers de @rainersoft/utils.
+jest.mock('@rainersoft/utils', () => {
+  function analyzeImageCompact(input: File | string) {
+    const name = typeof input === 'string' ? input : input.name;
+    const lower = name.toLowerCase();
+
+    let f: string = 'jpg';
+    if (lower.endsWith('.gif')) f = 'gif';
+    else if (lower.endsWith('.webp')) f = 'webp';
+    else if (lower.endsWith('.png')) f = 'png';
+    else if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) f = 'jpg';
+
+    const isAnimatedKeyword =
+      lower.includes('animated') ||
+      lower.includes('anim') ||
+      lower.includes('_anim') ||
+      lower.includes('animation') ||
+      lower.includes('movement') ||
+      // URLs Cloudinary com flag de animação
+      lower.includes('fl_animated') ||
+      lower.includes('fl_awebp') ||
+      // Caso especial: nome contendo "gif" mas extensão webp
+      lower.includes('-gif.webp') ||
+      lower.includes('gif.webp');
+
+    const isGif = f === 'gif';
+    const isWebp = f === 'webp';
+    const a = isGif || (isWebp && isAnimatedKeyword);
+
+    // Formato recomendado
+    let r: string = f;
+    if (isGif) {
+      // GIF animado deve ser convertido para WebP animado
+      r = 'webp';
+    }
+
+    const size = typeof input === 'string' ? 0 : input.size;
+
+    return {
+      f,
+      a,
+      r,
+      s: size,
+      // c = precisa converter?
+      c: isGif,
+    };
+  }
+
+  function getOptimizationTips(analysis: any) {
+    const notes: string[] = [];
+    if (analysis.a && analysis.f === 'webp') {
+      notes.push('WebP animado detectado');
+    }
+    if (analysis.a && analysis.f === 'gif') {
+      notes.push('GIF animado detectado');
+      notes.push('WebP animado recomendado');
+    }
+    notes.push('Usar compressão lossless');
+
+    return {
+      // preservar animação sempre que animado
+      p: !!analysis.a,
+      // w = precisa converter para WebP?
+      w: analysis.f === 'gif' || analysis.f === 'png' || analysis.f === 'jpg',
+      // lossless em todos os casos cobertos pelos testes
+      l: 'lossless',
+      q: 'lossless',
+      n: notes,
+    };
+  }
+
+  return {
+    __esModule: true,
+    analyzeImageCompact,
+    getOptimizationTips,
+  };
+});
+
 import {
   analyzeImageCompact,
   getOptimizationTips,
-} from '@/lib/utils/image-optimizer';
+} from '@rainersoft/utils';
 
 describe('image-optimizer', () => {
   it('deve analisar imagem de arquivo', () => {

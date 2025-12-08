@@ -372,7 +372,7 @@ class PerformanceMonitor {
  *
  * @example
  * ```tsx
- * import { performanceMonitor } from '@/lib/monitoring/performance'
+ * import { performanceMonitor } from '@/lib/tracking/performance'
  *
  * // Medir operação
  * performanceMonitor.start('load_posts')

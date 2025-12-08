@@ -10,6 +10,7 @@ jest.mock('@/components/providers/auth-context-provider', () => ({
   useAuthContext: jest.fn(() => ({
     user: { id: '1', fullName: 'Test User' },
     isAuthenticated: true,
+    loading: false,
   })),
 }));
 
@@ -18,8 +19,19 @@ jest.mock('@/components/dashboard/profile-form', () => ({
   ProfileForm: () => <div data-testid="settings-form">Settings</div>,
 }));
 
-jest.mock('@/components/ui/back-to-top', () => ({
-  BackToTop: () => <div data-testid="back-to-top">Back to Top</div>,
+jest.mock('@rainersoft/ui', () => ({
+  __esModule: true,
+  Button: ({ children, ...props }: any) => (
+    <button {...props}>{children}</button>
+  ),
+}));
+
+jest.mock('@rainersoft/design-tokens', () => ({
+  __esModule: true,
+  GRADIENT_DIRECTIONS: {
+    TO_BR: 'to-br',
+    TO_RIGHT: 'to-right',
+  },
 }));
 
 describe('Settings Page', () => {

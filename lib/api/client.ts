@@ -981,7 +981,8 @@ export const api = new ApiClient({
         `[API Slow Request] ${metrics.method} ${metrics.endpoint} took ${metrics.duration}ms`
       );
     }
-  },
+  }
 });
 
 export default api;
+export { ApiClient };

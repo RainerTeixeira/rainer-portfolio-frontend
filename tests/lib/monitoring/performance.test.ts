@@ -2,7 +2,7 @@
  * Testes para lib/monitoring/performance.ts
  */
 
-import { performanceMonitor } from '@/lib/monitoring/performance';
+import { performanceMonitor } from '@/lib/tracking/performance';
 
 describe('lib/monitoring/performance', () => {
   beforeEach(() => {

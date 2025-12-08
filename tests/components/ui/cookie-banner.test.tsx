@@ -64,9 +64,11 @@ jest.mock('next-themes', () => ({
   })),
 }));
 
-// Mock simplificado do componente CookieBanner apenas para testes
+// Mock simplificado do componente CookieBanner apenas para testes,
+// preservando os exports reais da lib (incluindo useCookieConsent)
 jest.mock('@rainersoft/ui', () => {
   const React = require('react');
+  const actual = jest.requireActual('@rainersoft/ui');
   const { getCookieManager } = require('@/lib/cookies/cookie-manager');
 
   const MockCookieBanner = () => {
@@ -135,6 +137,7 @@ jest.mock('@rainersoft/ui', () => {
 
   return {
     __esModule: true,
+    ...actual,
     CookieBanner: MockCookieBanner,
   };
 });

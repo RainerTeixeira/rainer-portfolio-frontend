@@ -11,12 +11,14 @@ jest.mock('next/image', () => ({
   default: (props: any) => <img {...props} />,
 }));
 
-// Mock do useAuth
-jest.mock('@/components/providers/auth-provider', () => ({
-  useAuth: jest.fn(() => ({
+// Mock do useAuthContext
+jest.mock('@/components/providers/auth-context-provider', () => ({
+  __esModule: true,
+  useAuthContext: () => ({
     user: { id: '1', fullName: 'Test User', avatar: '/avatar.jpg' },
     isAuthenticated: true,
-  })),
+    loading: false,
+  }),
 }));
 
 // Mock do next-themes

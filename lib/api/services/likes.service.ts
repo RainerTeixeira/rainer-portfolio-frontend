@@ -34,7 +34,12 @@ export class LikesService {
     if (response.success && response.data) {
       return response.data;
     }
-    throw new Error(response.message || 'Erro ao curtir post');
+    throw new Error(
+      response.message ||
+        `Erro ao curtir post${
+          data.postId ? ` com ID: ${data.postId}` : ''
+        }`
+    );
   }
 
   /**
@@ -44,9 +49,18 @@ export class LikesService {
    * Remove like (unlike) de um post.
    */
   async unlikePost(userId: string, postId: string): Promise<ApiResponse<void>> {
-    return api.delete<ApiResponse<void>>(
+    const response = await api.delete<ApiResponse<void>>(
       `${this.basePath}/${userId}/${postId}`
     );
+
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao remover like do usuário ${userId} no post ${postId}`
+      );
+    }
+
+    return response;
   }
 
   /**
@@ -59,6 +73,12 @@ export class LikesService {
     const response = await api.get<ApiResponse<Like[]>>(
       `${this.basePath}/post/${postId}`
     );
+    if (!response.success) {
+      throw new Error(
+        response.message || `Erro ao listar likes do post com ID: ${postId}`
+      );
+    }
+
     return response;
   }
 
@@ -72,6 +92,13 @@ export class LikesService {
     const response = await api.get<ApiResponse<Like[]>>(
       `${this.basePath}/user/${userId}`
     );
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao listar likes do usuário com ID: ${userId}`
+      );
+    }
+
     return response;
   }
 
@@ -85,6 +112,13 @@ export class LikesService {
     const response = await api.get<ApiResponse<number>>(
       `${this.basePath}/post/${postId}/count`
     );
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao obter contagem de likes para o post com ID: ${postId}`
+      );
+    }
+
     return response;
   }
 
@@ -101,6 +135,13 @@ export class LikesService {
     const response = await api.get<ApiResponse<boolean>>(
       `${this.basePath}/${userId}/${postId}/check`
     );
+    if (!response.success) {
+      throw new Error(
+        response.message ||
+          `Erro ao verificar like do usuário ${userId} no post ${postId}`
+      );
+    }
+
     return response;
   }
 
@@ -112,7 +153,10 @@ export class LikesService {
     if (response.success && response.data !== undefined) {
       return response.data;
     }
-    throw new Error(response.message || 'Erro ao obter contagem de likes');
+    throw new Error(
+      response.message ||
+        `Erro ao obter contagem de likes para o post com ID: ${postId}`
+    );
   }
 
   /**
@@ -123,7 +167,10 @@ export class LikesService {
     if (response.success && response.data !== undefined) {
       return response.data;
     }
-    throw new Error(response.message || 'Erro ao verificar like');
+    throw new Error(
+      response.message ||
+        `Erro ao verificar like do usuário ${userId} no post ${postId}`
+    );
   }
 
   /**
@@ -142,6 +189,7 @@ export class LikesService {
       await this.unlikePost(userId, postId);
       return { liked: false };
     }
+
     const like = await this.likePost({ userId, postId });
     return { liked: true, like };
   }

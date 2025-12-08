@@ -55,9 +55,9 @@ grep -r "from '@/lib/(rainer-design-tokens-helpers|scroll-utils|search|validatio
 - ✅ `tests/lib/validation-schemas.test.ts` - Atualizado para `@/lib/utils/validation`
 - ✅ `tests/lib/search.test.ts` - Atualizado para `@/lib/utils/search`
 - ✅ `tests/lib/scroll-utils.test.ts` - Atualizado para `@/lib/utils/scroll`
-- ✅ `tests/lib/analytics.test.ts` - Atualizado para `@/lib/monitoring/analytics`
-- ✅ `tests/lib/logger.test.ts` - Atualizado para `@/lib/monitoring/logger`
-- ✅ `tests/lib/performance-monitor.test.ts` - Atualizado para `@/lib/monitoring/performance`
+- ✅ `tests/lib/analytics.test.ts` - Atualizado para `@/lib/tracking/analytics`
+- ✅ `tests/lib/logger.test.ts` - Atualizado para `@/lib/tracking/logger`
+- ✅ `tests/lib/performance-monitor.test.ts` - Atualizado para `@/lib/tracking/performance`
 - ✅ `tests/hooks/use-smooth-scroll.test.ts` - Atualizado para `@/lib/utils/scroll`
 
 ---

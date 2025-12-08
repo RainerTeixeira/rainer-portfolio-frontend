@@ -23,6 +23,16 @@ jest.mock('framer-motion', () => ({
   },
 }));
 
+// Mock leve de '@/constants' para evitar carregar módulos que dependem
+// diretamente de design tokens (ex: constants/home/servicos)
+jest.mock('@/constants', () => ({
+  SITE_CONFIG: {
+    github: 'https://github.com/test',
+    linkedin: 'https://linkedin.com/in/test',
+    url: 'https://example.com',
+  },
+}));
+
 // ============================================================================
 // Tests
 // ============================================================================
