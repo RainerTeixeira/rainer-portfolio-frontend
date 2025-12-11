@@ -24,7 +24,15 @@ const PRECACHE_URLS = [
 ];
 
 // Recursos que NÃO devem ser cacheados
-const NO_CACHE_PATTERNS = [/\/api\//, /\/_next\/data\//, /\.hot-update\./];
+const NO_CACHE_PATTERNS = [
+  /\/api\//, 
+  /\/_next\/data\//, 
+  /\.hot-update\./,
+  /\/_vercel\/insights\//,
+  /\/_vercel\/speed-insights\//,
+  /\/feedback\.html/,
+  /\/_vercel\/feedback\//,
+];
 
 /**
  * Event: Install
@@ -95,20 +103,24 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Estratégia: Network First com Cache Fallback (somente GET/HEAD)
+  // Ignora requisições que não são GET
+  if (request.method !== 'GET') {
+    return event.respondWith(fetch(request));
+  }
+
+  // Estratégia: Network First com Cache Fallback (apenas para GET)
   event.respondWith(
     fetch(request)
       .then(response => {
         // Clone a resposta antes de cachear
         const responseClone = response.clone();
 
-        // Cacheia apenas respostas bem-sucedidas de requisições GET/HEAD
-        if (
-          response.status === 200 &&
-          (request.method === 'GET' || request.method === 'HEAD')
-        ) {
+        // Cacheia apenas respostas bem-sucedidas de requisições GET
+        if (response.status === 200) {
           caches.open(RUNTIME_CACHE).then(cache => {
-            cache.put(request, responseClone);
+            cache.put(request, responseClone).catch(error => {
+              console.error('[SW] Erro ao armazenar no cache:', error);
+            });
           });
         }
 
