@@ -300,12 +300,14 @@ class ApiClient {
    * @private
    */
   private validateConfiguration(): void {
-    if (!API_CONFIG.BASE_URL) {
+    // Durante o build estático no servidor, a variável pode não estar disponível
+    // Permitir que o build continue, mas falhar no cliente se necessário
+    if (typeof window !== 'undefined' && !API_CONFIG.BASE_URL) {
       const errorMessage =
         'NEXT_PUBLIC_API_URL não está configurada. Verifique suas variáveis de ambiente.';
       console.error('[ApiClient]', errorMessage);
 
-      // Falhar cedo em qualquer ambiente se a URL base da API não estiver configurada
+      // Falhar apenas no cliente se a URL base da API não estiver configurada
       throw new Error(errorMessage);
     }
   }
@@ -966,21 +968,30 @@ class ApiClient {
 // =============================================================================
 
 /**
- * Instância singleton do cliente API pré-configurada
+ * Instância singleton do cliente API pré-configurada (lazy initialization)
  */
-export const api = new ApiClient({
-  logger: (message, data) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`[API Client] ${message}`, data);
+let apiInstance: ApiClient | null = null;
+
+export const api = new Proxy({} as ApiClient, {
+  get(target, prop) {
+    if (!apiInstance) {
+      apiInstance = new ApiClient({
+        logger: (message, data) => {
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`[API Client] ${message}`, data);
+          }
+        },
+        onRequest: metrics => {
+          // Pode ser integrado com serviço de monitoramento (DataDog, New Relic, etc.)
+          if (metrics.duration && metrics.duration > 5000) {
+            console.warn(
+              `[API Slow Request] ${metrics.method} ${metrics.endpoint} took ${metrics.duration}ms`
+            );
+          }
+        }
+      });
     }
-  },
-  onRequest: metrics => {
-    // Pode ser integrado com serviço de monitoramento (DataDog, New Relic, etc.)
-    if (metrics.duration && metrics.duration > 5000) {
-      console.warn(
-        `[API Slow Request] ${metrics.method} ${metrics.endpoint} took ${metrics.duration}ms`
-      );
-    }
+    return apiInstance[prop as keyof ApiClient];
   }
 });
 
