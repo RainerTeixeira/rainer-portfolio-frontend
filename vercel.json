@@ -6,6 +6,7 @@
       "use": "@vercel/next"
     }
   ],
+  "installCommand": "pnpm install --no-frozen-lockfile",
   "build": {
     "env": {
       "NEXT_PUBLIC_API_URL": "https://rainer-portfolio-backend.onrender.com",
