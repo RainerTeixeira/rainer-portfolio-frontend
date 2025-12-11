@@ -1,8 +1,9 @@
 {
   "buildCommand": "pnpm run build",
-  "outputDirectory": "out",
-  "installCommand": "pnpm install",
+  "outputDirectory": ".next",
+  "installCommand": "pnpm install --no-frozen-lockfile",
   "framework": "nextjs",
+  "nodeVersion": "20.x",
   "regions": ["iad1"],
   "env": {
     "NEXT_PUBLIC_API_URL": "https://rainer-portfolio-backend.onrender.com",
@@ -13,5 +14,17 @@
       "NEXT_PUBLIC_API_URL": "https://rainer-portfolio-backend.onrender.com",
       "NEXT_PUBLIC_APP_URL": "https://rainer-portfolio.vercel.app"
     }
-  }
+  },
+  "cli": {
+    "versionCheck": false
+  },
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": ".next"
+      }
+    }
+  ]
 }
