@@ -28,8 +28,8 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.67.0(react@19.2.0))
       '@rainersoft/design-tokens':
-        specifier: link:../rainer-design-tokens
-        version: link:../rainer-design-tokens
+        specifier: 2.3.0
+        version: 2.3.0
       '@rainersoft/ui':
         specifier: ^1.3.2
         version: 1.3.2(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(next-themes@0.4.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -2242,6 +2242,9 @@ packages:
 
   '@radix-ui/rect@1.1.1':
     resolution: {integrity: sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==}
+
+  '@rainersoft/design-tokens@2.3.0':
+    resolution: {integrity: sha512-kmdz/75mkPwDHTZgV3VyVtm/xfKiS0N3SUjHNs43h3csGcWANCsiDxQm+P3VbRb8ZV6juFjfsC+60jzz+ywHeA==}
 
   '@rainersoft/ui@1.3.2':
     resolution: {integrity: sha512-QRxcAdiIprT2PgJJeetTPJz46FlevJDi8iti3qn9SMDEzin9QnrqoDsMLyYhLeX7xAOTiVLh0p4J+oWa6i0vhw==}
@@ -9713,6 +9716,8 @@ snapshots:
       '@types/react-dom': 19.2.3(@types/react@19.2.7)
 
   '@radix-ui/rect@1.1.1': {}
+
+  '@rainersoft/design-tokens@2.3.0': {}
 
   '@rainersoft/ui@1.3.2(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(next-themes@0.4.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
