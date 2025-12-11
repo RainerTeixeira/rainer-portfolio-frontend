@@ -201,6 +201,8 @@ export default function VerifyEmailAdminPage() {
                 {/* Botão de submit */}
                 <Button
                   type="submit"
+                  variant="default"
+                  size="lg"
                   disabled={isLoading || !identifier.trim()}
                   className="w-full h-11 text-base"
                 >

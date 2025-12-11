@@ -4,7 +4,7 @@ Este é o Storybook do **frontend** (`rainer-portfolio-frontend`), focado em **c
 
 ## 🎯 Objetivo
 
-Documentar e visualizar os componentes de interface do usuário que **utilizam** os design tokens da biblioteca `@rainer/rainer-design-tokens`.
+Documentar e visualizar os componentes de interface do usuário que **utilizam** os design tokens da biblioteca `@rainersoft/rainer-design-tokens`.
 
 ## 🚀 Como Usar
 

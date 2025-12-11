@@ -2,7 +2,7 @@
  * Testes para componente NicknameAvailability
  */
 
-import { NicknameAvailability } from '@/components/dashboard/login/nickname-availability';
+import { NicknameAvailability } from '@/components/domain/dashboard/login/nickname-availability';
 import { render, waitFor } from '@testing-library/react';
 
 // Mock do authService

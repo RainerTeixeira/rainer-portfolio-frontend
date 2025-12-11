@@ -53,7 +53,7 @@ export interface PostStats {
 /**
  * Estatísticas de usuários
  */
-export interface UserStats {
+export interface DashboardUserStats {
   /** Total de usuários ativos */
   readonly active: number;
   /** Total de usuários banidos */

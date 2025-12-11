@@ -5,7 +5,7 @@
 // Mock do CSS primeiro
 jest.mock('@/app/globals.css', () => ({}));
 
-import { HeroSection } from '@/components/home/hero-section';
+import { HeroSection } from '@/components/domain/home/hero-section';
 import { render, screen } from '@testing-library/react';
 
 // Mock do next/image

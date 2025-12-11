@@ -368,21 +368,21 @@ npx playwright test --project=chromium --project=firefox --project=webkit
 
 ### Variáveis CSS não encontradas?
 
-1. Verifique se `@rainer/rainer-design-tokens` está instalado:
+1. Verifique se `@rainersoft/rainer-design-tokens` está instalado:
 
    ```bash
-   npm list @rainer/rainer-design-tokens
+   npm list @rainersoft/rainer-design-tokens
    ```
 
 2. Verifique se `globals.css` importa as CSS vars:
 
    ```css
-   @import '@rainer/rainer-design-tokens/formats/css-vars.css';
+   @import '@rainersoft/rainer-design-tokens/formats/css-vars.css';
    ```
 
 3. Verifique se `tailwind.config.ts` importa a config:
    ```typescript
-   import { tailwindConfig } from '@rainer/rainer-design-tokens/formats/tailwind.config';
+   import { tailwindConfig } from '@rainersoft/rainer-design-tokens/formats/tailwind.config';
    ```
 
 ---
@@ -390,7 +390,7 @@ npx playwright test --project=chromium --project=firefox --project=webkit
 ## 📚 Recursos
 
 - **Playwright Docs:** https://playwright.dev
-- **Design Tokens Library:** `@rainer/rainer-design-tokens`
+- **Design Tokens Library:** `@rainersoft/rainer-design-tokens`
 - **Frontend Config:** `tailwind.config.ts`, `app/globals.css`
 - **Token Guidelines:** `@rainer-design-tokens/docs/guidelines.md`
 

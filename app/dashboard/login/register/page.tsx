@@ -23,9 +23,9 @@ import {
   AuthLayout,
   RegisterForm,
   TermsDialog,
-} from '@/components/dashboard/login';
+} from '@/components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
-import { cn } from '@/lib/portfolio';
+import { cn } from '@rainersoft/ui';
 import Link from 'next/link';
 
 export default function RegisterPage() {

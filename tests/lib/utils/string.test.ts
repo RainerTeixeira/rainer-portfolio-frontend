@@ -9,7 +9,7 @@ import {
   textToSlug,
   translatePostStatus,
   translateStatus,
-} from '@rainersoft/utils';
+} from '@/lib/utils';
 
 describe('lib/utils/string', () => {
   describe('textToSlug', () => {

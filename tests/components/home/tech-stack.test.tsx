@@ -2,7 +2,7 @@
  * Testes para componente TechStackShowcase
  */
 
-import { TechStackShowcase } from '@/components/home/tech-stack';
+import { TechStackShowcase } from '@/components/domain/home/tech-stack';
 import { render } from '@testing-library/react';
 
 describe('TechStackShowcase', () => {

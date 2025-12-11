@@ -1,6 +1,6 @@
-# Script para atualizar todos os imports de @/constants/rainer-design-tokens para @rainer/rainer-design-tokens
+# Script para atualizar todos os imports de @/constants/rainer-design-tokens para @rainersoft/rainer-design-tokens
 
-Write-Host "Atualizando imports para usar @rainer/rainer-design-tokens..." -ForegroundColor Cyan
+Write-Host "Atualizando imports para usar @rainersoft/rainer-design-tokens..." -ForegroundColor Cyan
 
 $files = Get-ChildItem -Recurse -Include *.ts,*.tsx -Path app,components,lib,constants -Exclude *OLD*,*test*,*.spec.ts,*.test.ts
 
@@ -12,7 +12,7 @@ foreach ($file in $files) {
         $content = [System.IO.File]::ReadAllText($file.FullName, [System.Text.Encoding]::UTF8)
         
         if ($content -match '@/constants/rainer-design-tokens') {
-            $newContent = $content -replace '@/constants/rainer-design-tokens', '@rainer/rainer-design-tokens'
+            $newContent = $content -replace '@/constants/rainer-design-tokens', '@rainersoft/rainer-design-tokens'
             [System.IO.File]::WriteAllText($file.FullName, $newContent, [System.Text.Encoding]::UTF8)
             Write-Host "Updated: $($file.Name)" -ForegroundColor Green
             $updated++

@@ -2,7 +2,7 @@
  * Testes para hook useDashboardStats
  */
 
-import { useDashboardStats } from '@/components/dashboard/hooks/use-dashboard-stats';
+import { useDashboardStats } from '@/components/domain/dashboard/hooks/use-dashboard-stats';
 import { renderHook } from '@testing-library/react';
 
 // Mock do dashboardService

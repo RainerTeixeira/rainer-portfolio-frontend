@@ -15,7 +15,7 @@ jest.mock('@/components/providers/auth-context-provider', () => ({
 }));
 
 // Mock dos componentes
-jest.mock('@/components/dashboard/profile-form', () => ({
+jest.mock('@/components/domain/dashboard/profile-form', () => ({
   ProfileForm: () => <div data-testid="settings-form">Settings</div>,
 }));
 

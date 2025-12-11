@@ -2,11 +2,11 @@
  * Testes para componente SearchBar
  */
 
-import { SearchBar } from '@/components/blog/search/search-bar';
+import { SearchBar } from '@/components/domain/blog/search/search-bar';
 import { render } from '@testing-library/react';
 
 // Mock do hook
-jest.mock('@/components/blog/hooks/use-search', () => ({
+jest.mock('@/components/domain/blog/hooks/use-search', () => ({
   useSearch: jest.fn(() => ({
     open: false,
     setOpen: jest.fn(),

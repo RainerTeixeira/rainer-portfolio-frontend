@@ -6,7 +6,7 @@
  */
 
 // Mock leve do componente ProfileForm para não carregar o código real
-jest.mock('@/components/dashboard/profile-form', () => ({
+jest.mock('@/components/domain/dashboard/profile-form', () => ({
   __esModule: true,
   ProfileForm: () => (
     <form data-testid="profile-form">
@@ -15,7 +15,7 @@ jest.mock('@/components/dashboard/profile-form', () => ({
   ),
 }));
 
-import { ProfileForm } from '@/components/dashboard/profile-form';
+import { ProfileForm } from '@/components/domain/dashboard/profile-form';
 import { render } from '@testing-library/react';
 
 // Mock do useAuthContext

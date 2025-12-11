@@ -37,7 +37,6 @@
  * @since 1.0.0
  */
 
-import { twMerge } from 'tailwind-merge';
 
 // =============================================================================
 // CONSTANTES DE CLASSES CSS REUTILIZÁVEIS
@@ -146,65 +145,3 @@ export const ANIMATION_DELAYS = {
   /** Delay de 4s (variação) */
   long: '4s',
 } as const;
-
-/**
- * Combina e mescla classes CSS de forma inteligente
- *
- * Esta função é fundamental para trabalhar com Tailwind CSS e componentes
- * dinâmicos. Ela resolve conflitos entre classes Tailwind e permite
- * composição condicional de estilos.
- *
- * Funcionalidades:
- * - Aceita strings, arrays, objetos condicionais
- * - twMerge: Resolve conflitos entre classes Tailwind (última ganha)
- *
- * @param {...(string | undefined | null | false | Record<string, boolean> | string[])} inputs - Classes CSS para combinar
- * @returns {string} String final com classes CSS mescladas e sem conflitos
- *
- * @example
- * // Uso básico
- * cn('px-4 py-2', 'bg-blue-500') // "px-4 py-2 bg-blue-500"
- *
- * @example
- * // Com condicionais
- * cn('btn', { 'btn-active': isActive, 'btn-disabled': isDisabled })
- *
- * @example
- * // Resolvendo conflitos Tailwind (último ganha)
- * cn('px-4', 'px-2') // "px-2" (twMerge remove duplicatas)
- *
- * @example
- * // Em componentes
- * function Button({ className, ...props }) {
- *   return <button className={cn('btn btn-primary', className)} {...props} />
- * }
- */
-export function cn(
-  ...inputs: (
-    | string
-    | undefined
-    | null
-    | false
-    | Record<string, boolean>
-    | string[]
-  )[]
-): string {
-  // Processa condicionais manualmente (substitui clsx)
-  const classes = inputs
-    .filter(Boolean)
-    .map(input => {
-      if (typeof input === 'string') return input;
-      if (Array.isArray(input)) return input.filter(Boolean).join(' ');
-      if (typeof input === 'object' && input !== null) {
-        return Object.entries(input)
-          .filter(([, value]) => value)
-          .map(([key]) => key)
-          .join(' ');
-      }
-      return '';
-    })
-    .filter(Boolean)
-    .join(' ');
- 
-  return twMerge(classes);
-}

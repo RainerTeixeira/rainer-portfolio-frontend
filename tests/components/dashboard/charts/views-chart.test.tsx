@@ -2,7 +2,7 @@
  * Testes para componente ViewsChart
  */
 
-import { ViewsChart } from '@/components/dashboard/charts/views-chart';
+import { ViewsChart } from '@/components/domain/dashboard/charts/views-chart';
 import { render } from '@testing-library/react';
 
 const mockData = [

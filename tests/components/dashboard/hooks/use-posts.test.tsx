@@ -2,13 +2,13 @@
  * Testes para hook usePosts (Dashboard)
  */
 
-import { usePosts } from '@/components/dashboard/hooks/use-posts';
+import { usePosts } from '@/components/domain/dashboard/hooks/use-posts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import React from 'react';
 
 // Mock do getPosts (api-client)
-jest.mock('@/components/dashboard/lib/api-client', () => ({
+jest.mock('@/components/domain/dashboard/lib/api-client', () => ({
   getPosts: jest.fn(() =>
     Promise.resolve({
       posts: [],

@@ -2,7 +2,7 @@
  * Testes para componente PostCard
  */
 
-import { PostCard } from '@/components/blog/post-card';
+import { PostCard } from '@/components/domain/blog/post-card';
 import { render } from '@testing-library/react';
 
 // Mock de tokens de cores usados pelo PostCard
@@ -40,7 +40,7 @@ jest.mock('next/image', () => ({
 }));
 
 // Mock dos componentes sociais
-jest.mock('@/components/blog/social', () => ({
+jest.mock('@/components/domain/blog/social', () => ({
   LikeButton: () => <div>Like</div>,
   BookmarkButton: () => <div>Bookmark</div>,
   ShareButton: () => <div>Share</div>,

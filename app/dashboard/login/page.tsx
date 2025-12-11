@@ -33,12 +33,12 @@ import {
   AuthLayout,
   LoginForm,
   OAuthButton,
-} from '@/components/dashboard/login';
+} from '@/components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { ApiError } from '@/lib/api/client';
-import { cn } from '@/lib/portfolio';
+import { cn } from '@rainersoft/ui';
 import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';

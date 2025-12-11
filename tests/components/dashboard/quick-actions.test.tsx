@@ -2,7 +2,7 @@
  * Testes para componente QuickActions
  */
 
-import { QuickActions } from '@/components/dashboard/quick-actions';
+import { QuickActions } from '@/components/domain/dashboard/quick-actions';
 import { render } from '@testing-library/react';
 
 describe('QuickActions', () => {

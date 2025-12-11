@@ -2,7 +2,7 @@
  * Testes para hook useAnalyticsData
  */
 
-import { useAnalyticsData } from '@/components/dashboard/hooks/use-analytics-data';
+import { useAnalyticsData } from '@/components/domain/dashboard/hooks/use-analytics-data';
 import { renderHook, waitFor } from '@testing-library/react';
 
 // Mock do dashboardService

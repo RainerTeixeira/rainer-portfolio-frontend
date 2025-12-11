@@ -2,7 +2,7 @@
  * Testes para hook useComments
  */
 
-import { useComments } from '@/components/blog/hooks/use-comments';
+import { useComments } from '@/components/domain/blog/hooks/use-comments';
 import { renderHook, waitFor } from '@testing-library/react';
 
 // Mock do commentsService

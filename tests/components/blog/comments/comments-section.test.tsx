@@ -5,7 +5,7 @@
 // Mock do CSS primeiro
 jest.mock('@/app/globals.css', () => ({}));
 
-import { CommentSection } from '@/components/blog/comments/comment-section';
+import { CommentSection } from '@/components/domain/blog/comments/comment-section';
 import { render } from '@testing-library/react';
 
 // Mock do auth context

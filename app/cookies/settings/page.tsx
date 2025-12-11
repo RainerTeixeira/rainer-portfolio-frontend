@@ -15,17 +15,14 @@
 
 import { CookieSettings } from '@/components/cookies/cookie-settings';
 import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
-import { cn } from '@/lib/portfolio';
+import { cn } from '@rainersoft/ui';
 
 export default function CookieSettingsPage() {
   return (
     <div className={cn('min-h-screen bg-background dark:bg-black')}>
       <ParticlesEffect variant="alt1" />
 
-      <PageHeader
-        title="Configurações de Cookies"
-        description="Gerencie suas preferências de cookies e controle como seus dados são utilizados. Você pode alterar essas configurações a qualquer momento."
-      />
+      <PageHeader title="Configurações de Cookies" description="Gerencie suas preferências de cookies e controle como seus dados são utilizados. Você pode alterar essas configurações a qualquer momento." children={undefined} />
 
       <div className="max-w-4xl mx-auto px-6 py-12 relative z-10">
         <CookieSettings />

@@ -27,13 +27,13 @@
  */
 'use client';
 
-import { AuthLayout } from '@/components/dashboard/login';
+import { AuthLayout } from '@/components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
 import { authService } from '@/lib/api';
-import { cn } from '@/lib/portfolio';
+import { cn } from '@rainersoft/ui';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -112,7 +112,6 @@ export default function ConfirmEmailPage() {
       const response = await authService
         .confirmEmail({
           email,
-          username: username || email,
           code,
         })
         .catch(err => {
@@ -376,6 +375,8 @@ export default function ConfirmEmailPage() {
           <div className="space-y-3">
             <Button
               type="submit"
+              variant="default"
+              size="lg"
               className="w-full h-9 sm:h-10"
               disabled={isLoading || code.length !== 6}
             >
@@ -386,6 +387,7 @@ export default function ConfirmEmailPage() {
             <Button
               type="button"
               variant="outline"
+              size="lg"
               className="w-full h-9 sm:h-10"
               onClick={handleResend}
               disabled={isResending || isLoading}

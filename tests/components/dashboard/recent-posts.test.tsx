@@ -5,7 +5,7 @@
 // Mock do CSS primeiro
 jest.mock('@/app/globals.css', () => ({}));
 
-import { RecentPostsList } from '@/components/dashboard/recent-posts-list';
+import { RecentPostsList } from '@/components/domain/dashboard/recent-posts-list';
 import { render } from '@testing-library/react';
 
 // Mock do postsService

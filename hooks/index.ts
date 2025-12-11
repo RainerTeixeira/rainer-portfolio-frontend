@@ -20,13 +20,17 @@ export { useAnalytics, withAnalytics } from './use-analytics';
 
 // Hooks migrados para @rainersoft/ui
 export { useIsMobile, usePWA } from '@rainersoft/ui';
+// useTheme continua do next-themes (não migrado para @rainersoft/ui)
 // useSmoothScroll removido - funcionalidade migrada para @rainersoft/ui
 
 // ============================================================================
 // Forms
 // ============================================================================
 
-// Removidos temporariamente - hooks não existem ainda
-// export { usePasswordStrength } from './use-password-strength';
-// export { useUpload } from './use-upload';
+export { usePasswordStrength } from '@rainersoft/utils';
+export { useCarouselKeyboard } from '@rainersoft/ui';
+export { useTableOfContents } from '@rainersoft/ui';
+
+// Avatar utils migrados para @rainersoft/utils
+export { extractInitials } from '@rainersoft/utils';
 

@@ -71,6 +71,6 @@ Write-Host "💡 PRÓXIMOS PASSOS" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "1. Revise o relatório gerado" -ForegroundColor Gray
 Write-Host "2. Consulte docs\REFACTORING_GUIDE.md" -ForegroundColor Gray
-Write-Host "3. Use os design tokens de @rainer/rainer-design-tokens" -ForegroundColor Gray
+Write-Host "3. Use os design tokens de @rainersoft/rainer-design-tokens" -ForegroundColor Gray
 Write-Host ""
 

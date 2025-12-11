@@ -2,7 +2,7 @@
  * Testes para hook usePosts
  */
 
-import { usePosts } from '@/components/blog/hooks/use-posts';
+import { usePosts } from '@/components/domain/blog/hooks/use-posts';
 import { renderHook, waitFor } from '@testing-library/react';
 
 // Mock do postsService

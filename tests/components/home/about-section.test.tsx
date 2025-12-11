@@ -2,7 +2,7 @@
  * Testes para componente AboutSection
  */
 
-import { AboutSection } from '@/components/home/about-section';
+import { AboutSection } from '@/components/domain/home/about-section';
 import { render } from '@testing-library/react';
 
 describe('AboutSection', () => {

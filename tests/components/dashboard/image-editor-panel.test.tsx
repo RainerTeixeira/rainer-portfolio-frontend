@@ -2,7 +2,7 @@
  * Testes para componente ImageEditorPanel
  */
 
-import { ImageEditorPanel } from '@/components/dashboard/image-editor-panel';
+import { ImageEditorPanel } from '@/components/domain/dashboard/image-editor-panel';
 import { render } from '@testing-library/react';
 
 // Mock do editor do Tiptap

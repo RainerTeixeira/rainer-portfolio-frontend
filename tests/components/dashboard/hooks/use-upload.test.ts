@@ -2,7 +2,7 @@
  * Testes para hook useUpload
  */
 
-import { useUpload } from '@/components/dashboard/hooks/use-upload';
+import { useUpload } from '@/components/domain/dashboard/hooks/use-upload';
 import { renderHook } from '@testing-library/react';
 
 // Mock do toast
@@ -14,7 +14,7 @@ jest.mock('sonner', () => ({
 }));
 
 // Mock das funções de upload do Cloudinary
-jest.mock('@/components/dashboard/lib/cloudinary', () => ({
+jest.mock('@/components/domain/dashboard/lib/cloudinary', () => ({
   uploadBlogCover: jest.fn(() => Promise.resolve('/blog/cover.jpg')),
   uploadBlogContentImage: jest.fn(() => Promise.resolve('/blog/content.jpg')),
   uploadToCloudinary: jest.fn(() => Promise.resolve('/blog/general.jpg')),

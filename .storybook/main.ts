@@ -32,7 +32,7 @@ const config: StorybookConfig = {
         },
       },
       optimizeDeps: {
-        include: ['@rainer/rainer-design-tokens'],
+        include: ['@rainersoft/rainer-design-tokens'],
       },
     });
   },

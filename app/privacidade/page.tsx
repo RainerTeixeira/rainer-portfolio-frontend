@@ -18,7 +18,7 @@ import { Database, Eye, FileCheck, Lock, Mail, Shield } from 'lucide-react';
 
 import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
-import { cn } from '@/lib/portfolio';
+import { cn } from '@rainersoft/ui';
 import { POLICIES_LAST_UPDATED, SITE_CONFIG } from '@/constants';
 
 export default function PrivacyPolicyPage() {
@@ -263,10 +263,10 @@ export default function PrivacyPolicyPage() {
                   Para exercer seus direitos, entre em contato conosco através
                   do e-mail{' '}
                   <a
-                    href={`mailto:${SITE_CONFIG.contact.email.address}`}
+                    href={`mailto:${SITE_CONFIG.contact.email.comercial}`}
                     className="text-primary hover:underline dark:text-cyan-400 font-semibold"
                   >
-                    {SITE_CONFIG.contact.email.address}
+                    {SITE_CONFIG.contact.email.comercial}
                   </a>
                 </p>
               </div>
@@ -331,25 +331,25 @@ export default function PrivacyPolicyPage() {
                 <p>
                   <strong className="text-foreground">E-mail:</strong>{' '}
                   <a
-                    href={`mailto:${SITE_CONFIG.contact.email.address}`}
+                    href={`mailto:${SITE_CONFIG.contact.email.comercial}`}
                     className="text-primary hover:underline dark:text-cyan-400"
                   >
-                    {SITE_CONFIG.contact.email.address}
+                    {SITE_CONFIG.contact.email.comercial}
                   </a>
                 </p>
                 <p>
                   <strong className="text-foreground">Telefone:</strong>{' '}
                   <a
-                    href={`tel:${SITE_CONFIG.contact.phone.number.replace(/\s/g, '')}`}
+                    href={`tel:${SITE_CONFIG.contact.phone.comercial.replace(/\s/g, '')}`}
                     className="text-primary hover:underline dark:text-cyan-400"
                   >
-                    {SITE_CONFIG.contact.phone.number}
+                    {SITE_CONFIG.contact.phone.comercial}
                   </a>
                 </p>
                 <p>
                   <strong className="text-foreground">Localização:</strong>{' '}
-                  {SITE_CONFIG.contact.location.city},{' '}
-                  {SITE_CONFIG.contact.location.country}
+                  {SITE_CONFIG.contact.location.headquarters.city},{' '}
+                  {SITE_CONFIG.contact.location.headquarters.country}
                 </p>
               </div>
             </CardContent>

@@ -5,7 +5,7 @@
 // Mock do próprio ResetPasswordForm para evitar dependências complexas
 // (react-hook-form, PasswordInput, etc.) e apenas garantir que o
 // formulário é renderizável.
-jest.mock('@/components/dashboard/login/forms/reset-password-form', () => {
+jest.mock('@/components/domain/dashboard/login/forms/reset-password-form', () => {
   const React = require('react');
 
   const MockResetPasswordForm = () => (
@@ -20,7 +20,7 @@ jest.mock('@/components/dashboard/login/forms/reset-password-form', () => {
   };
 });
 
-import { ResetPasswordForm } from '@/components/dashboard/login/forms/reset-password-form';
+import { ResetPasswordForm } from '@/components/domain/dashboard/login/forms/reset-password-form';
 import { render } from '@testing-library/react';
 
 // Mock do authService

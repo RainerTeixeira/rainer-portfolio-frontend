@@ -2,7 +2,7 @@
  * Testes para componente ForgotPasswordForm
  */
 
-import { ForgotPasswordForm } from '@/components/dashboard/login/forms/forgot-password-form';
+import { ForgotPasswordForm } from '@/components/domain/dashboard/login/forms/forgot-password-form';
 import { render } from '@testing-library/react';
 
 // Mock do next/navigation

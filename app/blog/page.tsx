@@ -47,14 +47,14 @@ import {
   SearchBar,
   SortControls,
   type SortOption,
-} from '@/components/blog';
+} from '@/components/domain/blog';
 import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { Skeleton } from '@rainersoft/ui';
 import { postsService } from '@/lib/api/services';
 import type { Post } from '@/lib/api/types/posts';
 import { PostStatus } from '@/lib/api/types/posts';
-import { cn } from '@/lib/portfolio';
+import { cn } from '@rainersoft/ui';
 import { getTokenColor } from '@/lib/portfolio/tokens';
 import { useTheme } from 'next-themes';
 import { hexToRGB, hexToRGBA } from '@rainersoft/ui';
@@ -350,10 +350,7 @@ export default function BlogPage() {
       <ParticlesEffect variant="default" />
 
       {/* Cabeçalho da página com título e descrição */}
-      <PageHeader
-        title="Blog de Desenvolvimento"
-        description="Artigos técnicos sobre React, Next.js, TypeScript e desenvolvimento web moderno. Compartilho aprendizados práticos, tutoriais detalhados, soluções para problemas reais e insights sobre as tecnologias que uso nos meus projetos. Conteúdo direto ao ponto, sem enrolação."
-      />
+      <PageHeader title="Blog de Desenvolvimento" description="Artigos técnicos sobre React, Next.js, TypeScript e desenvolvimento web moderno. Compartilho aprendizados práticos, tutoriais detalhados, soluções para problemas reais e insights sobre as tecnologias que uso nos meus projetos. Conteúdo direto ao ponto, sem enrolação." children={undefined} />
 
       {/* Mensagem de erro de conexão com banco de dados */}
       {hasConnectionError && !isLoadingPosts && (

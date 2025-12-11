@@ -5,7 +5,7 @@
 // Mock do CSS primeiro
 jest.mock('@/app/globals.css', () => ({}));
 
-import { CommentForm } from '@/components/blog/comments/comment-form';
+import { CommentForm } from '@/components/domain/blog/comments/comment-form';
 import { render } from '@testing-library/react';
 
 // Mock do useAuthContext

@@ -52,7 +52,7 @@ import {
 // Utils
 // ============================================================================
 
-import { cn } from '@/lib/portfolio';
+import { cn } from '@rainersoft/ui';
 import Link from 'next/link';
 // ============================================================================
 // Main Component
