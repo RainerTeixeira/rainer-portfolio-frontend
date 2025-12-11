@@ -1,108 +1,239 @@
-# 🚀 Getting Started - Documentação de Início Rápido
+# 🚀 01-INICIO - Primeiros Passos
 
-Esta pasta contém documentação essencial para **começar** com o projeto.
+## 📋 Índice da Seção
 
----
-
-## 📋 Documentos Nesta Pasta
-
-### 1. 📘 [PROJECT-OVERVIEW.md](PROJECT-OVERVIEW.md)
-
-**Leia primeiro!**
-
-**Conteúdo**:
-
-- Sobre o projeto
-- Propósito e visão
-- Características principais
-- Arquitetura de alto nível
-- Métricas e KPIs
-- Público-alvo
-- Roadmap resumido
-- Diferenciais competitivos
-
-**Quando ler**: Primeiro contato com o projeto
-
-**Tempo estimado**: 15-20 minutos
+- [Visão Geral do Projeto](#-visão-geral-do-projeto)
+- [Stack Tecnológica](#-stack-tecnológica)
+- [Configuração do Ambiente](#-configuração-do-ambiente)
+- [Instalação e Setup](#-instalação-e-setup)
+- [Executando o Projeto](#-executando-o-projeto)
 
 ---
 
-### 2. 🎉 [WHATS-NEW.md](WHATS-NEW.md)
+## 🎯 Visão Geral do Projeto
 
-**Novidades da v2.0.0!**
+### O que é o Rainer Portfolio Frontend?
 
-**Conteúdo**:
+O **Rainer Portfolio Frontend** é uma aplicação web enterprise-grade desenvolvida para showcase profissional de Rainer Teixeira, Desenvolvedor Full-Stack. Construído com as tecnologias mais modernas e melhores práticas da indústria.
 
-- Resumo da atualização Enterprise
-- 10 sistemas novos explicados
-- 11 documentos criados
-- 24 arquivos refatorados
-- Comparativo antes/depois
-- Conquistas alcançadas
-- Aprendizados
-- Próximos passos
-
-**Quando ler**: Ver mudanças recentes
-
-**Tempo estimado**: 10-15 minutos
-
----
-
-### 3. 🛠️ [TECH-STACK.md](TECH-STACK.md)
-
-**Stack tecnológico completo**
-
-**Conteúdo**:
-
-- Next.js, React, TypeScript
-- 50+ dependências explicadas
-- Por que cada escolha
-- Versões e compatibilidade
-- Configurações
-- Recursos de aprendizado
-- Comparativo com alternativas
-
-**Quando ler**: Entender tecnologias usadas
-
-**Tempo estimado**: 20-30 minutos
-
----
-
-## 🎯 Ordem de Leitura Recomendada
-
-Para desenvolvedores novos:
+### 🌟 Principais Características
 
 ```
-1. PROJECT-OVERVIEW.md  (entender o quê)
-   ↓
-2. WHATS-NEW.md         (ver novidades)
-   ↓
-3. TECH-STACK.md        (entender como)
-   ↓
-PRÓXIMO: ../architecture/DEVELOPER-GUIDE.md
+✨ ENTERPRISE EDITION v2.3.0
+├─ 🎨 Design System Completo     (@rainersoft/design-tokens)
+├─ 🧩 Component Library          (@rainersoft/ui)
+├─ 🔧 Utility Functions           (@rainersoft/utils)
+├─ 📱 PWA Universal               (iOS/Android/Desktop)
+├─ 🚀 Performance Otimizada       (Lighthouse 95+)
+├─ ♿ Acessibilidade WCAG 2.1 AA   (Screen readers)
+├─ 🔐 Autenticação OAuth           (Google/GitHub)
+├─ 📝 Blog com Editor Rich Text    (Tiptap)
+├─ 📊 Dashboard Administrativo     (CRUD completo)
+└─ 🧪 Testes Automatizados         (Jest + Playwright)
+```
+
+### 🏗️ Arquitetura
+
+- **Monorepo Local**: 3 bibliotecas + frontend
+- **Separação de Responsabilidades**: Domínio vs Genérico
+- **Type-First**: TypeScript strict mode
+- **Performance First**: Bundle otimizado, lazy loading
+- **Enterprise Ready**: Logging, monitoring, error boundaries
+
+---
+
+## ⚡ Stack Tecnológica
+
+### Frontend Core
+```typescript
+{
+  "framework": "Next.js 15.5.5",
+  "ui": "React 19.0.0",
+  "language": "TypeScript 5.x",
+  "styling": "Tailwind CSS 4.1.14",
+  "state": "React Query + Context API",
+  "forms": "React Hook Form + Zod",
+  "routing": "Next.js App Router"
+}
+```
+
+### Bibliotecas @rainersoft
+```typescript
+{
+  "@rainersoft/design-tokens": "W3C DTCG compliant",
+  "@rainersoft/ui": "56 componentes + hooks",
+  "@rainersoft/utils": "String, date, number, validation, DOM"
+}
+```
+
+### Features Enterprise
+```typescript
+{
+  "editor": "Tiptap (rich text)",
+  "auth": "AWS Cognito + OAuth",
+  "drag_drop": "@dnd-kit",
+  "charts": "Recharts",
+  "animations": "Framer Motion",
+  "pwa": "Web App Manifest",
+  "testing": "Jest + Playwright E2E"
+}
 ```
 
 ---
 
-## 📊 Estatísticas
+## 🛠️ Configuração do Ambiente
 
-| Métrica | Valor |
-|---------|-------|
-| **Total de documentos** | 3 arquivos |
-| **Total de linhas** | ~1.800 linhas |
-| **Tempo total de leitura** | ~45-65 minutos |
-| **Objetivo** | Onboarding inicial |
+### Pré-requisitos
+
+```bash
+# Node.js (versão mínima)
+node --version  # >= 18.17.0
+
+# Package Manager
+pnpm --version  # >= 10.24.0
+
+# Git (para controle de versão)
+git --version
+```
+
+### Variáveis de Ambiente
+
+Copie o arquivo de exemplo:
+```bash
+cp .env.local.example .env.local
+```
+
+Configure as variáveis essenciais:
+```env
+# Aplicação
+NODE_ENV=development
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# AWS Cognito (OAuth)
+NEXT_PUBLIC_COGNITO_USER_POOL_ID=your_user_pool_id
+NEXT_PUBLIC_COGNITO_CLIENT_ID=your_client_id
+COGNITO_CLIENT_SECRET=your_client_secret
+
+# APIs (opcionais)
+NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=
+NEXT_PUBLIC_SENTRY_DSN=
+```
 
 ---
 
-## 🔗 Links Úteis
+## 📦 Instalação e Setup
 
-- **[← Voltar ao Índice](../README.md)**
-- **[Próximo: Arquitetura →](../architecture/)**
-- **[Todos os Docs](../INDEX.md)**
+### 1. Clonar o Repositório
+
+```bash
+git clone <repository-url>
+cd rainer-portfolio-frontend
+```
+
+### 2. Instalar Dependências
+
+```bash
+# Instalação principal
+pnpm install
+
+# Preparar workspace das bibliotecas
+pnpm run prebuild
+```
+
+### 3. Configurar Bibliotecas @rainersoft
+
+As bibliotecas são linkadas localmente:
+```bash
+# Verificar se as bibliotecas estão linkadas
+ls -la node_modules/@rainersoft/
+# Deve mostrar: design-tokens, ui, utils
+```
+
+### 4. Validar Instalação
+
+```bash
+# Verificar tipos TypeScript
+pnpm run type-check
+
+# Validar design tokens
+pnpm run validate:tokens
+```
 
 ---
 
-**Pasta**: getting-started/
-**Propósito**: Início rápido e onboarding
-**Status**: ✅ Completa
+## 🚀 Executando o Projeto
+
+### Modo Desenvolvimento
+
+```bash
+# Iniciar servidor de desenvolvimento
+pnpm run dev
+
+# Acessar aplicação
+# Frontend: http://localhost:3000
+# Storybook: http://localhost:6006 (se configurado)
+```
+
+### Build Produção
+
+```bash
+# Build completo
+pnpm run build
+
+# Iniciar servidor de produção
+pnpm run start
+```
+
+### Testes
+
+```bash
+# Testes unitários
+pnpm run test
+
+# Testes E2E
+pnpm run test:e2e
+
+# Todos os testes
+pnpm run test:all
+```
+
+---
+
+## 🎯 Próximos Passos
+
+1. **Explore a documentação**: Continue para [02-ARQUITETURA](../02-ARQUITETURA/)
+2. **Conheça os componentes**: Veja [03-COMPONENTES](../03-COMPONENTES/)
+3. **Entenda as constants**: Estude [04-CONSTANTS](../04-CONSTANTS/)
+4. **Configure features**: Acesse [06-FEATURES](../06-FEATURES/)
+
+---
+
+## 🆘 Ajuda Rápida
+
+### Problemas Comuns
+
+**Build falha com erro de tipos:**
+```bash
+# Limpar e reinstalar
+pnpm run clean:all
+pnpm install
+pnpm run prebuild
+```
+
+**Bibliotecas @rainersoft não encontradas:**
+```bash
+# Verificar links
+pnpm run prebuild
+ls node_modules/@rainersoft/
+```
+
+**OAuth não funciona:**
+- Verifique variáveis `.env.local`
+- Confirme Cognito configurado no AWS Console
+
+### Links Úteis
+
+- [Documentação Completa](../README.md)
+- [Guia de Contribuição](../09-CONTRIBUICAO/)
+- [Troubleshooting](../07-DEPLOY/TROUBLESHOOTING.md)
+- [Changelog](../../CHANGELOG.md)

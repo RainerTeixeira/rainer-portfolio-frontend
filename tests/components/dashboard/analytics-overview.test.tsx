@@ -2,11 +2,11 @@
  * Testes para componente AnalyticsOverview
  */
 
-import { AnalyticsOverview } from '@/components/dashboard/analytics-overview';
+import { AnalyticsOverview } from '@/components/domain/dashboard/analytics-overview';
 import { render } from '@testing-library/react';
 
 // Mock do hook
-jest.mock('@/components/dashboard/hooks/use-analytics-data', () => ({
+jest.mock('@/components/domain/dashboard/hooks/use-analytics-data', () => ({
   useAnalyticsData: jest.fn(() => ({
     viewsData: [],
     engagementData: [],

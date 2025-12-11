@@ -2,7 +2,7 @@
  * Testes para hook useNewsletter
  */
 
-import { useNewsletter } from '@/components/blog/hooks/use-newsletter';
+import { useNewsletter } from '@/components/domain/blog/hooks/use-newsletter';
 import { act, renderHook } from '@testing-library/react';
 
 // Mock do fetch

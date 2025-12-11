@@ -273,8 +273,8 @@ export default function TermsOfUsePage() {
                 Estes Termos de Uso são regidos pelas leis da República
                 Federativa do Brasil. Qualquer disputa relacionada a estes
                 termos será submetida à jurisdição exclusiva dos tribunais
-                competentes de {SITE_CONFIG.contact.location.city},{' '}
-                {SITE_CONFIG.contact.location.country}.
+                competentes de {SITE_CONFIG.contact.location.headquarters.city},{' '}
+                {SITE_CONFIG.contact.location.headquarters.country}.
               </p>
             </CardContent>
           </Card>
@@ -296,25 +296,25 @@ export default function TermsOfUsePage() {
                 <p>
                   <strong className="text-foreground">E-mail:</strong>{' '}
                   <a
-                    href={`mailto:${SITE_CONFIG.contact.email.address}`}
+                    href={`mailto:${SITE_CONFIG.contact.email.comercial}`}
                     className="text-primary hover:underline dark:text-cyan-400"
                   >
-                    {SITE_CONFIG.contact.email.address}
+                    {SITE_CONFIG.contact.email.comercial}
                   </a>
                 </p>
                 <p>
                   <strong className="text-foreground">Telefone:</strong>{' '}
                   <a
-                    href={`tel:${SITE_CONFIG.contact.phone.number.replace(/\s/g, '')}`}
+                    href={`tel:${SITE_CONFIG.contact.phone.comercial.replace(/\s/g, '')}`}
                     className="text-primary hover:underline dark:text-cyan-400"
                   >
-                    {SITE_CONFIG.contact.phone.number}
+                    {SITE_CONFIG.contact.phone.comercial}
                   </a>
                 </p>
                 <p>
                   <strong className="text-foreground">Localização:</strong>{' '}
-                  {SITE_CONFIG.contact.location.city},{' '}
-                  {SITE_CONFIG.contact.location.country}
+                  {SITE_CONFIG.contact.location.headquarters.city},{' '}
+                  {SITE_CONFIG.contact.location.headquarters.country}
                 </p>
               </div>
             </CardContent>

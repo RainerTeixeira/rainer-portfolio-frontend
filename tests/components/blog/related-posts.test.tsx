@@ -5,7 +5,7 @@
 // Mock do CSS primeiro
 jest.mock('@/app/globals.css', () => ({}));
 
-import { RelatedPosts } from '@/components/blog/related-posts';
+import { RelatedPosts } from '@/components/domain/blog/related-posts';
 import { render } from '@testing-library/react';
 
 // Mock do next/image
@@ -29,7 +29,7 @@ jest.mock('next/link', () => ({
 }));
 
 // Mock do ReadingTime
-jest.mock('@/components/blog/social/reading-time', () => ({
+jest.mock('@/components/domain/blog/social/reading-time', () => ({
   ReadingTime: () => <div>5 min</div>,
 }));
 

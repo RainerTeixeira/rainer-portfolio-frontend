@@ -2,7 +2,7 @@
  * Testes para componente NameAvailability
  */
 
-import { NameAvailability } from '@/components/dashboard/login/name-availability';
+import { NameAvailability } from '@/components/domain/dashboard/login/name-availability';
 import { render } from '@testing-library/react';
 
 // Mock do authService

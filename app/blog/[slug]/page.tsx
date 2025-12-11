@@ -37,13 +37,13 @@ import {
   PostNavigation,
   ReadingProgress,
   TableOfContents,
-} from '@/components/blog';
+} from '@/components/domain/blog';
 import { BackToTop, ParticlesEffect } from '@rainersoft/ui';
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
-import { tiptapJSONtoHTML } from '@/components/dashboard/lib/tiptap-utils';
+import { tiptapJSONtoHTML } from '@/components/domain/dashboard/lib/tiptap-utils';
 import { postsService } from '@/lib/api/services';
 import type { Post } from '@/lib/api/types';
 import { PostStatus } from '@/lib/api/types';
@@ -231,7 +231,7 @@ export default function PostPage() {
           </p>
           <Button
             variant="default"
-            size="md"
+            size="lg"
             onClick={() => router.push('/blog')}
             className="gap-2 dark:bg-cyan-600 dark:hover:bg-cyan-700"
             aria-label="Voltar para página do blog"
@@ -304,7 +304,7 @@ export default function PostPage() {
                   transition={{ delay: 0.2 }}
                 >
                   {post.subcategory?.name && (
-                    <Badge
+                    <Badge variant="secondary"
                       className={cn(
                         'mb-4',
                         `${GRADIENT_DIRECTIONS.TO_BR} from-cyan-500/20 to-purple-500/20`,
@@ -329,10 +329,7 @@ export default function PostPage() {
         {!post.coverImage && (
           <div className="relative py-20 md:py-32">
             <div className="max-w-4xl mx-auto px-6">
-              <Button
-                variant="ghost"
-                onClick={() => router.push('/blog')}
-                className="mb-6 gap-2 lg:hidden dark:text-cyan-400"
+              <Button variant="ghost" size="lg" onClick={() => router.push('/blog')} className="mb-6 gap-2 lg:hidden dark:text-cyan-400"
                 aria-label="Voltar para página do blog"
               >
                 <ArrowLeft className="w-4 h-4" aria-hidden="true" />
@@ -344,7 +341,7 @@ export default function PostPage() {
                 animate={{ opacity: 1, y: 0 }}
               >
                 {post.subcategory?.name && (
-                  <Badge
+                  <Badge variant="secondary"
                     className={cn(
                       'mb-4',
                       `${GRADIENT_DIRECTIONS.TO_BR} from-cyan-500/10 to-purple-500/10`,

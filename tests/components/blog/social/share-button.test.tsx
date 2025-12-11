@@ -2,7 +2,7 @@
  * Testes para componente ShareButton
  */
 
-import { ShareButton } from '@/components/blog/social/share-button';
+import { ShareButton } from '@/components/domain/blog/social/share-button';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

@@ -11,7 +11,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.14-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](docs/CONTRIBUTING.md)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](docs/09-CONTRIBUICAO/)
 
 [![Lighthouse](https://img.shields.io/badge/Lighthouse-95+-success?logo=lighthouse)](https://web.dev/measure/)
 [![PWA](https://img.shields.io/badge/PWA-Installable-purple?logo=pwa)](public/manifest.json)
@@ -137,59 +137,44 @@ Esta aplicação possui **nível enterprise global** com recursos de empresas Fo
 
 ## 📚 Documentação Enterprise
 
-Documentação completa e profissional em **12 arquivos markdown**:
+Documentação completa e profissional em **9 seções temáticas**:
 
-| Documento | Descrição | Linhas |
-|-----------|-----------|--------|
-| [📘 Visão Geral](docs/getting-started/PROJECT-OVERVIEW.md) | Sobre o projeto completo | ~400 |
-| [🏗️ Arquitetura](docs/architecture/ARCHITECTURE.md) | Arquitetura detalhada | ~550 |
-| [👨‍💻 Guia do Desenvolvedor](docs/architecture/DEVELOPER-GUIDE.md) | Como desenvolver | ~740 |
-| [🌟 Features Enterprise](docs/reference/ENTERPRISE-FEATURES.md) | Features avançadas | ~760 |
-| [🛠️ Tech Stack](docs/getting-started/TECH-STACK.md) | Stack completo | ~800 |
-| [📚 API Reference](docs/reference/API-REFERENCE.md) | APIs e utilitários | ~650 |
-| [🧩 Components Reference](docs/reference/COMPONENTS-REFERENCE.md) | Todos os 60+ componentes | ~750 |
-| [🔧 Troubleshooting](docs/guides/TROUBLESHOOTING.md) | Solução de problemas | ~700 |
-| [🤝 Contributing](docs/architecture/CONTRIBUTING.md) | Como contribuir | ~550 |
-| [📲 PWA Universal](docs/guides/COMPATIBILIDADE-PWA-UNIVERSAL.md) | PWA todos devices | ~400 |
-| [🗺️ Roadmap](docs/guides/ROADMAP.md) | Plano futuro do projeto | ~450 |
-| [📖 Índice Geral](docs/README.md) | Navegação da documentação | ~450 |
+| Seção | Descrição | Arquivos |
+|-------|-----------|----------|
+| [🚀 01-INICIO](docs/01-INICIO/) | Primeiros passos e setup | Visão geral, stack, instalação |
+| [🏗️ 02-ARQUITETURA](docs/02-ARQUITETURA/) | Arquitetura do sistema | Estrutura, padrões, fluxo de dados |
+| [🧩 03-COMPONENTES](docs/03-COMPONENTES/) | Componentes React | Domínio, layout, providers, @rainersoft/ui |
+| [📋 04-CONSTANTS](docs/04-CONSTANTS/) | Constantes centralizadas | Metadados, conteúdo, padrões |
+| [📚 05-LIBRARIES](docs/05-LIBRARIES/) | Ecossistema de bibliotecas | Design tokens, UI components, utils |
+| [⚡ 06-FEATURES](docs/06-FEATURES/) | Funcionalidades implementadas | OAuth, blog, dashboard, PWA, SEO |
+| [🚀 07-DEPLOY](docs/07-DEPLOY/) | Deploy e produção | Build, Vercel, AWS, CI/CD, monitoring |
+| [🧪 08-TESTES](docs/08-TESTES/) | Estratégia de testes | Unit, integration, E2E, performance |
+| [🤝 09-CONTRIBUICAO](docs/09-CONTRIBUICAO/) | Guia de contribuição | Setup, workflow, padrões, PR process |
 
-**Total**: ~7.200 linhas de documentação técnica profissional
+**Total**: 9 seções completas com documentação detalhada
 
-**Organização**: 4 pastas temáticas + 4 READMEs de pasta
+**Organização**: Estrutura sequencial para aprendizado progressivo
 
-**+ JSDoc inline**: Todos os arquivos TypeScript/React documentados em português
-
-**+ Changelog**: CHANGELOG-ENTERPRISE.md com histórico completo (~650 linhas)
+**+ Documentação adicional**: [00-LEIA_PRIMEIRO.md](docs/00-LEIA_PRIMEIRO.md) - Guia inicial
 
 ### 📂 Estrutura Organizada
 
 ```
 docs/
-├── 📋 README.md + INDEX.md + STRUCTURE.md
-│
-├── 📁 getting-started/      # 🚀 Início Rápido (3 docs)
-│   ├── PROJECT-OVERVIEW.md
-│   ├── WHATS-NEW.md
-│   └── TECH-STACK.md
-│
-├── 📁 architecture/         # 🏗️ Arquitetura & Dev (3 docs)
-│   ├── ARCHITECTURE.md
-│   ├── DEVELOPER-GUIDE.md
-│   └── CONTRIBUTING.md
-│
-├── 📁 reference/            # 📚 Referências (3 docs)
-│   ├── API-REFERENCE.md
-│   ├── COMPONENTS-REFERENCE.md
-│   └── ENTERPRISE-FEATURES.md
-│
-└── 📁 guides/               # 🛠️ Guias Práticos (3 docs)
-    ├── TROUBLESHOOTING.md
-    ├── PWA-UNIVERSAL.md
-    └── ROADMAP.md
+├── 📄 00-LEIA_PRIMEIRO.md     # Ponto de entrada obrigatório
+├── 📄 README.md               # Este arquivo - overview geral
+├── 📁 01-INICIO/              # 🚀 Primeiros passos (3 arquivos)
+├── 📁 02-ARQUITETURA/         # 🏗️ Arquitetura (3 arquivos)
+├── 📁 03-COMPONENTES/         # 🧩 Componentes (3 arquivos)
+├── 📁 04-CONSTANTS/           # 📋 Constantes (3 arquivos)
+├── 📁 05-LIBRARIES/           # 📚 Bibliotecas (3 arquivos)
+├── 📁 06-FEATURES/            # ⚡ Features (3 arquivos)
+├── 📁 07-DEPLOY/              # 🚀 Deploy (3 arquivos)
+├── 📁 08-TESTES/              # 🧪 Testes (3 arquivos)
+└── 📁 09-CONTRIBUICAO/        # 🤝 Contribuição (3 arquivos)
 ```
 
-**Cada pasta tem seu próprio README.md** explicativo!
+**Cada seção tem seu próprio README.md** explicativo!
 
 ---
 
@@ -2107,21 +2092,22 @@ Esta seção documenta todas as melhorias realizadas no README.md para torná-lo
 - 🎯 **Informações 60% mais acessíveis** com sumário e âncoras
 - 📖 **Linguagem 100% profissional** sem termos informais
 - ✅ **Zero redundâncias** com conteúdo objetivo e direto
-
 ---
 
----
+## 📚 Quick Links
 
-## 🎯 Quick Links
+### 📖 Documentação Completa
 
-### 📚 Documentação Essencial
-
-- 📘 **[Começar Aqui](docs/getting-started/PROJECT-OVERVIEW.md)** - Visão geral do projeto
-- 🏗️ **[Arquitetura](docs/architecture/ARCHITECTURE.md)** - Como tudo funciona
-- 👨‍💻 **[Guia do Dev](docs/architecture/DEVELOPER-GUIDE.md)** - Como desenvolver
-- 🧩 **[Componentes](docs/reference/COMPONENTS-REFERENCE.md)** - 60+ componentes documentados
-- 📚 **[API](docs/reference/API-REFERENCE.md)** - Utilitários e helpers
-- 🔧 **[Troubleshooting](docs/guides/TROUBLESHOOTING.md)** - Resolver problemas
+- 📘 **[Começar Aqui](docs/00-LEIA_PRIMEIRO.md)** - Guia inicial obrigatório
+- 🚀 **[01-INICIO](docs/01-INICIO/)** - Setup e primeiros passos
+- 🏗️ **[02-ARQUITETURA](docs/02-ARQUITETURA/)** - Estrutura do sistema
+- 🧩 **[03-COMPONENTES](docs/03-COMPONENTES/)** - Componentes React
+- 📋 **[04-CONSTANTS](docs/04-CONSTANTS/)** - Constantes centralizadas
+- 📚 **[05-LIBRARIES](docs/05-LIBRARIES/)** - Ecossistema @rainersoft
+- ⚡ **[06-FEATURES](docs/06-FEATURES/)** - Funcionalidades enterprise
+- 🚀 **[07-DEPLOY](docs/07-DEPLOY/)** - Deploy e produção
+- 🧪 **[08-TESTES](docs/08-TESTES/)** - Estratégia de testes
+- 🤝 **[09-CONTRIBUICAO](docs/09-CONTRIBUICAO/)** - Como contribuir
 
 ### 🛠️ Recursos Técnicos
 

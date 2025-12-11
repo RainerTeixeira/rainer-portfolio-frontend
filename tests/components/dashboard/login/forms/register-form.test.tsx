@@ -4,7 +4,7 @@
 
 // Mock do próprio RegisterForm para evitar dependências complexas de
 // react-hook-form e apenas garantir que o formulário é renderizável.
-jest.mock('@/components/dashboard/login/forms/register-form', () => {
+jest.mock('@/components/domain/dashboard/login/forms/register-form', () => {
   const React = require('react');
 
   const MockRegisterForm = () => (
@@ -89,7 +89,7 @@ jest.mock('@rainersoft/ui', () => {
 });
 
 // Mock do PasswordInput local para evitar uso de react-hook-form internamente
-jest.mock('@/components/dashboard/login/password-input', () => {
+jest.mock('@/components/domain/dashboard/login/password-input', () => {
   const React = require('react');
 
   const MockPasswordInput = (props: any) => (
@@ -114,7 +114,7 @@ jest.mock('react-hook-form', () => {
   };
 });
 
-import { RegisterForm } from '@/components/dashboard/login/forms/register-form';
+import { RegisterForm } from '@/components/domain/dashboard/login/forms/register-form';
 import { render } from '@testing-library/react';
 
 // Mock do next/navigation

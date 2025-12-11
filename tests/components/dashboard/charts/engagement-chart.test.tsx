@@ -2,7 +2,7 @@
  * Testes para componente EngagementChart
  */
 
-import { EngagementChart } from '@/components/dashboard/charts/engagement-chart';
+import { EngagementChart } from '@/components/domain/dashboard/charts/engagement-chart';
 import { render } from '@testing-library/react';
 
 const mockData = [

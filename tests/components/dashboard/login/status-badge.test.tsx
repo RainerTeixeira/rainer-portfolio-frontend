@@ -2,7 +2,7 @@
  * Testes para componente StatusBadge
  */
 
-import { StatusBadge } from '@/components/dashboard/login/status-badge';
+import { StatusBadge } from '@/components/domain/dashboard/login/status-badge';
 import { render } from '@testing-library/react';
 
 describe('StatusBadge', () => {

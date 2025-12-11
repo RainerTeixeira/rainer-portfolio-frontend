@@ -224,6 +224,8 @@ export default function ExemplosTokensPage() {
           <div className="flex flex-wrap gap-4">
             {/* Botão Primário */}
             <Button
+              variant="default"
+              size="lg"
               className="font-body"
               style={{
                 backgroundColor: colors.primary.base,
@@ -259,6 +261,7 @@ export default function ExemplosTokensPage() {
             {/* Botão Secundário */}
             <Button
               variant="outline"
+              size="lg"
               className="font-body"
               style={{
                 borderColor: colors.secondary.border,
@@ -290,6 +293,8 @@ export default function ExemplosTokensPage() {
 
             {/* Botão Accent */}
             <Button
+              variant="default"
+              size="lg"
               className="font-body"
               style={{
                 backgroundColor: colors.accent.base,
@@ -310,6 +315,8 @@ export default function ExemplosTokensPage() {
             {/* Botão Disabled */}
             <Button
               disabled
+              variant="default"
+              size="lg"
               className="font-body"
               style={{
                 backgroundColor: colors.primary.disabled,
@@ -387,7 +394,9 @@ export default function ExemplosTokensPage() {
                   uma interface consistente e acessível.
                 </p>
                 <Button
+                  variant="default"
                   size="sm"
+                  className="font-body"
                   style={{
                     backgroundColor: colors.primary.base,
                     color: colors.primary.text,
@@ -442,6 +451,7 @@ export default function ExemplosTokensPage() {
                 <Button
                   size="sm"
                   variant="outline"
+                  className="font-body"
                   style={{
                     borderColor: colors.secondary.border,
                     color: colors.secondary.base,
@@ -493,7 +503,9 @@ export default function ExemplosTokensPage() {
                   Status colors garantem feedback visual claro e acessível.
                 </p>
                 <Button
+                  variant="default"
                   size="sm"
+                  className="font-body"
                   style={{
                     backgroundColor: colors.status.success.base,
                     color: colors.status.success.text,

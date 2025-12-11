@@ -19,11 +19,11 @@ import ContactPage from '@/app/contato/page';
 import { render, screen } from '@testing-library/react';
 
 // Mock dos componentes
-jest.mock('@/components/contato/contact-form', () => ({
+jest.mock('@/components/domain/contato/contact-form', () => ({
   ContactForm: () => <div data-testid="contact-form">Contact Form</div>,
 }));
 
-jest.mock('@/components/contato/contact-info-card', () => ({
+jest.mock('@/components/domain/contato/contact-info-card', () => ({
   ContactInfoCard: ({ title, icon, children }: any) => (
     <div data-testid="contact-info-card">
       {icon}

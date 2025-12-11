@@ -81,7 +81,14 @@ export interface IconsProviderProps {
  */
 export function IconsProvider({ children, icons }: IconsProviderProps) {
   const value = useMemo<IconRegistry>(
-    () => (icons ? { ...DEFAULT_ICONS, ...icons } : DEFAULT_ICONS),
+    () => {
+      if (!icons) return DEFAULT_ICONS;
+      // Filter out undefined values
+      const filteredIcons = Object.fromEntries(
+        Object.entries(icons).filter(([, value]) => value !== undefined)
+      );
+      return { ...DEFAULT_ICONS, ...filteredIcons } as IconRegistry;
+    },
     [icons]
   );
 

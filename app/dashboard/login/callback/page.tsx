@@ -287,9 +287,7 @@ export default function OAuthCallbackPage() {
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>{displayMessage}</AlertDescription>
         </Alert>
-        <Button
-          onClick={() => router.push('/dashboard/login')}
-          className="w-full"
+        <Button variant="default" size="lg" onClick={() => router.push('/dashboard/login')} className="w-full"
         >
           Voltar para Login
         </Button>

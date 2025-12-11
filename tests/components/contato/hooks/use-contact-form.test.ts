@@ -2,7 +2,7 @@
  * Testes para hook useContactForm
  */
 
-import { useContactForm } from '@/components/contato/hooks/use-contact-form';
+import { useContactForm } from '@/components/domain/contato/hooks/use-contact-form';
 import { act, renderHook } from '@testing-library/react';
 
 // Mock do fetch

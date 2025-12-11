@@ -22,7 +22,7 @@ jest.mock('@/lib/api', () => ({
 }));
 
 // Mock do layout e componentes de login para evitar dependências de animação/tokens
-jest.mock('@/components/dashboard/login', () => ({
+jest.mock('@/components/domain/dashboard/login', () => ({
   AuthLayout: ({ children, footer, title, description }: any) => (
     <div data-testid="auth-layout">
       {title && <h1>{title}</h1>}

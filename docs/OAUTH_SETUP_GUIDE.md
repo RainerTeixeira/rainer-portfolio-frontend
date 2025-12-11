@@ -109,12 +109,12 @@ COGNITO_DOMAIN=https://us-east-1wryiyhbwc.auth.us-east-1.amazoncognito.com
 OAUTH_REDIRECT_SIGN_IN=http://localhost:3000/dashboard/login/callback
 
 # Google OAuth (configurado no Cognito)
-GOOGLE_CLIENT_ID=637461699994-8gj9b3vd3t1skbl9eu7b70c27ifsq0rj.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=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
+GOOGLE_CLIENT_ID=<SEU_GOOGLE_CLIENT_ID>
+GOOGLE_CLIENT_SECRET=<SEU_GOOGLE_CLIENT_SECRET>
 
 # GitHub OAuth (configurado no Cognito)
-GITHUB_CLIENT_ID=Ov23liDlJMbTCYQSHSOq
-GITHUB_CLIENT_SECRET=fd307b98b423110a7cc9ee6c6aea54ea3c786a40
+GITHUB_CLIENT_ID=<SEU_GITHUB_CLIENT_ID>
+GITHUB_CLIENT_SECRET=<SEU_GITHUB_CLIENT_SECRET>
 ```
 
 #### Frontend (`.env.local`)

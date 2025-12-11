@@ -4,12 +4,12 @@
  * Testes unitários para o componente OAuthButtons.
  * Valida renderização, handlers e estados.
  *
- * @module tests/components/dashboard/login/oauth-buttons
+ * @module tests/components/domain/dashboard/login/oauth-buttons
  * @author Rainer Teixeira
  * @version 1.0.0
  */
 
-import { OAuthButtons } from '@/components/dashboard/login';
+import { OAuthButtons } from '@/components/domain/dashboard/login';
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
@@ -24,7 +24,7 @@ jest.mock('framer-motion', () => ({
 }));
 
 // Mock leve de '@/constants' para evitar carregar módulos que dependem
-// diretamente de design tokens (ex: constants/home/servicos)
+// diretamente de design tokens (ex: constants/content/home/servicos)
 jest.mock('@/constants', () => ({
   SITE_CONFIG: {
     github: 'https://github.com/test',

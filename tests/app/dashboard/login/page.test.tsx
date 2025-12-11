@@ -11,7 +11,7 @@ process.env.NEXT_PUBLIC_API_URL = 'http://localhost:4000';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import * as DashboardLogin from '@/components/dashboard/login';
+import * as DashboardLogin from '@/components/domain/dashboard/login';
 import * as AuthProviderMod from '@/components/providers/auth-context-provider';
 
 // Mock do useRouter
@@ -46,7 +46,7 @@ jest.mock('@/components/providers/auth-context-provider', () => ({
 }));
 
 // Mock dos componentes
-jest.mock('@/components/dashboard/login', () => ({
+jest.mock('@/components/domain/dashboard/login', () => ({
   __esModule: true,
   AuthLayout: ({ children, title, footer }: any) => (
     <div data-testid="auth-layout">
@@ -125,7 +125,7 @@ jest.mock('framer-motion', () => ({
   },
 }));
 
-jest.mock('@/components/dashboard/login/auth-branding', () => ({
+jest.mock('@/components/domain/dashboard/login/auth-branding', () => ({
   AuthBranding: () => <div data-testid="auth-branding">Branding</div>,
 }));
 

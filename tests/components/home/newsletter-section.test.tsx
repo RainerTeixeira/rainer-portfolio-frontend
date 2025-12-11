@@ -2,7 +2,7 @@
  * Testes para componente NewsletterSection
  */
 
-import { NewsletterSection } from '@/components/home/newsletter-section';
+import { NewsletterSection } from '@/components/domain/home/newsletter-section';
 import { render } from '@testing-library/react';
 
 describe('NewsletterSection', () => {

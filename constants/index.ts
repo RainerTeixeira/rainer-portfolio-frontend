@@ -28,55 +28,57 @@
 // CONSTANTES COMUNS
 // ============================================================================
 
-export { DESENVOLVEDOR, BIO, METRICAS } from './comum/desenvolvedor';
+export { DESENVOLVEDOR, BIO, METRICAS } from './metadata/comum/desenvolvedor';
 export {
   PALAVRAS_CHAVE,
   META_PADRAO,
   OPEN_GRAPH,
   SEO_CONFIG,
   OPEN_GRAPH_IMAGE_ALT,
-} from './comum/seo';
-export { REDES_SOCIAIS, CONTATO } from './comum/social';
-export { SECTION_IDS, NAVEGACAO, NAVIGATION, BREADCRUMBS } from './comum/navegacao';
-export { SITE_CONFIG, POLICIES_LAST_UPDATED, COPYRIGHT } from './comum/site';
-export { SKILLS_DATA, TECH_BY_LAYER } from './comum/skills';
-export type { SkillItemData } from './comum/skills';
+} from './metadata/comum/seo';
+export { REDES_SOCIAIS, CONTATO } from './metadata/comum/social';
+export { SECTION_IDS, NAVEGACAO, NAVIGATION, BREADCRUMBS } from './metadata/comum/navegacao';
+export { SITE_CONFIG, POLICIES_LAST_UPDATED, COPYRIGHT } from './metadata/comum/site';
+export { SKILLS_DATA, TECH_BY_LAYER } from './metadata/comum/skills';
+export type { SkillItemData } from './metadata/comum/skills';
 
 // ============================================================================
 // PÁGINA HOME
 // ============================================================================
 
-export { CONTEUDO_HERO, ESTILOS_HERO, CTA_HERO } from './home/hero';
-export { SERVICOS, DIFERENCIAIS } from './home/servicos';
-export { PROJETOS, METRICAS_PROJETOS } from './home/portfolio';
+export { CONTEUDO_HERO, ESTILOS_HERO, CTA_HERO } from './content/home/hero';
+export { SERVICOS, DIFERENCIAIS } from './content/home/servicos';
+export { PROJETOS, METRICAS_PROJETOS } from './content/home/portfolio';
 
 // ============================================================================
 // PÁGINA SOBRE
 // ============================================================================
 
-export { EXPERIENCIA, HABILIDADES, FORMACAO, PROFESSIONAL_METRICS } from './sobre/experiencia';
+export { EXPERIENCIA, HABILIDADES, PROFESSIONAL_METRICS } from './content/sobre/experiencia';
+export { PROPOSITO, VALORES, CULTURA, COMPROMISSOS, MANIFESTO } from './content/sobre/valores';
 
 // Aliases para compatibilidade com imports antigos
-export { EXPERIENCIA as EXPERIENCE } from './sobre/experiencia';
+export { EXPERIENCIA as EXPERIENCE } from './content/sobre/experiencia';
 
 // ============================================================================
 // PÁGINA CONTATO
 // ============================================================================
 
-export { CAMPOS_FORMULARIO, MENSAGENS, INFO_CONTATO } from './contato/formulario';
-export type { ContactInfoCardConfig } from './contato/formulario';
-export { FAQ } from './contato/faq';
-export type { FAQItem } from './contato/faq';
-export { TEXTO_TEMPO_RESPOSTA, TEXTO_CONTATO_URGENTE } from './contato/textos';
+export { CAMPOS_FORMULARIO, INFO_CONTATO } from './content/contato/formulario';
+export { FAQ } from './content/contato/faq';
+export type { ContactInfoCardConfig } from './content/contato/formulario';
+export type { FAQItem } from './content/contato/faq';
+export { TEXTO_TEMPO_RESPOSTA, TEXTO_CONTATO_URGENTE } from './content/contato/textos';
 // Aliases para compatibilidade
-export { FAQ as FAQ_ITEMS } from './contato/faq';
-export { INFO_CONTATO as CONTACT_INFO_CARDS } from './contato/formulario';
+export { FAQ as FAQ_ITEMS } from './content/contato/faq';
+export { INFO_CONTATO as CONTACT_INFO_CARDS } from './content/contato/formulario';
 
 // ============================================================================
 // BLOG
 // ============================================================================
 
-export { CATEGORIAS, TAGS_POPULARES, CONFIG_BLOG } from './blog/categorias';
+export { CATEGORIAS, TAGS_POPULARES, CONFIG_BLOG } from './content/blog/categorias';
+// Tipos não definidos no arquivo - removidos temporariamente
 
 // ============================================================================
 // NAMESPACES ORGANIZADOS
@@ -87,38 +89,38 @@ export { CATEGORIAS, TAGS_POPULARES, CONFIG_BLOG } from './blog/categorias';
  * @namespace
  * @description Constantes compartilhadas entre páginas
  */
-export * as Comum from './comum/desenvolvedor';
-export * as SEO from './comum/seo';
-export * as Social from './comum/social';
+export * as Comum from './metadata/comum/desenvolvedor';
+export * as SEO from './metadata/comum/seo';
+export * as Social from './metadata/comum/social';
 
 /**
  * Namespace home
  * @namespace
  * @description Constantes da página inicial
  */
-export * as Hero from './home/hero';
-export * as Servicos from './home/servicos';
-export * as Portfolio from './home/portfolio';
+export * as Hero from './content/home/hero';
+export * as Servicos from './content/home/servicos';
+export * as Portfolio from './content/home/portfolio';
 
 /**
  * Namespace sobre
  * @namespace
  * @description Constantes da página sobre
  */
-export * as Sobre from './sobre/experiencia';
+export * as Sobre from './content/sobre/experiencia';
 
 /**
  * Namespace contato
  * @namespace
  * @description Constantes da página contato
  */
-export * as Formulario from './contato/formulario';
-export * as PerguntasFrequentes from './contato/faq';
+export * as Formulario from './content/contato/formulario';
+export * as PerguntasFrequentes from './content/contato/faq';
 
 /**
  * Namespace blog
  * @namespace
  * @description Constantes do blog
  */
-export * as Blog from './blog/categorias';
+export * as Blog from './content/blog/categorias';
 

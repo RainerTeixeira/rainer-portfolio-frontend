@@ -2,7 +2,7 @@
  * Testes para hook usePasswordStrength
  */
 
-import { usePasswordStrength } from '@/components/dashboard/hooks/use-password-strength';
+import { usePasswordStrength } from '@/components/domain/dashboard/hooks/use-password-strength';
 import { renderHook } from '@testing-library/react';
 
 describe('usePasswordStrength', () => {

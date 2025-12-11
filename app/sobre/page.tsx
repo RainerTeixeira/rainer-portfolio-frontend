@@ -55,14 +55,14 @@ import {
   PROFESSIONAL_METRICS,
   TECH_BY_LAYER,
 } from '@/constants';
-import { DESENVOLVEDOR } from '@/constants/comum/desenvolvedor';
-import { REDES_SOCIAIS, CONTATO } from '@/constants/comum/social';
+import { DESENVOLVEDOR } from '@/constants/metadata/comum/desenvolvedor';
+import { REDES_SOCIAIS, CONTATO } from '@/constants/metadata/comum/social';
 
-import { CTACard } from '@/components/sobre/cta-card';
-import { ExperienceCard } from '@/components/sobre/experience-card';
-import { MetricCard } from '@/components/sobre/metric-card';
-import { SkillLayerCard } from '@/components/sobre/skill-layer-card';
-import { TechStackCard } from '@/components/sobre/tech-stack-card';
+import { CTACard } from '@/components/domain/sobre/cta-card';
+import { ExperienceCard } from '@/components/domain/sobre/experience-card';
+import { MetricCard } from '@/components/domain/sobre/metric-card';
+import { SkillLayerCard } from '@/components/domain/sobre/skill-layer-card';
+import { TechStackCard } from '@/components/domain/sobre/tech-stack-card';
 
 /**
  * AboutPage Component
@@ -206,7 +206,7 @@ export default function AboutPage() {
                   <ExperienceCard
                     key={idx}
                     period={exp.periodo}
-                    role={exp.cargo}
+                    role={exp.titulo}
                     description={exp.descricao}
                   />
                 ),
@@ -367,6 +367,8 @@ export default function AboutPage() {
             description="Documento completo com experiência técnica detalhada e portfólio de projetos"
             action={
               <Button
+                variant="default"
+                size="lg"
                 asChild
                 className={cn(
                   'w-full text-white shadow-lg shadow-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/40 transition-all duration-300',
@@ -393,6 +395,8 @@ export default function AboutPage() {
             description="Interessado em projetos, parcerias ou consultoria técnica? Vamos conversar!"
             action={
               <Button
+                variant="default"
+                size="lg"
                 asChild
                 className={cn(
                   'w-full text-white shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300',
@@ -496,6 +500,7 @@ export default function AboutPage() {
             action={
               <div className="flex gap-3">
                 <Button
+                  variant="outline"
                   asChild
                   size="icon"
                   className={cn(
@@ -514,6 +519,7 @@ export default function AboutPage() {
                   </a>
                 </Button>
                 <Button
+                  variant="outline"
                   asChild
                   size="icon"
                   className={cn(
@@ -532,6 +538,7 @@ export default function AboutPage() {
                   </a>
                 </Button>
                 <Button
+                  variant="outline"
                   asChild
                   size="icon"
                   className={cn(

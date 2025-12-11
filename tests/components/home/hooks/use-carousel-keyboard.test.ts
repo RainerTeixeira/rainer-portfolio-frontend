@@ -2,7 +2,7 @@
  * Testes para hook useCarouselKeyboard
  */
 
-import { useCarouselKeyboard } from '@/components/home/hooks/use-carousel-keyboard';
+import { useCarouselKeyboard } from '@/components/domain/home/hooks/use-carousel-keyboard';
 import { renderHook } from '@testing-library/react';
 
 describe('useCarouselKeyboard', () => {

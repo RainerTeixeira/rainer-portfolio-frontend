@@ -2,7 +2,7 @@
  * Testes para hook useTableOfContents
  */
 
-import { useTableOfContents } from '@/components/blog/hooks/use-table-of-contents';
+import { useTableOfContents } from '@/components/domain/blog/hooks/use-table-of-contents';
 import { renderHook } from '@testing-library/react';
 
 describe('useTableOfContents', () => {
