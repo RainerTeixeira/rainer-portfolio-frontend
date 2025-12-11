@@ -33,7 +33,11 @@
 
 'use client';
 
+<<<<<<< HEAD
 import { usePasswordStrength } from '@/hooks';
+=======
+import { usePasswordStrength } from '@rainersoft/utils';
+>>>>>>> 37a9ca0b91e93f600ba06236ec3f69f5d3d432d6
 import { Input } from '@rainersoft/ui';
 import { cn } from '@/lib/portfolio';
 // Design tokens via CSS variables (imported in globals.css)

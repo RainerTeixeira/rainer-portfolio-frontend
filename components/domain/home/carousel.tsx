@@ -24,7 +24,11 @@
 
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useTheme } from 'next-themes';
+<<<<<<< HEAD
 import { useCarouselKeyboard } from '@/hooks';
+=======
+import { useCarouselKeyboard } from '@rainersoft/utils';
+>>>>>>> 37a9ca0b91e93f600ba06236ec3f69f5d3d432d6
 import { tokens } from '@rainersoft/design-tokens';
 import { hexToRGB, hexToRGBA } from '@rainersoft/ui';
 

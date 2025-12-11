@@ -30,7 +30,11 @@
 import { cn } from '@/lib/portfolio';
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
+<<<<<<< HEAD
 import { useTableOfContents } from '@/hooks';
+=======
+import { useTableOfContents } from '@rainersoft/utils';
+>>>>>>> 37a9ca0b91e93f600ba06236ec3f69f5d3d432d6
 
 interface TableOfContentsProps {
   containerRef?: React.RefObject<HTMLElement>;
@@ -41,8 +45,13 @@ export function TableOfContents({
   containerRef,
   className,
 }: TableOfContentsProps) {
+<<<<<<< HEAD
   const { items: headings, activeId, scrollToItem: scrollToHeading } =
     useTableOfContents(containerRef?.current?.innerHTML || null);
+=======
+  const { headings, activeId, scrollToHeading } =
+    useTableOfContents({ containerRef });
+>>>>>>> 37a9ca0b91e93f600ba06236ec3f69f5d3d432d6
 
   if (headings.length === 0) {
     return null;

@@ -30,6 +30,12 @@ export {
   scrollToElement,
   onReducedMotionChange,
   // Novas funções
+<<<<<<< HEAD
+=======
+  usePasswordStrength,
+  useCarouselKeyboard,
+  useTableOfContents,
+>>>>>>> 37a9ca0b91e93f600ba06236ec3f69f5d3d432d6
   extractInitials,
   generateUniqueId,
   truncateText,
