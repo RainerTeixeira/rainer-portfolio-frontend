@@ -9,7 +9,7 @@ import ResetPasswordPage from '@/app/dashboard/login/reset-password/[token]/page
 import { render, screen } from '@testing-library/react';
 
 // Mock dos componentes
-jest.mock('@/components/dashboard/login', () => ({
+jest.mock('@/components/domain/dashboard/login', () => ({
   AuthLayout: ({ children, title, footer }: any) => (
     <div data-testid="auth-layout">
       <h1>{title}</h1>
@@ -35,7 +35,7 @@ jest.mock('framer-motion', () => ({
   },
 }));
 
-jest.mock('@/components/dashboard/login/auth-branding', () => ({
+jest.mock('@/components/domain/dashboard/login/auth-branding', () => ({
   AuthBranding: () => <div data-testid="auth-branding">Branding</div>,
 }));
 

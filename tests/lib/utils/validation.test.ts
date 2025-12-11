@@ -10,7 +10,7 @@ import {
   validateSlug,
   validateUrl,
   validateUsername,
-} from '@rainersoft/utils';
+} from '@/lib/utils';
 
 describe('lib/utils/validation', () => {
   describe('validateEmail', () => {

@@ -9,7 +9,7 @@ import { render, screen } from '@testing-library/react';
 process.env.NEXT_PUBLIC_API_URL = 'http://localhost:4000';
 
 // Mock do Editor e suas dependências
-jest.mock('@/components/dashboard/Editor', () => ({
+jest.mock('@/components/domain/dashboard/Editor', () => ({
   Editor: () => <div data-testid="editor">Editor</div>,
 }));
 

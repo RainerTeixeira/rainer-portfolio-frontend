@@ -2,7 +2,7 @@
  * Testes para componente PostsCarousel
  */
 
-import { PostsCarousel } from '@/components/blog/posts-carousel';
+import { PostsCarousel } from '@/components/domain/blog/posts-carousel';
 import { render } from '@testing-library/react';
 
 describe('PostsCarousel', () => {

@@ -2,11 +2,11 @@
  * Testes para componente QuickStats
  */
 
-import { QuickStats } from '@/components/dashboard/quick-stats';
+import { QuickStats } from '@/components/domain/dashboard/quick-stats';
 import { render } from '@testing-library/react';
 
 // Mock do hook
-jest.mock('@/components/dashboard/hooks/use-dashboard-stats', () => ({
+jest.mock('@/components/domain/dashboard/hooks/use-dashboard-stats', () => ({
   useDashboardStats: jest.fn(() => ({
     stats: {
       totalPosts: 10,

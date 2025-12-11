@@ -2,7 +2,7 @@
  * Testes para hook useSubcategories
  */
 
-import { useSubcategories } from '@/components/dashboard/hooks/use-subcategories';
+import { useSubcategories } from '@/components/domain/dashboard/hooks/use-subcategories';
 import { renderHook, waitFor } from '@testing-library/react';
 
 // Mock do toast

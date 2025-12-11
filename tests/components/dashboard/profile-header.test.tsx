@@ -2,7 +2,7 @@
  * Testes para componente ProfileHeader
  */
 
-import { ProfileHeader } from '@/components/dashboard/profile-header';
+import { ProfileHeader } from '@/components/domain/dashboard/profile-header';
 import { render } from '@testing-library/react';
 
 // Mock do next/image

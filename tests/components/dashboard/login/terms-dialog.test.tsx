@@ -2,7 +2,7 @@
  * Testes para componente TermsDialog
  */
 
-import { TermsDialog } from '@/components/dashboard/login/terms-dialog';
+import { TermsDialog } from '@/components/domain/dashboard/login/terms-dialog';
 import { render } from '@testing-library/react';
 
 describe('TermsDialog', () => {

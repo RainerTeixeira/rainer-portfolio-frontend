@@ -2,7 +2,7 @@
  * Testes para componente CommentItem
  */
 
-import { CommentItem } from '@/components/blog/comments/comment-item';
+import { CommentItem } from '@/components/domain/blog/comments/comment-item';
 import { render } from '@testing-library/react';
 
 // Mock do toast

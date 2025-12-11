@@ -8,13 +8,14 @@ import {
   validateEmail,
   validatePassword,
   validateUsername,
-} from '../../portfolio/validation';
+  validateMessage,
+} from '@/lib/utils';
 import { ApiError } from '../client';
 import { API_CONFIG } from '../config';
 
 type ValidationFunction = (value: string) => {
   isValid: boolean;
-  errors: string[];
+  errors?: string[];
 };
 
 interface ValidationRules {
@@ -243,7 +244,7 @@ export function validateField(
   const result = rule.validate(value);
 
   // Mapeia códigos de erro para mensagens amigáveis
-  const friendlyErrors = result.errors.map(
+  const friendlyErrors = (result.errors || []).map(
     errorCode => rule.errorMessages[errorCode] || errorCode
   );
 

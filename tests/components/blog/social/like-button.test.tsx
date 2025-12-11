@@ -2,12 +2,12 @@
  * Testes para componente LikeButton
  */
 
-import { LikeButton } from '@/components/blog/social/like-button';
+import { LikeButton } from '@/components/domain/blog/social/like-button';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 // Mock do hook
-jest.mock('@/components/blog/hooks/use-like', () => ({
+jest.mock('@/components/domain/blog/hooks/use-like', () => ({
   useLike: jest.fn(() => ({
     isLiked: false,
     likeCount: 10,
@@ -33,7 +33,7 @@ describe('LikeButton', () => {
 
   it('deve chamar toggleLike quando clicado', async () => {
     const mockToggleLike = jest.fn();
-    jest.mock('@/components/blog/hooks/use-like', () => ({
+    jest.mock('@/components/domain/blog/hooks/use-like', () => ({
       useLike: jest.fn(() => ({
         isLiked: false,
         likeCount: 10,

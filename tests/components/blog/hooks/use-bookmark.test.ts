@@ -2,7 +2,7 @@
  * Testes para hook useBookmark
  */
 
-import { useBookmark } from '@/components/blog/hooks/use-bookmark';
+import { useBookmark } from '@/components/domain/blog/hooks/use-bookmark';
 import { renderHook } from '@testing-library/react';
 
 // Mock do bookmarksService

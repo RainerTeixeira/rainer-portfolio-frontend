@@ -51,10 +51,10 @@ type AuthContextType = {
   isAuthenticated: boolean;
   loading: boolean;
   error: Error | null;
-  login: (email: string, password: string) => Promise<UserProfile | undefined>;
-  register: (data: RegisterData) => Promise<UserProfile | undefined>;
+  login: (email: string, password: string) => Promise<UserProfile | null>;
+  register: (data: RegisterData) => Promise<UserProfile | null>;
   logout: () => Promise<void>;
-  updateProfile: (data: UpdateProfileData) => Promise<UserProfile | undefined>;
+  updateProfile: (data: UpdateProfileData) => Promise<UserProfile | null>;
   forgotPassword: (email: string) => Promise<void>;
   confirmPasswordReset: (data: {
     email: string;
@@ -142,6 +142,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       checkAuth,
       loginWithOAuthCode,
       loginWithGoogle: () => authService.loginWithGoogle(),
+      loginWithGitHub: () => authService.loginWithGitHub(),
     }),
     [
       user,

@@ -2,7 +2,7 @@
  * Testes para componente PortfolioShowcase
  */
 
-import { PortfolioShowcase } from '@/components/home/portfolio-showcase';
+import { PortfolioShowcase } from '@/components/domain/home/portfolio-showcase';
 import { render } from '@testing-library/react';
 
 describe('PortfolioShowcase', () => {

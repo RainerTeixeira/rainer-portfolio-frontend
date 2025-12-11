@@ -23,7 +23,7 @@ import { useEffect } from 'react';
 // Cookie Manager
 // ============================================================================
 
-import { useCookieConsent } from '@rainersoft/ui';
+import { useCookieConsent, type CookiePreferences } from '@rainersoft/ui';
 import { initGoogleAnalytics, getCookieManager } from '@/lib/privacy';
 
 // ============================================================================
@@ -45,8 +45,13 @@ export function CookieInitializer() {
 
   useEffect(() => {
     // Se há consentimento, carrega scripts
-    if (preferences) {
-      cookieManager.updatePreferences(preferences);
+    if (preferences && 
+        typeof preferences === 'object' && 
+        'essential' in preferences && 
+        'performance' in preferences && 
+        'functionality' in preferences && 
+        'analytics' in preferences) {
+      cookieManager.updatePreferences(preferences as CookiePreferences);
     } else if (cookieManager.hasConsent()) {
       // Carrega preferências salvas e inicializa scripts
       const savedPreferences = cookieManager.getPreferences();

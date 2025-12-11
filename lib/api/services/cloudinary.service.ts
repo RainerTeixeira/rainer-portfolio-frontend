@@ -18,7 +18,7 @@
 
 import { api } from '../client';
 import type { UploadImageResponse } from '../types/cloudinary';
-import { prepareAvatarForUpload, prepareImageForUpload } from '@/lib/utils/image-converter';
+import { prepareAvatarForUpload, prepareImageForUpload } from '@/lib/utils';
 
 /**
  * Serviço para upload de imagens do blog para Cloudinary

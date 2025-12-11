@@ -2,7 +2,7 @@
  * Testes para componente StatsShowcase
  */
 
-import { StatsShowcase } from '@/components/home/stats-showcase';
+import { StatsShowcase } from '@/components/domain/home/stats-showcase';
 import { render } from '@testing-library/react';
 
 describe('StatsShowcase', () => {

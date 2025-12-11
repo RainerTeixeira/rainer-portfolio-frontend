@@ -176,6 +176,8 @@ export interface UpdateUserData {
 export interface UpdateProfileData {
   /** Novo nome completo */
   readonly fullName?: string;
+  /** Novo nickname */
+  readonly nickname?: string;
   /** Nova biografia */
   readonly bio?: string;
   /** Novo avatar */

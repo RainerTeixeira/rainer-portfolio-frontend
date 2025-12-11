@@ -2,7 +2,7 @@
  * Testes para componente AuthorCard
  */
 
-import { AuthorCard } from '@/components/blog/author-card';
+import { AuthorCard } from '@/components/domain/blog/author-card';
 import { render } from '@testing-library/react';
 
 // Mock do next/image
@@ -12,7 +12,7 @@ jest.mock('next/image', () => ({
 }));
 
 // Mock leve de '@/constants' para evitar carregar módulos que dependem
-// diretamente de design tokens (ex: constants/home/servicos)
+// diretamente de design tokens (ex: constants/content/home/servicos)
 jest.mock('@/constants', () => ({
   SITE_CONFIG: {
     github: 'https://github.com/test',

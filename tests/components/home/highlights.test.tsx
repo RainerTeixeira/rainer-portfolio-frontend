@@ -2,7 +2,7 @@
  * Testes para componente Highlights
  */
 
-import { Highlights } from '@/components/home/highlights';
+import { Highlights } from '@/components/domain/home/highlights';
 import { render, screen } from '@testing-library/react';
 
 describe('Highlights', () => {

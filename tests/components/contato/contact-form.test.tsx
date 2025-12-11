@@ -2,11 +2,11 @@
  * Testes para componente ContactForm
  */
 
-import { ContactForm } from '@/components/contato/contact-form';
+import { ContactForm } from '@/components/domain/contato/contact-form';
 import { render, screen } from '@testing-library/react';
 
 // Mock do hook useContactForm
-jest.mock('@/components/contato/hooks/use-contact-form', () => ({
+jest.mock('@/components/domain/contato/hooks/use-contact-form', () => ({
   useContactForm: jest.fn(() => ({
     formData: {
       fullName: '',

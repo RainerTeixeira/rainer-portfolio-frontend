@@ -1949,7 +1949,7 @@ export default function NotFound() {
             10 mundos temáticos!
           </p>
 
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="sm" className="gap-2" asChild>
             <Link href="/">
               <Home className="h-3 w-3 mr-2" />
               Voltar ao Início
@@ -2279,6 +2279,7 @@ export default function NotFound() {
                   <Button
                     className="w-full"
                     variant="outline"
+                    size="lg"
                     onClick={() =>
                       setGameState(prev =>
                         prev === 'playing' ? 'paused' : 'playing'
@@ -2338,7 +2339,7 @@ export default function NotFound() {
                 )}
               </div>
               <div className="flex gap-2">
-                <Button onClick={resetGame} className="flex-1" size="sm">
+                <Button variant="default" size="lg" onClick={resetGame} className="flex-1">
                   <RotateCcw className="w-4 h-4 mr-1" />
                   Tentar de Novo
                 </Button>
@@ -2365,16 +2366,16 @@ export default function NotFound() {
         {gameState === 'menu' && (
           <div className="mt-6 text-center">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <Button variant="default" size="sm" asChild>
+              <Button variant="default" size="sm" className="gap-2" asChild>
                 <Link href="/">
                   <Home className="h-3 w-3 mr-1" />
                   Início
                 </Link>
               </Button>
-              <Button variant="outline" size="sm" asChild>
+              <Button variant="outline" size="sm" className="gap-2" asChild>
                 <Link href="/blog">Blog</Link>
               </Button>
-              <Button variant="outline" size="sm" asChild>
+              <Button variant="outline" size="sm" className="gap-2" asChild>
                 <Link href="/contato">Contato</Link>
               </Button>
             </div>

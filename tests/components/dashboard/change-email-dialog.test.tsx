@@ -2,7 +2,7 @@
  * Testes para componente ChangeEmailDialog
  */
 
-import { ChangeEmailDialog } from '@/components/dashboard/change-email-dialog';
+import { ChangeEmailDialog } from '@/components/domain/dashboard/change-email-dialog';
 import { render } from '@testing-library/react';
 
 // Mock do auth context

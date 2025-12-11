@@ -2,7 +2,7 @@
  * Testes para componente ChangeUsernameDialog
  */
 
-import { ChangeUsernameDialog } from '@/components/dashboard/change-username-dialog';
+import { ChangeUsernameDialog } from '@/components/domain/dashboard/change-username-dialog';
 import { render } from '@testing-library/react';
 
 // Mock do auth context

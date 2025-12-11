@@ -16,7 +16,7 @@ import type {
   UpdatePostData,
 } from '@/lib/api/types/posts';
 import { extractTextFromTiptap } from '@/lib/blog';
-import { textToSlug } from '@rainersoft/utils';
+import { textToSlug } from '@/lib/utils';
 
 // ============================================================================
 // Post Preparation

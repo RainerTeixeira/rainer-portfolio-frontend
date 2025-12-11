@@ -24,7 +24,7 @@ import type {
   VerifyEmailChangeData,
   UserRole,
 } from '../types/users';
-import { prepareAvatarForUpload } from '@/lib/utils/image-converter';
+import { prepareAvatarForUpload } from '@/lib/utils';
 
 // =============================================================================
 // SERVIÇO BASE COMPARTILHADO

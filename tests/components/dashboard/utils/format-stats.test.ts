@@ -8,7 +8,7 @@ import {
   formatPercentage,
   generateMockChartData,
   groupDataByPeriod,
-} from '@/components/dashboard/utils/format-stats';
+} from '@/components/domain/dashboard/utils/format-stats';
 
 describe('format-stats', () => {
   describe('formatNumber', () => {

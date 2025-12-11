@@ -2,7 +2,7 @@
  * Testes para hook useAutosave
  */
 
-import { useAutosave } from '@/components/dashboard/hooks/use-autosave';
+import { useAutosave } from '@/components/domain/dashboard/hooks/use-autosave';
 import { renderHook } from '@testing-library/react';
 
 // Mock do toast

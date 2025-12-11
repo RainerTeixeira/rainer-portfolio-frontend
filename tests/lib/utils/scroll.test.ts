@@ -48,7 +48,7 @@ import {
   scrollToPosition,
   scrollToTop,
   smoothScrollTo,
-} from '@rainersoft/utils';
+} from '@/lib/utils';
 
 // Mock window.matchMedia
 const mockMatchMedia = jest.fn();
