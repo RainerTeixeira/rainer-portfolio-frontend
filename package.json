@@ -2,6 +2,8 @@
   "name": "rainer-portfolio-frontend",
   "version": "2.3.0",
   "private": true,
+  "type": "commonjs",
+  "module": "esnext",
   "description": "Portfólio profissional de Rainer Teixeira - Desenvolvedor Full-Stack",
   "author": "Rainer Teixeira",
   "license": "UNLICENSED",
