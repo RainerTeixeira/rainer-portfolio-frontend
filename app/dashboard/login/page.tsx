@@ -33,7 +33,7 @@ import {
   AuthLayout,
   LoginForm,
   OAuthButton,
-} from '@/components/dashboard/login';
+} from '@/components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
 import { useAuthContext } from '@/components/providers/auth-context-provider';

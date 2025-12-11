@@ -2,7 +2,7 @@
  * Testes para hook useSearch
  */
 
-import { useSearch } from '@/components/blog/hooks/use-search';
+import { useSearch } from '@/components/domain/blog/hooks/use-search';
 import { renderHook } from '@testing-library/react';
 
 // Mock do postsService

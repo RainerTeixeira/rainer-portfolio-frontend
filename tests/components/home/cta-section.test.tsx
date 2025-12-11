@@ -2,7 +2,7 @@
  * Testes para componente CTASection
  */
 
-import { CTASection } from '@/components/home/cta-section';
+import { CTASection } from '@/components/domain/home/cta-section';
 import { render } from '@testing-library/react';
 
 describe('CTASection', () => {

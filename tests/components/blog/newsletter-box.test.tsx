@@ -2,11 +2,11 @@
  * Testes para componente NewsletterBox
  */
 
-import { NewsletterBox } from '@/components/blog/newsletter-box';
+import { NewsletterBox } from '@/components/domain/blog/newsletter-box';
 import { render } from '@testing-library/react';
 
 // Mock do hook
-jest.mock('@/components/blog/hooks/use-newsletter', () => ({
+jest.mock('@/components/domain/blog/hooks/use-newsletter', () => ({
   useNewsletter: jest.fn(() => ({
     email: '',
     setEmail: jest.fn(),

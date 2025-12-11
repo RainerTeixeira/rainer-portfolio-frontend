@@ -267,6 +267,7 @@ export class AuthService {
     const user: User = {
       id: cognitoSub, // Usamos o sub como ID único
       cognitoSub, // Mantemos uma referência ao sub do Cognito
+      nickname: fullName.replace(/\s+/g, '').toLowerCase(), // Generate nickname from fullName
       fullName,
       role: userRole,
       isActive: true,
@@ -416,7 +417,7 @@ export class AuthService {
       `[${this.context}] confirmEmail - Iniciando confirmação de email`,
       {
         email: data.email,
-        username: data.username,
+        code: data.code,
       }
     );
 
@@ -442,7 +443,7 @@ export class AuthService {
       logApiError(error, this.context, {
         operation: 'confirmEmail',
         email: data.email,
-        username: data.username,
+        code: data.code,
       });
       throw error;
     }

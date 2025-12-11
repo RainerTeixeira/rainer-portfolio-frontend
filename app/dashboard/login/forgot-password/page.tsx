@@ -19,7 +19,7 @@
 
 'use client';
 
-import { AuthLayout, ForgotPasswordForm } from '@/components/dashboard/login';
+import { AuthLayout, ForgotPasswordForm } from '@/components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
 import { cn } from '@/lib/portfolio';
 import { ArrowLeft } from 'lucide-react';

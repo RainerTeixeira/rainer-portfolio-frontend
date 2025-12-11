@@ -2,7 +2,7 @@
  * Testes para componente ReadingTime
  */
 
-import { ReadingTime } from '@/components/blog/social/reading-time';
+import { ReadingTime } from '@/components/domain/blog/social/reading-time';
 import { render, screen } from '@testing-library/react';
 
 describe('ReadingTime', () => {

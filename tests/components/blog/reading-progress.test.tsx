@@ -2,7 +2,7 @@
  * Testes para componente ReadingProgress
  */
 
-import { ReadingProgress } from '@/components/blog/reading-progress';
+import { ReadingProgress } from '@/components/domain/blog/reading-progress';
 import { render } from '@testing-library/react';
 
 describe('ReadingProgress', () => {

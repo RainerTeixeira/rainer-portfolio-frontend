@@ -20,8 +20,8 @@
 
 'use client';
 
-import { AuthLayout } from '@/components/dashboard/login';
-import { PasswordInput } from '@/components/dashboard/login/password-input';
+import { AuthLayout } from '@/components/domain/dashboard/login';
+import { PasswordInput } from '@/components/domain/dashboard/login/password-input';
 import { BackToTop } from '@rainersoft/ui';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
@@ -233,6 +233,8 @@ export default function ResetPasswordPage() {
           {/* Redefine senha após validação bem-sucedida */}
           <Button
             type="submit"
+            variant="default"
+            size="lg"
             disabled={isLoading}
             className="w-full h-9 sm:h-10"
           >

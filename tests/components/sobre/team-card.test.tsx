@@ -5,7 +5,7 @@
 // Mock do CSS primeiro
 jest.mock('@/app/globals.css', () => ({}));
 
-import { TeamCard } from '@/components/sobre/team-card';
+import { TeamCard } from '@/components/domain/sobre/team-card';
 import { render, screen } from '@testing-library/react';
 
 describe('TeamCard', () => {

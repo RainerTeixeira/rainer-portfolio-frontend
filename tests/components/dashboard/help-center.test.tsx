@@ -2,7 +2,7 @@
  * Testes para componente HelpCenter
  */
 
-import { HelpCenter } from '@/components/dashboard/help-center';
+import { HelpCenter } from '@/components/domain/dashboard/help-center';
 import { render } from '@testing-library/react';
 
 describe('HelpCenter', () => {

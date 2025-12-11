@@ -27,7 +27,7 @@
  */
 'use client';
 
-import { AuthLayout } from '@/components/dashboard/login';
+import { AuthLayout } from '@/components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
@@ -112,7 +112,6 @@ export default function ConfirmEmailPage() {
       const response = await authService
         .confirmEmail({
           email,
-          username: username || email,
           code,
         })
         .catch(err => {
@@ -376,6 +375,8 @@ export default function ConfirmEmailPage() {
           <div className="space-y-3">
             <Button
               type="submit"
+              variant="default"
+              size="lg"
               className="w-full h-9 sm:h-10"
               disabled={isLoading || code.length !== 6}
             >
@@ -386,6 +387,7 @@ export default function ConfirmEmailPage() {
             <Button
               type="button"
               variant="outline"
+              size="lg"
               className="w-full h-9 sm:h-10"
               onClick={handleResend}
               disabled={isResending || isLoading}

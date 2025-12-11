@@ -27,6 +27,10 @@ export { useIsMobile, usePWA } from '@rainersoft/ui';
 // ============================================================================
 
 // Removidos temporariamente - hooks não existem ainda
-// export { usePasswordStrength } from './use-password-strength';
-// export { useUpload } from './use-upload';
+// Hooks de autenticação
+export { useAuth } from './useAuth';
 
+// Hooks de UI
+export { useTableOfContents } from './use-table-of-contents';
+export { usePasswordStrength } from './use-password-strength';
+export { useCarouselKeyboard } from './use-carousel-keyboard';

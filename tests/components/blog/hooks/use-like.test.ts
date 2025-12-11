@@ -2,7 +2,7 @@
  * Testes para hook useLike
  */
 
-import { useLike } from '@/components/blog/hooks/use-like';
+import { useLike } from '@/components/domain/blog/hooks/use-like';
 import { act, renderHook, waitFor } from '@testing-library/react';
 
 // Mock do fetch global

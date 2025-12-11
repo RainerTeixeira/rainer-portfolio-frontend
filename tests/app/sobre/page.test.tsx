@@ -89,7 +89,7 @@ jest.mock('framer-motion', () => ({
   AnimatePresence: ({ children }: any) => <>{children}</>,
 }));
 
-jest.mock('@/components/sobre/cta-card', () => ({
+jest.mock('@/components/domain/sobre/cta-card', () => ({
   CTACard: ({ title, description }: any) => (
     <div data-testid="cta-card">
       <h3>{title}</h3>
@@ -98,7 +98,7 @@ jest.mock('@/components/sobre/cta-card', () => ({
   ),
 }));
 
-jest.mock('@/components/sobre/experience-card', () => ({
+jest.mock('@/components/domain/sobre/experience-card', () => ({
   ExperienceCard: ({ period, role, description }: any) => (
     <div data-testid="experience-card">
       <p>{period}</p>
@@ -108,7 +108,7 @@ jest.mock('@/components/sobre/experience-card', () => ({
   ),
 }));
 
-jest.mock('@/components/sobre/metric-card', () => ({
+jest.mock('@/components/domain/sobre/metric-card', () => ({
   MetricCard: ({ value, label }: any) => (
     <div data-testid="metric-card">
       <span>{value}</span>
@@ -117,7 +117,7 @@ jest.mock('@/components/sobre/metric-card', () => ({
   ),
 }));
 
-jest.mock('@/components/sobre/skill-layer-card', () => ({
+jest.mock('@/components/domain/sobre/skill-layer-card', () => ({
   SkillLayerCard: ({ title, subtitle, technologies }: any) => (
     <div data-testid="skill-layer-card">
       <h3>{title}</h3>
@@ -129,7 +129,7 @@ jest.mock('@/components/sobre/skill-layer-card', () => ({
   ),
 }));
 
-jest.mock('@/components/sobre/tech-stack-card', () => ({
+jest.mock('@/components/domain/sobre/tech-stack-card', () => ({
   TechStackCard: ({ skills }: any) => (
     <div data-testid="tech-stack-card">
       <h3>Tech Stack</h3>

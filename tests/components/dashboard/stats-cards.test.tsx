@@ -2,7 +2,7 @@
  * Testes para componente StatsCards
  */
 
-import { StatsCards } from '@/components/dashboard/stats-cards';
+import { StatsCards } from '@/components/domain/dashboard/stats-cards';
 import { render } from '@testing-library/react';
 
 const mockStats = {

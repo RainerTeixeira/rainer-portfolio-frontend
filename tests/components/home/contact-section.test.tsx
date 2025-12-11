@@ -5,7 +5,7 @@
 // Mock do CSS primeiro
 jest.mock('@/app/globals.css', () => ({}));
 
-import { ContactSection } from '@/components/home/contact-section';
+import { ContactSection } from '@/components/domain/home/contact-section';
 import { render } from '@testing-library/react';
 
 describe('ContactSection', () => {

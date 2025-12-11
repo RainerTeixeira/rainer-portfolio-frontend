@@ -132,9 +132,6 @@ const nextConfig = {
     '@heroicons/react': {
       transform: '@heroicons/react/24/outline/{{member}}',
     },
-    'lucide-react': {
-      transform: 'lucide-react/dist/esm/icons/{{member}}',
-    },
   },
 
   /**

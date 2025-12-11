@@ -43,7 +43,7 @@ import {
   StatsShowcase,
   TechStackShowcase,
   Testimonials,
-} from '@/components/home';
+} from '@/components/domain/home';
 import { cn } from '@/lib/portfolio';
 import { BackToTop } from '@rainersoft/ui';
 import { BACKGROUND } from '@rainersoft/design-tokens';

@@ -12,4 +12,3 @@ export * from './images';
 export * from './posts';
 export * from './search';
 export * from './tokens';
-export * from './validation';

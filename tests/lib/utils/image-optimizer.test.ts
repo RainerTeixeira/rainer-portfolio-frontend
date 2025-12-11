@@ -86,7 +86,7 @@ jest.mock('@rainersoft/utils', () => {
 import {
   analyzeImageCompact,
   getOptimizationTips,
-} from '@rainersoft/utils';
+} from '@/lib/utils';
 
 describe('image-optimizer', () => {
   it('deve analisar imagem de arquivo', () => {

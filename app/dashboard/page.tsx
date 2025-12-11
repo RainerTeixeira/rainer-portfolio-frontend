@@ -84,13 +84,13 @@ import {
   RecentPostsList,
   SubcategorySelect,
   ImageUpload,
-} from '@/components/dashboard';
-import { PostCard } from '@/components/blog/post-card';
-import { Editor } from '@/components/dashboard/Editor';
-import { tiptapJSONtoHTML } from '@/components/dashboard/lib/tiptap-utils';
+} from '@/components/domain/dashboard';
+import { PostCard } from '@/components/domain/blog/post-card';
+import { Editor } from '@/components/domain/dashboard/Editor';
+import { tiptapJSONtoHTML } from '@/components/domain/dashboard/lib/tiptap-utils';
 import { createEmptyTiptapContent } from '@/lib/blog';
 import { cn } from '@/lib/portfolio';
-import { textToSlug } from '@rainersoft/utils';
+import { textToSlug } from '@/lib/utils';
 import { GRADIENT_DIRECTIONS, BACKGROUND } from '@rainersoft/design-tokens';
 
 type ChangeEvent<T = HTMLInputElement> = React.ChangeEvent<T>;
@@ -702,9 +702,7 @@ function DashboardPageContent() {
                         <Trash2 className="w-4 h-4" aria-hidden="true" />
                         Resetar Dados
                       </Button>
-                      <Button
-                        onClick={startCreatingNewPost}
-                        className="gap-2 dark:bg-cyan-600 dark:hover:bg-cyan-700"
+                      <Button variant="default" size="lg" onClick={startCreatingNewPost} className="gap-2 dark:bg-cyan-600 dark:hover:bg-cyan-700"
                         aria-label="Criar novo post"
                       >
                         <Plus className="w-4 h-4" aria-hidden="true" />
@@ -741,9 +739,7 @@ function DashboardPageContent() {
                           {/* Título */}
                           <div className="space-y-2">
                             <Label htmlFor="title">Título *</Label>
-                            <Input
-                              id="title"
-                              placeholder="Digite o título do post"
+                            <Input type="text" id="title" className="w-full" placeholder="Digite o título do post"
                               value={currentEditingPost.title}
                               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                                 setCurrentEditingPost({
@@ -881,6 +877,8 @@ function DashboardPageContent() {
                           <div className="flex items-center gap-2 pt-4">
                             <Button
                               onClick={saveCurrentPost}
+                              variant="default"
+                              size="lg"
                               disabled={isSavingPost}
                               className="flex-1 gap-2 dark:bg-cyan-600 dark:hover:bg-cyan-700"
                             >
@@ -913,6 +911,7 @@ function DashboardPageContent() {
                             <Button
                               onClick={cancelEditing}
                               variant="outline"
+                              size="lg"
                               disabled={isSavingPost}
                               className="dark:border-cyan-400/30 dark:hover:bg-cyan-400/10"
                             >
@@ -1044,6 +1043,7 @@ function DashboardPageContent() {
                         {/* Filtros */}
                         <div className="flex flex-col sm:flex-row gap-3">
                           <Input
+                            type="text"
                             placeholder="Buscar por título ou descrição..."
                             value={searchQuery}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
@@ -1087,11 +1087,11 @@ function DashboardPageContent() {
                                       {post.title}
                                     </h3>
                                     {post.status === 'PUBLISHED' ? (
-                                      <Badge className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/30">
+                                      <Badge variant="secondary" className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/30">
                                         Publicado
                                       </Badge>
                                     ) : (
-                                      <Badge variant="secondary">
+                                      <Badge variant="secondary" className="bg-gray-500/10 text-gray-600 dark:text-gray-400 border-gray-500/30">
                                         Rascunho
                                       </Badge>
                                     )}

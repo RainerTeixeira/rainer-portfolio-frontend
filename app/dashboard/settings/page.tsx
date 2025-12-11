@@ -29,7 +29,7 @@
 
 'use client';
 
-import { ProfileForm } from '@/components/dashboard/profile-form';
+import { ProfileForm } from '@/components/domain/dashboard/profile-form';
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { Button } from '@rainersoft/ui';
 import { cn } from '@/lib/portfolio';

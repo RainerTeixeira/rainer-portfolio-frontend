@@ -2,11 +2,11 @@
  * Testes para componente TableOfContents
  */
 
-import { TableOfContents } from '@/components/blog/table-of-contents';
+import { TableOfContents } from '@/components/domain/blog/table-of-contents';
 import { render } from '@testing-library/react';
 
 // Mock do hook
-jest.mock('@/components/blog/hooks/use-table-of-contents', () => ({
+jest.mock('@/components/domain/blog/hooks/use-table-of-contents', () => ({
   useTableOfContents: jest.fn(() => ({
     headings: [],
     activeId: null,

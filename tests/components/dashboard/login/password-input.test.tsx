@@ -2,7 +2,7 @@
  * Testes para componente PasswordInput
  */
 
-import { PasswordInput } from '@/components/dashboard/login/password-input';
+import { PasswordInput } from '@/components/domain/dashboard/login/password-input';
 import { render } from '@testing-library/react';
 
 describe('PasswordInput', () => {

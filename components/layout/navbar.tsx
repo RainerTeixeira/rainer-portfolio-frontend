@@ -81,7 +81,7 @@ import {
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { NAVIGATION, SITE_CONFIG } from '@/constants';
 import { cn } from '@/lib/portfolio';
-import { getAvatarUrl, getInitials, setCloudNameFromUrl } from '@/lib/utils/avatar';
+import { getAvatarUrl, extractInitials, setCloudNameFromUrl } from '@/lib/utils';
 
 // ============================================================================
 // Constants
@@ -160,7 +160,7 @@ interface UserMenuProps {
  * Usa o utilitário centralizado de avatar
  */
 function getUserInitials(name: string): string {
-  return getInitials(name, MAX_AVATAR_INITIALS) || '??';
+  return extractInitials(name, MAX_AVATAR_INITIALS) || '??';
 }
 
 /**
@@ -444,7 +444,7 @@ export function Navbar() {
    */
   useEffect(() => {
     if (user?.avatar) {
-      setCloudNameFromUrl(user.avatar);
+      setCloudNameFromUrl(user.avatar, 'your-cloud-name');
     }
   }, [user?.avatar]);
 

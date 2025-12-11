@@ -88,7 +88,7 @@ jest.mock('framer-motion', () => ({
 }));
 
 // Mock leve de '@/constants' para evitar dependência de módulos que usam
-// diretamente design tokens (ex: constants/home/servicos)
+// diretamente design tokens (ex: constants/content/home/servicos)
 jest.mock('@/constants', () => ({
   SITE_CONFIG: {
     github: 'https://github.com/test',
@@ -244,7 +244,7 @@ jest.mock('@/components/ui', () => ({
 }));
 
 // Mock Dashboard Login Components
-jest.mock('@/components/dashboard/login', () => ({
+jest.mock('@/components/domain/dashboard/login', () => ({
   AuthLayout: ({ children, footer, ...props }: any) => (
     <div data-testid="auth-layout" {...props}>
       {children}

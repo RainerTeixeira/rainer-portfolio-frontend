@@ -2,7 +2,7 @@
  * Testes para hook useCategories
  */
 
-import { useCategories } from '@/components/blog/hooks/use-categories';
+import { useCategories } from '@/components/domain/blog/hooks/use-categories';
 import { renderHook, waitFor } from '@testing-library/react';
 
 // Mock do categoriesService
