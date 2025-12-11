@@ -1,0 +1,17 @@
+{
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "out",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://rainer-portfolio-backend.onrender.com",
+    "NEXT_PUBLIC_APP_URL": "https://rainer-portfolio.vercel.app"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_API_URL": "https://rainer-portfolio-backend.onrender.com",
+      "NEXT_PUBLIC_APP_URL": "https://rainer-portfolio.vercel.app"
+    }
+  }
+}
