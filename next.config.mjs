@@ -212,8 +212,9 @@ const nextConfig = {
    * - Garante resolução de symlinks correta (workspaces).
    * - Fornece fallback seguro para fs, net, tls no client-side.
    * - Configura tratamento especial para @rainersoft/design-tokens.
+   * - Configurações para melhorar o carregamento de scripts do Vercel.
    */
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     config.resolve.symlinks = true;
     if (!isServer) {
       config.resolve.fallback = { fs: false, net: false, tls: false };
@@ -225,23 +226,87 @@ const nextConfig = {
       '.jsx': ['.jsx', '.tsx'],
     };
     
-    // Garantir que módulos client-side sejam tratados corretamente
-    if (!isServer) {
-      // Manter otimizações padrão, mas garantir resolução correta
-      config.resolve.alias = {
-        ...config.resolve.alias,
+    // Configurações específicas para o ambiente de produção
+    if (!dev) {
+      // Garante que os scripts do Vercel sejam tratados corretamente
+      config.experiments = {
+        ...config.experiments,
+        asyncWebAssembly: true,
+        layers: true,
       };
+      
+      // Adiciona headers para os scripts do Vercel
+      if (!config.module.rules) {
+        config.module.rules = [];
+      }
+      
+      // Garante que os scripts do Vercel não sejam otimizados/transformados
+      config.module.rules.push({
+        test: /\.(js|mjs|jsx|ts|tsx)$/,
+        include: [
+          /node_modules\/@vercel\/analytics/,
+          /node_modules\/@vercel\/speed-insights/
+        ],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['next/babel'],
+              cacheDirectory: true,
+            },
+          },
+        ],
+      });
     }
     
     return config;
   },
-
+  
   /**
-   * Configuração do Turbopack (vazio para silenciar erro quando webpack está configurado).
-   * Next.js 16 usa Turbopack por padrão, mas temos configuração webpack customizada.
-   * Esta configuração vazia permite usar --webpack explicitamente.
+   * Configuração de headers para os scripts do Vercel
    */
-  turbopack: {},
+  async headers() {
+    return [
+      {
+        source: '/_vercel/insights/script.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, must-revalidate',
+          },
+        ],
+      },
+      {
+        source: '/_vercel/speed-insights/script.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, must-revalidate',
+          },
+        ],
+      },
+      // Configuração de segurança padrão para outras rotas
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+        ],
+      },
+    ];
+  },
+
 };
+
+/**
+ * Configuração do Turbopack (vazio para silenciar erro quando webpack está configurado).
+ * Next.js 16 usa Turbopack por padrão, mas temos configuração webpack customizada.
+ * Esta configuração vazia permite usar --webpack explicitamente.
+ */
+nextConfig.turbopack = {};
 
 export default nextConfig;

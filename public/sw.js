@@ -32,6 +32,8 @@ const NO_CACHE_PATTERNS = [
   /\/_vercel\/speed-insights\//,
   /\/feedback\.html/,
   /\/_vercel\/feedback\//,
+  /vercel\/insights\/script\.js/,
+  /vercel\/speed-insights\/script\.js/
 ];
 
 /**
@@ -98,8 +100,11 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Ignora requisições cross-origin
-  if (url.origin !== self.location.origin) {
+  // Ignora requisições cross-origin, exceto para scripts do Vercel
+  const isVercelScript = url.pathname.includes('_vercel/insights/script.js') || 
+                        url.pathname.includes('_vercel/speed-insights/script.js');
+
+  if (url.origin !== self.location.origin && !isVercelScript) {
     return;
   }
 
