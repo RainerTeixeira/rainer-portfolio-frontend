@@ -19,7 +19,7 @@
 
 'use client';
 
-import { AuthLayout, ResetPasswordForm } from '@/components/domain/dashboard/login';
+import { AuthLayout, ResetPasswordForm } from '../../../../../components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 import { ArrowLeft } from 'lucide-react';

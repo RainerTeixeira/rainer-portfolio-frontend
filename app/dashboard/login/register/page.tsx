@@ -23,7 +23,7 @@ import {
   AuthLayout,
   RegisterForm,
   TermsDialog,
-} from '@/components/domain/dashboard/login';
+} from '../../../../components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 import Link from 'next/link';

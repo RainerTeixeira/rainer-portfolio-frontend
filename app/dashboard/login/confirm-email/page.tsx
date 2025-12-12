@@ -27,12 +27,12 @@
  */
 'use client';
 
-import { AuthLayout } from '../../../../../components/domain/dashboard/login';
+import { AuthLayout } from '../../../../components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
-import { authService } from '../../../../../lib/api';
+import { authService } from '../../../../lib/api';
 import { cn } from '@rainersoft/ui';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
