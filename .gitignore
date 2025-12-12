@@ -71,3 +71,4 @@ temp.json
 
 # jest cache
 .jest-cache
+.env*.local
