@@ -52,8 +52,8 @@ import {
   CardTitle,
 } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
-import { CARD_CLASSES } from '@/lib/portfolio';
-import { formatRelativeDate } from '@/lib/utils';
+import { CARD_CLASSES } from '../../../lib/portfolio';
+import { formatRelativeDate } from '../../../lib/utils';
 import { getDarkColors, getLightColors } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Tag } from 'lucide-react';
@@ -65,7 +65,7 @@ import Link from 'next/link';
 // BLOG COMPONENTS
 // ============================================================================
 
-import type { TiptapJSON } from '@/lib/api/types/common';
+import type { TiptapJSON } from '../../../lib/api/types/common';
 import { BookmarkButton, LikeButton, ReadingTime, ShareButton } from './social';
 
 // ============================================================================

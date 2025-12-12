@@ -44,8 +44,8 @@ import { Input } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
 import { Textarea } from '@rainersoft/ui';
-import { SITE_CONFIG, CONTATO, TEXTO_TEMPO_RESPOSTA, TEXTO_CONTATO_URGENTE } from '@/constants';
-import { CARD_CLASSES } from '@/lib/portfolio';
+import { SITE_CONFIG, CONTATO, TEXTO_TEMPO_RESPOSTA, TEXTO_CONTATO_URGENTE } from '../../../constants';
+import { CARD_CLASSES } from '../../../lib/portfolio';
 import { cn } from '@rainersoft/ui';
 import {
   Github,
