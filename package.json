@@ -65,6 +65,7 @@
     "recharts": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss": "^4.1.0",
+    "autoprefixer": "^10.4.22",
     "zod": "^4.1.12"
   },
   "devDependencies": {
@@ -77,11 +78,10 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "@types/jest": "^29.5.11",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.19.25",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "autoprefixer": "^10.4.22",
     "baseline-browser-mapping": "^2.8.32",
     "eslint": "^8.57.1",
     "eslint-config-next": "^16.0.10",
