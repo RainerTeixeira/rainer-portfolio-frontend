@@ -42,7 +42,7 @@ import {
 } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
-import { userService } from '@/lib/api';
+import { userService } from '../../../lib/api';
 import { Mail } from 'lucide-react';
 import { useState } from 'react';
 

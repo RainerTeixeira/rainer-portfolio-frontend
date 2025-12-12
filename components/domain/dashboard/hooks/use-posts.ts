@@ -27,9 +27,9 @@ import {
   unlikePost,
   unpublishPost,
   updatePost,
-} from '@/components/domain/dashboard/lib/api-client';
-import type { CreatePostData, UpdatePostData } from '@/lib/api/types';
-import type { Post, PostFilters, PostStatus } from '@/lib/api/types/posts';
+} from '../lib/api-client';
+import type { CreatePostData, UpdatePostData } from '../../../../lib/api/types';
+import type { Post, PostFilters, PostStatus } from '../../../../lib/api/types/posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
