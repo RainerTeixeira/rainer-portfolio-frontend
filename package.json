@@ -7,7 +7,7 @@
   "description": "Portfólio profissional de Rainer Teixeira - Desenvolvedor Full-Stack",
   "author": "Rainer Teixeira",
   "license": "UNLICENSED",
-  "packageManager": "pnpm@10.24.0",
+  "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "next dev --webpack",
     "prebuild": "node scripts/prepare-workspace.js",
