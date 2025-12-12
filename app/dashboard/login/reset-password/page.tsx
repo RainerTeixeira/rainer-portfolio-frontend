@@ -20,8 +20,8 @@
 
 'use client';
 
-import { AuthLayout } from '@/components/domain/dashboard/login';
-import { PasswordInput } from '@/components/domain/dashboard/login/password-input';
+import { AuthLayout } from '../../../../components/domain/dashboard/login';
+import { PasswordInput } from '../../../../components/domain/dashboard/login/password-input';
 import { BackToTop } from '@rainersoft/ui';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
@@ -81,7 +81,7 @@ export default function ResetPasswordPage() {
     setIsLoading(true);
 
     try {
-      const { authService } = await import('@/lib/api');
+      const { authService } = await import('../../../../lib/api');
 
       await authService.resetPassword({
         email,
