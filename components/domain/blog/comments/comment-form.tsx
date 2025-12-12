@@ -33,13 +33,13 @@
 
 'use client';
 
-import { useAuthContext } from '@/components/providers/auth-context-provider';
+import { useAuthContext } from '../../../providers/auth-context-provider';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Textarea } from '@rainersoft/ui';
-import { commentsService } from '@/lib/api/services';
-import type { Comment } from '@/lib/api/types';
+import { commentsService } from '../../../../lib/api/services';
+import type { Comment } from '../../../../lib/api/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle, Loader2, Send, X } from 'lucide-react';
 import { useState } from 'react';

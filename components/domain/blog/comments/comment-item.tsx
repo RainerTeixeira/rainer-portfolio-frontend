@@ -52,7 +52,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@rainersoft/ui';
-import type { Comment } from '@/lib/api/types';
+import type { Comment } from '../../../../lib/api/types';
 import { cn } from '@rainersoft/ui';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';

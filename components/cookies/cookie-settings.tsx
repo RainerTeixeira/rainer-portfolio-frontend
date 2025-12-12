@@ -71,7 +71,7 @@ import { Switch } from '@rainersoft/ui';
 import {
   getCookieManager,
   type CookiePreferences,
-} from '@/lib/privacy';
+} from '../../lib/privacy';
 
 // ============================================================================
 // Design Tokens
