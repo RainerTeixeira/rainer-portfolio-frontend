@@ -34,7 +34,7 @@
 
 'use client';
 
-import { useImageCompression, useUpload } from '@/components/domain/dashboard/hooks';
+import { useImageCompression, useUpload } from './hooks';
 import { Button } from '@rainersoft/ui';
 import { Progress } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';

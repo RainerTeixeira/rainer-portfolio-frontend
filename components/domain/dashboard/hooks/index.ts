@@ -28,7 +28,7 @@
  */
 
 // Hooks genéricos migrados - re-exportar da biblioteca
-export { usePasswordStrength } from '@/hooks';
+export { usePasswordStrength } from '@rainersoft/utils';
 
 // Hooks específicos do dashboard
 export {
