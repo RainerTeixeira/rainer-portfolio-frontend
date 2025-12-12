@@ -17,7 +17,7 @@ import {
   commentsService,
   type Comment,
   type CreateCommentData,
-} from '@/lib/api';
+} from '../../../../lib/api';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 

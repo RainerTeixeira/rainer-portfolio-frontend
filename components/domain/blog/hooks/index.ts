@@ -6,7 +6,7 @@
  */
 
 // Hooks genéricos migrados - re-exportar da biblioteca
-export { useTableOfContents } from '@/hooks';
+export { useTableOfContents } from '@rainersoft/ui';
 
 // Hooks específicos do blog
 export { usePosts } from './use-posts';
