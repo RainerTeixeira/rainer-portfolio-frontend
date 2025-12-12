@@ -13,7 +13,7 @@
 
 'use client';
 
-import { categoriesService, type Category } from '@/lib/api';
+import { categoriesService, type Category } from '../../../../lib/api';
 import { useEffect, useState } from 'react';
 
 export function useCategories() {

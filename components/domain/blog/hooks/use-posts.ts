@@ -13,8 +13,8 @@
 
 'use client';
 
-import { postsService, type Post, type PostFilters } from '@/lib/api';
-import { PostStatus } from '@/lib/api/types/posts';
+import { postsService, type Post, type PostFilters } from '../../../../lib/api';
+import { PostStatus } from '../../../../lib/api/types/posts';
 import { useEffect, useState } from 'react';
 
 export function usePosts(filters: PostFilters = {}) {

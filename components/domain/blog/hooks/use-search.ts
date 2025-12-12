@@ -13,8 +13,8 @@
 
 'use client';
 
-import { postsService } from '@/lib/api/services';
-import { PostStatus } from '@/lib/api/types/posts';
+import { postsService } from '../../../../lib/api/services';
+import { PostStatus } from '../../../../lib/api/types/posts';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
