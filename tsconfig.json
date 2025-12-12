@@ -77,7 +77,6 @@
     ".next",
     "out",
     "dist",
-    "src/**",
     "**/*old-*.ts",
     "**/*old-*.tsx",
     "lib/api/examples/**",
