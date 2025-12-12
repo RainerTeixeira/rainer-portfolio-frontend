@@ -37,16 +37,16 @@ import {
   PostNavigation,
   ReadingProgress,
   TableOfContents,
-} from '@/components/domain/blog';
+} from '../../../components/domain/blog';
 import { BackToTop, ParticlesEffect } from '@rainersoft/ui';
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
-import { tiptapJSONtoHTML } from '@/lib/blog/tiptap';
-import { postsService } from '@/lib/api/services';
-import type { Post } from '@/lib/api/types';
-import { PostStatus } from '@/lib/api/types';
+import { tiptapJSONtoHTML } from '../../../lib/blog/tiptap';
+import { postsService } from '../../../lib/api/services';
+import type { Post } from '../../../lib/api/types';
+import { PostStatus } from '../../../lib/api/types';
 import { cn } from '@rainersoft/ui';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
