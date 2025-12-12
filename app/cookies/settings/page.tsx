@@ -13,7 +13,7 @@
 
 'use client';
 
-import { CookieSettings } from '@/components/cookies/cookie-settings';
+import { CookieSettings } from '../../../components/cookies/cookie-settings';
 import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 
