@@ -29,11 +29,11 @@
 
 'use client';
 
-import { useAuthContext } from '@/components/providers/auth-context-provider';
+import { useAuthContext } from '../../../providers/auth-context-provider';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
-import { commentsService } from '@/lib/api/services';
-import type { Comment as ApiComment } from '@/lib/api/types';
+import { commentsService } from '../../../../lib/api/services';
+import type { Comment as ApiComment } from '../../../../lib/api/types';
 import { AlertCircle } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { CommentForm } from './comment-form';

@@ -24,7 +24,7 @@ import { useEffect } from 'react';
 // ============================================================================
 
 import { useCookieConsent, type CookiePreferences } from '@rainersoft/ui';
-import { initGoogleAnalytics, getCookieManager } from '@/lib/privacy';
+import { initGoogleAnalytics, getCookieManager } from '../../lib/privacy';
 
 // ============================================================================
 // Main Component
