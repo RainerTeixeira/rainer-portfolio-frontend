@@ -24,15 +24,15 @@ import Image from 'next/image';
 import React from 'react';
 import { HelpCircle } from 'lucide-react';
 
-import { ContactForm } from '@/components/domain/contato/contact-form';
-import { ContactInfoCard } from '@/components/domain/contato/contact-info-card';
+import { ContactForm } from '../../components/domain/contato/contact-form';
+import { ContactInfoCard } from '../../components/domain/contato/contact-info-card';
 import { BackToTop, PageHeader, ParticlesEffect, Accordion, AccordionContent, AccordionItem, AccordionTrigger, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@rainersoft/ui';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import { Separator } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
-import type { ContactInfoCardConfig, FAQItem } from '@/constants';
-import { CONTACT_INFO_CARDS, FAQ_ITEMS } from '@/constants';
-import { CONTATO } from '@/constants/metadata/comum/social';
+import type { ContactInfoCardConfig, FAQItem } from '../../constants';
+import { CONTACT_INFO_CARDS, FAQ_ITEMS } from '../../constants';
+import { CONTATO } from '../../constants/metadata/comum/social';
 
 /**
  * ContactPage Component
