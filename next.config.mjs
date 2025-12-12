@@ -17,6 +17,11 @@ const nextConfig = {
    * Typed Routes (movido de experimental no Next.js 16)
    */
   typedRoutes: true,
+  
+  /**
+   * Forçar rebuild completo para Vercel
+   */
+  generateBuildId: () => `build-${Date.now()}`,
 
   /**
    * Opções experimentais do Next.js 16:
