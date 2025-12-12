@@ -36,8 +36,8 @@
  * - Acessibilidade completa
  */
 
-import type { TiptapJSON } from '@/lib/api/types/common';
-import { calculateReadingTime } from '@/lib/blog';
+import type { TiptapJSON } from '../../../../lib/api/types/common';
+import { calculateReadingTime } from '../../../../lib/blog';
 import { cn } from '@rainersoft/ui';
 import { Clock } from 'lucide-react';
 
