@@ -34,17 +34,17 @@ import { Inter, Orbitron, Rajdhani } from 'next/font/google';
 // Importações de Providers de Contexto
 // ============================================================================
 
-import AuthProvider from '@/components/providers/auth-context-provider';
-import { ThemeProvider } from '@/components/providers/theme-provider';
-import { AppWrapper } from '@/components/layout/app-wrapper';
+import AuthProvider from '../components/providers/auth-context-provider';
+import { ThemeProvider } from '../components/providers/theme-provider';
+import { AppWrapper } from '../components/layout/app-wrapper';
 
 // ============================================================================
 // Importações de Componentes de Layout
 // ============================================================================
 
-import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
-import { CookieInitializer } from '@/components/cookies/cookie-initializer';
+import { Navbar } from '../components/layout/navbar';
+import { Footer } from '../components/layout/footer';
+import { CookieInitializer } from '../components/cookies/cookie-initializer';
 
 // ============================================================================
 // Importações da Biblioteca UI (@rainersoft/ui)
@@ -87,7 +87,7 @@ import {
   OPEN_GRAPH,
   SEO_CONFIG,
   OPEN_GRAPH_IMAGE_ALT,
-} from '@/constants';
+} from '../constants';
 
 // ============================================================================
 // Configuração de Fontes
