@@ -47,15 +47,15 @@ import {
   SearchBar,
   SortControls,
   type SortOption,
-} from '@/components/domain/blog';
+} from '../../components/domain/blog';
 import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { Skeleton } from '@rainersoft/ui';
-import { postsService } from '@/lib/api/services';
-import type { Post } from '@/lib/api/types/posts';
-import { PostStatus } from '@/lib/api/types/posts';
+import { postsService } from '../../lib/api/services';
+import type { Post } from '../../lib/api/types/posts';
+import { PostStatus } from '../../lib/api/types/posts';
 import { cn } from '@rainersoft/ui';
-import { getTokenColor } from '@/lib/portfolio/tokens';
+import { getTokenColor } from '../../lib/portfolio/tokens';
 import { useTheme } from 'next-themes';
 import { hexToRGB, hexToRGBA } from '@rainersoft/ui';
 
