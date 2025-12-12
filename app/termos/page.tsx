@@ -26,7 +26,7 @@ import {
 import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
-import { POLICIES_LAST_UPDATED, SITE_CONFIG } from '@/constants';
+import { POLICIES_LAST_UPDATED, SITE_CONFIG } from '../../constants';
 
 export default function TermsOfUsePage() {
   return (

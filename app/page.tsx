@@ -43,11 +43,11 @@ import {
   StatsShowcase,
   TechStackShowcase,
   Testimonials,
-} from '@/components/domain/home';
+} from '../components/domain/home';
 import { cn } from '@rainersoft/ui';
 import { BackToTop } from '@rainersoft/ui';
 import { BACKGROUND } from '@rainersoft/design-tokens';
-import { SECTION_IDS } from '@/constants';
+import { SECTION_IDS } from '../constants';
 
 /**
  * HomePage Component

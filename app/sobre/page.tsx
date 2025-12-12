@@ -49,20 +49,20 @@ import { BackToTop, PageHeader, ParticlesEffect, Badge, Button, Card, CardConten
 import { cn } from '@rainersoft/ui';
 import { BACKGROUND, GRADIENTS, GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
-import { SKILLS } from '@/components/skills/skills-with-icons';
+import { SKILLS } from '../../components/skills/skills-with-icons';
 import {
   EXPERIENCE,
   PROFESSIONAL_METRICS,
   TECH_BY_LAYER,
-} from '@/constants';
-import { DESENVOLVEDOR } from '@/constants/metadata/comum/desenvolvedor';
-import { REDES_SOCIAIS, CONTATO } from '@/constants/metadata/comum/social';
+} from '../../constants';
+import { DESENVOLVEDOR } from '../../constants/metadata/comum/desenvolvedor';
+import { REDES_SOCIAIS, CONTATO } from '../../constants/metadata/comum/social';
 
-import { CTACard } from '@/components/domain/sobre/cta-card';
-import { ExperienceCard } from '@/components/domain/sobre/experience-card';
-import { MetricCard } from '@/components/domain/sobre/metric-card';
-import { SkillLayerCard } from '@/components/domain/sobre/skill-layer-card';
-import { TechStackCard } from '@/components/domain/sobre/tech-stack-card';
+import { CTACard } from '../../components/domain/sobre/cta-card';
+import { ExperienceCard } from '../../components/domain/sobre/experience-card';
+import { MetricCard } from '../../components/domain/sobre/metric-card';
+import { SkillLayerCard } from '../../components/domain/sobre/skill-layer-card';
+import { TechStackCard } from '../../components/domain/sobre/tech-stack-card';
 
 /**
  * AboutPage Component
