@@ -53,15 +53,15 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { useAuthContext } from '@/components/providers/auth-context-provider';
-import { postsService } from '@/lib/api/services';
+import { useAuthContext } from '../../components/providers/auth-context-provider';
+import { postsService } from '../../lib/api/services';
 import type {
   CreatePostData,
   Post,
   PostStatus,
   TiptapJSON,
   UpdatePostData,
-} from '@/lib/api/types';
+} from '../../lib/api/types';
 import { BackToTop } from '@rainersoft/ui';
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
@@ -84,13 +84,13 @@ import {
   RecentPostsList,
   SubcategorySelect,
   ImageUpload,
-} from '@/components/domain/dashboard';
-import { PostCard } from '@/components/domain/blog/post-card';
-import { Editor } from '@/components/domain/dashboard/Editor';
-import { tiptapJSONtoHTML } from '@/components/domain/dashboard/lib/tiptap-utils';
-import { createEmptyTiptapContent } from '@/lib/blog';
+} from '../../components/domain/dashboard';
+import { PostCard } from '../../components/domain/blog/post-card';
+import { Editor } from '../../components/domain/dashboard/Editor';
+import { tiptapJSONtoHTML } from '../../components/domain/dashboard/lib/tiptap-utils';
+import { createEmptyTiptapContent } from '../../lib/blog';
 import { cn } from '@rainersoft/ui';
-import { textToSlug } from '@/lib/utils';
+import { textToSlug } from '../../lib/utils';
 import { GRADIENT_DIRECTIONS, BACKGROUND } from '@rainersoft/design-tokens';
 
 type ChangeEvent<T = HTMLInputElement> = React.ChangeEvent<T>;
