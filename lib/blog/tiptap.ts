@@ -111,6 +111,119 @@ export function createEmptyTiptapContent(): TiptapJSON {
 }
 
 // ============================================================================
+// HTML Rendering
+// ============================================================================
+
+export function tiptapJSONtoHTML(json: TiptapJSON | string): string {
+  if (typeof json === 'string') {
+    return json;
+  }
+
+  if (!json || !json.content || json.content.length === 0) {
+    return '';
+  }
+
+  return renderNodes(json.content);
+}
+
+function renderNodes(nodes: TiptapNode[]): string {
+  return nodes.map(renderNode).join('');
+}
+
+function renderNode(node: TiptapNode): string {
+  if (node.text) {
+    let text = node.text;
+
+    if (node.marks) {
+      node.marks.forEach(mark => {
+        switch (mark.type) {
+          case 'bold':
+            text = `<strong>${text}</strong>`;
+            break;
+          case 'italic':
+            text = `<em>${text}</em>`;
+            break;
+          case 'code':
+            text = `<code>${text}</code>`;
+            break;
+          case 'strike':
+            text = `<s>${text}</s>`;
+            break;
+          case 'link':
+            {
+              const href = (mark as any).attrs?.href || '#';
+              text = `<a href="${href}">${text}</a>`;
+            }
+            break;
+        }
+      });
+    }
+
+    return text;
+  }
+
+  const content = (node as any).content ? renderNodes((node as any).content as TiptapNode[]) : '';
+
+  switch (node.type) {
+    case 'doc':
+      return content;
+
+    case 'paragraph':
+      return `<p>${content || '<br>'}</p>`;
+
+    case 'heading':
+      {
+        const level = (node as any).attrs?.level || 1;
+        const safeLevel = Math.min(Math.max(level, 1), 6);
+        return `<h${safeLevel}>${content}</h${safeLevel}>`;
+      }
+
+    case 'bulletList':
+      return `<ul>${content}</ul>`;
+
+    case 'orderedList':
+      return `<ol>${content}</ol>`;
+
+    case 'listItem':
+      return `<li>${content}</li>`;
+
+    case 'blockquote':
+      return `<blockquote>${content}</blockquote>`;
+
+    case 'codeBlock':
+      return `<pre><code>${content}</code></pre>`;
+
+    case 'horizontalRule':
+      return '<hr />';
+
+    case 'image':
+      {
+        const src = (node as any).attrs?.src || '';
+        const alt = (node as any).attrs?.alt || '';
+        return `<img src="${src}" alt="${alt}" />`;
+      }
+
+    case 'table':
+      return `<table>${content}</table>`;
+
+    case 'tableRow':
+      return `<tr>${content}</tr>`;
+
+    case 'tableHeader':
+      return `<th>${content}</th>`;
+
+    case 'tableCell':
+      return `<td>${content}</td>`;
+
+    case 'hardBreak':
+      return '<br />';
+
+    default:
+      return content;
+  }
+}
+
+// ============================================================================
 // Content Validation
 // ============================================================================
 
