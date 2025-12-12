@@ -30,7 +30,7 @@
 
 import { Alert, AlertDescription, InlineLoader } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
-import { useAuthContext } from '@/components/providers/auth-context-provider';
+import { useAuthContext } from '../../../../components/providers/auth-context-provider';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
