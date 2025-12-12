@@ -78,10 +78,7 @@ const nextConfig = {
    */
   transpilePackages: [
     '@rainersoft/design-tokens', 
-    '@rainersoft/ui',
-    '@/components/domain/blog',
-    '@/lib/blog',
-    '@/lib/api'
+    '@rainersoft/ui'
   ],
 
   /**
