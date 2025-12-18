@@ -160,7 +160,7 @@ describe('api-helpers', () => {
 
   describe('formatDate', () => {
     it('deve formatar data', () => {
-      const date = new Date('2023-01-01');
+      const date = new Date('2025-12-16');
       const formatted = formatDate(date);
       expect(typeof formatted).toBe('string');
       expect(formatted.length).toBeGreaterThan(0);

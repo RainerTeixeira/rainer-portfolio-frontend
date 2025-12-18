@@ -6,7 +6,7 @@ import { EngagementChart } from '@/components/domain/dashboard/charts/engagement
 import { render } from '@testing-library/react';
 
 const mockData = [
-  { date: '2023-01-01', likes: 50, comments: 20 },
+  { date: '2025-12-16', likes: 50, comments: 20 },
   { date: '2023-01-02', likes: 75, comments: 30 },
 ];
 

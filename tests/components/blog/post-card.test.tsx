@@ -69,7 +69,7 @@ const mockPost = {
   title: 'Test Post',
   description: 'Test excerpt',
   link: '/blog/test-post',
-  date: '2023-01-01',
+  date: '2025-12-16',
   category: 'Test',
 };
 
