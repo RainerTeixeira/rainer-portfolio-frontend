@@ -13,7 +13,7 @@ describe('PostsCarousel', () => {
       slug: 'test-post',
       excerpt: 'Test excerpt',
       coverImage: '/test.jpg',
-      createdAt: '2023-01-01',
+      createdAt: '2025-12-16',
       views: 100,
       likesCount: 10,
     },
