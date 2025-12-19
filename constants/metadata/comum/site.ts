@@ -11,6 +11,7 @@
 
 import { EMPRESA, CEO } from './desenvolvedor';
 import { CONTATO } from './social';
+import { env } from '@/lib/config/env';
 
 /**
  * Configuração principal do site da Rainer Soft
@@ -22,9 +23,9 @@ export const SITE_CONFIG = {
   name: 'Rainer Soft',
   slogan: 'Transformando ideias em soluções digitais inovadoras',
   description: 'Software house líder em desenvolvimento de soluções enterprise, mobile, cloud e AI. Transformação digital com tecnologia de ponta.',
-  url: 'https://rainersoft.com.br',
-  github: 'https://github.com/rainersoft',
-  linkedin: 'https://linkedin.com/company/rainersoft',
+  url: env.NEXT_PUBLIC_BASE_URL,
+  github: 'https://github.com/rainerteixeira',
+  linkedin: 'linkedin.com/in/rainerteixeira',
   instagram: 'https://instagram.com/rainersoft',
   youtube: 'https://youtube.com/@rainersoft',
   contact: {
@@ -34,8 +35,8 @@ export const SITE_CONFIG = {
       responseTime: EMPRESA.tempoResposta,
     },
     phone: {
-      comercial: '+55 24 3025-5000',
-      suporte: '+55 24 3025-5001',
+      comercial: '+55 24 0000-0000',
+      suporte: '+55 24 99913-7382',
       whatsapp: '+55 24 99913-7382',
     },
     location: {

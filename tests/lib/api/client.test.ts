@@ -5,10 +5,10 @@
  */
 
 import { ApiClient, ApiError } from '@/lib/api/client';
-import { API_CONFIG, ERROR_MESSAGES, HTTP_STATUS } from '@/lib/api/config';
+import { API_CONFIG, ERROR_MESSAGES, HTTP_STATUS } from '@/lib/api/api-config';
 
 // Mock das dependências de configuração para tornar o cliente previsível em teste
-jest.mock('@/lib/api/config', () => ({
+jest.mock('@/lib/api/api-config', () => ({
   API_CONFIG: {
     BASE_URL: 'https://api.example.com',
     TIMEOUT: 5000,

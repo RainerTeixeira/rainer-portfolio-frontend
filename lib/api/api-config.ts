@@ -7,6 +7,8 @@
  * @version 1.0.1
  */
 
+import { env } from '@/lib/config/env';
+
 // ============================================================================
 // URLs e Endpoints
 // ============================================================================
@@ -21,10 +23,10 @@
  * @property {number} RETRY_DELAY - Delay entre tentativas (em ms)
  */
 export const API_CONFIG = {
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL!,
-  TIMEOUT: Number(process.env.NEXT_PUBLIC_API_TIMEOUT!),
-  MAX_RETRIES: Number(process.env.NEXT_PUBLIC_API_MAX_RETRIES!),
-  RETRY_DELAY: Number(process.env.NEXT_PUBLIC_API_RETRY_DELAY!),
+  BASE_URL: env.NEXT_PUBLIC_API_URL,
+  TIMEOUT: env.NEXT_PUBLIC_API_TIMEOUT,
+  MAX_RETRIES: env.NEXT_PUBLIC_API_MAX_RETRIES,
+  RETRY_DELAY: env.NEXT_PUBLIC_API_RETRY_DELAY,
 } as const;
 
 // ============================================================================
@@ -112,10 +114,24 @@ export const API_ENDPOINTS = {
     LIST: '/users',
     CREATE: '/users',
     GET_BY_ID: (id: string) => `/users/${id}`,
+    GET_BY_COGNITO_SUB: (cognitoSub: string) => `/users/cognito/${cognitoSub}`,
     GET_BY_USERNAME: (username: string) => `/users/username/${username}`,
     UPDATE: (id: string) => `/users/${id}`,
     DELETE: (id: string) => `/users/${id}`,
     BAN: (id: string) => `/users/${id}/ban`,
+  },
+
+  /** Endpoints de notificações */
+  NOTIFICATIONS: {
+    LIST: '/notifications',
+    CREATE: '/notifications',
+    GET_BY_ID: (id: string) => `/notifications/${id}`,
+    BY_USER: (userId: string) => `/notifications/user/${userId}`,
+    COUNT_BY_USER: (userId: string) => `/notifications/user/${userId}/count`,
+    UPDATE: (id: string) => `/notifications/${id}`,
+    DELETE: (id: string) => `/notifications/${id}`,
+    MARK_READ: (id: string) => `/notifications/${id}/read`,
+    MARK_ALL_READ: (userId: string) => `/notifications/user/${userId}/read-all`,
   },
 
   /** Endpoints do sistema */

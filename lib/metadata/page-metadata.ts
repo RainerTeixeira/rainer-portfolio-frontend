@@ -11,6 +11,7 @@
 
 import type { Category, Post } from '@/lib/api/types';
 import { extractTextFromTiptap } from '@/lib/blog';
+import { env } from '@/lib/config/env';
 import type { Metadata } from 'next';
 
 // ============================================================================
@@ -79,8 +80,7 @@ export function generateMetadata({
   tags,
   canonicalUrl,
 }: GenerateMetadataProps): Metadata {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://rainersoft.com.br';
+  const siteUrl = env.NEXT_PUBLIC_BASE_URL;
   const siteName = 'Rainer Soft';
 
   const metadata: Metadata = {
@@ -161,8 +161,7 @@ export function generateMetadata({
  * ```
  */
 export function generatePostMetadata(post: Post): Metadata {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://rainersoft.com.br';
+  const siteUrl = env.NEXT_PUBLIC_BASE_URL;
   const postUrl = `${siteUrl}/blog/${post.slug}`;
 
   // Usa excerpt se disponível, senão extrai do conteúdo

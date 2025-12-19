@@ -10,6 +10,7 @@
  */
 
 import type { Category, Post } from '@/lib/api/types';
+import { env } from '@/lib/config/env';
 
 // ============================================================================
 // Sitemap Generation
@@ -36,8 +37,7 @@ import type { Category, Post } from '@/lib/api/types';
  * ```
  */
 export function generateSitemap(posts: Post[], categories: Category[]): string {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://rainersoft.com.br';
+  const siteUrl = env.NEXT_PUBLIC_BASE_URL;
   const now = new Date().toISOString();
 
   // Páginas estáticas
@@ -103,8 +103,7 @@ ${xmlUrls}
  * ```
  */
 export function generateRobotsTxt(): string {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://rainersoft.com.br';
+  const siteUrl = env.NEXT_PUBLIC_BASE_URL;
 
   return `# https://www.robotstxt.org/robotstxt.html
 User-agent: *

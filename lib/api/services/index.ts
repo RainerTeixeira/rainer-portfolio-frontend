@@ -43,6 +43,9 @@ export * from './bookmarks.service';
 // Serviços de Notificações
 export * from './notifications.service';
 
+// Serviços de Usuários
+export * from './user.service';
+
 // Serviços de Analytics e Estatísticas
 export * from './dashboard.service';
 

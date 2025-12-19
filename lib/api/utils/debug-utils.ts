@@ -10,8 +10,9 @@ import {
   validateUsername,
   validateMessage,
 } from '@/lib/utils';
+import { isDevelopment } from '@/lib/config/env';
 import { ApiError } from '../client';
-import { API_CONFIG } from '../config';
+import { API_CONFIG } from '../api-config';
 
 type ValidationFunction = (value: string) => {
   isValid: boolean;
@@ -290,7 +291,7 @@ export function logApiError(
 
   if (isNetworkApiError) {
     // Em desenvolvimento, logar apenas um aviso curto e sem stack
-    if (process.env.NODE_ENV === 'development') {
+    if (isDevelopment) {
       console.info(
         `[${context}] Backend ou rede indisponível. Tratando como falha de conexão controlada.`,
         {
@@ -323,7 +324,7 @@ export function logApiError(
     .join(' | ');
 
   // Log detalhado em desenvolvimento
-  if (process.env.NODE_ENV === 'development') {
+  if (isDevelopment) {
     console.groupCollapsed(
       `%c[${context}] ${errorAnalysis.message}`,
       `color: #ef4444` // red-500

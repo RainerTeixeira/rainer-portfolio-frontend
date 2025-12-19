@@ -57,14 +57,12 @@ export interface CognitoUser {
  * @interface User
  */
 export interface User {
-  /** ID interno do MongoDB (ObjectId) */
-  readonly id: string;
-  /** ID único do usuário no Amazon Cognito (sub claim do JWT) */
+  /** ID único do usuário no Amazon Cognito (sub claim do JWT) - Primary Key */
   readonly cognitoSub: string;
   /** Nome completo ou nome de exibição */
   readonly fullName: string;
   /** Nickname único do usuário */
-  readonly nickname: string;
+  readonly nickname?: string;
   /** URL do avatar (CDN, S3, ou upload local) */
   readonly avatar?: string;
   /** Biografia curta do usuário */
@@ -89,6 +87,14 @@ export interface User {
   readonly createdAt: string;
   /** Última atualização do perfil */
   readonly updatedAt: string;
+  
+  // Campos opcionais para compatibilidade
+  /** ID interno (alias para cognitoSub) */
+  readonly id?: string;
+  /** Email do usuário (vem do Cognito via JWT) */
+  readonly email?: string;
+  /** Status de verificação do email (vem do Cognito via JWT) */
+  readonly emailVerified?: boolean;
 }
 
 /**

@@ -11,6 +11,7 @@
 
 import type { Post } from '@/lib/api/types';
 import { extractTextFromTiptap } from '@/lib/blog';
+import { env } from '@/lib/config/env';
 
 // ============================================================================
 // Article Structured Data
@@ -33,8 +34,7 @@ import { extractTextFromTiptap } from '@/lib/blog';
  * ```
  */
 export function generateArticleStructuredData(post: Post) {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://rainersoft.com.br';
+  const siteUrl = env.NEXT_PUBLIC_BASE_URL;
 
   return {
     '@context': 'https://schema.org',
@@ -92,8 +92,7 @@ export function generateArticleStructuredData(post: Post) {
 export function generateBreadcrumbStructuredData(
   items: { name: string; url: string }[]
 ) {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://rainersoft.com.br';
+  const siteUrl = env.NEXT_PUBLIC_BASE_URL;
 
   return {
     '@context': 'https://schema.org',

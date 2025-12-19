@@ -94,6 +94,26 @@ export const PROJETOS = [
     gradiente: GRADIENTS.TEXT_PRIMARY,
   },
   {
+    titulo: 'Magic Banner Plugin',
+    subtitulo: 'Plugin para Banners Dinâmicos',
+    descricao: 'Sistema completo para criação e gerenciamento de banners dinâmicos. ' +
+               'CRUD completo, agendamento, analytics, script embutível e API REST.',
+    tecnologias: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Supabase'],
+    destaque: true,
+    metricas: {
+      endpoints: '6 APIs',
+      testes: 'E2E + Integração',
+      performance: 'Lighthouse 95+',
+      tamanho: '~2KB minificado',
+    },
+    links: {
+      demo: 'https://futuriza-challenge.vercel.app',
+      github: 'https://github.com/rainerteixeira/futuriza-challenge',
+    },
+    ano: '2024',
+    gradiente: GRADIENTS.TEXT_PRIMARY,
+  },
+  {
     titulo: 'Token Editor Web',
     subtitulo: 'Editor Visual de Design Tokens',
     descricao: 'Ferramenta web para edição visual de design tokens. ' +

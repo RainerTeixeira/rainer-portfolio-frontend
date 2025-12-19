@@ -16,7 +16,7 @@
  * @version 1.0.0
  */
 
-import { env } from '@/lib/config';
+import { env } from '@/lib/config/env';
 import { logger } from './logger';
 
 // ============================================================================
@@ -153,7 +153,7 @@ class Analytics {
 
   constructor() {
     this.isEnabled =
-      env.NEXT_PUBLIC_ENABLE_ANALYTICS && env.NODE_ENV === 'production';
+      env.NEXT_PUBLIC_ENABLE_ANALYTICS && env.NEXT_PUBLIC_ENV === 'production';
   }
 
   /**

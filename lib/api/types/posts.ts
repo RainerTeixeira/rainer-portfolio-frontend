@@ -23,28 +23,31 @@ export interface Post {
   readonly subcategoryId: string;
   readonly authorId: string;
   readonly status: PostStatus;
-  readonly featured: boolean;
-  readonly allowComments: boolean;
-  readonly pinned: boolean;
-  readonly priority: number;
+  readonly featured?: boolean;
+  readonly allowComments?: boolean;
+  readonly pinned?: boolean;
+  readonly priority?: number;
   readonly publishedAt?: string;
   readonly createdAt: string;
   readonly updatedAt: string;
-  readonly views: number;
-  readonly likesCount: number;
-  readonly commentsCount: number;
-  readonly bookmarksCount: number;
+  readonly views?: number;
+  readonly likesCount?: number;
+  readonly commentsCount?: number;
+  readonly bookmarksCount?: number;
   readonly author?: {
-    readonly id: string;
+    readonly cognitoSub: string;
     readonly fullName: string;
-    readonly nickname: string;
+    readonly nickname?: string;
     readonly avatar?: string;
+    readonly email?: string;
+    readonly id?: string; // Alias for compatibility
   };
   readonly subcategory?: {
     readonly id: string;
     readonly name: string;
     readonly slug: string;
     readonly color?: string;
+    readonly description?: string;
   };
 }
 

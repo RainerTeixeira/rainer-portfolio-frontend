@@ -70,7 +70,7 @@
 
 // Client & Config
 export * from './client';
-export * from './config';
+export * from './api-config';
 
 // Types (todos centralizados)
 export * from './types/auth';

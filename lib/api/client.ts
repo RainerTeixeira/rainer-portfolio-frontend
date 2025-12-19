@@ -8,7 +8,8 @@
  * @version 1.1.0
  */
 
-import { API_CONFIG, ERROR_MESSAGES, HTTP_STATUS } from './config';
+import { env, isDevelopment } from '@/lib/config/env';
+import { API_CONFIG, ERROR_MESSAGES, HTTP_STATUS } from './api-config';
 
 // =============================================================================
 // TIPOS E INTERFACES
@@ -317,13 +318,16 @@ class ApiClient {
    * @private
    */
   private initializeDefaultHeaders(): HeadersInit {
-    return {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      'X-Database-Provider': (
-        process.env.NEXT_PUBLIC_API_DB_PROVIDER || 'PRISMA'
-      ).toUpperCase(),
     };
+
+    if (env.NEXT_PUBLIC_API_DB_PROVIDER) {
+      headers['X-Database-Provider'] = env.NEXT_PUBLIC_API_DB_PROVIDER.toUpperCase();
+    }
+
+    return headers;
   }
 
   /**
@@ -331,7 +335,7 @@ class ApiClient {
    * @private
    */
   private logDevelopmentInfo(): void {
-    if (process.env.NODE_ENV === 'development' && this.baseUrl) {
+    if (isDevelopment && this.baseUrl) {
       console.log('[ApiClient] URL base da API:', this.baseUrl);
     }
   }
@@ -690,7 +694,7 @@ class ApiClient {
     timeout: number
   ): Promise<Response> {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const timeoutId = setTimeout(() => controller.abort('Request timeout'), timeout);
 
     const { restoreConsole, suppressConnectionErrors } = this.setupConsoleInterception();
 
@@ -879,6 +883,7 @@ class ApiClient {
       method: method || 'GET',
       duration: metrics?.duration,
       error: error instanceof Error ? error.message : 'Erro desconhecido',
+      errorType: error?.constructor?.name || 'Unknown',
     };
 
     if (error instanceof ApiError) {
@@ -887,15 +892,19 @@ class ApiClient {
     }
 
     if (error instanceof Error) {
-      if (error.constructor?.name) {
-        errorDetails.errorType = error.constructor.name;
-      }
       if (error.stack) {
         errorDetails.stack = error.stack;
       }
       if (error.name === 'AbortError' || error.message.includes('aborted')) {
         errorDetails.isAbortError = true;
       }
+    }
+
+    // Add debug info for unknown errors
+    if (!error) {
+      errorDetails.debug = 'Error object is null or undefined';
+    } else if (typeof error !== 'object') {
+      errorDetails.debug = `Error is not an object: ${typeof error}`;
     }
 
     return errorDetails;

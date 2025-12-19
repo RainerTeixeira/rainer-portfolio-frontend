@@ -19,6 +19,18 @@ export interface Comment {
   readonly createdAt: string;
   readonly updatedAt: string;
   readonly editedAt?: string;
+  readonly author?: {
+    readonly id: string;
+    readonly fullName: string;
+    readonly nickname: string;
+    readonly avatar?: string;
+  };
+  readonly post?: {
+    readonly id: string;
+    readonly title: string;
+    readonly slug: string;
+  };
+  readonly replies?: Comment[];
 }
 
 export interface CreateCommentData {

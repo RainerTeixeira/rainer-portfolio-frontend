@@ -12,6 +12,7 @@
  */
 
 import { getCookieManager, isCookieAllowed } from './manager';
+import { env, isProduction } from '@/lib/config/env';
 
 // ============================================================================
 // Google Analytics
@@ -28,9 +29,9 @@ export function initGoogleAnalytics(): void {
     return;
   }
 
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const gaId = env.NEXT_PUBLIC_GA_ID;
   if (!gaId) {
-    if (process.env.NODE_ENV === 'production') {
+    if (isProduction) {
       console.warn('Google Analytics ID não configurado');
     }
     return;
@@ -70,7 +71,7 @@ export function trackPageView(url: string): void {
   if (!isCookieAllowed('analytics')) return;
   if (!window.gtag) return;
 
-  window.gtag('config', process.env.NEXT_PUBLIC_GA_ID || '', {
+  window.gtag('config', env.NEXT_PUBLIC_GA_ID || '', {
     page_path: url,
   });
 }

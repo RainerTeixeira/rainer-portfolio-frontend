@@ -1,0 +1,25 @@
+/**
+ * @file globals.css
+ * @description
+ * Arquivo CSS global mínimo obrigatório para Next.js + Tailwind CSS v4.0
+ *
+ * IMPORTANTE: Este arquivo NÃO deve conter valores hardcoded.
+ * Todos os valores de design vêm EXCLUSIVAMENTE de @rainersoft/design-tokens.
+ * O Tailwind v4 será configurado via CSS importado dos tokens.
+ *
+ * @module globals.css
+ * @version 3.0.0 - Tailwind CSS v4.0
+ * @author Rainer Teixeira
+ * 
+ * @warning PROIBIDO: Não adicionar variáveis CSS customizadas ou estilos aqui.
+ *          Todos os valores devem vir dos design tokens.
+ */
+
+/* Importa Tailwind CSS via arquivo intermediário */
+@import "../styles/tailwind.css";
+
+/* 
+ * Importa variáveis CSS dos design tokens
+ * A configuração do tema está nos design tokens, não aqui
+ */
+@import "@rainersoft/design-tokens/formats/css-vars.css";

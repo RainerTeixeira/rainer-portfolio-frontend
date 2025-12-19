@@ -17,6 +17,8 @@
  * @version 1.0.0
  */
 
+import { isDevelopment } from '@/lib/config/env';
+
 // Cores para logs (Tailwind)
 const LOG_COLORS = {
   error: '#ef4444',   // red-500
@@ -68,7 +70,7 @@ const LOG_EMOJIS = {
 /**
  * Verifica se está em desenvolvimento
  */
-const IS_DEV = process.env.NODE_ENV === 'development';
+const IS_DEV = isDevelopment;
 
 /**
  * Verifica se está no browser

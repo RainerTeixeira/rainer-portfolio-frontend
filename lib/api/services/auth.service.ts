@@ -12,6 +12,7 @@
 
 import { api, ApiError } from '../client';
 import { logApiError } from '../utils/debug-utils';
+import { env, isTest } from '@/lib/config/env';
 import type {
   ApiResponse,
   ApiSuccessResponse,
@@ -368,7 +369,7 @@ export class AuthService {
   ): Promise<AuthTokens> {
     const endpoint = `/auth/oauth/${provider}/callback`;
     const redirectUri =
-      process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN ||
+      env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN ||
       (typeof window !== 'undefined'
         ? `${window.location.origin}/dashboard/login/callback`
         : undefined);
@@ -1187,8 +1188,8 @@ export class AuthService {
       return;
     }
 
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL;
-    const redirectUri = process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN;
+    const backendUrl = env.NEXT_PUBLIC_API_URL;
+    const redirectUri = env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN;
 
     if (!backendUrl) {
       throw new Error(
@@ -1209,14 +1210,14 @@ export class AuthService {
         window.location.href = oauthUrl;
         // Para testes, também atualiza variável global se existir
         if (
-          process.env.NODE_ENV === 'test' &&
+          isTest &&
           (window as any).__testLocationHref !== undefined
         ) {
           (window as any).__testLocationHref = oauthUrl;
         }
       } catch (error) {
         // jsdom não permite navegação real, apenas loga em testes
-        if (process.env.NODE_ENV === 'test') {
+        if (isTest) {
           // Atualiza variável global para rastreamento em testes
           if ((window as any).__testLocationHref !== undefined) {
             (window as any).__testLocationHref = oauthUrl;
@@ -1242,18 +1243,18 @@ export class AuthService {
       return;
     }
 
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL;
-    const redirectUri = process.env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN;
+    const backendUrl = env.NEXT_PUBLIC_API_URL;
+    const redirectUri = env.NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN;
 
     if (!backendUrl) {
       throw new Error(
-        '[AuthService] NEXT_PUBLIC_API_URL não configurada. Defina a URL base da API no .env.local.'
+        '[AuthService] NEXT_PUBLIC_API_URL não configurada. Defina a URL base da API no env.local.'
       );
     }
 
     if (!redirectUri) {
       throw new Error(
-        '[AuthService] NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN não configurada. Defina a URL de callback OAuth no .env.local.'
+        '[AuthService] NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN não configurada. Defina a URL de callback OAuth no env.local.'
       );
     }
     const oauthUrl = `${backendUrl}/auth/oauth/github?redirect_uri=${encodeURIComponent(redirectUri)}`;
@@ -1264,14 +1265,14 @@ export class AuthService {
         window.location.href = oauthUrl;
         // Para testes, também atualiza variável global se existir
         if (
-          process.env.NODE_ENV === 'test' &&
+          isTest &&
           (window as any).__testLocationHref !== undefined
         ) {
           (window as any).__testLocationHref = oauthUrl;
         }
       } catch (error) {
         // jsdom não permite navegação real, apenas loga em testes
-        if (process.env.NODE_ENV === 'test') {
+        if (isTest) {
           // Atualiza variável global para rastreamento em testes
           if ((window as any).__testLocationHref !== undefined) {
             (window as any).__testLocationHref = oauthUrl;

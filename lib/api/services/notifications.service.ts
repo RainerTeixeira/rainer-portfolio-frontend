@@ -1,11 +1,7 @@
-// ============================================================================
-// Serviço de Notificações - Integração com API do Backend
-// ============================================================================
-
 /**
- * Serviço para gerenciar notificações do sistema
- *
- * @fileoverview Serviço de notificações com métodos para CRUD e operações específicas
+ * Serviço de Notificações - Integração com API do Backend
+ * 
+ * @fileoverview Serviço para gerenciar notificações do usuário
  * @author Rainer Teixeira
  * @version 1.0.0
  */
@@ -19,14 +15,9 @@ import type {
   PaginatedResponse,
   UpdateNotificationData,
 } from '../types';
-import { NotificationType } from '../types';
-
-// ============================================================================
-// Classe do Serviço
-// ============================================================================
 
 /**
- * Serviço responsável por CRUD e operações de notificações do usuário.
+ * Serviço responsável pelo CRUD de notificações e operações relacionadas.
  */
 export class NotificationsService {
   private readonly basePath = '/notifications';
@@ -34,311 +25,123 @@ export class NotificationsService {
   /**
    * Lista notificações com paginação e filtros
    */
-  /**
-   * Lista notificações de um usuário com filtros/paginação.
-   */
-  async listNotifications(
-    filters: NotificationFilters
-  ): Promise<PaginatedResponse<Notification>> {
+  async listNotifications(filters: NotificationFilters = {}): Promise<PaginatedResponse<Notification>> {
     const params = new URLSearchParams();
 
     if (filters.page) params.append('page', filters.page.toString());
     if (filters.limit) params.append('limit', filters.limit.toString());
-    if (filters.isRead !== undefined)
-      params.append('isRead', filters.isRead.toString());
+    if (filters.userId) params.append('userId', filters.userId);
+    if (filters.isRead !== undefined) params.append('isRead', filters.isRead.toString());
     if (filters.type) params.append('type', filters.type);
 
     const queryString = params.toString();
-    const url = queryString
-      ? `${this.basePath}/user/${filters.userId}?${queryString}`
-      : `${this.basePath}/user/${filters.userId}`;
+    const url = queryString ? `${this.basePath}?${queryString}` : this.basePath;
 
-    const response =
-      await api.get<ApiResponse<PaginatedResponse<Notification>>>(url);
-    if (!response.success) {
-      throw new Error(
-        response.message ||
-          `Erro ao listar notificações para o usuário ${filters.userId}`
-      );
+    const response = await api.get<ApiResponse<PaginatedResponse<Notification>>>(url);
+    
+    if (response.success) {
+      return (response as any).data;
     }
-    return response.data;
+    
+    throw new Error(response.message || 'Erro ao listar notificações');
   }
 
   /**
-   * Busca uma notificação por ID
-   */
-  /**
-   * Busca notificação por ID.
+   * Busca notificação por ID
    */
   async getNotificationById(id: string): Promise<Notification> {
-    const response = await api.get<ApiResponse<Notification>>(
-      `${this.basePath}/${id}`
-    );
-    if (!response.success) {
-      throw new Error(
-        response.message || `Erro ao buscar notificação com ID: ${id}`
-      );
+    const response = await api.get<ApiResponse<Notification>>(`${this.basePath}/${id}`);
+    
+    if (response.success) {
+      return (response as any).data;
     }
-    return response.data;
+    
+    throw new Error(response.message || `Erro ao buscar notificação com ID: ${id}`);
   }
 
   /**
-   * Lista notificações de um usuário específico
+   * Lista notificações por usuário
    */
-  /**
-   * Lista notificações por usuário.
-   */
-  async getNotificationsByUser(userId: string): Promise<Notification[]> {
-    const response = await api.get<ApiResponse<Notification[]>>(
-      `${this.basePath}/user/${userId}`
-    );
-    if (!response.success) {
-      throw new Error(
-        response.message ||
-          `Erro ao buscar notificações do usuário com ID: ${userId}`
-      );
-    }
-    return response.data;
+  async getNotificationsByUser(userId: string, filters: Omit<NotificationFilters, 'userId'> = {}): Promise<PaginatedResponse<Notification>> {
+    return this.listNotifications({ ...filters, userId });
   }
 
   /**
-   * Conta notificações não lidas de um usuário
-   */
-  /**
-   * Conta notificações não lidas do usuário.
+   * Conta notificações não lidas do usuário
    */
   async getUnreadCount(userId: string): Promise<number> {
-    const response = await api.get<ApiResponse<{ count: number }>>(
-      `${this.basePath}/user/${userId}/unread/count`
-    );
-    if (!response.success) {
-      throw new Error(
-        response.message ||
-          `Erro ao contar notificações não lidas do usuário ${userId}`
-      );
+    const response = await api.get<ApiResponse<{ count: number }>>(`${this.basePath}/user/${userId}/count`);
+    
+    if (response.success) {
+      return (response as any).data.count;
     }
-    return response.data.count;
+    
+    throw new Error(response.message || 'Erro ao contar notificações não lidas');
   }
 
   /**
    * Cria uma nova notificação
    */
-  /**
-   * Cria nova notificação.
-   */
-  async createNotification(
-    data: CreateNotificationData
-  ): Promise<Notification> {
-    const response = await api.post<ApiResponse<Notification>>(
-      this.basePath,
-      data
-    );
-    if (!response.success) {
-      throw new Error(
-        response.message ||
-          `Erro ao criar notificação para o usuário ${data.userId}`
-      );
+  async createNotification(data: CreateNotificationData): Promise<Notification> {
+    const response = await api.post<ApiResponse<Notification>>(this.basePath, data);
+    
+    if (response.success) {
+      return (response as any).data;
     }
-    return response.data;
+    
+    throw new Error(response.message || 'Erro ao criar notificação');
   }
 
   /**
-   * Atualiza uma notificação existente
+   * Atualiza uma notificação
    */
-  /**
-   * Atualiza notificação existente.
-   */
-  async updateNotification(
-    id: string,
-    data: UpdateNotificationData
-  ): Promise<Notification> {
-    const response = await api.put<ApiResponse<Notification>>(
-      `${this.basePath}/${id}`,
-      data
-    );
-    if (!response.success) {
-      throw new Error(
-        response.message || `Erro ao atualizar notificação com ID: ${id}`
-      );
+  async updateNotification(id: string, data: UpdateNotificationData): Promise<Notification> {
+    const response = await api.put<ApiResponse<Notification>>(`${this.basePath}/${id}`, data);
+    
+    if (response.success) {
+      return (response as any).data;
     }
-    return response.data;
+    
+    throw new Error(response.message || `Erro ao atualizar notificação: ${id}`);
   }
 
   /**
    * Deleta uma notificação
    */
-  /**
-   * Deleta notificação por ID.
-   */
-  async deleteNotification(id: string): Promise<ApiResponse<void>> {
-    const response = await api.delete<ApiResponse<void>>(
-      `${this.basePath}/${id}`
-    );
-
+  async deleteNotification(id: string): Promise<void> {
+    const response = await api.delete<ApiResponse<void>>(`${this.basePath}/${id}`);
+    
     if (!response.success) {
-      throw new Error(
-        response.message || `Erro ao deletar notificação com ID: ${id}`
-      );
+      throw new Error(response.message || `Erro ao deletar notificação: ${id}`);
     }
-
-    return response;
   }
 
   /**
-   * Marca uma notificação como lida
-   */
-  /**
-   * Marca notificação como lida.
+   * Marca notificação como lida
    */
   async markAsRead(id: string): Promise<Notification> {
-    const response = await api.patch<ApiResponse<Notification>>(
-      `${this.basePath}/${id}/read`
-    );
-    if (!response.success) {
-      throw new Error(
-        response.message || 'Erro ao marcar notificação como lida'
-      );
+    const response = await api.patch<ApiResponse<Notification>>(`${this.basePath}/${id}/read`);
+    
+    if (response.success) {
+      return (response as any).data;
     }
-    return response.data;
+    
+    throw new Error(response.message || `Erro ao marcar notificação como lida: ${id}`);
   }
 
   /**
-   * Marca todas as notificações de um usuário como lidas
+   * Marca todas as notificações do usuário como lidas
    */
-  /**
-   * Marca todas notificações do usuário como lidas.
-   */
-  async markAllAsRead(userId: string): Promise<ApiResponse<void>> {
-    const response = await api.patch<ApiResponse<void>>(
-      `${this.basePath}/user/${userId}/read-all`
-    );
-
+  async markAllAsRead(userId: string): Promise<void> {
+    const response = await api.patch<ApiResponse<void>>(`${this.basePath}/user/${userId}/read-all`);
+    
     if (!response.success) {
-      throw new Error(
-        response.message ||
-          `Erro ao marcar todas as notificações como lidas para o usuário ${userId}`
-      );
+      throw new Error(response.message || 'Erro ao marcar todas as notificações como lidas');
     }
-
-    return response;
-  }
-
-  /**
-   * Lista apenas notificações não lidas de um usuário
-   */
-  /**
-   * Lista apenas notificações não lidas do usuário.
-   */
-  async getUnreadNotifications(userId: string): Promise<Notification[]> {
-    const response = await this.listNotifications({ userId, isRead: false });
-    return response.data;
-  }
-
-  /**
-   * Lista notificações por tipo
-   */
-  /**
-   * Lista notificações por tipo.
-   */
-  async getNotificationsByType(
-    userId: string,
-    type: string
-  ): Promise<Notification[]> {
-    const response = await this.listNotifications({
-      userId,
-      type: type as NotificationType,
-    });
-    return response.data;
-  }
-
-  /**
-   * Cria notificação de novo comentário
-   */
-  /**
-   * Cria notificação de novo comentário em post.
-   */
-  async notifyNewComment(
-    postAuthorId: string,
-    commentAuthorName: string,
-    postTitle: string,
-    postId: string
-  ): Promise<Notification> {
-    return this.createNotification({
-      type: NotificationType.NEW_COMMENT,
-      title: 'Novo comentário no seu post',
-      message: `${commentAuthorName} comentou em "${postTitle}"`,
-      link: `/posts/${postId}`,
-      metadata: { postId, commentAuthorName, postTitle },
-      userId: postAuthorId,
-    });
-  }
-
-  /**
-   * Cria notificação de novo like
-   */
-  /**
-   * Cria notificação de novo like em post.
-   */
-  async notifyNewLike(
-    postAuthorId: string,
-    likeAuthorName: string,
-    postTitle: string,
-    postId: string
-  ): Promise<Notification> {
-    return this.createNotification({
-      type: NotificationType.NEW_LIKE,
-      title: 'Novo like no seu post',
-      message: `${likeAuthorName} curtiu "${postTitle}"`,
-      link: `/posts/${postId}`,
-      metadata: { postId, likeAuthorName, postTitle },
-      userId: postAuthorId,
-    });
-  }
-
-  /**
-   * Cria notificação de novo seguidor
-   */
-  /**
-   * Cria notificação de novo seguidor.
-   */
-  async notifyNewFollower(
-    userId: string,
-    followerName: string
-  ): Promise<Notification> {
-    return this.createNotification({
-      type: NotificationType.NEW_FOLLOWER,
-      title: 'Novo seguidor',
-      message: `${followerName} começou a seguir você`,
-      link: `/users/${userId}`,
-      metadata: { followerName },
-      userId,
-    });
-  }
-
-  /**
-   * Cria notificação de post publicado
-   */
-  /**
-   * Cria notificação de post publicado.
-   */
-  async notifyPostPublished(
-    authorId: string,
-    postTitle: string,
-    postId: string
-  ): Promise<Notification> {
-    return this.createNotification({
-      type: NotificationType.POST_PUBLISHED,
-      title: 'Post publicado',
-      message: `Seu post "${postTitle}" foi publicado com sucesso`,
-      link: `/posts/${postId}`,
-      metadata: { postId, postTitle },
-      userId: authorId,
-    });
   }
 }
 
-// ============================================================================
-// Instância Singleton
-// ============================================================================
-
+/**
+ * Instância singleton do serviço de notificações
+ */
 export const notificationsService = new NotificationsService();
