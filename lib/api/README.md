@@ -1,67 +1,104 @@
-# 🌐 API Global - Padrão Profissional
+# 🌐 API do Frontend - Versão 2.0 (Pública e Privada)
 
-Biblioteca completa para integração com backend.
+Biblioteca completa para integração com backend, organizada de forma profissional separando APIs públicas e privadas.
 
-## 📂 Estrutura
+## 📂 Estrutura Nova
 
 ```
 lib/api/
-├── types/              # Types organizados por serviço
-│   ├── common.ts      # ApiResponse, Pagination, TiptapJSON
-│   ├── auth.ts        # Auth types
-│   ├── users.ts       # User types
-│   ├── posts.ts       # Post types
-│   ├── categories.ts  # Category types
-│   ├── comments.ts    # Comment types
-│   ├── likes.ts       # Like types
-│   ├── bookmarks.ts   # Bookmark types
-│   └── notifications.ts
+├── clients/                  # Clientes HTTP
+│   ├── public-client.ts      # Cliente para APIs públicas (sem auth)
+│   └── private-client.ts     # Cliente para APIs privadas (com JWT)
 │
-├── services/          # Services por recurso
-│   ├── auth.service.ts
-│   ├── users.service.ts
-│   ├── posts.service.ts
-│   └── ...
+├── public/                   # APIs Públicas (sem autenticação)
+│   ├── auth/                 # Login, registro, OAuth
+│   │   └── auth.ts
+│   └── blog/                 # Conteúdo público
+│       ├── posts.ts          # Listar posts públicos
+│       └── categories.ts     # Listar categorias
 │
-├── helpers/           # 🆕 Helpers específicos da API
-│   ├── post-helpers.ts  # preparePostForCreate, preparePostForUpdate, validatePostData
-│   └── index.ts
+├── private/                  # APIs Privadas (com autenticação)
+│   └── blog/                 # Gerenciamento de conteúdo
+│       ├── posts.ts          # CRUD de posts
+│       └── categories.ts     # CRUD de categorias
 │
-├── client.ts          # HTTP Client global
-├── config.ts          # Configuração e endpoints
-├── debug-utils.ts     # Utilitários de debug
-├── index.ts           # Barrel export geral
-└── README.md          # Documentação
+├── types/                    # Tipos TypeScript
+│   ├── public/              # Tipos para APIs públicas
+│   │   ├── auth.ts
+│   │   └── blog.ts
+│   └── private/             # Tipos para APIs privadas
+│       └── blog.ts
+│
+├── config/                   # Configurações
+│   └── endpoints.ts          # URLs da API centralizadas
+│
+├── utils/                    # Utilitários
+│   └── error-handler.ts      # Tratamento de erros
+│
+├── index.ts                  # Exportações principais
+└── README.md                 # Documentação
 ```
 
 ## 🚀 Uso
 
-### Client HTTP
+### APIs Públicas (sem autenticação)
 
 ```typescript
-import { api } from '@/lib/api';
+import { 
+  publicBlogPosts, 
+  publicBlogCategories, 
+  publicAuth,
+  handleApiError 
+} from '@/lib/api';
 
-// GET
-const data = await api.get('/posts');
+// Listar posts públicos
+const posts = await publicBlogPosts.getPublicPosts({
+  page: 1,
+  limit: 10,
+  status: 'PUBLISHED'
+});
 
-// POST
-const post = await api.post('/posts', { title: 'Título' });
+// Buscar post por slug
+const post = await publicBlogPosts.getPublicPostBySlug('meu-artigo');
 
-// Auth
-api.setAuthToken('token');
-api.clearAuthToken();
+// Login
+const authData = await publicAuth.login({
+  email: 'user@example.com',
+  password: 'senha123'
+});
 ```
 
-### Services
+### APIs Privadas (com autenticação)
 
 ```typescript
-import { postsService, usersService } from '@/lib/api';
+import { 
+  privateBlogPosts, 
+  privateBlogCategories,
+  formatErrorMessage 
+} from '@/lib/api';
 
-// Listar posts
-const posts = await postsService.listPosts({ status: 'PUBLISHED' });
+// Criar post (requer auth)
+const newPost = await privateBlogPosts.createPost({
+  title: 'Novo Artigo',
+  content: 'Conteúdo...',
+  categoryId: '123',
+  tags: ['tech']
+});
 
-// Buscar usuário
-const user = await usersService.getUserById('123');
+// Publicar post
+await privateBlogPosts.publishPost('123');
+```
+
+### Clientes Diretos
+
+```typescript
+import { publicClient, privateClient } from '@/lib/api';
+
+// Cliente público (sem auth)
+const posts = await publicClient.get('/posts');
+
+// Cliente privado (com JWT automático)
+const result = await privateClient.post('/posts', postData);
 ```
 
 ### Types

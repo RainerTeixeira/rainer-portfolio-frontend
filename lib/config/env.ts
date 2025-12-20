@@ -40,6 +40,8 @@ export interface EnvironmentConfig {
   readonly NEXT_PUBLIC_BASE_URL: string;
   /** URL base da API backend */
   readonly NEXT_PUBLIC_API_URL: string;
+  /** Provider do banco de dados (PRISMA ou DYNAMODB) */
+  readonly NEXT_PUBLIC_API_DB_PROVIDER?: string;
   /** URL de callback para OAuth */
   readonly NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN: string;
   /** Timeout das requisições HTTP em milissegundos */
@@ -109,6 +111,7 @@ const ENVIRONMENT_PRESETS: Record<AppEnvironment, EnvironmentPreset> = Object.fr
     NEXT_PUBLIC_APP_NAME: 'Rainer Portfolio (Dev)',
     NEXT_PUBLIC_BASE_URL: 'http://localhost:3000',
     NEXT_PUBLIC_API_URL: 'http://localhost:4000/api/v1',
+    NEXT_PUBLIC_API_DB_PROVIDER: 'DYNAMODB',
     NEXT_PUBLIC_OAUTH_REDIRECT_SIGN_IN: 'http://localhost:3000/dashboard/login/callback',
     NEXT_PUBLIC_FORCE_COGNITO_AUTH: false,
     NEXT_PUBLIC_DEBUG_MODE: true,

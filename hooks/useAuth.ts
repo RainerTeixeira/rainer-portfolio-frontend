@@ -1,5 +1,5 @@
-import { authService } from '@/lib/api/services/auth.service';
-import { profileService as userService } from '@/lib/api/services/user.service';
+import { publicAuth } from '@/lib/api';
+import { publicUsers } from '@/lib/api';
 import { ApiError } from '@/lib/api/client';
 import type {
   UpdateProfileData,
@@ -14,14 +14,14 @@ import { useCallback, useEffect, useState } from 'react';
  */
 function convertUserToUserProfile(user: User): UserProfile {
   // Preferir o idToken (mais rico em claims de usuário) e cair para accessToken se necessário
-  const token = authService.getIdToken() || authService.getAccessToken();
+  const token = publicAuth.getIdToken() || publicAuth.getAccessToken();
   let email = '';
   let emailVerified = false;
   let nicknameFromToken = '';
 
   if (token) {
     try {
-      const decodedToken = authService.getCognitoUserFromToken();
+      const decodedToken = publicAuth.getCognitoUserFromToken();
       if (decodedToken) {
         email = typeof decodedToken.email === 'string' ? decodedToken.email : '';
         emailVerified = typeof decodedToken.email_verified === 'boolean' ? decodedToken.email_verified : false;
@@ -62,8 +62,8 @@ export function useAuth() {
         setLoading(true);
 
         // Verificar sempre via authService (Cognito/backend)
-        if (authService.isAuthenticated()) {
-          const userData = await authService.getUserProfile();
+        if (publicAuth.isAuthenticated()) {
+          const userData = await publicAuth.getUserProfile();
           const userProfile = convertUserToUserProfile(userData);
           setUser(userProfile);
         } else {
@@ -81,8 +81,6 @@ export function useAuth() {
               '[useAuth] Backend indisponível no carregamento inicial. Usuário será tratado como deslogado.',
               {
                 message: err.message,
-                endpoint: err.endpoint,
-                url: err.url,
               }
             );
           }
@@ -113,7 +111,7 @@ export function useAuth() {
       setLoading(true);
 
       // Sempre usar backend real via authService
-      const response = await authService.login({ email, password });
+      const response = await publicAuth.login({ email, password });
       const userProfile = response.user as UserProfile;
       setUser(userProfile);
       setError(null);
@@ -133,9 +131,6 @@ export function useAuth() {
           // Erro de uso esperado, log apenas informativo
           if (process.env.NODE_ENV === 'development') {
             console.info('[useAuth] Login falhou com 401 (credenciais inválidas)', {
-              endpoint: err.endpoint,
-              url: err.url,
-              method: err.method,
               message: err.message,
             });
           }
@@ -208,12 +203,12 @@ export function useAuth() {
           password: userData.password,
           nickname: userData.nickname || userData.username,
         };
-        const response = await authService.register(registerData);
+        const response = await publicAuth.register(registerData);
 
         // RegisterResponse não tem user, então precisamos buscar o perfil
         let newUser: UserProfile;
         if (response.userId) {
-          const fetchedUserData = await authService.getUserProfile();
+          const fetchedUserData = await publicAuth.getUserProfile();
           // Converter User para UserProfile
           const baseProfile = convertUserToUserProfile(fetchedUserData);
           // Criar novo objeto com dados da resposta de registro
@@ -262,7 +257,7 @@ export function useAuth() {
   const logout = useCallback(async () => {
     try {
       setLoading(true);
-      await authService.logout();
+      await publicAuth.logout();
       setUser(null);
       setError(null);
     } catch (err) {
@@ -291,7 +286,7 @@ export function useAuth() {
         }
 
         // Atualiza apenas dados do MongoDB (sem email)
-        const updatedMongoUser = await userService.updateProfile(
+        const updatedMongoUser = await publicUsers.updateProfile(
           userId,
           profileData
         );
@@ -325,7 +320,7 @@ export function useAuth() {
   const forgotPassword = useCallback(async (email: string) => {
     try {
       setLoading(true);
-      await authService.forgotPassword({ email });
+      await publicAuth.forgotPassword({ email });
       setError(null);
     } catch (err) {
       console.error('Erro ao solicitar redefinição de senha:', err);
@@ -345,7 +340,7 @@ export function useAuth() {
     async (data: { email: string; code: string; newPassword: string }) => {
       try {
         setLoading(true);
-        await authService.resetPassword(data);
+        await publicAuth.resetPassword(data);
         setError(null);
       } catch (err) {
         console.error('Erro ao confirmar redefinição de senha:', err);
@@ -391,8 +386,8 @@ export function useAuth() {
   const checkAuth = useCallback(async () => {
     try {
       setLoading(true);
-      if (authService.isAuthenticated()) {
-        const userData = await authService.getUserProfile();
+      if (publicAuth.isAuthenticated()) {
+        const userData = await publicAuth.getUserProfile();
         const userProfile = convertUserToUserProfile(userData);
         setUser(userProfile);
       } else {
@@ -483,7 +478,7 @@ export function useAuth() {
         }
 
         // SEMPRE usar backend - nunca chamar exchangeOAuthCode diretamente
-        const tokens = await authService.exchangeOAuthCodeViaBackend(
+        const tokens = await publicAuth.exchangeOAuthCodeViaBackend(
           finalProvider,
           code,
           state
@@ -494,7 +489,7 @@ export function useAuth() {
         api.setAuthToken(tokens.accessToken);
 
         // Buscar perfil do usuário
-        let userData = await authService.getUserProfile();
+        let userData = await publicAuth.getUserProfile();
 
         // getUserProfile retorna User, mas precisamos verificar se tem nickname
         // Se não tiver nickname, gerar um baseado no fullName no formato "Nome_Sobrenome"
@@ -568,11 +563,11 @@ export function useAuth() {
 
             // Atualizar nickname no Cognito
             if (cognitoSub) {
-              await authService.updateNickname(cognitoSub, generatedNickname);
+              await publicAuth.updateNickname(cognitoSub, generatedNickname);
             }
 
             // Buscar perfil novamente para pegar o nickname atualizado
-            const updatedUserData = await authService.getUserProfile();
+            const updatedUserData = await publicAuth.getUserProfile();
             userData = updatedUserData;
           } catch (nicknameError) {
             console.warn(
@@ -673,7 +668,7 @@ export function useAuth() {
       setLoading(true);
       setError(null);
 
-      const response = await authService.initiatePasswordless(email);
+      const response = await publicAuth.initiatePasswordless(email);
 
       setPasswordlessEmail(email);
       setPasswordlessStep('code');
@@ -707,7 +702,7 @@ export function useAuth() {
         }
 
         // Session não é mais necessária (usando fluxo nativo ForgotPassword)
-        const response = await authService.verifyPasswordless(
+        const response = await publicAuth.verifyPasswordless(
           passwordlessEmail,
           code,
           undefined // Session não é mais usado
@@ -745,7 +740,7 @@ export function useAuth() {
 
   // Login com Google OAuth
   const loginWithGoogle = useCallback(() => {
-    authService.loginWithGoogle();
+    publicAuth.loginWithGoogle();
   }, []);
 
   // Login com Email
@@ -754,7 +749,7 @@ export function useAuth() {
       setLoading(true);
       setError(null);
 
-      const response = await authService.loginWithEmail(email, password);
+      const response = await publicAuth.loginWithEmail(email, password);
 
       const userProfile = convertUserToUserProfile(response.user);
       setUser(userProfile);

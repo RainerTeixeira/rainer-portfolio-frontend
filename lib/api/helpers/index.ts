@@ -1,11 +1,10 @@
 /**
- * API Helpers - Barrel Export
- *
- * Exportações centralizadas de helpers da API.
- *
- * @fileoverview Barrel exports para helpers da API
- * @author Rainer Teixeira
- * @version 1.0.0
+ * @fileoverview Helpers de API - Camada de Compatibilidade
+ * 
+ * Arquivo de compatibilidade para manter imports funcionando.
+ * 
+ * @deprecated Use os novos utilitários em utils/
  */
 
-export * from './post-helpers';
+// Re-exportar utilitários necessários
+export * from '../utils/error-handler';

@@ -26,7 +26,7 @@
 
 import { useAuth } from '@/hooks/useAuth';
 import type { UpdateProfileData, UserProfile } from '@/lib/api/types/users';
-import { authService } from '@/lib/api/services/auth.service';
+import { publicAuth } from '@/lib/api';
 import {
   ReactNode,
   createContext,
@@ -141,8 +141,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       changePassword,
       checkAuth,
       loginWithOAuthCode,
-      loginWithGoogle: () => authService.loginWithGoogle(),
-      loginWithGitHub: () => authService.loginWithGitHub(),
+      loginWithGoogle: () => publicAuth.loginWithGoogle(),
+      loginWithGitHub: () => publicAuth.loginWithGitHub(),
     }),
     [
       user,

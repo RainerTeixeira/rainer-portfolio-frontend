@@ -9,7 +9,7 @@
  * @version 2.0.0
  */
 
-import { postsService } from '@/lib/api/services';
+import { publicBlogPosts } from '@/lib/api';
 import type { Post } from '@/lib/api/types';
 import { PostStatus } from '@/lib/api/types';
 
@@ -49,7 +49,7 @@ export async function searchContent(query: string): Promise<SearchResult[]> {
 
   try {
     // Buscar posts da API com filtro de busca
-    const response = await postsService.listPosts({
+    const response = await publicBlogPosts.getPublicPosts({
       search: query,
       status: PostStatus.PUBLISHED,
       limit: 20,
