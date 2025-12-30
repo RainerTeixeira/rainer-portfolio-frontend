@@ -1,0 +1,37 @@
+npm warn Unknown project config "shamefully-hoist". This will stop working in the next major version of npm.
+npm warn Unknown project config "strict-peer-dependencies". This will stop working in the next major version of npm.
+npm warn Unknown project config "auto-install-peers". This will stop working in the next major version of npm.
+
+> rainer-portfolio-frontend@2.3.0 dev
+> next dev --webpack
+
+ ÔÜá Port 3000 is in use by process 22496, using available port 3001 instead.
+   Ôû▓ Next.js 16.0.10 (webpack, Cache Components)
+   - Local:         http://localhost:3001
+   - Network:       http://192.168.56.1:3001
+   - Environments: .env.local
+   - Experiments (use with caution):
+     ┬À optimizePackageImports
+     Ô£ô scrollRestoration
+     ┬À serverActions
+
+ Ô£ô Starting...
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\build\lockfile.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\build\swc\index.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\build\lockfile.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+C:\Desenvolvimento\rainer-portfolio-frontend\node_modules\.pnpm\next@16.0.10_@babel+core@7.28.5_@playwright+test@1.57.0_react-dom@19.2.3_react@19.2.3__react@19.2.3\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+Error: An IO error occurred while attempting to create and acquire the lockfile
+    at ignore-listed frames {
+  [cause]: Error: Acesso negado. (os error 5)
+      at ignore-listed frames {
+    code: 'GenericFailure'
+  }
+}
+[?25h

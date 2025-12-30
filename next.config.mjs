@@ -152,6 +152,19 @@ const nextConfig = {
 
   webpack: (config, { isServer, dev }) => {
     config.resolve.symlinks = true;
+    
+    // Add alias configuration for @ paths
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(process.cwd()),
+      '@/components': path.resolve(process.cwd(), 'components'),
+      '@/lib': path.resolve(process.cwd(), 'lib'),
+      '@/hooks': path.resolve(process.cwd(), 'hooks'),
+      '@/constants': path.resolve(process.cwd(), 'constants'),
+      '@/app': path.resolve(process.cwd(), 'app'),
+      '@/public': path.resolve(process.cwd(), 'public'),
+    };
+    
     if (!isServer) {
       config.resolve.fallback = { fs: false, net: false, tls: false };
     }

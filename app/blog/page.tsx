@@ -369,7 +369,7 @@ export default function BlogPage() {
             <CardContent className="p-6">
               <div className="flex items-start gap-4">
                 <div
-                  className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center"
+                  className="shrink-0 w-12 h-12 rounded-full flex items-center justify-center"
                   style={{
                     backgroundColor: errorColors.iconBackground,
                   }}
