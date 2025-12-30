@@ -98,7 +98,7 @@ export const PROJETOS = [
     titulo: 'Magic Banner Plugin',
     subtitulo: 'Plugin para Banners Dinâmicos',
     descricao: 'Sistema completo para criação e gerenciamento de banners dinâmicos. ' +
-               'CRUD completo, agendamento, analytics, script embutível e API REST. [Atualizado 30/12/2025]',
+               'CRUD completo, agendamento, analytics, script embutível e API REST.',
     tecnologias: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Supabase'],
     destaque: true,
     metricas: {

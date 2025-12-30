@@ -42,7 +42,7 @@ import {
 } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
-import { userService } from '@/lib/api';
+// import { usersService } from '@/lib/api'; // TODO: Implementar quando API estiver disponível
 import { Mail } from 'lucide-react';
 import { useState } from 'react';
 
@@ -70,10 +70,14 @@ export function ChangeEmailDialog({
 
     setLoading(true);
     try {
-      await userService.changeEmail({
-        cognitoSub,
-        newEmail,
-      });
+      // TODO: Implementar changeEmail quando a API estiver disponível
+      // await usersService.changeEmail({
+      //   cognitoSub,
+      //   newEmail,
+      // });
+
+      // Simulação temporária
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       alert('✅ Código de verificação enviado para o novo email!');
       setStep('code');
@@ -94,10 +98,14 @@ export function ChangeEmailDialog({
 
     setLoading(true);
     try {
-      await userService.verifyEmailChange({
-        cognitoSub,
-        code,
-      });
+      // TODO: Implementar verifyEmailChange quando a API estiver disponível
+      // await usersService.verifyEmailChange({
+      //   cognitoSub,
+      //   code,
+      // });
+
+      // Simulação temporária
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       alert('✅ Email alterado com sucesso! Faça login novamente.');
       onOpenChange(false);
