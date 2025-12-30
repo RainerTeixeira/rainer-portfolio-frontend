@@ -16,7 +16,7 @@ import { GRADIENTS } from '@rainersoft/design-tokens';
  * @constant
  * @description Projetos reais com código aberto e em produção
  */
-// Projetos atualizados em 30/12/2025 - Magic Banner Plugin incluído
+// Projetos atualizados em 30/12/2025 - Magic Banner Plugin incluído - DOMINIO ATUALIZAR
 export const PROJETOS = [
   {
     titulo: '@rainersoft/design-tokens',
