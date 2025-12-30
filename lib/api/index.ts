@@ -30,6 +30,7 @@ export * as publicUsers from './public/users/users';
 export * as privateBlogPosts from './private/blog/posts';
 export * as privateBlogCategories from './private/blog/categories';
 export * as privateUsers from './private/users/users';
+export * as usersService from './private/users/users';
 export * as privateComments from './private/comments/comments';
 export * as privateLikes from './private/likes/likes';
 export * as privateBookmarks from './private/bookmarks/bookmarks';

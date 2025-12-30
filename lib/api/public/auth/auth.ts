@@ -237,6 +237,13 @@ export const updateNickname = async (cognitoSub: string, nickname: string): Prom
   console.log('updateNickname não implementado', { cognitoSub, nickname });
 };
 
+export const checkNickname = async (nickname: string, excludeCognitoSub?: string): Promise<boolean> => {
+  // TODO: Implementar verificação de disponibilidade de nickname
+  console.log('checkNickname não implementado', { nickname, excludeCognitoSub });
+  // Por enquanto, assume que está disponível
+  return true;
+};
+
 export const initiatePasswordless = async (email: string): Promise<any> => {
   // TODO: Implementar passwordless initiation
   console.log('initiatePasswordless não implementado', { email });
@@ -299,7 +306,12 @@ export const getCognitoUserFromToken = (): any => {
   
   try {
     // Decodificar token JWT (implementação básica)
-    const base64Url = token.split('.')[1];
+    const parts = token.split('.');
+    if (parts.length !== 3) return null;
+    
+    const base64Url = parts[1];
+    if (!base64Url) return null;
+    
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(
       atob(base64)

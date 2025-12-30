@@ -29,6 +29,7 @@
 
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { usersService } from '@/lib/api';
+import { privateCloudinary as cloudinaryService } from '@/lib/api';
 import { publicAuth as authService } from '@/lib/api';
 import { getAvatarUrl, extractInitials, setCloudNameFromUrl } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
@@ -162,8 +163,11 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
       try {
         toast.loading('Processando imagem...', { id: 'avatar-upload' });
         
-        // Upload do avatar (conversão WebP acontece automaticamente)
-        await usersService.updateUser(user.cognitoSub, {}, file);
+        // Upload do avatar usando o serviço do Cloudinary
+        const avatarUrl = await cloudinaryService.uploadAvatar(file);
+        
+        // Atualizar o perfil do usuário com a nova URL do avatar
+        await usersService.updateUser(user.cognitoSub, { avatar: avatarUrl.data.secureUrl });
         
         // Forçar atualização imediata do avatar com novo timestamp
         // Isso quebra o cache do navegador e do CDN
@@ -175,7 +179,7 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
         
         toast.success('Avatar atualizado com sucesso!', { id: 'avatar-upload' });
         
-        console.log(`✅ Avatar atualizado: ${getAvatarUrl(user.cognitoSub, newVersion)}`);
+        console.log(`✅ Avatar atualizado: ${avatarUrl.data.secureUrl}`);
       } catch (error) {
         const message =
           error instanceof Error

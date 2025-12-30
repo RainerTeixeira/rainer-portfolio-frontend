@@ -72,7 +72,8 @@ export async function uploadToCloudinary(
   }
 
   // Faz upload via backend (mantém interface de retorno)
-  return cloudinaryService.uploadBlogImage(file, file.name);
+  const response = await cloudinaryService.uploadBlogImage(file, { folder: _options.folder });
+  return response.data.secureUrl;
 }
 
 /**
@@ -331,7 +332,8 @@ export async function uploadAvatar(
   file: File,
   onProgress?: (progress: number) => void
 ): Promise<string> {
-  return cloudinaryService.uploadAvatar(file);
+  const response = await cloudinaryService.uploadAvatar(file);
+  return response.data.secureUrl;
 }
 
 /**

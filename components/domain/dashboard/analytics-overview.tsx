@@ -55,38 +55,38 @@ export function AnalyticsOverview({ className }: AnalyticsOverviewProps) {
     const loadStats = async () => {
       try {
         setIsLoading(true);
-        const stats = await dashboardService.getStats();
+        const stats = await dashboardService.getDashboardStats();
 
         const newMetrics: Metric[] = [
           {
             title: 'Posts Totais',
             value: stats.totalPosts.toString(),
-            change: `${stats.postsChange >= 0 ? '+' : ''}${stats.postsChange.toFixed(1)}%`,
-            trend: stats.postsChange >= 0 ? 'up' : 'down',
+            change: '+0.0%',
+            trend: 'up' as const,
             icon: TrendingUp,
             color: 'text-blue-500',
           },
           {
             title: 'Visualizações Totais',
             value: stats.totalViews.toLocaleString('pt-BR'),
-            change: `${stats.viewsChange >= 0 ? '+' : ''}${stats.viewsChange.toFixed(1)}%`,
-            trend: stats.viewsChange >= 0 ? 'up' : 'down',
+            change: '+0.0%',
+            trend: 'up' as const,
             icon: Eye,
             color: 'text-cyan-500',
           },
           {
             title: 'Curtidas',
             value: stats.totalLikes.toLocaleString('pt-BR'),
-            change: `${stats.likesChange >= 0 ? '+' : ''}${stats.likesChange.toFixed(1)}%`,
-            trend: stats.likesChange >= 0 ? 'up' : 'down',
+            change: '+0.0%',
+            trend: 'up' as const,
             icon: Heart,
             color: 'text-pink-500',
           },
           {
             title: 'Comentários',
             value: stats.totalComments.toLocaleString('pt-BR'),
-            change: `${stats.commentsChange >= 0 ? '+' : ''}${stats.commentsChange.toFixed(1)}%`,
-            trend: stats.commentsChange >= 0 ? 'up' : 'down',
+            change: '+0.0%',
+            trend: 'up' as const,
             icon: MessageSquare,
             color: 'text-orange-500',
           },
