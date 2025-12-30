@@ -42,7 +42,7 @@ import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
-import { tiptapJSONtoHTML } from '@/components/domain/dashboard/lib/tiptap-utils';
+import { tiptapJSONtoHTML } from '@/lib/blog/tiptap';
 import { publicBlogPosts as postsService } from '@/lib/api';
 import type { Post } from '@/lib/api/types/public/blog';
 import { PostStatus } from '@/lib/api/types/public/blog';
