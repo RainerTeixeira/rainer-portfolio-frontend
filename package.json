@@ -11,8 +11,8 @@
   "buildTimestamp": "2025-12-11T22-23-00",
   "scripts": {
     "dev": "next dev --webpack",
-    "prebuild": "node scripts/prepare-workspace.js",
     "build": "pnpm run clean && next build --webpack",
+    "vercel-build": "next build --webpack",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -29,7 +29,6 @@
     "test:all": "pnpm run test && pnpm run test:e2e && pnpm run validate:tokens",
     "clean": "node scripts/clean.js",
     "clean:all": "node scripts/clean.js && node -e \"require('fs').rmSync('node_modules', { recursive: true, force: true }); require('fs').rmSync('pnpm-lock.yaml', { force: true });\"",
-    "prepare": "husky || true",
     "version:update": "tsx scripts/08-memoria/update-version.ts",
     "memory:update": "tsx scripts/08-memoria/update-memory.ts",
     "memory:sync": "pnpm run version:update && pnpm run memory:update"

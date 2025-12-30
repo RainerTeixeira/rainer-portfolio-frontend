@@ -29,7 +29,7 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
-import { dashboardService } from '@/lib/api/services';
+import { privateDashboard as dashboardService } from '@/lib/api';
 import { cn } from '@rainersoft/ui';
 import { Eye, Heart, MessageSquare, TrendingUp } from 'lucide-react';
 import { useEffect, useState } from 'react';

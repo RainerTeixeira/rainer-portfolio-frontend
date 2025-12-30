@@ -23,8 +23,8 @@ import {
   CommandItem,
 } from '@rainersoft/ui';
 import { Popover, PopoverContent, PopoverTrigger } from '@rainersoft/ui';
-import { categoriesService } from '@/lib/api/services';
-import type { Category } from '@/lib/api/types';
+import { privateBlogCategories as categoriesService } from '@/lib/api';
+import type { PostCategory } from '@/lib/api/types/public/blog';
 
 interface SubcategorySelectProps {
   value?: string;
@@ -48,7 +48,7 @@ export function SubcategorySelect({
   className,
 }: SubcategorySelectProps) {
   const [open, setOpen] = React.useState(false);
-  const [subcategories, setSubcategories] = React.useState<Category[]>([]);
+  const [subcategories, setSubcategories] = React.useState<PostCategory[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -58,8 +58,8 @@ export function SubcategorySelect({
   const loadSubcategories = async () => {
     try {
       setIsLoading(true);
-      const subs = await categoriesService.getSubcategoriesOnly();
-      setSubcategories(subs);
+      const categories = await categoriesService.getCategoriesAdmin();
+      setSubcategories(categories);
     } catch (error) {
       console.error('Erro ao carregar subcategorias:', error);
     } finally {

@@ -29,7 +29,7 @@
 
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { usersService } from '@/lib/api';
-import { authService } from '@/lib/api/services/auth.service';
+import { publicAuth as authService } from '@/lib/api';
 import { getAvatarUrl, extractInitials, setCloudNameFromUrl } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
 import { Badge } from '@rainersoft/ui';

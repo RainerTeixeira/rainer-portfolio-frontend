@@ -35,8 +35,8 @@
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
-import { postsService } from '@/lib/api/services';
-import type { Post } from '@/lib/api/types';
+import { privateBlogPosts as postsService } from '@/lib/api';
+import type { PostListItem } from '@/lib/api/types/public/blog';
 import { cn } from '@rainersoft/ui';
 import { formatRelativeDate } from '@/lib/utils';
 import { motion } from 'framer-motion';
@@ -45,7 +45,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 interface RecentPostsListProps {
-  onEditPost?: (post: Post) => void;
+  onEditPost?: (post: PostListItem) => void;
   onDeletePost?: (postId: string) => void;
   maxPosts?: number;
 }
@@ -55,19 +55,19 @@ export function RecentPostsList({
   onDeletePost,
   maxPosts = 5,
 }: RecentPostsListProps) {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<PostListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadPosts = async () => {
       try {
         setIsLoading(true);
-        const response = await postsService.listPosts({
+        const response = await postsService.getPostsAdmin({
           limit: maxPosts,
           page: 1,
         });
-        if (response.success && response.posts) {
-          setPosts(response.posts);
+        if (response.data) {
+          setPosts(response.data);
         }
       } catch (error) {
         console.error('Erro ao carregar posts recentes:', error);
@@ -164,26 +164,22 @@ export function RecentPostsList({
                     </div>
 
                     {/* Status */}
-                    {post.status === 'PUBLISHED' ? (
-                      <Badge className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/30">
+                    <Badge className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/30">
                         Publicado
                       </Badge>
-                    ) : (
-                      <Badge variant="secondary">Rascunho</Badge>
-                    )}
                   </div>
 
                   {/* Meta Info */}
                   <div className="flex flex-wrap items-center gap-4 mt-3 text-xs text-muted-foreground">
-                    {post.subcategory?.name && (
+                    {post.category?.name && (
                       <div className="flex items-center gap-1">
                         <Tag className="w-3 h-3" />
-                        {post.subcategory.name}
+                        {post.category.name}
                       </div>
                     )}
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
-                      {formatRelativeDate(post.publishedAt || post.createdAt)}
+                      {formatRelativeDate(post.publishedAt || post.createdAt || new Date())}
                     </div>
                   </div>
 

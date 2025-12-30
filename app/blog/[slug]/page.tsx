@@ -306,7 +306,7 @@ export default function PostPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  {post.subcategory?.name && (
+                  {post.category?.name && (
                     <Badge variant="secondary"
                       className={cn(
                         'mb-4',
@@ -316,7 +316,7 @@ export default function PostPage() {
                       )}
                     >
                       <Tag className="w-3 h-3 mr-1" aria-hidden="true" />
-                      {post.subcategory.name}
+                      {post.category.name}
                     </Badge>
                   )}
                   <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-2xl">
@@ -343,7 +343,7 @@ export default function PostPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                {post.subcategory?.name && (
+                {post.category?.name && (
                   <Badge variant="secondary"
                     className={cn(
                       'mb-4',
@@ -353,7 +353,7 @@ export default function PostPage() {
                     )}
                   >
                     <Tag className="w-3 h-3 mr-1" aria-hidden="true" />
-                    {post.subcategory.name}
+                    {post.category.name}
                   </Badge>
                 )}
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold dark:text-cyan-200 dark:font-mono mb-4">
@@ -394,11 +394,11 @@ export default function PostPage() {
               Blog
             </Link>
           </li>
-          {post.subcategory?.name && (
+          {post.category?.name && (
             <>
               <li aria-hidden="true">/</li>
               <li className="text-cyan-400" aria-current="page">
-                {post.subcategory.name}
+                {post.category.name}
               </li>
             </>
           )}
@@ -421,8 +421,8 @@ export default function PostPage() {
           author={post.author?.fullName || post.author?.nickname}
           // Passar data crua (ISO) para o card, que formata de forma relativa
           date={post.publishedAt || post.createdAt}
-          category={post.subcategory?.name}
-          tags={post.tags}
+          category={post.category?.name}
+          tags={post.tags.map(tag => tag.name)}
           views={post.views}
           likesCount={post.likesCount}
           content={post.content}

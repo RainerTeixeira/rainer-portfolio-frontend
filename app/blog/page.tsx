@@ -588,7 +588,7 @@ export default function BlogPage() {
                   date={post.publishedAt || post.createdAt || undefined}
                   category={post.category?.name}
                   link={`/blog/${post.slug}`}
-                  image={post.coverImage}
+                  image={post.coverImage || undefined}
                 />
               </article>
             ))}

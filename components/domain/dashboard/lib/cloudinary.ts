@@ -9,7 +9,7 @@
  * @version 1.1.0
  */
 
-import { cloudinaryService } from '@/lib/api/services/cloudinary.service';
+import { privateCloudinary as cloudinaryService } from '@/lib/api';
 
 export interface CloudinaryUploadResponse {
   secure_url: string;

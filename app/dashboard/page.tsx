@@ -54,7 +54,7 @@ import {
 import { toast } from 'sonner';
 
 import { useAuthContext } from '@/components/providers/auth-context-provider';
-import { postsService } from '@/lib/api/services';
+import { privateBlogPosts as postsService } from '@/lib/api';
 import type {
   CreatePostData,
   Post,
@@ -85,7 +85,7 @@ import {
   SubcategorySelect,
   ImageUpload,
 } from '@/components/domain/dashboard';
-import { PostCard } from '@/components/domain/blog/post-card';
+import { PostCard } from '@/components/blog/post-card';
 import { Editor } from '@/components/domain/dashboard/Editor';
 import { tiptapJSONtoHTML } from '@/components/domain/dashboard/lib/tiptap-utils';
 import { createEmptyTiptapContent } from '@/lib/blog';
@@ -206,10 +206,11 @@ function DashboardPageContent() {
       if (urlEditId) {
         // Buscar post específico da API
         postsService
-          .getPostById(urlEditId)
+          .getPostsAdmin({ limit: 100, page: 1 })
           .then(response => {
-            if (response.success && response.data) {
-              startEditingPost(response.data);
+            const post = response.data.find(p => p.id === urlEditId);
+            if (post) {
+              startEditingPost(post);
             }
           })
           .catch(error => {
@@ -228,13 +229,13 @@ function DashboardPageContent() {
    */
   const loadAllPosts = React.useCallback(async () => {
     try {
-      const response = await postsService.listPosts({
+      const response = await postsService.getPostsAdmin({
         limit: 100,
         page: 1,
       });
-      if (response.success && response.posts) {
-        setAllPosts(response.posts);
-        setFilteredPosts(response.posts);
+      if (response.data) {
+        setAllPosts(response.data);
+        setFilteredPosts(response.data);
       }
     } catch (error) {
       console.error('Erro ao carregar posts:', error);

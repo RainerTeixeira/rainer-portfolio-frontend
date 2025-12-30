@@ -14,13 +14,13 @@
 'use client';
 
 import { Separator } from '@rainersoft/ui';
-import type { Post } from '@/lib/api/types';
 import { cn } from '@rainersoft/ui';
 import { Star } from 'lucide-react';
+import type { PostListItem } from '@/lib/api/types/public/blog';
 import { PostCard } from './post-card';
 
 interface FeaturedPostsSectionProps {
-  posts: readonly Post[];
+  posts: readonly PostListItem[];
   maxPosts?: number;
   className?: string;
 }
@@ -58,9 +58,9 @@ export function FeaturedPostsSection({
             description={post.excerpt || ''}
             // Passar data crua (ISO) para o PostCard, que formata de forma relativa
             date={post.publishedAt || post.createdAt}
-            category={post.subcategory?.name}
+            category={post.category?.name}
             link={`/blog/${post.slug}`}
-            image={post.coverImage}
+            image={post.coverImage || undefined}
           />
         ))}
       </div>
