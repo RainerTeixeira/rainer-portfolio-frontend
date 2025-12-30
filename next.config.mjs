@@ -182,24 +182,6 @@ const nextConfig = {
       };
     }
 
-    if (!config.module.rules) {
-      config.module.rules = [];
-    }
-
-    config.module.rules.push({
-      test: /\.(js|mjs|jsx|ts|tsx)$/,
-      include: [/node_modules\/@vercel\/analytics/, /node_modules\/@vercel\/speed-insights/],
-      use: [
-        {
-          loader: 'babel-loader',
-          options: {
-            presets: ['next/babel'],
-            cacheDirectory: true,
-          },
-        },
-      ],
-    });
-
     return config;
   },
 };
