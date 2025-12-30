@@ -32,7 +32,7 @@ import { BackToTop } from '@rainersoft/ui';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
-import { authService } from '@/lib/api';
+import { publicAuth } from '@/lib/api';
 import { cn } from '@rainersoft/ui';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -110,7 +110,7 @@ export default function ConfirmEmailPage() {
         });
       }
 
-      const response = await authService
+      const response = await publicAuth
         .confirmEmail({
           email,
           code,

@@ -28,7 +28,7 @@
 
 'use client';
 
-import { SKILLS } from '@/components/skills/skills-with-icons';
+import { SKILLS } from '@/components/icons/skills';
 import { Badge } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { METRICAS } from '@/constants';

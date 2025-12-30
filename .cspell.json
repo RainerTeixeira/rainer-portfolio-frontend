@@ -1,0 +1,23 @@
+{
+  "version": "0.2",
+  "language": "en,pt-BR",
+  "words": [
+    "healthcheck",
+    "nosniff",
+    "rainer",
+    "Rainer",
+    "rainersoft",
+    "rainerteixeiras",
+    "turbopack",
+    "unsplash"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    ".git",
+    ".next",
+    ".vercel",
+    "docker-compose.yml",
+    "**/docker-compose.yml"
+  ]
+}

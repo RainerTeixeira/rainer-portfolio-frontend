@@ -24,7 +24,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Tag } from 'lucide-react';
 
@@ -36,17 +36,16 @@ import {
   PostMetadataCard,
   PostNavigation,
   ReadingProgress,
-  TableOfContents,
-} from '@/components/domain/blog';
+} from '@/components/blog';
 import { BackToTop, ParticlesEffect } from '@rainersoft/ui';
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
 import { tiptapJSONtoHTML } from '@/components/domain/dashboard/lib/tiptap-utils';
-import { postsService } from '@/lib/api/services';
-import type { Post } from '@/lib/api/types';
-import { PostStatus } from '@/lib/api/types';
+import { publicBlogPosts as postsService } from '@/lib/api';
+import type { Post } from '@/lib/api/types/public/blog';
+import { PostStatus } from '@/lib/api/types/public/blog';
 import { cn } from '@rainersoft/ui';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
@@ -98,6 +97,8 @@ export default function PostPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [previousPost, setPreviousPost] = useState<Post | null>(null);
   const [nextPost, setNextPost] = useState<Post | null>(null);
+  const articleRef = useRef<HTMLElement>(null);
+  const hasStructuredContent = post?.content && typeof post.content === 'object';
 
   /**
    * Carrega post e posts relacionados por SLUG.
@@ -110,7 +111,7 @@ export default function PostPage() {
 
       try {
         // Busca post pelo SLUG (SEO-friendly)
-        const foundPost = await postsService.getPostBySlug(postSlug);
+        const foundPost = await postsService.getPublicPostBySlug(postSlug);
 
         if (!foundPost) {
           setIsLoading(false);
@@ -119,38 +120,40 @@ export default function PostPage() {
 
         setPost(foundPost);
 
-        // Busca posts relacionados (mesma subcategoria)
-        const relatedResponse = await postsService.listPosts({
+        // Busca posts relacionados (mesma categoria)
+        const relatedResponse = await postsService.getPublicPosts({
           status: PostStatus.PUBLISHED,
-          subcategoryId: foundPost.subcategoryId,
+          categoryId: foundPost.category?.id,
           limit: MAX_RELATED_POSTS + 1, // +1 para excluir o post atual
         });
-
-        if (relatedResponse.success && relatedResponse.posts) {
-          const related = relatedResponse.posts
-            .filter(p => p.slug !== postSlug)
-            .slice(0, MAX_RELATED_POSTS);
-          setRelatedPosts(related);
-        }
+        const relatedData =
+          (relatedResponse as any)?.data ?? relatedResponse ?? [];
+        const relatedArray: Post[] = Array.isArray(relatedData)
+          ? relatedData
+          : relatedData?.data || [];
+        setRelatedPosts(
+          relatedArray.filter(p => p.slug !== postSlug).slice(0, MAX_RELATED_POSTS)
+        );
 
         // Buscar todos os posts para navegação
-        const allPostsResponse = await postsService.listPosts({
+        const allPostsResponse = await postsService.getPublicPosts({
           status: PostStatus.PUBLISHED,
           limit: 100,
         });
-
-        if (allPostsResponse.success && allPostsResponse.posts) {
-          const allPosts = allPostsResponse.posts;
-          const currentIndex = allPosts.findIndex(p => p.slug === postSlug);
-          setPreviousPost(
-            currentIndex > 0 ? allPosts[currentIndex - 1] || null : null
-          );
-          setNextPost(
-            currentIndex >= 0 && currentIndex < allPosts.length - 1
-              ? allPosts[currentIndex + 1] || null
-              : null
-          );
-        }
+        const allPostsData =
+          (allPostsResponse as any)?.data ?? allPostsResponse ?? [];
+        const allPosts: Post[] = Array.isArray(allPostsData)
+          ? allPostsData
+          : allPostsData?.data || [];
+        const currentIndex = allPosts.findIndex(p => p.slug === postSlug);
+        setPreviousPost(
+          currentIndex > 0 ? allPosts[currentIndex - 1] || null : null
+        );
+        setNextPost(
+          currentIndex >= 0 && currentIndex < allPosts.length - 1
+            ? allPosts[currentIndex + 1] || null
+            : null
+        );
       } catch (error) {
         console.error('Erro ao carregar post:', error);
         setPost(null);
@@ -427,22 +430,7 @@ export default function PostPage() {
         />
       </motion.section>
 
-      {/* Seção de sumário (Table of Contents) */}
-      {/* Índice navegável do conteúdo do post, gerado automaticamente dos headings */}
-      {post.content && typeof post.content === 'object' && (
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.35 }}
-          aria-labelledby="toc-heading"
-          className="max-w-4xl mx-auto px-6 pt-8 relative z-10"
-        >
-          <h2 id="toc-heading" className="sr-only">
-            Sumário do Conteúdo
-          </h2>
-          <TableOfContents />
-        </motion.section>
-      )}
+      {/* Sumário desativado temporariamente para evitar loop de renderização */}
 
       {/* Artigo principal com conteúdo do post */}
       {/* Conteúdo rico renderizado do JSON Tiptap com estilos de tipografia personalizados */}
@@ -451,6 +439,7 @@ export default function PostPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
         className="max-w-4xl mx-auto px-6 py-12 relative z-10"
+        ref={articleRef}
       >
         <div
           className={cn(

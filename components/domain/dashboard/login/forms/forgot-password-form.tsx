@@ -32,7 +32,7 @@ import { Button } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
-import { authService } from '@/lib/api/services/auth.service';
+import { publicAuth } from '@/lib/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 // Design tokens via CSS variables (imported in globals.css)
@@ -65,8 +65,8 @@ export function ForgotPasswordForm() {
     setError(null);
 
     try {
-      // Usar backend real via authService (fluxo Cognito)
-      await authService.forgotPassword({ email: data.email });
+      // Usar backend público (fluxo Cognito/Backend)
+      await publicAuth.forgotPassword({ email: data.email });
 
       setSuccess(true);
     } catch (err) {

@@ -71,7 +71,8 @@ export const getPublicPostById = async (id: string): Promise<Post> => {
  */
 export const getPublicPostBySlug = async (slug: string): Promise<Post> => {
   const response = await publicClient.get(`/posts/slug/${slug}`);
-  return response.data.data;
+  const data = (response as any)?.data ?? response;
+  return (data as any)?.data ?? data;
 };
 
 /**

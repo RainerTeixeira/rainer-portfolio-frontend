@@ -48,7 +48,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { PasswordInput } from '../password-input';
 import { TermsDialog } from '../terms-dialog';
-import { authService } from '@/lib/api/services/auth.service';
+import { publicAuth } from '@/lib/api';
 
 // Schema de validação
 const registerSchema = z

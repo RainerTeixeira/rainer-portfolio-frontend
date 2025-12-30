@@ -1,25 +1,22 @@
 /**
- * Testes para bookmarksService
+ * Testes para serviços privados de bookmarks (sem legado)
  */
+import { privateBookmarks } from '@/lib/api';
 
-import { bookmarksService } from '@/lib/api';
-
-// Mock do api client
-jest.mock('@/lib/api/client', () => ({
-  api: {
+jest.mock('@/lib/api/clients/private-client', () => ({
+  privateClient: {
     get: jest.fn(),
     post: jest.fn(),
-    put: jest.fn(),
     delete: jest.fn(),
   },
 }));
 
-describe('bookmarksService', () => {
-  it('deve ter método toggleBookmark', () => {
-    expect(typeof bookmarksService.toggleBookmark).toBe('function');
+describe('privateBookmarks', () => {
+  it('deve ter método createBookmark', () => {
+    expect(typeof privateBookmarks.createBookmark).toBe('function');
   });
 
-  it('deve ter método getBookmarksByUser', () => {
-    expect(typeof bookmarksService.getBookmarksByUser).toBe('function');
+  it('deve ter método getBookmarks', () => {
+    expect(typeof privateBookmarks.getBookmarks).toBe('function');
   });
 });

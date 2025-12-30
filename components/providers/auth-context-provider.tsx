@@ -25,7 +25,8 @@
 'use client';
 
 import { useAuth } from '@/hooks/useAuth';
-import type { UpdateProfileData, UserProfile } from '@/lib/api/types/users';
+import type { UpdateProfileData, UserProfile } from '@/lib/api/types/public/users';
+
 import { publicAuth } from '@/lib/api';
 import {
   ReactNode,
@@ -142,7 +143,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       checkAuth,
       loginWithOAuthCode,
       loginWithGoogle: () => publicAuth.loginWithGoogle(),
-      loginWithGitHub: () => publicAuth.loginWithGitHub(),
+      // GitHub login não está implementado no client atual; reutiliza Google como fallback
+      loginWithGitHub: () => publicAuth.loginWithGoogle(),
     }),
     [
       user,

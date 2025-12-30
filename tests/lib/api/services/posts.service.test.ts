@@ -1,25 +1,21 @@
 /**
- * Testes para postsService
+ * Testes para serviços públicos de posts (sem legado)
  */
+import { publicBlogPosts } from '@/lib/api';
 
-import { postsService } from '@/lib/api';
-
-// Mock do api client
-jest.mock('@/lib/api/client', () => ({
-  api: {
+jest.mock('@/lib/api/clients/public-client', () => ({
+  publicClient: {
     get: jest.fn(),
     post: jest.fn(),
-    put: jest.fn(),
-    delete: jest.fn(),
   },
 }));
 
-describe('postsService', () => {
-  it('deve ter método listPosts', () => {
-    expect(typeof postsService.listPosts).toBe('function');
+describe('publicBlogPosts', () => {
+  it('deve ter método getPublicPosts', () => {
+    expect(typeof publicBlogPosts.getPublicPosts).toBe('function');
   });
 
-  it('deve ter método getPostBySlug', () => {
-    expect(typeof postsService.getPostBySlug).toBe('function');
+  it('deve ter método getPublicPostBySlug', () => {
+    expect(typeof publicBlogPosts.getPublicPostBySlug).toBe('function');
   });
 });

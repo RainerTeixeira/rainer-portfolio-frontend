@@ -1,0 +1,29 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    image: rainer-frontend:latest
+    container_name: rainer-frontend
+    ports:
+      - \ 3000:3000\
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: http://localhost:4000/api/v1
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      NEXT_PUBLIC_APP_NAME: \Rainer Portfolio\
+      NEXT_PUBLIC_APP_VERSION: \2.3.0\
+    restart: unless-stopped
+    healthcheck:
+      test: [\CMD\, \curl\, \-f\, \http://localhost:3000\]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge

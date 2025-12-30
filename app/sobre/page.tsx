@@ -49,7 +49,7 @@ import { BackToTop, PageHeader, ParticlesEffect, Badge, Button, Card, CardConten
 import { cn } from '@rainersoft/ui';
 import { BACKGROUND, GRADIENTS, GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 
-import { SKILLS } from '@/components/skills/skills-with-icons';
+import { SKILLS } from '@/components/icons/skills';
 import {
   EXPERIENCE,
   PROFESSIONAL_METRICS,

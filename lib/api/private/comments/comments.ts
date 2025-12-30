@@ -58,7 +58,7 @@ export const createComment = async (data: CreateCommentDto): Promise<CommentMuta
 export const getComments = async (
   params?: GetCommentsParams
 ): Promise<PaginatedCommentsResponse> => {
-  const response = await privateClient.get('/comments', { params });
+  const response = await privateClient.get('/comments', params);
   return response.data;
 };
 

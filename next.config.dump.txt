@@ -1,0 +1,352 @@
+﻿/**
+ * @file next.config.mjs
+ * @description ConfiguraÃ§Ã£o avanÃ§ada do Next.js 16 para performance, seguranÃ§a
+ * e integraÃ§Ã£o com Vercel. Define otimizaÃ§Ãµes de bundle, manipulaÃ§Ã£o de imports,
+ * transpile de workspaces, configuraÃ§Ãµes de imagens, headers de seguranÃ§a,
+ * redirecionamentos e fallback de Webpack.
+ * 
+ * @module next.config
+ * @version 2.0.0
+ * @author Rainer Teixeira
+ * @since 1.0.0
+ */
+
+import fs from 'fs';
+import path from 'path';
+
+function loadEnvLocal() {
+  try {
+    const envPath = path.join(process.cwd(), '.env.local');
+    if (!fs.existsSync(envPath)) return;
+
+    const content = fs.readFileSync(envPath, 'utf8');
+    for (const rawLine of content.split(/\r?\n/)) {
+      const line = rawLine.trim();
+      if (!line || line.startsWith('#')) continue;
+      const idx = line.indexOf('=');
+      if (idx <= 0) continue;
+      const key = line.slice(0, idx).trim();
+      const value = line.slice(idx + 1).trim();
+      if (!key) continue;
+      if (process.env[key] === undefined) {
+        process.env[key] = value;
+      }
+    }
+  } catch {
+    return;
+  }
+}
+
+loadEnvLocal();
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  /**
+   * Typed Routes (movido de experimental no Next.js 16)
+   */
+  typedRoutes: true,
+  
+  /**
+   * ForÃ§ar rebuild completo para Vercel
+   */
+  generateBuildId: () => `build-${Date.now()}`,
+
+  /**
+   * OpÃ§Ãµes experimentais do Next.js 16:
+   * - optimizePackageImports: Reduz o bundle transferindo apenas Ã­cones realmente usados.
+   */
+  experimental: {
+    optimizePackageImports: [
+      'lucide-react', 
+      '@radix-ui/react-icons',
+      '@radix-ui/react-accordion',
+      '@radix-ui/react-alert-dialog',
+      '@radix-ui/react-avatar',
+      '@radix-ui/react-checkbox',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-hover-card',
+      '@radix-ui/react-label',
+      '@radix-ui/react-navigation-menu',
+      '@radix-ui/react-popover',
+      '@radix-ui/react-progress',
+      '@radix-ui/react-radio-group',
+      '@radix-ui/react-scroll-area',
+      '@radix-ui/react-select',
+      '@radix-ui/react-separator',
+      '@radix-ui/react-slider',
+      '@radix-ui/react-slot',
+      '@radix-ui/react-switch',
+      '@radix-ui/react-tabs',
+      '@radix-ui/react-toast',
+      '@radix-ui/react-toggle',
+      '@radix-ui/react-tooltip',
+      'framer-motion',
+      '@tanstack/react-query',
+      '@rainersoft/ui',
+      'class-variance-authority',
+      'clsx',
+      'tailwind-merge'
+    ],
+    // Performance otimizaÃ§Ãµes
+    scrollRestoration: true,
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
+
+  /**
+   * Origens permitidas para desenvolvimento (resolve warning de CORS).
+   * Permite acesso de outras interfaces de rede durante desenvolvimento.
+   */
+  allowedDevOrigins: ['192.168.56.1'],
+
+  /**
+   * Lista de workspaces a serem transpilados (monorepo support).
+   */
+  transpilePackages: [
+    '@rainersoft/design-tokens', 
+    '@rainersoft/ui'
+  ],
+
+  /**
+   * ConfiguraÃ§Ãµes avanÃ§adas de imagens (domÃ­nios autorizados, formatos, tamanhos).
+   */
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'rainersoft.com.br', pathname: '/**' },
+      {
+        protocol: 'https',
+        hostname: 'rainer-portfolio.vercel.app',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname:
+          'rainer-portfolio-i4pf4a37z-rainerteixeiras-projects.vercel.app',
+        pathname: '/**',
+      },
+      { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'via.placeholder.com', pathname: '/**' },
+    ],
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+
+  /**
+   * OpÃ§Ãµes do compilador Next.js.
+   * - removeConsole: Remove todos os consoles na build production.
+   */
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+
+  /**
+   * ConfiguraÃ§Ãµes de performance
+   */
+  reactStrictMode: false, // Desativa re-renderizaÃ§Ã£o dupla em dev (economiza recursos)
+  poweredByHeader: false, // Remove header X-Powered-By (seguranÃ§a e tamanho)
+  compress: true, // Habilita compressÃ£o gzip
+  productionBrowserSourceMaps: false, // Desabilita sourcemaps em produÃ§Ã£o
+  cacheComponents: true, // Substitui experimental.ppr para habilitar Partial Prerendering
+  
+  // OtimizaÃ§Ãµes adicionais
+  // output: 'standalone', // Desabilitado temporariamente - erro de permissÃ£o no Windows
+  generateBuildId: async () => {
+    return `build-${Date.now()}`; // ID Ãºnico para cada build
+  },
+  
+  // ConfiguraÃ§Ãµes de bundle
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
+  
+  // OtimizaÃ§Ã£o de mÃ³dulos
+  modularizeImports: {
+    '@heroicons/react': {
+      transform: '@heroicons/react/24/outline/{{member}}',
+    },
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{member}}',
+    },
+  },
+
+  /**
+   * Headers HTTP para reforÃ§ar seguranÃ§a e cache.
+   * @returns {Promise<Array<{source: string, headers: Array<{key: string, value: string}>}>>}
+   */
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source:
+          '/:all*(svg|jpg|jpeg|png|gif|webp|ico|ttf|otf|woff|woff2|mp4|webm|json)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+
+  /**
+   * Redirecionamentos permanentes customizados.
+   * @returns {Promise<Array<{source: string, destination: string, permanent: boolean}>>}
+   */
+  async redirects() {
+    return [{ source: '/home', destination: '/', permanent: true }];
+  },
+
+  /**
+   * Rewrites para proxy de API em desenvolvimento.
+   * Em produÃ§Ã£o, o frontend deve consumir o backend pela URL pÃºblica (sem proxy).
+   * @returns {Promise<Array<{source: string, destination: string}>>}
+   */
+  async rewrites() {
+    if (process.env.NODE_ENV !== 'development') {
+      return [];
+    }
+
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl) {
+      return [];
+    }
+
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${apiUrl}/:path*`,
+      },
+    ];
+  },
+
+  /**
+   * CustomizaÃ§Ã£o do Webpack.
+   * - Garante resoluÃ§Ã£o de symlinks correta (workspaces).
+   * - Fornece fallback seguro para fs, net, tls no client-side.
+   * - Configura tratamento especial para @rainersoft/design-tokens.
+   * - ConfiguraÃ§Ãµes para melhorar o carregamento de scripts do Vercel.
+   */
+  webpack: (config, { isServer, dev }) => {
+    config.resolve.symlinks = true;
+    if (!isServer) {
+      config.resolve.fallback = { fs: false, net: false, tls: false   /**\n   * Configuração para Docker/standalone build\n   */\n  output: \ standalone\,\n  \n  /**\n   * Otimizações de imagem\n   */\n  images: {\n    domains: [\picsum.photos\, \res.cloudinary.com\],\n    formats: [\image/webp\, \image/avif\],\n  },\n\n};
+    }
+    
+    // ConfiguraÃ§Ã£o especial para evitar problemas com dynamic imports
+    config.resolve.extensionAlias = {
+      '.js': ['.js', '.ts', '.tsx'],
+      '.jsx': ['.jsx', '.tsx'],
+      /**\n   * Configuração para Docker/standalone build\n   */\n  output: \ standalone\,\n  \n  /**\n   * Otimizações de imagem\n   */\n  images: {\n    domains: [\picsum.photos\, \res.cloudinary.com\],\n    formats: [\image/webp\, \image/avif\],\n  },\n\n};
+    
+    // ConfiguraÃ§Ãµes especÃ­ficas para o ambiente de produÃ§Ã£o
+    if (!dev) {
+      // Garante que os scripts do Vercel sejam tratados corretamente
+      config.experiments = {
+        ...config.experiments,
+        asyncWebAssembly: true,
+        layers: true,
+        /**\n   * Configuração para Docker/standalone build\n   */\n  output: \ standalone\,\n  \n  /**\n   * Otimizações de imagem\n   */\n  images: {\n    domains: [\picsum.photos\, \res.cloudinary.com\],\n    formats: [\image/webp\, \image/avif\],\n  },\n\n};
+      
+      // Adiciona headers para os scripts do Vercel
+      if (!config.module.rules) {
+        config.module.rules = [];
+      }
+      
+      // Garante que os scripts do Vercel nÃ£o sejam otimizados/transformados
+      config.module.rules.push({
+        test: /\.(js|mjs|jsx|ts|tsx)$/,
+        include: [
+          /node_modules\/@vercel\/analytics/,
+          /node_modules\/@vercel\/speed-insights/
+        ],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['next/babel'],
+              cacheDirectory: true,
+            },
+          },
+        ],
+      });
+    }
+    
+    return config;
+  },
+  
+  /**
+   * ConfiguraÃ§Ã£o de headers para os scripts do Vercel
+   */
+  async headers() {
+    return [
+      {
+        source: '/_vercel/insights/script.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, must-revalidate',
+          },
+        ],
+      },
+      {
+        source: '/_vercel/speed-insights/script.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, must-revalidate',
+          },
+        ],
+      },
+      // ConfiguraÃ§Ã£o de seguranÃ§a padrÃ£o para outras rotas
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+        ],
+      },
+    ];
+  },
+
+  /**\n   * Configuração para Docker/standalone build\n   */\n  output: \ standalone\,\n  \n  /**\n   * Otimizações de imagem\n   */\n  images: {\n    domains: [\picsum.photos\, \res.cloudinary.com\],\n    formats: [\image/webp\, \image/avif\],\n  },\n\n};
+
+/**
+ * ConfiguraÃ§Ã£o do Turbopack (vazio para silenciar erro quando webpack estÃ¡ configurado).
+ * Next.js 16 usa Turbopack por padrÃ£o, mas temos configuraÃ§Ã£o webpack customizada.
+ * Esta configuraÃ§Ã£o vazia permite usar --webpack explicitamente.
+ */
+nextConfig.turbopack = {  /**\n   * Configuração para Docker/standalone build\n   */\n  output: \ standalone\,\n  \n  /**\n   * Otimizações de imagem\n   */\n  images: {\n    domains: [\picsum.photos\, \res.cloudinary.com\],\n    formats: [\image/webp\, \image/avif\],\n  },\n\n};
+
+export default nextConfig;
+
+
+
+

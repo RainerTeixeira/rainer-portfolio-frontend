@@ -191,3 +191,66 @@ export function translatePostStatus(status: string): string {
   
   return statusMap[status] || status;
 }
+
+/**
+ * Formata data e hora completa
+ */
+export function formatDateTime(date: Date | string): string {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  return dateObj.toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+}
+
+/**
+ * Traduz status genérico (alias para translatePostStatus)
+ */
+export function translateStatus(status: string): string {
+  return translatePostStatus(status);
+}
+
+/**
+ * Rola para uma posição específica
+ */
+export function scrollToPosition(x: number, y: number): void;
+export function scrollToPosition(options: ScrollToOptions): void;
+export function scrollToPosition(x: number): void;
+export function scrollToPosition(xOrOptions: number | ScrollToOptions, y?: number): void {
+  if (typeof xOrOptions === 'number') {
+    if (typeof y === 'number') {
+      window.scrollTo(xOrOptions, y);
+    } else {
+      // Apenas x fornecido, assume y=0
+      window.scrollTo(xOrOptions, 0);
+    }
+  } else if (typeof xOrOptions === 'object') {
+    window.scrollTo(xOrOptions);
+  }
+}
+
+/**
+ * Rola suavemente para uma posição específica ou elemento
+ */
+export function smoothScrollTo(x: number, y: number): void;
+export function smoothScrollTo(element: string | Element): void;
+export function smoothScrollTo(xOrElement: number | string | Element, y?: number): void {
+  if (typeof xOrElement === 'number' && typeof y === 'number') {
+    window.scrollTo({
+      top: y,
+      left: xOrElement,
+      behavior: 'smooth'
+    });
+  } else if (typeof xOrElement === 'string') {
+    const element = document.querySelector(xOrElement);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  } else if (xOrElement instanceof Element) {
+    xOrElement.scrollIntoView({ behavior: 'smooth' });
+  }
+}

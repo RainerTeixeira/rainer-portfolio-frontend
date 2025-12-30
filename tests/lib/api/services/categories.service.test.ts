@@ -1,25 +1,20 @@
 /**
- * Testes para categoriesService
+ * Testes para serviços públicos de categorias (sem legado)
  */
+import { publicBlogCategories } from '@/lib/api';
 
-import { categoriesService } from '@/lib/api';
-
-// Mock do api client
-jest.mock('@/lib/api/client', () => ({
-  api: {
+jest.mock('@/lib/api/clients/public-client', () => ({
+  publicClient: {
     get: jest.fn(),
-    post: jest.fn(),
-    put: jest.fn(),
-    delete: jest.fn(),
   },
 }));
 
-describe('categoriesService', () => {
-  it('deve ter método listCategories', () => {
-    expect(typeof categoriesService.listCategories).toBe('function');
+describe('publicBlogCategories', () => {
+  it('deve ter método getPublicCategories', () => {
+    expect(typeof publicBlogCategories.getPublicCategories).toBe('function');
   });
 
-  it('deve ter método getSubcategoriesOnly', () => {
-    expect(typeof categoriesService.getSubcategoriesOnly).toBe('function');
+  it('deve ter método getMainCategories', () => {
+    expect(typeof publicBlogCategories.getMainCategories).toBe('function');
   });
 });

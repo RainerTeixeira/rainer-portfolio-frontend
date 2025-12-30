@@ -1,4 +1,4 @@
-import { authService } from '@/lib/api';
+import { publicAuth } from '@/lib/api';
 
 describe('AuthService', () => {
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('AuthService', () => {
     const mockToken = `header.${btoa(JSON.stringify(mockPayload))}.signature`;
     localStorage.setItem('accessToken', mockToken);
 
-    const cognitoUser = authService.getCognitoUserFromToken();
+    const cognitoUser = publicAuth.getCognitoUserFromToken();
 
     expect(cognitoUser).toBeDefined();
     expect(cognitoUser?.sub).toBe('cognito-123');
@@ -26,7 +26,7 @@ describe('AuthService', () => {
   });
 
   it('should return null if no token', () => {
-    const cognitoUser = authService.getCognitoUserFromToken();
+    const cognitoUser = publicAuth.getCognitoUserFromToken();
     expect(cognitoUser).toBeNull();
   });
 });

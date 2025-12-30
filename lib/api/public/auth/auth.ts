@@ -8,6 +8,7 @@
  */
 
 import { publicClient } from '../../clients/public-client';
+import { getToken, hasToken, removeToken } from '../../../auth/token-utils';
 import {
   LoginCredentials,
   SignupData,
@@ -156,10 +157,14 @@ export const resetPassword = async (data: ResetPasswordData): Promise<ResetPassw
  * ```
  */
 export const getGoogleOAuthUrl = async (redirectUri?: string): Promise<OAuthUrlResponse> => {
+  // Envia redirect_uri como query param (objeto direto vira query string)
   const response = await publicClient.get('/auth/oauth/google', {
-    params: { redirect_uri: redirectUri }
+    redirect_uri: redirectUri,
   });
-  return response.data.data;
+
+  // O cliente público já retorna JSON; a API pode envolver em { data }
+  const data = (response as any)?.data ?? response;
+  return (data as any)?.data ?? data;
 };
 
 /**
@@ -204,6 +209,111 @@ export const handleOAuthCallback = async (data: OAuthCallbackData): Promise<Auth
  * }
  * ```
  */
+// Métodos de compatibilidade para o useAuth hook
+export const getIdToken = (): string | null => {
+  return getToken();
+};
+
+export const getAccessToken = (): string | null => {
+  return getToken();
+};
+
+export const isAuthenticated = (): boolean => {
+  return hasToken();
+};
+
+export const getUserProfile = async (): Promise<import('../../types/public/users').User> => {
+  // TODO: Implementar busca de perfil do usuário
+  // Por enquanto, retorna um perfil básico
+  throw new Error('getUserProfile não implementado');
+};
+
+export const logout = async (): Promise<void> => {
+  removeToken();
+};
+
+export const updateNickname = async (cognitoSub: string, nickname: string): Promise<void> => {
+  // TODO: Implementar atualização de nickname
+  console.log('updateNickname não implementado', { cognitoSub, nickname });
+};
+
+export const initiatePasswordless = async (email: string): Promise<any> => {
+  // TODO: Implementar passwordless initiation
+  console.log('initiatePasswordless não implementado', { email });
+  return { success: true };
+};
+
+export const verifyPasswordless = async (
+  email: string,
+  code: string,
+  session?: string
+): Promise<{ user: import('../../types/public/users').User }> => {
+  // TODO: Implementar passwordless verification
+  console.log('verifyPasswordless não implementado', { email, code, session });
+  throw new Error('verifyPasswordless não implementado');
+};
+
+export const exchangeOAuthCodeViaBackend = async (
+  provider: 'google' | 'github',
+  code: string,
+  state?: string
+): Promise<{ accessToken: string; refreshToken: string; idToken?: string; user?: import('../../types/public/users').User }> => {
+  const response = await publicClient.get('/auth/oauth/callback', {
+    params: { provider, code, state },
+  });
+  return response.data?.data ?? response.data;
+};
+
+export const loginWithGoogle = async (redirectUri?: string): Promise<void> => {
+  if (typeof window === 'undefined') {
+    throw new Error('loginWithGoogle só pode ser chamado no cliente');
+  }
+
+  const finalRedirect =
+    redirectUri || `${window.location.origin}/auth/callback`;
+
+  const response = await getGoogleOAuthUrl(finalRedirect);
+  const data = (response as any)?.data ?? response;
+  const authUrl = (data as any)?.authUrl ?? (data as any)?.data?.authUrl;
+
+  if (!authUrl || typeof authUrl !== 'string') {
+    throw new Error('URL de autenticação do Google não recebida da API');
+  }
+
+  window.location.href = authUrl;
+};
+
+export const loginWithEmail = async (
+  email: string,
+  password: string
+): Promise<{ user: import('../../types/public/users').User }> => {
+  // TODO: Implementar login with email
+  console.log('loginWithEmail não implementado', { email, password });
+  throw new Error('loginWithEmail não implementado');
+};
+
+export const getCognitoUserFromToken = (): any => {
+  // TODO: Implementar parsing do token JWT
+  const token = getToken();
+  if (!token) return null;
+  
+  try {
+    // Decodificar token JWT (implementação básica)
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.warn('Erro ao decodificar token:', error);
+    return null;
+  }
+};
+
 export const refreshTokenAuth = async (data: RefreshTokenData): Promise<AuthResponse> => {
   const response = await publicClient.post('/auth/refresh', data);
   return response.data.data;

@@ -9,6 +9,7 @@
 
 import { publicClient } from '../../clients/public-client';
 import { PublicUser, PublicUsersResponse, GetUsersParams } from '../../types/public/users';
+import type { UpdateProfileData } from '../../types/public/users';
 
 /**
  * Busca lista de usuários públicos
@@ -65,5 +66,28 @@ export const getPublicUserByCognitoSub = async (
   cognitoSub: string
 ): Promise<PublicUser> => {
   const response = await publicClient.get(`/users/cognito/${cognitoSub}`);
+  return response.data.data;
+};
+
+/**
+ * Atualiza perfil do usuário
+ * 
+ * @param userId - ID do usuário (cognitoSub)
+ * @param profileData - Dados para atualização
+ * @returns Promise<PublicUser> - Usuário atualizado
+ * 
+ * @example
+ * ```typescript
+ * const updatedUser = await updateProfile('abc-123', {
+ *   fullName: 'Novo Nome',
+ *   nickname: 'novo_nickname'
+ * });
+ * ```
+ */
+export const updateProfile = async (
+  userId: string,
+  profileData: UpdateProfileData
+): Promise<PublicUser> => {
+  const response = await publicClient.put(`/users/${userId}`, profileData);
   return response.data.data;
 };

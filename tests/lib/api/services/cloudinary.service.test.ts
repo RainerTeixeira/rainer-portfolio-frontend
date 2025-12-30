@@ -1,25 +1,17 @@
 /**
- * Testes para cloudinaryService
+ * Testes para serviços privados de cloudinary (sem legado)
  */
+import { privateCloudinary } from '@/lib/api';
 
-import { cloudinaryService } from '@/lib/api';
-
-// Mock do api client
-jest.mock('@/lib/api/client', () => ({
-  api: {
-    post: jest.fn(() =>
-      Promise.resolve({ success: true, url: '/blog/test.jpg' })
-    ),
+jest.mock('@/lib/api/clients/private-client', () => ({
+  privateClient: {
+    post: jest.fn(),
+    delete: jest.fn(),
   },
 }));
 
-describe('cloudinaryService', () => {
-  it('deve ter métodos de upload', () => {
-    expect(cloudinaryService).toBeDefined();
-    expect(typeof cloudinaryService.uploadBlogImage).toBe('function');
-  });
-
-  it('deve ter método isCloudinaryUrl', () => {
-    expect(typeof cloudinaryService.isCloudinaryUrl).toBe('function');
+describe('privateCloudinary', () => {
+  it('deve ter método uploadImage', () => {
+    expect(typeof privateCloudinary.uploadImage).toBe('function');
   });
 });

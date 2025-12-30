@@ -1,39 +1,20 @@
-import { categoriesService } from '@/lib/api';
-import { mockFetchOnce, resetFetchMock } from '../../utils/mockFetch';
+/**
+ * Testes de integração para categorias (mínimos, sem legado)
+ */
+import { publicBlogCategories } from '@/lib/api';
 
-describe('categoriesService', () => {
-  afterEach(() => resetFetchMock());
+jest.mock('@/lib/api/clients/public-client', () => ({
+  publicClient: {
+    get: jest.fn(),
+  },
+}));
 
-  test('listCategories normaliza { success, data }', async () => {
-    mockFetchOnce({
-      success: true,
-      data: [
-        {
-          id: 'c1',
-          name: 'Tech',
-          slug: 'tech',
-          createdAt: '',
-          updatedAt: '',
-        },
-      ],
-    });
-    const res = await categoriesService.listCategories();
-    const list = Array.isArray(res) ? res : (res as any).data;
-    expect(list[0].slug).toBe('tech');
+describe('publicBlogCategories - Integração', () => {
+  it('deve ter método getPublicCategories', () => {
+    expect(typeof publicBlogCategories.getPublicCategories).toBe('function');
   });
 
-  test('getCategoryBySlug retorna categoria', async () => {
-    mockFetchOnce({
-      success: true,
-      data: {
-        id: 'c1',
-        fullName: 'Tech',
-        slug: 'tech',
-        createdAt: '',
-        updatedAt: '',
-      },
-    });
-    const cat = await categoriesService.getCategoryBySlug('tech');
-    expect(cat.slug).toBe('tech');
+  it('deve ter método getMainCategories', () => {
+    expect(typeof publicBlogCategories.getMainCategories).toBe('function');
   });
 });

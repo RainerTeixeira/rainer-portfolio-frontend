@@ -8,6 +8,17 @@
  */
 
 /**
+ * Enum para status de posts
+ */
+export enum PostStatus {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  ARCHIVED = 'ARCHIVED',
+  SCHEDULED = 'SCHEDULED',
+  TRASH = 'TRASH',
+}
+
+/**
  * Interface para representar um autor de post
  */
 export interface PostAuthor {

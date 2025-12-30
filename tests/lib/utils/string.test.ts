@@ -2,7 +2,7 @@
  * Testes para lib/utils/string.ts
  */
 
-import { PostStatus } from '@/lib/api/types/posts';
+import { PostStatus } from '@/lib/api/types/public/blog';
 import {
   formatDate,
   formatDateTime,

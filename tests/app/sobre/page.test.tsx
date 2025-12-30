@@ -63,8 +63,7 @@ jest.mock('next/image', () => ({
   ),
 }));
 
-
-jest.mock('@/components/skills/skills-with-icons', () => ({
+jest.mock('@/components/icons/skills', () => ({
   SKILLS: [
     {
       fullName: 'React',

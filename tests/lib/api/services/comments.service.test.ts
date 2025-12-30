@@ -1,25 +1,23 @@
 /**
- * Testes para commentsService
+ * Testes para serviços privados de comentários (sem legado)
  */
+import { privateComments } from '@/lib/api';
 
-import { commentsService } from '@/lib/api';
-
-// Mock do api client
-jest.mock('@/lib/api/client', () => ({
-  api: {
-    get: jest.fn(() => Promise.resolve({ success: true, data: [] })),
-    post: jest.fn(() => Promise.resolve({ success: true, data: {} })),
-    put: jest.fn(() => Promise.resolve({ success: true, data: {} })),
-    delete: jest.fn(() => Promise.resolve({ success: true })),
+jest.mock('@/lib/api/clients/private-client', () => ({
+  privateClient: {
+    get: jest.fn(),
+    post: jest.fn(),
+    patch: jest.fn(),
+    delete: jest.fn(),
   },
 }));
 
-describe('commentsService', () => {
-  it('deve ter método listComments', () => {
-    expect(typeof commentsService.listComments).toBe('function');
+describe('privateComments', () => {
+  it('deve ter método createComment', () => {
+    expect(typeof privateComments.createComment).toBe('function');
   });
 
-  it('deve ter método createComment', () => {
-    expect(typeof commentsService.createComment).toBe('function');
+  it('deve ter método getComments', () => {
+    expect(typeof privateComments.getComments).toBe('function');
   });
 });

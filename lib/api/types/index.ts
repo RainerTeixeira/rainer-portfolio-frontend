@@ -1,7 +1,8 @@
 /**
  * Types - Barrel Export Consolidado
  * 
- * Exporta todos os tipos da API organizados por módulo.
+ * Exporta todos os tipos da API organizados por módulo,
+ * respeitando a separação público/privado.
  * 
  * @module lib/api/types
  * @author Rainer Teixeira
@@ -11,21 +12,18 @@
 // Common types (deve vir primeiro)
 export * from './common';
 
-// Auth & Users
-export * from './auth';
-export * from './users';
+// Públicos
+export * from './public/auth';
+export * from './public/blog';
+export * from './public/health';
+export * from './public/users';
 
-// Content
-export * from './posts';
-export * from './categories';
-export * from './comments';
-
-// Engagement
-export * from './likes';
-export * from './bookmarks';
-export * from './notifications';
-
-// Services
-export * from './cloudinary';
-export * from './dashboard';
-export * from './health';
+// Privados
+export * from './private/blog';
+export * from './private/bookmarks';
+export * from './private/cloudinary';
+export * from './private/comments';
+export * from './private/dashboard';
+export * from './private/likes';
+export * from './private/notifications';
+export * from './private/users';

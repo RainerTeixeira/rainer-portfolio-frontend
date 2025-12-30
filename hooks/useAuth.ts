@@ -5,7 +5,8 @@ import type {
   UpdateProfileData,
   User,
   UserProfile,
-} from '@/lib/api/types/users';
+} from '@/lib/api/types/public/users';
+import type { CreateUserData } from '@/lib/api/types/public/users';
 import { useCallback, useEffect, useState } from 'react';
 
 /**
@@ -112,7 +113,13 @@ export function useAuth() {
 
       // Sempre usar backend real via authService
       const response = await publicAuth.login({ email, password });
-      const userProfile = response.user as UserProfile;
+      const authData = (response as any)?.data ?? response;
+      const userProfile = (authData as any)?.user as UserProfile | undefined;
+
+      if (!userProfile) {
+        throw new Error('Falha ao obter usuário após login');
+      }
+
       setUser(userProfile);
       setError(null);
       return userProfile;
@@ -208,29 +215,45 @@ export function useAuth() {
         // RegisterResponse não tem user, então precisamos buscar o perfil
         let newUser: UserProfile;
         if (response.userId) {
-          const fetchedUserData = await publicAuth.getUserProfile();
-          // Converter User para UserProfile
-          const baseProfile = convertUserToUserProfile(fetchedUserData);
-          // Criar novo objeto com dados da resposta de registro
-          newUser = {
-            ...baseProfile,
-            email: response.email,
-            emailVerified: false,
-            nickname:
-              response.nickname ||
-              baseProfile.nickname ||
-              registerData.nickname,
-          };
+          try {
+            const fetchedUserData = await publicAuth.getUserProfile();
+            // Converter User para UserProfile
+            const baseProfile = convertUserToUserProfile(fetchedUserData);
+            // Criar novo objeto com dados da resposta de registro
+            newUser = {
+              ...baseProfile,
+              email: registerData.email,
+              emailVerified: false,
+              nickname: registerData.nickname || baseProfile.nickname,
+            };
+          } catch (profileError) {
+            // Se não conseguir buscar o perfil, criar um perfil básico
+            newUser = {
+              id: response.userId,
+              cognitoSub: response.userId,
+              fullName: registerData.fullName,
+              email: registerData.email,
+              emailVerified: false,
+              nickname: registerData.nickname || '',
+              role: 'USER' as any,
+              isActive: true,
+              isBanned: false,
+              postsCount: 0,
+              commentsCount: 0,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            };
+          }
         } else {
-          // Se não tiver userId, criar um perfil básico a partir da resposta
+          // Se não tiver userId, criar um perfil básico
           newUser = {
-            id: response.userId || '',
-            cognitoSub: response.cognitoSub || response.userId || '',
-            fullName: response.fullName || registerData.fullName,
-            email: response.email,
+            id: '',
+            cognitoSub: '',
+            fullName: registerData.fullName,
+            email: registerData.email,
             emailVerified: false,
-            nickname: response.nickname || registerData.nickname,
-            role: 'SUBSCRIBER' as any,
+            nickname: registerData.nickname || '',
+            role: 'USER' as any,
             isActive: true,
             isBanned: false,
             postsCount: 0,
@@ -340,7 +363,11 @@ export function useAuth() {
     async (data: { email: string; code: string; newPassword: string }) => {
       try {
         setLoading(true);
-        await publicAuth.resetPassword(data);
+        await publicAuth.resetPassword({ 
+          email: data.email, 
+          token: data.code, 
+          newPassword: data.newPassword 
+        });
         setError(null);
       } catch (err) {
         console.error('Erro ao confirmar redefinição de senha:', err);
@@ -739,8 +766,13 @@ export function useAuth() {
   }, []);
 
   // Login com Google OAuth
-  const loginWithGoogle = useCallback(() => {
-    publicAuth.loginWithGoogle();
+  const loginWithGoogle = useCallback(async () => {
+    try {
+      await publicAuth.loginWithGoogle();
+    } catch (err) {
+      console.error('Erro ao iniciar login com Google:', err);
+      throw err;
+    }
   }, []);
 
   // Login com Email

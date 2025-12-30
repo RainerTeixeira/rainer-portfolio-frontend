@@ -114,7 +114,7 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
       result.message = 'A requisição excedeu o tempo limite';
       result.suggestions = [
         'Verifique sua conexão com a internet',
-        `O tempo limite da requisição é de ${API_CONFIG.TIMEOUT}ms`,
+        `O tempo limite da requisição é de ${API_CONFIG.timeout ?? 'padrão'}ms`,
         'Tente novamente em alguns instantes',
       ];
       return result;
@@ -182,24 +182,16 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
     }
 
     // Tratamento de erros do servidor (5xx)
-    if (
-      apiError.isServerError &&
-      typeof apiError.isServerError === 'function' &&
-      apiError.isServerError()
-    ) {
+    if (apiError.status && apiError.status >= 500) {
       result.isServerError = true;
       result.suggestions = [
         'O servidor está enfrentando problemas temporários',
-        `Tente novamente em ${API_CONFIG.RETRY_DELAY / 1000} segundos`,
-        `Número máximo de tentativas: ${API_CONFIG.MAX_RETRIES}`,
+        `Tente novamente em ${(API_CONFIG.retryDelay ?? 3000) / 1000} segundos`,
+        `Número máximo de tentativas: ${API_CONFIG.retries ?? 3}`,
         'Verifique o status do serviço',
         'Contate o suporte técnico se o problema persistir',
       ];
-    } else if (
-      apiError.isClientError &&
-      typeof apiError.isClientError === 'function' &&
-      apiError.isClientError()
-    ) {
+    } else if (apiError.status && apiError.status >= 400 && apiError.status < 500) {
       result.suggestions = [
         'Verifique os dados enviados na requisição',
         'Confirme se você tem permissão para esta ação',

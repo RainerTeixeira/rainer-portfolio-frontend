@@ -72,7 +72,7 @@ export * from './config';
 // ============================================================================
 
 export { blogPublicApi } from './api/blog-public-api';
-// Para usar services: import { postsService } from '@/lib/api'
+// Para usar serviços: importar diretamente de '@/lib/api'
 
 // ============================================================================
 // Blog (Tiptap, Reading Time)

@@ -7,11 +7,10 @@
  * @deprecated Use as novas configurações em config/endpoints.ts
  */
 
-// Re-exportar configurações necessárias para compatibilidade
 export const API_CONFIG = {
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1',
-  timeout: 10000,
-  retries: 3,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  timeout: process.env.NEXT_PUBLIC_API_TIMEOUT ? Number(process.env.NEXT_PUBLIC_API_TIMEOUT) : undefined,
+  retries: process.env.NEXT_PUBLIC_API_MAX_RETRIES ? Number(process.env.NEXT_PUBLIC_API_MAX_RETRIES) : undefined,
 };
 
 export const HTTP_STATUS = {

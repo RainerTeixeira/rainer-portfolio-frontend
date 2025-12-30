@@ -10,8 +10,7 @@
  */
 
 import { publicBlogPosts } from '@/lib/api';
-import type { Post } from '@/lib/api/types';
-import { PostStatus } from '@/lib/api/types';
+import type { Post, PostStatus } from '@/lib/api/types/public/blog';
 
 // ============================================================================
 // Types
@@ -60,12 +59,12 @@ export async function searchContent(query: string): Promise<SearchResult[]> {
     }
 
     // Converter posts da API para SearchResult
-    const results: SearchResult[] = response.posts.map((post: Post) => ({
+    const results: SearchResult[] = response.posts.map((post: any) => ({
       id: post.id,
       title: post.title,
       slug: post.slug,
       type: 'post' as const,
-      category: post.subcategory?.name,
+      category: post.subcategory?.name || post.category?.name,
       excerpt: post.excerpt,
     }));
 

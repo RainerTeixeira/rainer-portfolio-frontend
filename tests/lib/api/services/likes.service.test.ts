@@ -1,29 +1,26 @@
 /**
- * Testes para likesService
+ * Testes para serviços privados de likes (sem legado)
  */
+import { privateLikes } from '@/lib/api';
 
-import { likesService } from '@/lib/api';
-
-// Mock do api client
-jest.mock('@/lib/api/client', () => ({
-  api: {
+jest.mock('@/lib/api/clients/private-client', () => ({
+  privateClient: {
     get: jest.fn(),
     post: jest.fn(),
-    put: jest.fn(),
     delete: jest.fn(),
   },
 }));
 
-describe('likesService', () => {
-  it('deve ter método toggleLike', () => {
-    expect(typeof likesService.toggleLike).toBe('function');
+describe('privateLikes', () => {
+  it('deve ter método createLike', () => {
+    expect(typeof privateLikes.createLike).toBe('function');
   });
 
-  it('deve ter método getLikesByPost', () => {
-    expect(typeof likesService.getLikesByPost).toBe('function');
+  it('deve ter método getLikes', () => {
+    expect(typeof privateLikes.getLikes).toBe('function');
   });
 
-  it('deve ter método getLikesByUser', () => {
-    expect(typeof likesService.getLikesByUser).toBe('function');
+  it('deve ter método checkPostLiked', () => {
+    expect(typeof privateLikes.checkPostLiked).toBe('function');
   });
 });

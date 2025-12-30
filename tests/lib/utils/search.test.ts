@@ -17,7 +17,7 @@ jest.mock(
 	{ virtual: true },
 );
 
-import { searchContent } from 'virtual-search-module';
+import { searchContent } from '@/lib/portfolio/search';
 
 jest.mock('@/lib/api/services', () => ({
   postsService: {

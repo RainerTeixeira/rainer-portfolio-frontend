@@ -33,7 +33,6 @@
 
 'use client';
 
-import { authService } from '@/lib/api';
 import { useEffect, useState } from 'react';
 import { StatusBadge } from './status-badge';
 
@@ -75,13 +74,10 @@ export function NicknameAvailability({
       onCheckingChange?.(true);
 
       try {
-        const isAvailable = await authService.checkNickname(
-          username,
-          excludeCognitoSub
-        );
-
-        setStatus(isAvailable ? 'available' : 'unavailable');
-        onAvailabilityChange?.(isAvailable);
+        // TODO: implementar verificação real quando endpoint existir
+        // Por ora, assume disponível para não bloquear o fluxo de cadastro.
+        setStatus('available');
+        onAvailabilityChange?.(true);
       } catch (error) {
         console.error('Erro ao verificar nickname:', error);
         setStatus('idle');

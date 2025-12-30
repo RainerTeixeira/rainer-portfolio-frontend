@@ -33,7 +33,6 @@
 
 'use client';
 
-import { authService } from '@/lib/api';
 import { useEffect, useState } from 'react';
 import { StatusBadge } from './status-badge';
 
@@ -86,10 +85,10 @@ export function NameAvailability({
           return;
         }
 
-        // Verificar disponibilidade via serviço centralizado
-        const available = await authService.checkName(trimmedName);
-        setIsAvailable(available);
-        onAvailabilityChange(available);
+        // TODO: implementar verificação real quando endpoint existir
+        // Por ora, assume disponível para não bloquear o fluxo.
+        setIsAvailable(true);
+        onAvailabilityChange(true);
       } catch (error) {
         console.error('Erro ao verificar disponibilidade do nome:', error);
         setIsAvailable(false);

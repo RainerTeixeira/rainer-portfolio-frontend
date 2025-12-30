@@ -47,13 +47,13 @@ import {
   SearchBar,
   SortControls,
   type SortOption,
-} from '@/components/domain/blog';
+} from '@/components/blog';
 import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { Skeleton } from '@rainersoft/ui';
-import { postsService } from '@/lib/api/services';
-import type { Post } from '@/lib/api/types/posts';
-import { PostStatus } from '@/lib/api/types/posts';
+import { publicBlogPosts } from '@/lib/api';
+import type { PostListItem } from '@/lib/api/types/public/blog';
+import { PostStatus } from '@/lib/api/types/public/blog';
 import { cn } from '@rainersoft/ui';
 import { getTokenColor } from '@/lib/portfolio/tokens';
 import { useTheme } from 'next-themes';
@@ -175,8 +175,8 @@ export default function BlogPage() {
    * displayedPosts: Posts filtrados e ordenados para exibição.
    * isLoadingPosts: Flag de carregamento para mostrar skeleton loaders.
    */
-  const [allPosts, setAllPosts] = useState<Post[]>([]);
-  const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
+  const [allPosts, setAllPosts] = useState<PostListItem[]>([]);
+  const [displayedPosts, setDisplayedPosts] = useState<PostListItem[]>([]);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [hasConnectionError, setHasConnectionError] = useState(false);
 
@@ -202,50 +202,46 @@ export default function BlogPage() {
    * @returns {number} Número de posts na categoria
    */
   const getCategoryCount = (category: string): number => {
-    return allPosts.filter(p => p.subcategory?.name === category).length;
+    return allPosts.filter(p => p.category?.name === category).length;
   };
 
   /**
    * Carrega posts publicados ao montar componente.
-   * Busca todos os posts publicados da API e inicializa os estados de posts.
-   * OTIMIZADO: Usa setTimeout para evitar violações de performance no mount.
+   * Busca posts publicados da API e inicializa os estados de posts.
    */
   useEffect(() => {
-    // Usar setTimeout para evitar violações de performance no mount
     const timeoutId = setTimeout(() => {
       const loadPosts = async () => {
-        setIsLoadingPosts(true);
         try {
-          const response = await postsService.listPosts({
+          setIsLoadingPosts(true);
+          const response = await publicBlogPosts.getPublicPosts({
             status: PostStatus.PUBLISHED,
-            limit: 100, // Carregar muitos posts inicialmente
+            limit: 50,
           });
-          if (response.success && response.posts) {
-            setAllPosts(response.posts);
-            setDisplayedPosts(response.posts);
-          }
+          const posts = response?.data || response || [];
+          setAllPosts(posts);
+          setDisplayedPosts(posts);
+          setHasConnectionError(false);
         } catch (error) {
-          // Detectar erros de conexão (banco de dados não disponível)
-          const isConnectionError = 
-            error instanceof Error && 
-            (error.message.includes('Failed to fetch') || 
-             error.message.includes('ERR_CONNECTION_REFUSED') ||
-             error.message.includes('Conexão falhou') ||
-             error.message.includes('NetworkError'));
-          
+          const isConnectionError =
+            error instanceof Error &&
+            (error.message.includes('Failed to fetch') ||
+              error.message.includes('ERR_CONNECTION_REFUSED') ||
+              error.message.includes('Conexão falhou') ||
+              error.message.includes('NetworkError'));
+
           if (isConnectionError) {
             setHasConnectionError(true);
           } else {
             console.error('Erro ao carregar posts:', error);
           }
-          // Em caso de erro, usar array vazio (página mostrará estado vazio)
           setAllPosts([]);
           setDisplayedPosts([]);
         } finally {
           setIsLoadingPosts(false);
         }
       };
-      loadPosts();
+      void loadPosts();
     }, 0);
 
     return () => {
@@ -264,7 +260,7 @@ export default function BlogPage() {
     // Aplicar filtro de categoria
     if (selectedCategory) {
       processedPosts = processedPosts.filter(
-        post => post.subcategory?.name === selectedCategory
+        post => post.category?.name === selectedCategory
       );
     }
 
@@ -296,11 +292,11 @@ export default function BlogPage() {
     (sum, post) => sum + (post.likesCount || 0),
     0
   );
-  const featuredPosts = allPosts.filter(post => post.featured);
+  const featuredPosts = allPosts.filter(post => post.featured === true);
   const uniqueCategories = Array.from(
     new Set(
       allPosts
-        .map(post => post.subcategory?.name)
+        .map(post => post.category?.name)
         .filter((name): name is string => Boolean(name))
     )
   );
@@ -589,8 +585,8 @@ export default function BlogPage() {
                   title={post.title}
                   description={post.excerpt || ''}
                   // Passar data crua (ISO) para o PostCard, que formata de forma relativa
-                  date={post.publishedAt || post.createdAt}
-                  category={post.subcategory?.name}
+                  date={post.publishedAt || post.createdAt || undefined}
+                  category={post.category?.name}
                   link={`/blog/${post.slug}`}
                   image={post.coverImage}
                 />

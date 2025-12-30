@@ -28,11 +28,51 @@ import {
   unpublishPost,
   updatePost,
 } from '@/components/domain/dashboard/lib/api-client';
-import type { CreatePostData, UpdatePostData } from '@/lib/api/types';
-import type { Post, PostFilters, PostStatus } from '@/lib/api/types/posts';
+import type { TiptapJSON } from '@/lib/api/types/common';
+import { PostStatus, type Post, type PostTag } from '@/lib/api/types/public/blog';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+type PostFilters = {
+  page?: number;
+  limit?: number;
+  status?: PostStatus | string;
+  subcategoryId?: string;
+  authorId?: string;
+  search?: string;
+  featured?: boolean;
+};
+
+type CreatePostData = {
+  title: string;
+  slug?: string;
+  content: TiptapJSON | string;
+  excerpt?: string;
+  coverImage?: string | null;
+  tags?: string[];
+  subcategoryId?: string;
+  authorId?: string;
+  status?: PostStatus;
+  featured?: boolean;
+  allowComments?: boolean;
+  pinned?: boolean;
+};
+
+type UpdatePostData = Partial<CreatePostData>;
+
+// Normaliza status para o subset aceito pelo Post público
+const normalizeStatus = (status?: PostStatus): Post['status'] | undefined => {
+  if (!status) return undefined;
+  if (
+    status === PostStatus.DRAFT ||
+    status === PostStatus.PUBLISHED ||
+    status === PostStatus.ARCHIVED
+  ) {
+    return status;
+  }
+  // Demais (SCHEDULED/TRASH) não existem no Post público; mantemos undefined para não quebrar o tipo
+  return undefined;
+};
 // ═══════════════════════════════════════════════════════════════════════════
 // QUERY KEYS
 // ═══════════════════════════════════════════════════════════════════════════
@@ -238,6 +278,26 @@ export function useUpdatePost() {
       // Snapshot do valor anterior
       const previousPost = queryClient.getQueryData(postKeys.detail(slug));
 
+      // Remover conteúdo em JSON para não violar o tipo Post (string)
+      const { content, status, tags, ...rest } = data;
+
+      const normalizedTags =
+        Array.isArray(tags) && tags.length > 0
+          ? tags
+              .filter(Boolean)
+              .map(tag =>
+                typeof tag === 'string'
+                  ? ({ name: tag, slug: tag } as PostTag)
+                  : (tag as PostTag)
+              )
+          : undefined;
+
+      const sanitizedData: Partial<Post> = {
+        ...rest,
+        status: normalizeStatus(status),
+        ...(normalizedTags ? { tags: normalizedTags } : {}),
+      };
+
       // Atualização otimista
       queryClient.setQueryData(
         postKeys.detail(slug),
@@ -245,7 +305,7 @@ export function useUpdatePost() {
           if (!old) return old;
           return {
             ...old,
-            ...data,
+            ...sanitizedData,
           };
         }
       );
