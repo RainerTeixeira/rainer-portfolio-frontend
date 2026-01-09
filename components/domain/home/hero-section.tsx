@@ -33,15 +33,11 @@
 import { cn } from '@rainersoft/ui';
 import { hexToRGBA, MatrixBackground } from '@rainersoft/ui';
 import {
-  GRADIENTS,
-  GRADIENT_DIRECTIONS,
+  gradientPrimitive,
   tokens,
-  motionTokens,
-  breakpointTokens,
-  zIndexTokens,
-  MOTION,
-  Z_INDEX,
-  RESPONSIVE,
+  motionPrimitive,
+  breakpointsPrimitive,
+  zIndexPrimitive,
 } from '@rainersoft/design-tokens';
 import { AnimatePresence, motion } from 'framer-motion';
 import { memo, useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react';

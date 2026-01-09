@@ -28,7 +28,7 @@ export {
   formatPercentage,
   generateMockChartData,
   groupDataByPeriod,
-} from './utils';
+} from '@rainersoft/utils';
 
 // Login/Auth Components
 export { RegisterForm, ForgotPasswordForm, ResetPasswordForm } from './login';

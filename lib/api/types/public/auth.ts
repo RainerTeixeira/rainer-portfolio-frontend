@@ -182,3 +182,35 @@ export interface AuthError {
   /** Detalhes adicionais */
   details?: any;
 }
+
+/**
+ * Interface para resposta de iniciação de login passwordless
+ */
+export interface PasswordlessInitResponse {
+  /** Se a operação foi bem sucedida */
+  success: boolean;
+  /** Mensagem de resposta */
+  message: string;
+  /** Token de sessão */
+  session?: string;
+  /** Tempo de expiração do token */
+  expiresAt?: string;
+}
+
+/**
+ * Interface para resposta de verificação de login passwordless
+ */
+export interface PasswordlessVerifyResponse {
+  /** Se a operação foi bem sucedida */
+  success: boolean;
+  /** Mensagem de resposta */
+  message: string;
+  /** Token de acesso */
+  token?: string;
+  /** Dados do usuário */
+  user?: {
+    id: string;
+    email: string;
+    name: string;
+  };
+}

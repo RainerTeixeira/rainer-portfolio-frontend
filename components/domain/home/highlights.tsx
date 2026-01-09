@@ -36,7 +36,7 @@ import {
 } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
-import { CARD_CLASSES, SECTION_CLASSES } from '@/lib/portfolio';
+import { CARD_CLASSES, SECTION_CLASSES } from '@/lib/utils';
 import {
   Briefcase,
   Cloud,

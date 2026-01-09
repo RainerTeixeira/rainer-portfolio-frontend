@@ -29,7 +29,7 @@
 'use client';
 
 import { useAuthContext } from '@/components/providers/auth-context-provider';
-import { ApiError } from '@/lib/api/client';
+import { ApiError } from '@/lib/api/utils/error-handler';
 import { Button } from '@rainersoft/ui';
 import {
   CardContent,

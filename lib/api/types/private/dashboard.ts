@@ -84,7 +84,7 @@ export interface ActiveUser {
 }
 
 /**
- * Interface para analytics detalhados
+ * Interface para analytics detalhados do dashboard
  */
 export interface DashboardAnalytics {
   /** Estatísticas gerais */

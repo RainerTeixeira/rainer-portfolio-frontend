@@ -18,7 +18,7 @@ import {
   uploadBlogContentImage,
   uploadBlogCover,
   uploadToCloudinary,
-} from '@/components/domain/dashboard/lib/cloudinary';
+} from '@/lib/api/private/dashboard/dashboard';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 

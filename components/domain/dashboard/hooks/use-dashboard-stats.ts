@@ -14,7 +14,6 @@
 
 'use client';
 
-import { dashboardService } from '@/lib/api';
 import type { DashboardStats } from '@/lib/api/types';
 import { useEffect, useState } from 'react';
 
@@ -132,8 +131,8 @@ export function useDashboardStats() {
     setError(null);
 
     try {
-      const data = await dashboardService.getStats();
-      setStats(data);
+      // TODO: Integrar com endpoint real de dashboard stats
+      setStats(null);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'Erro ao carregar estatísticas';

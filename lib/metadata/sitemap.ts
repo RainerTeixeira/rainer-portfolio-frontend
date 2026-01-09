@@ -9,7 +9,7 @@
  * @version 1.0.0
  */
 
-import type { Category, Post } from '@/lib/api/types';
+import type { PostCategory, PostListItem } from '@/lib/api/types/public/blog';
 import { env } from '@/lib/config/env';
 
 // ============================================================================
@@ -36,7 +36,7 @@ import { env } from '@/lib/config/env';
  * // Salve em /public/sitemap.xml
  * ```
  */
-export function generateSitemap(posts: Post[], categories: Category[]): string {
+export function generateSitemap(posts: PostListItem[], categories: PostCategory[]): string {
   const siteUrl = env.NEXT_PUBLIC_BASE_URL;
   const now = new Date().toISOString();
 
@@ -51,7 +51,7 @@ export function generateSitemap(posts: Post[], categories: Category[]): string {
   // Posts do blog
   const postUrls = posts.map(post => ({
     loc: `/blog/${post.slug}`,
-    lastmod: post.updatedAt,
+    lastmod: post.publishedAt || post.createdAt || now,
     priority: post.featured ? '0.9' : '0.7',
     changefreq: 'weekly' as const,
   }));

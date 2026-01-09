@@ -8,7 +8,7 @@
  */
 
 import { publicClient } from '../../clients/public-client';
-import { getToken, hasToken, removeToken } from '../../../auth/token-utils';
+import { getToken, hasToken, removeToken } from '@/lib/utils';
 import {
   LoginCredentials,
   SignupData,
@@ -94,6 +94,10 @@ export const register = async (userData: SignupData): Promise<SignupResponse> =>
 export const confirmEmail = async (data: ConfirmEmailData): Promise<ConfirmEmailResponse> => {
   const response = await publicClient.post('/auth/confirm-email', data);
   return response.data;
+};
+
+export const resendConfirmationCode = async (data: { email: string }): Promise<void> => {
+  await publicClient.post('/auth/resend-confirmation-code', data);
 };
 
 /**
@@ -248,6 +252,12 @@ export const initiatePasswordless = async (email: string): Promise<any> => {
   // TODO: Implementar passwordless initiation
   console.log('initiatePasswordless não implementado', { email });
   return { success: true };
+};
+
+export const verifyEmailAdmin = async (identifier: string): Promise<{ success: boolean; message?: string; data?: any }> => {
+  // TODO: Implementar verificação de email admin
+  console.log('verifyEmailAdmin não implementado', { identifier });
+  throw new Error('verifyEmailAdmin não implementado');
 };
 
 export const verifyPasswordless = async (

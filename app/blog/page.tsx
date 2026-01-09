@@ -20,6 +20,8 @@
 
 'use client';
 
+console.log('DEBUG: Blog page component loaded');
+
 /**
  * Imports de React e hooks essenciais.
  * useState para gerenciamento de estado local e useEffect para efeitos colaterais.
@@ -40,22 +42,20 @@ import { AlertCircle, BookOpen, Database, Eye, Heart, TrendingUp } from 'lucide-
 import {
   BlogStatCard,
   CategoryFilter,
-  EmptyState,
   FeaturedPostsSection,
   NewsletterBox,
-  PostCard,
-  SearchBar,
   SortControls,
   type SortOption,
-} from '@/components/blog';
-import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
+  AdvancedSearch,
+  InfiniteScroll,
+} from '@/components/domain/blog';
+import { BackToTop, PageHeader, ParticlesEffect, cn } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { Skeleton } from '@rainersoft/ui';
 import { publicBlogPosts } from '@/lib/api';
-import type { PostListItem } from '@/lib/api/types/public/blog';
-import { PostStatus } from '@/lib/api/types/public/blog';
-import { cn } from '@rainersoft/ui';
-import { getTokenColor } from '@/lib/portfolio/tokens';
+console.log('DEBUG: publicBlogPosts import:', publicBlogPosts);
+import { PostStatus, type PostListItem } from '@/lib/api/types/public/blog';
+import { getTokenColor } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 import { hexToRGB, hexToRGBA } from '@rainersoft/ui';
 
@@ -179,6 +179,8 @@ export default function BlogPage() {
   const [displayedPosts, setDisplayedPosts] = useState<PostListItem[]>([]);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [hasConnectionError, setHasConnectionError] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [searchResults, setSearchResults] = useState<PostListItem[]>([]);
 
   /**
    * Estado de filtros e ordenação.
@@ -218,7 +220,21 @@ export default function BlogPage() {
             status: PostStatus.PUBLISHED,
             limit: 50,
           });
-          const posts = response?.data || response || [];
+          
+          console.log('DEBUG: Response from API:', response);
+          
+          // Lidar com ambos os formatos de resposta
+          let posts: PostListItem[] = [];
+          if (Array.isArray(response)) {
+            console.log('DEBUG: Response is array, using response.data');
+            posts = response.data;
+          } else if (response && response.data) {
+            console.log('DEBUG: Response has data property, using response.data');
+            posts = response.data;
+          } else {
+            console.log('DEBUG: Response format unexpected:', response);
+          }
+          
           setAllPosts(posts);
           setDisplayedPosts(posts);
           setHasConnectionError(false);
@@ -438,13 +454,18 @@ export default function BlogPage() {
         </motion.section>
       )}
 
-      {/* Seção de busca de artigos */}
-      {/* Barra de pesquisa para filtrar posts por texto */}
+      {/* Seção de busca avançada */}
       <section
         aria-label="Buscar artigos"
-        className="max-w-4xl mx-auto px-6 py-8 relative z-10"
+        className="max-w-7xl mx-auto px-6 py-8 relative z-10"
       >
-        <SearchBar variant="default" placeholder="Buscar artigos..." />
+        <AdvancedSearch
+          onResultsChange={(results: PostListItem[]) => {
+            setSearchResults(results);
+            setDisplayedPosts(results);
+          }}
+          onLoadingChange={(loading: boolean) => setIsLoadingPosts(loading)}
+        />
       </section>
 
       {/* Seção de filtros e ordenação */}
@@ -488,13 +509,12 @@ export default function BlogPage() {
         </motion.section>
       )}
 
-      {/* Seção principal de listagem de posts */}
-      {/* Grid responsivo com todos os posts filtrados e ordenados, com animações staggered */}
+      {/* Seção principal com Infinite Scroll */}
       <section
         aria-labelledby="posts-heading"
         className="max-w-7xl mx-auto px-6 pb-16 relative z-10"
       >
-        {/* Cabeçalho da seção com contador e informações de ordenação */}
+        {/* Cabeçalho com contador e opções */}
         {!isLoadingPosts && displayedPosts.length > 0 && (
           <Card className="dark:bg-black/30 dark:border-cyan-400/20 mb-8">
             <CardContent className="p-6">
@@ -504,7 +524,7 @@ export default function BlogPage() {
                     id="posts-heading"
                     className="text-2xl font-bold dark:text-cyan-200 dark:font-mono mb-2"
                   >
-                    {selectedCategory
+                    {searchResults.length > 0 ? 'Resultados da Busca' : selectedCategory
                       ? `Categoria: ${selectedCategory}`
                       : 'Todos os Artigos'}
                   </h2>
@@ -513,6 +533,7 @@ export default function BlogPage() {
                     {displayedPosts.length === 1
                       ? 'artigo encontrado'
                       : 'artigos encontrados'}
+                    {searchResults.length > 0 && ' • Busca avançada'}
                     {currentSortOption === 'popular' &&
                       ' • Ordenados por visualizações'}
                     {currentSortOption === 'trending' &&
@@ -521,79 +542,36 @@ export default function BlogPage() {
                       ' • Mais recentes primeiro'}
                   </p>
                 </div>
+                <div className="flex items-center gap-2">
+                  {/* Analytics removido temporariamente */}
+                </div>
               </div>
             </CardContent>
           </Card>
         )}
 
-        {/* Estado de carregamento */}
-        {/* Exibe skeleton loaders enquanto posts estão sendo carregados da API */}
-        {isLoadingPosts ? (
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-            role="status"
-            aria-label="Carregando posts..."
-          >
-            {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
-              <div key={index} className="space-y-4">
-                <Skeleton className="h-48 w-full rounded-lg" />
-                <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-2/3" />
-              </div>
-            ))}
-          </div>
-        ) : displayedPosts.length === 0 ? (
-          /* Estado vazio - Exibido quando não há posts para mostrar (filtro sem resultados ou nenhum post publicado) */
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            role="status"
-            aria-live="polite"
-          >
-            <EmptyState
-              title={
-                selectedCategory
-                  ? 'Nenhum post nesta categoria'
-                  : 'Nenhum post publicado'
-              }
-              description={
-                selectedCategory
-                  ? 'Tente selecionar outra categoria ou ver todos os posts.'
-                  : 'Ainda não há posts disponíveis. Volte em breve!'
-              }
-              actionLabel={selectedCategory ? 'Ver Todos os Posts' : undefined}
-              onAction={
-                selectedCategory ? () => setSelectedCategory(null) : undefined
-              }
-            />
-          </motion.div>
-        ) : (
-          /* Grid de posts com animação staggered - Renderiza todos os posts filtrados em grid responsivo com animação sequencial */
-          <motion.div
-            variants={POSTS_CONTAINER_VARIANTS}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-            role="list"
-            aria-label="Lista de posts do blog"
-          >
-            {displayedPosts.map(post => (
-              /* Artigo principal com conteúdo renderizado */
-              <article key={post.id} role="listitem">
-                <PostCard
-                  title={post.title}
-                  description={post.excerpt || ''}
-                  // Passar data crua (ISO) para o PostCard, que formata de forma relativa
-                  date={post.publishedAt || post.createdAt || undefined}
-                  category={post.category?.name}
-                  link={`/blog/${post.slug}`}
-                  image={post.coverImage || undefined}
-                />
-              </article>
-            ))}
-          </motion.div>
-        )}
+        {/* Infinite Scroll */}
+        <InfiniteScroll
+          initialPosts={displayedPosts}
+          onLoadMore={async (page: number, limit: number) => {
+            // Simular carregamento de mais posts
+            const response = await publicBlogPosts.getPublicPosts({
+              status: PostStatus.PUBLISHED,
+              page,
+              limit,
+            });
+            return response?.data || response || [];
+          }}
+          hasMore={displayedPosts.length >= 10}
+          loadingMore={isLoadingPosts}
+          emptyMessage={
+            searchResults.length > 0
+              ? 'Nenhum post encontrado para sua busca.'
+              : selectedCategory
+              ? 'Nenhum post nesta categoria.'
+              : 'Nenhum post publicado ainda.'
+          }
+        />
       </section>
 
       {/* Seção de newsletter */}

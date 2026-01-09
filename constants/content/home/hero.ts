@@ -9,7 +9,7 @@
  * hero da página inicial.
  */
 
-import { GRADIENTS, SHADOWS } from '@rainersoft/design-tokens';
+import { tokens } from '@rainersoft/design-tokens';
 
 /**
  * Conteúdo profissional para Hero Section
@@ -39,8 +39,8 @@ export const CONTEUDO_HERO = {
  * @description Estilos usando tokens do design system
  */
 export const ESTILOS_HERO = {
-  gradiente: GRADIENTS.TEXT_PRIMARY,
-  sombra: SHADOWS.LARGE,
+  gradiente: tokens.primitives.gradients.text.primary,
+  sombra: tokens.primitives.shadows.lg,
   animacao: {
     duracao: 6000,
     transicao: 'ease-in-out',

@@ -18,6 +18,7 @@
 
 import { env } from '@/lib/config/env';
 import { logger } from './logger';
+import { isCookieAllowed } from '@/lib/privacy/manager';
 
 // ============================================================================
 // Types
@@ -153,7 +154,9 @@ class Analytics {
 
   constructor() {
     this.isEnabled =
-      env.NEXT_PUBLIC_ENABLE_ANALYTICS && env.NEXT_PUBLIC_ENV === 'production';
+      !!env.NEXT_PUBLIC_ENABLE_ANALYTICS && 
+      env.NEXT_PUBLIC_ENV === 'production' &&
+      isCookieAllowed('analytics');
   }
 
   /**
@@ -167,6 +170,12 @@ class Analytics {
    * ```
    */
   track(event: AnalyticsEvent): void {
+    // Verificar consentimento em tempo real
+    if (!isCookieAllowed('analytics')) {
+      logger.debug('Analytics bloqueado por consentimento:', { event });
+      return;
+    }
+
     if (!this.isEnabled) {
       logger.debug('Analytics event (desabilitado):', { event });
       return;
@@ -266,6 +275,117 @@ class Analytics {
  * ```
  */
 export const analytics = new Analytics();
+
+// ============================================================================
+// Google Analytics Integration (Privacy-First)
+// ============================================================================
+
+/**
+ * Inicializa Google Analytics se consentido
+ * Função migrada de lib/privacy/analytics.ts
+ */
+export function initGoogleAnalytics(): void {
+  if (typeof window === 'undefined') return;
+
+  // Verifica se analytics está permitido
+  if (!isCookieAllowed('analytics')) {
+    logger.debug('Google Analytics bloqueado por consentimento');
+    return;
+  }
+
+  const gaId = env.NEXT_PUBLIC_GA_ID;
+  if (!gaId) {
+    if (env.NEXT_PUBLIC_ENV === 'production') {
+      logger.warn('Google Analytics ID não configurado');
+    }
+    return;
+  }
+
+  // Verifica se já foi inicializado
+  if (window.gtag) {
+    return;
+  }
+
+  // Carrega script do Google Analytics
+  const script1 = document.createElement('script');
+  script1.async = true;
+  script1.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+  document.head.appendChild(script1);
+
+  // Inicializa Google Analytics
+  const script2 = document.createElement('script');
+  script2.innerHTML = `
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${gaId}', {
+      anonymize_ip: true,
+      respect_dnt: true,
+      cookie_flags: 'SameSite=None;Secure',
+    });
+  `;
+  document.head.appendChild(script2);
+
+  logger.info('Google Analytics inicializado');
+}
+
+/**
+ * Track page view no Google Analytics (legado)
+ * Função migrada de lib/privacy/analytics.ts
+ */
+export function trackPageView(url: string): void {
+  if (typeof window === 'undefined') return;
+  if (!isCookieAllowed('analytics')) return;
+  if (!window.gtag) return;
+
+  window.gtag('config', env.NEXT_PUBLIC_GA_ID || '', {
+    page_path: url,
+  });
+}
+
+/**
+ * Track event no Google Analytics (legado)
+ * Função migrada de lib/privacy/analytics.ts
+ */
+export function trackEvent(
+  action: string,
+  category: string,
+  label?: string,
+  value?: number
+): void {
+  if (typeof window === 'undefined') return;
+  if (!isCookieAllowed('analytics')) return;
+  if (!window.gtag) return;
+
+  window.gtag('event', action, {
+    event_category: category,
+    event_label: label,
+    value: value,
+  });
+}
+
+// ============================================================================
+// Vercel Analytics Integration
+// ============================================================================
+
+/**
+ * Verifica se Vercel Analytics deve ser carregado
+ * Função migrada de lib/privacy/analytics.ts
+ */
+export function shouldLoadVercelAnalytics(): boolean {
+  return isCookieAllowed('analytics');
+}
+
+// ============================================================================
+// Window Type Extensions
+// ============================================================================
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
+  }
+}
 
 /**
  * Export da classe para extensão

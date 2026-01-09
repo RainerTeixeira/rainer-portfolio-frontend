@@ -198,6 +198,39 @@ jest.mock('@rainersoft/design-tokens', () => ({
   // Tokens
   motionTokens,
   tokens: {
+    primitives: {
+      color: {
+        palette: baseLightColors,
+      },
+      motion: motionTokens,
+      breakpoints: breakpointTokens,
+      zIndex: zIndexTokens,
+    },
+    semantics: {
+      color: {
+        roles: {
+          primary: { base: baseLightColors.primary.base },
+          secondary: { base: '#8b5cf6' },
+          accent: { base: '#ec4899' },
+        }
+      }
+    },
+    themes: {
+      light: {
+        text: {
+          primary: '#000000',
+          secondary: '#666666',
+        },
+        primitive: lightThemeColors.primitive,
+      },
+      dark: {
+        text: {
+          primary: '#ffffff',
+          secondary: '#cccccc',
+        },
+        primitive: baseDarkColors.primitive,
+      },
+    },
     colors: {
       light: baseLightColors,
       dark: baseDarkColors,

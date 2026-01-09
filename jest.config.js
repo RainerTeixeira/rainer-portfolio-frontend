@@ -9,7 +9,7 @@
  */
 
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-export default {
+const config = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   
@@ -31,7 +31,7 @@ export default {
   moduleNameMapper: {
     // Aliases legados usados em testes apontando para módulos reais da nova estrutura
     '^@/lib/env$': '<rootDir>/lib/config/env',
-    '^@/lib/utils$': '<rootDir>/lib/portfolio/css',
+    '^@/lib/utils$': '<rootDir>/lib/utils/index',
     '^@/lib/content$': '<rootDir>/lib/blog',
     '^@/lib/content/reading-time$': '<rootDir>/lib/blog/reading-time',
     '^@/lib/content/tiptap-utils$': '<rootDir>/lib/blog/tiptap',
@@ -118,3 +118,5 @@ export default {
   // Timeout para testes
   testTimeout: 10000,
 };
+
+module.exports = config;

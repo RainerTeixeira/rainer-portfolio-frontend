@@ -11,8 +11,8 @@ import {
   validateMessage,
 } from '@/lib/utils';
 import { isDevelopment } from '@/lib/config/env';
-import { ApiError } from '../client';
-import { API_CONFIG } from '../api-config';
+import { ApiError, handleApiError } from './error-handler';
+import { API_CONFIG } from '../index';
 
 type ValidationFunction = (value: string) => {
   isValid: boolean;
@@ -142,13 +142,13 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
     error.fullName === 'ApiError' &&
     'status' in error
   ) {
-    const apiError = error as ApiError;
+    const apiError = error as unknown as ApiError;
     result.isApiError = true;
-    result.status = apiError.status;
+    result.status = apiError.status || 0;
     result.message = apiError.message;
-    result.url = apiError.url;
-    result.method = apiError.method;
-    result.endpoint = apiError.endpoint;
+    result.url = (apiError as any).url;
+    result.method = (apiError as any).method;
+    result.endpoint = (apiError as any).endpoint;
 
     // ApiError com status 0 representa erro de rede/backend offline
     if (apiError.status === 0) {
@@ -166,8 +166,8 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
       result.message = 'Erro de validação';
 
       // Extrai erros de validação da resposta da API, se disponível
-      if (apiError.data && typeof apiError.data === 'object') {
-        const data = apiError.data as Record<string, unknown>;
+      if ((apiError as any).data && typeof (apiError as any).data === 'object') {
+        const data = (apiError as any).data as Record<string, unknown>;
         if (
           data.errors &&
           typeof data.errors === 'object' &&
@@ -186,7 +186,7 @@ export function analyzeApiError(error: unknown): ApiErrorAnalysis {
       result.isServerError = true;
       result.suggestions = [
         'O servidor está enfrentando problemas temporários',
-        `Tente novamente em ${(API_CONFIG.retryDelay ?? 3000) / 1000} segundos`,
+        `Tente novamente em ${(API_CONFIG.timeout ?? 3000) / 1000} segundos`,
         `Número máximo de tentativas: ${API_CONFIG.retries ?? 3}`,
         'Verifique o status do serviço',
         'Contate o suporte técnico se o problema persistir',

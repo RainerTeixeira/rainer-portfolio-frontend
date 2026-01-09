@@ -40,12 +40,12 @@ import {
 // ============================================================================
 
 import {
-  GRADIENT_DIRECTIONS,
-  MOTION,
-  SHADOWS,
-  RESPONSIVE,
-  lightThemeColors,
-  darkThemeColors,
+  gradientPrimitive,
+  motionPrimitive,
+  shadowsPrimitive,
+  breakpointsPrimitive,
+  lightTheme,
+  darkTheme,
 } from '@rainersoft/design-tokens';
 
 // ============================================================================
@@ -79,8 +79,7 @@ export function Footer() {
       <div
         className={cn(
           'absolute inset-0 blur-2xl pointer-events-none opacity-20 dark:opacity-10',
-          GRADIENT_DIRECTIONS.TO_RIGHT,
-          // Cores de gradiente usando tokens primitivos
+                  // Cores de gradiente usando tokens primitivos
           'from-[var(--color-primitive-cyan-500)]/5',
           'via-[var(--color-primitive-purple-500)]/5',
           'to-[var(--color-primitive-pink-500)]/5',
@@ -107,7 +106,7 @@ export function Footer() {
             'opacity-40',
             'rounded-full',
             // Shadow usando token com cor primária
-            SHADOWS.LARGE,
+            shadowsPrimitive.LARGE,
             'shadow-[var(--color-primary-base)]/50'
           )}
           style={{ animationDelay: '2s' }}
@@ -121,7 +120,7 @@ export function Footer() {
             'opacity-40',
             'rounded-full',
             // Shadow usando token com cor secundária
-            SHADOWS.LARGE,
+            shadowsPrimitive.LARGE,
             'shadow-[var(--color-secondary-base)]/50'
           )}
           style={{ animationDelay: '3s' }}
@@ -172,8 +171,7 @@ export function Footer() {
                   className={cn(
                     'inline-flex items-center gap-1.5 px-3 py-1',
                     'rounded-full',
-                    // Gradiente usando tokens
-                    `${GRADIENT_DIRECTIONS.TO_BR}`,
+                    'bg-gradient-to-r',
                     'from-[var(--color-primary-base)]/10',
                     'to-[var(--color-primary-base)]/20',
                     'text-[var(--color-primary-base)]',
@@ -189,8 +187,7 @@ export function Footer() {
                   className={cn(
                     'inline-flex items-center gap-1.5 px-3 py-1',
                     'rounded-full',
-                    // Gradiente usando tokens de status success
-                    `${GRADIENT_DIRECTIONS.TO_BR}`,
+                    'bg-gradient-to-r',
                     'from-[var(--color-status-success-base)]/10',
                     'to-[var(--color-primitive-green-600)]/20',
                     'text-[var(--color-primitive-green-600)]',
@@ -233,8 +230,8 @@ export function Footer() {
                           'dark:text-[var(--color-primitive-neutral-300)]',
                           'hover:text-[var(--color-primary-base)]',
                           'dark:hover:text-[var(--color-primary-base)]',
-                          // Transition usando token MOTION
-                          MOTION.TRANSITION.COLOR
+                          // Transition usando token motionPrimitive
+                          motionPrimitive.TRANSITION.COLOR
                         )}
                       >
                         <ArrowRight
@@ -278,8 +275,8 @@ export function Footer() {
                         'dark:text-[var(--color-primitive-neutral-300)]',
                         'hover:text-[var(--color-text-primary)]',
                         'dark:hover:text-[var(--color-primary-base)]',
-                        // Transition usando token MOTION
-                        MOTION.TRANSITION.COLOR,
+                        // Transition usando token motionPrimitive
+                        motionPrimitive.TRANSITION.COLOR,
                         'cursor-default leading-relaxed'
                       )}
                     >
@@ -315,8 +312,8 @@ export function Footer() {
                     'dark:text-[var(--color-primitive-neutral-300)]',
                     'hover:text-[var(--color-primary-base)]',
                     'dark:hover:text-[var(--color-primary-base)]',
-                    // Transition usando token MOTION
-                    MOTION.TRANSITION.COLOR
+                    // Transition usando token motionPrimitive
+                    motionPrimitive.TRANSITION.COLOR
                   )}
                   aria-label={`Enviar email para ${SITE_CONFIG.contact.email.comercial}`}
                 >
@@ -353,8 +350,8 @@ export function Footer() {
                         'dark:text-[var(--color-primitive-neutral-300)]',
                         'hover:text-[var(--color-primary-base)]',
                         'dark:hover:text-[var(--color-primary-base)]',
-                        // Transition usando token MOTION
-                        MOTION.TRANSITION.COLOR
+                        // Transition usando token motionPrimitive
+                        motionPrimitive.TRANSITION.COLOR
                       )}
                       aria-label={`Ligar para ${rawPhone}`}
                     >
@@ -404,9 +401,9 @@ export function Footer() {
                       'dark:hover:text-[var(--color-primary-base)]',
                       'hover:bg-[var(--color-accent-base)]/50',
                       'hover:scale-110',
-                      // Transitions usando tokens MOTION
-                      MOTION.TRANSITION.COLOR,
-                      MOTION.TRANSITION.TRANSFORM
+                      // Transitions usando tokens motionPrimitive
+                      motionPrimitive.TRANSITION.COLOR,
+                      motionPrimitive.TRANSITION.TRANSFORM
                     )}
                     aria-label="Visitar GitHub"
                   >
@@ -424,9 +421,9 @@ export function Footer() {
                       'dark:hover:text-[var(--color-primary-base)]',
                       'hover:bg-[var(--color-accent-base)]/50',
                       'hover:scale-110',
-                      // Transitions usando tokens MOTION
-                      MOTION.TRANSITION.COLOR,
-                      MOTION.TRANSITION.TRANSFORM
+                      // Transitions usando tokens motionPrimitive
+                      motionPrimitive.TRANSITION.COLOR,
+                      motionPrimitive.TRANSITION.TRANSFORM
                     )}
                     aria-label="Visitar LinkedIn"
                   >
@@ -477,8 +474,8 @@ export function Footer() {
                   'text-[var(--color-text-secondary)]',
                   'hover:text-[var(--color-primary-base)]',
                   'dark:hover:text-[var(--color-primary-base)]',
-                  // Transition usando token MOTION
-                  MOTION.TRANSITION.COLOR
+                  // Transition usando token motionPrimitive
+                  motionPrimitive.TRANSITION.COLOR
                 )}
               >
                 Privacidade
@@ -491,8 +488,8 @@ export function Footer() {
                   'text-[var(--color-text-secondary)]',
                   'hover:text-[var(--color-primary-base)]',
                   'dark:hover:text-[var(--color-primary-base)]',
-                  // Transition usando token MOTION
-                  MOTION.TRANSITION.COLOR
+                  // Transition usando token motionPrimitive
+                  motionPrimitive.TRANSITION.COLOR
                 )}
               >
                 Termos
@@ -505,8 +502,8 @@ export function Footer() {
                   'text-[var(--color-text-secondary)]',
                   'hover:text-[var(--color-primary-base)]',
                   'dark:hover:text-[var(--color-primary-base)]',
-                  // Transition usando token MOTION
-                  MOTION.TRANSITION.COLOR
+                  // Transition usando token motionPrimitive
+                  motionPrimitive.TRANSITION.COLOR
                 )}
               >
                 Cookies
@@ -519,8 +516,8 @@ export function Footer() {
                   'text-[var(--color-text-secondary)]',
                   'hover:text-[var(--color-primary-base)]',
                   'dark:hover:text-[var(--color-primary-base)]',
-                  // Transition usando token MOTION
-                  MOTION.TRANSITION.COLOR
+                  // Transition usando token motionPrimitive
+                  motionPrimitive.TRANSITION.COLOR
                 )}
               >
                 Gerenciar Cookies
@@ -532,5 +529,14 @@ export function Footer() {
     </footer>
   );
 }
+
+
+
+
+
+
+
+
+
 
 

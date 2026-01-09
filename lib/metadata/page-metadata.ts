@@ -9,7 +9,7 @@
  * @version 1.0.0
  */
 
-import type { Category, Post } from '@/lib/api/types';
+import type { Post, PostCategory } from '@/lib/api/types/public/blog';
 import { extractTextFromTiptap } from '@/lib/blog';
 import { env } from '@/lib/config/env';
 import type { Metadata } from 'next';
@@ -166,17 +166,17 @@ export function generatePostMetadata(post: Post): Metadata {
 
   // Usa excerpt se disponível, senão extrai do conteúdo
   const description =
-    post.excerpt || extractTextFromTiptap(post.content).slice(0, 160) + '...';
+    post.excerpt || extractTextFromTiptap(typeof post.content === 'string' ? JSON.parse(post.content) : post.content).slice(0, 160) + '...';
 
   return generateMetadata({
     title: post.title,
     description,
-    image: post.coverImage,
+    image: post.coverImage ?? undefined,
     type: 'article',
     publishedTime: post.publishedAt,
     modifiedTime: post.updatedAt,
     authors: post.author ? [post.author.fullName] : ['Rainer Teixeira'],
-    tags: post.tags,
+    tags: post.tags?.map(tag => tag.name),
     canonicalUrl: postUrl,
   });
 }
@@ -195,12 +195,11 @@ export function generatePostMetadata(post: Post): Metadata {
  * const metadata = generateCategoryMetadata(category);
  * ```
  */
-export function generateCategoryMetadata(category: Category): Metadata {
-  const categoryName = category.fullName || category.name;
+export function generateCategoryMetadata(category: PostCategory): Metadata {
+  const categoryName = category.name;
   return generateMetadata({
     title: `${categoryName} - Artigos e Tutoriais`,
     description:
       category.description || `Explore artigos sobre ${categoryName}`,
-    image: category.coverImage,
   });
 }

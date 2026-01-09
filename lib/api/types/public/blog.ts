@@ -7,6 +7,8 @@
  * @module lib/api/types/public/blog
  */
 
+import type { PaginationMeta } from '../common';
+
 /**
  * Enum para status de posts
  */
@@ -89,7 +91,7 @@ export interface Post {
   /** Data da última atualização */
   updatedAt: string;
   /** Data de publicação (se publicado) */
-  publishedAt?: string;
+  publishedAt: string;
   /** Autor do post */
   author: PostAuthor;
   /** Categoria do post */
@@ -124,6 +126,12 @@ export interface PostListItem {
   publishedAt: string;
   /** Data de criação */
   createdAt?: string;
+  /** Data da última atualização */
+  updatedAt?: string;
+  /** Conteúdo completo do post (para compatibilidade com dashboard) */
+  content?: string;
+  /** Status do post (para compatibilidade com dashboard) */
+  status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
   /** Se o post é em destaque */
   featured?: boolean;
   /** Autor simplificado */
@@ -150,24 +158,6 @@ export interface PostListItem {
   commentsCount?: number;
   /** Tempo estimado de leitura */
   readTime?: number;
-}
-
-/**
- * Interface para metadados de paginação
- */
-export interface PaginationMeta {
-  /** Número total de itens */
-  total: number;
-  /** Página atual */
-  page: number;
-  /** Número de itens por página */
-  limit: number;
-  /** Número total de páginas */
-  totalPages: number;
-  /** Tem próxima página? */
-  hasNext: boolean;
-  /** Tem página anterior? */
-  hasPrev: boolean;
 }
 
 /**

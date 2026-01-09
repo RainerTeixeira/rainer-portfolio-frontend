@@ -63,10 +63,9 @@ import {
 // ============================================================================
 
 import {
-  lightThemeColors,
-  darkThemeColors,
-  Z_INDEX,
-  RESPONSIVE,
+  lightTheme,
+  darkTheme,
+  zIndexPrimitive,
 } from '@rainersoft/design-tokens';
 
 // ============================================================================
@@ -281,10 +280,10 @@ export const metadata: Metadata = {
     'apple-mobile-web-app-status-bar-style': 'black-translucent',
     'apple-mobile-web-app-title': SITE_CONFIG.name,
     'format-detection': 'telephone=no, date=no, email=no, address=no',
-    'theme-color': lightThemeColors.primitive.neutral[950],
+    'theme-color': '#0a0e27',
     'mobile-web-app-status-bar-style': 'black-translucent',
-    'msapplication-TileColor': lightThemeColors.primitive.neutral[950],
-    'msapplication-navbutton-color': lightThemeColors.primitive.neutral[950],
+    'msapplication-TileColor': '#0a0e27',
+    'msapplication-navbutton-color': '#0a0e27',
     'msapplication-starturl': '/',
     'msapplication-tap-highlight': 'no',
     HandheldFriendly: 'true',
@@ -322,11 +321,11 @@ export const viewport: Viewport = {
   themeColor: [
     { 
       media: '(prefers-color-scheme: light)', 
-      color: lightThemeColors.primitive.neutral[50] 
+      color: '#f9fafb' 
     },
     { 
       media: '(prefers-color-scheme: dark)', 
-      color: darkThemeColors.primitive.neutral[950] 
+      color: '#0a0e27' 
     },
   ],
 };
@@ -418,7 +417,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
                  * Cabeçalho fixo com navegação principal
                  */}
                 <header
-                  className={`sticky top-0 will-change-transform ${Z_INDEX.STICKY}`}
+                  className="sticky top-0 will-change-transform z-[300]"
+                  style={{ zIndex: zIndexPrimitive.dropdown }}
                 >
                   <Navbar />
                 </header>

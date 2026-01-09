@@ -9,7 +9,7 @@
  * @version 1.0.0
  */
 
-import type { Post } from '@/lib/api/types';
+import type { Post } from '@/lib/api/types/public/blog';
 import { extractTextFromTiptap } from '@/lib/blog';
 import { env } from '@/lib/config/env';
 
@@ -40,7 +40,7 @@ export function generateArticleStructuredData(post: Post) {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.title,
-    description: extractTextFromTiptap(post.content).slice(0, 160),
+    description: extractTextFromTiptap(typeof post.content === 'string' ? JSON.parse(post.content) : post.content).slice(0, 160),
     image: post.coverImage || `${siteUrl}/og-image.png`,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,

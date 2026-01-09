@@ -113,7 +113,7 @@ export function RegisterForm({}: RegisterFormProps) {
 
     try {
       // Modo produção: usar AWS Cognito via authService (sempre backend)
-      const registerResponse = await authService.register({
+      const registerResponse = await publicAuth.register({
         fullName: data.name,
         email: data.email,
         password: data.password,

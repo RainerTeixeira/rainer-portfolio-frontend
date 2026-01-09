@@ -78,6 +78,22 @@ export { INFO_CONTATO as CONTACT_INFO_CARDS } from './content/contato/formulario
 // ============================================================================
 
 export { CATEGORIAS, TAGS_POPULARES, CONFIG_BLOG } from './content/blog/categorias';
+
+// ============================================================================
+// DESIGN TOKENS
+// ============================================================================
+
+export {
+  PRIMITIVE_COLORS,
+  GRAY_SCALE,
+  BRAND_COLORS,
+  ACCENT_COLORS,
+  STATUS_COLORS,
+  CHART_COLORS,
+  SPACING,
+  RADIUS,
+  TYPOGRAPHY,
+} from './design-tokens';
 // Tipos não definidos no arquivo - removidos temporariamente
 
 // ============================================================================

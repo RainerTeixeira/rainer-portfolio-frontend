@@ -36,13 +36,13 @@ import {
   PostMetadataCard,
   PostNavigation,
   ReadingProgress,
-} from '@/components/blog';
+} from '@/components/domain/blog';
 import { BackToTop, ParticlesEffect } from '@rainersoft/ui';
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { Separator } from '@rainersoft/ui';
-import { tiptapJSONtoHTML } from '@/lib/blog/tiptap';
+import { tiptapJSONtoHTML } from '@/lib/utils';
 import { publicBlogPosts as postsService } from '@/lib/api';
 import type { Post } from '@/lib/api/types/public/blog';
 import { PostStatus } from '@/lib/api/types/public/blog';
@@ -422,7 +422,7 @@ export default function PostPage() {
           // Passar data crua (ISO) para o card, que formata de forma relativa
           date={post.publishedAt || post.createdAt}
           category={post.category?.name}
-          tags={post.tags.map(tag => tag.name)}
+          tags={post.tags?.map(tag => tag.name) || []}
           views={post.views}
           likesCount={post.likesCount}
           content={post.content}

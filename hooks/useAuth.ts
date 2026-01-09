@@ -1,11 +1,12 @@
 import { publicAuth } from '@/lib/api';
 import { publicUsers } from '@/lib/api';
-import { ApiError } from '@/lib/api/client';
+import { ApiError } from '@/lib/api/utils/error-handler';
 import type {
   UpdateProfileData,
   User,
   UserProfile,
 } from '@/lib/api/types/public/users';
+import { UserRole } from '@/lib/api/types/public/users';
 import type { CreateUserData } from '@/lib/api/types/public/users';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -111,7 +112,30 @@ export function useAuth() {
     try {
       setLoading(true);
 
-      // Sempre usar backend real via authService
+      // MODO DESENVOLVIMENTO: Mock de autenticação local
+      if (process.env.NODE_ENV === 'development' && email === 'admin' && password === 'admin') {
+        const mockUser: UserProfile = {
+          id: 'dev-user-1',
+          cognitoSub: 'dev-user-1',
+          email: 'admin@rainersoft.com.br',
+          emailVerified: true,
+          nickname: 'admin',
+          fullName: 'Administrador Dev',
+          role: UserRole.ADMIN,
+          isActive: true,
+          isBanned: false,
+          postsCount: 0,
+          commentsCount: 0,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        
+        setUser(mockUser);
+        setError(null);
+        return mockUser;
+      }
+
+      // Produção: Usar backend real via authService
       const response = await publicAuth.login({ email, password });
       const authData = (response as any)?.data ?? response;
       const userProfile = (authData as any)?.user as UserProfile | undefined;
@@ -317,10 +341,13 @@ export function useAuth() {
         // Mescla com dados do Cognito (email permanece inalterado)
         // Nickname vem do Mongo/Prisma (backend), token Cognito é apenas fallback
         const updatedUser: UserProfile = {
-          ...updatedMongoUser,
+          ...user, // Mantém todas as propriedades do usuário atual
+          ...updatedMongoUser, // Sobrescreve com dados atualizados do MongoDB
           email: user.email, // Email vem do Cognito, não muda
           emailVerified: user.emailVerified,
           nickname: updatedMongoUser.nickname || user.nickname,
+          avatar: updatedMongoUser.avatar || undefined,
+          bio: updatedMongoUser.bio || undefined,
         };
 
         setUser(updatedUser);
@@ -512,8 +539,8 @@ export function useAuth() {
         );
 
         // Configurar token na API
-        const { api } = await import('@/lib/api/client');
-        api.setAuthToken(tokens.accessToken);
+        const { setToken } = await import('@/lib/utils');
+        setToken(tokens.accessToken);
 
         // Buscar perfil do usuário
         let userData = await publicAuth.getUserProfile();
@@ -768,7 +795,32 @@ export function useAuth() {
   // Login com Google OAuth
   const loginWithGoogle = useCallback(async () => {
     try {
-      await publicAuth.loginWithGoogle();
+      // MODO DESENVOLVIMENTO: Mock de login Google
+      if (process.env.NODE_ENV === 'development') {
+        const mockUser: UserProfile = {
+          id: 'dev-google-user-1',
+          cognitoSub: 'dev-google-user-1',
+          email: 'google.user@rainersoft.com.br',
+          emailVerified: true,
+          nickname: 'google_user',
+          fullName: 'Google User Dev',
+          avatar: 'https://lh3.googleusercontent.com/a/default-user',
+          role: UserRole.USER,
+          isActive: true,
+          isBanned: false,
+          postsCount: 0,
+          commentsCount: 0,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        
+        setUser(mockUser);
+        setError(null);
+        return mockUser;
+      }
+
+      // Produção: Usar backend real
+      return await publicAuth.loginWithGoogle();
     } catch (err) {
       console.error('Erro ao iniciar login com Google:', err);
       throw err;

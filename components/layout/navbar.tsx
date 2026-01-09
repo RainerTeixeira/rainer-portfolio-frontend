@@ -50,7 +50,7 @@ import { LayoutDashboard, LogIn, LogOut, Menu, Settings } from 'lucide-react';
 // ============================================================================
 
 import { ThemeToggle } from '@rainersoft/ui';
-import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
+import { Avatar } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import {
   DropdownMenu,
@@ -81,7 +81,7 @@ import {
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { NAVIGATION, SITE_CONFIG } from '@/constants';
 import { cn } from '@rainersoft/ui';
-import { SECTION_CLASSES, CARD_CLASSES, ANIMATION_DELAYS } from '@/lib/portfolio/css';
+import { SECTION_CLASSES, CARD_CLASSES, ANIMATION_DELAYS } from '@/lib/utils';
 import { getAvatarUrl, setCloudNameFromUrl } from '@/lib/utils';
 import { extractInitials } from '@/hooks';
 

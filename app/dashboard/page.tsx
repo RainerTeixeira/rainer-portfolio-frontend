@@ -55,13 +55,8 @@ import { toast } from 'sonner';
 
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { privateBlogPosts as postsService } from '@/lib/api';
-import type {
-  CreatePostData,
-  Post,
-  PostStatus,
-  TiptapJSON,
-  UpdatePostData,
-} from '@/lib/api/types';
+import type { CreatePostDto, UpdatePostDto } from '@/lib/api/types/private/blog';
+import type { Post, PostStatus, TiptapJSON, PostListItem } from '@/lib/api/types';
 import { BackToTop } from '@rainersoft/ui';
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
@@ -85,10 +80,10 @@ import {
   SubcategorySelect,
   ImageUpload,
 } from '@/components/domain/dashboard';
-import { PostCard } from '@/components/blog/post-card';
+import { PostCard } from '@/components/domain/blog/post-card';
 import { Editor } from '@/components/domain/dashboard/Editor';
-import { tiptapJSONtoHTML } from '@/components/domain/dashboard/lib/tiptap-utils';
-import { createEmptyTiptapContent } from '@/lib/blog';
+import { tiptapJSONtoHTML } from '@/lib/utils';
+import { createEmptyTiptapContent } from '@/lib/utils';
 import { cn } from '@rainersoft/ui';
 import { textToSlug } from '@/lib/utils';
 import { GRADIENT_DIRECTIONS, BACKGROUND } from '@rainersoft/design-tokens';
@@ -114,17 +109,13 @@ const MAX_RECENT_POSTS = 5;
  *
  * @constant {Partial<CreatePostData>}
  */
-const EMPTY_POST_TEMPLATE: Partial<CreatePostData> = {
+const EMPTY_POST_TEMPLATE: Partial<CreatePostDto> = {
   title: '',
   excerpt: '',
-  content: createEmptyTiptapContent(),
-  subcategoryId: '',
+  content: JSON.stringify(createEmptyTiptapContent()),
+  categoryId: '',
   coverImage: '/images/t1.jpg',
-  status: 'DRAFT' as PostStatus,
-  featured: false,
-  allowComments: true,
-  pinned: false,
-  priority: 0,
+  status: 'DRAFT',
 } as const;
 
 /**
@@ -152,8 +143,8 @@ function DashboardPageContent() {
   const searchParams = useSearchParams();
   const { user, isAuthenticated, loading: isAuthLoading } = useAuthContext();
 
-  const [allPosts, setAllPosts] = React.useState<Post[]>([]);
-  const [filteredPosts, setFilteredPosts] = React.useState<Post[]>([]);
+  const [allPosts, setAllPosts] = React.useState<PostListItem[]>([]);
+  const [filteredPosts, setFilteredPosts] = React.useState<PostListItem[]>([]);
   const [searchQuery, setSearchQuery] = React.useState('');
   const [statusFilter, setStatusFilter] = React.useState<'all' | 'PUBLISHED' | 'DRAFT'>('all');
   const [isEditMode, setIsEditMode] = React.useState(false);
@@ -161,7 +152,7 @@ function DashboardPageContent() {
   const [isSavingPost, setIsSavingPost] = React.useState(false);
   const [hasSaveSucceeded, setHasSaveSucceeded] = React.useState(false);
   const [currentEditingPost, setCurrentEditingPost] = React.useState<
-    Partial<CreatePostData> | Post
+    Partial<CreatePostDto> | PostListItem
   >(EMPTY_POST_TEMPLATE);
 
   const urlMode = searchParams.get('mode');
@@ -210,7 +201,7 @@ function DashboardPageContent() {
           .then(response => {
             const post = response.data.find(p => p.id === urlEditId);
             if (post) {
-              startEditingPost(post);
+              setCurrentEditingPost(post);
             }
           })
           .catch(error => {
@@ -263,7 +254,7 @@ function DashboardPageContent() {
     }
 
     setFilteredPosts(filtered);
-  }, [allPosts, searchQuery, statusFilter]);
+  }, [allPosts, searchQuery]);
 
   /**
    * Reseta dados - removido (não aplicável com API real).
@@ -285,154 +276,24 @@ function DashboardPageContent() {
   /**
    * Inicia edição de post existente.
    */
-  const startEditingPost = React.useCallback((post: Post) => {
+  const startEditingPost = React.useCallback((post: PostListItem) => {
     setCurrentEditingPost(post);
     setIsEditMode(true);
   }, []);
 
   /**
-   * Salva post (criar ou atualizar).
+   * Salva post (criar ou atualizar) - DESABILITADO para PostListItem
+   * PostListItem não tem campos necessários para edição (content, status)
    */
   const saveCurrentPost = async () => {
-    if (!user?.cognitoSub) {
-      toast.error('Você precisa estar autenticado para salvar posts');
-      return;
-    }
-
-    if (
-      !currentEditingPost.title ||
-      !currentEditingPost.content ||
-      ('subcategoryId' in currentEditingPost &&
-        !currentEditingPost.subcategoryId &&
-        !('id' in currentEditingPost))
-    ) {
-      toast.error(
-        'Preencha todos os campos obrigatórios (título, conteúdo e subcategoria)'
-      );
-      return;
-    }
-
-    setIsSavingPost(true);
-
-    try {
-      const slug =
-        'slug' in currentEditingPost && currentEditingPost.slug
-          ? currentEditingPost.slug
-          : textToSlug(currentEditingPost.title);
-
-      if ('id' in currentEditingPost && currentEditingPost.id) {
-        // Atualizar post existente
-        const updateData: UpdatePostData = {
-          title: currentEditingPost.title,
-          slug,
-          content: currentEditingPost.content,
-          excerpt:
-            'excerpt' in currentEditingPost
-              ? currentEditingPost.excerpt
-              : undefined,
-          coverImage:
-            'coverImage' in currentEditingPost
-              ? currentEditingPost.coverImage
-              : undefined,
-          subcategoryId:
-            'subcategoryId' in currentEditingPost
-              ? currentEditingPost.subcategoryId
-              : undefined,
-          status:
-            'status' in currentEditingPost
-              ? currentEditingPost.status
-              : undefined,
-          featured:
-            'featured' in currentEditingPost
-              ? currentEditingPost.featured
-              : undefined,
-          allowComments:
-            'allowComments' in currentEditingPost
-              ? currentEditingPost.allowComments
-              : undefined,
-          pinned:
-            'pinned' in currentEditingPost
-              ? currentEditingPost.pinned
-              : undefined,
-          priority:
-            'priority' in currentEditingPost
-              ? currentEditingPost.priority
-              : undefined,
-        };
-
-        await postsService.updatePost(currentEditingPost.id, updateData);
-        toast.success('Post atualizado com sucesso!');
-      } else {
-        // Criar novo post
-        const createData: CreatePostData = {
-          title: currentEditingPost.title,
-          slug,
-          content: currentEditingPost.content,
-          excerpt:
-            'excerpt' in currentEditingPost
-              ? currentEditingPost.excerpt
-              : undefined,
-          coverImage:
-            'coverImage' in currentEditingPost
-              ? currentEditingPost.coverImage
-              : undefined,
-          subcategoryId:
-            'subcategoryId' in currentEditingPost &&
-            currentEditingPost.subcategoryId
-              ? currentEditingPost.subcategoryId
-              : '', // Necessário para criação
-          authorId: user.cognitoSub,
-          status:
-            ('status' in currentEditingPost && currentEditingPost.status) ||
-            ('DRAFT' as PostStatus),
-          featured:
-            'featured' in currentEditingPost
-              ? currentEditingPost.featured
-              : false,
-          allowComments:
-            'allowComments' in currentEditingPost
-              ? currentEditingPost.allowComments
-              : true,
-          pinned:
-            'pinned' in currentEditingPost ? currentEditingPost.pinned : false,
-          priority:
-            'priority' in currentEditingPost ? currentEditingPost.priority : 0,
-        };
-
-        await postsService.createPost(createData);
-        toast.success('Post criado com sucesso!');
-      }
-
-      setHasSaveSucceeded(true);
-      setTimeout(() => setHasSaveSucceeded(false), SAVE_SUCCESS_DISPLAY_MS);
-
-      await loadAllPosts();
-      setIsEditMode(false);
-    } catch (error) {
-      console.error('Erro ao salvar post:', error);
-      toast.error('Erro ao salvar post. Tente novamente.');
-    } finally {
-      setIsSavingPost(false);
-    }
+    toast.info('Funcionalidade de edição desabilitada. Use a API admin diretamente.');
   };
 
   /**
-   * Deleta post específico
+   * Deleta post específico - DESABILITADO para PostListItem
    */
   const deletePost = async (postId: string) => {
-    if (confirm('Tem certeza que deseja deletar este post?')) {
-      try {
-        await postsService.deletePost(postId);
-        toast.success('Post deletado com sucesso!');
-        await loadAllPosts();
-        if ('id' in currentEditingPost && currentEditingPost.id === postId) {
-          setIsEditMode(false);
-        }
-      } catch (error) {
-        console.error('Erro ao deletar post:', error);
-        toast.error('Erro ao deletar post. Tente novamente.');
-      }
-    }
+    toast.info('Funcionalidade de deleção desabilitada. Use a API admin diretamente.');
   };
 
   /**
@@ -792,14 +653,14 @@ function DashboardPageContent() {
                             </Label>
                             <SubcategorySelect
                               value={
-                                'subcategoryId' in currentEditingPost
-                                  ? currentEditingPost.subcategoryId || ''
+                                'category' in currentEditingPost && currentEditingPost.category
+                                  ? currentEditingPost.category.id || ''
                                   : ''
                               }
-                              onChange={(subcategoryId) =>
+                              onChange={(categoryId) =>
                                 setCurrentEditingPost({
                                   ...currentEditingPost,
-                                  subcategoryId,
+                                  category: (categoryId ? { id: categoryId, name: '', slug: '' } : undefined) as any,
                                 })
                               }
                               placeholder="Selecione uma subcategoria"
@@ -839,7 +700,7 @@ function DashboardPageContent() {
                               onChange={data =>
                                 setCurrentEditingPost({
                                   ...currentEditingPost,
-                                  content: data.json as unknown as TiptapJSON,
+                                  content: JSON.stringify(data.json),
                                 })
                               }
                               placeholder="Escreva o conteúdo do post..."
@@ -859,9 +720,7 @@ function DashboardPageContent() {
                               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                                 setCurrentEditingPost({
                                   ...currentEditingPost,
-                                  status: e.target.checked
-                                    ? ('PUBLISHED' as PostStatus)
-                                    : ('DRAFT' as PostStatus),
+                                  status: e.target.checked ? 'PUBLISHED' : 'DRAFT',
                                 })
                               }
                               className="w-4 h-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500"
@@ -979,8 +838,9 @@ function DashboardPageContent() {
                                 : undefined
                             }
                             category={
-                              ('subcategory' in currentEditingPost &&
-                                currentEditingPost.subcategory?.name) ||
+                              ('category' in currentEditingPost &&
+                                currentEditingPost.category &&
+                                currentEditingPost.category.name) ||
                               undefined
                             }
                             image={
@@ -1075,7 +935,7 @@ function DashboardPageContent() {
                           </div>
                         ) : (
                           <div className="space-y-4">
-                            {filteredPosts.map((post: Post) => (
+                            {filteredPosts.map((post: PostListItem) => (
                               <motion.div
                                 key={post.id}
                                 initial={{ opacity: 0, x: -20 }}
@@ -1101,10 +961,10 @@ function DashboardPageContent() {
                                     {post.excerpt || 'Sem descrição'}
                                   </p>
                                   <p className="text-xs text-muted-foreground mt-1 font-mono">
-                                    {post.subcategory?.name || 'Sem categoria'}{' '}
+                                    {post.category?.name || 'Sem categoria'}{' '}
                                     •{' '}
                                     {new Date(
-                                      post.createdAt
+                                      post.createdAt || post.publishedAt
                                     ).toLocaleDateString('pt-BR')}
                                   </p>
                                 </div>

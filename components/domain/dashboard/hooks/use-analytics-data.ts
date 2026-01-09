@@ -14,12 +14,19 @@
 
 'use client';
 
-import { dashboardService } from '@/lib/api';
-import type {
-  AnalyticsPeriod,
-  EngagementData,
-  ViewsData,
-} from '@/lib/api/types';
+type AnalyticsPeriod = '7d' | '30d' | '90d';
+
+interface ViewsData {
+  date: string;
+  views: number;
+  uniqueViews?: number;
+}
+
+interface EngagementData {
+  date: string;
+  likes: number;
+  comments: number;
+}
 import { useCallback, useEffect, useState } from 'react';
 
 // Re-export do tipo do serviço
@@ -87,9 +94,11 @@ export function useAnalyticsData(period: AnalyticsPeriod = '30d') {
     setError(null);
 
     try {
-      const data = await dashboardService.getAnalytics(period);
-      setViewsData(data.views || []);
-      setEngagementData(data.engagement || []);
+      // TODO: Integrar com endpoint real de analytics
+      // Mantém hook compilando enquanto endpoints são estabilizados.
+      void period;
+      setViewsData([]);
+      setEngagementData([]);
     } catch (err) {
       const errorMessage =
         err instanceof Error

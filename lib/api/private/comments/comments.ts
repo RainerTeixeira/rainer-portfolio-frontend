@@ -24,7 +24,7 @@ import {
  * Cria um novo comentário
  * 
  * @param data - Dados do comentário a ser criado
- * @returns Promise<CommentMutationResponse> - Comentário criado
+ * @returns Promise<Comment> - Comentário criado
  * 
  * @example
  * ```typescript
@@ -34,9 +34,10 @@ import {
  * });
  * ```
  */
-export const createComment = async (data: CreateCommentDto): Promise<CommentMutationResponse> => {
+export const createComment = async (data: CreateCommentDto): Promise<Comment> => {
   const response = await privateClient.post('/comments', data);
-  return response.data;
+  const payload = (response as any)?.data ?? response;
+  return (payload as any)?.data ?? payload;
 };
 
 /**
@@ -96,9 +97,10 @@ export const getCommentById = async (id: string): Promise<Comment> => {
 export const updateComment = async (
   id: string,
   data: UpdateCommentDto
-): Promise<CommentMutationResponse> => {
+): Promise<Comment> => {
   const response = await privateClient.patch(`/comments/${id}`, data);
-  return response.data;
+  const payload = (response as any)?.data ?? response;
+  return (payload as any)?.data ?? payload;
 };
 
 /**

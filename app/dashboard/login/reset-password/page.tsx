@@ -33,6 +33,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { publicAuth } from '@/lib/api';
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -81,11 +82,9 @@ export default function ResetPasswordPage() {
     setIsLoading(true);
 
     try {
-      const { authService } = await import('@/lib/api');
-
-      await authService.resetPassword({
+      await publicAuth.resetPassword({
         email,
-        code: verificationCode,
+        token: verificationCode,
         newPassword,
       });
 

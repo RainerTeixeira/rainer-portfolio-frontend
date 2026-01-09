@@ -9,16 +9,14 @@
  * da Rainer Soft.
  */
 
-import { lightThemeColors } from '@rainersoft/design-tokens';
-
 /**
  * Cores para valores (usando tokens)
  */
 const VALUES_COLORS = {
-  primary: lightThemeColors.primitive.cyan[600],
-  secondary: lightThemeColors.primitive.purple[600],
-  accent: lightThemeColors.primitive.pink[600],
-  success: lightThemeColors.primitive.emerald[600],
+  primary: '#00bcd4',
+  secondary: '#9c27b0',
+  accent: '#e91e63',
+  success: '#10b981',
 } as const;
 
 /**

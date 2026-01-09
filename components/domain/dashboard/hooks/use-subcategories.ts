@@ -13,12 +13,13 @@
 
 'use client';
 
-import { categoriesService, type Category } from '@/lib/api';
+import { publicBlogCategories } from '@/lib/api';
+import type { PostCategory } from '@/lib/api/types/public/blog';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export function useSubcategories() {
-  const [subcategories, setSubcategories] = useState<Category[]>([]);
+  const [subcategories, setSubcategories] = useState<PostCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,8 +32,9 @@ export function useSubcategories() {
         console.log('[useSubcategories] Buscando subcategorias...');
       }
 
-      // Buscar apenas subcategorias (parentId != null) e ativas
-      const subcategoriesList = await categoriesService.getSubcategoriesOnly();
+      // Buscar todas as categorias e filtrar apenas subcategorias (parentId definido)
+      const categories = await publicBlogCategories.getPublicCategories();
+      const subcategoriesList = categories.filter(c => !!c.parentId);
 
       if (process.env.NODE_ENV === 'development') {
         console.log(

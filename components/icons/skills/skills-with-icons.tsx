@@ -11,8 +11,7 @@
 import React from 'react';
 import type { SkillItemData } from '@/constants';
 import { SKILLS_DATA } from '@/constants';
-import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
-import { SiteIcon } from '@/components/providers/icons-provider';
+import { SKILL_ICONS } from './registry';
 
 /**
  * Item de tecnologia com ícone React
@@ -32,17 +31,17 @@ export interface SkillItem {
  */
 export const SKILLS: ReadonlyArray<SkillItem> = SKILLS_DATA.map(
   (skill: SkillItemData) => {
-    const icon = (
-      <SiteIcon
-        name={skill.iconName}
-        className="w-full h-full"
-      />
+    const IconComponent = SKILL_ICONS[skill.iconName];
+    const icon = IconComponent ? (
+      <IconComponent className="w-full h-full" />
+    ) : (
+      <div className="w-full h-full flex items-center justify-center text-xs">?</div>
     );
 
     return {
       fullName: skill.fullName,
       category: skill.category,
-      color: `${GRADIENT_DIRECTIONS.TO_RIGHT} ${skill.color}`,
+      color: `to right, ${skill.color}`,
       icon,
     };
   }

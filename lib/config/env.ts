@@ -56,6 +56,10 @@ export interface EnvironmentConfig {
   readonly NEXT_PUBLIC_DEBUG_MODE: boolean;
   /** Desabilita o Strict Mode do React */
   readonly NEXT_PUBLIC_DISABLE_STRICT_MODE: boolean;
+  /** Google Analytics ID (opcional) */
+  readonly NEXT_PUBLIC_GA_ID?: string;
+  /** Habilita analytics no build (opcional) */
+  readonly NEXT_PUBLIC_ENABLE_ANALYTICS?: boolean;
   /** Ambiente de execução do Node.js */
   readonly NODE_ENV: NodeEnvironment;
 }
@@ -88,6 +92,8 @@ const ENV_KEYS = Object.freeze({
   FORCE_COGNITO_AUTH: 'NEXT_PUBLIC_FORCE_COGNITO_AUTH',
   DEBUG_MODE: 'NEXT_PUBLIC_DEBUG_MODE',
   DISABLE_STRICT_MODE: 'NEXT_PUBLIC_DISABLE_STRICT_MODE',
+  GA_ID: 'NEXT_PUBLIC_GA_ID',
+  ENABLE_ANALYTICS: 'NEXT_PUBLIC_ENABLE_ANALYTICS',
 } as const);
 
 /**
@@ -95,10 +101,10 @@ const ENV_KEYS = Object.freeze({
  * @constant {Object} DEFAULT_CONFIG
  */
 const DEFAULT_CONFIG = Object.freeze({
-  API_TIMEOUT: 30000, // 30 segundos
-  API_MAX_RETRIES: 3,
-  API_RETRY_DELAY: 1000, // 1 segundo
-  DISABLE_STRICT_MODE: false,
+  NEXT_PUBLIC_API_TIMEOUT: 30000, // 30 segundos
+  NEXT_PUBLIC_API_MAX_RETRIES: 3,
+  NEXT_PUBLIC_API_RETRY_DELAY: 1000, // 1 segundo
+  NEXT_PUBLIC_DISABLE_STRICT_MODE: false,
 } as const);
 
 /**
@@ -309,6 +315,12 @@ function buildEnvironmentConfig(
     NEXT_PUBLIC_DISABLE_STRICT_MODE: safeParseBoolean(
       getProcessEnv(ENV_KEYS.DISABLE_STRICT_MODE),
       preset.NEXT_PUBLIC_DISABLE_STRICT_MODE
+    ),
+
+    NEXT_PUBLIC_GA_ID: getProcessEnv(ENV_KEYS.GA_ID) || undefined,
+    NEXT_PUBLIC_ENABLE_ANALYTICS: safeParseBoolean(
+      getProcessEnv(ENV_KEYS.ENABLE_ANALYTICS),
+      false
     ),
   });
 }

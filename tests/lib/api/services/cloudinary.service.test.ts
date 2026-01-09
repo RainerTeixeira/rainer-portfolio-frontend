@@ -11,7 +11,15 @@ jest.mock('@/lib/api/clients/private-client', () => ({
 }));
 
 describe('privateCloudinary', () => {
-  it('deve ter método uploadImage', () => {
-    expect(typeof privateCloudinary.uploadImage).toBe('function');
+  it('deve ter método uploadBlogImage', () => {
+    expect(typeof privateCloudinary.uploadBlogImage).toBe('function');
+  });
+
+  it('deve ter método uploadAvatar', () => {
+    expect(typeof privateCloudinary.uploadAvatar).toBe('function');
+  });
+
+  it('deve ter método validateImage', () => {
+    expect(typeof privateCloudinary.validateImage).toBe('function');
   });
 });

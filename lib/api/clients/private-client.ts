@@ -8,7 +8,7 @@
  * @module lib/api/clients/private-client
  */
 
-import { getToken, removeToken } from '@/lib/auth/token-utils';
+import { getToken, removeToken } from '@/lib/utils';
 
 /**
  * URL base da API obtida das variáveis de ambiente

@@ -37,7 +37,7 @@ import {
 import { BackToTop } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
 import { useAuthContext } from '@/components/providers/auth-context-provider';
-import { ApiError } from '@/lib/api/client';
+import { ApiError } from '@/lib/api/utils/error-handler';
 import { env, isDevelopment } from '@/lib/config/env';
 import { cn } from '@rainersoft/ui';
 import { motion } from 'framer-motion';

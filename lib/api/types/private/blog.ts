@@ -15,6 +15,8 @@ import { Post, PostCategory } from '../public/blog';
 export interface CreatePostDto {
   /** Título do post */
   title: string;
+  /** Slug URL-friendly do post */
+  slug?: string;
   /** Resumo/excerpt do post */
   excerpt: string;
   /** Conteúdo completo do post */

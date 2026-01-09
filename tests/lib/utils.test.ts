@@ -3,7 +3,7 @@
  */
 
 import {
-  ANIMATION_DELAYS,
+  TRANSITION_DELAYS,
   CARD_CLASSES,
   SECTION_CLASSES,
   cn,
@@ -65,17 +65,17 @@ describe('lib/utils', () => {
     });
   });
 
-  describe('ANIMATION_DELAYS', () => {
+  describe('TRANSITION_DELAYS', () => {
     it('deve ter delays de partículas definidos', () => {
-      expect(ANIMATION_DELAYS.particle1).toBeDefined();
-      expect(ANIMATION_DELAYS.particle2).toBeDefined();
-      expect(ANIMATION_DELAYS.particle3).toBeDefined();
+      expect(TRANSITION_DELAYS.particle1).toBeDefined();
+      expect(TRANSITION_DELAYS.particle2).toBeDefined();
+      expect(TRANSITION_DELAYS.particle3).toBeDefined();
     });
 
     it('deve ter delays de variação definidos', () => {
-      expect(ANIMATION_DELAYS.short).toBeDefined();
-      expect(ANIMATION_DELAYS.medium).toBeDefined();
-      expect(ANIMATION_DELAYS.long).toBeDefined();
+      expect(TRANSITION_DELAYS.short).toBeDefined();
+      expect(TRANSITION_DELAYS.medium).toBeDefined();
+      expect(TRANSITION_DELAYS.long).toBeDefined();
     });
   });
 });

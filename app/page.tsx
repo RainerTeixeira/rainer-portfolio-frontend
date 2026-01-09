@@ -46,7 +46,6 @@ import {
 } from '@/components/domain/home';
 import { cn } from '@rainersoft/ui';
 import { BackToTop } from '@rainersoft/ui';
-import { BACKGROUND } from '@rainersoft/design-tokens';
 import { SECTION_IDS } from '@/constants';
 
 /**

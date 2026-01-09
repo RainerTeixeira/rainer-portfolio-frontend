@@ -23,6 +23,7 @@ export {
   textToSlug,
   formatDate,
   formatRelativeDate,
+  formatDateTime,  // ✅ Da biblioteca @rainersoft/utils
   formatCurrency,
   formatNumber,
   prefersReducedMotion,
@@ -43,9 +44,24 @@ export {
   formatPercentage,
   generateMockChartData,
   groupDataByPeriod,
-  calculateMovingAverage,
-  findMinMax
+  // Status e tradução
+  translateStatus,     // ✅ Da biblioteca @rainersoft/utils
+  getStatusColor,
+  getStatusVariant
 } from '@rainersoft/utils';
+
+// Utilitários de conteúdo (Tiptap e Markdown)
+export { tiptapJSONToMarkdown, markdownToTiptapJSON } from './markdown-converter';
+
+// Utilitários de compressão de posts
+export * from './post-compressor';
+
+// Utilitários de blog 
+export * from './reading-time';
+export * from './tiptap-editor';
+
+// Utilitários de autenticação
+export * from './token-storage';
 
 // Componentes e utilitários de UI migrados para @rainersoft/ui
 export {
@@ -61,196 +77,76 @@ export {
 } from '@rainersoft/ui';
 
 // ============================================================================
-// AVATAR E IMAGEM (Portfolio-specific)
+// IMPORTAÇÕES DE CONSTANTES
+// ============================================================================
+
+export { TRANSITION_DELAYS, ANIMATION_DELAYS } from './css-constants';
+
+// ============================================================================
+// NOVOS MÓDULOS CONSOLIDADOS
+// ============================================================================
+
+// Image optimization
+export * from './image-processor';
+
+// Design tokens (safe loading)
+export * from './theme-manager';
+
+// Content search
+export * from './content-search';
+
+// CSS helpers
+export * from './css-constants';
+
+// ============================================================================
+// CONSTANTES CSS (Portfolio-specific)
 // ============================================================================
 
 /**
- * Prepara avatar para upload (específico do portfolio)
+ * Classes CSS para sections responsivas
+ *
+ * Conjunto de classes Tailwind padronizadas para seções da aplicação.
+ * Usa spacing tokens do design system para consistência.
  */
-export async function prepareAvatarForUpload(file: File): Promise<File> {
-  const { prepareImageForUpload } = await import('@rainersoft/ui');
-  return prepareImageForUpload(file, {
-    maxWidth: 512,
-    maxHeight: 512,
-    quality: 0.9,
-    shouldConvertToWebP: true
-  });
-}
+export const SECTION_CLASSES = {
+  /** Container padrão: largura máxima 7xl, centralizado, padding usando tokens */
+  container: 'w-full max-w-7xl mx-auto px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8',
+ 
+  /** Espaçamento vertical usando tokens do design system */
+  spacing: 'space-y-3 xs:space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8',
+} as const;
 
 /**
- * Gera URL do avatar com base no ID do usuário
+ * Classes CSS para cards com hover effects
+ *
+ * Conjunto de classes padronizadas para componentes Card.
+ * Usa tokens de transição e sombra do design system.
  */
-export function getAvatarUrl(userId: string, size: number = 200): string {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(userId)}&size=${size}&background=0891b2&color=fff&font-size=0.5`;
-}
-
-/**
- * Extrai nome do Cloudinary da URL
- */
-export function setCloudNameFromUrl(url: string, cloudName: string): string {
-  if (!url) return url;
-  
-  // Se já for uma URL do Cloudinary com o cloud name correto, retorna como está
-  if (url.includes(`https://cloudinary.com/${cloudName}/`)) {
-    return url;
-  }
-  
-  // Substitui o cloud name na URL do Cloudinary
-  return url.replace(/https:\/\/cloudinary\.com\/[^\/]+\//, `https://cloudinary.com/${cloudName}/`);
-}
+export const CARD_CLASSES = {
+  /** Classes base do card: transição suave */
+  base: 'transition-all duration-200 ease-in-out',
+ 
+  /** Efeito de hover: sombra usando tokens */
+  hover: 'hover:shadow-lg',
+ 
+  /** Combinação completa: base + hover */
+  full: 'transition-all duration-200 ease-in-out hover:shadow-lg',
+} as const;
 
 // ============================================================================
-// IMAGEM E MÍDIA (Portfolio-specific)
-// ============================================================================
-// Todas as funções de imagem foram migradas para @rainersoft/ui
-
-// ============================================================================
-// VALIDAÇÃO (Portfolio-specific)
+// FUNÇÕES DE UTILIDADE CSS
 // ============================================================================
 
 /**
- * Valida mensagem de contato (específico do portfolio)
- * Usa validateText do @rainersoft/utils com configurações específicas
+ * Merge inteligente de classes CSS (tailwind-merge)
+ * 
+ * Combina classes de forma inteligente, removendo conflitos do Tailwind.
  */
-export function validateMessage(message: string): boolean | { isValid: boolean; errors?: string[] } {
-  // Import dinâmico para usar a função genérica com configurações específicas
-  try {
-    const { validateText: utilsValidateText } = require('@rainersoft/utils');
-    return utilsValidateText(message, {
-      minLength: 10,
-      maxLength: 1000,
-      fieldName: 'Mensagem'
-    }, 'pt-BR');
-  } catch {
-    // Fallback caso @rainersoft/utils não esteja disponível
-    const isValid = message.length >= 10 && message.length <= 1000;
-    
-    if (!isValid) {
-      return {
-        isValid: false,
-        errors: ['Mensagem deve ter entre 10 e 1000 caracteres']
-      };
-    }
-    
-    return isValid;
-  }
-}
+import { clsx } from 'clsx';
+export const cn = clsx;
 
 // ============================================================================
-// BUSCA (Portfolio-specific)
+// DOMAIN-SPECIFIC HELPERS
 // ============================================================================
 
-/**
- * Busca conteúdo no portfolio
- */
-export function searchContent(query: string, content: any[]): any[] {
-  if (!query.trim()) return content;
-  
-  const lowercaseQuery = query.toLowerCase();
-  
-  return content.filter(item => {
-    // Busca em título
-    if (item.title?.toLowerCase().includes(lowercaseQuery)) {
-      return true;
-    }
-    
-    // Busca em descrição
-    if (item.description?.toLowerCase().includes(lowercaseQuery)) {
-      return true;
-    }
-    
-    // Busca em conteúdo
-    if (item.content?.toLowerCase().includes(lowercaseQuery)) {
-      return true;
-    }
-    
-    // Busca em tags
-    if (item.tags?.some((tag: string) => tag.toLowerCase().includes(lowercaseQuery))) {
-      return true;
-    }
-    
-    return false;
-  });
-}
-
-// ============================================================================
-// STATUS (Portfolio-specific)
-// ============================================================================
-
-/**
- * Traduz status de posts do blog
- */
-export function translatePostStatus(status: string): string {
-  const statusMap: Record<string, string> = {
-    draft: 'Rascunho',
-    published: 'Publicado',
-    archived: 'Arquivado',
-    scheduled: 'Agendado',
-    pending_review: 'Aguardando Revisão'
-  };
-  
-  return statusMap[status] || status;
-}
-
-/**
- * Formata data e hora completa
- */
-export function formatDateTime(date: Date | string): string {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
-  return dateObj.toLocaleString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  });
-}
-
-/**
- * Traduz status genérico (alias para translatePostStatus)
- */
-export function translateStatus(status: string): string {
-  return translatePostStatus(status);
-}
-
-/**
- * Rola para uma posição específica
- */
-export function scrollToPosition(x: number, y: number): void;
-export function scrollToPosition(options: ScrollToOptions): void;
-export function scrollToPosition(x: number): void;
-export function scrollToPosition(xOrOptions: number | ScrollToOptions, y?: number): void {
-  if (typeof xOrOptions === 'number') {
-    if (typeof y === 'number') {
-      window.scrollTo(xOrOptions, y);
-    } else {
-      // Apenas x fornecido, assume y=0
-      window.scrollTo(xOrOptions, 0);
-    }
-  } else if (typeof xOrOptions === 'object') {
-    window.scrollTo(xOrOptions);
-  }
-}
-
-/**
- * Rola suavemente para uma posição específica ou elemento
- */
-export function smoothScrollTo(x: number, y: number): void;
-export function smoothScrollTo(element: string | Element): void;
-export function smoothScrollTo(xOrElement: number | string | Element, y?: number): void {
-  if (typeof xOrElement === 'number' && typeof y === 'number') {
-    window.scrollTo({
-      top: y,
-      left: xOrElement,
-      behavior: 'smooth'
-    });
-  } else if (typeof xOrElement === 'string') {
-    const element = document.querySelector(xOrElement);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  } else if (xOrElement instanceof Element) {
-    xOrElement.scrollIntoView({ behavior: 'smooth' });
-  }
-}
+export * from './domain-helpers';

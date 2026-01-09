@@ -23,8 +23,36 @@ import { useEffect } from 'react';
 // Cookie Manager
 // ============================================================================
 
-import { useCookieConsent, type CookiePreferences } from '@rainersoft/ui';
-import { initGoogleAnalytics, getCookieManager } from '@/lib/privacy';
+import { initGoogleAnalytics } from '@/lib/tracking';
+import { getCookieManager } from '@/lib/privacy';
+
+// ============================================================================
+// Cookie Preferences Type
+// ============================================================================
+
+interface CookiePreferences {
+  analytics?: boolean;
+  marketing?: boolean;
+  functional?: boolean;
+}
+
+// ============================================================================
+// Cookie Consent Hook
+// ============================================================================
+
+/**
+ * Hook que obtém as preferências de cookie do usuário
+ */
+function useCookieConsent(): CookiePreferences | null {
+  if (typeof window === 'undefined') return null;
+  
+  try {
+    const stored = localStorage.getItem('cookie-preferences');
+    return stored ? JSON.parse(stored) : null;
+  } catch {
+    return null;
+  }
+}
 
 // ============================================================================
 // Main Component

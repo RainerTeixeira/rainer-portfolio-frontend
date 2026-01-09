@@ -4,102 +4,121 @@
  * Ponto de entrada centralizado para todas as bibliotecas e utilitários da aplicação.
  * Facilita imports com um único ponto de entrada, melhorando a organização e manutenibilidade do código.
  *
- * ## Módulos Disponíveis
+ * ## Arquitetura de Módulos
  *
- * ### Core Utils
- * - `utils` - Utilitários gerais (classes CSS, helpers, etc.)
- * - `env` - Configuração de variáveis de ambiente tipadas
- *
- * ### API
+ * ### 📁 Core Infrastructure
+ * - `config/env` - Variáveis de ambiente tipadas e validadas
  * - `api` - Cliente HTTP e serviços para integração com backend
- * - `api/helpers` - Helpers específicos para preparação de dados da API
  *
- * ### Content
- * - `content` - Utilitários para processamento de conteúdo (Tiptap, reading time)
+ * ### 🛠️ Utils & Helpers
+ * - `utils` - Utilitários gerais (CSS, validação, formatação, compressão, imagens, busca)
  *
- * ### Monitoring
- * - `monitoring` - Sistema de analytics, logging e performance monitoring
+ * ### 📊 Content & Media
+ * - Post compressor (via `utils`) - Compressão de conteúdo Tiptap para DynamoDB
+ * - Image optimizer (via `utils`) - Otimização e análise de imagens
+ * - Reading time (via `utils`) - Cálculo de tempo de leitura
  *
- * ### SEO
- * - `seo` - Utilitários para SEO (metadata, sitemap, structured data)
+ * ### � Autenticação & Segurança
+ * - Token storage (via `utils`) - Gerenciamento de tokens JWT no localStorage
+ * - Password validation (via `utils`) - Validação e força de senhas
  *
- * ### Cookies
- * - `cookies` - Sistema de gerenciamento de cookies e consentimento
+ * ### �📈 Monitoring & Analytics
+ * - `tracking` - Sistema de analytics, logging e performance monitoring
+ * - `privacy` - Sistema de cookies e consentimento de usuário
  *
- * ### Utils Específicos
- * - `utils/validation` - Validação de formulários e dados
- * - `utils/string` - Manipulação de strings (slug, formatação de datas)
- * - `utils/scroll` - Utilitários de scroll e navegação
- * - `utils/search` - Sistema de busca de conteúdo
- * - `utils/rainer-design-tokens` - Conversão e manipulação de design tokens
- * - `utils/image-optimizer` - Otimização e análise de imagens
- * - `utils/post-compressor` - Compressão de conteúdo de posts
+ * ### 🔍 SEO & Metadata
+ * - `metadata` - Utilitários para SEO (metadata, sitemap, structured data)
  *
- * ## Uso
+ * ## Padrões de Import
  *
  * ```typescript
- * // Importar utilitários gerais
- * import { cn, SECTION_CLASSES } from '@/lib'
+ * // ✅ Preferido: Import direto do módulo específico
+ * import { compressPost, decompressPost } from '@/lib/utils';
+ * import { searchPortfolioContent } from '@/lib/utils';
+ * import { getToken, setToken } from '@/lib/utils';
  *
- * // Importar API
- * import { api, postsService } from '@/lib'
+ * // ✅ Aceitável: Import via barrel (para múltiplas funções)
+ * import { 
+ *   compressPost, 
+ *   searchPortfolioContent, 
+ *   generateMetadata,
+ *   getToken,
+ *   setToken
+ * } from '@/lib';
  *
- * // Importar utilitários de conteúdo
- * import { calculateReadingTime, extractTextFromTiptap } from '@/lib'
+ * // ❌ Evitar: Imports desnecessários via barrel
+ * import { compressPost } from '@/lib'; // use '@/lib/utils' em vez disso
+ * ```
  *
- * // Importar monitoring
- * import { logger, analytics } from '@/lib'
+ * ## Migrações Recentes
  *
- * // Importar SEO
- * import { generateMetadata, generateSitemap } from '@/lib'
+ * ### ✅ Concluídas
+ * - `TRANSITION_DELAYS` - Movido para `lib/utils/constants.ts`
+ * - `searchPortfolioContent` - Movido para `lib/utils/content-search.ts`
+ * - `compressPost` - Movido para `lib/utils/post-compressor.ts`
+ * - **Token Storage** - Movido de `lib/auth/token-storage.ts` para `lib/utils/token-storage.ts`
+ * - **Blog Utils** - Consolidados em `lib/utils/tiptap.ts` e `lib/utils/reading-time.ts`
+ * - **Portfolio Utils** - Consolidados em `lib/utils` (image-optimizer, safe-design-tokens, content-search, css-helpers)
+ *
+ * ### 🔄 Concluído
+ * - Limpeza final do diretório `lib/auth` (removido)
+ * - Consolidação de `lib/portfolio` em `lib/utils` (removido)
+ *
+ * ## Estrutura de Autenticação
+ *
+ * As funções de autenticação foram consolidadas em `lib/utils/token-storage.ts`:
+ *
+ * ```typescript
+ * // Gerenciamento de Tokens
+ * export const getToken = (): string | null => { ... }
+ * export const setToken = (token: string): void => { ... }
+ * export const getRefreshToken = (): string | null => { ... }
+ * export const setRefreshToken = (token: string): void => { ... }
+ * export const removeToken = (): void => { ... }
+ * export const getTokens = (): { token: string | null; refreshToken: string | null } => { ... }
+ * export const hasToken = (): boolean => { ... }
  * ```
  *
  * @module lib
- * @fileoverview Barrel exports centralizados para todas as bibliotecas
+ * @fileoverview Barrel exports centralizados com arquitetura modular
  * @author Rainer Teixeira
- * @version 2.0.0
+ * @version 3.1.0
  * @since 1.0.0
+ * @updated 2026-01-03 - Migração de token storage para utils
  */
 
 // ============================================================================
-// Config (Environment Variables)
+// CONFIGURAÇÃO (Environment Variables)
 // ============================================================================
 
-export * from './config';
+export * from './config/env';
 
 // ============================================================================
-// API Client & Services
+// API CLIENT & SERVICES
 // ============================================================================
 
-export { blogPublicApi } from './api/blog-public-api';
-// Para usar serviços: importar diretamente de '@/lib/api'
+export * from './api';
 
 // ============================================================================
-// Blog (Tiptap, Reading Time)
+// UTILITÁRIOS GERAIS (Utils)
 // ============================================================================
 
-export * from './blog';
+export * from './utils';
 
 // ============================================================================
-// Portfolio (CSS, Images, Posts, Search, Validation)
-// ============================================================================
-
-export * from './portfolio';
-
-// ============================================================================
-// Tracking (Analytics, Logger, Performance)
+// MONITORAMENTO (Analytics, Logger, Performance)
 // ============================================================================
 
 export * from './tracking';
 
 // ============================================================================
-// Metadata (SEO, Sitemap, Structured Data)
+// METADATA (SEO, Sitemap, Structured Data)
 // ============================================================================
 
 export * from './metadata';
 
 // ============================================================================
-// Privacy (Cookies, Analytics)
+// PRIVACIDADE (Cookies, Analytics, Consentimento)
 // ============================================================================
 
 export * from './privacy';

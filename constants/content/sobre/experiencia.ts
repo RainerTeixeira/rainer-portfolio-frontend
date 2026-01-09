@@ -9,15 +9,13 @@
  * técnicas do desenvolvedor.
  */
 
-import { lightThemeColors } from '@rainersoft/design-tokens';
-
 /**
  * Cores para experiência (tokens do tema claro)
  */
 const EXPERIENCE_COLORS = {
-  primary: lightThemeColors.primitive.cyan[600],
-  secondary: lightThemeColors.primitive.purple[600],
-  accent: lightThemeColors.primitive.pink[600],
+  primary: '#0ea5e9',
+  secondary: '#8b5cf6',
+  accent: '#ec4899',
 } as const;
 
 /**

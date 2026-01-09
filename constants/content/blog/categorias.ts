@@ -9,18 +9,16 @@
  * dos artigos do blog.
  */
 
-import { lightThemeColors } from '@rainersoft/design-tokens';
-
 /**
  * Cores para categorias (tokens do tema claro)
  */
 const CATEGORY_COLORS = {
-  primary: lightThemeColors.primitive.cyan[600],
-  secondary: lightThemeColors.primitive.purple[600],
-  accent: lightThemeColors.primitive.pink[600],
-  info: lightThemeColors.primitive.blue[600],
-  success: lightThemeColors.primitive.emerald[600],
-  warning: lightThemeColors.primitive.orange[500],
+  primary: '#0ea5e9',
+  secondary: '#8b5cf6',
+  accent: '#ec4899',
+  info: '#3b82f6',
+  success: '#10b981',
+  warning: '#f97316',
 } as const;
 
 /**

@@ -15,21 +15,12 @@
 'use client';
 
 import {
-  bookmarkPost,
-  createPost,
-  deletePost,
-  getPostBySlug,
-  getPosts,
-  incrementViews,
-  likePost,
-  publishPost,
-  unbookmarkPost,
-  unlikePost,
-  unpublishPost,
-  updatePost,
-} from '@/components/domain/dashboard/lib/api-client';
+  postsService,
+  engagementService
+} from '@/lib/api/private/dashboard/dashboard';
 import type { TiptapJSON } from '@/lib/api/types/common';
-import { PostStatus, type Post, type PostTag } from '@/lib/api/types/public/blog';
+import { PostStatus, type Post, type PostTag, type GetPostsParams } from '@/lib/api/types/public/blog';
+import type { CreatePostDto, UpdatePostDto } from '@/lib/api/types/private/blog';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -140,19 +131,18 @@ export function usePosts(params?: {
   search?: string;
   featured?: boolean;
 }) {
-  // Converter params para PostFilters
-  const filters: PostFilters = {
+  // Converter params para GetPostsParams
+  const filters: GetPostsParams = {
     page: params?.page,
     limit: params?.pageSize,
-    status: params?.status as PostStatus | undefined,
-    subcategoryId: params?.categoryId,
+    status: (params?.status === 'SCHEDULED' ? undefined : params?.status) as 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' | undefined,
+    categoryId: params?.categoryId,
     search: params?.search,
-    featured: params?.featured,
   };
 
   return useQuery({
     queryKey: postKeys.list(filters),
-    queryFn: () => getPosts(filters),
+    queryFn: () => postsService.getPosts(filters),
     staleTime: 5 * 60 * 1000, // 5 minutos
   });
 }
@@ -181,7 +171,7 @@ export function usePosts(params?: {
 export function usePost(slug: string, enabled: boolean = true) {
   return useQuery({
     queryKey: postKeys.detail(slug),
-    queryFn: () => getPostBySlug(slug),
+    queryFn: () => postsService.getPostBySlug(slug),
     enabled: enabled && !!slug,
     staleTime: 5 * 60 * 1000,
   });
@@ -222,13 +212,13 @@ export function useCreatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: CreatePostData) => createPost(data),
+    mutationFn: (data: CreatePostData) => postsService.createPost(data as CreatePostDto),
     onSuccess: newPost => {
       // Invalida cache de listagens
       queryClient.invalidateQueries({ queryKey: postKeys.lists() });
 
       // Adiciona ao cache de detalhes
-      queryClient.setQueryData(postKeys.detail(newPost.slug), newPost);
+      queryClient.setQueryData(postKeys.detail(newPost.data.slug), newPost.data);
 
       toast.success('Post criado com sucesso!');
     },
@@ -270,7 +260,12 @@ export function useUpdatePost() {
 
   return useMutation({
     mutationFn: ({ slug, data }: { slug: string; data: UpdatePostData }) =>
-      updatePost(slug, data),
+      postsService.updatePost(slug, {
+        ...data,
+        content: typeof data.content === 'string' ? data.content : JSON.stringify(data.content),
+        coverImage: data.coverImage || undefined,
+        status: (data.status === 'SCHEDULED' ? undefined : data.status) as 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' | undefined,
+      } as UpdatePostDto),
     onMutate: async ({ slug, data }) => {
       // Cancela queries em andamento
       await queryClient.cancelQueries({ queryKey: postKeys.detail(slug) });
@@ -354,7 +349,7 @@ export function useDeletePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (slug: string) => deletePost(slug),
+    mutationFn: (slug: string) => postsService.deletePost(slug),
     onSuccess: (_, slug) => {
       // Remove do cache
       queryClient.removeQueries({ queryKey: postKeys.detail(slug) });
@@ -394,7 +389,7 @@ export function usePublishPost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (slug: string) => publishPost(slug),
+    mutationFn: (slug: string) => postsService.publishPost(slug),
     onSuccess: updatedPost => {
       // Atualiza cache
       queryClient.setQueryData(postKeys.detail(updatedPost.slug), updatedPost);
@@ -432,7 +427,7 @@ export function useUnpublishPost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (slug: string) => unpublishPost(slug),
+    mutationFn: (slug: string) => postsService.unpublishPost(slug),
     onSuccess: updatedPost => {
       queryClient.setQueryData(postKeys.detail(updatedPost.slug), updatedPost);
       queryClient.invalidateQueries({ queryKey: postKeys.lists() });
@@ -471,7 +466,7 @@ export function useLikePost() {
 
   return useMutation({
     mutationFn: ({ postId, isLiked }: { postId: string; isLiked: boolean }) =>
-      isLiked ? unlikePost(postId) : likePost(postId),
+      isLiked ? engagementService.unlikePost(postId) : engagementService.likePost(postId),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onMutate: async ({ postId: _postId, isLiked }) => {
       // Atualização otimista
@@ -530,16 +525,8 @@ export function useBookmarkPost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      postId,
-      isBookmarked,
-      collection,
-    }: {
-      postId: string;
-      isBookmarked: boolean;
-      collection?: string;
-    }) =>
-      isBookmarked ? unbookmarkPost(postId) : bookmarkPost(postId, collection),
+    mutationFn: ({ postId, isBookmarked, collection }: { postId: string; isBookmarked: boolean; collection?: string }) =>
+      isBookmarked ? engagementService.unbookmarkPost(postId) : engagementService.bookmarkPost(postId),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onMutate: async ({ postId: _postId, isBookmarked }) => {
       await queryClient.cancelQueries({ queryKey: postKeys.all });
@@ -598,7 +585,7 @@ export function useBookmarkPost() {
  */
 export function useIncrementViews(slug: string) {
   return useMutation({
-    mutationFn: () => incrementViews(slug),
+    mutationFn: () => postsService.incrementViews(slug),
     // Silencioso, não mostra toast
   });
 }

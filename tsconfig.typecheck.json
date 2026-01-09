@@ -1,0 +1,42 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "next-env.d.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "lib/**/*.ts",
+    "lib/**/*.tsx",
+    "hooks/**/*.ts",
+    "hooks/**/*.tsx",
+    "services/**/*.ts",
+    "services/**/*.tsx",
+    "types/**/*.d.ts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    ".next/dev/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "out",
+    "dist",
+    "tests",
+    "scripts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*old-*.ts",
+    "**/*old-*.tsx",
+    "lib/api/examples/**",
+    "lib/OLD_*",
+    "components/**/OLD_*",
+    "components/**/lib/OLD_*",
+    "tests/e2e/**",
+    "tests/live/**",
+    "scripts/**/*stealth*.ts",
+    "scripts/**/*test-*.ts"
+  ]
+}

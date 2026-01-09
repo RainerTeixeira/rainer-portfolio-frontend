@@ -51,6 +51,7 @@ import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import { AlertCircle, CheckCircle2, Loader2, User } from 'lucide-react';
 import { useState } from 'react';
 import { NicknameAvailability } from './login/nickname-availability';
+import { publicAuth } from '@/lib/api';
 
 interface ChangeUsernameDialogProps {
   open: boolean;
@@ -149,15 +150,7 @@ export function ChangeUsernameDialog({
     setError(null);
 
     try {
-      const { authService } = await import('@/lib/api');
-      const response = await authService.updateNickname(
-        cognitoSub,
-        newNickname
-      );
-
-      if (!response.success) {
-        throw new Error(response.message || 'Erro ao alterar nickname');
-      }
+      await publicAuth.updateNickname(cognitoSub, newNickname);
 
       setSuccess(true);
 
@@ -183,14 +176,14 @@ export function ChangeUsernameDialog({
 
           // Aguardar mais 1s e fazer logout para novo login
           setTimeout(() => {
-            authService.logout();
+            void publicAuth.logout();
             window.location.href = '/dashboard/login';
           }, 1000);
         }, 1000);
       } else {
         // Aguardar 2s e fazer logout para novo login
         setTimeout(() => {
-          authService.logout();
+          void publicAuth.logout();
           window.location.href = '/dashboard/login';
         }, 2000);
       }

@@ -9,7 +9,16 @@
  * demonstração de habilidades técnicas.
  */
 
-import { GRADIENTS } from '@rainersoft/design-tokens';
+import { gradientsPrimitive } from '@rainersoft/design-tokens';
+
+/**
+ * Cores para gradientes (fallback seguro)
+ */
+const DEFAULT_GRADIENTS = {
+  TEXT_PRIMARY: 'bg-gradient-to-r from-cyan-500 to-blue-500',
+  TEXT_SECONDARY: 'bg-gradient-to-r from-purple-500 to-pink-500',
+  BACKGROUND: 'bg-gradient-to-br from-slate-900 to-slate-800',
+} as const;
 
 /**
  * Projetos Open Source desenvolvidos
@@ -35,7 +44,7 @@ export const PROJETOS = [
       github: 'https://github.com/rainerteixeira/design-tokens',
     },
     ano: '2024',
-    gradiente: GRADIENTS.TEXT_PRIMARY,
+    gradiente: (gradientsPrimitive?.gradients?.text?.primary) || DEFAULT_GRADIENTS.TEXT_PRIMARY,
   },
   {
     titulo: '@rainersoft/ui',
@@ -54,7 +63,7 @@ export const PROJETOS = [
       github: 'https://github.com/rainerteixeira/ui',
     },
     ano: '2024',
-    gradiente: GRADIENTS.TEXT_PRIMARY,
+    gradiente: (gradientsPrimitive?.gradients?.text?.primary) || DEFAULT_GRADIENTS.TEXT_PRIMARY,
   },
   {
     titulo: '@rainersoft/utils',
@@ -73,7 +82,7 @@ export const PROJETOS = [
       github: 'https://github.com/rainerteixeira/utils',
     },
     ano: '2024',
-    gradiente: GRADIENTS.TEXT_PRIMARY,
+    gradiente: (gradientsPrimitive?.gradients?.text?.primary) || DEFAULT_GRADIENTS.TEXT_PRIMARY,
   },
   {
     titulo: 'Portfolio & Blog Platform',
@@ -92,7 +101,7 @@ export const PROJETOS = [
       github: 'https://github.com/rainerteixeira/portfolio',
     },
     ano: '2024',
-    gradiente: GRADIENTS.TEXT_PRIMARY,
+    gradiente: (gradientsPrimitive?.gradients?.text?.primary) || DEFAULT_GRADIENTS.TEXT_PRIMARY,
   },
   {
     titulo: 'Magic Banner Plugin',
@@ -112,7 +121,7 @@ export const PROJETOS = [
       github: 'https://github.com/rainerteixeira/futuriza-challenge',
     },
     ano: '2024',
-    gradiente: GRADIENTS.TEXT_PRIMARY,
+    gradiente: (gradientsPrimitive?.gradients?.text?.primary) || DEFAULT_GRADIENTS.TEXT_PRIMARY,
   },
   {
     titulo: 'Token Editor Web',
@@ -130,7 +139,7 @@ export const PROJETOS = [
       demo: 'https://tokens.rainersoft.com.br',
     },
     ano: '2024',
-    gradiente: GRADIENTS.TEXT_PRIMARY,
+    gradiente: (gradientsPrimitive?.gradients?.text?.primary) || DEFAULT_GRADIENTS.TEXT_PRIMARY,
   },
 ] as const;
 

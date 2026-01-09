@@ -19,7 +19,7 @@ import {
   extractTextFromTiptap,
   generateExcerpt,
   isContentEmpty,
-} from '@/lib/content';
+} from '@/lib/utils';
 
 import {
   preparePostForCreate,

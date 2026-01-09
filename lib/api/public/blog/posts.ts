@@ -36,8 +36,28 @@ import {
 export const getPublicPosts = async (
   params?: GetPostsParams
 ): Promise<PaginatedPostsResponse> => {
-  const response = await publicClient.get('/posts', { params });
-  return response.data;
+  try {
+    const response = await publicClient.get('/posts', { params });
+    
+    // Backend retorna array diretamente ou objeto com data
+    if (Array.isArray(response)) {
+      // Formato array (backend otimizado)
+      return {
+        data: response,
+        meta: {
+          page: params?.page || 1,
+          limit: params?.limit || response.length,
+          total: response.length,
+          totalPages: 1,
+        },
+      };
+    }
+    
+    // Formato wrapper com data (fallback para compatibilidade)
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };
 
 /**
@@ -55,6 +75,32 @@ export const getPublicPosts = async (
 export const getPublicPostById = async (id: string): Promise<Post> => {
   const response = await publicClient.get(`/posts/${id}`);
   return response.data.data;
+};
+
+/**
+ * Busca posts por termo de busca
+ * 
+ * @param query - Termo a ser buscado
+ * @param params - Parâmetros adicionais de paginação
+ * @returns Promise<PaginatedPostsResponse> - Posts encontrados
+ * 
+ * @example
+ * ```typescript
+ * const resultados = await searchPosts('react hooks', {
+ *   page: 1,
+ *   limit: 10
+ * });
+ * console.log(`Encontrados ${resultados.meta.total} posts`);
+ * ```
+ */
+export const searchPosts = async (
+  query: string,
+  params?: Omit<GetPostsParams, 'search'>
+): Promise<PaginatedPostsResponse> => {
+  const response = await publicClient.get('/posts/search', {
+    params: { ...params, q: query }
+  });
+  return response.data;
 };
 
 /**
@@ -138,30 +184,4 @@ export const getPopularPosts = async (
     params: { limit, days }
   });
   return response.data.data;
-};
-
-/**
- * Busca posts por termo de busca
- * 
- * @param query - Termo a ser buscado
- * @param params - Parâmetros adicionais de paginação
- * @returns Promise<PaginatedPostsResponse> - Posts encontrados
- * 
- * @example
- * ```typescript
- * const resultados = await searchPosts('react hooks', {
- *   page: 1,
- *   limit: 10
- * });
- * console.log(`Encontrados ${resultados.meta.total} posts`);
- * ```
- */
-export const searchPosts = async (
-  query: string,
-  params?: Omit<GetPostsParams, 'search'>
-): Promise<PaginatedPostsResponse> => {
-  const response = await publicClient.get('/posts/search', {
-    params: { ...params, q: query }
-  });
-  return response.data;
 };

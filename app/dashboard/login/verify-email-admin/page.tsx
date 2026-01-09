@@ -95,9 +95,9 @@ export default function VerifyEmailAdminPage() {
     setIsLoading(true);
 
     try {
-      const { authService } = await import('@/lib/api');
+      const { publicAuth } = await import('@/lib/api');
 
-      const response = await authService.verifyEmailAdmin(identifier.trim());
+      const response = await publicAuth.verifyEmailAdmin(identifier.trim());
 
       if (response.success && response.data) {
         setSuccess(true);

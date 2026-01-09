@@ -2,7 +2,7 @@
  * Testes para tiptap-utils
  */
 
-import { tiptapJSONtoHTML } from '@/components/domain/dashboard/lib/tiptap-utils';
+import { tiptapJSONtoHTML } from '@/lib/utils';
 
 describe('tiptap-utils', () => {
   it('deve converter JSON do Tiptap para HTML', () => {

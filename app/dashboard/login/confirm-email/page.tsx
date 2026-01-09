@@ -113,7 +113,7 @@ export default function ConfirmEmailPage() {
       const response = await publicAuth
         .confirmEmail({
           email,
-          code,
+          token: code,
         })
         .catch(err => {
           if (isDevelopment) {
@@ -216,7 +216,7 @@ export default function ConfirmEmailPage() {
     setCode(''); // Limpa o código anterior
 
     try {
-      await authService.resendConfirmationCode({ email });
+      await publicAuth.resendConfirmationCode({ email });
       setResendSuccess(true);
       setTimeout(() => setResendSuccess(false), 5000); // Some após 5s
     } catch (e) {

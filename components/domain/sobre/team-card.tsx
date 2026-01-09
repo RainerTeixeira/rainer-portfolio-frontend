@@ -31,7 +31,7 @@
 
 import { Badge } from '@rainersoft/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
-import { CARD_CLASSES } from '@/lib/portfolio';
+import { CARD_CLASSES } from '@/lib/utils';
 
 /**
  * Props do componente TeamCard

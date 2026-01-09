@@ -9,40 +9,31 @@
  * @author Rainer Teixeira
  * @version 2.0.0
  * @since 1.0.0
- *
- * @example
- * ```tsx
- * // Import direto do barrel
- * import { useDashboardStats, useAnalyticsData } from '@/components/domain/dashboard/hooks'
- *
- * // Equivale a:
- * import { useDashboardStats } from '@/components/domain/dashboard/hooks/use-dashboard-stats'
- * import { useAnalyticsData } from '@/components/domain/dashboard/hooks/use-analytics-data'
  */
 
-/**
- * Hooks do Dashboard (Portfolio-specific)
- * 
- * Apenas hooks específicos do domínio do dashboard.
- * Hooks genéricos foram migrados para @rainersoft/utils.
- */
+// Import direto do barrel da API (nova estrutura)
+import { 
+  postsService,
+  categoriesService,
+  usersService,
+  engagementService
+} from '@/lib/api/private/dashboard/dashboard';
 
 // Hooks genéricos migrados - re-exportar da biblioteca
 export { usePasswordStrength } from '@/hooks';
 
-// Hooks específicos do dashboard
+// Hooks de upload (mantidos locais)
 export {
   useBlogContentUpload,
   useBlogCoverUpload,
   useImageCompression,
   useUpload,
 } from './use-upload';
-export type { UploadState } from './use-upload';
 
-// Hooks de autosave
+// Hooks de autosave (mantidos locais)
 export { useAutosave, useLocalDraft } from './use-autosave';
 
-// Hooks de posts (React Query)
+// Hooks de posts (React Query - atualizados para usar nova API)
 export {
   postKeys,
   useBookmarkPost,
@@ -57,32 +48,8 @@ export {
   useUpdatePost,
 } from './use-posts';
 
-// Hooks de dashboard (específicos)
-export function useDashboardStats() {
-  // Hook específico para estatísticas do dashboard
-  // Implementação futura ou usar React Query
-  return {
-    totalPosts: 0,
-    publishedPosts: 0,
-    draftPosts: 0,
-    totalViews: 0,
-    totalLikes: 0,
-    isLoading: false,
-    error: null
-  };
-}
-
-export function useAnalyticsData() {
-  // Hook específico para analytics do dashboard
-  // Implementação futura ou usar React Query
-  return {
-    views: [],
-    likes: [],
-    comments: [],
-    shares: [],
-    isLoading: false,
-    error: null
-  };
-}
-
-
+// Hooks de dashboard (específicos - atualizados para usar nova API)
+export {
+  useDashboardStats,
+  useAnalyticsData,
+} from './use-dashboard-stats';
