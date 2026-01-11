@@ -50,11 +50,21 @@ yarn-error.log*
 .env.sonarqube
 !/.env.local.example
 
+# Development logs
+dev.log
+*.log
+
+# Backup files
+*.backup
+*.bak
+temp_*
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
+*.map
 next-env.d.ts
 
 # SonarQube
@@ -69,6 +79,30 @@ memories/
 docs/.memories/
 temp.json
 
-# jest cache
-.jest-cache
-.env*.local
+# Next.js specific
+.next/cache/
+.next/static/
+
+# SWC cache
+.swc/
+
+# Turbo
+.turbo/
+
+# Lint-staged cache
+.lintstagedrc
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Image optimization cache
+.next/cache/images/
+
+# Temporary build files
+.next/build/
+.next/server/
+
+# Analytics local data
+.vercel-analytics-local
