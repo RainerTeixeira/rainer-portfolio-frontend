@@ -390,9 +390,9 @@ export function usePublishPost() {
 
   return useMutation({
     mutationFn: (slug: string) => postsService.publishPost(slug),
-    onSuccess: updatedPost => {
-      // Atualiza cache
-      queryClient.setQueryData(postKeys.detail(updatedPost.slug), updatedPost);
+    onSuccess: (updatedPost, variables) => {
+      // Atualiza cache - usa o slug da variável passada
+      queryClient.setQueryData(postKeys.detail(variables), updatedPost);
       queryClient.invalidateQueries({ queryKey: postKeys.lists() });
 
       toast.success('Post publicado!');
@@ -428,8 +428,8 @@ export function useUnpublishPost() {
 
   return useMutation({
     mutationFn: (slug: string) => postsService.unpublishPost(slug),
-    onSuccess: updatedPost => {
-      queryClient.setQueryData(postKeys.detail(updatedPost.slug), updatedPost);
+    onSuccess: (updatedPost, variables) => {
+      queryClient.setQueryData(postKeys.detail(variables), updatedPost);
       queryClient.invalidateQueries({ queryKey: postKeys.lists() });
 
       toast.success('Post despublicado!');

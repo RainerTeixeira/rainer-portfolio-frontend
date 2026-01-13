@@ -50,15 +50,7 @@ describe('lib/seo/metadata', () => {
       const post: Partial<Post> = {
         title: 'Meu Post',
         slug: 'meu-post',
-        content: {
-          type: 'doc',
-          content: [
-            {
-              type: 'paragraph',
-              content: [{ type: 'text', text: 'Conteúdo do post' }],
-            },
-          ],
-        },
+        content: 'Conteúdo do post em formato string',
         publishedAt: '2025-01-15T00:00:00Z',
         updatedAt: '2025-01-15T00:00:00Z',
       };
@@ -74,10 +66,7 @@ describe('lib/seo/metadata', () => {
         title: 'Meu Post',
         slug: 'meu-post',
         excerpt: 'Excerpt do post',
-        content: {
-          type: 'doc',
-          content: [],
-        },
+        content: 'Conteúdo do post em formato string',
         publishedAt: '2025-01-15T00:00:00Z',
         updatedAt: '2025-01-15T00:00:00Z',
       };

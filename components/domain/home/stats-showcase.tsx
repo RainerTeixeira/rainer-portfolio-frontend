@@ -30,6 +30,7 @@
 
 import { Card, CardContent } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
+import { tokens } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { Code, Globe, Star, Trophy, Users, Zap } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -40,53 +41,56 @@ import React from 'react';
  * Definidas fora do componente para evitar recriação e problemas de hidratação
  * Usando cores primitivas da biblioteca para consistência
  */
+const palette = tokens.primitives.color;
+const gradient = (from: string, to: string) => `linear-gradient(135deg, ${from}, ${to})`;
+
 const STATS_DATA = [
   {
     icon: Code,
     value: '50K+',
     label: 'Linhas de Código',
-    gradient: 'from-cyan-500 to-blue-600',
-    iconBg: 'from-cyan-400 to-blue-500',
+    gradient: gradient(palette.cyan['500'], palette.blue['600']),
+    iconBg: gradient(palette.cyan['400'], palette.blue['500']),
     glowColor: 'cyan-500',
   },
   {
     icon: Users,
     value: '10+',
     label: 'Projetos Full-Stack',
-    gradient: 'from-purple-500 to-pink-600',
-    iconBg: 'from-purple-400 to-pink-500',
+    gradient: gradient(palette.purple['500'], palette.pink['600']),
+    iconBg: gradient(palette.purple['400'], palette.pink['500']),
     glowColor: 'purple-500',
   },
   {
     icon: Star,
     value: '95+',
     label: 'Lighthouse Score',
-    gradient: 'from-amber-500 to-orange-600',
-    iconBg: 'from-amber-400 to-orange-500',
+    gradient: gradient(palette.yellow['500'], palette.orange['600']),
+    iconBg: gradient(palette.yellow['400'], palette.orange['500']),
     glowColor: 'amber-500',
   },
   {
     icon: Trophy,
     value: '200+',
     label: 'Componentes',
-    gradient: 'from-green-500 to-emerald-600',
-    iconBg: 'from-green-400 to-emerald-500',
+    gradient: gradient(palette.green['500'], palette.emerald['600']),
+    iconBg: gradient(palette.green['400'], palette.emerald['500']),
     glowColor: 'green-500',
   },
   {
     icon: Zap,
     value: '< 2s',
     label: 'Load Time',
-    gradient: 'from-orange-500 to-red-600',
-    iconBg: 'from-orange-400 to-red-500',
+    gradient: gradient(palette.orange['500'], palette.red['600']),
+    iconBg: gradient(palette.orange['400'], palette.red['500']),
     glowColor: 'orange-500',
   },
   {
     icon: Globe,
     value: '20+',
     label: 'Tecnologias',
-    gradient: 'from-pink-500 to-purple-600',
-    iconBg: 'from-pink-400 to-purple-500',
+    gradient: gradient(palette.pink['500'], palette.purple['600']),
+    iconBg: gradient(palette.pink['400'], palette.purple['500']),
     glowColor: 'pink-500',
   },
 ] as const;
@@ -107,20 +111,42 @@ export function StatsShowcase() {
   const isDark = mounted && resolvedTheme === 'dark';
 
   return (
-    <section className="py-20 sm:py-24 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      className="relative overflow-hidden"
+      style={{
+        paddingTop: tokens.primitives.spacing['20'],
+        paddingBottom: tokens.primitives.spacing['24'],
+      }}
+    >
+      <div
+        className="mx-auto"
+        style={{
+          maxWidth: tokens.primitives.breakpoints['7xl'],
+          paddingLeft: tokens.primitives.spacing['6'],
+          paddingRight: tokens.primitives.spacing['6'],
+        }}
+      >
         {/* Header com efeito WOW */}
-        <div className="text-center mb-16">
+        <div
+          className="text-center"
+          style={{ marginBottom: tokens.primitives.spacing['16'] }}
+        >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className={cn(
-              'inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-white font-bold text-sm mb-8 shadow-xl',
-              isDark
-                ? 'bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400'
-                : 'bg-linear-to-r from-blue-500 via-purple-500 to-pink-500'
-            )}
+            className="inline-flex items-center gap-2 rounded-full text-white font-bold text-sm shadow-xl"
+            style={{
+              paddingLeft: tokens.primitives.spacing['6'],
+              paddingRight: tokens.primitives.spacing['6'],
+              paddingTop: tokens.primitives.spacing['2.5'],
+              paddingBottom: tokens.primitives.spacing['2.5'],
+              marginBottom: tokens.primitives.spacing['8'],
+              background: gradient(
+                isDark ? palette.cyan['400'] : palette.blue['500'],
+                isDark ? palette.pink['400'] : palette.purple['500']
+              ),
+            }}
           >
             <Trophy className="w-5 h-5" />
             Métricas de Impacto
@@ -130,7 +156,15 @@ export function StatsShowcase() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
+            className="font-black bg-clip-text text-transparent"
+            style={{
+              fontSize: tokens.primitives.typography.fontSize['5xl'],
+              marginBottom: tokens.primitives.spacing['6'],
+              backgroundImage: gradient(
+                isDark ? palette.cyan['400'] : palette.cyan['600'],
+                isDark ? palette.pink['400'] : palette.pink['600']
+              ),
+            }}
           >
             Números que Falam
           </motion.h2>
@@ -139,7 +173,13 @@ export function StatsShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-lg sm:text-xl text-muted-foreground dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            className="mx-auto"
+            style={{
+              fontSize: tokens.primitives.typography.fontSize.lg,
+              color: isDark ? palette.gray['300'] : palette.gray['600'],
+              maxWidth: '48rem',
+              lineHeight: tokens.primitives.typography.lineHeight.relaxed,
+            }}
           >
             {'Métricas reais dos projetos que comprovam '}
             <span className="font-bold text-foreground dark:text-cyan-200">
@@ -150,7 +190,12 @@ export function StatsShowcase() {
         </div>
 
         {/* Stats Grid Redesenhado */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
+        <div
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6"
+          style={{
+            gap: tokens.primitives.spacing['6'],
+          }}
+        >
           {STATS_DATA.map((stat, index) => {
             const Icon = stat.icon;
             // Usar label como key estável para evitar problemas de hidratação

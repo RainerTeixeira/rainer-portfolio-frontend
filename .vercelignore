@@ -1,3 +1,55 @@
-node_modules
-.next
-.git
+# Dependências
+node_modules/
+
+# Build do Next.js
+.next/
+dist/
+out/
+.build/
+.next-tests/
+
+# Controle de versão
+.git/
+.gitignore
+.gitattributes
+
+# Variáveis de ambiente (exceto exemplo)
+.env*
+!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+jest-cache/
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Outros
+.cache/
+.tmp/
+temp/

@@ -81,15 +81,15 @@ interface AnalyticsData {
  * Paleta otimizada para visualizações de dados categóricos
  *
  * @constant {string[]}
- * @description Utiliza cores da paleta primitiva do design system
+ * @description Utiliza cores da paleta primitiva do design system (sem fallbacks)
  */
 const CHART_COLORS = [
-  tokens.primitives?.color?.blue?.[500] ?? '#0ea5e9',
-  tokens.primitives?.color?.green?.[500] ?? '#22c55e',
-  tokens.primitives?.color?.purple?.[500] ?? '#a855f7',
-  tokens.primitives?.color?.red?.[400] ?? '#f87171',
-  tokens.primitives?.color?.blue?.[300] ?? '#7dd3fc',
-  tokens.primitives?.color?.green?.[400] ?? '#4ade80',
+  tokens.primitives.color.blue[500],
+  tokens.primitives.color.green[500],
+  tokens.primitives.color.purple[500],
+  tokens.primitives.color.red[400],
+  tokens.primitives.color.blue[300],
+  tokens.primitives.color.green[400],
 ];
 
 export function BlogAnalytics({ posts, timeRange = '30d', className }: BlogAnalyticsProps) {

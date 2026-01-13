@@ -1,9 +1,15 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
-    "@next/next/no-html-link-for-pages": "off"
+    "@next/next/no-html-link-for-pages": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "react/no-unescaped-entities": "off"
   },
   "ignorePatterns": [
-    "**/*.css"
+    "**/*.css",
+    ".next/**",
+    "node_modules/**",
+    "dist/**",
+    "coverage/**"
   ]
 }

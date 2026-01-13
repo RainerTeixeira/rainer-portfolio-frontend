@@ -32,6 +32,7 @@
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
+import { Input } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 // Design tokens via CSS variables (imported in globals.css)
@@ -40,7 +41,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { PasswordInput } from '../password-input';
+import { usePasswordInput } from '@/hooks/use-password-input';
 
 const resetPasswordSchema = z
   .object({
@@ -73,7 +74,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const form = useForm({
+  const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: '',
@@ -81,7 +82,20 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     },
   });
 
-  async function onSubmit(data: ResetPasswordFormValues) {
+  const passwordInput = usePasswordInput({
+    value: form.watch('password'),
+    onChange: (value: string) => form.setValue('password', value),
+    disabled: isLoading,
+    showStrengthIndicator: true,
+  });
+
+  const confirmPasswordInput = usePasswordInput({
+    value: form.watch('confirmPassword'),
+    onChange: (value: string) => form.setValue('confirmPassword', value),
+    disabled: isLoading,
+  });
+
+  const onSubmit = async (data: ResetPasswordFormValues) => {
     setIsLoading(true);
     setError(null);
 
@@ -100,7 +114,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   if (success) {
     return (
@@ -115,61 +129,79 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
 
   return (
     <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 sm:space-y-5"
-      >
-        {error && (
-          <Alert variant="destructive">
-            <XCircle className="h-4 w-4" />
-            <AlertDescription className="text-sm wrap-break-word">
-              {error}
-            </AlertDescription>
-          </Alert>
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="space-y-4"
+    >
+      {error && (
+        <Alert variant="destructive">
+          <XCircle className="h-4 w-4" />
+          <AlertDescription className="text-sm">
+            {error}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <div className="space-y-2">
+        <Label htmlFor="password">Nova Senha</Label>
+        <div className="relative">
+          <Input {...passwordInput.inputProps} />
+          <button {...passwordInput.buttonProps}>
+            {passwordInput.icon}
+          </button>
+        </div>
+        {passwordInput.showStrengthIndicator && passwordInput.inputProps.value && (
+          <div className="space-y-2">
+            <div className="flex gap-1">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className={cn(
+                    'h-1 flex-1',
+                    'rounded-full',
+                    'transition-colors duration-200 ease-in-out',
+                    i < passwordInput.passwordStrength.strength
+                      ? passwordInput.passwordStrength.color
+                      : 'bg-muted'
+                  )}
+                />
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Força: <span className="font-medium">{passwordInput.passwordStrength.label}</span>
+            </p>
+          </div>
         )}
+        {form.formState.errors.password && (
+          <p className="text-sm text-destructive">
+            {form.formState.errors.password.message}
+          </p>
+        )}
+      </div>
 
-        {/* Nova senha */}
-        <div className="space-y-2">
-          <Label htmlFor="password">Nova Senha</Label>
-          <PasswordInput
-            value={form.watch('password')}
-            onChange={(value) => form.setValue('password', value)}
-            disabled={isLoading}
-            showStrengthIndicator
-          />
-          {form.formState.errors.password && (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.password.message}
-            </p>
-          )}
+      <div className="space-y-2">
+        <Label htmlFor="confirmPassword">Confirmar Nova Senha</Label>
+        <div className="relative">
+          <Input {...confirmPasswordInput.inputProps} />
+          <button {...confirmPasswordInput.buttonProps}>
+            {confirmPasswordInput.icon}
+          </button>
         </div>
+        {form.formState.errors.confirmPassword && (
+          <p className="text-sm text-destructive">
+            {form.formState.errors.confirmPassword.message}
+          </p>
+        )}
+      </div>
 
-        {/* Confirmar nova senha */}
-        <div className="space-y-2">
-          <Label htmlFor="confirmPassword">Confirmar Nova Senha</Label>
-          <PasswordInput
-            value={form.watch('confirmPassword')}
-            onChange={(value) => form.setValue('confirmPassword', value)}
-            disabled={isLoading}
-          />
-          {form.formState.errors.confirmPassword && (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.confirmPassword.message}
-            </p>
-          )}
-        </div>
-
-        <Button
-          type="submit"
-          className={cn(
-            'w-full h-9 sm:h-10',
-            'transition-all duration-200 ease-in-out'
-          )}
-          disabled={isLoading}
-        >
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Redefinir Senha
-        </Button>
-      </form>
+      <Button
+        type="submit"
+        disabled={isLoading}
+        className="w-full h-10"
+      >
+        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        Redefinir Senha
+      </Button>
+    </form>
   );
 }
 

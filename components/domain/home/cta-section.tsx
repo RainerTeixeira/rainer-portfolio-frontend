@@ -30,6 +30,7 @@
 'use client';
 
 import { Button } from '@rainersoft/ui';
+import { tokens } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
@@ -57,11 +58,37 @@ export function CTASection() {
    */
   const isDark = mounted ? resolvedTheme === 'dark' : false;
 
+  const palette = tokens.primitives.color;
+  const spacing = tokens.primitives.spacing;
+  const gradient = (from: string, to: string) => `linear-gradient(135deg, ${from}, ${to})`;
+
   return (
-    <section className="py-20 sm:py-32 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      className="relative overflow-hidden"
+      style={{
+        paddingTop: spacing['20'],
+        paddingBottom: spacing['32'],
+      }}
+    >
+      <div
+        className="mx-auto"
+        style={{
+          maxWidth: tokens.primitives.breakpoints['7xl'],
+          paddingLeft: spacing['6'],
+          paddingRight: spacing['6'],
+        }}
+      >
         {/* Brilho de fundo gigante */}
-        <div className="absolute inset-0 bg-linear-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 dark:from-cyan-400/5 dark:via-purple-400/5 dark:to-pink-400/5 blur-3xl"></div>
+        <div
+          className="absolute inset-0 blur-3xl"
+          style={{
+            background: gradient(
+              isDark ? palette.cyan['400'] : palette.cyan['500'],
+              isDark ? palette.pink['400'] : palette.pink['500']
+            ),
+            opacity: isDark ? 0.08 : 0.12,
+          }}
+        ></div>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -71,21 +98,46 @@ export function CTASection() {
           className="relative"
         >
           {/* Card principal gigante */}
-          <div className="relative bg-card/90 dark:bg-black/70 backdrop-blur-2xl rounded-[32px] p-12 sm:p-16 lg:p-20 border-2 border-border/50 dark:border-cyan-400/30 shadow-2xl overflow-hidden">
+          <div
+            className="relative bg-card/90 dark:bg-black/70 backdrop-blur-2xl rounded-[32px] border-2 shadow-2xl overflow-hidden"
+            style={{
+              padding: spacing['12'],
+              borderColor: isDark ? palette.cyan['400'] + '4D' : palette.gray['200'],
+            }}
+          >
             {/* Efeito de brilho animado */}
-            <div className="absolute inset-0 bg-linear-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5 dark:from-cyan-400/10 dark:via-purple-400/10 dark:to-pink-400/10 animate-pulse"></div>
+            <div
+              className="absolute inset-0 animate-pulse"
+              style={{
+                background: gradient(
+                  isDark ? palette.cyan['400'] + '1A' : palette.cyan['500'] + '0D',
+                  isDark ? palette.pink['400'] + '1A' : palette.pink['500'] + '0D'
+                ),
+              }}
+            ></div>
 
             {/* Partículas decorativas */}
             <div
-              className={`absolute top-10 left-10 w-20 h-20 ${isDark ? 'bg-cyan-400/20' : 'bg-blue-500/20'} rounded-full blur-2xl animate-pulse`}
+              className="absolute top-10 left-10 w-20 h-20 rounded-full blur-2xl animate-pulse"
+              style={{
+                backgroundColor: isDark ? palette.cyan['400'] + '33' : palette.blue['500'] + '33',
+              }}
             ></div>
             <div
-              className={`absolute bottom-10 right-10 w-32 h-32 ${isDark ? 'bg-purple-400/20' : 'bg-purple-500/20'} rounded-full blur-3xl animate-pulse`}
-              style={{ animationDelay: '1s' }}
+              className="absolute bottom-10 right-10 w-32 h-32 rounded-full blur-3xl animate-pulse"
+              style={{
+                animationDelay: '1s',
+                backgroundColor: isDark ? palette.purple['400'] + '33' : palette.purple['500'] + '33',
+              }}
+              aria-hidden
             ></div>
             <div
-              className={`absolute top-1/2 left-1/4 w-24 h-24 ${isDark ? 'bg-pink-400/20' : 'bg-pink-500/20'} rounded-full blur-2xl animate-pulse`}
-              style={{ animationDelay: '2s' }}
+              className="absolute top-1/2 left-1/4 w-24 h-24 rounded-full blur-2xl animate-pulse"
+              style={{
+                animationDelay: '2s',
+                backgroundColor: isDark ? palette.pink['400'] + '33' : palette.pink['500'] + '33',
+              }}
+              aria-hidden
             ></div>
 
             <div className="relative z-10 text-center">
@@ -95,7 +147,18 @@ export function CTASection() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className={`inline-flex items-center gap-2 px-6 py-3 rounded-full ${isDark ? 'bg-linear-to-r from-green-400 via-emerald-400 to-green-500' : 'bg-linear-to-r from-green-500 via-emerald-500 to-green-600'} text-white font-bold text-sm mb-8 shadow-xl`}
+                className="inline-flex items-center gap-2 rounded-full text-white font-bold text-sm shadow-xl"
+                style={{
+                  paddingLeft: spacing['6'],
+                  paddingRight: spacing['6'],
+                  paddingTop: spacing['3'],
+                  paddingBottom: spacing['3'],
+                  marginBottom: spacing['8'],
+                  background: gradient(
+                    isDark ? palette.green['400'] : palette.green['500'],
+                    isDark ? palette.emerald['400'] : palette.green['600']
+                  ),
+                }}
               >
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                 Disponível para Novos Projetos
@@ -107,9 +170,21 @@ export function CTASection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
-                className="text-4xl sm:text-5xl lg:text-7xl font-black mb-6 leading-tight"
+                className="font-black leading-tight"
+                style={{
+                  fontSize: tokens.primitives.typography.fontSize['6xl'],
+                  marginBottom: spacing['6'],
+                }}
               >
-                <span className="bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 dark:from-cyan-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+                <span
+                  className="bg-clip-text text-transparent"
+                  style={{
+                    backgroundImage: gradient(
+                      isDark ? palette.cyan['400'] : palette.cyan['600'],
+                      isDark ? palette.pink['400'] : palette.pink['600']
+                    ),
+                  }}
+                >
                   Desenvolvedor Full-Stack React e Next.js
                 </span>
               </motion.h2>
@@ -120,7 +195,14 @@ export function CTASection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
-                className="text-lg sm:text-xl lg:text-2xl text-muted-foreground dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+                className="mx-auto"
+                style={{
+                  fontSize: tokens.primitives.typography.fontSize.xl,
+                  color: isDark ? palette.gray['300'] : palette.gray['600'],
+                  marginBottom: spacing['12'],
+                  maxWidth: '48rem',
+                  lineHeight: tokens.primitives.typography.lineHeight.relaxed,
+                }}
               >
                 Transformo ideias em{' '}
                 <span className="font-bold text-foreground dark:text-cyan-200">
@@ -139,12 +221,27 @@ export function CTASection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
-                className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-12"
+                className="flex flex-col sm:flex-row items-center justify-center"
+                style={{
+                  gap: spacing['4'],
+                  marginBottom: spacing['12'],
+                }}
               >
                 <Button
                   asChild
                   size="lg"
-                  className={`group/btn gap-3 text-lg px-10 py-7 ${isDark ? 'bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 shadow-cyan-500/30 hover:shadow-cyan-500/50' : 'bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 shadow-blue-500/30 hover:shadow-blue-500/50'} text-white shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105`}
+                  className="group/btn text-lg text-white shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105"
+                  style={{
+                    gap: spacing['3'],
+                    paddingLeft: spacing['10'],
+                    paddingRight: spacing['10'],
+                    paddingTop: spacing['7'],
+                    paddingBottom: spacing['7'],
+                    background: gradient(
+                      isDark ? palette.cyan['500'] : palette.blue['500'],
+                      isDark ? palette.pink['500'] : palette.pink['500']
+                    ),
+                  }}
                 >
                   <Link href="/contato">
                     <MessageSquare className="h-6 w-6" />
@@ -157,7 +254,15 @@ export function CTASection() {
                   asChild
                   variant="outline"
                   size="lg"
-                  className="gap-3 text-lg px-10 py-7 border-2 dark:border-cyan-400/50 dark:hover:bg-cyan-400/10 dark:hover:border-cyan-400/80 backdrop-blur-sm hover:scale-105 transition-all duration-300 font-semibold"
+                  className="gap-3 text-lg border-2 backdrop-blur-sm hover:scale-105 transition-all duration-300 font-semibold"
+                  style={{
+                    paddingLeft: spacing['10'],
+                    paddingRight: spacing['10'],
+                    paddingTop: spacing['7'],
+                    paddingBottom: spacing['7'],
+                    borderColor: isDark ? palette.cyan['400'] + '80' : palette.gray['300'],
+                    color: isDark ? palette.gray['100'] : palette.gray['800'],
+                  }}
                 >
                   <a href="/Curriculo_Rainer_Teixeira.pdf" download>
                     <Download className="h-6 w-6" />
@@ -172,23 +277,44 @@ export function CTASection() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.6 }}
-                className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-sm sm:text-base"
+                className="flex flex-wrap items-center justify-center text-sm sm:text-base"
+                style={{
+                  gap: spacing['6'],
+                }}
               >
-                <div className="flex items-center gap-3 px-5 py-3 rounded-full bg-linear-to-r from-cyan-500/10 to-cyan-500/5 dark:from-cyan-400/20 dark:to-cyan-400/10 border border-cyan-400/30 shadow-lg">
+                <div
+                  className="flex items-center gap-3 px-5 py-3 rounded-full shadow-lg"
+                  style={{
+                    background: gradient(palette.cyan['500'] + '1A', palette.cyan['500'] + '0D'),
+                    border: `1px solid ${palette.cyan['400']}4D`,
+                  }}
+                >
                   <Zap className="h-5 w-5 text-cyan-600 dark:text-cyan-400" />
                   <span className="font-bold text-foreground dark:text-cyan-300">
                     React + Next.js + Node.js
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 px-5 py-3 rounded-full bg-linear-to-r from-purple-500/10 to-purple-500/5 dark:from-purple-400/20 dark:to-purple-400/10 border border-purple-400/30 shadow-lg">
+                <div
+                  className="flex items-center gap-3 px-5 py-3 rounded-full shadow-lg"
+                  style={{
+                    background: gradient(palette.purple['500'] + '1A', palette.purple['500'] + '0D'),
+                    border: `1px solid ${palette.purple['400']}4D`,
+                  }}
+                >
                   <Rocket className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                   <span className="font-bold text-foreground dark:text-purple-300">
                     Código no GitHub
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 px-5 py-3 rounded-full bg-linear-to-r from-pink-500/10 to-pink-500/5 dark:from-pink-400/20 dark:to-pink-400/10 border border-pink-400/30 shadow-lg">
+                <div
+                  className="flex items-center gap-3 px-5 py-3 rounded-full shadow-lg"
+                  style={{
+                    background: gradient(palette.pink['500'] + '1A', palette.pink['500'] + '0D'),
+                    border: `1px solid ${palette.pink['400']}4D`,
+                  }}
+                >
                   <Sparkles className="h-5 w-5 text-pink-600 dark:text-pink-400" />
                   <span className="font-bold text-foreground dark:text-pink-300">
                     Início Imediato

@@ -47,6 +47,7 @@
 - [Principais Características](#-principais-características)
 - [Features Enterprise (v2.0.0)](#-features-enterprise-v200)
 - [Documentação Enterprise](#-documentação-enterprise)
+- [Docker](#-docker)
 - [Começando](#-começando)
 - [Scripts Disponíveis](#-scripts-disponíveis)
 
@@ -175,6 +176,106 @@ docs/
 ```
 
 **Cada seção tem seu próprio README.md** explicativo!
+
+---
+
+## 🐳 Docker
+
+### Visão Geral
+Frontend Next.js com TypeScript, Tailwind CSS e otimizações de produção rodando em container Docker.
+
+### Início Rápido
+
+#### Usando Docker Compose (Recomendado)
+```bash
+# Iniciar frontend
+docker-compose up -d
+
+# Ou usar o script de conveniência
+./start-docker.sh
+```
+
+#### Docker Manual
+```bash
+# Construir imagem
+docker build -t rainer-frontend .
+
+# Executar container
+docker run -d --name rainer-frontend \
+  -p 3000:3000 \
+  -e NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1 \
+  rainer-frontend
+```
+
+### Serviços
+
+| Serviço | Porta | Descrição |
+|---------|-------|-----------|
+| Frontend | 3000 | Aplicação Next.js |
+
+### Variáveis de Ambiente
+
+```bash
+NODE_ENV=production
+NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_APP_NAME=Rainer Portfolio
+NEXT_PUBLIC_APP_VERSION=2.3.0
+```
+
+### Comandos Úteis
+
+```bash
+# Ver logs
+docker-compose logs -f
+
+# Parar serviço
+docker-compose down
+
+# Reconstruir e reiniciar
+docker-compose up -d --build
+
+# Acessar container em execução
+docker exec -it rainer-frontend sh
+```
+
+### Health Checks
+
+```bash
+# Verificar saúde da aplicação
+curl http://localhost:3000
+
+# Verificar endpoint de health
+curl http://localhost:3000/api/health
+```
+
+### Desenvolvimento
+
+```bash
+# Executar em modo desenvolvimento com hot reload
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+# Construir sem cache
+docker build --no-cache -t rainer-frontend .
+
+# Inspecionar camadas da imagem
+docker history rainer-frontend
+```
+
+### Otimizações de Build
+
+- **Multi-stage build**: Reduz tamanho da imagem final
+- **Standalone output**: Apenas arquivos necessários
+- **Non-root user**: Melhora segurança
+- **Health checks**: Monitoramento automático
+- **Alpine Linux**: Imagem base pequena e segura
+
+### Notas
+
+- Imagem otimizada para produção (~150MB)
+- Suporte a PWA configurado
+- Build automático com TypeScript
+- Assets estáticos otimizados
 
 ---
 

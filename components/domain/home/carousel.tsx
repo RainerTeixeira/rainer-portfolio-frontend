@@ -11,7 +11,7 @@
  * @version 2.0.0
  * @author Rainer Teixeira
  * @copyright 2025 Rainer Teixeira
- * @license MIT
+ * @license UNLICENSED
  * @requires next-themes
  * @requires react
  * @requires react-dom
@@ -26,40 +26,25 @@ import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { useCarouselKeyboard } from '@rainersoft/ui';
 import { tokens } from '@rainersoft/design-tokens';
-import { hexToRGB, hexToRGBA } from '@rainersoft/ui';
+import { cn } from '@rainersoft/ui';
+import { hexToRgb, hexToRgba } from '@rainersoft/utils';
 
 /**
- * Função auxiliar para obter uma cor de token de forma segura com fallback
+ * Função auxiliar para obter uma cor de token de forma direta
  * 
- * Usa apenas fallbacks hardcoded para evitar problemas de webpack.
- * Não tenta carregar tokens dinamicamente.
+ * Acessa tokens.primitives.color diretamente sem fallbacks.
+ * Fonte única de verdade: @rainersoft/design-tokens
  */
 function getTokenColor(
-  theme: 'dark' | 'light',
+  _theme: 'dark' | 'light',
   color: string,
-  shade: number,
-  fallback: string
+  shade: number
 ): string {
-  try {
-    const palette =
-      theme === 'dark'
-        ? tokens.colors.dark?.primitive
-        : tokens.colors.light?.primitive;
-
-    const family = palette?.[color as keyof typeof palette];
-    const value =
-      typeof shade === 'number'
-        ? (family as Record<number, string> | undefined)?.[shade]
-        : undefined;
-
-    if (typeof value === 'string' && value.length > 0) {
-      return value;
-    }
-
-    return fallback;
-  } catch {
-    return fallback;
+  const colorFamily = tokens.primitives.color[color as keyof typeof tokens.primitives.color];
+  if (colorFamily && typeof colorFamily === 'object') {
+    return (colorFamily as Record<number, string>)[shade] || tokens.primitives.color.gray[500];
   }
+  return tokens.primitives.color.gray[500];
 }
 
 /* ==========================================================
@@ -217,9 +202,9 @@ const MatrixCharacterSet = memo(function MatrixCharacterSet({
   // Usando tokens primitivos verdes para efeito de brilho - converter para RGB para textShadow
   // Usando getTokenColor para acesso seguro aos tokens
   const glowColorHex = isDarkTheme
-    ? getTokenColor('dark', 'emerald', 400, '#10b981') // emerald[400] fallback
-    : getTokenColor('light', 'green', 600, '#16a34a'); // green[600] fallback
-  const glowColor = glowColorHex ? `rgb(${hexToRGB(glowColorHex)})` : 'rgb(16, 185, 129)';
+    ? getTokenColor('dark', 'emerald', 400)
+    : getTokenColor('light', 'green', 600);
+  const glowColor = `rgb(${hexToRgb(glowColorHex)})`;
 
   return (
     <div
@@ -483,50 +468,50 @@ function Carousel() {
       'neural',
     ];
 
-    // Usando cores primitivas da biblioteca @rainersoft/design-tokens com fallbacks seguros
+    // Usando cores primitivas da biblioteca @rainersoft/design-tokens
     const darkPalette = {
       energy: [
-        hexToRGBA(getTokenColor('dark', 'emerald', 400, '#10b981'), 0.9), // emerald[400]
-        hexToRGBA(getTokenColor('dark', 'cyan', 400, '#22d3ee'), 0.85), // cyan[400]
-        hexToRGBA(getTokenColor('dark', 'purple', 400, '#a855f7'), 0.9), // purple[400]
+        hexToRgba(getTokenColor('dark', 'emerald', 400), 0.9),
+        hexToRgba(getTokenColor('dark', 'cyan', 400), 0.85),
+        hexToRgba(getTokenColor('dark', 'purple', 400), 0.9),
       ],
       data: [
-        hexToRGBA(getTokenColor('dark', 'pink', 500, '#ec4899'), 0.8), // pink[500]
-        hexToRGBA(getTokenColor('dark', 'orange', 400, '#fb923c'), 0.8), // orange[400]
-        hexToRGBA(getTokenColor('dark', 'cyan', 400, '#22d3ee'), 0.8), // cyan[400]
+        hexToRgba(getTokenColor('dark', 'pink', 500), 0.8),
+        hexToRgba(getTokenColor('dark', 'orange', 400), 0.8),
+        hexToRgba(getTokenColor('dark', 'cyan', 400), 0.8),
       ],
       quantum: [
-        hexToRGBA(getTokenColor('dark', 'emerald', 400, '#10b981'), 0.7), // emerald[400]
-        hexToRGBA(getTokenColor('dark', 'pink', 400, '#f472b6'), 0.7), // pink[400]
-        hexToRGBA(getTokenColor('dark', 'cyan', 300, '#67e8f9'), 0.7), // cyan[300]
+        hexToRgba(getTokenColor('dark', 'emerald', 400), 0.7),
+        hexToRgba(getTokenColor('dark', 'pink', 400), 0.7),
+        hexToRgba(getTokenColor('dark', 'cyan', 300), 0.7),
       ],
       neural: [
-        hexToRGBA(getTokenColor('dark', 'pink', 400, '#f472b6'), 0.8), // pink[400]
-        hexToRGBA(getTokenColor('dark', 'cyan', 400, '#22d3ee'), 0.8), // cyan[400]
-        hexToRGBA(getTokenColor('dark', 'orange', 300, '#fdba74'), 0.8), // orange[300]
+        hexToRgba(getTokenColor('dark', 'pink', 400), 0.8),
+        hexToRgba(getTokenColor('dark', 'cyan', 400), 0.8),
+        hexToRgba(getTokenColor('dark', 'orange', 300), 0.8),
       ],
     };
 
     const lightPalette = {
       energy: [
-        hexToRGBA(getTokenColor('light', 'blue', 600, '#2563eb'), 0.8), // blue[600]
-        hexToRGBA(getTokenColor('light', 'purple', 600, '#9333ea'), 0.8), // purple[600]
-        hexToRGBA(getTokenColor('light', 'cyan', 600, '#0891b2'), 0.8), // cyan[600]
+        hexToRgba(getTokenColor('light', 'blue', 600), 0.8),
+        hexToRgba(getTokenColor('light', 'purple', 600), 0.8),
+        hexToRgba(getTokenColor('light', 'cyan', 600), 0.8),
       ],
       data: [
-        hexToRGBA(getTokenColor('light', 'pink', 600, '#db2777'), 0.8), // pink[600]
-        hexToRGBA(getTokenColor('light', 'orange', 600, '#ea580c'), 0.8), // orange[600]
-        hexToRGBA(getTokenColor('light', 'blue', 600, '#2563eb'), 0.8), // blue[600]
+        hexToRgba(getTokenColor('light', 'pink', 600), 0.8),
+        hexToRgba(getTokenColor('light', 'orange', 600), 0.8),
+        hexToRgba(getTokenColor('light', 'blue', 600), 0.8),
       ],
       quantum: [
-        hexToRGBA(getTokenColor('light', 'emerald', 600, '#059669'), 0.7), // emerald[600]
-        hexToRGBA(getTokenColor('light', 'pink', 600, '#db2777'), 0.7), // pink[600]
-        hexToRGBA(getTokenColor('light', 'blue', 600, '#2563eb'), 0.7), // blue[600]
+        hexToRgba(getTokenColor('light', 'emerald', 600), 0.7),
+        hexToRgba(getTokenColor('light', 'pink', 600), 0.7),
+        hexToRgba(getTokenColor('light', 'blue', 600), 0.7),
       ],
       neural: [
-        hexToRGBA(getTokenColor('light', 'purple', 600, '#9333ea'), 0.8), // purple[600]
-        hexToRGBA(getTokenColor('light', 'cyan', 600, '#0891b2'), 0.8), // cyan[600]
-        hexToRGBA(getTokenColor('light', 'orange', 500, '#f97316'), 0.8), // orange[500]
+        hexToRgba(getTokenColor('light', 'purple', 600), 0.8),
+        hexToRgba(getTokenColor('light', 'cyan', 600), 0.8),
+        hexToRgba(getTokenColor('light', 'orange', 500), 0.8),
       ],
     };
 
@@ -541,7 +526,7 @@ function Carousel() {
         const colorArray = palette[type];
         const randomIndex = Math.floor(Math.random() * colorArray.length);
         const color: string =
-          colorArray[randomIndex] ?? colorArray[0] ?? hexToRGBA(getTokenColor('dark', 'emerald', 400, '#10b981'), 0.9); // emerald[400]
+          colorArray[randomIndex] ?? colorArray[0] ?? hexToRgba(getTokenColor('dark', 'emerald', 400), 0.9);
 
         return {
           id: `p-${idx}-${Math.round(Math.random() * 10000)}`,
@@ -696,8 +681,8 @@ function Carousel() {
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: `
-              linear-gradient(${isDarkTheme ? hexToRGBA(getTokenColor('dark', 'cyan', 400, '#22d3ee'), 0.12) : hexToRGBA(getTokenColor('light', 'blue', 500, '#3b82f6'), 0.15)} 1px, transparent 1px),
-              linear-gradient(90deg, ${isDarkTheme ? hexToRGBA(getTokenColor('dark', 'cyan', 400, '#22d3ee'), 0.12) : hexToRGBA(getTokenColor('light', 'blue', 500, '#3b82f6'), 0.15)} 1px, transparent 1px)
+              linear-gradient(${isDarkTheme ? hexToRgba(getTokenColor('dark', 'cyan', 400), 0.12) : hexToRgba(getTokenColor('light', 'blue', 500), 0.15)} 1px, transparent 1px),
+              linear-gradient(90deg, ${isDarkTheme ? hexToRgba(getTokenColor('dark', 'cyan', 400), 0.12) : hexToRgba(getTokenColor('light', 'blue', 500), 0.15)} 1px, transparent 1px)
             `,
             backgroundSize: '50px 50px',
           }}
@@ -732,8 +717,8 @@ function Carousel() {
                 top: `${(i / 3) * 100}%`,
                 background: `linear-gradient(90deg, transparent, ${
                   isDarkTheme
-                    ? hexToRGBA(getTokenColor('dark', 'cyan', 300, '#67e8f9'), 0.6) // cyan[300]
-                    : hexToRGBA(getTokenColor('light', 'blue', 500, '#3b82f6'), 0.6) // blue[500]
+                    ? hexToRgba(getTokenColor('dark', 'cyan', 300), 0.6)
+                    : hexToRgba(getTokenColor('light', 'blue', 500), 0.6)
                 }, transparent)`,
                 animationName: 'hologramScan',
                 animationDuration: `${4 + i * 1}s`,

@@ -30,8 +30,7 @@
 
 'use client';
 
-import { cn } from '@rainersoft/ui';
-import { hexToRGBA, MatrixBackground } from '@rainersoft/ui';
+import { cn, MatrixBackground } from '@rainersoft/ui';
 import {
   gradientPrimitive,
   tokens,
@@ -45,7 +44,33 @@ import { CONTEUDO_HERO, ESTILOS_HERO, CTA_HERO } from '@/constants/content/home/
 import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
 // HeroLoadingState removido - não é mais necessário
-import { useCarouselKeyboard } from '@/hooks';
+import { useCarouselKeyboard } from '@rainersoft/ui';
+
+// ============================================================================
+// CONSTANTES
+// ============================================================================
+
+// Responsividade
+const RESPONSIVE = {
+  SPACING: {
+    RESPONSIVE_Y: 'py-8 md:py-12 lg:py-16',
+    RESPONSIVE_X: 'px-4 md:px-8 lg:px-12'
+  }
+};
+
+// Z-Index
+const Z_INDEX = {
+  PRIORITY: 'z-20'
+};
+
+// Direções de gradiente
+const GRADIENT_DIRECTIONS = {
+  TO_BOTTOM: 'bg-gradient-to-b',
+  TO_TOP: 'bg-gradient-to-t'
+};
+
+// Tokens de movimento do design-tokens
+const motionTokens = tokens.primitives.motion;
 
 // ============================================================================
 // Dynamic Imports
@@ -138,26 +163,30 @@ function HeroContentOverlay({
   const displayTitle = HERO_TITLES[stableIndex];
   const displaySubtitle = HERO_SUBTITLES[stableIndex];
 
-  // Estilos dos tokens (sem inline styles)
+  // Estilos dos tokens usando design-tokens
   const titleStyle: CSSProperties = {
-    fontSize: tokens.hero.title.fontSize.clamp,
-    lineHeight: tokens.hero.title.lineHeight,
-    letterSpacing: tokens.hero.title.letterSpacing,
-    wordSpacing: tokens.hero.title.wordSpacing,
-    textShadow: safeIsDarkTheme
-      ? tokens.hero.title.textShadow.dark
-      : tokens.hero.title.textShadow.light,
-    filter: tokens.hero.title.filter,
+    fontSize: `clamp(${tokens.primitives.typography.fontSize['4xl']}, 5vw, ${tokens.primitives.typography.fontSize['6xl']})`,
+    lineHeight: tokens.primitives.typography.lineHeight['1.1'] || '1.1',
+    letterSpacing: tokens.primitives.typography.letterSpacing['-0.025'],
+    color: safeIsDarkTheme 
+      ? tokens.primitives.color.gray['50'] 
+      : tokens.primitives.color.gray['900'],
+    fontWeight: tokens.primitives.typography.fontWeight['700'],
+    textAlign: 'center',
+    filter: safeIsDarkTheme 
+      ? 'drop-shadow(0 0 20px rgba(255,255,255,0.3))' 
+      : 'drop-shadow(0 0 20px rgba(0,0,0,0.3))',
   };
 
   const subtitleStyle: CSSProperties = {
-    fontSize: tokens.hero.subtitle.fontSize.clamp,
-    lineHeight: tokens.hero.subtitle.lineHeight,
-    letterSpacing: tokens.hero.subtitle.letterSpacing,
-    textShadow: safeIsDarkTheme
-      ? tokens.hero.subtitle.textShadow.dark
-      : tokens.hero.subtitle.textShadow.light,
-    maxWidth: tokens.hero.subtitle.maxWidth,
+    fontSize: `clamp(${tokens.primitives.typography.fontSize.base}, 2.5vw, ${tokens.primitives.typography.fontSize.xl})`,
+    lineHeight: tokens.primitives.typography.lineHeight['1.625'],
+    letterSpacing: tokens.primitives.typography.letterSpacing['0.025'],
+    color: safeIsDarkTheme 
+      ? tokens.primitives.color.gray['200'] 
+      : tokens.primitives.color.gray['600'],
+    textAlign: 'center',
+    maxWidth: '600px',
   };
 
   return (
@@ -172,15 +201,15 @@ function HeroContentOverlay({
         aria-live="polite"
         aria-atomic="true"
       >
-      <div className="relative z-10 w-full mx-auto pointer-events-auto" style={{ maxWidth: tokens.hero.container.maxWidth.lg }}>
+      <div className="relative z-10 w-full mx-auto pointer-events-auto" style={{ maxWidth: tokens.primitives.breakpoints.xl }}>
         <div
           className="text-center relative z-20 flex flex-col justify-center items-center"
           style={{
-            paddingTop: tokens.hero.container.padding.top,
-            paddingBottom: tokens.hero.container.padding.bottom,
-            paddingLeft: tokens.hero.container.padding.x.mobile,
-            paddingRight: tokens.hero.container.padding.x.mobile,
-            gap: tokens.hero.container.gap,
+            paddingTop: tokens.primitives.spacing['12'],
+            paddingBottom: tokens.primitives.spacing['12'],
+            paddingLeft: tokens.primitives.spacing['4'],
+            paddingRight: tokens.primitives.spacing['4'],
+            gap: tokens.primitives.spacing['6'],
           }}
         >
           {/* Título principal - Key baseado no índice para permitir animações entre slides */}
@@ -192,7 +221,7 @@ function HeroContentOverlay({
               hasMounted 
                 ? { 
                     delay: Number(motionTokens.delay.long.replace('ms', '')) / 1000,
-                    duration: Number(motionTokens.duration.slower.replace('ms', '')) / 1000,
+                    duration: Number(motionTokens.duration.slowest.replace('ms', '')) / 1000,
                     ease: parseCubicBezier(motionTokens.easing.easeOut) ?? 'easeOut'
                   } 
                 : { duration: 0 }
@@ -222,7 +251,9 @@ function HeroContentOverlay({
                   } 
                 : { duration: 0 }
             }
-            className="font-normal text-emerald-400 dark:text-emerald-400 px-4 sm:px-0 max-w-4xl mx-auto"
+            className={cn(
+              'font-normal px-4 sm:px-0 max-w-4xl mx-auto'
+            )}
             style={subtitleStyle}
             suppressHydrationWarning
           >
@@ -317,7 +348,7 @@ export function HeroSection() {
     >
       {/* Layer 1: Matrix Rain Effect (apenas no hero) */}
       {isMounted && (
-        <div className="absolute inset-0 z-[5] opacity-85" aria-hidden="true">
+        <div className="absolute inset-0 z-5 opacity-85" aria-hidden="true">
           <MatrixBackground variant="local" />
         </div>
       )}
@@ -352,9 +383,16 @@ export function HeroSection() {
             )}
             aria-label="Slide anterior"
           >
-            <div className="relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-md bg-black/30 dark:bg-black/50 border border-cyan-400/30 dark:border-cyan-400/50 transition-all duration-300 hover:scale-110 hover:bg-black/50 dark:hover:bg-black/70 hover:border-cyan-400/60">
+            <div className={cn(
+              'relative flex items-center justify-center',
+              'w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-md',
+              'bg-black/30 dark:bg-black/50 border border-cyan-400/30 dark:border-cyan-400/50',
+              'transition-all duration-300 hover:scale-110 hover:bg-black/50 dark:hover:bg-black/70 hover:border-cyan-400/60'
+            )}>
               <svg
-                className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400 transition-transform group-hover:-translate-x-0.5"
+                className={cn(
+                  'w-6 h-6 sm:w-7 sm:h-7 text-cyan-400 transition-transform group-hover:-translate-x-0.5'
+                )}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -366,7 +404,9 @@ export function HeroSection() {
                   d="M15 19l-7-7 7-7"
                 />
               </svg>
-              <div className="absolute inset-0 rounded-full blur-md bg-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+              <div className={cn(
+                'absolute inset-0 rounded-full blur-md bg-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity -z-10'
+              )} />
             </div>
           </button>
 
@@ -379,9 +419,16 @@ export function HeroSection() {
             )}
             aria-label="Próximo slide"
           >
-            <div className="relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-md bg-black/30 dark:bg-black/50 border border-cyan-400/30 dark:border-cyan-400/50 transition-all duration-300 hover:scale-110 hover:bg-black/50 dark:hover:bg-black/70 hover:border-cyan-400/60">
+            <div className={cn(
+              'relative flex items-center justify-center',
+              'w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-md',
+              'bg-black/30 dark:bg-black/50 border border-cyan-400/30 dark:border-cyan-400/50',
+              'transition-all duration-300 hover:scale-110 hover:bg-black/50 dark:hover:bg-black/70 hover:border-cyan-400/60'
+            )}>
               <svg
-                className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400 transition-transform group-hover:translate-x-0.5"
+                className={cn(
+                  'w-6 h-6 sm:w-7 sm:h-7 text-cyan-400 transition-transform group-hover:translate-x-0.5'
+                )}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -393,7 +440,9 @@ export function HeroSection() {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-              <div className="absolute inset-0 rounded-full blur-md bg-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+              <div className={cn(
+                'absolute inset-0 rounded-full blur-md bg-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity -z-10'
+              )} />
             </div>
           </button>
         </>
@@ -411,5 +460,3 @@ export function HeroSection() {
     </header>
   );
 }
-
-

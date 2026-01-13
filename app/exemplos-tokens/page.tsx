@@ -23,7 +23,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@rainersoft/ui';
-import { tokens, validateContrast } from '@rainersoft/design-tokens';
+import { tokens, colors, typography } from '@rainersoft/design-tokens';
+import { validateContrast } from '@rainersoft/utils';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
@@ -62,24 +63,24 @@ export default function ExemplosTokensPage() {
     if (!mounted) return;
 
     const isDark = resolvedTheme === 'dark';
-    const colors = isDark ? tokens.colors.dark : tokens.colors.light;
+    const themeColors = isDark ? tokens.themes.dark : tokens.themes.light;
 
     setContrastInfo({
       primary: validateContrast(
-        colors.primary.base,
-        colors.background.primary,
+        themeColors.primary.base,
+        themeColors.background.primary,
         {
           largeText: false,
         }
       ),
       secondary: validateContrast(
-        colors.secondary.base,
-        colors.background.primary,
+        themeColors.secondary.base,
+        themeColors.background.primary,
         {
           largeText: false,
         }
       ),
-      accent: validateContrast(colors.accent.base, colors.background.primary, {
+      accent: validateContrast(themeColors.accent.base, themeColors.background.primary, {
         largeText: false,
       }),
     });
@@ -96,8 +97,8 @@ export default function ExemplosTokensPage() {
    * Usado para aplicar tokens dinamicamente conforme tema do sistema.
    */
   const isDark = resolvedTheme === 'dark';
-  const colors = isDark ? tokens.colors.dark : tokens.colors.light;
-  const typography = tokens.typography;
+  const themeColors = isDark ? tokens.themes.dark : tokens.themes.light;
+  const themeTypography = typography;
 
   // Safety check: ensure typography structure exists
   if (!typography || !typography.headings || !typography.headings.h1) {

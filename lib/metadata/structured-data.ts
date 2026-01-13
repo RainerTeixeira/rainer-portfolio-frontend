@@ -10,7 +10,7 @@
  */
 
 import type { Post } from '@/lib/api/types/public/blog';
-import { extractTextFromTiptap } from '@/lib/blog';
+import { extractTextFromTiptap } from '@rainersoft/utils';
 import { env } from '@/lib/config/env';
 
 // ============================================================================

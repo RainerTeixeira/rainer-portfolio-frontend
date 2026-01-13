@@ -44,7 +44,7 @@ import { cn } from '@rainersoft/ui';
 import { motion } from 'framer-motion';
 import { Eye, Heart, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
-import { ReadingTime } from './social/reading-time';
+import { ReadingTime } from '@rainersoft/ui';
 
 interface RelatedPostsProps {
   posts: PostListItem[];

@@ -46,7 +46,6 @@ import {
   NewsletterBox,
   SortControls,
   type SortOption,
-  AdvancedSearch,
   InfiniteScroll,
 } from '@/components/domain/blog';
 import { BackToTop, PageHeader, ParticlesEffect, cn } from '@rainersoft/ui';
@@ -57,7 +56,7 @@ console.log('DEBUG: publicBlogPosts import:', publicBlogPosts);
 import { PostStatus, type PostListItem } from '@/lib/api/types/public/blog';
 import { getTokenColor } from '@/lib/utils';
 import { useTheme } from 'next-themes';
-import { hexToRGB, hexToRGBA } from '@rainersoft/ui';
+import { hexToRgb, hexToRgba } from '@rainersoft/utils';
 
 /**
  * Configuração de estatística do blog.
@@ -127,14 +126,26 @@ const POSTS_CONTAINER_VARIANTS = {
  * Helper para cores do card de erro de conexão, baseadas em tokens.
  */
 function getErrorColors(theme: 'dark' | 'light') {
-  const base = getTokenColor(theme, 'red', 500, '#ef4444');
+  const base = getTokenColor('red');
+  if (!base) {
+    // Fallback se getTokenColor retornar undefined
+    return {
+      border: '#ef4444',
+      background: theme === 'dark' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(239, 68, 68, 0.05)',
+      iconBackground: '#ef4444',
+      icon: '#ef4444',
+      title: '#dc2626',
+      text: '#f87171',
+    } as const;
+  }
+  
   return {
     border: base,
-    background: hexToRGBA(base, theme === 'dark' ? 0.1 : 0.05),
+    background: hexToRgba(base, theme === 'dark' ? 0.1 : 0.05),
     iconBackground: base,
     icon: base,
-    title: getTokenColor(theme, 'red', 600, '#dc2626'),
-    text: getTokenColor(theme, 'red', 400, '#f87171'),
+    title: getTokenColor('red'),
+    text: getTokenColor('red'),
   } as const;
 }
 
@@ -459,13 +470,10 @@ export default function BlogPage() {
         aria-label="Buscar artigos"
         className="max-w-7xl mx-auto px-6 py-8 relative z-10"
       >
-        <AdvancedSearch
-          onResultsChange={(results: PostListItem[]) => {
-            setSearchResults(results);
-            setDisplayedPosts(results);
-          }}
-          onLoadingChange={(loading: boolean) => setIsLoadingPosts(loading)}
-        />
+        {/* Busca avançada - temporariamente desabilitada */}
+        <div className="text-center text-gray-500 dark:text-gray-400 py-8">
+          Busca avançada em desenvolvimento...
+        </div>
       </section>
 
       {/* Seção de filtros e ordenação */}

@@ -32,20 +32,51 @@
 import {
   AuthLayout,
   LoginForm,
-  OAuthButton,
 } from '@/components/domain/dashboard/login';
-import { BackToTop } from '@rainersoft/ui';
+import { BackToTop, Button } from '@rainersoft/ui';
 import { SITE_CONFIG } from '@/constants';
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { ApiError } from '@/lib/api/utils/error-handler';
 import { env, isDevelopment } from '@/lib/config/env';
 import { cn } from '@rainersoft/ui';
+import { MOTION, SHADOWS, motionTokens } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+
+/**
+ * Converte um easing em string `cubic-bezier(...)` para array numérico aceito pelo Motion
+ * @param {string | undefined} easing - String de easing no formato cubic-bezier
+ * @returns {[number, number, number, number] | undefined} Array de 4 números ou undefined
+ */
+function parseCubicBezier(
+  easing: string | undefined
+): [number, number, number, number] | undefined {
+  if (!easing) return undefined;
+  const match = easing.match(/cubic-bezier\(([^)]+)\)/);
+  if (!match) return undefined;
+  const parts = match[1]!
+    .split(',')
+    .map(value => Number.parseFloat(value.trim()));
+  if (parts.length !== 4 || parts.some(Number.isNaN)) return undefined;
+  return parts as [number, number, number, number];
+}
+
+/**
+ * Configurações de animação para botão OAuth
+ * @constant {Object}
+ * @property {number} duration - Duração das animações em segundos
+ * @property {number} shimmerDuration - Duração do efeito shimmer em segundos
+ * @property {string | [number, number, number, number]} easeInOut - Configuração de easing
+ */
+const ANIMATION_CONFIG = {
+  duration: Number(motionTokens.duration.normal.replace('ms', '')) / 1000,
+  shimmerDuration: Number(motionTokens.duration.slower.replace('ms', '')) / 1000 * 3,
+  easeInOut: parseCubicBezier(motionTokens.easing.easeInOut) ?? 'easeInOut',
+} as const;
 
 /**
  * LoginPage Component
@@ -76,9 +107,10 @@ export default function LoginPage() {
 
   /**
    * Estados da interface de login.
-   * isLoading: Flag de carregamento durante autenticação.
-   * error: Mensagem de erro a ser exibida.
-   * success: Flag de sucesso no login.
+   * @type {Object}
+   * @property {boolean} isLoading - Flag de carregamento durante autenticação
+   * @property {string} error - Mensagem de erro a ser exibida
+   * @property {boolean} success - Flag de sucesso no login
    */
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -87,6 +119,8 @@ export default function LoginPage() {
   /**
    * Redireciona para dashboard se já estiver autenticado.
    * Evita exibir página de login quando usuário já está logado.
+   * @effect
+   * @dependencies isAuthenticated, authLoading, router
    */
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
@@ -98,8 +132,9 @@ export default function LoginPage() {
    * Handler de submit do formulário de login.
    * Autentica usuário com email/username e senha.
    *
-   * @param username - Email ou nome de usuário
-   * @param password - Senha do usuário
+   * @param {string} username - Email ou nome de usuário
+   * @param {string} password - Senha do usuário
+   * @returns {Promise<void>}
    */
   const handleLoginSubmit = async (username: string, password: string) => {
     setError('');
@@ -127,6 +162,8 @@ export default function LoginPage() {
       // Interface para ApiError com suggestions (adicionado dinamicamente)
       interface ApiErrorWithSuggestions extends ApiError {
         suggestions?: string[];
+        data?: any;
+        url?: string;
       }
 
       // Tratamento específico para ApiError
@@ -180,10 +217,6 @@ export default function LoginPage() {
 
       // Log detalhado em desenvolvimento
       if (isDevelopment && err instanceof ApiError) {
-        interface ApiErrorWithSuggestions extends ApiError {
-          suggestions?: string[];
-        }
-
         const apiError = err as ApiErrorWithSuggestions;
         console.error('Detalhes do erro:', {
           error: err,
@@ -216,11 +249,10 @@ export default function LoginPage() {
     }
   };
 
-  // Fluxo de login social com GitHub foi desativado neste momento.
-
   /**
    * Estado de carregamento inicial.
    * Exibe spinner enquanto verifica estado de autenticação.
+   * @returns {JSX.Element} Componente de loading
    */
   if (authLoading) {
     return (
@@ -257,6 +289,7 @@ export default function LoginPage() {
   /**
    * Se já estiver autenticado, não renderiza nada.
    * O redirecionamento é feito no useEffect acima.
+   * @returns {null}
    */
   if (isAuthenticated) {
     return null;
@@ -347,10 +380,65 @@ export default function LoginPage() {
 
         {/* Botão de login social (OAuth) */}
         {/* Autenticação via Google */}
-        <OAuthButton
-          onGoogleLogin={handleGoogleLogin}
-          disabled={isLoading}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            duration: ANIMATION_CONFIG.duration,
+            ease: ANIMATION_CONFIG.easeInOut,
+          }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleGoogleLogin}
+            disabled={isLoading}
+            className={cn(
+              'w-full h-9 sm:h-10 relative overflow-hidden group',
+              'text-sm font-normal',
+              'border-border hover:border-primary/50 hover:bg-accent/50',
+              'bg-background/50 backdrop-blur-sm',
+              'shadow-sm hover:shadow-md',
+              'rounded-md',
+              MOTION.TRANSITION.DEFAULT,
+              'disabled:opacity-50 disabled:cursor-not-allowed'
+            )}
+          >
+            <motion.div
+              className="absolute inset-0 bg-linear-to-r from-transparent via-primary/5 to-transparent"
+              initial={{ x: '-100%' }}
+              whileHover={{ x: '100%' }}
+              transition={{ 
+                duration: ANIMATION_CONFIG.shimmerDuration, 
+                ease: ANIMATION_CONFIG.easeInOut 
+              }}
+            />
+            <motion.div
+              className="relative z-10 flex items-center justify-center"
+              whileHover={{ x: 2 }}
+              transition={{ duration: ANIMATION_CONFIG.duration }}
+            >
+              <motion.svg
+                className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+                whileHover={{ rotate: [0, -10, 10, 0] }}
+                transition={{ 
+                  duration: ANIMATION_CONFIG.duration * 2.5,
+                }}
+              >
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+              </motion.svg>
+              <span>Continuar com Google</span>
+            </motion.div>
+          </Button>
+        </motion.div>
       </AuthLayout>
 
       {/* Botão de voltar ao topo */}
@@ -358,5 +446,3 @@ export default function LoginPage() {
     </>
   );
 }
-
-

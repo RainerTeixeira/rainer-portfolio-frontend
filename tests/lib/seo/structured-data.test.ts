@@ -15,15 +15,7 @@ describe('lib/seo/structured-data', () => {
         id: '1',
         title: 'Meu Post',
         slug: 'meu-post',
-        content: {
-          type: 'doc',
-          content: [
-            {
-              type: 'paragraph',
-              content: [{ type: 'text', text: 'Conteúdo do post' }],
-            },
-          ],
-        },
+        content: 'Conteúdo do post em formato string',
         publishedAt: '2025-01-15T00:00:00Z',
         updatedAt: '2025-01-15T00:00:00Z',
       };

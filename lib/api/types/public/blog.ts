@@ -58,6 +58,9 @@ export interface PostCategory {
   postsCount?: number;
 }
 
+// Alias para compatibilidade
+export type Category = PostCategory;
+
 /**
  * Interface para representar uma tag de post
  */

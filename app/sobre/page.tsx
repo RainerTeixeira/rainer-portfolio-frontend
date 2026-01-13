@@ -94,7 +94,7 @@ import { TechStackCard } from '@/components/domain/sobre/tech-stack-card';
 export default function AboutPage() {
   const METRIC_ICONS = [Code2, Monitor, Database, Zap];
   return (
-    <div className={cn('min-h-screen', BACKGROUND.FULL)}>
+    <div className={cn('min-h-screen', BACKGROUND.PRIMARY)}>
       {/* Efeito de partículas decorativas no background (visível apenas no dark mode) */}
       <ParticlesEffect variant="alt1" />
 

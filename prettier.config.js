@@ -1,51 +1,37 @@
 /**
- * @file prettier.config.js
- * @description Configuração do Prettier para formatação consistente de código.
+ * Configuração do Prettier para formatação consistente de código.
+ * 
+ * Define regras de formatação para todo o projeto para garantir
+ * estilo de código consistente entre todos os desenvolvedores e ferramentas.
  * 
  * @module prettier.config
- * @version 2.0.0
  * @author Rainer Teixeira
- * @since 1.0.0
+ * @see {@link https://prettier.io/docs/en/configuration.html} Guia de Configuração do Prettier
+ * @see {@link https://prettier.io/docs/en/options.html} Referência de Opções do Prettier
+ * 
+ * @example
+ * // Formatar todos os arquivos
+ * npm run format
+ * 
+ * // Verificar formatação sem alterações
+ * npm run format:check
+ * 
+ * @type {import('prettier').Config}
  */
-
-/** @type {import('prettier').Config} */
 export default {
-  // Semicolons
   semi: true,
-  
-  // Trailing commas (moderno: 'all' para ES2022+)
-  trailingComma: 'all',
-  
-  // Quotes
   singleQuote: true,
   jsxSingleQuote: false,
-  
-  // Line width
+  trailingComma: 'all',
   printWidth: 100,
-  
-  // Indentation
   tabWidth: 2,
   useTabs: false,
-  
-  // Arrow functions
   arrowParens: 'always',
-  
-  // Line endings
-  endOfLine: 'lf',
-  
-  // Bracket spacing
   bracketSpacing: true,
   bracketSameLine: false,
-  
-  // Prose wrap
-  proseWrap: 'preserve',
-  
-  // HTML whitespace
-  htmlWhitespaceSensitivity: 'css',
-  
-  // Embedded languages
-  embeddedLanguageFormatting: 'auto',
-  
-  // Single attribute per line
   singleAttributePerLine: false,
+  endOfLine: 'lf',
+  proseWrap: 'preserve',
+  htmlWhitespaceSensitivity: 'css',
+  embeddedLanguageFormatting: 'auto',
 };

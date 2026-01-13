@@ -13,13 +13,13 @@ export { SubcategorySelect } from './subcategory-select';
 export { ImageUpload } from './Image-Upload';
 
 // Estatísticas
-export { StatsCards } from './stats-cards';
+export { StatsCards } from '@rainersoft/ui';
 
 // Gráficos
 export { ViewsChart, EngagementChart } from './charts';
 
 // Hooks
-export { useDashboardStats, useAnalyticsData } from './hooks';
+export { useDashboardStats } from './hooks';
 
 // Utils
 export {
@@ -35,10 +35,10 @@ export { RegisterForm, ForgotPasswordForm, ResetPasswordForm } from './login';
 
 // Dashboard Page Components (para page.tsx)
 export { ProfileHeader } from './profile-header';
-export { QuickStats } from './quick-stats';
-export { QuickActions } from './quick-actions';
-export { RecentPostsList } from './recent-posts-list';
-export { AnalyticsOverview } from './analytics-overview';
-export { HelpCenter } from './help-center';
+export { QuickStats } from '@rainersoft/ui';
+export { QuickActions } from '@rainersoft/ui';
+export { RecentPostsList } from '@rainersoft/ui';
+export { AnalyticsOverview } from '@rainersoft/ui';
+export { HelpCenter } from '@rainersoft/ui';
 
 

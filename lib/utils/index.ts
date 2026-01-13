@@ -29,6 +29,8 @@ export {
   prefersReducedMotion,
   scrollToTop,
   scrollToElement,
+  scrollToPosition,
+  smoothScrollTo,
   onReducedMotionChange,
   // Funções utilitárias
   extractInitials,
@@ -63,18 +65,9 @@ export * from './tiptap-editor';
 // Utilitários de autenticação
 export * from './token-storage';
 
-// Componentes e utilitários de UI migrados para @rainersoft/ui
-export {
-  Avatar,
-  isAcceptedFormat,
-  isWebP,
-  supportsWebP,
-  getImageInfo,
-  resizeImage,
-  convertToWebP,
-  prepareImageForUpload,
-  generatePlaceholder
-} from '@rainersoft/ui';
+// Utilitários de imagem - usar diretamente da UI library quando necessário
+// Estes foram movidos para @rainersoft/ui/lib/image-utils
+// export { isAcceptedFormat, isWebP, supportsWebP, getImageInfo, resizeImage, convertToWebP, prepareImageForUpload, generatePlaceholder } from '@rainersoft/ui';
 
 // ============================================================================
 // IMPORTAÇÕES DE CONSTANTES

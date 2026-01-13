@@ -13,9 +13,17 @@
 
 'use client';
 
-import { CookieSettings } from '@/components/cookies/cookie-settings';
+import dynamic from 'next/dynamic';
 import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
+
+const CookieSettings = dynamic(
+  () =>
+    import('@/components/cookies/cookie-settings').then(
+      (mod) => mod.CookieSettings,
+    ),
+  { ssr: false },
+);
 
 export default function CookieSettingsPage() {
   return (

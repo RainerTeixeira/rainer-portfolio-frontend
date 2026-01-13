@@ -21,7 +21,6 @@
 'use client';
 
 import { AuthLayout } from '@/components/domain/dashboard/login';
-import { PasswordInput } from '@/components/domain/dashboard/login/password-input';
 import { BackToTop } from '@rainersoft/ui';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
@@ -182,14 +181,17 @@ export default function ResetPasswordPage() {
           {/* Senha deve ter no mínimo 8 caracteres com indicador de força */}
           <div className="space-y-2">
             <Label htmlFor="newPassword">Nova Senha</Label>
-            <PasswordInput
+            <Input
+              id="newPassword"
+              name="newPassword"
+              type="password"
               value={newPassword}
-              onChange={setNewPassword}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNewPassword(e.target.value)
+              }
               placeholder="Mínimo 8 caracteres"
               disabled={isLoading}
-              showStrengthIndicator
-              name="newPassword"
-              id="newPassword"
+              className="h-9 sm:h-10"
             />
           </div>
 
@@ -197,13 +199,17 @@ export default function ResetPasswordPage() {
           {/* Deve coincidir com a nova senha */}
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirmar Senha</Label>
-            <PasswordInput
+            <Input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
               value={confirmPassword}
-              onChange={setConfirmPassword}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setConfirmPassword(e.target.value)
+              }
               placeholder="Digite a senha novamente"
               disabled={isLoading}
-              name="confirmPassword"
-              id="confirmPassword"
+              className="h-9 sm:h-10"
             />
           </div>
 

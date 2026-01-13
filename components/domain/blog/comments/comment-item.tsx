@@ -262,7 +262,7 @@ export function CommentItem({
               onCancel={() => setIsEditing(false)}
             />
           ) : (
-            <p className="text-sm whitespace-pre-wrap break-words">
+            <p className="text-sm whitespace-pre-wrap wrap-break-word">
               {comment.content}
             </p>
           )}

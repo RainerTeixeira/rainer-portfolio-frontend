@@ -24,7 +24,7 @@
 
 'use client';
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks';
 import type { UpdateProfileData, UserProfile } from '@/lib/api/types/public/users';
 
 import { publicAuth } from '@/lib/api';
@@ -51,7 +51,7 @@ type AuthContextType = {
   user: UserProfile | null;
   isAuthenticated: boolean;
   loading: boolean;
-  error: Error | null;
+  error: string | null;
   login: (email: string, password: string) => Promise<UserProfile | null>;
   register: (data: RegisterData) => Promise<UserProfile | null>;
   logout: () => Promise<void>;
@@ -71,6 +71,7 @@ type AuthContextType = {
   ) => Promise<boolean>;
   loginWithGoogle: () => void;
   loginWithGitHub: () => void;
+  resetError: () => void;
 };
 
 type AuthProviderProps = {
@@ -119,6 +120,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     changePassword,
     checkAuth,
     loginWithOAuthCode,
+    resetError,
   } = useAuth();
 
   // Verifica a autenticação ao carregar o provedor
@@ -142,6 +144,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       changePassword,
       checkAuth,
       loginWithOAuthCode,
+      resetError,
       loginWithGoogle: () => publicAuth.loginWithGoogle(),
       // GitHub login não está implementado no client atual; reutiliza Google como fallback
       loginWithGitHub: () => publicAuth.loginWithGoogle(),
@@ -160,6 +163,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       changePassword,
       checkAuth,
       loginWithOAuthCode,
+      resetError,
     ]
   );
 

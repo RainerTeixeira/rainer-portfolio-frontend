@@ -13,11 +13,8 @@
 
 'use client';
 
-import { Badge } from '@rainersoft/ui';
-import { Card, CardContent } from '@rainersoft/ui';
-import { Separator } from '@rainersoft/ui';
+import { Badge, Card, CardContent, Separator, ReadingTime } from '@rainersoft/ui';
 import { Calendar, Eye, Heart, Tag, User } from 'lucide-react';
-import { ReadingTime } from './social';
 import type { TiptapJSON } from '@/lib/api/types/common';
 import { formatRelativeDate } from '@/lib/utils';
 

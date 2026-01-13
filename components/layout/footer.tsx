@@ -67,11 +67,11 @@ export function Footer() {
       className={cn(
         'relative w-full overflow-hidden border-t',
         // Background usando tokens
-        'bg-[var(--color-background-primary)]',
-        'dark:bg-[var(--color-background-primary)]',
+        'bg-(--color-background-primary)',
+        'dark:bg-(--color-background-primary)',
         // Border usando tokens
-        'border-[var(--color-border-primary)]',
-        'dark:border-[var(--color-primary-base)]/20'
+        'border-(--color-border-primary)',
+        'dark:border-(--color-primary-base)/20'
       )}
       role="contentinfo"
     >
@@ -80,12 +80,12 @@ export function Footer() {
         className={cn(
           'absolute inset-0 blur-2xl pointer-events-none opacity-20 dark:opacity-10',
                   // Cores de gradiente usando tokens primitivos
-          'from-[var(--color-primitive-cyan-500)]/5',
-          'via-[var(--color-primitive-purple-500)]/5',
-          'to-[var(--color-primitive-pink-500)]/5',
-          'dark:from-[var(--color-primitive-cyan-400)]/5',
-          'dark:via-[var(--color-primitive-purple-400)]/5',
-          'dark:to-[var(--color-primitive-pink-400)]/5'
+          'from-(--color-primitive-cyan-500)/5',
+          'via-(--color-primitive-purple-500)/5',
+          'to-(--color-primitive-pink-500)/5',
+          'dark:from-(--color-primitive-cyan-400)/5',
+          'dark:via-(--color-primitive-purple-400)/5',
+          'dark:to-(--color-primitive-pink-400)/5'
         )}
         aria-hidden="true"
       />
@@ -102,12 +102,12 @@ export function Footer() {
             'absolute top-1/3 left-1/4 animate-pulse',
             'w-1.5 h-1.5',
             // Cor usando token primário
-            'bg-[var(--color-primary-base)]',
+            'bg-(--color-primary-base)',
             'opacity-40',
             'rounded-full',
             // Shadow usando token com cor primária
             shadowsPrimitive.LARGE,
-            'shadow-[var(--color-primary-base)]/50'
+            'shadow-(--color-primary-base)/50'
           )}
           style={{ animationDelay: '2s' }}
         />
@@ -116,12 +116,12 @@ export function Footer() {
             'absolute bottom-1/3 right-1/4 animate-pulse',
             'w-1.5 h-1.5',
             // Cor usando token secundário
-            'bg-[var(--color-secondary-base)]',
+            'bg-(--color-secondary-base)',
             'opacity-40',
             'rounded-full',
             // Shadow usando token com cor secundária
             shadowsPrimitive.LARGE,
-            'shadow-[var(--color-secondary-base)]/50'
+            'shadow-(--color-secondary-base)/50'
           )}
           style={{ animationDelay: '3s' }}
         />
@@ -140,8 +140,8 @@ export function Footer() {
                   'text-lg',
                   'font-bold',
                   // Text usando tokens
-                  'text-[var(--color-text-primary)]',
-                  'dark:text-[var(--color-primary-hover)]',
+                  'text-(--color-text-primary)',
+                  'dark:text-(--color-primary-hover)',
                   'dark:font-mono'
                 )}
               >
@@ -151,8 +151,8 @@ export function Footer() {
                 className={cn(
                   'text-sm',
                   // Text usando tokens
-                  'text-[var(--color-text-secondary)]',
-                  'dark:text-[var(--color-primitive-neutral-300)]',
+                  'text-(--color-text-secondary)',
+                  'dark:text-(--color-primitive-neutral-300)',
                   'leading-relaxed'
                 )}
                 style={{
@@ -171,11 +171,11 @@ export function Footer() {
                   className={cn(
                     'inline-flex items-center gap-1.5 px-3 py-1',
                     'rounded-full',
-                    'bg-gradient-to-r',
-                    'from-[var(--color-primary-base)]/10',
-                    'to-[var(--color-primary-base)]/20',
-                    'text-[var(--color-primary-base)]',
-                    'border border-[var(--color-primary-base)]/30',
+                    'bg-linear-to-r',
+                    'from-(--color-primary-base)/10',
+                    'to-(--color-primary-base)/20',
+                    'text-(--color-primary-base)',
+                    'border border-(--color-primary-base)/30',
                     'font-semibold',
                     'text-xs'
                   )}
@@ -187,12 +187,12 @@ export function Footer() {
                   className={cn(
                     'inline-flex items-center gap-1.5 px-3 py-1',
                     'rounded-full',
-                    'bg-gradient-to-r',
-                    'from-[var(--color-status-success-base)]/10',
-                    'to-[var(--color-primitive-green-600)]/20',
-                    'text-[var(--color-primitive-green-600)]',
-                    'dark:text-[var(--color-primitive-green-400)]',
-                    'border border-[var(--color-status-success-base)]/30',
+                    'bg-linear-to-r',
+                    'from-(--color-status-success-base)/10',
+                    'to-(--color-primitive-green-600)/20',
+                    'text-(--color-primitive-green-600)',
+                    'dark:text-(--color-primitive-green-400)',
+                    'border border-(--color-status-success-base)/30',
                     'font-semibold',
                     'text-xs'
                   )}
@@ -210,8 +210,8 @@ export function Footer() {
                   'text-base',
                   'font-semibold',
                   // Text usando tokens
-                  'text-[var(--color-text-primary)]',
-                  'dark:text-[var(--color-primary-hover)]'
+                  'text-(--color-text-primary)',
+                  'dark:text-(--color-primary-hover)'
                 )}
               >
                 Navegação
@@ -226,10 +226,10 @@ export function Footer() {
                           'inline-flex items-center gap-2 group',
                           'text-sm',
                           // Text usando tokens
-                          'text-[var(--color-text-secondary)]',
-                          'dark:text-[var(--color-primitive-neutral-300)]',
-                          'hover:text-[var(--color-primary-base)]',
-                          'dark:hover:text-[var(--color-primary-base)]',
+                          'text-(--color-text-secondary)]',
+                          'dark:text-(--color-primitive-neutral-300)]',
+                          'hover:text-(--color-primary-base)]',
+                          'dark:hover:text-(--color-primary-base)]',
                           // Transition usando token motionPrimitive
                           motionPrimitive.TRANSITION.COLOR
                         )}
@@ -258,8 +258,8 @@ export function Footer() {
                   'text-base',
                   'font-semibold',
                   // Text usando tokens
-                  'text-[var(--color-text-primary)]',
-                  'dark:text-[var(--color-primary-hover)]'
+                  'text-(--color-text-primary)',
+                  'dark:text-(--color-primary-hover)'
                 )}
               >
                 Serviços
@@ -271,10 +271,10 @@ export function Footer() {
                       className={cn(
                         'text-sm',
                         // Text usando tokens
-                        'text-[var(--color-text-secondary)]',
-                        'dark:text-[var(--color-primitive-neutral-300)]',
-                        'hover:text-[var(--color-text-primary)]',
-                        'dark:hover:text-[var(--color-primary-base)]',
+                        'text-(--color-text-secondary)',
+                        'dark:text-(--color-primitive-neutral-300)',
+                        'hover:text-(--color-text-primary)',
+                        'dark:hover:text-(--color-primary-base)',
                         // Transition usando token motionPrimitive
                         motionPrimitive.TRANSITION.COLOR,
                         'cursor-default leading-relaxed'
@@ -294,8 +294,8 @@ export function Footer() {
                   'text-base',
                   'font-semibold',
                   // Text usando tokens
-                  'text-[var(--color-text-primary)]',
-                  'dark:text-[var(--color-primary-hover)]'
+                  'text-(--color-text-primary)',
+                  'dark:text-(--color-primary-hover)'
                 )}
               >
                 Contato
@@ -308,10 +308,10 @@ export function Footer() {
                     'flex items-center gap-2 group',
                     'text-sm',
                     // Text usando tokens
-                    'text-[var(--color-text-secondary)]',
-                    'dark:text-[var(--color-primitive-neutral-300)]',
-                    'hover:text-[var(--color-primary-base)]',
-                    'dark:hover:text-[var(--color-primary-base)]',
+                    'text-(--color-text-secondary)',
+                    'dark:text-(--color-primitive-neutral-300)',
+                    'hover:text-(--color-primary-base)',
+                    'dark:hover:text-(--color-primary-base)',
                     // Transition usando token motionPrimitive
                     motionPrimitive.TRANSITION.COLOR
                   )}
@@ -320,8 +320,8 @@ export function Footer() {
                   <Mail
                     className={cn(
                       'h-4 w-4',
-                      'text-[var(--color-primary-base)]',
-                      'dark:text-[var(--color-primary-base)]'
+                      'text-(--color-primary-base)',
+                      'dark:text-(--color-primary-base)'
                     )}
                   />
                   <span className="break-all text-xs">
@@ -346,10 +346,10 @@ export function Footer() {
                         'flex items-center gap-2 group',
                         'text-sm',
                         // Text usando tokens
-                        'text-[var(--color-text-secondary)]',
-                        'dark:text-[var(--color-primitive-neutral-300)]',
-                        'hover:text-[var(--color-primary-base)]',
-                        'dark:hover:text-[var(--color-primary-base)]',
+                        'text-(--color-text-secondary)',
+                        'dark:text-(--color-primitive-neutral-300)',
+                        'hover:text-(--color-primary-base)',
+                        'dark:hover:text-(--color-primary-base)',
                         // Transition usando token motionPrimitive
                         motionPrimitive.TRANSITION.COLOR
                       )}
@@ -358,8 +358,8 @@ export function Footer() {
                       <Phone
                         className={cn(
                           'h-4 w-4',
-                          'text-[var(--color-primary-base)]',
-                          'dark:text-[var(--color-primary-base)]'
+                          'text-(--color-primary-base)',
+                          'dark:text-(--color-primary-base)'
                         )}
                       />
                       <span>{rawPhone}</span>
@@ -373,15 +373,15 @@ export function Footer() {
                     'flex items-center gap-2',
                     'text-sm',
                     // Text usando tokens
-                    'text-[var(--color-text-secondary)]',
-                    'dark:text-[var(--color-primitive-neutral-300)]'
+                    'text-(--color-text-secondary)',
+                    'dark:text-(--color-primitive-neutral-300)'
                   )}
                 >
                   <MapPin
                     className={cn(
                       'h-4 w-4',
-                      'text-[var(--color-primary-base)]',
-                      'dark:text-[var(--color-primary-base)]'
+                      'text-(--color-primary-base)',
+                      'dark:text-(--color-primary-base)'
                     )}
                   />
                   <span>{SITE_CONFIG.contact.location.headquarters.city}</span>
@@ -396,10 +396,10 @@ export function Footer() {
                     className={cn(
                       'p-2 rounded-lg',
                       // Text usando tokens
-                      'text-[var(--color-text-secondary)]',
-                      'hover:text-[var(--color-primary-base)]',
-                      'dark:hover:text-[var(--color-primary-base)]',
-                      'hover:bg-[var(--color-accent-base)]/50',
+                      'text-(--color-text-secondary)',
+                      'hover:text-(--color-primary-base)',
+                      'dark:hover:text-(--color-primary-base)',
+                      'hover:bg-(--color-accent-base)/50',
                       'hover:scale-110',
                       // Transitions usando tokens motionPrimitive
                       motionPrimitive.TRANSITION.COLOR,
@@ -416,10 +416,10 @@ export function Footer() {
                     className={cn(
                       'p-2 rounded-lg',
                       // Text usando tokens
-                      'text-[var(--color-text-secondary)]',
-                      'hover:text-[var(--color-primary-base)]',
-                      'dark:hover:text-[var(--color-primary-base)]',
-                      'hover:bg-[var(--color-accent-base)]/50',
+                      'text-(--color-text-secondary)',
+                      'hover:text-(--color-primary-base)',
+                      'dark:hover:text-(--color-primary-base)',
+                      'hover:bg-(--color-accent-base)/50',
                       'hover:scale-110',
                       // Transitions usando tokens motionPrimitive
                       motionPrimitive.TRANSITION.COLOR,
@@ -440,8 +440,8 @@ export function Footer() {
           className={cn(
             'w-full border-t',
             // Border usando tokens
-            'border-[var(--color-border-primary)]/50',
-            'dark:border-[var(--color-primary-base)]/20'
+            'border-(--color-border-primary)/50',
+            'dark:border-(--color-primary-base)/20'
           )}
           aria-hidden="true"
         />
@@ -455,8 +455,8 @@ export function Footer() {
                 className={cn(
                   'text-sm',
                   // Text usando tokens
-                  'text-[var(--color-text-secondary)]',
-                  'dark:text-[var(--color-primitive-neutral-400)]'
+                  'text-(--color-text-secondary)',
+                  'dark:text-(--color-primitive-neutral-400)'
                 )}
               >
                 &copy; {new Date().getFullYear()} {SITE_CONFIG.fullName}. Todos
@@ -471,9 +471,9 @@ export function Footer() {
                 className={cn(
                   'text-xs',
                   // Text usando tokens
-                  'text-[var(--color-text-secondary)]',
-                  'hover:text-[var(--color-primary-base)]',
-                  'dark:hover:text-[var(--color-primary-base)]',
+                  'text-(--color-text-secondary)',
+                  'hover:text-(--color-primary-base)',
+                  'dark:hover:text-(--color-primary-base)',
                   // Transition usando token motionPrimitive
                   motionPrimitive.TRANSITION.COLOR
                 )}
@@ -485,9 +485,9 @@ export function Footer() {
                 className={cn(
                   'text-xs',
                   // Text usando tokens
-                  'text-[var(--color-text-secondary)]',
-                  'hover:text-[var(--color-primary-base)]',
-                  'dark:hover:text-[var(--color-primary-base)]',
+                  'text-(--color-text-secondary)',
+                  'hover:text-(--color-primary-base)',
+                  'dark:hover:text-(--color-primary-base)',
                   // Transition usando token motionPrimitive
                   motionPrimitive.TRANSITION.COLOR
                 )}
@@ -499,9 +499,9 @@ export function Footer() {
                 className={cn(
                   'text-xs',
                   // Text usando tokens
-                  'text-[var(--color-text-secondary)]',
-                  'hover:text-[var(--color-primary-base)]',
-                  'dark:hover:text-[var(--color-primary-base)]',
+                  'text-(--color-text-secondary)',
+                  'hover:text-(--color-primary-base)',
+                  'dark:hover:text-(--color-primary-base)',
                   // Transition usando token motionPrimitive
                   motionPrimitive.TRANSITION.COLOR
                 )}
@@ -513,9 +513,9 @@ export function Footer() {
                 className={cn(
                   'text-xs',
                   // Text usando tokens
-                  'text-[var(--color-text-secondary)]',
-                  'hover:text-[var(--color-primary-base)]',
-                  'dark:hover:text-[var(--color-primary-base)]',
+                  'text-(--color-text-secondary)',
+                  'hover:text-(--color-primary-base)',
+                  'dark:hover:text-(--color-primary-base)',
                   // Transition usando token motionPrimitive
                   motionPrimitive.TRANSITION.COLOR
                 )}

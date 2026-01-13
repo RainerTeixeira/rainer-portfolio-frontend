@@ -59,7 +59,7 @@ export function TableOfContents({
       </h3>
 
       <ul className="space-y-1">
-        {items.map((item, index) => {
+        {items.map((item: any, index: number) => {
           const isActive = activeId === item.id;
           // Usar combinação de id e index para garantir chave única
           const uniqueKey = `${item.id}-${index}-${item.level}`;

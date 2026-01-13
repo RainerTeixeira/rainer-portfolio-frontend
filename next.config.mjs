@@ -1,6 +1,14 @@
 ﻿import fs from 'fs';
 import path from 'path';
 
+/**
+ * Carrega variáveis de ambiente do arquivo .env.local
+ * 
+ * Esta função lê o arquivo .env.local na raiz do projeto e
+ * adiciona as variáveis ao process.env se ainda não existirem.
+ * 
+ * @returns {void}
+ */
 function loadEnvLocal() {
   try {
     const envPath = path.join(process.cwd(), '.env.local');
@@ -10,74 +18,76 @@ function loadEnvLocal() {
     for (const rawLine of content.split(/\r?\n/)) {
       const line = rawLine.trim();
       if (!line || line.startsWith('#')) continue;
+      
       const idx = line.indexOf('=');
       if (idx <= 0) continue;
+      
       const key = line.slice(0, idx).trim();
       const value = line.slice(idx + 1).trim();
-      if (!key) continue;
-      if (process.env[key] === undefined) {
+      
+      if (key && process.env[key] === undefined) {
         process.env[key] = value;
       }
     }
   } catch {
-    return;
+    // Ignora erros em desenvolvimento
   }
 }
 
 loadEnvLocal();
 
-/** @type {import('next').NextConfig} */
+/**
+ * Configuração do Next.js
+ * 
+ * Define todas as configurações do framework Next.js incluindo:
+ * - Configurações principais (reactStrictMode, compress, etc.)
+ * - Otimizações de build
+ * - Configurações de TypeScript
+ * - Recursos experimentais
+ * - Configurações de imagens
+ * - Otimização de pacotes
+ * - Configuração do Webpack
+ * - Headers de segurança
+ * - Redirecionamentos e rewrites
+ * 
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
+  // Configurações principais
+  reactStrictMode: false,
+  poweredByHeader: false,
+  compress: true,
   typedRoutes: true,
+  
+  // Otimização de build
+  productionBrowserSourceMaps: false,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
+  // TypeScript
   typescript: {
     ignoreBuildErrors: true,
   },
-
+  
+  // Desenvolvimento
+  allowedDevOrigins: ['192.168.56.1'],
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
+  
+  // Recursos experimentais
   experimental: {
-    optimizePackageImports: [
-      'lucide-react',
-      '@radix-ui/react-icons',
-      '@radix-ui/react-accordion',
-      '@radix-ui/react-alert-dialog',
-      '@radix-ui/react-avatar',
-      '@radix-ui/react-checkbox',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-dropdown-menu',
-      '@radix-ui/react-hover-card',
-      '@radix-ui/react-label',
-      '@radix-ui/react-navigation-menu',
-      '@radix-ui/react-popover',
-      '@radix-ui/react-progress',
-      '@radix-ui/react-radio-group',
-      '@radix-ui/react-scroll-area',
-      '@radix-ui/react-select',
-      '@radix-ui/react-separator',
-      '@radix-ui/react-slider',
-      '@radix-ui/react-slot',
-      '@radix-ui/react-switch',
-      '@radix-ui/react-tabs',
-      '@radix-ui/react-toast',
-      '@radix-ui/react-toggle',
-      '@radix-ui/react-tooltip',
-      'framer-motion',
-      '@tanstack/react-query',
-      '@rainersoft/ui',
-      'class-variance-authority',
-      'clsx',
-      'tailwind-merge'
-    ],
     scrollRestoration: true,
     serverActions: { bodySizeLimit: '2mb' },
   },
-
-  allowedDevOrigins: ['192.168.56.1'],
-  transpilePackages: ['@rainersoft/design-tokens', '@rainersoft/ui'],
-
+  
+  // Imagens
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'rainersoft.com.br', pathname: '/**' },
       { protocol: 'https', hostname: 'rainer-portfolio.vercel.app', pathname: '/**' },
-      { protocol: 'https', hostname: 'rainer-portfolio-i4pf4a37z-rainerteixeiras-projects.vercel.app', pathname: '/**' },
       { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
       { protocol: 'https', hostname: 'via.placeholder.com', pathname: '/**' },
     ],
@@ -85,38 +95,75 @@ const nextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-  },
-
-  reactStrictMode: false,
-  poweredByHeader: false,
-  compress: true,
-  productionBrowserSourceMaps: false,
-  cacheComponents: true,
-  generateBuildId: async () => `build-${Date.now()}`,
-
-  onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
-  },
-
+  
+  // Otimização de pacotes
+  transpilePackages: ['@rainersoft/design-tokens', '@rainersoft/ui', '@rainersoft/utils'],
   modularizeImports: {
     '@heroicons/react': { transform: '@heroicons/react/24/outline/{{member}}' },
     'lucide-react': { transform: 'lucide-react/dist/esm/icons/{{member}}' },
   },
-
+  
+  /**
+   * Configuração do Webpack
+   * 
+   * Personaliza a configuração do Webpack para adicionar aliases,
+   * suporte a symlinks, extensões e otimizações de produção.
+   * 
+   * @param {object} config - Configuração atual do Webpack
+   * @param {object} options - Opções do contexto de build
+   * @param {boolean} options.isServer - Indica se é build do servidor
+   * @param {boolean} options.dev - Indica se está em modo desenvolvimento
+   * @returns {object} Configuração modificada do Webpack
+   */
+  webpack: (config, { isServer, dev }) => {
+    // Aliases de caminho
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(process.cwd()),
+      '@/components': path.resolve(process.cwd(), 'components'),
+      '@/lib': path.resolve(process.cwd(), 'lib'),
+      '@/hooks': path.resolve(process.cwd(), 'hooks'),
+      '@/constants': path.resolve(process.cwd(), 'constants'),
+      '@/app': path.resolve(process.cwd(), 'app'),
+      '@/public': path.resolve(process.cwd(), 'public'),
+    };
+    
+    // Symlinks
+    config.resolve.symlinks = true;
+    
+    // Aliases de extensão
+    config.resolve.extensionAlias = {
+      '.js': ['.js', '.ts', '.tsx'],
+      '.jsx': ['.jsx', '.tsx'],
+    };
+    
+    // Polyfills do lado do servidor
+    if (!isServer) {
+      config.resolve.fallback = { fs: false, net: false, tls: false };
+    }
+    
+    // Otimizações de produção
+    if (!dev) {
+      config.experiments = {
+        ...config.experiments,
+        asyncWebAssembly: true,
+        layers: true,
+      };
+    }
+    
+    return config;
+  },
+  
+  /**
+   * Configuração de headers HTTP
+   * 
+   * Define headers de cache e segurança para diferentes rotas.
+   * Inclui proteções contra XSS, clickjacking e outras vulnerabilidades.
+   * 
+   * @returns {Promise<Array>} Array de configurações de headers
+   */
   async headers() {
     return [
-      {
-        source: '/_vercel/insights/script.js',
-        headers: [{ key: 'Cache-Control', value: 'public, max-age=3600, must-revalidate' }],
-      },
-      {
-        source: '/_vercel/speed-insights/script.js',
-        headers: [{ key: 'Cache-Control', value: 'public, max-age=3600, must-revalidate' }],
-      },
       {
         source: '/_next/static/:path*',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
@@ -138,54 +185,41 @@ const nextConfig = {
       },
     ];
   },
-
+  
+  /**
+   * Configuração de redirecionamentos
+   * 
+   * Define redirecionamentos permanentes e temporários.
+   * 
+   * @returns {Promise<Array>} Array de configurações de redirect
+   */
   async redirects() {
     return [{ source: '/home', destination: '/', permanent: true }];
   },
-
+  
+  /**
+   * Configuração de rewrites
+   * 
+   * Define rewrites de URL para proxy de API em desenvolvimento.
+   * Permite redirecionar chamadas /api/* para o backend configurado.
+   * 
+   * @returns {Promise<Array>} Array de configurações de rewrite
+   */
   async rewrites() {
     if (process.env.NODE_ENV !== 'development') return [];
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     if (!apiUrl) return [];
     return [{ source: '/api/:path*', destination: `${apiUrl}/:path*` }];
   },
-
-  webpack: (config, { isServer, dev }) => {
-    config.resolve.symlinks = true;
-    
-    // Add alias configuration for @ paths
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(process.cwd()),
-      '@/components': path.resolve(process.cwd(), 'components'),
-      '@/lib': path.resolve(process.cwd(), 'lib'),
-      '@/hooks': path.resolve(process.cwd(), 'hooks'),
-      '@/constants': path.resolve(process.cwd(), 'constants'),
-      '@/app': path.resolve(process.cwd(), 'app'),
-      '@/public': path.resolve(process.cwd(), 'public'),
-    };
-    
-    if (!isServer) {
-      config.resolve.fallback = { fs: false, net: false, tls: false };
-    }
-
-    config.resolve.extensionAlias = {
-      '.js': ['.js', '.ts', '.tsx'],
-      '.jsx': ['.jsx', '.tsx'],
-    };
-
-    if (!dev) {
-      config.experiments = {
-        ...config.experiments,
-        asyncWebAssembly: true,
-        layers: true,
-      };
-    }
-
-    return config;
-  },
 };
 
-nextConfig.turbopack = {};
+/**
+ * Gera um ID único para cada build
+ * 
+ * Utiliza timestamp para garantir unicidade entre builds.
+ * 
+ * @returns {Promise<string>} ID único do build
+ */
+nextConfig.generateBuildId = async () => `build-${Date.now()}`;
 
 export default nextConfig;

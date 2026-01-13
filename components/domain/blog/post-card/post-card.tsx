@@ -54,7 +54,6 @@ import {
 import { cn } from '@rainersoft/ui';
 import { CARD_CLASSES } from '@/lib/utils';
 import { formatRelativeDate } from '@/lib/utils';
-import { getDarkColors, getLightColors } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Tag } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -159,12 +158,11 @@ export function PostCard({
 
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const colors = isDark ? getDarkColors() : getLightColors();
 
-  // Cores do tema atual (usando apenas propriedades válidas do objeto colors)
-  const accentCyan = colors.primary.base;
-  const accentPurple = colors.secondary.base;
-  const accentPink = colors.accent.base;
+  // Fallback de cores usando CSS vars do design system
+  const accentCyan = 'hsl(var(--primary))';
+  const accentPurple = 'hsl(var(--secondary))';
+  const accentPink = 'hsl(var(--accent))';
 
   // Data relativa (se for fornecida)
   const relativeDate = date ? formatRelativeDate(date) : null;

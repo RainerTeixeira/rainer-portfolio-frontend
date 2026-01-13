@@ -14,12 +14,11 @@ export { ReadingProgress } from './reading-progress';
 export { RelatedPosts } from './related-posts';
 export { TableOfContents } from './table-of-contents';
 
-// Componentes Sociais
-export { BookmarkButton, LikeButton, ReadingTime, ShareButton } from './social';
+// Componentes Sociais - MOVIDOS para @rainersoft/ui/social
+// Usar: import { LikeButton, ShareButton, BookmarkButton, ReadingTime } from '@rainersoft/ui';
 
 // Componentes de Busca
-export { SearchBar } from './search';
-export { AdvancedSearch } from './search/advanced-search';
+export { default as SearchBar } from './search';
 
 // Infinite scroll
 export { InfiniteScroll } from './infinite-scroll';
@@ -30,7 +29,6 @@ export { CommentForm, CommentItem, CommentSection } from './comments';
 // Componentes de Filtro e Organização
 export { BlogStatCard } from './blog-stat-card';
 export { CategoryFilter } from './category-filter';
-export { EmptyState } from './empty-state';
 export { FeaturedPostsSection } from './featured-posts-section';
 export { SortControls, type SortOption } from './sort-controls';
 

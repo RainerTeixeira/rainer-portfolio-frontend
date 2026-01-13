@@ -529,5 +529,3 @@ export const ContactSection = memo(function ContactSection() {
  * @type {string}
  */
 ContactSection.displayName = 'ContactSection';
-
-

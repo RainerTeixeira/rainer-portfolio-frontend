@@ -10,7 +10,7 @@
  */
 
 import type { Post, PostCategory } from '@/lib/api/types/public/blog';
-import { extractTextFromTiptap } from '@/lib/blog';
+import { extractTextFromTiptap } from '@rainersoft/utils';
 import { env } from '@/lib/config/env';
 import type { Metadata } from 'next';
 

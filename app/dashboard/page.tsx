@@ -506,7 +506,7 @@ function DashboardPageContent() {
                     >
                       <RecentPostsList
                         maxPosts={MAX_RECENT_POSTS}
-                        onEditPost={post =>
+                        onEditPost={(post: any) =>
                           router.push(`/dashboard?edit=${post.id}`)
                         }
                         onDeletePost={deletePost}

@@ -1,67 +1,84 @@
+/**
+ * Tailwind CSS Configuration
+ * 
+ * Single Source of Truth: @rainersoft/design-tokens
+ * Todas as cores, espaçamentos e tipografia vêm exclusivamente dos tokens.
+ * 
+ * @module tailwind.config
+ * @author Rainer Teixeira
+ */
 import type { Config } from 'tailwindcss';
 import { tokens } from '@rainersoft/design-tokens';
 
 const config: Config = {
   darkMode: 'class',
   content: [
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
     './lib/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     container: {
       center: true,
-      padding: '1rem',
-      screens: {
-        '2xl': '1400px',
-      },
+      padding: tokens.primitives.spacing['4'],
+      screens: { '2xl': tokens.primitives.breakpoints['2xl'] },
     },
     extend: {
-      // Cores via CSS Variables (com suporte a dark mode)
       colors: {
-        // Cores shadcn-ui compatíveis
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        card: 'hsl(var(--card) / <alpha-value>)',
-        'card-foreground': 'hsl(var(--card-foreground) / <alpha-value>)',
-        popover: 'hsl(var(--popover) / <alpha-value>)',
-        'popover-foreground': 'hsl(var(--popover-foreground) / <alpha-value>)',
-        primary: 'hsl(var(--primary) / <alpha-value>)',
-        'primary-foreground': 'hsl(var(--primary-foreground) / <alpha-value>)',
-        secondary: 'hsl(var(--secondary) / <alpha-value>)',
-        'secondary-foreground': 'hsl(var(--secondary-foreground) / <alpha-value>)',
-        muted: 'hsl(var(--muted) / <alpha-value>)',
-        'muted-foreground': 'hsl(var(--muted-foreground) / <alpha-value>)',
-        accent: 'hsl(var(--accent) / <alpha-value>)',
-        'accent-foreground': 'hsl(var(--accent-foreground) / <alpha-value>)',
-        destructive: 'hsl(var(--destructive) / <alpha-value>)',
-        'destructive-foreground': 'hsl(var(--destructive-foreground) / <alpha-value>)',
-        border: 'hsl(var(--border) / <alpha-value>)',
-        input: 'hsl(var(--input) / <alpha-value>)',
-        ring: 'hsl(var(--ring) / <alpha-value>)',
+        // Cores semânticas via CSS variables (definidas em @rainersoft/design-tokens/formats/css-vars.css)
+        background: 'var(--color-background-primary)',
+        foreground: 'var(--color-text-primary)',
+        card: 'var(--color-surface-primary)',
+        'card-foreground': 'var(--color-text-primary)',
+        popover: 'var(--color-surface-elevated)',
+        'popover-foreground': 'var(--color-text-primary)',
+        primary: 'var(--color-primary-base)',
+        'primary-foreground': 'var(--color-primary-text)',
+        secondary: 'var(--color-secondary-base)',
+        'secondary-foreground': 'var(--color-secondary-text)',
+        muted: 'var(--color-background-muted)',
+        'muted-foreground': 'var(--color-text-tertiary)',
+        accent: 'var(--color-accent-base)',
+        'accent-foreground': 'var(--color-accent-text)',
+        destructive: 'var(--color-error-base)',
+        'destructive-foreground': 'var(--color-error-text)',
+        border: 'var(--color-border-primary)',
+        input: 'var(--color-border-primary)',
+        ring: 'var(--color-primary-base)',
         
-        // Cores opacas (sem transparência)
-        'background-solid': 'hsl(var(--background))',
-        'foreground-solid': 'hsl(var(--foreground))',
-        
-        // Cores customizadas do design system
-        'color-background-primary': 'var(--color-background-primary)',
-        'color-surface-primary': 'var(--color-surface-primary)',
-        'color-text-primary': 'var(--color-text-primary)',
-        'color-text-secondary': 'var(--color-text-secondary)',
-        'color-border-primary': 'var(--color-border-primary)',
+        // Cores primitivas do design system (acesso direto para casos especiais)
+        ...tokens.primitives.color,
       },
-      spacing: tokens.spacing,
       
-      // Animações otimizadas
+      // Design tokens - spacing e breakpoints
+      spacing: tokens.primitives.spacing,
+      screens: tokens.primitives.breakpoints,
+      borderRadius: tokens.primitives.radius,
+      
+      // Tipografia dos tokens
+      fontFamily: {
+        sans: ['var(--font-geist-sans)', ...tokens.primitives.typography.fontFamily.sans],
+        mono: ['var(--font-geist-mono)', ...tokens.primitives.typography.fontFamily.mono],
+      },
+      fontSize: tokens.primitives.typography.fontSize,
+      fontWeight: tokens.primitives.typography.fontWeight,
+      lineHeight: tokens.primitives.typography.lineHeight,
+      
+      // Sombras dos tokens
+      boxShadow: tokens.primitives.shadows,
+      
+      // Z-index dos tokens
+      zIndex: tokens.primitives.zIndex,
+      
+      // Animações usando motion tokens
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-        'fade-in': 'fade-in 0.3s ease-out',
-        'fade-out': 'fade-out 0.3s ease-out',
-        'slide-in': 'slide-in 0.3s ease-out',
-        'scale-in': 'scale-in 0.3s ease-out',
+        'accordion-down': `accordion-down ${tokens.primitives.motion.duration.normal} ${tokens.primitives.motion.easing.easeOut}`,
+        'accordion-up': `accordion-up ${tokens.primitives.motion.duration.normal} ${tokens.primitives.motion.easing.easeOut}`,
+        'fade-in': `fade-in ${tokens.primitives.motion.duration.slow} ${tokens.primitives.motion.easing.easeOut}`,
+        'fade-out': `fade-out ${tokens.primitives.motion.duration.slow} ${tokens.primitives.motion.easing.easeOut}`,
+        'slide-in': `slide-in ${tokens.primitives.motion.duration.slow} ${tokens.primitives.motion.easing.easeOut}`,
+        'scale-in': `scale-in ${tokens.primitives.motion.duration.slow} ${tokens.primitives.motion.easing.easeOut}`,
         'spin-slow': 'spin 3s linear infinite',
       },
       keyframes: {
@@ -73,32 +90,11 @@ const config: Config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
-        'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        'fade-out': {
-          '0%': { opacity: '1' },
-          '100%': { opacity: '0' },
-        },
-        'slide-in': {
-          '0%': { transform: 'translateY(100%)' },
-          '100%': { transform: 'translateY(0)' },
-        },
-        'scale-in': {
-          '0%': { transform: 'scale(0.95)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
-        },
+        'fade-in': { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+        'fade-out': { '0%': { opacity: '1' }, '100%': { opacity: '0' } },
+        'slide-in': { '0%': { transform: 'translateY(100%)' }, '100%': { transform: 'translateY(0)' } },
+        'scale-in': { '0%': { transform: 'scale(0.95)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '1' } },
       },
-      
-      // Fontes otimizadas
-      fontFamily: {
-        sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'monospace'],
-      },
-      
-      // Breakpoints dos tokens
-      screens: tokens.breakpoints,
     },
   },
   plugins: [
@@ -108,4 +104,3 @@ const config: Config = {
 };
 
 export default config;
-

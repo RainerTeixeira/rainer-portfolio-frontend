@@ -32,7 +32,7 @@ import { cn } from '@rainersoft/ui';
 // COMPONENTES DE AÇÕES SOCIAIS
 // ============================================================================
 
-import { LikeButton, BookmarkButton, ShareButton } from '../social';
+import { LikeButton, BookmarkButton, ShareButton } from '@rainersoft/ui';
 
 /**
  * Propriedades do componente PostSocialActions

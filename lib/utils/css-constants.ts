@@ -16,6 +16,13 @@ export const TRANSITION_DELAYS = {
   BASE: '150ms',
   SLOW: '300ms',
   VERY_SLOW: '500ms',
+  // Propriedades para compatibilidade com testes
+  particle1: '200ms',
+  particle2: '400ms',
+  particle3: '600ms',
+  short: '100ms',
+  medium: '300ms',
+  long: '500ms',
 };
 
 export const ANIMATION_DELAYS = {

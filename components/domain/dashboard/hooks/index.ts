@@ -51,5 +51,4 @@ export {
 // Hooks de dashboard (específicos - atualizados para usar nova API)
 export {
   useDashboardStats,
-  useAnalyticsData,
 } from './use-dashboard-stats';

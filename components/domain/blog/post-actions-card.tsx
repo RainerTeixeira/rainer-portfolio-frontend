@@ -14,7 +14,7 @@
 'use client';
 
 import { Card, CardContent } from '@rainersoft/ui';
-import { BookmarkButton, LikeButton, ShareButton } from './social';
+import { BookmarkButton, LikeButton, ShareButton } from '@rainersoft/ui';
 
 interface PostActionsCardProps {
   postId: string;

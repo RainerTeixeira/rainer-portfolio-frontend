@@ -50,7 +50,7 @@ import { LayoutDashboard, LogIn, LogOut, Menu, Settings } from 'lucide-react';
 // ============================================================================
 
 import { ThemeToggle } from '@rainersoft/ui';
-import { Avatar } from '@rainersoft/ui';
+import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import {
   DropdownMenu,

@@ -18,13 +18,9 @@ export { RegisterForm } from './forms/register-form';
 export { ResetPasswordForm } from './forms/reset-password-form';
 export { LoginForm } from './login-form';
 
-// Componentes OAuth (apenas Google no momento)
-export { OAuthButton } from './oauth-buttons';
-
 // Componentes Auxiliares
 export { NameAvailability } from './name-availability';
 export { NicknameAvailability } from './nickname-availability';
-export { PasswordInput } from './password-input';
 export { StatusBadge } from './status-badge';
 export { TermsDialog } from './terms-dialog';
 

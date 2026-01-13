@@ -2,7 +2,7 @@
  * Testes para componente Testimonials
  */
 
-import { Testimonials } from '@/components/domain/home/testimonials';
+import { Testimonials } from '@/components/domain/home/technical-highlight';
 import { render } from '@testing-library/react';
 
 describe('Testimonials', () => {
