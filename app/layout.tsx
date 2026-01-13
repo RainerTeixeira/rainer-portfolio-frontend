@@ -6,9 +6,9 @@ import './globals.css';
 
 import AuthProvider from '@/components/providers/auth-context-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { AppWrapper } from '@/components/layout/app-wrapper';
-import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+const AppWrapper = dynamic(() => import('@/components/layout/app-wrapper').then((mod) => mod.AppWrapper));
+const Navbar = dynamic(() => import('@/components/layout/navbar').then((mod) => mod.Navbar));
+const Footer = dynamic(() => import('@/components/layout/footer').then((mod) => mod.Footer));
 import { CookieInitializer } from '@/components/cookies/cookie-initializer';
 import { zIndexPrimitive } from '@rainersoft/design-tokens';
 import { Analytics } from '@vercel/analytics/next';
@@ -215,41 +215,9 @@ interface RootLayoutProps {
  * @constant
  */
 const StarsBackground = dynamic(() => import('@rainersoft/ui').then((mod) => mod.StarsBackground));
-
-/**
- * Componente de notificações (toasts).
- *
- * Carregado dinamicamente apenas no cliente.
- *
- * @constant
- */
 const Toaster = dynamic(() => import('@rainersoft/ui').then((mod) => mod.Toaster));
-
-/**
- * Banner de cookies para consentimento LGPD/GDPR.
- *
- * Carregado dinamicamente apenas no cliente.
- *
- * @constant
- */
 const CookieBanner = dynamic(() => import('@rainersoft/ui').then((mod) => mod.CookieBanner));
-
-/**
- * Componente de prompt de instalação (PWA).
- *
- * Carregado dinamicamente apenas no cliente.
- *
- * @constant
- */
 const InstallPrompt = dynamic(() => import('@rainersoft/ui').then((mod) => mod.InstallPrompt));
-
-/**
- * Componente de notificação de atualização da aplicação (PWA).
- *
- * Carregado dinamicamente apenas no cliente.
- *
- * @constant
- */
 const UpdateNotification = dynamic(() => import('@rainersoft/ui').then((mod) => mod.UpdateNotification));
 
 /**
