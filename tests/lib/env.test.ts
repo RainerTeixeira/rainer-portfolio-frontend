@@ -2,7 +2,7 @@
  * Testes para lib/env.ts
  */
 
-import { getEnvVar, validateEnv } from '@/lib/env';
+import { getEnvVar, validateEnv } from '@/lib/config/env';
 
 describe('lib/env', () => {
   const originalEnv = process.env;

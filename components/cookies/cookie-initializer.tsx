@@ -79,7 +79,12 @@ export function CookieInitializer() {
         'performance' in preferences && 
         'functionality' in preferences && 
         'analytics' in preferences) {
-      cookieManager.updatePreferences(preferences as CookiePreferences);
+      cookieManager.updatePreferences({
+        essential: Boolean(preferences.essential),
+        performance: Boolean(preferences.performance),
+        functionality: Boolean(preferences.functionality),
+        analytics: Boolean(preferences.analytics)
+      });
     } else if (cookieManager.hasConsent()) {
       // Carrega preferências salvas e inicializa scripts
       const savedPreferences = cookieManager.getPreferences();

@@ -28,7 +28,8 @@
 
 'use client';
 
-import { Alert, AlertDescription, InlineLoader } from '@rainersoft/ui';
+import { Alert, AlertDescription } from '@rainersoft/ui';
+import InlineLoader from '@/components/ui/InlineLoader';
 import { Button } from '@rainersoft/ui';
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
@@ -172,8 +173,8 @@ export default function OAuthCallbackPage() {
         } else {
           // Tentar usar mensagem mais descritiva do hook de autenticação, se disponível
           const authErrorMessage =
-            authError instanceof Error
-              ? authError.message
+            authError && typeof authError === 'object' && 'message' in authError
+              ? (authError as Error).message
               : typeof authError === 'string'
                 ? authError
                 : null;

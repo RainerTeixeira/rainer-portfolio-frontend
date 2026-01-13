@@ -283,7 +283,7 @@ export function ProfileForm({ onSuccess }: ProfileFormProps) {
                   id="fullName"
                   name="fullName"
                   value={fullNameValue}
-                  onChange={e => setFullNameValue(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFullNameValue(e.target.value)}
                   placeholder="Seu nome completo"
                   required
                   className={FORM_STYLES.input}
@@ -303,7 +303,7 @@ export function ProfileForm({ onSuccess }: ProfileFormProps) {
                   id="nickname"
                   name="nickname"
                   value={nicknameValue}
-                  onChange={e => setNicknameValue(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNicknameValue(e.target.value)}
                   placeholder="Seu nome público (ex: rainerdev)"
                   required
                   className={FORM_STYLES.input}
@@ -326,7 +326,7 @@ export function ProfileForm({ onSuccess }: ProfileFormProps) {
                   id="bio"
                   name="bio"
                   value={bioValue}
-                  onChange={e => setBioValue(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBioValue(e.target.value)}
                   placeholder="Conte um pouco sobre você..."
                   rows={4}
                   className={cn(FORM_STYLES.input, 'resize-none min-h-[100px]')}
@@ -349,7 +349,7 @@ export function ProfileForm({ onSuccess }: ProfileFormProps) {
                   name="website"
                   type="url"
                   value={websiteValue}
-                  onChange={e => setWebsiteValue(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWebsiteValue(e.target.value)}
                   placeholder="https://seusite.com"
                   className={FORM_STYLES.input}
                   aria-invalid={!!errors.website || undefined}

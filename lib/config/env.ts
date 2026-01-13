@@ -399,26 +399,36 @@ export const isDebugMode = env.NEXT_PUBLIC_DEBUG_MODE;
 export const isStrictModeDisabled = env.NEXT_PUBLIC_DISABLE_STRICT_MODE;
 
 /**
- * Valida se o ambiente está configurado corretamente
- * @returns {void}
- * @throws {Error} Se houver problemas na configuração
+ * Obtém uma variável de ambiente de forma segura
+ * @param key - Chave da variável
+ * @param defaultValue - Valor padrão
+ * @returns Valor da variável ou defaultValue
+ */
+export function getEnvVar(key: string, defaultValue?: string): string {
+  const value = getProcessEnv(key);
+  return value ?? defaultValue ?? '';
+}
+
+/**
+ * Valida todas as variáveis de ambiente obrigatórias
+ * @throws {Error} Se alguma variável obrigatória estiver faltando
  */
 export function validateEnvironment(): void {
-  const requiredEnvs = [
-    ENV_KEYS.APP_ENV,
-    ENV_KEYS.NODE_ENV,
+  const requiredVars = [
+    'NEXT_PUBLIC_APP_NAME',
+    'NEXT_PUBLIC_BASE_URL',
+    'NEXT_PUBLIC_API_URL'
   ];
+
+  const missing = requiredVars.filter(key => !getProcessEnv(key));
   
-  const missingEnvs = requiredEnvs.filter(key => !getProcessEnv(key));
-  
-  if (missingEnvs.length > 0) {
-    throw new Error(
-      `Variáveis de ambiente obrigatórias não definidas: ${missingEnvs.join(', ')}`
-    );
+  if (missing.length > 0) {
+    throw new Error(`Variáveis obrigatórias faltando: ${missing.join(', ')}`);
   }
-  
-  console.log('✅ Ambiente validado com sucesso');
 }
+
+// Alias para compatibilidade
+export const validateEnv = validateEnvironment;
 
 // ============================================================================
 // LOGS DE INICIALIZAÇÃO (apenas no servidor)

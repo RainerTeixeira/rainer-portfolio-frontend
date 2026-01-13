@@ -50,7 +50,7 @@ import {
   MOTION, 
   SHADOWS, 
   motionTokens,
-  spacingTokens,
+  spacingSemantic,
 } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
 import { AlertCircle, CheckCircle2, Eye, EyeOff, Loader2 } from 'lucide-react';

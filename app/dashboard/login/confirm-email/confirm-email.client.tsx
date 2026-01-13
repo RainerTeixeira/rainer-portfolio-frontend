@@ -290,22 +290,10 @@ export default function ConfirmEmailClient({ initialEmail = '' }: ConfirmEmailCl
     <>
       <AuthLayout
         title="Confirmar email"
-        description={
-          email ? (
-            <>
-              Digite o código enviado para
-              <br />
-              <span className="font-medium text-primary">{formatEmailForDisplay(email)}</span>
-            </>
-          ) : (
-            'Digite o código de verificação enviado para seu email'
-          )
-        }
-        showBranding
-        maxWidth="md"
+        description={`Digite o código enviado para ${formatEmailForDisplay(email)}`}
       >
-        <Card className="border-border">
-          <CardHeader>
+        <Card className="w-full max-w-md mx-auto">
+          <CardHeader className="text-center">
             <CardTitle className="flex items-center gap-2">
               <ShieldCheck className="h-5 w-5 text-primary" />
               Verificação de Email
