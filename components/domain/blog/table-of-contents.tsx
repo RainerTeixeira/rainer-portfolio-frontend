@@ -27,6 +27,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import React from 'react';
 import { cn } from '@rainersoft/ui';
 import { motion } from 'framer-motion';
@@ -98,5 +100,6 @@ export function TableOfContents({
     </nav>
   );
 }
+
 
 

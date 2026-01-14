@@ -28,6 +28,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { SKILLS } from '@/components/icons/skills';
 import { Badge, cn } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
@@ -268,5 +270,6 @@ export function TechStackShowcase() {
     </section>
   );
 }
+
 
 

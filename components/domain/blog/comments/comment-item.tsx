@@ -34,6 +34,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -373,5 +375,6 @@ export function CommentItem({
     </div>
   );
 }
+
 
 

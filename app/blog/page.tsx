@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Blog Page Component
  *
@@ -17,8 +19,6 @@
  * // Renderizada automaticamente pelo Next.js App Router
  * ```
  */
-
-'use client';
 
 console.log('DEBUG: Blog page component loaded');
 
@@ -604,5 +604,8 @@ export default function BlogPage() {
     </div>
   );
 }
+
+;
+
 
 

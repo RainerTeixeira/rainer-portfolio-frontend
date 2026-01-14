@@ -13,6 +13,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import {
   Card,
   CardContent,
@@ -82,5 +84,6 @@ export function TechStackCard({ skills, className }: TechStackCardProps) {
     </Card>
   );
 }
+
 
 

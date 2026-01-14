@@ -36,6 +36,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import {
   Dialog,
   DialogContent,
@@ -601,5 +603,6 @@ function PrivacyContent() {
     </div>
   );
 }
+
 
 

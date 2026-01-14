@@ -25,6 +25,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Badge } from '@rainersoft/ui';
 import {
   CardHeader,
@@ -134,3 +136,4 @@ export function PostHeader({
     </CardHeader>
   );
 }
+

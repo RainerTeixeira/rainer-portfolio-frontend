@@ -33,6 +33,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Avatar, AvatarFallback, AvatarImage } from '@rainersoft/ui';
@@ -236,5 +238,6 @@ export function CommentForm({
     </form>
   );
 }
+
 
 

@@ -13,6 +13,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Card, CardContent } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 import { ComponentType } from 'react';
@@ -116,5 +118,6 @@ export function ContactInfoCard({
 
   return cardContent;
 }
+
 
 

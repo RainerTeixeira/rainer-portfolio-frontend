@@ -13,8 +13,6 @@
 
 /// <reference types="react" />
 
-'use client';
-
 import Link from 'next/link';
 import {
   Cookie,
@@ -375,5 +373,7 @@ export default function CookiePolicyPage() {
     </div>
   );
 }
+
+;
 
 

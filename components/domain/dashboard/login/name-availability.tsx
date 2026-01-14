@@ -33,6 +33,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from 'react';
 import { StatusBadge } from './status-badge';
 
@@ -122,5 +124,6 @@ export function NameAvailability({
 
   return <StatusBadge status="unavailable" className={className} />;
 }
+
 
 

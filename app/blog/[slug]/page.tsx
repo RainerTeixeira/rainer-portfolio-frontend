@@ -641,3 +641,5 @@ export default function PostPage() {
     </div>
   );
 }
+
+export const prerender = false;

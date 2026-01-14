@@ -13,6 +13,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { SITE_CONFIG } from '@/constants';
 import { cn } from '@rainersoft/ui';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
@@ -338,5 +340,6 @@ export function AuthBranding({ className }: AuthBrandingProps): JSX.Element {
     </div>
   );
 }
+
 
 

@@ -31,6 +31,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, cn } from '@rainersoft/ui';
 import { tokens } from '@rainersoft/design-tokens';

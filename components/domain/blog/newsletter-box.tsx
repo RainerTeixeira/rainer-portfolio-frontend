@@ -34,6 +34,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Button } from '@rainersoft/ui';
 import {
   Card,
@@ -133,5 +135,6 @@ export function NewsletterBox({
     </Card>
   );
 }
+
 
 

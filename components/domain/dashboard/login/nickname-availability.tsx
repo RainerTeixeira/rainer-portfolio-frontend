@@ -33,6 +33,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from 'react';
 import { StatusBadge } from './status-badge';
 
@@ -95,5 +97,6 @@ export function NicknameAvailability({
 
   return <StatusBadge status={status} className="mt-1" />;
 }
+
 
 

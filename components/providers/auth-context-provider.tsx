@@ -24,6 +24,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useAuth } from '@/hooks';
 import type { UpdateProfileData, UserProfile } from '@/lib/api/types/public/users';
 

@@ -6,6 +6,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from 'react';
 
 interface Post {
@@ -178,3 +180,4 @@ export async function getServerSidePosts() {
     return [];
   }
 }
+

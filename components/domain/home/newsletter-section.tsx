@@ -29,6 +29,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import {
@@ -571,5 +573,6 @@ export const NewsletterSection = memo(function NewsletterSection() {
  * Exporta também o formulário separadamente para uso em outras partes da aplicação
  */
 export { NewsletterForm };
+
 
 

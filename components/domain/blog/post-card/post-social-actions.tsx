@@ -26,6 +26,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { cn } from '@rainersoft/ui';
 
 // ============================================================================
@@ -115,3 +117,4 @@ export function PostSocialActions({
     </div>
   );
 }
+

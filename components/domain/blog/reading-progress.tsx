@@ -31,6 +31,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { cn } from '@rainersoft/ui';
 import { GRADIENT_DIRECTIONS } from '@rainersoft/design-tokens';
 import { motion, useScroll, useSpring } from 'framer-motion';
@@ -98,5 +100,6 @@ export function ReadingProgress({
     </>
   );
 }
+
 
 

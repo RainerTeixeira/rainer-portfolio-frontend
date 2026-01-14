@@ -20,7 +20,7 @@
 
 'use client';
 
-import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Alert, AlertDescription, AlertTitle } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import {
   Card,
@@ -236,5 +236,8 @@ export default function VerifyEmailAdminPage() {
     </div>
   );
 }
+
+;
+
 
 

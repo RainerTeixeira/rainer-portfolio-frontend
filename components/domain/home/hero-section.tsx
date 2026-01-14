@@ -30,6 +30,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { cn, MatrixBackground } from '@rainersoft/ui';
 import {
   gradientPrimitive,
@@ -460,3 +462,4 @@ export function HeroSection() {
     </header>
   );
 }
+

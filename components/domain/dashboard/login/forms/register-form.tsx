@@ -33,6 +33,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Alert, AlertDescription, Button, Checkbox, Label, Input } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 import { MOTION } from '@rainersoft/design-tokens';

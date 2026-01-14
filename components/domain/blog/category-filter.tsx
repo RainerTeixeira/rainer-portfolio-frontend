@@ -13,6 +13,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Badge } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 import { Filter } from 'lucide-react';
@@ -92,5 +94,6 @@ export function CategoryFilter({
     </div>
   );
 }
+
 
 

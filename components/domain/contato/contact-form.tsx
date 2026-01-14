@@ -27,6 +27,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 // ============================================================================
 // IMPORTS
 // ============================================================================
@@ -436,5 +438,6 @@ export function ContactForm() {
  * @type {string}
  */
 ContactForm.displayName = 'ContactForm';
+
 
 

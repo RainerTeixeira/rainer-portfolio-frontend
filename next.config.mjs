@@ -59,6 +59,18 @@ const nextConfig = {
   compress: true,
   typedRoutes: true,
   
+  // Forçar tudo a ser client-side
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
+  
+  // Desabilitar prerendering para evitar erros de SSR
+  experimental: {
+    ssr: false,
+  },
+  
   // Otimização de build
   productionBrowserSourceMaps: false,
   compiler: {

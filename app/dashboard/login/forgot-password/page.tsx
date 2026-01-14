@@ -17,8 +17,6 @@
  * ```
  */
 
-'use client';
-
 import { AuthLayout, ForgotPasswordForm } from '@/components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
@@ -55,5 +53,7 @@ export default function ForgotPasswordPage() {
     </>
   );
 }
+
+;
 
 

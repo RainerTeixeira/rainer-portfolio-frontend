@@ -13,6 +13,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Separator } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 import { Star } from 'lucide-react';
@@ -68,5 +70,6 @@ export function FeaturedPostsSection({
     </div>
   );
 }
+
 
 

@@ -29,6 +29,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
@@ -204,5 +206,6 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     </form>
   );
 }
+
 
 

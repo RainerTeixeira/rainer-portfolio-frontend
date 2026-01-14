@@ -9,6 +9,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import {
   Card,
   CardContent,
@@ -106,5 +108,6 @@ export function EngagementChart({ data, isLoading }: EngagementChartProps) {
     </Card>
   );
 }
+
 
 

@@ -22,7 +22,7 @@
 
 import { AuthLayout } from '@/components/domain/dashboard/login';
 import { BackToTop } from '@rainersoft/ui';
-import { Alert, AlertDescription } from '@rainersoft/ui';
+import { Alert, AlertDescription, AlertTitle } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
@@ -259,5 +259,8 @@ export default function ResetPasswordPage() {
     </>
   );
 }
+
+;
+
 
 

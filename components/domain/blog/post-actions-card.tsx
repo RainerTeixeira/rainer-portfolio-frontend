@@ -13,6 +13,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Card, CardContent } from '@rainersoft/ui';
 import { BookmarkButton, LikeButton, ShareButton } from '@rainersoft/ui';
 
@@ -65,5 +67,6 @@ export function PostActionsCard({
     </Card>
   );
 }
+
 
 

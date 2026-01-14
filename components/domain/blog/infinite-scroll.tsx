@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@rainersoft/ui';
@@ -298,3 +300,4 @@ export function InfiniteScroll({
     </div>
   );
 }
+

@@ -11,8 +11,6 @@
  * @since 1.0.0
  */
 
-'use client';
-
 import Link from 'next/link';
 import { Database, Eye, FileCheck, Lock, Mail, Shield } from 'lucide-react';
 
@@ -361,5 +359,7 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
+
+;
 
 

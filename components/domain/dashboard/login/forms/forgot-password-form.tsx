@@ -25,7 +25,9 @@
  * - Acessibilidade completa
  */
 
-import { Alert, AlertDescription } from '@rainersoft/ui';
+'use client';
+
+import { Alert, AlertDescription, AlertTitle } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Label } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';

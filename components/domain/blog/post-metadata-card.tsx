@@ -13,6 +13,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Badge, Card, CardContent, Separator, ReadingTime } from '@rainersoft/ui';
 import { Calendar, Eye, Heart, Tag, User } from 'lucide-react';
 import type { TiptapJSON } from '@/lib/api/types/common';
@@ -125,5 +127,6 @@ export function PostMetadataCard({
     </Card>
   );
 }
+
 
 

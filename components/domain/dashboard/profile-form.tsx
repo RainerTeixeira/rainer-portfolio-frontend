@@ -28,6 +28,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { ApiError } from '@/lib/api/utils/error-handler';
 import { Button } from '@rainersoft/ui';
@@ -414,5 +416,6 @@ export function ProfileForm({ onSuccess }: ProfileFormProps) {
     </div>
   );
 }
+
 
 

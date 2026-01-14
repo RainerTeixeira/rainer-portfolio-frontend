@@ -28,6 +28,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 // ============================================================================
 // React
 // ============================================================================
@@ -220,5 +222,6 @@ export function AppInitializationProvider({
     </AppInitializationContext.Provider>
   );
 }
+
 
 

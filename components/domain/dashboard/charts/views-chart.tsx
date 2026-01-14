@@ -9,6 +9,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import {
   Card,
   CardContent,
@@ -136,5 +138,6 @@ export function ViewsChart({ data, isLoading }: ViewsChartProps) {
     </Card>
   );
 }
+
 
 

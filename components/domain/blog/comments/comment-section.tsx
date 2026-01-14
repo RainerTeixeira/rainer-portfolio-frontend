@@ -29,6 +29,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@rainersoft/ui';
@@ -228,5 +230,6 @@ export function CommentSection({ postId }: CommentSectionProps) {
     </Card>
   );
 }
+
 
 

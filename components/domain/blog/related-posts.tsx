@@ -31,6 +31,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Badge } from '@rainersoft/ui';
 import {
   Card,
@@ -175,5 +177,6 @@ function extractPreview(
 
   return text.slice(0, 150) + (text.length > 150 ? '...' : '');
 }
+
 
 

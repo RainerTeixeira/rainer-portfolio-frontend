@@ -13,6 +13,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Button } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 import { Clock, Eye, SortDesc, TrendingUp } from 'lucide-react';
@@ -88,5 +90,6 @@ export function SortControls({
     </div>
   );
 }
+
 
 

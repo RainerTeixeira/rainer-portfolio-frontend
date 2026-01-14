@@ -13,6 +13,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Badge } from '@rainersoft/ui';
 import { Card, CardContent } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
@@ -73,5 +75,6 @@ export function ExperienceCard({
     </Card>
   );
 }
+
 
 

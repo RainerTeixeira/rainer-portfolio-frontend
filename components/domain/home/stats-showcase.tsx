@@ -28,6 +28,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Card, CardContent } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 import { tokens } from '@rainersoft/design-tokens';
@@ -285,5 +287,6 @@ export function StatsShowcase() {
     </section>
   );
 }
+
 
 

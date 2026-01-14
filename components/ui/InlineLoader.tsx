@@ -1,5 +1,8 @@
 'use client';
 
-const InlineLoader = require('@rainersoft/ui/dist/components/ui/InlineLoader').InlineLoader;
+export const dynamic = 'force-dynamic';
+
+const InlineLoader = require('@rainersoft/ui').InlineLoader;
 
 export default InlineLoader;
+

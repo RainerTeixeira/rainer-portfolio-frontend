@@ -29,6 +29,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useState, useCallback, useEffect, useMemo, KeyboardEvent, ChangeEvent } from 'react';
 import { Badge } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';

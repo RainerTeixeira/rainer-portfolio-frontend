@@ -27,6 +27,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useAuthContext } from '@/components/providers/auth-context-provider';
 import { usersService } from '@/lib/api';
 import { privateCloudinary as cloudinaryService } from '@/lib/api';
@@ -520,3 +522,4 @@ export function ProfileHeader({ onAvatarChange }: ProfileHeaderProps) {
     </>
   );
 }
+

@@ -13,6 +13,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 // ============================================================================
 // React Hooks
 // ============================================================================
@@ -103,5 +105,6 @@ export function CookieInitializer() {
 
   return null;
 }
+
 
 

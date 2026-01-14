@@ -31,6 +31,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Button } from '@rainersoft/ui';
 import {
   Dialog,
@@ -197,5 +199,6 @@ export function ChangeEmailDialog({
     </Dialog>
   );
 }
+
 
 

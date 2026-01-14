@@ -14,15 +14,13 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { BackToTop, PageHeader, ParticlesEffect } from '@rainersoft/ui';
-import { cn } from '@rainersoft/ui';
+import { BackToTop, PageHeader, ParticlesEffect, cn } from '@rainersoft/ui';
 
 const CookieSettings = dynamic(
   () =>
     import('@/components/cookies/cookie-settings').then(
       (mod) => mod.CookieSettings,
     ),
-  { ssr: false },
 );
 
 export default function CookieSettingsPage() {
@@ -40,5 +38,7 @@ export default function CookieSettingsPage() {
     </div>
   );
 }
+
+;
 
 

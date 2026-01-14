@@ -29,6 +29,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Button } from '@rainersoft/ui';
 import { tokens } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
@@ -328,5 +330,6 @@ export function CTASection() {
     </section>
   );
 }
+
 
 

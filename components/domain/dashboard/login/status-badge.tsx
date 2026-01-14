@@ -29,6 +29,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Badge } from '@rainersoft/ui';
 import { cn } from '@rainersoft/ui';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
@@ -71,5 +73,6 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
     </Badge>
   );
 }
+
 
 

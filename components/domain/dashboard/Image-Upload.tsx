@@ -34,6 +34,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useImageCompression, useUpload } from '@/components/domain/dashboard/hooks';
 import { Button } from '@rainersoft/ui';
 import { Progress } from '@rainersoft/ui';

@@ -11,8 +11,6 @@
  * @since 1.0.0
  */
 
-'use client';
-
 import {
   AlertCircle,
   Ban,
@@ -325,6 +323,9 @@ export default function TermsOfUsePage() {
       <BackToTop />
     </div>
   );
+
 }
+
+;
 
 

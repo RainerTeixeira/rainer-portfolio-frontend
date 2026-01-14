@@ -10,6 +10,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import * as React from 'react';
 import { Check, ChevronsUpDown, Loader2 } from 'lucide-react';
 
@@ -132,5 +134,6 @@ export function SubcategorySelect({
     </Popover>
   );
 }
+
 
 

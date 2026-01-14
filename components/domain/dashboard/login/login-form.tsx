@@ -41,6 +41,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import { Input } from '@rainersoft/ui';
@@ -709,5 +711,6 @@ export function LoginForm({
     </form>
   );
 }
+
 
 

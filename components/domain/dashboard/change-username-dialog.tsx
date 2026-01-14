@@ -34,6 +34,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Alert, AlertDescription } from '@rainersoft/ui';
 import { Button } from '@rainersoft/ui';
 import {
@@ -393,5 +395,6 @@ export function ChangeUsernameDialog({
     </Dialog>
   );
 }
+
 
 

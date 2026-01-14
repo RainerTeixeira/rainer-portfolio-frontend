@@ -23,6 +23,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { cn } from '@rainersoft/ui';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -88,3 +90,4 @@ export function ReadMoreLink({
     </motion.div>
   );
 }
+

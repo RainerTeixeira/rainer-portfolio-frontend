@@ -27,6 +27,8 @@
 
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Eye, Heart, Star } from 'lucide-react';
 import Image from 'next/image';
@@ -296,5 +298,6 @@ export function PostsCarousel({
     </section>
   );
 }
+
 
 
