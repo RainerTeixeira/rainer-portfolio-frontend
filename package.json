@@ -7,7 +7,7 @@
   "description": "Portfólio profissional de Rainer Teixeira - Desenvolvedor Full-Stack",
   "author": "Rainer Teixeira",
   "license": "UNLICENSED",
-  "packageManager": "pnpm@9.15.9",
+  "packageManager": "pnpm@10.28.0",
   "buildTimestamp": "2025-12-11T22-23-00",
   "scripts": {
     "dev": "next dev -p 3001",
