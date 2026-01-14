@@ -123,7 +123,7 @@ export function StatsShowcase() {
       <div
         className="mx-auto"
         style={{
-          maxWidth: tokens.primitives.breakpoints['7xl'],
+          maxWidth: tokens.breakpointsPrimitive['3xl'],
           paddingLeft: tokens.primitives.spacing['6'],
           paddingRight: tokens.primitives.spacing['6'],
         }}

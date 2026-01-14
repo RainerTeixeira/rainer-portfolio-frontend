@@ -172,7 +172,7 @@ const zIndexTokens = {
 };
 
 // Mock do pacote @rainersoft/design-tokens
-jest.mock('@rainersoft/design-tokens', () => ({
+const designTokensMock = {
   __esModule: true,
   
   // Gradientes e sombras
@@ -201,6 +201,71 @@ jest.mock('@rainersoft/design-tokens', () => ({
     primitives: {
       color: {
         palette: baseLightColors,
+        cyan: {
+          '400': '#22d3ee',
+          '500': '#06b6d4',
+          '600': '#0891b2',
+        },
+        pink: {
+          '400': '#f472b6',
+          '500': '#ec4899',
+          '600': '#db2777',
+        },
+        gray: {
+          '100': '#f3f4f6',
+          '200': '#e5e7eb',
+          '300': '#d1d5db',
+          '600': '#4b5563',
+          '800': '#1f2937',
+        },
+        blue: {
+          '500': '#3b82f6',
+        },
+        purple: {
+          '400': '#a855f7',
+          '500': '#8b5cf6',
+        },
+        green: {
+          '400': '#4ade80',
+          '500': '#22c55e',
+          '600': '#16a34a',
+        },
+        emerald: {
+          '400': '#34d399',
+        },
+      },
+      typography: {
+        fontSize: {
+          '6xl': '3.75rem',
+          xl: '1.25rem',
+        },
+        lineHeight: {
+          relaxed: '1.625',
+        },
+      },
+      spacing: {
+        '0': '0px',
+        '1': '0.25rem',
+        '2': '0.5rem',
+        '3': '0.75rem',
+        '4': '1rem',
+        '5': '1.25rem',
+        '6': '1.5rem',
+        '8': '2rem',
+        '10': '2.5rem',
+        '12': '3rem',
+        '16': '4rem',
+        '20': '5rem',
+        '24': '6rem',
+        '32': '8rem',
+      },
+      gradients: {
+        text: {
+          primary: 'linear-gradient(135deg, #00e6ff 0%, #7d00ff 100%)',
+        },
+      },
+      shadows: {
+        lg: '0 10px 30px rgba(0,0,0,0.15)',
       },
       motion: motionTokens,
       breakpoints: breakpointTokens,
@@ -282,7 +347,10 @@ jest.mock('@rainersoft/design-tokens', () => ({
     contrast: 4.5,
     message: 'mock-contrast',
   }),
-}));
+};
+
+// Aplica o mock
+jest.mock('@rainersoft/design-tokens', () => designTokensMock);
 
 // Export para uso em testes específicos
 module.exports = {

@@ -10,6 +10,7 @@
  */
 
 import { tokens } from '@rainersoft/design-tokens';
+import { SPACING } from '@/constants/design-tokens';
 
 /**
  * Conteúdo profissional para Hero Section

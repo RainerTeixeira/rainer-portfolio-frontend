@@ -57,10 +57,9 @@ const nextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
-  typedRoutes: true,
   
-  // Forçar tudo a ser client-side
-  output: 'export',
+  // Forçar tudo a ser client-side em produção
+  ...(process.env.NODE_ENV === 'production' && { output: 'export' }),
   trailingSlash: true,
   images: {
     unoptimized: true,
@@ -80,13 +79,6 @@ const nextConfig = {
   // TypeScript
   typescript: {
     ignoreBuildErrors: true,
-  },
-  
-  // Desenvolvimento
-  allowedDevOrigins: ['192.168.56.1'],
-  onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
   },
   
   // Recursos experimentais
@@ -110,10 +102,10 @@ const nextConfig = {
   
   // Otimização de pacotes
   transpilePackages: ['@rainersoft/design-tokens', '@rainersoft/ui', '@rainersoft/utils'],
-  modularizeImports: {
-    '@heroicons/react': { transform: '@heroicons/react/24/outline/{{member}}' },
-    'lucide-react': { transform: 'lucide-react/dist/esm/icons/{{member}}' },
-  },
+  // modularizeImports: {
+  //   '@heroicons/react': { transform: '@heroicons/react/24/outline/{{member}}' },
+  //   'lucide-react': { transform: 'lucide-react/dist/esm/icons/{{member}}' },
+  // },
   
   /**
    * Configuração do Webpack
@@ -175,6 +167,11 @@ const nextConfig = {
    * @returns {Promise<Array>} Array de configurações de headers
    */
   async headers() {
+    // Skip headers when using static export
+    if (process.env.NODE_ENV === 'production' && process.env.EXPORT_MODE === 'true') {
+      return [];
+    }
+    
     return [
       {
         source: '/_next/static/:path*',
@@ -206,6 +203,11 @@ const nextConfig = {
    * @returns {Promise<Array>} Array de configurações de redirect
    */
   async redirects() {
+    // Skip redirects when using static export
+    if (process.env.NODE_ENV === 'production' && process.env.EXPORT_MODE === 'true') {
+      return [];
+    }
+    
     return [{ source: '/home', destination: '/', permanent: true }];
   },
   
@@ -218,7 +220,11 @@ const nextConfig = {
    * @returns {Promise<Array>} Array de configurações de rewrite
    */
   async rewrites() {
-    if (process.env.NODE_ENV !== 'development') return [];
+    // Skip rewrites when using static export or not in development
+    if (process.env.NODE_ENV !== 'development' || (process.env.NODE_ENV === 'production' && process.env.EXPORT_MODE === 'true')) {
+      return [];
+    }
+    
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     if (!apiUrl) return [];
     return [{ source: '/api/:path*', destination: `${apiUrl}/:path*` }];

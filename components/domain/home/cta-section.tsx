@@ -29,8 +29,6 @@
 
 'use client';
 
-export const dynamic = 'force-dynamic';
-
 import { Button } from '@rainersoft/ui';
 import { tokens } from '@rainersoft/design-tokens';
 import { motion } from 'framer-motion';
@@ -60,7 +58,7 @@ export function CTASection() {
    */
   const isDark = mounted ? resolvedTheme === 'dark' : false;
 
-  const palette = tokens.primitives.color;
+  const palette = (tokens.primitives as any).palette || (tokens.primitives as any).color;
   const spacing = tokens.primitives.spacing;
   const gradient = (from: string, to: string) => `linear-gradient(135deg, ${from}, ${to})`;
 
@@ -75,7 +73,7 @@ export function CTASection() {
       <div
         className="mx-auto"
         style={{
-          maxWidth: tokens.primitives.breakpoints['7xl'],
+          maxWidth: tokens.breakpointsPrimitive['3xl'],
           paddingLeft: spacing['6'],
           paddingRight: spacing['6'],
         }}

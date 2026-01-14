@@ -1,25 +1,50 @@
+// @ts-check
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-const config = {
+module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   
   transform: {
-    '^.+\\.(ts|tsx)$': [
+    '^.+\\.(ts|tsx|js|jsx)$': [
       'ts-jest',
       {
         tsconfig: 'tests/tsconfig.json',
-        useESM: true,
+        useESM: false,
       },
     ],
   },
   
+  transformIgnorePatterns: [
+    'node_modules/(?!(lucide-react|@rainersoft/ui|@rainersoft/design-tokens|@rainersoft/utils|framer-motion)/)',
+  ],
+  
   moduleNameMapper: {
     // Design system e UI
-    '^@rainersoft/ui$': '<rootDir>/node_modules/@rainersoft/ui',
-    '^@rainersoft/design-tokens$': '<rootDir>/node_modules/@rainersoft/design-tokens',
+    '^@rainersoft/ui$': '<rootDir>/tests/mocks/rainersoft-ui.tsx',
+    // Note: @rainersoft/design-tokens is mocked in jest.design-tokens-mock.js
+    '^lucide-react$': '<rootDir>/tests/mocks/lucide-react.js',
+    '^lucide-react/(.*)$': '<rootDir>/tests/mocks/lucide-react.js',
+    '^react-day-picker$': '<rootDir>/tests/mocks/react-day-picker.js',
+    '^next-themes$': '<rootDir>/tests/mocks/next-themes.js',
+    '^framer-motion$': '<rootDir>/tests/mocks/framer-motion.js',
     
     // Path aliases da aplicação
+    '^@/components/ui$': '<rootDir>/tests/mocks/components-ui.tsx',
+    '^@/components/ui/(.*)$': '<rootDir>/tests/mocks/components-ui.tsx',
+    '^@/components/home$': '<rootDir>/tests/mocks/components-home.tsx',
+    '^@/components/blog$': '<rootDir>/tests/mocks/components-blog.tsx',
     '^@/lib/env$': '<rootDir>/lib/config/env',
+    '^@/lib/api/helpers$': '<rootDir>/tests/mocks/lib-api-helpers.ts',
+    '^@/lib/api/services/auth.service$': '<rootDir>/tests/mocks/lib-api-services-auth.service.ts',
+    '^@/lib/api/services$': '<rootDir>/tests/mocks/lib-api-services.ts',
+    '^@/hooks/useAuth$': '<rootDir>/tests/mocks/hooks-useAuth.ts',
+    '^@/constants/content/home/hero$': '<rootDir>/tests/mocks/constants-hero.ts',
+    '^constants/content/home/hero$': '<rootDir>/tests/mocks/constants-hero.ts',
+    '^constants/(.*)$': '<rootDir>/tests/mocks/constants-hero.ts',
+    'constants/content/home/hero': '<rootDir>/tests/mocks/constants-hero.ts',
+    '^@/components/domain/home/carousel$': '<rootDir>/tests/mocks/carousel.tsx',
+    '^next/dynamic$': '<rootDir>/tests/mocks/next-dynamic.js',
+    '^next/link$': '<rootDir>/tests/mocks/next-link.js',
     '^@/lib/utils$': '<rootDir>/lib/utils',
     '^@/lib/content': '<rootDir>/lib/blog',
     '^@/lib/cookies': '<rootDir>/lib/privacy',
@@ -42,6 +67,7 @@ const config = {
     '/\\.next/',
     '/dist/',
     '/out/',
+    '/tests/scripts/',
     '/tests/e2e/',
     '/tests/live/',
   ],
@@ -64,7 +90,6 @@ const config = {
   
   setupFilesAfterEnv: [
     '<rootDir>/tests/setup/jest.setup.js',
-    '<rootDir>/tests/setup/jest.design-tokens-mock.js',
     '<rootDir>/tests/setup/jest.fetch-mock.js',
   ],
   
@@ -78,10 +103,4 @@ const config = {
       statements: 75,
     },
   },
-  
-  maxWorkers: '50%',
-  testTimeout: 10000,
-  verbose: true,
 };
-
-export default config;

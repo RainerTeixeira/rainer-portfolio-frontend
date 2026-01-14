@@ -40,12 +40,8 @@ import {
 // ============================================================================
 
 import {
-  gradientPrimitive,
-  motionPrimitive,
+  MOTION,
   shadowsPrimitive,
-  breakpointsPrimitive,
-  lightTheme,
-  darkTheme,
 } from '@rainersoft/design-tokens';
 
 // ============================================================================
@@ -106,7 +102,7 @@ export function Footer() {
             'opacity-40',
             'rounded-full',
             // Shadow usando token com cor primária
-            shadowsPrimitive.LARGE,
+            shadowsPrimitive.lg,
             'shadow-(--color-primary-base)/50'
           )}
           style={{ animationDelay: '2s' }}
@@ -120,7 +116,7 @@ export function Footer() {
             'opacity-40',
             'rounded-full',
             // Shadow usando token com cor secundária
-            shadowsPrimitive.LARGE,
+            shadowsPrimitive.lg,
             'shadow-(--color-secondary-base)/50'
           )}
           style={{ animationDelay: '3s' }}
@@ -231,7 +227,7 @@ export function Footer() {
                           'hover:text-(--color-primary-base)]',
                           'dark:hover:text-(--color-primary-base)]',
                           // Transition usando token motionPrimitive
-                          motionPrimitive.TRANSITION.COLOR
+                          MOTION.TRANSITION.COLOR
                         )}
                       >
                         <ArrowRight
@@ -276,7 +272,7 @@ export function Footer() {
                         'hover:text-(--color-text-primary)',
                         'dark:hover:text-(--color-primary-base)',
                         // Transition usando token motionPrimitive
-                        motionPrimitive.TRANSITION.COLOR,
+                        MOTION.TRANSITION.COLOR,
                         'cursor-default leading-relaxed'
                       )}
                     >
@@ -402,8 +398,8 @@ export function Footer() {
                       'hover:bg-(--color-accent-base)/50',
                       'hover:scale-110',
                       // Transitions usando tokens motionPrimitive
-                      motionPrimitive.TRANSITION.COLOR,
-                      motionPrimitive.TRANSITION.TRANSFORM
+                      MOTION.TRANSITION.COLOR,
+                      MOTION.TRANSITION.TRANSFORM
                     )}
                     aria-label="Visitar GitHub"
                   >
@@ -422,8 +418,8 @@ export function Footer() {
                       'hover:bg-(--color-accent-base)/50',
                       'hover:scale-110',
                       // Transitions usando tokens motionPrimitive
-                      motionPrimitive.TRANSITION.COLOR,
-                      motionPrimitive.TRANSITION.TRANSFORM
+                      MOTION.TRANSITION.COLOR,
+                      MOTION.TRANSITION.TRANSFORM
                     )}
                     aria-label="Visitar LinkedIn"
                   >

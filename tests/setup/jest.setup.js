@@ -11,6 +11,9 @@
 
 require('@testing-library/jest-dom');
 
+// Importa o mock do design tokens
+require('./jest.design-tokens-mock.js');
+
 const { TextDecoder, TextEncoder } = require('util');
 const React = require('react');
 

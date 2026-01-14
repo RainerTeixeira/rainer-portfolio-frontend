@@ -37,6 +37,7 @@
 
 'use client';
 
+import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import {

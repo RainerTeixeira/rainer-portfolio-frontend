@@ -55,9 +55,11 @@ import { useTheme } from 'next-themes';
 const { 
   color: PALETA, 
   spacing: ESPACAMENTO, 
-  typography: TIPOGRAFIA, 
-  breakpoints: BREAKPOINTS 
+  typography: TIPOGRAFIA
 } = tokens.primitives;
+
+/** Breakpoints disponíveis */
+const BREAKPOINTS = tokens.breakpointsPrimitive;
 
 /**
  * Paletas de cores pré-definidas para gradientes dos cards
@@ -450,7 +452,7 @@ export function TechnicalHighlight() {
   // Estilos de container organizados para fácil manutenção
   const containerStyles = {
     secao: { paddingTop: ESPACAMENTO[20], paddingBottom: ESPACAMENTO[24] },
-    wrapper: { maxWidth: BREAKPOINTS['7xl'], paddingLeft: ESPACAMENTO[6], paddingRight: ESPACAMENTO[6] },
+    wrapper: { maxWidth: BREAKPOINTS['3xl'], paddingLeft: ESPACAMENTO[6], paddingRight: ESPACAMENTO[6] },
     header: { marginBottom: ESPACAMENTO[16] },
     grid: { gap: ESPACAMENTO[6] },
     titulo: { fontSize: TIPOGRAFIA.fontSize['5xl'], marginBottom: ESPACAMENTO[6] },

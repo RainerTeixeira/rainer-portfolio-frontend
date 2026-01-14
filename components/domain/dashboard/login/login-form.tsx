@@ -286,7 +286,7 @@ export function LoginForm({
               'py-2.5 border-red-500/50',
               'bg-red-50/80 dark:bg-red-950/20',
               'backdrop-blur-sm',
-              SHADOWS.LARGE,
+              SHADOWS.lg,
               'shadow-red-500/10',
               'rounded-md' // radiusTokens.md
             )}
@@ -328,7 +328,7 @@ export function LoginForm({
             className={cn(
               'border-green-500/50 bg-green-50/80 dark:bg-green-950/20',
               'backdrop-blur-sm py-2.5',
-              SHADOWS.LARGE,
+              SHADOWS.lg,
               'shadow-green-500/10',
               'rounded-md' // radiusTokens.md
             )}
@@ -616,7 +616,7 @@ export function LoginForm({
             'border border-cyan-200/50 dark:border-cyan-800/50',
             'backdrop-blur-sm',
             'p-3',
-            SHADOWS.SMALL,
+            SHADOWS.sm,
             MOTION.TRANSITION.DEFAULT,
             'hover:shadow-md hover:border-cyan-300/50 dark:hover:border-cyan-700/50'
           )}
@@ -665,7 +665,7 @@ export function LoginForm({
               'text-sm font-medium',
               'bg-primary hover:bg-primary/90',
               'text-primary-foreground',
-              SHADOWS.LARGE,
+              SHADOWS.lg,
               'shadow-primary/20',
               'hover:shadow-xl hover:shadow-primary/30',
               MOTION.TRANSITION.DEFAULT,

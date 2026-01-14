@@ -49,8 +49,10 @@ const {
   color: PALETA,
   spacing: ESPACAMENTO,
   typography: TIPOGRAFIA,
-  breakpoints: BREAKPOINTS,
 } = tokens.primitives;
+
+/** Breakpoints disponíveis */
+const BREAKPOINTS = tokens.breakpointsPrimitive;
 
 /**
  * Valores de opacidade utilizados nos efeitos visuais
@@ -211,7 +213,7 @@ export const AboutSection = memo(function AboutSection() {
   const containerStyles = useMemo(
     () => ({
       secao: { paddingTop: ESPACAMENTO[20], paddingBottom: ESPACAMENTO[24] },
-      wrapper: { maxWidth: BREAKPOINTS['7xl'], paddingLeft: ESPACAMENTO[6], paddingRight: ESPACAMENTO[6] },
+      wrapper: { maxWidth: BREAKPOINTS['3xl'], paddingLeft: ESPACAMENTO[6], paddingRight: ESPACAMENTO[6] },
       header: { marginBottom: ESPACAMENTO[16] },
       title: { fontSize: TIPOGRAFIA.fontSize['5xl'], lineHeight: TIPOGRAFIA.lineHeight.tight },
       grid: { gap: ESPACAMENTO[8], columnGap: ESPACAMENTO[12] },
