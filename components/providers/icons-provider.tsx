@@ -9,8 +9,6 @@
 
 'use client';
 
-export const dynamic = 'force-dynamic';
-
 import React, { createContext, useContext, useMemo } from 'react';
 import {
   BarChart,

@@ -190,8 +190,8 @@ const PROFESSIONAL_STATS: ProfessionalMetric[] = [
     icon: Rocket,
     value: METRICAS.tecnologiasDominadas,
     label: 'Tecnologias Dominadas',
-    gradient: { from: PALETA.orange[500], to: PALETA.amber[600] },
-    iconBg: { from: PALETA.orange[400], to: PALETA.amber[500] },
+    gradient: { from: PALETA.orange[500], to: PALETA.yellow[600] },
+    iconBg: { from: PALETA.orange[400], to: PALETA.yellow[500] },
   },
 ];
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@rainersoft/ui';
 import { Home } from 'lucide-react';
 import Link from 'next/link';
