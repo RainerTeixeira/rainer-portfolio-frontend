@@ -21,7 +21,7 @@ module.exports = {
   moduleNameMapper: {
     // Design system e UI
     '^@rainersoft/ui$': '<rootDir>/tests/mocks/rainersoft-ui.tsx',
-    // Note: @rainersoft/design-tokens is mocked in jest.design-tokens-mock.js
+    '^@rainersoft/design-tokens$': '<rootDir>/tests/setup/jest.design-tokens-mock.js',
     '^lucide-react$': '<rootDir>/tests/mocks/lucide-react.js',
     '^lucide-react/(.*)$': '<rootDir>/tests/mocks/lucide-react.js',
     '^react-day-picker$': '<rootDir>/tests/mocks/react-day-picker.js',
@@ -91,6 +91,7 @@ module.exports = {
   setupFilesAfterEnv: [
     '<rootDir>/tests/setup/jest.setup.js',
     '<rootDir>/tests/setup/jest.fetch-mock.js',
+    '<rootDir>/tests/setup/jest.design-tokens-mock.js',
   ],
   
   coverageDirectory: 'coverage',

@@ -269,6 +269,14 @@ const designTokensMock = {
       },
       motion: motionTokens,
       breakpoints: breakpointTokens,
+      breakpointsPrimitive: {
+        '3xl': '1920px',
+        '2xl': '1536px',
+        xl: '1280px',
+        lg: '1024px',
+        md: '768px',
+        sm: '640px',
+      },
       zIndex: zIndexTokens,
     },
     semantics: {

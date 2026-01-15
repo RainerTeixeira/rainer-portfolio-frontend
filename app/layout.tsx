@@ -4,12 +4,12 @@ import dynamic from 'next/dynamic';
 
 import './globals.css';
 
-import AuthProvider from '@/components/providers/auth-context-provider';
-import { ThemeProvider } from '@/components/providers/theme-provider';
+const AuthProvider = dynamic(() => import('@/components/providers/auth-context-provider').then((mod) => mod.default));
+const ThemeProvider = dynamic(() => import('@/components/providers/theme-provider').then((mod) => mod.ThemeProvider));
 const AppWrapper = dynamic(() => import('@/components/layout/app-wrapper').then((mod) => mod.AppWrapper));
 const Navbar = dynamic(() => import('@/components/layout/navbar').then((mod) => mod.Navbar));
 const Footer = dynamic(() => import('@/components/layout/footer').then((mod) => mod.Footer));
-import { CookieInitializer } from '@/components/cookies/cookie-initializer';
+const CookieInitializer = dynamic(() => import('@/components/cookies/cookie-initializer').then((mod) => mod.CookieInitializer));
 import { zIndexPrimitive } from '@rainersoft/design-tokens';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
